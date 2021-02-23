@@ -1,9 +1,23 @@
+/**
+ * Theming
+ */
 .fjs-form {
-  --color-error: red;
-
-  position: relative;
+  --color-background: #fff;
+  --color-background-disabled: #eee;
+  --color-text: #333;
+  --color-text-light: #999;
+  --color-text-inverted: #fff;
+  --color-lines: #999;
+  --color-lines-disabled: #ccc;
+  --color-warning: #c32e04;
+  --color-accent: #4D90FF;
+  --color-accent-dark: #3C66FF;
+  --font-family: 'IBM Plex Sans', sans-serif;
 }
 
+/**
+ * Layout styles
+ */
 .fjs-vertical-layout {
   display: flex;
   flex-direction: column;
@@ -14,34 +28,31 @@
   flex-direction: row;
 }
 
-.fjs-input[type="text"],
-.fjs-input[type="number"] {
-  padding: 0.25rem;
+/**
+ * Visual styles
+ */
+.fjs-form {
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  position: relative;
+}
+
+.fjs-form * {
+  box-sizing: border-box;
 }
 
 .fjs-form-field {
-  margin-bottom: 1rem;
-  margin-right: 1rem;
-}
-
-.fjs-form-field-label {
-  display: block;
-  margin-bottom: .25rem;
-}
-
-.fjs-form-field-description {
-  display: block;
-  margin-top: 1rem;
-}
-
-.fjs-asterix {
-  color: var(--color-error);
+  margin: 16px;
 }
 
 .fjs-form-field-error {
-  color: var(--color-error);
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
+  color: var(--color-warning);
 }
 
 .fjs-form-field-error > ul {
@@ -55,9 +66,104 @@
 }
 
 .fjs-form-field-placeholder {
-  color: var(--color-muted);
+  color: var(--color-text-light);
 }
 
-.fjs-input[type="checkbox"] {
-  margin: 0 1rem 0 0;
+.fjs-input::placeholder,
+.fjs-textarea::placeholder,
+.fjs-select > option:disabled,
+.fjs-select [disabled] {
+  font-style: italic;
+  letter-spacing: .25px;
+}
+
+.fjs-input,
+.fjs-textarea,
+.fjs-select {
+  border-color: var(--color-lines);
+}
+.fjs-input::placeholder,
+.fjs-textarea::placeholder {
+  color: var(--color-text-light);
+}
+.fjs-form-field.fjs-has-errors .fjs-input,
+.fjs-form-field.fjs-has-errors .fjs-textarea {
+  border-color: var(--color-warning);
+}
+
+.fjs-input:disabled,
+.fjs-textarea:disabled,
+.fjs-select:disabled {
+  background-color: var(--color-background-disabled);
+  border-color: var(--color-lines-disabled);
+}
+.fjs-button[type=submit] {
+  color: var(--color-text-inverted);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.fjs-button[type=submit]:focus {
+  border-color: var(--color-accent-dark)
+}
+.fjs-button[type=reset] {
+  color: var(--color-text);
+  background-color: transparent;
+  border-color: var(--color-lines);
+}
+
+.fjs-form-field-label,
+.fjs-form-field-description {
+  display: block;
+  margin: 4px 0;
+}
+.fjs-form-field.required label::after,
+.fjs-form-field.required .group-title::after {
+  content: "*";
+}
+.fjs-checkbox.group.required label::after,
+.fjs-radio.required label::after {
+  display: none;
+}
+.fjs-input[type=text],
+.fjs-input[type=number],
+.fjs-button[type=submit],
+.fjs-button[type=reset],
+.fjs-textarea,
+.fjs-select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
+}
+.fjs-input[type=text]:focus,
+.fjs-input[type=number]:focus,
+.fjs-button[type=submit]:focus,
+.fjs-button[type=reset]:focus,
+.fjs-textarea:focus,
+.fjs-select:focus {
+  outline: none;
+  padding: 7px;
+  border-width: 2px;
+}
+.fjs-textarea {
+  height: 90px;
+}
+.fjs-button[type=submit],
+.fjs-button[type=reset] {
+  min-width: 100px;
+  width: auto;
+}
+.fjs-button[type=submit] {
+  font-weight: 600;
+}
+.fjs-checkbox,
+.fjs-radio {
+  display: flex;
+}
+.fjs-input[type=checkbox],
+.fjs-input[type=radio] {
+  margin: 6px 10px 6px 4px;
 }
