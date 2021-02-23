@@ -1,0 +1,16 @@
+{
+  "components": [
+    {
+      "key": "submit",
+      "label": "Submit",
+      "type": "button"
+    },
+    {
+      "action": "reset",
+      "key": "reset",
+      "label": "Reset",
+      "type": "button"
+    }
+  ],
+  "type": "default"
+}
