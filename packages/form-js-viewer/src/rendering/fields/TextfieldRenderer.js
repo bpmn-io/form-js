@@ -2,6 +2,9 @@ import Errors from './Errors';
 import Description from './Description';
 import Label from './Label';
 
+import { formFieldClasses } from './Field';
+
+
 export default function TextfieldRenderer(props) {
   const onInput = ({ target }) => props.onChange({
     dataPath: props.dataPath,
@@ -9,7 +12,7 @@ export default function TextfieldRenderer(props) {
   });
 
   return (
-    <div class="fjs-form-field">
+    <div class={ formFieldClasses(props.errors) }>
       <Label field={ props.field } for={ props.id } />
       <input
         class="fjs-input"

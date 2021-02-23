@@ -2,6 +2,8 @@ import Label from './Label';
 import Errors from './Errors';
 import Description from './Description';
 
+import { formFieldClasses } from './Field';
+
 export default function CheckboxRenderer(props) {
   const onChange = ({ target }) => {
     props.onChange({
@@ -11,7 +13,7 @@ export default function CheckboxRenderer(props) {
   };
 
   return (
-    <div class="fjs-form-field">
+    <div class={ formFieldClasses(props.errors, 'checkbox') }>
       <Label field={ props.field } for={ props.id }>
         <input
           class="fjs-input"
