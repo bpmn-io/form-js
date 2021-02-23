@@ -11,7 +11,7 @@ This library exports a form viewer.
 
 ### Display a Form
 
-Renders a form based on our [form schema](./docs/FORM_DEFINITION.md) and existing data:
+Renders a form based on [a form schema](./docs/FORM_DEFINITION.md) and existing data:
 
 ```javascript
 import { createForm } from '@bpmn-io/form-js';
