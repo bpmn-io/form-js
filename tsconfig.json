@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "target": "es2019",
+    "allowJs": true,
+    "checkJs": true,
+    "rootDir": ".",
+    "strict": false,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "packages/form-js-viewer/src",
+    "packages/form-js-viewer/test"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
