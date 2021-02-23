@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/bpmn-io/form-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/form-js/actions?query=workflow%3ACI)
 
-[View](./packages/form-js-viewer) JSON-based forms.
+[View](./packages/form-js-viewer) and edit JSON-based forms.
 
 
 ## Usage
