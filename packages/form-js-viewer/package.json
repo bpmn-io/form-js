@@ -1,0 +1,40 @@
+{
+  "name": "@bpmn-io/form-js-viewer",
+  "version": "0.0.4",
+  "description": "View forms - powered by bpmn.io",
+  "exports": {
+    "import": "./dist/index.es.js",
+    "require": "./dist/index.cjs"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "all": "run-s test build",
+    "build": "run-p bundle generate-types",
+    "start": "SINGLE_START=basic npm run dev",
+    "bundle": "rollup -c",
+    "bundle:watch": "rollup -c -w",
+    "dev": "npm test -- --auto-watch --no-single-run",
+    "example:dev": "cd example && npm start",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
+    "test": "karma start"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpmn-io/form-js.git",
+    "directory": "packages/form-js-viewer"
+  },
+  "author": {
+    "name": "bpmn.io contributors",
+    "url": "https://github.com/bpmn-io"
+  },
+  "devDependencies": {
+    "min-dash": "^3.5.2",
+    "mitt": "^2.1.0"
+  },
+  "dependencies": {
+    "solid-js": "^0.24.5"
+  }
+}
