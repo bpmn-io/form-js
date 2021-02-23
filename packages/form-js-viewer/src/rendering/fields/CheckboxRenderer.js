@@ -14,16 +14,15 @@ export default function CheckboxRenderer(props) {
 
   return (
     <div class={ formFieldClasses(props.errors, 'checkbox') }>
-      <Label field={ props.field } for={ props.id }>
-        <input
-          class="fjs-input"
-          id={ props.id }
-          type="checkbox"
-          checked={ props.value }
-          disabled={ props.disabled || props.field.disabled }
-          onChange={ onChange }
-        />
-      </Label>
+      <input
+        class="fjs-input"
+        id={ props.id }
+        type="checkbox"
+        checked={ props.value }
+        disabled={ props.disabled || props.field.disabled }
+        onChange={ onChange }
+      />
+      <Label field={ props.field } for={ props.id } />
       <Errors errors={ props.errors } />
       <Description field={ props.field } />
     </div>
