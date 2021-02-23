@@ -7,11 +7,11 @@
 
 ## Usage
 
-This library exports a form viewer for viewing and submitting forms.
+This library exports a form viewer.
 
-### View and Submit a Form
+### Display a Form
 
-Display a form based on a [form schema](./docs/FORM_DEFINITION.md) and existing data:
+Renders a form based on our [form schema](./docs/FORM_DEFINITION.md) and existing data:
 
 ```javascript
 import { createForm } from '@bpmn-io/form-js';
