@@ -1,76 +1,63 @@
-.fjs-viewer {
+.fjs-form {
   --color-error: red;
 
   position: relative;
 }
 
-.fjs-viewer .vertical-layout {
+.fjs-vertical-layout {
   display: flex;
   flex-direction: column;
 }
 
-.fjs-viewer .columns {
+.fjs-columns {
   display: flex;
   flex-direction: row;
 }
 
-.fjs-viewer button {
-  padding: 0.25rem 1rem;
-}
-
-.fjs-viewer input[type="text"], input[type="number"] {
+.fjs-input[type="text"],
+.fjs-input[type="number"] {
   padding: 0.25rem;
 }
 
-.fjs-viewer .form-field {
+.fjs-form-field {
   margin-bottom: 1rem;
   margin-right: 1rem;
 }
 
-.fjs-viewer .form-field-label {
+.fjs-form-field-label {
   display: block;
   margin-bottom: .25rem;
 }
 
-.fjs-viewer .form-field-description {
+.fjs-form-field-description {
   display: block;
   margin-top: 1rem;
 }
 
-.fjs-viewer .form-field .asterix {
+.fjs-asterix {
   color: var(--color-error);
 }
 
-.fjs-viewer .form-field-error {
+.fjs-form-field-error {
   color: var(--color-error);
   margin-top: 0.25rem;
   font-size: 0.75rem;
 }
 
-.fjs-viewer .form-field-error ul {
+.fjs-form-field-error > ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.fjs-viewer .form-field-error ul li {
+.fjs-form-field-error > ul > li {
   list-style-type: none;
 }
 
-.fjs-viewer .form-field-placeholder {
+.fjs-form-field-placeholder {
   color: var(--color-muted);
 }
 
-.fjs-viewer .form-field input[type="checkbox"] {
+.fjs-input[type="checkbox"] {
   margin: 0 1rem 0 0;
-}
-
-.fjs-viewer .datagrid .datagrid-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.fjs-viewer .datagrid > label {
-  display: inline-block;
-  margin-bottom: 1rem;
 }

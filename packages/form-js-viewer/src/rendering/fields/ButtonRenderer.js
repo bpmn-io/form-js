@@ -10,10 +10,11 @@ export default function ButtonRenderer(props) {
   };
 
   return (
-    <div class="form-field">
+    <div class="fjs-form-field">
       <button
         id={ props.id }
         type={ buttonType() }
+        class="fjs-button"
         disabled={ props.disabled || props.field.disabled }
       >
         { label() }

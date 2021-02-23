@@ -10,7 +10,7 @@ export default function DefaultRenderer(props) {
   const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'components' ]);
 
   return (
-    <FormElement.Children class="vertical-layout" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
+    <FormElement.Children class="fjs-vertical-layout" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
       <For each={ props.field.components }>
         {
           (component, index) => {

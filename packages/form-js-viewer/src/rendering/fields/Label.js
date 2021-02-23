@@ -4,11 +4,11 @@ export default function Label(props) {
 
   return (
     <Show when={ props.field.label }>
-      <label class="form-field-label" for={ props.for }>
+      <label class="fjs-form-field-label" for={ props.for }>
         { props.children }
         { props.field.label }
         <Show when={ props.field.validate && props.field.validate.required }>
-          <span class="asterix">*</span>
+          <span class="fjs-asterix">*</span>
         </Show>
       </label>
     </Show>

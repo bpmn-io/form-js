@@ -29,7 +29,7 @@ export default function DatagridRenderer(props) {
   };
 
   return (
-    <div class="form-field datagrid">
+    <div class="fjs-form-field fjs-datagrid">
       <label>{ props.field.label }</label>
       <For each={ rows() }>
         {
@@ -47,7 +47,7 @@ export default function DatagridRenderer(props) {
 
             const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'components' ]);
 
-            return <div class="datagrid-row">
+            return <div class="fjs-datagrid-row">
               <FormElement.Children dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
                 <For each={ components() }>
                   {
@@ -70,7 +70,7 @@ export default function DatagridRenderer(props) {
                 </For>
                 <FormElement.Empty dataPath={ props.dataPath } schemaPath={ props.schemaPath } />
               </FormElement.Children>
-              <button class="form-field" type="button" onClick={ removeRow }>-</button>
+              <button class="fjs-form-field" type="button" onClick={ removeRow }>-</button>
             </div>;
           }
         }

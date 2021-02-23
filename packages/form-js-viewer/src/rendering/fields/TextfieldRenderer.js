@@ -9,10 +9,10 @@ export default function TextfieldRenderer(props) {
   });
 
   return (
-    <div class="form-field">
+    <div class="fjs-form-field">
       <Label field={ props.field } for={ props.id } />
       <input
-        class="form-field-input"
+        class="fjs-input"
         id={ props.id }
         type="text"
         value={ props.value === undefined ? '' : props.value }
