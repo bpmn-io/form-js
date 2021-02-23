@@ -1,5 +1,6 @@
 import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
+import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 
 import pkg from './package.json';
@@ -20,20 +21,22 @@ export default [
       }
     ],
     plugins: [
-      copy({
-        targets: [
-          { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },
-          { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/form-js-editor.css', dest: 'dist/assets' },
-          { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/dragula.css', dest: 'dist/assets' }
-        ]
-      }),
       babel({
         presets: [
           'solid'
         ]
       }),
+      copy({
+        targets: [
+          { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },
+          { src: 'assets/form-js-editor.css', dest: 'dist/assets' },
+          { src: '../../node_modules/dragula/dist/dragula.css', dest: 'dist/assets' }
+        ]
+      }),
+      json(),
       resolve({
         resolveOnly: [
+          'dragula',
           'min-dash',
           'mitt'
         ]

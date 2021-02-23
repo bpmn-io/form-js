@@ -1,0 +1,35 @@
+.fjs-editor {
+  display: flex;
+  flex-direction: row;
+}
+
+.fjs-editor .palette-container {
+  flex: 0;
+  width: 200px;
+}
+
+.fjs-editor .form-container {
+  flex: 1;
+}
+
+.fjs-editor .container {
+  border: dotted 1px rgba(0, 128, 255, .9);
+  min-width: 300px;
+  min-height: 100px;
+}
+
+.fjs-editor .element {
+  background: rgba(0, 128, 255, .3);
+  margin: 5px;
+}
+
+.fjs-editor .palette-field {
+  padding: 5px 10px;
+  margin: 5px;
+  border: solid 1px #CCC;
+}
+
+.fjs-editor .empty {
+  padding: 10px;
+  background-color: rgba(0, 128, 255, .6);
+}

@@ -2,12 +2,12 @@
 
 [![CI](https://github.com/bpmn-io/form-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/form-js/actions?query=workflow%3ACI)
 
-[View](./packages/form-js-viewer) and edit JSON-based forms.
+[View](./packages/form-js-viewer) and [edit](./packages/form-js-editor) JSON-based forms.
 
 
 ## Usage
 
-This library exports a form viewer.
+This library exports a form viewer and editor.
 
 ### Display a Form
 
@@ -28,6 +28,22 @@ form.on('submit', (event) => {
 ```
 
 See [viewer documentation](./packages/form-js-viewer) for further details.
+
+
+### Create and Edit a Form
+
+Create a new form or edit an exsting one:
+
+```javascript
+import { createFormEditor } from '@bpmn-io/form-js';
+
+const formEditor = createFormEditor({
+  schema,
+  container: document.querySelector('#form-editor')
+});
+```
+
+See [editor documentation](./packages/form-js-editor) for further details.
 
 
 ## Resources
