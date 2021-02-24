@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "View and edit forms - powered by bpmn.io",
   "exports": {
     "import": "./dist/index.es.js",
@@ -34,6 +34,6 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js-viewer": "^0.0.4"
+    "@bpmn-io/form-js-viewer": "^0.0.5"
   }
 }
