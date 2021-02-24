@@ -19,9 +19,9 @@
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
-    "example:dev": "cd example && npm start",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
-    "test": "karma start"
+    "test": "karma start",
+    "prepublishOnly": "npm run build"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
