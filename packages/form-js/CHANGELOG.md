@@ -5,3 +5,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+
+## 0.0.5
+
+* initial release
