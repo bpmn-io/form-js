@@ -1,4 +1,4 @@
-# Form Definition
+# Form Schema
 
 A form is defined as JSON.
 
