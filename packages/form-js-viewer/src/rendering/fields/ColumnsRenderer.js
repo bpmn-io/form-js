@@ -10,7 +10,7 @@ export default function ColumnsRenderer(props) {
   const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'columns' ]);
 
   return (
-    <FormElement.Children class="columns" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
+    <FormElement.Children class="fjs-columns" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
       <For each={ localProps.field.columns }>
         {
           (column, index) => {
@@ -19,7 +19,7 @@ export default function ColumnsRenderer(props) {
             const childSchemaPath = computePath(() => [ ...childrenSchemaPath(), index() ]);
 
             return (
-              <div class="column">
+              <div class="fjs-column">
                 <FormElement field={ column } dataPath={ dataPath() } schemaPath={ childSchemaPath() } { ...otherProps } />
               </div>
             );

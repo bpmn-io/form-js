@@ -1,76 +1,194 @@
-.fjs-viewer {
-  --color-error: red;
+/**
+ * Theming
+ */
+.fjs-form {
+  --color-blue-darken-62: #3C85FF;
+  --color-blue-darken-48: #005DF7;
+  --color-grey-darken-23: #3B3B3B;
+  --color-grey-lighten-56: #909090;
+  --color-red-darken-38: #C20000;
+  --color-silver-darken-94: #EFEFEF;
+  --color-silver-darken-80: #CDCDCD;
+  --color-white: #FFFFFF;
 
-  position: relative;
+  --color-background: var(--color-white);
+  --color-background-disabled: var(--color-silver-darken-94);
+  --color-text: var(--color-gray-darken-23);
+  --color-text-light: var(--color-gray-lighten-56);
+  --color-text-inverted: var(--color-white);
+  --borders: var(--color-grey-lighten-56);
+  --borders-disabled: var(--color-silver-darken-80);
+  --color-warning: var(--color-red-darken-38);
+  --color-accent: var(--blue-darken-62);
+  --color-accent-dark: var(--color-blue-darken-48);
+
+  --font-family: 'IBM Plex Sans', sans-serif;
 }
 
-.fjs-viewer .vertical-layout {
+/**
+ * Layout styles
+ */
+.fjs-vertical-layout {
   display: flex;
   flex-direction: column;
 }
 
-.fjs-viewer .columns {
+.fjs-columns {
   display: flex;
   flex-direction: row;
 }
 
-.fjs-viewer button {
-  padding: 0.25rem 1rem;
+/**
+ * Visual styles
+ */
+.fjs-form {
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  position: relative;
 }
 
-.fjs-viewer input[type="text"], input[type="number"] {
-  padding: 0.25rem;
+.fjs-form * {
+  box-sizing: border-box;
 }
 
-.fjs-viewer .form-field {
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+.fjs-form-field {
+  margin: 16px;
 }
 
-.fjs-viewer .form-field-label {
+.fjs-form-field-placeholder {
+  color: var(--color-text-light);
+}
+
+.fjs-input,
+.fjs-textarea,
+.fjs-select {
+  border-color: var(--color-borders);
+  background-color: var(--color-background);
+}
+.fjs-input::placeholder,
+.fjs-textarea::placeholder,
+.fjs-select > option:disabled,
+.fjs-select [disabled] {
+  font-style: italic;
+  letter-spacing: .25px;
+
+  color: var(--color-text-light);
+}
+
+.fjs-form-field-label,
+.fjs-form-field-description {
   display: block;
-  margin-bottom: .25rem;
+  margin: 4px 0;
 }
 
-.fjs-viewer .form-field-description {
+.fjs-form-field.required label::after,
+.fjs-form-field.required .group-title::after {
+  content: "*";
+}
+.fjs-checkbox.group.required label::after,
+.fjs-radio.required label::after {
+  display: none;
+}
+.fjs-input[type=text],
+.fjs-input[type=number],
+.fjs-button[type=submit],
+.fjs-button[type=reset],
+.fjs-textarea,
+.fjs-select {
   display: block;
-  margin-top: 1rem;
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
 }
 
-.fjs-viewer .form-field .asterix {
-  color: var(--color-error);
+.fjs-textarea {
+  height: 90px;
 }
 
-.fjs-viewer .form-field-error {
-  color: var(--color-error);
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
+.fjs-checkbox,
+.fjs-radio {
+  display: flex;
+}
+.fjs-input[type=checkbox],
+.fjs-input[type=radio] {
+  margin: 6px 10px 6px 4px;
 }
 
-.fjs-viewer .form-field-error ul {
+
+.fjs-button[type=submit] {
+  color: var(--color-text-inverted);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.fjs-button[type=reset] {
+  color: var(--color-text);
+  background-color: transparent;
+  border-color: var(--color-borders);
+}
+.fjs-button[type=submit],
+.fjs-button[type=reset] {
+  min-width: 100px;
+  width: auto;
+}
+.fjs-button[type=submit] {
+  font-weight: 600;
+}
+
+
+.fjs-input[type=text]:focus,
+.fjs-input[type=number]:focus,
+.fjs-button[type=submit]:focus,
+.fjs-button[type=reset]:focus,
+.fjs-textarea:focus,
+.fjs-select:focus {
+  outline: none;
+  padding: 7px;
+  border-width: 2px;
+}
+.fjs-button[type=submit]:focus {
+  border-color: var(--color-accent-dark);
+}
+
+
+.fjs-input:disabled,
+.fjs-textarea:disabled,
+.fjs-select:disabled {
+  background-color: var(--color-background-disabled);
+  border-color: var(--color-borders-disabled);
+}
+
+.fjs-button[type=submit]:disabled,
+.fjs-button[type=reset]:disabled {
+  color: var(--text-light);
+  background-color: var(--color-background-disabled);
+  border-color: var(--color-borders-disabled);
+}
+
+
+.fjs-form-field.fjs-has-errors .fjs-input,
+.fjs-form-field.fjs-has-errors .fjs-textarea {
+  border-color: var(--color-warning);
+}
+
+.fjs-form-field-error {
+  color: var(--color-warning);
+}
+
+.fjs-form-field-error > ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.fjs-viewer .form-field-error ul li {
+.fjs-form-field-error > ul > li {
   list-style-type: none;
-}
-
-.fjs-viewer .form-field-placeholder {
-  color: var(--color-muted);
-}
-
-.fjs-viewer .form-field input[type="checkbox"] {
-  margin: 0 1rem 0 0;
-}
-
-.fjs-viewer .datagrid .datagrid-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.fjs-viewer .datagrid > label {
-  display: inline-block;
-  margin-bottom: 1rem;
 }

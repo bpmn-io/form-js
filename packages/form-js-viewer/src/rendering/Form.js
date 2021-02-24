@@ -17,7 +17,7 @@ export default function Form(props) {
 
   return (
     <form
-      class="fjs-viewer"
+      class="fjs-form"
       onSubmit={ (e) => { e.preventDefault(); mergedProps.onSubmit(); } }
       onReset={ (e) => { e.preventDefault(); mergedProps.onReset(); } }
     >
