@@ -32,7 +32,7 @@ See [viewer documentation](../form-js-viewer) for further details.
 
 ## Resources
 
-* [Issues](../../issues)
+* [Issues](https://github.com/bpmn-io/form-js/issues)
 * [Changelog](../form-js/CHANGELOG.md)
 * [Form schema](../../docs/FORM_SCHEMA.md)
 
