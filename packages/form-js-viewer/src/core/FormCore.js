@@ -70,8 +70,6 @@ export default class FormCore {
       });
 
       createEffect(() => {
-        console.log('FormCore#changed', state);
-
         this.changed({
           data: state.data,
           errors: state.errors,
@@ -97,8 +95,6 @@ export default class FormCore {
   }
 
   reset() {
-    console.log('FormCore#reset');
-
     this.emitter.emit('reset');
 
     const properties = this.state.properties;
@@ -112,8 +108,6 @@ export default class FormCore {
   }
 
   submit() {
-    console.log('FormCore#submit');
-
     const data = this.state.data;
 
     const errors = this.validateAll(data);
@@ -136,8 +130,6 @@ export default class FormCore {
       dataPath,
       value
     } = update;
-
-    console.log('FormCore#update', update);
 
     const id = pathStringify(dataPath);
 
