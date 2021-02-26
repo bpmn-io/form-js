@@ -1,8 +1,7 @@
 {
   "extends": [
     "plugin:bpmn-io/es6",
-    "plugin:bpmn-io/jsx",
-    "plugin:bpmn-io/mocha"
+    "plugin:bpmn-io/jsx"
   ],
   "rules": {
     "import/first": "error",
