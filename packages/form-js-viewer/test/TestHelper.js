@@ -4,6 +4,13 @@ import formCSS from '../dist/assets/form-js.css';
 // @ts-ignore-next-line
 import testCSS from './test.css';
 
+import chai from 'chai';
+
+import sinonChai from 'sinon-chai';
+
+chai.use(sinonChai);
+
+
 export function isSingleStart(topic) {
 
   // @ts-ignore-next-line
