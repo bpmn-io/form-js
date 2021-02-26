@@ -89,6 +89,17 @@ Reset a form programatically.
 
 Set a form property such as `readOnly`.
 
+### `Form#on(event, fn) => void`
+
+Subscribe to an [event](#events).
+
+
+## Events
+
+The form emits the `changed` and `submit` events you may hook into.
+
+Both events receive `{ data, errors }` as a payload.
+
 
 ## License
 

@@ -63,7 +63,7 @@ export default function Renderer(options) {
       }
     };
 
-    form.on('change', (newState) => {
+    form.on('changed', (newState) => {
       setState(reconcile(newState));
     });
 

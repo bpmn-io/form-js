@@ -181,7 +181,7 @@ export default class FormCore {
   }
 
   changed(state) {
-    this.emitter.emit('change', clone(state));
+    this.emitter.emit('changed', clone(state));
   }
 
   setProperty(property, value) {
