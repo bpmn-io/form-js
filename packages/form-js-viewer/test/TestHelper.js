@@ -17,7 +17,7 @@ export function isSingleStart(topic) {
   return window.__env__ && window.__env__.SINGLE_START === topic;
 }
 
-export function insertStyles() {
+function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('test.css', testCSS);
 }
@@ -36,3 +36,6 @@ export function insertCSS(name, css) {
 
   head.appendChild(style);
 }
+
+
+insertStyles();

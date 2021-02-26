@@ -7,11 +7,8 @@ import { spy } from 'sinon';
 import schema from './form.json';
 
 import {
-  insertStyles,
   isSingleStart
 } from '../TestHelper';
-
-insertStyles();
 
 const singleStart = isSingleStart('basic');
 
