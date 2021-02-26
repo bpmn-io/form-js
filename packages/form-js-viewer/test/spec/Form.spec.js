@@ -144,4 +144,41 @@ describe('createForm', function() {
     expect(changedListener).to.have.been.calledOnce;
   });
 
+
+  it('should emit <submit>', function() {
+
+    // given
+    const data = {
+      amount: 456
+    };
+
+    const form = createForm({
+      container,
+      data,
+      schema
+    });
+
+    const submitListener = spy(function(event) {
+
+      expect(event).to.have.keys([
+        'data',
+        'errors'
+      ]);
+
+      expect(event.errors).to.eql({
+        creditor: [ 'Field is required.' ]
+      });
+
+      expect(event.data).to.eql(data);
+    });
+
+    form.on('submit', submitListener);
+
+    // when
+    form.submit();
+
+    // then
+    expect(submitListener).to.have.been.calledOnce;
+  });
+
 });
