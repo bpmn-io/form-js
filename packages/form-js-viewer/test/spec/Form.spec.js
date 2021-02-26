@@ -2,6 +2,8 @@ import { createForm } from '../../src';
 
 import { expect } from 'chai';
 
+import { spy } from 'sinon';
+
 import schema from './form.json';
 
 import {
@@ -101,6 +103,48 @@ describe('createForm', function() {
     // then
     expect(state.data).to.eql(data);
     expect(state.errors).to.be.empty;
+  });
+
+
+  it('should emit <changed>', function() {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe'
+    };
+
+    const form = createForm({
+      container,
+      data,
+      schema
+    });
+
+    const changedListener = spy(function(event) {
+
+      expect(event).to.have.keys([
+        'data',
+        'errors',
+        'schema',
+        'properties'
+      ]);
+
+      expect(event.data.creditor).to.eql('Jane Doe Company');
+    });
+
+    form.on('changed', changedListener);
+
+    // when
+    form.update({
+      dataPath: [ 'creditor' ],
+      value: 'Jane Doe Company'
+    });
+
+    // then
+    expect(changedListener).to.have.been.calledOnce;
   });
 
 });
