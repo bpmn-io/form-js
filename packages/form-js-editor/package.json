@@ -36,7 +36,7 @@
     "mitt": "^2.1.0"
   },
   "dependencies": {
-    "@bpmn-io/form-js-viewer": "^0.0.4",
+    "@bpmn-io/form-js-viewer": "^0.0.6",
     "solid-js": "^0.24.5"
   }
 }
