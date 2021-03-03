@@ -52,7 +52,11 @@ export default function FormElement(props) {
   const fieldErrors = () => findErrors(errors, dataPath());
 
   return (
-    <FormElement.Element dataPath={ dataPath() } schemaPath={ schemaPath() }>
+    <FormElement.Element
+      dataPath={ dataPath() }
+      schemaPath={ schemaPath() }
+      field={ props.field }
+    >
       <Show when={ renderer() } fallback={ () => <NoopField id={ id() } /> }>
         <FieldRegistration
           field={ props.field }
