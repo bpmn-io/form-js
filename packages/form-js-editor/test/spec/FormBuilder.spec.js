@@ -43,6 +43,24 @@ describe('createFormEditor', function() {
   });
 
 
+  it('should expose schema', function() {
+
+    // given
+    const formEditor = createFormEditor({
+      container,
+      schema
+    });
+
+    // when
+    const exportedSchema = formEditor.getSchema();
+
+    // then
+    expect(exportedSchema).to.exist;
+
+    expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
+  });
+
+
   it('should add button to column', function() {
 
     // given

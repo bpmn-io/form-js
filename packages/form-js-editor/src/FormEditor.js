@@ -74,7 +74,13 @@ export default class FormEditor {
     render(() => <App
       renderers={ renderers }
       schema={ schema }
-      elementsById={ elementsById } />, container);
+      elementsById={ elementsById }
+      onSchemaChanged={
+        (schema) => {
+          this.schema = schema;
+        }
+      }
+    />, container);
   }
 
   on(event, callback) {
@@ -83,6 +89,10 @@ export default class FormEditor {
 
   off(event, callback) {
     this.emitter.off(event, callback);
+  }
+
+  getSchema() {
+    return JSON.parse(JSON.stringify(this.schema, (name, value) => name === 'id' ? undefined : value));
   }
 
   addField() {}
@@ -150,7 +160,7 @@ function App(props) {
   const [ selection, setSelection ] = createSignal('field_0');
 
   createEffect(() => {
-    console.log('schema', state.schema);
+    props.onSchemaChanged(state.schema);
   });
 
   const addField = (targetPath, targetIndex, field) => {
@@ -202,10 +212,6 @@ function App(props) {
   const selectedField = () => {
     return props.elementsById[selection()];
   };
-
-  createEffect(() => {
-    console.log('SELECTED FIED', selectedField());
-  });
 
   const renderContext = {
     Empty,
