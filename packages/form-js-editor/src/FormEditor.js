@@ -1,6 +1,7 @@
 import {
   batch,
   createState,
+  createSignal,
   For,
   onCleanup,
   onMount,
@@ -31,7 +32,8 @@ import {
 } from '@bpmn-io/form-js-viewer';
 
 import {
-  DragDropContext
+  DragDropContext,
+  SelectionContext
 } from './context';
 
 const dragula = require('dragula');
@@ -93,14 +95,24 @@ function Empty(props) {
 function Element(props) {
   const classes = [ 'element' ];
 
+  const { selection, setSelection } = useContext(SelectionContext);
+
   if (props.class) {
     classes.push(...props.class.split(' '));
   }
 
+  function selectElement(event) {
+    event.stopPropagation();
+
+    setSelection(props.schemaPath);
+  }
+
   return <div
-    class={ classes.join(' ') }
+    className={ classes.join(' ') }
+    classList={ { 'fjs-editor-selected': pathsEqual(selection(), props.schemaPath) } }
     data-id={ pathStringify(props.dataPath) }
-    data-path={ pathStringify(props.schemaPath) }>{ props.children }</div>;
+    data-path={ pathStringify(props.schemaPath) }
+    onClick={ selectElement }>{ props.children }</div>;
 }
 
 function Children(props) {
@@ -128,9 +140,7 @@ function App(props) {
     schema: props.schema
   });
 
-  createEffect(() => {
-    console.log('schema', state.schema);
-  });
+  const [ selection, setSelection ] = createSignal([]);
 
   const addField = (targetPath, targetIndex, field) => {
     setState('schema', ...targetPath, components => arrayAdd(components, targetIndex, field));
@@ -162,7 +172,7 @@ function App(props) {
 
   const removeField = (sourcePath, sourceIndex) => {
     let field;
-    
+
     setState('schema', ...sourcePath, components => {
       field = components[ sourceIndex ];
 
@@ -173,6 +183,18 @@ function App(props) {
 
     return clone(field);
   };
+
+  const updateField = (path, data) => {
+
+  };
+
+  const selectedField = () => {
+    return findField(state.schema, selection());
+  };
+
+  createEffect(() => {
+    console.log('SELECTED FIED', selectedField());
+  });
 
   const renderContext = {
     Empty,
@@ -200,6 +222,11 @@ function App(props) {
     getFieldRenderer(field) {
       return findFieldRenderer(props.renderers, field);
     }
+  };
+
+  const selectionContext = {
+    selection,
+    setSelection
   };
 
   const drake = dragula({
@@ -254,28 +281,36 @@ function App(props) {
   });
 
   return (
-    <DragDropContext.Provider value={ dragDropContext }>
-      <FormContext.Provider value={ formContext }>
-        <FormRenderContext.Provider value={ renderContext }>
-          <div class="fjs-editor">
-            <div class="palette-container">
-              <Palette renderers={ props.renderers } />
+    <SelectionContext.Provider value={ selectionContext }>
+      <DragDropContext.Provider value={ dragDropContext }>
+        <FormContext.Provider value={ formContext }>
+          <FormRenderContext.Provider value={ renderContext }>
+            <div class="fjs-editor">
+              <div class="palette-container">
+                <Palette renderers={ props.renderers } />
+              </div>
+              <div class="form-container">
+                <Form schema={ state.schema } />
+              </div>
+              <div class="properties-container">
+                <PropertiesPanel
+                  element={ selectedField() }
+                  onUpdate={ (update) => updateField(selection() || [], update) }
+                />
+              </div>
             </div>
-            <div class="form-container">
-              <Form schema={ state.schema } />
-            </div>
-          </div>
-          <CreatePreview />
-        </FormRenderContext.Provider>
-      </FormContext.Provider>
-    </DragDropContext.Provider>
+            <CreatePreview />
+          </FormRenderContext.Provider>
+        </FormContext.Provider>
+      </DragDropContext.Provider>
+    </SelectionContext.Provider>
   );
 };
 
 function Palette(props) {
 
   const renderers = () => props.renderers.filter(({ create }) => {
-    return isFunction(create) && create().type !== 'default';
+    return isFunction(create) && ['button', 'textfield'].includes(create().type);
   });
 
   return (
@@ -295,6 +330,14 @@ function Palette(props) {
         }}
       </For>
     </div>
+  );
+}
+
+
+function PropertiesPanel(props) {
+
+  return (
+    <div>{ JSON.stringify(props.element) }</div>
   );
 }
 
