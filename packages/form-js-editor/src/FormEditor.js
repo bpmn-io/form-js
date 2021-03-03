@@ -58,8 +58,7 @@ export default class FormEditor {
 
     const {
       addtionalRenderers = [],
-      container,
-      schema
+      container
     } = options;
 
     const renderers = [
@@ -67,7 +66,15 @@ export default class FormEditor {
       ...defaultFieldRenderers
     ];
 
-    render(() => <App renderers={ renderers } schema={ schema } />, container);
+    const {
+      schema,
+      elementsById
+    } = importSchema(options.schema);
+
+    render(() => <App
+      renderers={ renderers }
+      schema={ schema }
+      elementsById={ elementsById } />, container);
   }
 
   on(event, callback) {
@@ -104,12 +111,12 @@ function Element(props) {
   function selectElement(event) {
     event.stopPropagation();
 
-    setSelection(props.schemaPath);
+    setSelection(props.field.id);
   }
 
   return <div
     className={ classes.join(' ') }
-    classList={ { 'fjs-editor-selected': pathsEqual(selection(), props.schemaPath) } }
+    classList={ { 'fjs-editor-selected': selection() === props.field.id } }
     data-id={ pathStringify(props.dataPath) }
     data-path={ pathStringify(props.schemaPath) }
     onClick={ selectElement }>{ props.children }</div>;
@@ -140,7 +147,11 @@ function App(props) {
     schema: props.schema
   });
 
-  const [ selection, setSelection ] = createSignal([]);
+  const [ selection, setSelection ] = createSignal('field_0');
+
+  createEffect(() => {
+    console.log('schema', state.schema);
+  });
 
   const addField = (targetPath, targetIndex, field) => {
     setState('schema', ...targetPath, components => arrayAdd(components, targetIndex, field));
@@ -189,7 +200,7 @@ function App(props) {
   };
 
   const selectedField = () => {
-    return findField(state.schema, selection());
+    return props.elementsById[selection()];
   };
 
   createEffect(() => {
@@ -429,4 +440,47 @@ function arrayRemove(array, index) {
 
 function capitalize(string) {
   return string.replace(/^\w/, (c) => c.toUpperCase());
+}
+
+
+function importSchema(schema) {
+
+  schema = clone(schema);
+
+  const context = {
+    i: 0,
+    elementsById: {},
+    assignId(el) {
+
+      const id = `field_${this.i++}`;
+
+      el.id = id;
+      this.elementsById[id] = el;
+
+      return id;
+    }
+  };
+
+  visitElement(schema, context);
+
+  return {
+    schema,
+    elementsById: context.elementsById
+  };
+}
+
+
+function visitElement(element, context) {
+
+  const containments = [ 'components', 'columns' ];
+
+  context.assignId(element);
+
+  for (const containment of containments) {
+    if (element[containment]) {
+      for (const child of element[containment]) {
+        visitElement(child, context);
+      }
+    }
+  }
 }
