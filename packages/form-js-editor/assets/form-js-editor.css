@@ -23,6 +23,10 @@
   margin: 5px;
 }
 
+.fjs-editor-selected.element {
+  background: fuchsia;
+}
+
 .fjs-editor .palette-field {
   padding: 5px 10px;
   margin: 5px;
