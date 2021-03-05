@@ -1,6 +1,6 @@
 import mitt from 'mitt';
 
-import { createRoot, createState, createEffect, batch } from 'solid-js';
+import { set } from 'lodash';
 
 import FieldRegistry from './FieldRegistry';
 
@@ -60,38 +60,15 @@ export default class FormCore {
      */
     this.initialData = clone(data);
 
-    const [ state, setState ] = createRoot((dispose) => {
-
-      const [ state, setState ] = createState({
-        data: clone(this.initialData),
-        errors: {},
-        schema: clone(this.initialSchema),
-        properties
-      });
-
-      createEffect(() => {
-        this.changed({
-          data: state.data,
-          errors: state.errors,
-          schema: state.schema,
-          properties: state.properties
-        });
-      });
-
-      this.on('dispose', dispose);
-
-      return [ state, setState ];
-    });
-
     /**
      * @type {State}
      */
-    this.state = state;
-
-    /**
-     * @type { (...args) => void }
-     */
-    this.setState = setState;
+    this.state = {
+      data: clone(this.initialData),
+      errors: {},
+      schema: clone(this.initialSchema),
+      properties
+    };
   }
 
   reset() {
@@ -139,12 +116,13 @@ export default class FormCore {
 
     const fieldErrors = this.validator.validateField(field, value);
 
-    batch(() => {
+    const data = set(this.getState().data, dataPath, value);
 
-      // @ts-ignore-next-line
-      this.setState('data', ...dataPath, value);
+    const errors = set(this.getState().errors, id, fieldErrors.length ? fieldErrors : undefined);
 
-      this.setState('errors', id, fieldErrors.length ? fieldErrors : undefined);
+    this.setState({
+      data,
+      errors
     });
   }
 
@@ -153,23 +131,33 @@ export default class FormCore {
    * @return { {[x: string]: string[]} } errors
    */
   validateAll(data) {
+    let errors = this.getState().errors;
 
-    batch(() => {
-      for (const { id, path, field } of this.fields.getAll()) {
+    for (const { id, path, field } of this.fields.getAll()) {
 
-        const value = findData(data, path);
+      const value = findData(data, path);
 
-        const fieldErrors = this.validator.validateField(field, value);
+      const fieldErrors = this.validator.validateField(field, value);
 
-        this.setState('errors', id, fieldErrors.length ? fieldErrors : undefined);
-      }
-    });
+      errors = set(this.getState().errors, id, fieldErrors.length ? fieldErrors : undefined);
+    }
 
-    return this.state.errors;
+    this.setState({ errors });
+
+    return this.getState().errors;
   }
 
   getState() {
     return clone(this.state);
+  }
+
+  setState(state) {
+    this.state = {
+      ...this.state,
+      ...state
+    };
+
+    this.changed(this.state);
   }
 
   changed(state) {
@@ -177,9 +165,9 @@ export default class FormCore {
   }
 
   setProperty(property, value) {
-    this.setState('properties', {
-      [ property ]: value
-    });
+    const properties = set(this.getState().properties, [ property ], value);
+
+    this.setState({ properties });
   }
 
   on(event, callback) {
