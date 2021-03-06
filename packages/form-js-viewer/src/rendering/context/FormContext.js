@@ -1,10 +1,9 @@
-import { createContext } from 'solid-js';
+import { createContext } from 'preact';
 
 const FormContext = createContext({
   fields: {
-    add(path, field) {},
-    update(path, newPath) {},
-    remove(path) {}
+    add(id, field) {},
+    remove(id) {}
   },
   data: {},
   errors: {},

@@ -35,6 +35,13 @@ module.exports = function(karma) {
 
     webpack: {
       mode: 'development',
+      resolve: {
+        mainFields: [
+          'module',
+          'browser',
+          'main'
+        ]
+      },
       module: {
         rules: [
           {
@@ -47,20 +54,16 @@ module.exports = function(karma) {
             use: {
               loader: 'babel-loader',
               options: {
-                presets: [
-                  'solid'
+                plugins: [
+                  [ '@babel/plugin-transform-react-jsx', {
+                    'importSource': 'preact',
+                    'runtime': 'automatic'
+                  } ]
                 ]
               }
             }
           }
         ],
-      },
-      resolve: {
-        mainFields: [
-          'module',
-          'browser',
-          'main'
-        ]
       },
       devtool: 'eval-source-map'
     }

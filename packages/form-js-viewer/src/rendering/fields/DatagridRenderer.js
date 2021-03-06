@@ -1,26 +1,34 @@
-import {
-  createMemo,
-  For,
-  splitProps,
-  useContext
-} from 'solid-js';
+import { useContext } from 'preact/hooks';
 
 import FormElement from '../FormElement';
 
-import { FormContext } from '../context';
+import {
+  FormContext,
+  FormRenderContext
+} from '../context';
 
-import { computePath, findData } from '../../util';
+import { findData } from '../../util';
 
 export default function DatagridRenderer(props) {
   const { data } = useContext(FormContext);
 
-  const [ _, others ] = splitProps(props, [ 'field', 'dataPath', 'schemaPath' ]);
+  const { Children } = useContext(FormRenderContext);
 
-  const rows = createMemo(() => findData(data, props.dataPath) || [], [], true);
+  const rows = findData(data, props.dataPath);
+
+  if (!rows) {
+    return null;
+  }
+
+  const {
+    dataPath,
+    field,
+    onChange
+  } = props;
 
   const addValue = () => {
-    props.onChange({
-      dataPath: props.dataPath,
+    onChange({
+      dataPath,
       value: [
         ...rows(),
         {}
@@ -30,51 +38,37 @@ export default function DatagridRenderer(props) {
 
   return (
     <div class="fjs-form-field fjs-datagrid">
-      <label>{ props.field.label }</label>
-      <For each={ rows() }>
-        {
-          (_, index) => {
-            const removeRow = () => {
-              const newRows = rows().filter((row, i) => i !== index());
+      <label>{ field.label }</label>
+      {
+        rows.map((_, index) => {
+          const removeRow = () => {
+            props.onChange({
+              dataPath,
+              value: rows.filter((_, i) => i !== index)
+            });
+          };
 
-              props.onChange({
-                dataPath: props.dataPath,
-                value: newRows
-              });
-            };
+          const components = field.components || [];
 
-            const components = createMemo(() => props.field.components, [], true);
-
-            const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'components' ]);
-
-            return <div class="fjs-datagrid-row">
-              <FormElement.Children dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
-                <For each={ components() }>
-                  {
-                    (component) => {
-
-                      const dataPath = computePath(() => [ ...props.dataPath, index(), component.key ]);
-
-                      const childSchemaPath = computePath(() => [ ...childrenSchemaPath(), index() ]);
-
-                      return (
-                        <FormElement
-                          field={ component }
-                          dataPath={ dataPath() }
-                          schemaPath={ childSchemaPath() }
-                          { ...others }
-                        />
-                      );
-                    }
-                  }
-                </For>
-                <FormElement.Empty dataPath={ props.dataPath } schemaPath={ props.schemaPath } />
-              </FormElement.Children>
-              <button class="fjs-form-field" type="button" onClick={ removeRow }>-</button>
-            </div>;
-          }
-        }
-      </For>
+          return <div class="fjs-datagrid-row">
+            <Children dataPath={ props.dataPath } schemaPath={ [ ...props.schemaPath, 'components' ] }>
+              {
+                components.map((component) => {
+                  return (
+                    <FormElement
+                      { ...props }
+                      field={ component }
+                      dataPath={ [ ...props.dataPath, index(), component.key ] }
+                      schemaPath={ [ ...props.schemaPath, 'components', index ] }
+                    />
+                  );
+                })
+              }
+            </Children>
+            <button class="fjs-form-field" type="button" onClick={ removeRow }>-</button>
+          </div>;
+        })
+      }
       <button type="button" onClick={ addValue }>+</button>
     </div>
   );

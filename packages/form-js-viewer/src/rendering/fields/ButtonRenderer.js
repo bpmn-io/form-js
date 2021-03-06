@@ -1,29 +1,17 @@
-export default function ButtonRenderer(props) {
+export default function Button(props) {
+  const {
+    disabled,
+    field
+  } = props;
 
-  const label = () => props.field.label;
+  const { action = 'submit' } = field;
 
-  const buttonType = () => {
-    switch (props.field.action) {
-    case 'reset': return 'reset';
-    default: return 'submit';
-    }
-  };
-
-  return (
-    <div class="fjs-form-field">
-      <button
-        id={ props.id }
-        type={ buttonType() }
-        class="fjs-button"
-        disabled={ props.disabled || props.field.disabled }
-      >
-        { label() }
-      </button>
-    </div>
-  );
+  return <div class="fjs-form-field">
+    <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
+  </div>;
 }
 
-ButtonRenderer.create = function(options = {}) {
+Button.create = function(options = {}) {
   return {
     label: 'Button',
     type: 'button',

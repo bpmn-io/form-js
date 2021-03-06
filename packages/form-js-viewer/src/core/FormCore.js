@@ -110,9 +110,7 @@ export default class FormCore {
 
     const id = pathStringify(dataPath);
 
-    const {
-      field
-    } = this.fields.getById(id) || {};
+    const field = this.fields.get(id) || {};
 
     const fieldErrors = this.validator.validateField(field, value);
 
@@ -131,16 +129,15 @@ export default class FormCore {
    * @return { {[x: string]: string[]} } errors
    */
   validateAll(data) {
-    let errors = this.getState().errors;
+    const errors = Object.values(this.fields.getAll()).reduce((errors, field) => {
+      const { dataPath } = field;
 
-    for (const { id, path, field } of this.fields.getAll()) {
-
-      const value = findData(data, path);
+      const value = findData(data, dataPath);
 
       const fieldErrors = this.validator.validateField(field, value);
 
-      errors = set(this.getState().errors, id, fieldErrors.length ? fieldErrors : undefined);
-    }
+      return set(errors, pathStringify(dataPath), fieldErrors.length ? fieldErrors : undefined);
+    }, {});
 
     this.setState({ errors });
 

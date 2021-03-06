@@ -11,10 +11,10 @@
     "rootDir": ".",
     "strict": false,
     "skipLibCheck": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   },
   "include": [
     "packages/form-js-viewer/src",
