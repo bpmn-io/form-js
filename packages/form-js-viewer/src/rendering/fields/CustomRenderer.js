@@ -1,8 +1,4 @@
-import {
-  createEffect,
-  onMount,
-  onCleanup
-} from 'solid-js';
+import { useRef, useEffect } from 'preact/hooks';
 
 export function createRenderer(customRenderer) {
 
@@ -32,20 +28,24 @@ export function createFieldRender(customRender) {
 
   return function render(props) {
 
-    let customRenderer;
-    let node;
+    const {
+      dataPath,
+      field,
+      schemaPath
+    } = props;
 
-    onMount(() => {
-      customRenderer = customRender(node, { ...props });
-    });
+    let customRenderer = useRef(null);
+    let node = useRef();
 
-    createEffect(() => {
-      customRenderer.update({ ...props });
-    });
+    useEffect(() => {
+      if (customRenderer.current) {
+        customRenderer.current.update({ ...props });
+      } else {
+        customRenderer = customRender(node, { ...props });
+      }
 
-    onCleanup(() => {
-      customRenderer.cleanup();
-    });
+      return () => customRender.cleanup();
+    }, [ dataPath, schemaPath, field ]);
 
     return <div class="form-field form-field-custom" ref={ node }></div>;
   };

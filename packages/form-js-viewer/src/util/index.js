@@ -1,9 +1,7 @@
-import { createMemo } from 'solid-js';
-
 import { isFunction } from 'min-dash';
 
 export function computePath(callback) {
-  return createMemo(callback, [], pathsEqual);
+  return callback();
 }
 
 export function findData(data, path) {

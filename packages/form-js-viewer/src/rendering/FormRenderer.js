@@ -1,3 +1,6 @@
+import { render } from 'preact';
+import { useState } from 'preact/hooks';
+
 import {
   fields as defaultFieldRenderers
 } from './fields';
@@ -5,16 +8,6 @@ import {
 import Form from './Form';
 
 import { FormContext } from './context';
-
-import {
-  createState,
-  createRoot,
-  reconcile
-} from 'solid-js';
-
-import {
-  render
-} from 'solid-js/web';
 
 import {
   findFieldRenderer
@@ -43,7 +36,7 @@ export default function Renderer(options) {
   ];
 
   const App = (props) => {
-    const [ state, setState ] = createState(form.state);
+    const [ state, setState ] = useState(form.getState());
 
     const formContext = {
       get fields() {
@@ -64,10 +57,8 @@ export default function Renderer(options) {
     };
 
     form.on('changed', (newState) => {
-      setState(reconcile(newState));
+      setState(newState);
     });
-
-    form.on('dispose', props.dispose);
 
     return (
       <FormContext.Provider value={ formContext }>
@@ -75,14 +66,10 @@ export default function Renderer(options) {
           onChange={ (update) => form.update(update) }
           onSubmit={ state.properties.readOnly ? noop : () => form.submit() }
           onReset={ () => form.reset() }
-          schema={ state.schema }
-        />
+          schema={ state.schema } />
       </FormContext.Provider>
     );
   };
 
-  createRoot((dispose) => {
-    render(() => <App dispose={ dispose } />, container);
-  });
-
+  render(<App />, container);
 }

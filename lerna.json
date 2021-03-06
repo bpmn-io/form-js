@@ -1,6 +1,6 @@
 {
   "version": "0.0.6",
   "packages": [
-    "packages/*"
+    "packages/form-js-viewer"
   ]
 }

@@ -1,35 +1,37 @@
-import Label from './Label';
-import Errors from './Errors';
 import Description from './Description';
+import Errors from './Errors';
+import Label from './Label';
 
-import { formFieldClasses } from './Field';
+export default function Checkbox(props) {
+  const {
+    dataPath,
+    disabled,
+    errors = [],
+    field,
+    value = false
+  } = props;
 
-export default function CheckboxRenderer(props) {
   const onChange = ({ target }) => {
     props.onChange({
-      dataPath: props.dataPath,
+      dataPath,
       value: target.checked
     });
   };
 
-  return (
-    <div class={ formFieldClasses(props.errors, 'checkbox') }>
-      <input
-        class="fjs-input"
-        id={ props.id }
-        type="checkbox"
-        checked={ props.value }
-        disabled={ props.disabled || props.field.disabled }
-        onChange={ onChange }
-      />
-      <Label field={ props.field } for={ props.id } />
-      <Errors errors={ props.errors } />
-      <Description field={ props.field } />
-    </div>
-  );
+  return <div class="fjs-form-field">
+    <Label label={ field.label } required={ field.validate && field.validate.required } />
+    <input
+      class="fjs-input"
+      type="checkbox"
+      checked={ value }
+      onChange={ onChange }
+      disabled={ disabled } />
+    <Description description={ field.description } />
+    <Errors errors={ errors } />
+  </div>;
 }
 
-CheckboxRenderer.create = function(options = {}) {
+Checkbox.create = function(options = {}) {
   return {
     label: 'Checkbox',
     type: 'checkbox',

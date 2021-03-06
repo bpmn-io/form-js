@@ -2,28 +2,38 @@ import FormElement from './FormElement';
 
 import PoweredBy from './PoweredBy';
 
-import { mergeProps } from 'solid-js';
-
-
 const noop = () => {};
 
 export default function Form(props) {
 
-  const mergedProps = mergeProps({
-    onSubmit: noop,
-    onReset: noop,
-    onChange: noop
-  }, props);
+  const {
+    onSubmit = noop,
+    onReset = noop,
+    onChange = noop,
+    schema
+  } = props;
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit();
+  };
+
+  const handleReset = (event) => {
+    event.preventDefault();
+
+    onReset();
+  };
 
   return (
     <form
       class="fjs-form"
-      onSubmit={ (e) => { e.preventDefault(); mergedProps.onSubmit(); } }
-      onReset={ (e) => { e.preventDefault(); mergedProps.onReset(); } }
+      onSubmit={ handleSubmit }
+      onReset={ handleReset }
     >
       <FormElement
-        field={ mergedProps.schema }
-        onChange={ mergedProps.onChange }
+        field={ schema }
+        onChange={ onChange }
         dataPath={ [] }
         schemaPath={ [] }
       />

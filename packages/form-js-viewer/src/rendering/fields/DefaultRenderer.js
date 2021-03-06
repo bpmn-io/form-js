@@ -1,39 +1,43 @@
-import { For, splitProps } from 'solid-js';
+import { useContext } from 'preact/hooks';
 
 import FormElement from '../FormElement';
 
-import { computePath } from '../../util';
+import { FormRenderContext } from '../context';
 
-export default function DefaultRenderer(props) {
-  const [ _, otherProps ] = splitProps(props, [ 'field', 'dataPath', 'schemaPath' ]);
+export default function Default(props) {
+  const {
+    Element
+  } = useContext(FormRenderContext);
 
-  const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'components' ]);
+  let {
+    dataPath,
+    field,
+    schemaPath
+  } = props;
 
-  return (
-    <FormElement.Children class="fjs-vertical-layout" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
-      <For each={ props.field.components }>
-        {
-          (component, index) => {
-            const dataPath = computePath(() => {
-              if (component.key) {
-                return [ ...props.dataPath.slice(0, -1), component.key ];
-              } else {
-                return props.dataPath.slice(0, -1);
-              }
-            });
+  const { components = [] } = field;
 
-            const childSchemaPath = computePath(() => [ ...childrenSchemaPath(), index() ]);
-
-            return <FormElement field={ component } dataPath={ dataPath() } schemaPath={ childSchemaPath() } { ...otherProps } />;
-          }
+  return <Element class="fjs-vertical-layout" { ...props }>
+    {
+      components.map((field, index) => {
+        if (field.key) {
+          dataPath = [ ...dataPath.slice(0, -1), field.key ];
+        } else {
+          dataPath = dataPath.slice(0, -1);
         }
-      </For>
-      <FormElement.Empty dataPath={ props.dataPath } schemaPath={ props.schemaPath } />
-    </FormElement.Children>
-  );
+
+        return <FormElement
+          { ...props }
+          key={ field.id }
+          dataPath={ dataPath }
+          schemaPath={ [ ...schemaPath, 'components', index ] }
+          field={ field } />;
+      })
+    }
+  </Element>;
 }
 
-DefaultRenderer.create = function(options = {}) {
+Default.create = function(options = {}) {
   return {
     type: 'default',
     ...options

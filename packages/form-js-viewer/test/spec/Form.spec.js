@@ -4,6 +4,8 @@ import { expect } from 'chai';
 
 import { spy } from 'sinon';
 
+import { waitFor } from '@testing-library/preact/pure';
+
 import schema from './form.json';
 
 import {
@@ -54,7 +56,7 @@ describe('createForm', function() {
   });
 
 
-  it('should update, reset and submit', function() {
+  it('should update, reset and submit', async function() {
 
     // given
     const data = {
@@ -66,7 +68,7 @@ describe('createForm', function() {
     };
 
     // when
-    const form = createForm({
+    const form = await waitForFormCreated({
       container,
       data,
       schema
@@ -103,7 +105,7 @@ describe('createForm', function() {
   });
 
 
-  it('should emit <changed>', function() {
+  it('should emit <changed>', async function() {
 
     // given
     const data = {
@@ -114,7 +116,7 @@ describe('createForm', function() {
       approvedBy: 'John Doe'
     };
 
-    const form = createForm({
+    const form = await waitForFormCreated({
       container,
       data,
       schema
@@ -145,14 +147,14 @@ describe('createForm', function() {
   });
 
 
-  it('should emit <submit>', function() {
+  it('should emit <submit>', async function() {
 
     // given
     const data = {
       amount: 456
     };
 
-    const form = createForm({
+    const form = await waitForFormCreated({
       container,
       data,
       schema
@@ -176,9 +178,16 @@ describe('createForm', function() {
 
     // when
     form.submit();
-
-    // then
-    expect(submitListener).to.have.been.calledOnce;
   });
 
 });
+
+async function waitForFormCreated(options) {
+  const form = createForm(options);
+
+  await waitFor(() => {
+    expect(Object.keys(form.fields.getAll())).to.have.length(8);
+  });
+
+  return form;
+}

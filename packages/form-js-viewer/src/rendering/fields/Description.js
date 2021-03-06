@@ -1,12 +1,9 @@
-import { Show } from 'solid-js';
-
 export default function Description(props) {
+  const { description } = props;
 
-  return (
-    <Show when={ props.field.description }>
-      <div class="fjs-form-field-description">
-        { props.field.description }
-      </div>
-    </Show>
-  );
+  if (!description) {
+    return null;
+  }
+
+  return <div class="fjs-form-field-description">{ description }</div>;
 }

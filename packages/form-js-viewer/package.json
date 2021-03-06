@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "solid-js": "^0.24.5"
+    "preact": "^10.5.12"
   }
 }

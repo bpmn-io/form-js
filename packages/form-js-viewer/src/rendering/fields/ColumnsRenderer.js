@@ -1,33 +1,34 @@
-import { For, splitProps } from 'solid-js';
+import { useContext } from 'preact/hooks';
 
 import FormElement from '../FormElement';
 
-import { computePath } from '../../util';
+import { FormRenderContext } from '../context';
 
 export default function ColumnsRenderer(props) {
-  const [ localProps, otherProps ] = splitProps(props, [ 'field', 'dataPath', 'schemaPath' ]);
+  const { Children } = useContext(FormRenderContext);
 
-  const childrenSchemaPath = computePath(() => [ ...props.schemaPath, 'columns' ]);
+  const {
+    dataPath,
+    field,
+    schemaPath
+  } = props;
 
   return (
-    <FormElement.Children class="fjs-columns" dataPath={ props.dataPath } schemaPath={ childrenSchemaPath() }>
-      <For each={ localProps.field.columns }>
-        {
-          (column, index) => {
-            const dataPath = computePath(() => props.dataPath.slice(0, -1));
-
-            const childSchemaPath = computePath(() => [ ...childrenSchemaPath(), index() ]);
-
-            return (
-              <div class="fjs-column">
-                <FormElement field={ column } dataPath={ dataPath() } schemaPath={ childSchemaPath() } { ...otherProps } />
-              </div>
-            );
-          }
-        }
-      </For>
-      <FormElement.Empty dataPath={ props.dataPath } schemaPath={ props.schemaPath } />
-    </FormElement.Children>
+    <Children class="fjs-columns" dataPath={ dataPath } schemaPath={ [ ...schemaPath, 'columns' ] }>
+      {
+        field.columns.map((column, index) => {
+          return (
+            <div class="fjs-column">
+              <FormElement
+                { ...props }
+                field={ column }
+                dataPath={ dataPath.slice(0, -1) }
+                schemaPath={ [ ...schemaPath, 'columns', index ] } />
+            </div>
+          );
+        })
+      }
+    </Children>
   );
 }
 

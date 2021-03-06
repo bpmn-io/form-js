@@ -1,16 +1,14 @@
-import { Show } from 'solid-js';
-
 export default function Label(props) {
+  const {
+    label = 'Form Field',
+    required = false
+  } = props;
 
-  return (
-    <Show when={ props.field.label }>
-      <label class="fjs-form-field-label" for={ props.for }>
-        { props.children }
-        { props.field.label }
-        <Show when={ props.field.validate && props.field.validate.required }>
-          <span class="fjs-asterix">*</span>
-        </Show>
-      </label>
-    </Show>
-  );
+  return <label class="fjs-form-field-label">
+    { props.children }
+    { label }
+    {
+      required && <span class="fjs-asterix">*</span>
+    }
+  </label>;
 }
