@@ -1,6 +1,6 @@
 import mitt from 'mitt';
 
-import { set } from 'lodash';
+import { set } from 'min-dash';
 
 import FieldRegistry from './FieldRegistry';
 

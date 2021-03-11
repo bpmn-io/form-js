@@ -34,11 +34,10 @@
     "url": "https://github.com/bpmn-io"
   },
   "devDependencies": {
-    "min-dash": "^3.5.2",
+    "min-dash": "^3.6.0",
     "mitt": "^2.1.0"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "preact": "^10.5.12"
   }
 }
