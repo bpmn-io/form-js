@@ -56,3 +56,69 @@ export function pathStringify(path) {
 
   return path.join('.');
 }
+
+const indices = {};
+
+const generateIndexForType = (type) => {
+  if (type in indices) {
+    indices[ type ]++;
+  } else {
+    indices[ type ] = 1;
+  }
+
+  return indices[ type ];
+};
+
+export const generateIdForType = (type) => {
+  return `${ type }${ generateIndexForType(type) }`;
+};
+
+export function clone(data, replacer) {
+  return JSON.parse(JSON.stringify(data, replacer));
+}
+
+export function importSchema(schema) {
+  schema = clone(schema);
+
+  const fieldsById = {};
+
+  importField(schema, fieldsById);
+
+  return {
+    schema,
+    fieldsById
+  };
+}
+
+
+function importField(field, fieldsById, parentId) {
+  const id = generateIdForType(field.type);
+
+  field.id = id;
+
+  fieldsById[ id ] = field;
+
+  if (parentId !== undefined) {
+    field.parent = parentId;
+  }
+
+  if (field.components) {
+    importFields(field.components, fieldsById, id);
+  }
+}
+
+function importFields(components, fieldsById, id) {
+  for (const component of components) {
+    importField(component, fieldsById, id);
+  }
+}
+
+export function exportSchema(schema) {
+  return clone(schema, (name, value) => {
+    if ([ 'id', 'parent' ].includes(name)) {
+      return undefined;
+    }
+
+    return value;
+  });
+}

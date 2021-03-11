@@ -30,7 +30,7 @@ describe('createForm', function() {
   });
 
 
-  (singleStart ? it.only : it)('should render', function() {
+  (singleStart ? it.only : it)('should render', async function() {
 
     // given
     const data = {
@@ -42,11 +42,13 @@ describe('createForm', function() {
     };
 
     // when
-    const form = createForm({
+    const form = await waitForFormCreated({
       container,
       data,
       schema
     });
+
+    form.on('changed', ({ data, errors }) => console.log(data, errors));
 
     // then
     expect(form).to.exist;

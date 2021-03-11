@@ -6,18 +6,19 @@ import { FormRenderContext } from '../context';
 
 export default function Default(props) {
   const {
-    Element
+    Children
   } = useContext(FormRenderContext);
 
   let {
     dataPath,
     field,
+    id,
     schemaPath
   } = props;
 
   const { components = [] } = field;
 
-  return <Element class="fjs-vertical-layout" { ...props }>
+  return <Children class="fjs-vertical-layout" { ...props }>
     {
       components.map((field, index) => {
         if (field.key) {
@@ -28,13 +29,13 @@ export default function Default(props) {
 
         return <FormElement
           { ...props }
-          key={ field.id }
+          key={ id }
           dataPath={ dataPath }
           schemaPath={ [ ...schemaPath, 'components', index ] }
           field={ field } />;
       })
     }
-  </Element>;
+  </Children>;
 }
 
 Default.create = function(options = {}) {

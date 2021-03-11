@@ -1,7 +1,8 @@
 /**
  * Theming
  */
-.fjs-form {
+ .fjs-form,
+ .fjs-editor {
   --color-blue-darken-62: #3C85FF;
   --color-blue-darken-48: #005DF7;
   --color-grey-darken-23: #3B3B3B;

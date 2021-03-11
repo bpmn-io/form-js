@@ -1,4 +1,7 @@
-import { useContext, useEffect } from 'preact/hooks';
+import {
+  useContext,
+  useEffect
+} from 'preact/hooks';
 
 import {
   FormContext,
@@ -9,8 +12,7 @@ import NoopField from './fields/NoopField';
 
 import {
   findData,
-  findErrors,
-  pathStringify
+  findErrors
 } from '../util';
 
 const noop = () => false;
@@ -38,7 +40,7 @@ export default function FormElement(props) {
 
   const Renderer = getFieldRenderer(field.type);
 
-  const id = pathStringify(dataPath);
+  const { id } = field;
 
   if (!Renderer) {
     return <NoopField id={ id } />;
@@ -48,26 +50,16 @@ export default function FormElement(props) {
 
   const fieldErrors = findErrors(errors, dataPath);
 
-  const registeredField = {
-    ...field,
-    dataPath,
-    schemaPath
-  };
-
   useEffect(() => {
-    fields.add(id, registeredField);
-
-    return () => {
-      fields.remove(id);
-    };
-  }, [ JSON.stringify(registeredField) ]);
+    fields.add(id, {
+      ...field,
+      dataPath,
+      schemaPath
+    });
+  });
 
   return (
-    <Element
-      dataPath={ dataPath }
-      schemaPath={ schemaPath }
-      field={ field }
-    >
+    <Element { ...props } id={ id }>
       <Renderer
         { ...props }
         disabled={ properties.readOnly || false }

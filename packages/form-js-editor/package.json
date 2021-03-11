@@ -30,13 +30,13 @@
     "url": "https://github.com/bpmn-io"
   },
   "devDependencies": {
-    "array-move": "^3.0.1",
-    "dragula": "^3.7.3",
-    "min-dash": "^3.5.2",
+    "min-dash": "^3.6.0",
     "mitt": "^2.1.0"
   },
   "dependencies": {
     "@bpmn-io/form-js-viewer": "^0.0.6",
-    "solid-js": "^0.24.5"
+    "array-move": "^3.0.1",
+    "dragula": "^3.7.3",
+    "preact": "^10.5.12"
   }
 }

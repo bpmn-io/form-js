@@ -22,8 +22,11 @@ export default [
     ],
     plugins: [
       babel({
-        presets: [
-          'solid'
+        plugins: [
+          [ '@babel/plugin-transform-react-jsx', {
+            'importSource': 'preact',
+            'runtime': 'automatic'
+          } ]
         ]
       }),
       copy({
@@ -36,7 +39,6 @@ export default [
       json(),
       resolve({
         resolveOnly: [
-          'dragula',
           'min-dash',
           'mitt'
         ]

@@ -47,8 +47,11 @@ module.exports = function(karma) {
             use: {
               loader: 'babel-loader',
               options: {
-                presets: [
-                  'solid'
+                plugins: [
+                  [ '@babel/plugin-transform-react-jsx', {
+                    'importSource': 'preact',
+                    'runtime': 'automatic'
+                  } ]
                 ]
               }
             }

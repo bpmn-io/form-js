@@ -1,6 +1,8 @@
 import { FormCore } from './core';
 import { FormRenderer } from './rendering';
 
+export * from './core';
+
 export * from './rendering';
 
 export * from './util';
