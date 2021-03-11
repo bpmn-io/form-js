@@ -1,4 +1,4 @@
-import { createContext } from 'solid-js';
+import { createContext } from 'preact';
 
 const SelectionContext = createContext({
   selection: null,

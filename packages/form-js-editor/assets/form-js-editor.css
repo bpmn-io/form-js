@@ -4,36 +4,104 @@
 }
 
 .fjs-editor .palette-container {
-  flex: 0;
   width: 200px;
+  background-color: var(--color-silver-darken-94);
+  border-right: solid 1px var(--color-silver-darken-80);
 }
 
 .fjs-editor .form-container {
   flex: 1;
 }
 
+.fjs-editor .properties-container {
+  width: 300px;
+  background-color: var(--color-silver-darken-94);
+  border-left: solid 1px var(--color-silver-darken-80);
+}
+
+.fjs-editor .properties-container pre {
+  margin: 0;
+  padding: 10px;
+  font-size: 12px;
+}
+
 .fjs-editor .container {
-  border: dotted 1px rgba(0, 128, 255, .9);
+  /* border: dotted 1px rgba(0, 128, 255, .9); */
   min-width: 300px;
   min-height: 100px;
 }
 
 .fjs-editor .element {
-  background: rgba(0, 128, 255, .3);
+  /* background: rgba(0, 128, 255, .3); */
   margin: 5px;
 }
 
-.fjs-editor-selected.element {
-  background: fuchsia;
+.container > .element {
+  position: relative;
+  border: dashed 2px transparent;
 }
 
-.fjs-editor .palette-field {
+.container > .element:hover,
+.container > .element.fjs-editor-selected {
+  /* background: fuchsia; */
+  border-color: var(--color-blue-darken-62);
+  border-radius: 3px;
+}
+
+.fjs-editor .palette-header {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: solid 1px var(--color-silver-darken-80);
+}
+
+.palette-field {
   padding: 5px 10px;
-  margin: 5px;
-  border: solid 1px #CCC;
+  display: flex;
+  white-space: pre;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border-bottom: solid 1px var(--color-silver-darken-80);
+  background-color: var(--color-silver-darken-94);
+}
+
+.palette-field-icon {
+  height: 48px;
+  margin-right: 8px;
+}
+
+.palette-field:hover {
+  background-color: var(--color-silver-darken-80);
+  cursor: default;
 }
 
 .fjs-editor .empty {
   padding: 10px;
   background-color: rgba(0, 128, 255, .6);
+}
+
+.fjs-editor-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.gu-transit {
+  border-radius: 3px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  width: 100% !important;
+  height: 0 !important;
+  border: solid 3px var(--color-blue-darken-62) !important;
+}
+
+.gu-transit * {
+  display: none !important;
+}
+
+.gu-mirror {
+  opacity: 1;
+  filter: none;
 }

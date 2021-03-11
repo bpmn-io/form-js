@@ -20,16 +20,19 @@ export default [
       }
     ],
     plugins: [
+      babel({
+        plugins: [
+          [ '@babel/plugin-transform-react-jsx', {
+            'importSource': 'preact',
+            'runtime': 'automatic'
+          } ]
+        ]
+      }),
       copy({
         targets: [
           { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },
           { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/form-js-editor.css', dest: 'dist/assets' },
           { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/dragula.css', dest: 'dist/assets' }
-        ]
-      }),
-      babel({
-        presets: [
-          'solid'
         ]
       }),
       resolve({

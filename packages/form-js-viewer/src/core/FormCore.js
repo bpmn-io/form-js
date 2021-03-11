@@ -7,9 +7,12 @@ import FieldRegistry from './FieldRegistry';
 import { Validator } from './validation';
 
 import {
-  pathStringify,
-  findData
+  findData,
+  importSchema,
+  pathsEqual
 } from '../util';
+
+import { clone } from '../util';
 
 
 /**
@@ -48,11 +51,16 @@ export default class FormCore {
     this.validator = new Validator();
     this.fields = new FieldRegistry(this);
 
+    // TODO(philippfromme): refactor assignment of IDs once we support arrays
+    const {
+      schema: importedSchema
+    } = importSchema(schema);
+
     /**
      * @private
      * @type {Schema}
      */
-    this.initialSchema = clone(schema);
+    this.initialSchema = clone(importedSchema);
 
     /**
      * @private
@@ -74,13 +82,10 @@ export default class FormCore {
   reset() {
     this.emitter.emit('reset');
 
-    const properties = this.state.properties;
-
     this.setState({
       data: clone(this.initialData),
       schema: clone(this.initialSchema),
-      errors: {},
-      properties
+      errors: {}
     });
   }
 
@@ -108,15 +113,13 @@ export default class FormCore {
       value
     } = update;
 
-    const id = pathStringify(dataPath);
-
-    const field = this.fields.get(id) || {};
+    const field = Object.values(this.fields.getAll()).find((field) => pathsEqual(field.dataPath, dataPath));
 
     const fieldErrors = this.validator.validateField(field, value);
 
     const data = set(this.getState().data, dataPath, value);
 
-    const errors = set(this.getState().errors, id, fieldErrors.length ? fieldErrors : undefined);
+    const errors = set(this.getState().errors, dataPath, fieldErrors.length ? fieldErrors : undefined);
 
     this.setState({
       data,
@@ -136,7 +139,7 @@ export default class FormCore {
 
       const fieldErrors = this.validator.validateField(field, value);
 
-      return set(errors, pathStringify(dataPath), fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, dataPath, fieldErrors.length ? fieldErrors : undefined);
     }, {});
 
     this.setState({ errors });
@@ -174,8 +177,4 @@ export default class FormCore {
   off(event, callback) {
     this.emitter.off(event, callback);
   }
-}
-
-function clone(data) {
-  return JSON.parse(JSON.stringify(data));
 }
