@@ -16,7 +16,9 @@
     "release": "run-s distro test \"lerna-publish -- {@}\" --",
     "test": "lerna run test",
     "ci": "run-s all build-distro",
-    "start": "cross-env SINGLE_START=basic npm run dev --"
+    "start": "cross-env SINGLE_START=basic npm run dev --",
+    "start:viewer": "npm run start -- @bpmn-io/form-js-viewer",
+    "start:editor": "npm run start -- @bpmn-io/form-js-editor"
   },
   "repository": {
     "type": "git",
