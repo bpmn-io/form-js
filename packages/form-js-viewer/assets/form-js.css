@@ -3,13 +3,31 @@
  */
  .fjs-form,
  .fjs-editor {
-  --color-blue-darken-62: #3C85FF;
-  --color-blue-darken-48: #005DF7;
-  --color-grey-darken-23: #3B3B3B;
+  --color-blue-base-65: #4d90ff;
+  --color-blue-base-65-opacity-10: rgba(77, 144, 255, 0.1);
+  --color-blue-darken-48: #005df7;
+  --color-blue-darken-55: #1a70ff;
+  --color-blue-darken-62: #3c85ff;
+  --color-blue-lighten-75: #80b0ff;
+  --color-blue-lighten-82: #a2c5ff;
+  --color-blue-lighten-93: #dbe9ff;
+
+  --color-silver-base-97: #f8f8f8;
+  --color-silver-lighten-99: #fcfcfc;
+  --color-silver-darken-80: #cdcdcd;
+  --color-silver-darken-87: #dedede;
+  --color-silver-darken-94: #efefef;
+
+  --color-grey-base-40: #666666;
   --color-grey-lighten-56: #909090;
+  --color-grey-darken-23: #3b3b3b;
+  --color-grey-darken-30: #4c4c4c;
+  --color-grey-darken-33: #535353;
+
+  --color-red-base-62: #ff3d3d;
   --color-red-darken-38: #C20000;
-  --color-silver-darken-94: #EFEFEF;
-  --color-silver-darken-80: #CDCDCD;
+  --color-red-lighten-85: #ffb3b3;
+
   --color-white: #FFFFFF;
 
   --color-background: var(--color-white);
@@ -37,6 +55,10 @@
 .fjs-columns {
   display: flex;
   flex-direction: row;
+}
+
+.fjs-column {
+  flex-grow: 1;
 }
 
 /**

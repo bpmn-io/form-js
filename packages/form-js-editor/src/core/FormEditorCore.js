@@ -1,6 +1,9 @@
 import mitt from 'mitt';
 
-import { set } from 'min-dash';
+import {
+  get,
+  set
+} from 'min-dash';
 
 import {
   clone,
@@ -23,7 +26,6 @@ export default class FormEditorCore {
 
     this.fields = new FieldRegistry(this);
 
-    // TODO(philippfromme): refactor assignment of IDs once we support arrays
     const {
       schema: importedSchema
     } = importSchema(schema);
@@ -37,40 +39,86 @@ export default class FormEditorCore {
   }
 
   addField(targetField, targetIndex, field) {
-    const fields = arrayAdd(targetField.components, targetIndex, field);
+    let schema = clone(this.state.schema);
 
-    const schema = set(this.state.schema, [ ...targetField.schemaPath, 'components' ], fields);
+    const targetSchemaPath = [ ...targetField.schemaPath, 'components' ];
+
+    schema = set(
+      schema,
+      targetSchemaPath,
+      arrayAdd(get(schema, targetSchemaPath), targetIndex, field)
+    );
+
+    field.parent = targetField.id;
 
     this.setState({ schema });
   }
 
   moveField(sourceField, targetField, sourceIndex, targetIndex) {
-    let schema;
+    let schema = clone(this.state.schema);
+
+    const sourceSchemaPath = [ ...sourceField.schemaPath, 'components' ];
 
     if (sourceField.id === targetField.id) {
       if (sourceIndex < targetIndex) {
         targetIndex--;
       }
 
-      const fields = arrayMove(sourceField.components, sourceIndex, targetIndex);
-
-      schema = set(this.state.schema, [ ...sourceField.schemaPath, 'components' ], fields);
+      schema = set(
+        schema,
+        sourceSchemaPath,
+        arrayMove(get(schema, sourceSchemaPath), sourceIndex, targetIndex)
+      );
     } else {
-      throw new Error('Moving form field between containers not supported');
+      const field = get(schema, sourceSchemaPath)[ sourceIndex ];
+
+      schema = set(
+        schema,
+        sourceSchemaPath,
+        arrayRemove(get(schema, sourceSchemaPath), sourceIndex)
+      );
+
+      const targetSchemaPath = [ ...targetField.schemaPath, 'components' ];
+      
+      schema = set(
+        schema,
+        targetSchemaPath,
+        arrayAdd(get(schema, targetSchemaPath), targetIndex, field)
+      );
+
+      field.parent = targetField.id;
     }
 
     this.setState({ schema });
   }
 
   removeField(sourceField, sourceIndex) {
-    const fields = arrayRemove(sourceField.components, sourceIndex);
+    let schema = clone(this.state.schema);
 
-    const schema = set(this.state.schema, [ ...sourceField.schemaPath, 'components' ], fields);
+    const sourceSchemaPath = [ ...sourceField.schemaPath, 'components' ];
+
+    schema = set(
+      schema,
+      sourceSchemaPath,
+      arrayRemove(get(schema, sourceSchemaPath), sourceIndex)
+    );
 
     this.setState({ schema });
   }
 
-  editFormField() {}
+  editField(field, key, value) {
+    let schema = clone(this.state.schema);
+
+    const path = [ ...field.schemaPath, key ];
+
+    schema = set(
+      schema,
+      path,
+      value
+    );
+
+    this.setState({ schema });
+  }
 
   reset() {
     this.setState({

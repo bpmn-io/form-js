@@ -6,15 +6,11 @@ import { FormRenderContext } from '../context';
 
 import DefaultRenderer from './DefaultRenderer';
 
-import {
-  generateIdForType,
-  idToLabel
-} from '../../util';
+import { generateIdForType } from '../../util';
 
 
 export default function ColumnsRenderer(props) {
   const {
-    Children,
     Element,
     Empty
   } = useContext(FormRenderContext);

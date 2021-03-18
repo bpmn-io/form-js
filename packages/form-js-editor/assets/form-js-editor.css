@@ -3,26 +3,8 @@
   flex-direction: row;
 }
 
-.fjs-editor .palette-container {
-  width: 200px;
-  background-color: var(--color-silver-darken-94);
-  border-right: solid 1px var(--color-silver-darken-80);
-}
-
 .fjs-editor .form-container {
   flex: 1;
-}
-
-.fjs-editor .properties-container {
-  width: 300px;
-  background-color: var(--color-silver-darken-94);
-  border-left: solid 1px var(--color-silver-darken-80);
-}
-
-.fjs-editor .properties-container pre {
-  margin: 0;
-  padding: 10px;
-  font-size: 12px;
 }
 
 .fjs-editor .container {
@@ -31,9 +13,15 @@
   min-height: 100px;
 }
 
+.fjs-editor .container .container {
+  border: dashed 2px var(--color-silver-darken-80);
+  border-radius: 3px;
+}
+
 .fjs-editor .element {
   /* background: rgba(0, 128, 255, .3); */
   margin: 5px;
+  height: 100%;
 }
 
 .container > .element {
@@ -48,45 +36,168 @@
   border-radius: 3px;
 }
 
+.fjs-empty {
+  flex-grow: 1;
+  background-color: fuchsia;
+}
+
+/* Context Pad */
+
+.fjs-context-pad {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%);
+}
+
+.fjs-context-pad-item {
+  border: none;
+  background-color: var(--color-white);
+  padding: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Palette */
+
+.fjs-editor .palette-container {
+  width: 200px;
+  background-color: var(--color-silver-base-97);
+  border-right: solid 1px var(--color-silver-darken-80);
+}
+
 .fjs-editor .palette-header {
   font-size: 12px;
   font-weight: bold;
   padding: 10px;
   border-bottom: solid 1px var(--color-silver-darken-80);
+  background-color: var(--color-silver-darken-94);
 }
 
 .palette-field {
-  padding: 5px 10px;
+  padding: 10px;
   display: flex;
   white-space: pre;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
   border-bottom: solid 1px var(--color-silver-darken-80);
-  background-color: var(--color-silver-darken-94);
+  font-size: 14px;
 }
 
 .palette-field-icon {
-  height: 48px;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .palette-field:hover {
-  background-color: var(--color-silver-darken-80);
+  background-color: var(--color-silver-darken-94);
   cursor: default;
 }
 
-.fjs-editor .empty {
+/* Properties Panel */
+
+.fjs-editor .properties-container {
+  width: 300px;
+  background-color: var(--color-silver-base-97);
+  border-left: solid 1px var(--color-silver-darken-80);
+}
+
+.fjs-editor .fjs-properties-panel * {
+  box-sizing: border-box;
+}
+
+.fjs-editor .fjs-properties-panel-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
   padding: 10px;
-  background-color: rgba(0, 128, 255, .6);
+  background-color: var(--color-silver-darken-94);
+  border-bottom: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-editor-remove {
-  position: absolute;
-  top: 0;
-  right: 0;
+.fjs-editor .fjs-properties-panel-header-icon {
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
+.fjs-editor .fjs-properties-panel-header-type {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.fjs-editor .fjs-properties-panel-header-label {
+
+}
+
+.fjs-editor .fjs-properties-panel-group-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px;
+  border-bottom: solid 1px var(--color-silver-darken-80);
+  background-color: var(--color-silver-darken-94);
+}
+
+.fjs-editor .fjs-properties-panel-group-entries {
+  border-bottom: solid 1px var(--color-silver-darken-80);
+}
+
+.fjs-editor .fjs-chevron-down {
+  transform: rotate(90deg);
+}
+
+.fjs-editor .fjs-properties-panel-entry {
+  padding: 10px 10px 0 10px;
+}
+
+.fjs-editor .fjs-properties-panel-entry:last-child {
+  padding-bottom: 10px;
+}
+
+.fjs-editor .fjs-properties-panel-label {
+  display: block;
+  margin: 4px 0;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--color-grey-base-40);
+  font-size: 13px;
+}
+
+.fjs-editor .fjs-properties-panel-input {
+  background-color: var(--color-white);
+  border: solid 1px var(--color-silver-darken-80);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.fjs-editor .fjs-properties-panel-input[type=number],
+.fjs-editor select.fjs-properties-panel-input,
+.fjs-editor .fjs-properties-panel-input[type=text] {
+  display: block;
+  width: 100%;
+}
+
+.fjs-editor .fjs-properties-panel-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-blue-lighten-82), 0 0 0 1px var(--color-silver-darken-80) inset;
+  border: solid 1px var(--color-blue-darken-55);
+}
+
+.fjs-editor .fjs-properties-panel-placeholder {
+  padding: 10px;
+  color: var(--color-silver-darken-80);
+}
+
+/* Custom Dragula Styles */
 .gu-transit {
   border-radius: 3px !important;
   padding: 0 !important;
@@ -102,6 +213,14 @@
 }
 
 .gu-mirror {
-  opacity: 1;
-  filter: none;
+  opacity: 1 !important;
+  filter: none !important;
+
+  background-color: var(--color-white) !important;
+  width: auto !important;
+  height: auto !important;
+  border: solid 1px var(--color-silver-darken-80) !important;
+  border-radius: 3px !important;
+  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%) !important;
+  padding: 0 !important;
 }
