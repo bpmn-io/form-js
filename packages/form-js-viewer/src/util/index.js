@@ -22,7 +22,7 @@ export function findErrors(errors, path) {
 
 export function findFieldRenderer(renderers, type) {
   return renderers.find(renderer => {
-    return isFunction(renderer.create) && renderer.create().type === type;
+    return renderer.type === type;
   });
 }
 
@@ -90,7 +90,6 @@ export function importSchema(schema) {
   };
 }
 
-
 function importField(field, fieldsById, parentId) {
   const id = generateIdForType(field.type);
 
@@ -121,4 +120,10 @@ export function exportSchema(schema) {
 
     return value;
   });
+}
+
+export function idToLabel(string) {
+  return string
+  	.replace(/^\w/, (match) => match.toUpperCase())
+    .replace(/((\w)(\d))/, (match, p1, p2, p3) => `${p2} ${p3}`);
 }

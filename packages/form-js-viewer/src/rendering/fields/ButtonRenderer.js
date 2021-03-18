@@ -1,4 +1,12 @@
-export default function Button(props) {
+import {
+  generateIdForType,
+  idToLabel
+} from '../../util';
+
+import { formFieldClasses } from './Util';
+
+
+export default function ButtonRenderer(props) {
   const {
     disabled,
     field
@@ -6,15 +14,25 @@ export default function Button(props) {
 
   const { action = 'submit' } = field;
 
-  return <div class="fjs-form-field">
+  return <div class={ formFieldClasses() }>
     <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
   </div>;
 }
 
-Button.create = function(options = {}) {
+ButtonRenderer.create = function(options = {}) {
+  const type = 'button';
+
+  const id = generateIdForType(type);
+
   return {
-    label: 'Button',
-    type: 'button',
+    id,
+    key: id,
+    label: idToLabel(id),
+    type,
     ...options
   };
 };
+
+ButtonRenderer.type = 'button';
+
+ButtonRenderer.label = 'Button';
