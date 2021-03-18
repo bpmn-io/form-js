@@ -1,11 +1,15 @@
-import { Fragment } from 'preact';
-import { useContext, useState, useEffect, useCallback } from 'preact/hooks';
+import { render } from 'preact';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'preact/hooks';
 
 import {
   FormContext,
   FormRenderContext,
-  Form,
-  generateIdForType
+  Form
 } from '@bpmn-io/form-js-viewer';
 
 import {
@@ -14,44 +18,34 @@ import {
   SelectionContext
 } from './context';
 
+import Palette from './Palette';
+import PropertiesPanel from './PropertiesPanel';
+
 import * as dragula from 'dragula';
 
+import { get } from 'min-dash';
 
-function Palette(props) {
-  const fieldRenderers = props.fieldRenderers.filter(({ create }) => {
-    return create && ['button', 'textfield'].includes(create().type);
-  });
+import RemoveIcon from './icons/Remove.svg';
 
-  return <Fragment>
-    <div class="palette-header">FORM ELEMENTS LIBRARY</div>
-    <div class="palette drag-container">
+import { iconsByType } from './icons';
+
+function ContextPad(props) {
+  if (!props.children) {
+    return null;
+  }
+
+  return (
+    <div class="fjs-context-pad">
       {
-        fieldRenderers.map((fieldRenderer) => {
-          const {
-            label,
-            icon,
-            type
-          } = fieldRenderer.create();
-
-          return (
-            <div class="palette-field drag-copy no-drop" data-field-type={ type }>
-              {
-                icon ? <img class="palette-field-icon" src={ icon } /> : null
-              }
-              <span>{ label }</span>
-            </div>
-          );
-        })
+        props.children
       }
     </div>
-  </Fragment>;
+  );
 }
 
-const PropertiesPanel = (props) => {
-  const { field = {} } = props;
-
-  return <pre>{ JSON.stringify(field, null, 2) }</pre>;
-};
+function Empty(props) {
+  return null;
+}
 
 function Element(props) {
   const { selection, setSelection } = useContext(SelectionContext);
@@ -66,6 +60,10 @@ function Element(props) {
   const { id } = field;
 
   function onClick(event) {
+    if (!field.key) {
+      return;
+    }
+
     event.stopPropagation();
 
     setSelection(id);
@@ -91,15 +89,19 @@ function Element(props) {
     removeField(parentField, index);
   };
 
-  return <div
-    class={ classes.join(' ') }
-    data-id={ id }
-    onClick={ onClick }>
-    {
-      selection === id ? <button class="fjs-editor-remove" onClick={ onRemove }>Remove</button> : null
-    }
-    { props.children }
-  </div>;
+  return (
+    <div
+      class={ classes.join(' ') }
+      data-id={ id }
+      onClick={ onClick }>
+      <ContextPad>
+        {
+          selection === id ? <button class="fjs-context-pad-item" onClick={ onRemove }><RemoveIcon width="18" /></button> : null
+        }
+      </ContextPad>
+      { props.children }
+    </div>
+  );
 }
 
 function Children(props) {
@@ -138,14 +140,32 @@ export default function FormEditor(props) {
     getFieldRenderer,
     fieldRenderers,
     addField,
-    moveField
+    moveField,
+    editField
   } = useContext(FormEditorContext);
 
   const { schema } = props;
 
   const [ selection, setSelection ] = useState(null);
 
-  const selectedField = fields.get(selection);
+  // TODO: This is a dirty hack.
+  // When editing a field the field registration will update AFTER we get the it from the
+  // field registry, to work around this issue we need to find the field in the schema instead.
+  // It's like having an asynchronous element registry which makes no sense.
+  let selectedField;
+
+  if (selection) {
+    const { schemaPath } = fields.get(selection);
+
+    // The information we need is both in the schema and in the field registration
+
+    // Having a properly imported and maintained structure (with $parent relationships) would allow us
+    // to get the up-to-date path at any point
+    selectedField = {
+      ...get(schema, schemaPath),
+      schemaPath
+    };
+  }
 
   const dragAndDropContext = {
     drake
@@ -169,13 +189,8 @@ export default function FormEditor(props) {
 
         const fieldRenderer = getFieldRenderer(type);
 
-        const id = generateIdForType(type);
-
         const field = fieldRenderer.create({
-          id,
-          parent: targetField.id,
-          key: id,
-          label: capitalize(id)
+          parent: targetField.id
         });
 
         addField(targetField, targetIndex, field);
@@ -196,7 +211,8 @@ export default function FormEditor(props) {
 
   const formRenderContext = {
     Children,
-    Element
+    Element,
+    Empty
   };
 
   const formContext = {
@@ -236,10 +252,11 @@ export default function FormEditor(props) {
           </FormContext.Provider>
 
         </div>
+        <CreatePreview />
       </DragAndDropContext.Provider>
 
       <div class="properties-container">
-        <PropertiesPanel field={ selectedField } />
+        <PropertiesPanel field={ selectedField } editField={ editField } />
       </div>
     </div>
   );
@@ -257,6 +274,30 @@ function getFieldIndex(targetField, field) {
   return targetIndex;
 }
 
-function capitalize(string) {
-  return string.replace(/^\w/, (c) => c.toUpperCase());
+function CreatePreview(props) {
+
+  const { drake } = useContext(DragAndDropContext);
+
+  function handleCloned(clone, original, type) {
+
+    const fieldType = clone.dataset.fieldType;
+
+    const Icon = iconsByType[ fieldType ];
+
+    if (fieldType) {
+      clone.innerHTML = '';
+
+      clone.class = 'gu-mirror';
+
+      render(<Icon />, clone);
+    }
+  }
+
+  useEffect(() => {
+    drake.on('cloned', handleCloned);
+
+    return () => drake.off('cloned', handleCloned);
+  }, []);
+
+  return null;
 }

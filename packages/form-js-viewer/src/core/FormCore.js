@@ -51,7 +51,6 @@ export default class FormCore {
     this.validator = new Validator();
     this.fields = new FieldRegistry(this);
 
-    // TODO(philippfromme): refactor assignment of IDs once we support arrays
     const {
       schema: importedSchema
     } = importSchema(schema);

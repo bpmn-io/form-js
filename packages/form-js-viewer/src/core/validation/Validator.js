@@ -31,6 +31,13 @@ export default class Validator {
       ];
     }
 
+    if ('maxLength' in validate && value && value.trim().length > validate.maxLength) {
+      errors = [
+        ...errors,
+        `Field must have maximum length of ${ validate.maxLength }`
+      ];
+    }
+
     return errors;
   }
 }

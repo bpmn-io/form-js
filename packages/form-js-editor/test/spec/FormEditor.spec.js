@@ -9,9 +9,10 @@ import {
   isSingleStart
 } from '../TestHelper';
 
-import schema from './form.json';
+// import schema from './form.json';
 
 // import schema from './empty.json';
+import schema from './complex.json';
 
 insertStyles();
 
@@ -42,8 +43,8 @@ describe('createFormEditor', function() {
       schema
     });
 
-    formEditor.on('change', event => {
-      console.log('Form Editor <change>', event);
+    formEditor.on('changed', event => {
+      console.log('Form Editor <changed>', event);
     });
   });
 
@@ -97,7 +98,7 @@ async function waitForFormEditorCreated(options) {
   const form = createFormEditor(options);
 
   await waitFor(() => {
-    expect(Object.keys(form.fields.getAll())).to.have.length(8);
+    expect(Object.keys(form.fields.getAll())).to.have.length(11);
   });
 
   return form;

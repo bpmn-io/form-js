@@ -55,15 +55,23 @@ module.exports = function(karma) {
                 ]
               }
             }
+          },
+          {
+            test: /\.svg$/,
+            use: [ 'react-svg-loader' ]
           }
-        ],
+        ]
       },
       resolve: {
         mainFields: [
           'browser',
           'module',
           'main'
-        ]
+        ],
+        alias: { 
+          'react': 'preact/compat',
+          'react-dom': 'preact/compat'
+        },
       },
       devtool: 'eval-source-map'
     }
