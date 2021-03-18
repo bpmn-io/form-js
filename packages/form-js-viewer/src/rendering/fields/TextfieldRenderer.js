@@ -2,7 +2,15 @@ import Description from './Description';
 import Errors from './Errors';
 import Label from './Label';
 
-export default function Textfield(props) {
+import { formFieldClasses } from './Util';
+
+import {
+  generateIdForType,
+  idToLabel
+} from '../../util';
+
+
+export default function TextfieldRenderer(props) {
   const {
     dataPath,
     disabled,
@@ -14,11 +22,11 @@ export default function Textfield(props) {
   const onChange = ({ target }) => {
     props.onChange({
       dataPath,
-      value: target.value
+      value: target.value.length ? target.value : undefined
     });
   };
 
-  return <div class="fjs-form-field">
+  return <div class={ formFieldClasses(errors) }>
     <Label label={ field.label } required={ field.validate && field.validate.required } />
     <input
       class="fjs-input"
@@ -31,10 +39,20 @@ export default function Textfield(props) {
   </div>;
 }
 
-Textfield.create = function(options = {}) {
+TextfieldRenderer.create = function(options = {}) {
+  const type = 'textfield';
+
+  const id = generateIdForType(type);
+
   return {
-    label: 'Text Field',
-    type: 'textfield',
+    id,
+    key: id,
+    label: idToLabel(id),
+    type,
     ...options
   };
 };
+
+TextfieldRenderer.type = 'textfield';
+
+TextfieldRenderer.label = 'Text Field';

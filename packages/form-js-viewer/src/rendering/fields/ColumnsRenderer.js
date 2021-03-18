@@ -4,8 +4,20 @@ import FormElement from '../FormElement';
 
 import { FormRenderContext } from '../context';
 
+import DefaultRenderer from './DefaultRenderer';
+
+import {
+  generateIdForType,
+  idToLabel
+} from '../../util';
+
+
 export default function ColumnsRenderer(props) {
-  const { Children } = useContext(FormRenderContext);
+  const {
+    Children,
+    Element,
+    Empty
+  } = useContext(FormRenderContext);
 
   const {
     dataPath,
@@ -13,37 +25,45 @@ export default function ColumnsRenderer(props) {
     schemaPath
   } = props;
 
+  const { components = [] } = field;
+
   return (
-    <Children class="fjs-columns" dataPath={ dataPath } schemaPath={ [ ...schemaPath, 'columns' ] }>
+    <Element class="fjs-columns" field={ field } dataPath={ dataPath } schemaPath={ [ ...schemaPath, 'components' ] }>
       {
-        field.columns.map((column, index) => {
-          return (
-            <div class="fjs-column">
-              <FormElement
-                { ...props }
-                field={ column }
-                dataPath={ dataPath.slice(0, -1) }
-                schemaPath={ [ ...schemaPath, 'columns', index ] } />
-            </div>
-          );
-        })
+        components.length
+          ? components.map((column, index) => {
+            return (
+              <div class="fjs-column">
+                <FormElement
+                  { ...props }
+                  field={ column }
+                  dataPath={ dataPath.slice(0, -1) }
+                  schemaPath={ [ ...schemaPath, 'components', index ] } />
+              </div>
+            );
+          })
+          : <Empty />
       }
-    </Children>
+    </Element>
   );
 }
 
 ColumnsRenderer.create = function(options = {}) {
+  const type = 'columns';
+
+  const id = generateIdForType(type);
+
   return {
-    label: 'Columns',
-    type: 'columns',
-    columns: [
-      {
-        components: []
-      },
-      {
-        components: []
-      }
+    components: [
+      DefaultRenderer.create({ parent: id }),
+      DefaultRenderer.create({ parent: id })
     ],
+    id,
+    type,
     ...options
   };
 };
+
+ColumnsRenderer.type = 'columns';
+
+ColumnsRenderer.label = 'Columns';

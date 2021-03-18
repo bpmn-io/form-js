@@ -2,7 +2,15 @@ import Description from './Description';
 import Errors from './Errors';
 import Label from './Label';
 
-export default function Number(props) {
+import { formFieldClasses } from './Util';
+
+import {
+  generateIdForType,
+  idToLabel
+} from '../../util';
+
+
+export default function NumberRenderer(props) {
   const {
     dataPath,
     disabled,
@@ -14,11 +22,11 @@ export default function Number(props) {
   const onChange = ({ target }) => {
     props.onChange({
       dataPath,
-      value: target.value
+      value: target.value ? parseInt(target.value, 10) : undefined
     });
   };
 
-  return <div class="fjs-form-field">
+  return <div class={ formFieldClasses(errors) }>
     <Label label={ field.label } required={ field.validate && field.validate.required } />
     <input
       class="fjs-input"
@@ -31,10 +39,20 @@ export default function Number(props) {
   </div>;
 }
 
-Number.create = function(options = {}) {
+NumberRenderer.create = function(options = {}) {
+  const type = 'number';
+
+  const id = generateIdForType(type);
+
   return {
-    label : 'Number',
-    type: 'number',
+    id,
+    key: id,
+    label: idToLabel(id),
+    type,
     ...options
   };
 };
+
+NumberRenderer.type = 'number';
+
+NumberRenderer.label = 'Number';
