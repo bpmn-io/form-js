@@ -80,35 +80,35 @@ export function clone(data, replacer) {
 export function importSchema(schema) {
   schema = clone(schema);
 
-  const fieldsById = {};
+  const fields = new Map();
 
-  importField(schema, fieldsById);
+  importField(schema, fields);
 
   return {
     schema,
-    fieldsById
+    fields
   };
 }
 
-function importField(field, fieldsById, parentId) {
+function importField(field, fields, parent) {
   const id = generateIdForType(field.type);
 
   field.id = id;
 
-  fieldsById[ id ] = field;
+  fields.set(id, field);
 
-  if (parentId !== undefined) {
-    field.parent = parentId;
+  if (parent !== undefined) {
+    field.parent = parent;
   }
 
   if (field.components) {
-    importFields(field.components, fieldsById, id);
+    importFields(field.components, fields, id);
   }
 }
 
-function importFields(components, fieldsById, id) {
+function importFields(components, fields, parent) {
   for (const component of components) {
-    importField(component, fieldsById, id);
+    importField(component, fields, parent);
   }
 }
 

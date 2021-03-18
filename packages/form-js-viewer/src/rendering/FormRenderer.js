@@ -64,7 +64,7 @@ export default function FormRenderer(options) {
       if (!readOnly) {
         form.submit();
       }
-    }, [ form, readOnly]);
+    }, [ form, readOnly ]);
 
     const onReset = useCallback(() => form.reset(), [ form ]);
 

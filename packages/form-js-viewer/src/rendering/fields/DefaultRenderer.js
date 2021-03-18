@@ -17,28 +17,27 @@ export default function DefaultRenderer(props) {
   } = useContext(FormRenderContext);
 
   let {
-    dataPath,
     field,
-    id,
-    schemaPath
+    path
   } = props;
+
+  const { id } = field;
 
   const { components = [] } = field;
 
-  return <Children class="fjs-vertical-layout" { ...props }>
+  return <Children class="fjs-vertical-layout" field={ field }>
     {
-      components.map((field, index) => {
+      components.map((field) => {
         if (field.key) {
-          dataPath = [ ...dataPath.slice(0, -1), field.key ];
+          path = [ ...path.slice(0, -1), field.key ];
         } else {
-          dataPath = dataPath.slice(0, -1);
+          path = path.slice(0, -1);
         }
 
         return <FormElement
           { ...props }
           key={ id }
-          dataPath={ dataPath }
-          schemaPath={ [ ...schemaPath, 'components', index ] }
+          path={ path }
           field={ field } />;
       })
     }

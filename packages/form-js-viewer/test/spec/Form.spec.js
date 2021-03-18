@@ -78,7 +78,7 @@ describe('createForm', function() {
 
     // update programmatically
     form.update({
-      dataPath: [ 'creditor' ],
+      path: [ 'creditor' ],
       value: 'Jane Doe Company'
     });
 
@@ -140,7 +140,7 @@ describe('createForm', function() {
 
     // when
     form.update({
-      dataPath: [ 'creditor' ],
+      path: [ 'creditor' ],
       value: 'Jane Doe Company'
     });
 
@@ -188,7 +188,7 @@ async function waitForFormCreated(options) {
   const form = createForm(options);
 
   await waitFor(() => {
-    expect(Object.keys(form.fields.getAll())).to.have.length(8);
+    expect(form.fields.size).to.equal(8);
   });
 
   return form;

@@ -14,21 +14,21 @@ export default function DatagridRenderer(props) {
 
   const { Children } = useContext(FormRenderContext);
 
-  const rows = findData(data, props.dataPath);
+  const rows = findData(data, props.path);
 
   if (!rows) {
     return null;
   }
 
   const {
-    dataPath,
     field,
-    onChange
+    onChange,
+    path
   } = props;
 
   const addValue = () => {
     onChange({
-      dataPath,
+      path,
       value: [
         ...rows(),
         {}
@@ -43,7 +43,7 @@ export default function DatagridRenderer(props) {
         rows.map((_, index) => {
           const removeRow = () => {
             props.onChange({
-              dataPath,
+              path,
               value: rows.filter((_, i) => i !== index)
             });
           };
@@ -51,15 +51,14 @@ export default function DatagridRenderer(props) {
           const components = field.components || [];
 
           return <div class="fjs-datagrid-row">
-            <Children dataPath={ props.dataPath } schemaPath={ [ ...props.schemaPath, 'components' ] }>
+            <Children path={ props.path }>
               {
                 components.map((component) => {
                   return (
                     <FormElement
                       { ...props }
                       field={ component }
-                      dataPath={ [ ...props.dataPath, index(), component.key ] }
-                      schemaPath={ [ ...props.schemaPath, 'components', index ] }
+                      path={ [ ...props.path, index(), component.key ] }
                     />
                   );
                 })
