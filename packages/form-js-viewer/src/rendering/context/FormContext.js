@@ -1,12 +1,7 @@
 import { createContext } from 'preact';
 
 const FormContext = createContext({
-  fields: {
-    add(id, registeredField) {},
-    get(id) {},
-    getAll() {},
-    remove(id) {}
-  },
+  fields: new Map(),
   data: {},
   errors: {},
   properties: {},

@@ -16,25 +16,23 @@ export default function ColumnsRenderer(props) {
   } = useContext(FormRenderContext);
 
   const {
-    dataPath,
     field,
-    schemaPath
+    path
   } = props;
 
   const { components = [] } = field;
 
   return (
-    <Element class="fjs-columns" field={ field } dataPath={ dataPath } schemaPath={ [ ...schemaPath, 'components' ] }>
+    <Element class="fjs-columns" field={ field }>
       {
         components.length
-          ? components.map((column, index) => {
+          ? components.map((column) => {
             return (
               <div class="fjs-column">
                 <FormElement
                   { ...props }
                   field={ column }
-                  dataPath={ dataPath.slice(0, -1) }
-                  schemaPath={ [ ...schemaPath, 'components', index ] } />
+                  path={ path.slice(0, -1) } />
               </div>
             );
           })

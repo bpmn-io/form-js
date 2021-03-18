@@ -12,7 +12,8 @@ import NoopField from './fields/NoopField';
 
 import {
   findData,
-  findErrors
+  findErrors,
+  pathStringify
 } from '../util';
 
 const noop = () => false;
@@ -20,10 +21,9 @@ const noop = () => false;
 
 export default function FormElement(props) {
   const {
-    dataPath,
+    path,
     field,
-    onChange,
-    schemaPath
+    onChange
   } = props;
 
   const {
@@ -46,25 +46,23 @@ export default function FormElement(props) {
     return <NoopField id={ id } />;
   }
 
-  const value = findData(data, dataPath);
+  const value = findData(data, path);
 
-  const fieldErrors = findErrors(errors, dataPath);
+  const fieldErrors = findErrors(errors, path);
 
   useEffect(() => {
-    fields.add(id, {
+    fields.set(id, {
       ...field,
-      dataPath,
-      schemaPath
+      path
     });
-  });
+  }, [ pathStringify(path) ]);
 
   return (
-    <Element { ...props } id={ id }>
+    <Element field={ field }>
       <Renderer
         { ...props }
         disabled={ properties.readOnly || false }
         errors={ fieldErrors }
-        id={ id }
         onChange={ properties.readOnly ? noop : onChange }
         value={ value } />
     </Element>

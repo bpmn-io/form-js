@@ -12,16 +12,16 @@ import {
 
 export default function TextfieldRenderer(props) {
   const {
-    dataPath,
     disabled,
     errors = [],
     field,
+    path,
     value = ''
   } = props;
 
   const onChange = ({ target }) => {
     props.onChange({
-      dataPath,
+      path,
       value: target.value.length ? target.value : undefined
     });
   };

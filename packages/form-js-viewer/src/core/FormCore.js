@@ -2,8 +2,6 @@ import mitt from 'mitt';
 
 import { set } from 'min-dash';
 
-import FieldRegistry from './FieldRegistry';
-
 import { Validator } from './validation';
 
 import {
@@ -49,7 +47,7 @@ export default class FormCore {
     this.emitter = mitt();
 
     this.validator = new Validator();
-    this.fields = new FieldRegistry(this);
+    this.fields = new Map();
 
     const {
       schema: importedSchema
@@ -104,21 +102,21 @@ export default class FormCore {
   }
 
   /**
-   * @param  { { dataPath: (string|number)[], value: any } } update
+   * @param  { { path: (string|number)[], value: any } } update
    */
   update(update) {
     const {
-      dataPath,
+      path,
       value
     } = update;
 
-    const field = Object.values(this.fields.getAll()).find((field) => pathsEqual(field.dataPath, dataPath));
+    const field = Array.from(this.fields.values()).find((field) => pathsEqual(field.path, path));
 
     const fieldErrors = this.validator.validateField(field, value);
 
-    const data = set(this.getState().data, dataPath, value);
+    const data = set(this.getState().data, path, value);
 
-    const errors = set(this.getState().errors, dataPath, fieldErrors.length ? fieldErrors : undefined);
+    const errors = set(this.getState().errors, path, fieldErrors.length ? fieldErrors : undefined);
 
     this.setState({
       data,
@@ -131,14 +129,14 @@ export default class FormCore {
    * @return { {[x: string]: string[]} } errors
    */
   validateAll(data) {
-    const errors = Object.values(this.fields.getAll()).reduce((errors, field) => {
-      const { dataPath } = field;
+    const errors = Array.from(this.fields.values()).reduce((errors, field) => {
+      const { path } = field;
 
-      const value = findData(data, dataPath);
+      const value = findData(data, path);
 
       const fieldErrors = this.validator.validateField(field, value);
 
-      return set(errors, dataPath, fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, path, fieldErrors.length ? fieldErrors : undefined);
     }, {});
 
     this.setState({ errors });

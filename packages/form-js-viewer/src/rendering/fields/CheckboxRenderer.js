@@ -12,16 +12,16 @@ import {
 
 export default function CheckboxRenderer(props) {
   const {
-    dataPath,
     disabled,
     errors = [],
     field,
+    path,
     value = false
   } = props;
 
   const onChange = ({ target }) => {
     props.onChange({
-      dataPath,
+      path,
       value: target.checked
     });
   };

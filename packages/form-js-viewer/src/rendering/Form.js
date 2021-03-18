@@ -34,8 +34,7 @@ export default function Form(props) {
       <FormElement
         field={ schema }
         onChange={ onChange }
-        dataPath={ [] }
-        schemaPath={ [] }
+        path={ [] }
       />
 
       <PoweredBy />

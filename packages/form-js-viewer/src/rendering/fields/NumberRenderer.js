@@ -12,16 +12,16 @@ import {
 
 export default function NumberRenderer(props) {
   const {
-    dataPath,
     disabled,
     errors = [],
     field,
+    path,
     value
   } = props;
 
   const onChange = ({ target }) => {
     props.onChange({
-      dataPath,
+      path,
       value: target.value ? parseInt(target.value, 10) : undefined
     });
   };

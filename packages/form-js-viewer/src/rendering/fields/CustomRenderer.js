@@ -29,9 +29,8 @@ export function createFieldRender(customRender) {
   return function render(props) {
 
     const {
-      dataPath,
       field,
-      schemaPath
+      path
     } = props;
 
     let customRenderer = useRef(null);
@@ -45,7 +44,7 @@ export function createFieldRender(customRender) {
       }
 
       return () => customRender.cleanup();
-    }, [ dataPath, schemaPath, field ]);
+    }, [ JSON.stringify(field), path ]);
 
     return <div class="form-field form-field-custom" ref={ node }></div>;
   };
