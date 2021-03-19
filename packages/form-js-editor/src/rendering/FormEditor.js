@@ -27,6 +27,8 @@ import RemoveIcon from './icons/Remove.svg';
 
 import { iconsByType } from './icons';
 
+import { isDefined } from 'min-dash';
+
 function ContextPad(props) {
   if (!props.children) {
     return null;
@@ -46,11 +48,15 @@ function Empty(props) {
 }
 
 function Element(props) {
-  const { selection, setSelection } = useContext(SelectionContext);
+  const {
+    selection,
+    setSelection
+  } = useContext(SelectionContext);
 
   const {
     fields,
-    removeField
+    removeField,
+    schema
   } = useContext(FormEditorContext);
 
   const { field } = props;
@@ -83,11 +89,17 @@ function Element(props) {
   const onRemove = () => {
     event.stopPropagation();
 
+    const selectableField = findSelectableField(schema, fields, field);
+
     const parentField = fields.get(field.parent);
 
     const index = getFieldIndex(parentField, field);
 
     removeField(parentField, index);
+
+    if (selectableField) {
+      setSelection(selectableField.id);
+    }
   };
 
   return (
@@ -150,7 +162,10 @@ export default function FormEditor(props) {
 
   const { schema } = props;
 
-  const [ selection, setSelection ] = useState(null);
+  const [ selection, setSelection ] = useState(findSelectableField(schema, fields)
+    ? findSelectableField(schema, fields).id
+    : null
+  );
 
   let selectedField;
 
@@ -217,13 +232,9 @@ export default function FormEditor(props) {
     errors: {}
   };
 
-  const onSubmit = useCallback((event) => {
-    event.preventDefault();
-  }, []);
+  const onSubmit = useCallback(() => {}, []);
 
-  const onReset = useCallback((event) => {
-    event.preventDefault();
-  }, []);
+  const onReset = useCallback(() => {}, []);
 
   return (
     <div class="fjs-editor">
@@ -253,16 +264,16 @@ export default function FormEditor(props) {
   );
 }
 
-function getFieldIndex(targetField, field) {
-  let targetIndex = targetField.components.length;
+function getFieldIndex(parent, field) {
+  let fieldIndex = parent.components.length;
 
-  targetField.components.forEach(({ id }, index) => {
+  parent.components.forEach(({ id }, index) => {
     if (id === field.id) {
-      targetIndex = index;
+      fieldIndex = index;
     }
   });
 
-  return targetIndex;
+  return fieldIndex;
 }
 
 function CreatePreview(props) {
@@ -291,4 +302,17 @@ function CreatePreview(props) {
   }, []);
 
   return null;
+}
+
+function findSelectableField(schema, fields, field) {
+
+  if (field) {
+    const parent = fields.get(field.parent);
+
+    const index = getFieldIndex(parent, field);
+
+    return parent.components[ index + 1 ];
+  }
+
+  return schema.components.find(field => isDefined(field.key));
 }
