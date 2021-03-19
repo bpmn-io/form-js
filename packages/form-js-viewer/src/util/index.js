@@ -1,9 +1,3 @@
-import { isFunction } from 'min-dash';
-
-export function computePath(callback) {
-  return callback();
-}
-
 export function findData(data, path) {
   for (const key of path) {
     data = data[key];
