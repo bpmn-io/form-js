@@ -142,6 +142,33 @@ function CheckboxEntry(props) {
   );
 }
 
+function NumberEntry(props) {
+  const {
+    editField,
+    field,
+    label,
+    path
+  } = props;
+
+  const [ property, nestedProperty ] = path;
+
+  const onInput = (value) => {
+    if (nestedProperty) {
+      editField(field, [ property ], set(get(field, [ property ], {}), [ nestedProperty ], value));
+    } else {
+      editField(field, path, value);
+    }
+  };
+
+  const value = useMemo(() => get(field, path, ''), [ get(field, path, '') ]);
+
+  return (
+    <div class="fjs-properties-panel-entry">
+      <Number label={ label } onInput={ onInput } value={ value } />
+    </div>
+  );
+}
+
 function TextfieldEntry(props) {
   const {
     editField,
@@ -302,7 +329,7 @@ function Group(props) {
   </div>;
 }
 
-function designGroup(field, editField) {
+function DesignGroup(field, editField) {
   const { type } = field;
 
   const entries = [];
@@ -336,7 +363,7 @@ function designGroup(field, editField) {
   );
 }
 
-function validationGroup(field, editField) {
+function ValidationGroup(field, editField) {
   const { type } = field;
 
   const entries = [
@@ -351,13 +378,13 @@ function validationGroup(field, editField) {
         label: 'Pattern',
         path: [ 'validate', 'pattern' ]
       }),
-      TextfieldEntry({
+      NumberEntry({
         editField,
         field,
         label: 'Minimum Length',
         path: [ 'validate', 'minLength' ]
       }),
-      TextfieldEntry({
+      NumberEntry({
         editField,
         field,
         label: 'Maximum Length',
@@ -379,11 +406,11 @@ function getGroups(field, editField) {
   const { type } = field;
 
   const groups = [
-    designGroup(field, editField)
+    DesignGroup(field, editField)
   ];
 
   if (FIELDS.includes(type)) {
-    groups.push(validationGroup(field, editField));
+    groups.push(ValidationGroup(field, editField));
   }
 
   return groups;
