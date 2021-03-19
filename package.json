@@ -3,7 +3,7 @@
   "scripts": {
     "all": "run-s lint build lint:types test",
     "build-distro": "lerna run prepublishOnly --sort",
-    "clean": "del-cli node_modules \"packages/*/node_modules\"",
+    "clean": "del-cli \"{node_modules,dist}\" \"packages/*/{node_modules,dist}\"",
     "distro": "run-s clean reinstall build-distro",
     "dev": "run-s build \"lerna-dev -- {@}\" -- ",
     "lerna-dev": "lerna run dev --stream --scope",
