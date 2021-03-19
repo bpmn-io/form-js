@@ -199,13 +199,13 @@
 
 /* Custom Dragula Styles */
 .gu-transit {
+  background: var(--color-blue-darken-62) !important;
+  border: solid 2px var(--color-blue-darken-62) !important;
   border-radius: 3px !important;
-  padding: 0 !important;
-  opacity: 1 !important;
   filter: none !important;
-  width: 100% !important;
   height: 0 !important;
-  border: solid 3px var(--color-blue-darken-62) !important;
+  opacity: 1 !important;
+  padding: 0 !important;
 }
 
 .gu-transit * {
@@ -213,14 +213,15 @@
 }
 
 .gu-mirror {
-  opacity: 1 !important;
-  filter: none !important;
-
-  background-color: var(--color-white) !important;
-  width: auto !important;
-  height: auto !important;
+  background-color: white !important;
   border: solid 1px var(--color-silver-darken-80) !important;
   border-radius: 3px !important;
   box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%) !important;
+  display: flex;
+  filter: none !important;
+  flex-direction: row;
+  height: 54px !important;
+  justify-content: center;
+  opacity: 0.5 !important;
   padding: 0 !important;
 }
