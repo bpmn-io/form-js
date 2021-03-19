@@ -1,49 +1,45 @@
-.fjs-editor {
+.fjs-container .fjs-form-editor {
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
-.fjs-editor .form-container {
+.fjs-container .fjs-form-container {
   flex: 1;
+  height: 100%;
+  overflow-y: auto;
 }
 
-.fjs-editor .container {
-  /* border: dotted 1px rgba(0, 128, 255, .9); */
+.fjs-container .fjs-children {
   min-width: 300px;
   min-height: 100px;
 }
 
-.fjs-editor .container .container {
+.fjs-container .fjs-children .fjs-children {
   border: dashed 2px var(--color-silver-darken-80);
   border-radius: 3px;
 }
 
-.fjs-editor .element {
-  /* background: rgba(0, 128, 255, .3); */
+.fjs-container .fjs-element {
   margin: 5px;
   height: 100%;
 }
 
-.container > .element {
+.fjs-container .fjs-children > .fjs-element {
   position: relative;
   border: dashed 2px transparent;
 }
 
-.container > .element:hover,
-.container > .element.fjs-editor-selected {
-  /* background: fuchsia; */
+.fjs-container .fjs-children > .fjs-element:hover,
+.fjs-container .fjs-children > .fjs-element.fjs-editor-selected {
   border-color: var(--color-blue-darken-62);
   border-radius: 3px;
 }
 
-.fjs-empty {
-  flex-grow: 1;
-  background-color: fuchsia;
-}
-
-/* Context Pad */
-
-.fjs-context-pad {
+/**
+ * Context Pad
+ */
+.fjs-container .fjs-context-pad {
   position: absolute;
   top: 3px;
   right: 3px;
@@ -52,7 +48,7 @@
   box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%);
 }
 
-.fjs-context-pad-item {
+.fjs-container .fjs-context-pad-item {
   border: none;
   background-color: var(--color-white);
   padding: 0;
@@ -60,15 +56,16 @@
   height: 24px;
 }
 
-/* Palette */
-
-.fjs-editor .palette-container {
+/**
+ * Palette
+ */
+.fjs-container .fjs-palette-container {
   width: 200px;
   background-color: var(--color-silver-base-97);
   border-right: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-editor .palette-header {
+.fjs-container .fjs-palette-header {
   font-size: 12px;
   font-weight: bold;
   padding: 10px;
@@ -76,7 +73,7 @@
   background-color: var(--color-silver-darken-94);
 }
 
-.palette-field {
+.fjs-container .fjs-palette-field {
   padding: 10px;
   display: flex;
   white-space: pre;
@@ -87,28 +84,29 @@
   font-size: 14px;
 }
 
-.palette-field-icon {
+.fjs-container .fjs-palette-field-icon {
   margin-right: 10px;
 }
 
-.palette-field:hover {
+.fjs-container .fjs-palette-field:hover {
   background-color: var(--color-silver-darken-94);
   cursor: default;
 }
 
-/* Properties Panel */
-
-.fjs-editor .properties-container {
+/**
+ * Properties Panel
+ */
+.fjs-container .fjs-properties-container {
   width: 300px;
   background-color: var(--color-silver-base-97);
   border-left: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-editor .fjs-properties-panel * {
+.fjs-container .fjs-properties-panel * {
   box-sizing: border-box;
 }
 
-.fjs-editor .fjs-properties-panel-header {
+.fjs-container .fjs-properties-panel-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -118,23 +116,19 @@
   border-bottom: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-editor .fjs-properties-panel-header-icon {
+.fjs-container .fjs-properties-panel-header-icon {
   margin-right: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.fjs-editor .fjs-properties-panel-header-type {
+.fjs-container .fjs-properties-panel-header-type {
   font-size: 12px;
   font-weight: bold;
 }
 
-.fjs-editor .fjs-properties-panel-header-label {
-
-}
-
-.fjs-editor .fjs-properties-panel-group-header {
+.fjs-container .fjs-properties-panel-group-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -145,23 +139,23 @@
   background-color: var(--color-silver-darken-94);
 }
 
-.fjs-editor .fjs-properties-panel-group-entries {
+.fjs-container .fjs-properties-panel-group-entries {
   border-bottom: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-editor .fjs-chevron-down {
+.fjs-container .fjs-chevron-down {
   transform: rotate(90deg);
 }
 
-.fjs-editor .fjs-properties-panel-entry {
+.fjs-container .fjs-properties-panel-entry {
   padding: 10px 10px 0 10px;
 }
 
-.fjs-editor .fjs-properties-panel-entry:last-child {
+.fjs-container .fjs-properties-panel-entry:last-child {
   padding-bottom: 10px;
 }
 
-.fjs-editor .fjs-properties-panel-label {
+.fjs-container .fjs-properties-panel-label {
   display: block;
   margin: 4px 0;
   font-size: 14px;
@@ -171,7 +165,7 @@
   font-size: 13px;
 }
 
-.fjs-editor .fjs-properties-panel-input {
+.fjs-container .fjs-properties-panel-input {
   background-color: var(--color-white);
   border: solid 1px var(--color-silver-darken-80);
   border-radius: 3px;
@@ -179,25 +173,27 @@
   font-size: 14px;
 }
 
-.fjs-editor .fjs-properties-panel-input[type=number],
-.fjs-editor select.fjs-properties-panel-input,
-.fjs-editor .fjs-properties-panel-input[type=text] {
+.fjs-container .fjs-properties-panel-input[type=number],
+.fjs-container select.fjs-properties-panel-input,
+.fjs-container .fjs-properties-panel-input[type=text] {
   display: block;
   width: 100%;
 }
 
-.fjs-editor .fjs-properties-panel-input:focus {
+.fjs-container .fjs-properties-panel-input:focus {
   outline: none;
   box-shadow: 0 0 0 4px var(--color-blue-lighten-82), 0 0 0 1px var(--color-silver-darken-80) inset;
   border: solid 1px var(--color-blue-darken-55);
 }
 
-.fjs-editor .fjs-properties-panel-placeholder {
+.fjs-container .fjs-properties-panel-placeholder {
   padding: 10px;
   color: var(--color-silver-darken-80);
 }
 
-/* Custom Dragula Styles */
+/**
+ * Custom Dragula Styles
+ */
 .gu-transit {
   background: var(--color-blue-darken-62) !important;
   border: solid 2px var(--color-blue-darken-62) !important;

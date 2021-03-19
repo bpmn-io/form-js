@@ -69,13 +69,15 @@ export default function FormRenderer(options) {
     const onReset = useCallback(() => form.reset(), [ form ]);
 
     return (
-      <FormContext.Provider value={ formContext }>
-        <Form
-          onChange={ onChange }
-          onSubmit={ onSubmit }
-          onReset={ onReset }
-          schema={ state.schema } />
-      </FormContext.Provider>
+      <div class="fjs-container">
+        <FormContext.Provider value={ formContext }>
+          <Form
+            onChange={ onChange }
+            onSubmit={ onSubmit }
+            onReset={ onReset }
+            schema={ state.schema } />
+        </FormContext.Provider>
+      </div>
     );
   };
 

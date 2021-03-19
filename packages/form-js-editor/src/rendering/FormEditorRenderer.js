@@ -58,10 +58,12 @@ export default class FormEditorRenderer {
       });
 
       return (
-        <FormEditorContext.Provider value={ formEditorContext }>
-          <FormEditor
-            schema={ state.schema } />
-        </FormEditorContext.Provider>
+        <div class="fjs-container">
+          <FormEditorContext.Provider value={ formEditorContext }>
+            <FormEditor
+              schema={ state.schema } />
+          </FormEditorContext.Provider>
+        </div>
       );
     };
 
