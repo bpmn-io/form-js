@@ -49,7 +49,7 @@ export default function DefaultRenderer(props) {
 
 DefaultRenderer.create = function(options = {}) {
   const type = 'default';
-  
+
   const id = generateIdForType(type);
 
   return {
