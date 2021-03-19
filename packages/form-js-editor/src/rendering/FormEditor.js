@@ -199,11 +199,15 @@ export default function FormEditor(props) {
           parent: targetField.id
         });
 
+        setSelection(newField.id);
+
         addField(targetField, targetIndex, newField);
       } else {
         const field = fields.get(el.dataset.id),
               sourceField = fields.get(source.dataset.id),
               sourceIndex = getFieldIndex(sourceField, field);
+
+        setSelection(field.id);
 
         moveField(sourceField, targetField, sourceIndex, targetIndex);
       }
