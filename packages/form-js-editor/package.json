@@ -17,7 +17,8 @@
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint .",
-    "test": "karma start"
+    "test": "karma start",
+    "prepublishOnly": "npm run build"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
