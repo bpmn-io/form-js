@@ -98,7 +98,7 @@ async function waitForFormEditorCreated(options) {
   const form = createFormEditor(options);
 
   await waitFor(() => {
-    expect(Object.keys(form.fields.getAll())).to.have.length(11);
+    expect(form.fields.size).to.equal(11);
   });
 
   return form;
