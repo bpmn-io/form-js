@@ -55,7 +55,10 @@ function Element(props) {
 
   const { field } = props;
 
-  const { id } = field;
+  const {
+    id,
+    type
+  } = field;
 
   function onClick(event) {
     if (!field.key) {
@@ -91,6 +94,7 @@ function Element(props) {
     <div
       class={ classes.join(' ') }
       data-id={ id }
+      data-field-type={ type }
       onClick={ onClick }>
       <ContextPad>
         {
