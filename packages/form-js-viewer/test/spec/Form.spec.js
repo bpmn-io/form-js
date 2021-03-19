@@ -188,7 +188,7 @@ async function waitForFormCreated(options) {
   const form = createForm(options);
 
   await waitFor(() => {
-    expect(form.fields.size).to.equal(8);
+    expect(form.fields.size).to.equal(6);
   });
 
   return form;

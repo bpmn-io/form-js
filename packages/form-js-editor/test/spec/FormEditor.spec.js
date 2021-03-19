@@ -9,10 +9,12 @@ import {
   isSingleStart
 } from '../TestHelper';
 
-// import schema from './form.json';
+import schema from './form.json';
+
+import { isUndefined } from 'min-dash';
 
 // import schema from './empty.json';
-import schema from './complex.json';
+// import schema from './complex.json';
 
 insertStyles();
 
@@ -83,13 +85,15 @@ describe('createFormEditor', function() {
       type: 'button'
     };
 
-    const registeredField = Object.values(formEditor.fields.getAll()).find(({ type }) => type === 'default');
+    formEditor.addField(
+      Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent)),
+      index,
+      field
+    );
 
-    formEditor.addField(registeredField, index, field);
-
-    formEditor.on('change', event => {
-      console.log('Form Editor <change>', event);
-    });
+    // then
+    expect(formEditor.fields.size).to.equal(7);
+    expect(formEditor.fields.get('foo')).to.exist;
   });
 
 });
@@ -98,7 +102,7 @@ async function waitForFormEditorCreated(options) {
   const form = createFormEditor(options);
 
   await waitFor(() => {
-    expect(form.fields.size).to.equal(11);
+    expect(form.fields.size).to.equal(6);
   });
 
   return form;

@@ -9,14 +9,6 @@
       }
     },
     {
-      "key": "amount",
-      "label": "Amount",
-      "type": "number",
-      "validate": {
-        "required": true
-      }
-    },
-    {
       "description": "An invoice number in the format: C-123.",
       "key": "invoiceNumber",
       "label": "Invoice Number",
@@ -24,11 +16,6 @@
       "validate": {
         "pattern": "^C-[0-9]+$"
       }
-    },
-    {
-      "key": "approved",
-      "label": "Approved",
-      "type": "checkbox"
     },
     {
       "key": "approvedBy",
