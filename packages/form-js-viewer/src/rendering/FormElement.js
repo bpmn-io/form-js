@@ -8,8 +8,6 @@ import {
   FormRenderContext
 } from './context';
 
-import NoopField from './fields/NoopField';
-
 import {
   findData,
   findErrors,
@@ -43,7 +41,7 @@ export default function FormElement(props) {
   const { id } = field;
 
   if (!Renderer) {
-    return <NoopField field={ field } />;
+    throw new Error(`cannot render field <${field.type}>`);
   }
 
   const value = findData(data, path);
