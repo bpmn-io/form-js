@@ -112,7 +112,7 @@ function importFields(components, fields, parent) {
 
 export function exportSchema(schema) {
   return clone(schema, (name, value) => {
-    if ([ 'id', 'parent' ].includes(name)) {
+    if ([ 'id', 'parent', 'path' ].includes(name)) {
       return undefined;
     }
 
