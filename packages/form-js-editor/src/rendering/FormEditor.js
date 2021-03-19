@@ -76,7 +76,7 @@ function Element(props) {
     setSelection(id);
   }
 
-  const classes = [ 'element' ];
+  const classes = [ 'fjs-element' ];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
@@ -123,7 +123,7 @@ function Children(props) {
 
   const { id } = field;
 
-  const classes = [ 'container', 'drag-container' ];
+  const classes = [ 'fjs-children', 'fjs-drag-container' ];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
@@ -140,13 +140,13 @@ function Children(props) {
 
 const drake = dragula({
   isContainer(el) {
-    return el.classList.contains('drag-container');
+    return el.classList.contains('fjs-drag-container');
   },
   copy(el) {
-    return el.classList.contains('drag-copy');
+    return el.classList.contains('fjs-drag-copy');
   },
   accepts(el, target) {
-    return !target.classList.contains('no-drop');
+    return !target.classList.contains('fjs-no-drop');
   }
 });
 
@@ -190,7 +190,7 @@ export default function FormEditor(props) {
       const siblingField = sibling && fields.get(sibling.dataset.id),
             targetIndex = siblingField ? getFieldIndex(targetField, siblingField) : targetField.components.length;
 
-      if (source.classList.contains('palette')) {
+      if (source.classList.contains('fjs-palette')) {
         const type = el.dataset.fieldType;
 
         const fieldRenderer = getFieldRenderer(type);
@@ -241,13 +241,13 @@ export default function FormEditor(props) {
   const onReset = useCallback(() => {}, []);
 
   return (
-    <div class="fjs-editor">
+    <div class="fjs-form-editor">
 
       <DragAndDropContext.Provider value={ dragAndDropContext }>
-        <div class="palette-container">
+        <div class="fjs-palette-container">
           <Palette fieldRenderers={ fieldRenderers } />
         </div>
-        <div class="form-container">
+        <div class="fjs-form-container">
 
           <FormContext.Provider value={ formContext }>
             <FormRenderContext.Provider value={ formRenderContext }>
@@ -261,7 +261,7 @@ export default function FormEditor(props) {
         <CreatePreview />
       </DragAndDropContext.Provider>
 
-      <div class="properties-container">
+      <div class="fjs-properties-container">
         <PropertiesPanel field={ selectedField } editField={ editField } />
       </div>
     </div>
