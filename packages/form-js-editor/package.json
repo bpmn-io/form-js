@@ -6,6 +6,9 @@
     "import": "./dist/index.es.js",
     "require": "./dist/index.cjs"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "scripts": {
