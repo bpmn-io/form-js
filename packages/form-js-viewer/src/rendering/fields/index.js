@@ -12,7 +12,6 @@ export { default as ButtonRenderer } from './ButtonRenderer';
 // export { default as CheckboxRenderer } from './CheckboxRenderer';
 // export { default as ColumnsRenderer } from './ColumnsRenderer';
 export { default as DefaultRenderer } from './DefaultRenderer';
-export { default as NoopField } from './NoopField';
 
 // export { default as NumberRenderer } from './NumberRenderer';
 export { default as TextfieldRenderer } from './TextfieldRenderer';
