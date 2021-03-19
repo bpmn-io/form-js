@@ -28,8 +28,6 @@ export default class FormEditorCore {
       fields
     } = importSchema(schema);
 
-    console.log(importedSchema, fields);
-
     this.fields = fields;
 
     this.initialSchema = clone(importedSchema);

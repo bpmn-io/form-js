@@ -10,19 +10,7 @@ const types = [
   {
     label: 'Button',
     type: 'button'
-  },
-  {
-    label: 'Checkbox',
-    type: 'checkbox'
-  },
-  {
-    label: 'Number',
-    type: 'number'
-  },
-  {
-    label: 'Columns',
-    type: 'columns'
-  },
+  }
 ];
 
 
