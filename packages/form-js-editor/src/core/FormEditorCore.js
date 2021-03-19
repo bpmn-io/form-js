@@ -7,7 +7,6 @@ import {
 
 import {
   clone,
-  FieldRegistry,
   importSchema,
   exportSchema
 } from '@bpmn-io/form-js-viewer';
@@ -24,11 +23,14 @@ export default class FormEditorCore {
 
     this.emitter = mitt();
 
-    this.fields = new FieldRegistry(this);
-
     const {
-      schema: importedSchema
+      schema: importedSchema,
+      fields
     } = importSchema(schema);
+
+    console.log(importedSchema, fields);
+
+    this.fields = fields;
 
     this.initialSchema = clone(importedSchema);
 
@@ -38,18 +40,27 @@ export default class FormEditorCore {
     };
   }
 
-  addField(targetField, targetIndex, field) {
+  addField(targetField, targetIndex, newField) {
     let schema = clone(this.state.schema);
 
-    const targetSchemaPath = [ ...targetField.schemaPath, 'components' ];
+    const targetPath = [ ...targetField.path, 'components' ];
+
+    newField.parent = targetField.id;
+
+    const fields = arrayAdd(get(schema, targetPath), targetIndex, newField)
+      .map((field, index) => updatePath(this.fields, field, index));
 
     schema = set(
       schema,
-      targetSchemaPath,
-      arrayAdd(get(schema, targetSchemaPath), targetIndex, field)
+      targetPath,
+      fields
     );
 
-    field.parent = targetField.id;
+    // Update siblings
+    fields.forEach(field => this.fields.set(field.id, field));
+
+    // Update parent
+    this.fields.set(targetField.id, get(schema, targetPath.path));
 
     this.setState({ schema });
   }
@@ -57,36 +68,63 @@ export default class FormEditorCore {
   moveField(sourceField, targetField, sourceIndex, targetIndex) {
     let schema = clone(this.state.schema);
 
-    const sourceSchemaPath = [ ...sourceField.schemaPath, 'components' ];
+    const sourcePath = [ ...sourceField.path, 'components' ];
 
     if (sourceField.id === targetField.id) {
       if (sourceIndex < targetIndex) {
         targetIndex--;
       }
 
+      const fields = arrayMove(get(schema, sourcePath), sourceIndex, targetIndex)
+        .map((field, index) => updatePath(this.fields, field, index));
+
       schema = set(
         schema,
-        sourceSchemaPath,
-        arrayMove(get(schema, sourceSchemaPath), sourceIndex, targetIndex)
+        sourcePath,
+        fields
       );
+
+      // Update siblings
+      fields.forEach(field => this.fields.set(field.id, field));
+
+      // Update parent
+      this.fields.set(sourceField.id, get(schema, sourcePath.path));
     } else {
-      const field = get(schema, sourceSchemaPath)[ sourceIndex ];
-
-      schema = set(
-        schema,
-        sourceSchemaPath,
-        arrayRemove(get(schema, sourceSchemaPath), sourceIndex)
-      );
-
-      const targetSchemaPath = [ ...targetField.schemaPath, 'components' ];
-      
-      schema = set(
-        schema,
-        targetSchemaPath,
-        arrayAdd(get(schema, targetSchemaPath), targetIndex, field)
-      );
+      const field = get(schema, sourcePath)[ sourceIndex ];
 
       field.parent = targetField.id;
+
+      let fields = arrayRemove(get(schema, sourcePath), sourceIndex)
+        .map((field, index) => updatePath(this.fields, field, index));
+
+      schema = set(
+        schema,
+        sourcePath,
+        fields
+      );
+
+      // Update siblings
+      fields.forEach(field => this.fields.set(field.id, field));
+
+      // Update parent
+      this.fields.set(sourceField.id, get(schema, sourceField.path));
+
+      const targetPath = [ ...targetField.path, 'components' ];
+
+      fields = arrayAdd(get(schema, targetPath), targetIndex, field)
+        .map((field, index) => updatePath(this.fields, field, index));
+
+      schema = set(
+        schema,
+        targetPath,
+        fields
+      );
+
+      // Update siblings
+      fields.forEach(field => this.fields.set(field.id, field));
+
+      // Update parent
+      this.fields.set(targetField.id, get(schema, targetField.path));
     }
 
     this.setState({ schema });
@@ -95,13 +133,22 @@ export default class FormEditorCore {
   removeField(sourceField, sourceIndex) {
     let schema = clone(this.state.schema);
 
-    const sourceSchemaPath = [ ...sourceField.schemaPath, 'components' ];
+    const sourcePath = [ ...sourceField.path, 'components' ];
+
+    const fields = arrayRemove(get(schema, sourcePath), sourceIndex)
+      .map((field, index) => updatePath(this.fields, field, index));
 
     schema = set(
       schema,
-      sourceSchemaPath,
-      arrayRemove(get(schema, sourceSchemaPath), sourceIndex)
+      sourcePath,
+      fields
     );
+
+    // Update siblings
+    fields.forEach(field => this.fields.set(field.id, field));
+
+    // Update parent
+    this.fields.set(sourceField.id, get(schema, sourcePath.path));
 
     this.setState({ schema });
   }
@@ -109,13 +156,23 @@ export default class FormEditorCore {
   editField(field, key, value) {
     let schema = clone(this.state.schema);
 
-    const path = [ ...field.schemaPath, key ];
+    field = {
+      ...field,
+      [ key ]: value
+    };
+
+    const {
+      id,
+      path
+    } = field;
 
     schema = set(
       schema,
       path,
-      value
+      field
     );
+
+    this.fields.set(id, field);
 
     this.setState({ schema });
   }
@@ -176,4 +233,12 @@ function arrayRemove(array, index) {
   copy.splice(index, 1);
 
   return copy;
+}
+
+function updatePath(fields, field, index) {
+  const parent = fields.get(field.parent);
+
+  field.path = [ ...parent.path, 'components', index ];
+
+  return field;
 }

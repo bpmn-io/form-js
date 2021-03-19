@@ -23,8 +23,6 @@ import PropertiesPanel from './PropertiesPanel';
 
 import * as dragula from 'dragula';
 
-import { get } from 'min-dash';
-
 import RemoveIcon from './icons/Remove.svg';
 
 import { iconsByType } from './icons';
@@ -105,7 +103,9 @@ function Element(props) {
 }
 
 function Children(props) {
-  const { id } = props;
+  const { field } = props;
+
+  const { id } = field;
 
   const classes = [ 'container', 'drag-container' ];
 
@@ -148,23 +148,10 @@ export default function FormEditor(props) {
 
   const [ selection, setSelection ] = useState(null);
 
-  // TODO: This is a dirty hack.
-  // When editing a field the field registration will update AFTER we get the it from the
-  // field registry, to work around this issue we need to find the field in the schema instead.
-  // It's like having an asynchronous element registry which makes no sense.
   let selectedField;
 
   if (selection) {
-    const { schemaPath } = fields.get(selection);
-
-    // The information we need is both in the schema and in the field registration
-
-    // Having a properly imported and maintained structure (with $parent relationships) would allow us
-    // to get the up-to-date path at any point
-    selectedField = {
-      ...get(schema, schemaPath),
-      schemaPath
-    };
+    selectedField = fields.get(selection);
   }
 
   const dragAndDropContext = {
@@ -189,11 +176,11 @@ export default function FormEditor(props) {
 
         const fieldRenderer = getFieldRenderer(type);
 
-        const field = fieldRenderer.create({
+        const newField = fieldRenderer.create({
           parent: targetField.id
         });
 
-        addField(targetField, targetIndex, field);
+        addField(targetField, targetIndex, newField);
       } else {
         const field = fields.get(el.dataset.id),
               sourceField = fields.get(source.dataset.id),
@@ -216,7 +203,7 @@ export default function FormEditor(props) {
   };
 
   const formContext = {
-    fields,
+    fields: new Map(),
     getFieldRenderer,
     properties: {
       readOnly: true

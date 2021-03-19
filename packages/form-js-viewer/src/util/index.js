@@ -90,26 +90,30 @@ export function importSchema(schema) {
   };
 }
 
-function importField(field, fields, parent) {
+function importField(field, fields, parent, index) {
   const id = generateIdForType(field.type);
 
   field.id = id;
 
   fields.set(id, field);
 
-  if (parent !== undefined) {
-    field.parent = parent;
+  if (parent) {
+    field.parent = parent.id;
+
+    field.path = parent.path ? [ ...parent.path, 'components', index ] : [ 'components', index ];
+  } else {
+    field.path = [];
   }
 
   if (field.components) {
-    importFields(field.components, fields, id);
+    importFields(field.components, fields, field);
   }
 }
 
 function importFields(components, fields, parent) {
-  for (const component of components) {
-    importField(component, fields, parent);
-  }
+  components.forEach((component, index) => {
+    importField(component, fields, parent, index);
+  });
 }
 
 export function exportSchema(schema) {
