@@ -63,8 +63,7 @@ describe('createFormEditor', function() {
     const exportedSchema = formEditor.getSchema();
 
     // then
-    expect(exportedSchema).to.exist;
-
+    expect(exportedSchema).to.eql(schema);
     expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
   });
 
