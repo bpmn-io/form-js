@@ -123,5 +123,5 @@ export function exportSchema(schema) {
 export function idToLabel(string) {
   return string
     .replace(/^\w/, (match) => match.toUpperCase())
-    .replace(/((\w)(\d))/, (match, p1, p2, p3) => `${p2} ${p3}`);
+    .replace(/\d/, '');
 }
