@@ -43,7 +43,7 @@ export default function FormElement(props) {
   const { id } = field;
 
   if (!Renderer) {
-    return <NoopField id={ id } />;
+    return <NoopField field={ field } />;
   }
 
   const value = findData(data, path);

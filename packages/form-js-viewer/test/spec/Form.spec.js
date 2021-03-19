@@ -182,7 +182,49 @@ describe('createForm', function() {
     form.submit();
   });
 
+
+  describe('error handling', function() {
+
+    it('should throw on unknown field', async function() {
+
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe'
+      };
+
+      const schema = {
+        type: 'unknown-field'
+      };
+
+      let error;
+
+      // when
+      try {
+        createForm({
+          container,
+          data,
+          schema
+        });
+      } catch (err) {
+        error = err;
+      }
+
+      // then
+      // error indicates problem
+      expect(error).to.exist;
+      expect(error.message).to.match(/cannot render field <unknown-field>/);
+
+      // and nothing is rendered
+      expect(container.childNodes).to.be.empty;
+    });
+  });
+
 });
+
 
 async function waitForFormCreated(options) {
   const form = createForm(options);
