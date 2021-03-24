@@ -1,10 +1,11 @@
 export default function Label(props) {
   const {
+    id,
     label = 'Form Field',
     required = false
   } = props;
 
-  return <label class="fjs-form-field-label">
+  return <label for={ id } class="fjs-form-field-label">
     { props.children }
     { label }
     {

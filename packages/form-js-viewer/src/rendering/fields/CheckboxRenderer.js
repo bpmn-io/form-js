@@ -19,6 +19,15 @@ export default function CheckboxRenderer(props) {
     value = false
   } = props;
 
+  const {
+    description,
+    id,
+    label,
+    validate = {}
+  } = field;
+
+  const { required } = validate;
+
   const onChange = ({ target }) => {
     props.onChange({
       path,
@@ -27,14 +36,18 @@ export default function CheckboxRenderer(props) {
   };
 
   return <div class={ formFieldClasses(errors) }>
-    <Label label={ field.label } required={ field.validate && field.validate.required } />
+    <Label
+      id={ id }
+      label={ label }
+      required={ required } />
     <input
-      class="fjs-input"
-      type="checkbox"
       checked={ value }
-      onChange={ onChange }
-      disabled={ disabled } />
-    <Description description={ field.description } />
+      class="fjs-input"
+      disabled={ disabled }
+      name={ id }
+      type="checkbox"
+      onChange={ onChange } />
+    <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }

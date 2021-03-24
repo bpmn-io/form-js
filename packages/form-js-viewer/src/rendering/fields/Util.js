@@ -1,3 +1,13 @@
 export function formFieldClasses(errors = [], type) {
-  return `fjs-form-field ${ type ? `fjs-${ type }` : '' } ${ errors && errors.length ? 'fjs-has-errors' : '' }`;
+  const classes = [ 'fjs-form-field' ];
+
+  if (type) {
+    classes.push(`fjs-${ type }`);
+  }
+
+  if (errors.length) {
+    classes.push('fjs-has-errors');
+  }
+
+  return classes.join(' ');
 }

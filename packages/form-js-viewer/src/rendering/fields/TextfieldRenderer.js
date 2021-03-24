@@ -19,6 +19,15 @@ export default function TextfieldRenderer(props) {
     value = ''
   } = props;
 
+  const {
+    description,
+    id,
+    label,
+    validate = {}
+  } = field;
+
+  const { required } = validate;
+
   const onChange = ({ target }) => {
     props.onChange({
       path,
@@ -27,14 +36,18 @@ export default function TextfieldRenderer(props) {
   };
 
   return <div class={ formFieldClasses(errors) }>
-    <Label label={ field.label } required={ field.validate && field.validate.required } />
+    <Label
+      id={ id }
+      label={ label }
+      required={ required } />
     <input
       class="fjs-input"
-      type="text"
-      value={ value }
+      disabled={ disabled }
+      name={ id }
       onInput={ onChange }
-      disabled={ disabled } />
-    <Description description={ field.description } />
+      type="text"
+      value={ value } />
+    <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }
