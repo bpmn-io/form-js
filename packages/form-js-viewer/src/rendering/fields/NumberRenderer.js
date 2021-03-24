@@ -19,6 +19,15 @@ export default function NumberRenderer(props) {
     value
   } = props;
 
+  const {
+    description,
+    id,
+    label,
+    validate = {}
+  } = field;
+
+  const { required } = validate;
+
   const onChange = ({ target }) => {
     props.onChange({
       path,
@@ -27,14 +36,18 @@ export default function NumberRenderer(props) {
   };
 
   return <div class={ formFieldClasses(errors) }>
-    <Label label={ field.label } required={ field.validate && field.validate.required } />
+    <Label
+      id={ id }
+      label={ label }
+      required={ required } />
     <input
       class="fjs-input"
-      type="number"
       disabled={ disabled }
-      value={ value }
-      onInput={ onChange } />
-    <Description description={ field.description } />
+      name={ id }
+      onInput={ onChange }
+      type="number"
+      value={ value } />
+    <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }
