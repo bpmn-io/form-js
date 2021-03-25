@@ -176,7 +176,8 @@
   padding-bottom: 10px;
 }
 
-.fjs-editor-container .fjs-properties-panel-label {
+.fjs-editor-container .fjs-properties-panel-label,
+.fjs-editor-container .fjs-properties-panel-description {
   display: block;
   margin: 4px 0;
   font-size: 14px;
@@ -184,6 +185,10 @@
   font-weight: 400;
   color: var(--color-grey-base-40);
   font-size: 13px;
+}
+
+.fjs-editor-container .fjs-properties-panel-description {
+  margin-top: 7px;
 }
 
 .fjs-editor-container .fjs-properties-panel-input {
