@@ -205,7 +205,7 @@ function LabelProperty(props) {
   return TextfieldEntry({
     editField,
     field,
-    label: 'Label',
+    label: 'Field Label',
     path: [ 'label' ]
   });
 }
@@ -219,7 +219,7 @@ function DescriptionProperty(props) {
   return TextfieldEntry({
     editField,
     field,
-    label: 'Description',
+    label: 'Field Description',
     path: [ 'description' ]
   });
 }
@@ -329,7 +329,7 @@ function Group(props) {
   </div>;
 }
 
-function DesignGroup(field, editField) {
+function GeneralGroup(field, editField) {
   const { type } = field;
 
   const entries = [];
@@ -355,7 +355,7 @@ function DesignGroup(field, editField) {
   }
 
   return (
-    <Group label="Design">
+    <Group label="General">
       {
         entries
       }
@@ -372,12 +372,6 @@ function ValidationGroup(field, editField) {
 
   if (type === 'textfield') {
     entries.push(
-      TextfieldEntry({
-        editField,
-        field,
-        label: 'Pattern',
-        path: [ 'validate', 'pattern' ]
-      }),
       NumberEntry({
         editField,
         field,
@@ -389,7 +383,13 @@ function ValidationGroup(field, editField) {
         field,
         label: 'Maximum Length',
         path: [ 'validate', 'maxLength' ]
-      })
+      }),
+      TextfieldEntry({
+        editField,
+        field,
+        label: 'Regular Expression Pattern',
+        path: [ 'validate', 'pattern' ]
+      }),
     );
   }
 
@@ -406,7 +406,7 @@ function getGroups(field, editField) {
   const { type } = field;
 
   const groups = [
-    DesignGroup(field, editField)
+    GeneralGroup(field, editField)
   ];
 
   if (FIELDS.includes(type)) {
