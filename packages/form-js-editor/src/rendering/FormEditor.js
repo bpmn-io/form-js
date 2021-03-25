@@ -21,7 +21,7 @@ import {
 import Palette from './Palette';
 import PropertiesPanel from './PropertiesPanel';
 
-import * as dragula from 'dragula';
+import dragula from 'dragula';
 
 import RemoveIcon from './icons/Remove.svg';
 
