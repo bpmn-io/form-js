@@ -5,8 +5,7 @@ import FormElement from '../FormElement';
 import { FormRenderContext } from '../context';
 
 import {
-  generateIdForType,
-  idToLabel
+  generateIdForType
 } from '../../util';
 
 
@@ -55,7 +54,7 @@ DefaultRenderer.create = function(options = {}) {
   return {
     components: [],
     id,
-    label: idToLabel(id),
+    label: this.label,
     type,
     ...options
   };

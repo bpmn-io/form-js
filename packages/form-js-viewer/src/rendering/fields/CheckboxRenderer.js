@@ -5,8 +5,7 @@ import Label from './Label';
 import { formFieldClasses } from './Util';
 
 import {
-  generateIdForType,
-  idToLabel
+  generateIdForType
 } from '../../util';
 
 
@@ -60,7 +59,7 @@ CheckboxRenderer.create = function(options = {}) {
   return {
     id,
     key: id,
-    label: idToLabel(id),
+    label: this.label,
     type,
     ...options
   };
