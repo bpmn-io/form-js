@@ -50,6 +50,9 @@ export default class FormEditorRenderer {
         },
         removeField(...args) {
           form.removeField(...args);
+        },
+        emit(event, data) {
+          form.emitter.emit(event, data);
         }
       };
 
