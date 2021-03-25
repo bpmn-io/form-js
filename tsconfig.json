@@ -17,8 +17,7 @@
     "jsxImportSource": "preact"
   },
   "include": [
-    "packages/form-js-viewer/src",
-    "packages/form-js-viewer/test"
+    "packages/form-js-viewer/src"
   ],
   "exclude": [
     "node_modules"
