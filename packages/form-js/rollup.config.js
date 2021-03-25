@@ -1,4 +1,3 @@
-import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 
@@ -20,14 +19,6 @@ export default [
       }
     ],
     plugins: [
-      babel({
-        plugins: [
-          [ '@babel/plugin-transform-react-jsx', {
-            'importSource': 'preact',
-            'runtime': 'automatic'
-          } ]
-        ]
-      }),
       copy({
         targets: [
           { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },

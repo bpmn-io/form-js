@@ -40,23 +40,8 @@ module.exports = function(karma) {
           {
             test: /\.css$/,
             use: 'raw-loader'
-          },
-          {
-            test: /\.m?js$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  [ '@babel/plugin-transform-react-jsx', {
-                    'importSource': 'preact',
-                    'runtime': 'automatic'
-                  } ]
-                ]
-              }
-            }
           }
-        ],
+        ]
       },
       resolve: {
         mainFields: [
