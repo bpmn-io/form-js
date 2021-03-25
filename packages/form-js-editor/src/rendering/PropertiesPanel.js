@@ -201,6 +201,7 @@ function TextfieldEntry(props) {
     editField,
     field,
     id,
+    description,
     label,
     path
   } = props;
@@ -220,6 +221,7 @@ function TextfieldEntry(props) {
   return (
     <div class="fjs-properties-panel-entry">
       <Textfield id={ id } label={ label } onInput={ onInput } value={ value } />
+      { description && <div class="fjs-properties-panel-description">{ description }</div> }
     </div>
   );
 }
