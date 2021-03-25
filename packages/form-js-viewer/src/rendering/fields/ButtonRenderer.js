@@ -1,6 +1,5 @@
 import {
-  generateIdForType,
-  idToLabel
+  generateIdForType
 } from '../../util';
 
 import { formFieldClasses } from './Util';
@@ -27,7 +26,7 @@ ButtonRenderer.create = function(options = {}) {
   return {
     id,
     key: id,
-    label: idToLabel(id),
+    label: this.label,
     type,
     ...options
   };

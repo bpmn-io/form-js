@@ -119,9 +119,3 @@ export function exportSchema(schema) {
     return value;
   });
 }
-
-export function idToLabel(string) {
-  return string
-    .replace(/^\w/, (match) => match.toUpperCase())
-    .replace(/\d/, '');
-}
