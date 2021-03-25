@@ -11,3 +11,7 @@ export function formFieldClasses(errors = [], type) {
 
   return classes.join(' ');
 }
+
+export function prefixId(id) {
+  return `fjs-form-${ id }`;
+}

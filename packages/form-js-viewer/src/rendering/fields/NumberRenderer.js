@@ -4,9 +4,9 @@ import Label from './Label';
 
 import { formFieldClasses } from './Util';
 
-import {
-  generateIdForType
-} from '../../util';
+import { prefixId } from './Util';
+
+import { generateIdForType } from '../../util';
 
 
 export default function NumberRenderer(props) {
@@ -36,13 +36,13 @@ export default function NumberRenderer(props) {
 
   return <div class={ formFieldClasses(errors) }>
     <Label
-      id={ id }
+      id={ prefixId(id) }
       label={ label }
       required={ required } />
     <input
       class="fjs-input"
       disabled={ disabled }
-      name={ id }
+      id={ prefixId(id) }
       onInput={ onChange }
       type="number"
       value={ value } />
