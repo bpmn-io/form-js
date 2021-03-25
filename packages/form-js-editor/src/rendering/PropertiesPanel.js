@@ -1,8 +1,15 @@
-import { useCallback, useMemo, useState } from 'preact/hooks';
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useState
+} from 'preact/hooks';
 
 import { debounce } from 'min-dash';
 
 import { DefaultRenderer } from '@bpmn-io/form-js-viewer';
+
+import { FormEditorContext } from './context';
 
 import {
   get,
@@ -30,6 +37,7 @@ const FIELDS = [
 
 function Checkbox(props) {
   const {
+    id,
     label,
     value,
     onChange,
@@ -42,14 +50,17 @@ function Checkbox(props) {
 
   return (
     <div class="fjs-properties-panel-textfield">
-      <label class="fjs-properties-panel-label">{ label }</label>
-      <input type="checkbox" class="fjs-properties-panel-input" onChange={ handleChange } checked={ value } { ...rest } />
+      <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
+      <input id={ prefixId(id) } type="checkbox" class="fjs-properties-panel-input" onChange={ handleChange } checked={ value } { ...rest } />
     </div>
   );
 }
 
 function Textfield(props) {
+  const { emit } = useContext(FormEditorContext);
+
   const {
+    id,
     label,
     value
   } = props;
@@ -60,16 +71,29 @@ function Textfield(props) {
     debouncedOnInput(target.value);
   };
 
+  const onFocus = () => emit('propertiesPanel.focusin');
+
+  const onBlur = () => emit('propertiesPanel.focusout');
+
   return (
     <div class="fjs-properties-panel-textfield">
-      <label class="fjs-properties-panel-label">{ label }</label>
-      <input type="text" spellCheck="false" class="fjs-properties-panel-input" onInput={ onInput } value={ value || '' } />
+      <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
+      <input
+        id={ prefixId(id) }
+        type="text"
+        spellCheck="false"
+        class="fjs-properties-panel-input"
+        onInput={ onInput }
+        onFocus={ onFocus }
+        onBlur={ onBlur }
+        value={ value || '' } />
     </div>
   );
 }
 
 function Number(props) {
   const {
+    id,
     label,
     value,
     onInput,
@@ -82,14 +106,15 @@ function Number(props) {
 
   return (
     <div class="fjs-properties-panel-textfield">
-      <label class="fjs-properties-panel-label">{ label }</label>
-      <input type="number" class="fjs-properties-panel-input" onInput={ handleInput } value={ value } { ...rest } />
+      <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
+      <input id={ prefixId(id) } type="number" class="fjs-properties-panel-input" onInput={ handleInput } value={ value } { ...rest } />
     </div>
   );
 }
 
 function Select(props) {
   const {
+    id,
     label,
     value,
     onChange,
@@ -103,8 +128,8 @@ function Select(props) {
 
   return (
     <div class="fjs-properties-panel-textfield">
-      <label class="fjs-properties-panel-label">{ label }</label>
-      <select class="fjs-properties-panel-input" onInput={ handleChange } { ...rest }>
+      <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
+      <select id={ prefixId(id) } class="fjs-properties-panel-input" onInput={ handleChange } { ...rest }>
         {
           options.map((option) => {
             return <option value={ option.value } selected={ option.value === value }>{ option.label }</option>;
@@ -119,6 +144,7 @@ function CheckboxEntry(props) {
   const {
     editField,
     field,
+    id,
     label,
     path
   } = props;
@@ -137,7 +163,7 @@ function CheckboxEntry(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Checkbox label={ label } onChange={ onChange } checked={ checked } />
+      <Checkbox id={ id } label={ label } onChange={ onChange } checked={ checked } />
     </div>
   );
 }
@@ -146,6 +172,7 @@ function NumberEntry(props) {
   const {
     editField,
     field,
+    id,
     label,
     path
   } = props;
@@ -164,7 +191,7 @@ function NumberEntry(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Number label={ label } onInput={ onInput } value={ value } />
+      <Number id={ id } label={ label } onInput={ onInput } value={ value } />
     </div>
   );
 }
@@ -173,6 +200,7 @@ function TextfieldEntry(props) {
   const {
     editField,
     field,
+    id,
     label,
     path
   } = props;
@@ -191,7 +219,7 @@ function TextfieldEntry(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Textfield label={ label } onInput={ onInput } value={ value } />
+      <Textfield id={ id } label={ label } onInput={ onInput } value={ value } />
     </div>
   );
 }
@@ -205,6 +233,7 @@ function LabelProperty(props) {
   return TextfieldEntry({
     editField,
     field,
+    id: 'label',
     label: 'Field Label',
     path: [ 'label' ]
   });
@@ -219,6 +248,7 @@ function DescriptionProperty(props) {
   return TextfieldEntry({
     editField,
     field,
+    id: 'description',
     label: 'Field Description',
     path: [ 'description' ]
   });
@@ -234,6 +264,7 @@ function KeyProperty(props) {
   return TextfieldEntry({
     editField,
     field,
+    id: 'key',
     label: 'Key',
     path: [ 'key' ]
   });
@@ -264,7 +295,7 @@ function ActionProperty(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Select label="Action" options={ options } onChange={ onChange } value={ value } />
+      <Select id="action" label="Action" options={ options } onChange={ onChange } value={ value } />
     </div>
   );
 }
@@ -293,7 +324,7 @@ function ColumnsProperty(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Number label="Columns" onInput={ onInput } value={ value } min="1" max="3" />
+      <Number id="columns" label="Columns" onInput={ onInput } value={ value } min="1" max="3" />
     </div>
   );
 }
@@ -367,7 +398,7 @@ function ValidationGroup(field, editField) {
   const { type } = field;
 
   const entries = [
-    <CheckboxEntry field={ field } editField={ editField } label="Required" path={ [ 'validate', 'required' ] } />
+    <CheckboxEntry id="required" field={ field } editField={ editField } label="Required" path={ [ 'validate', 'required' ] } />
   ];
 
   if (type === 'textfield') {
@@ -375,18 +406,21 @@ function ValidationGroup(field, editField) {
       NumberEntry({
         editField,
         field,
+        id: 'minLength',
         label: 'Minimum Length',
         path: [ 'validate', 'minLength' ]
       }),
       NumberEntry({
         editField,
         field,
+        id: 'maxLength',
         label: 'Maximum Length',
         path: [ 'validate', 'maxLength' ]
       }),
       TextfieldEntry({
         editField,
         field,
+        id: 'regularExpressionPattern',
         label: 'Regular Expression Pattern',
         path: [ 'validate', 'pattern' ]
       }),
@@ -450,4 +484,8 @@ export default function PropertiesPanel(props) {
       getGroups(field, editField)
     }
   </div>;
+}
+
+function prefixId(id) {
+  return `fjs-properties-panel-${ id }`;
 }

@@ -1,6 +1,9 @@
 import { createFormEditor } from '../../src';
 
-import { waitFor } from '@testing-library/preact/pure';
+import {
+  screen,
+  waitFor
+} from '@testing-library/preact/pure';
 
 import {
   insertStyles,
@@ -91,6 +94,34 @@ describe('createFormEditor', function() {
     // then
     expect(formEditor.fields.size).to.equal(7);
     expect(formEditor.fields.get('foo')).to.exist;
+  });
+
+
+  it('should emit event on properties panel focus', async function() {
+
+    // given
+    const formEditor = await waitForFormEditorCreated({
+      schema,
+      container
+    });
+
+    const focusinSpy = sinon.spy();
+
+    formEditor.on('propertiesPanel.focusin', focusinSpy);
+
+    // when
+    let input;
+
+    await waitFor(async () => {
+      input = await screen.getByLabelText('Field Label');
+
+      expect(input).to.exist;
+    });
+
+    input.focus();
+
+    // then
+    expect(focusinSpy).to.have.been.called;
   });
 
 });

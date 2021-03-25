@@ -99,6 +99,8 @@ function Element(props) {
 
     if (selectableField) {
       setSelection(selectableField.id);
+    } else {
+      setSelection(null);
     }
   };
 
@@ -140,6 +142,7 @@ function Children(props) {
 
 export default function FormEditor(props) {
   const {
+    emit,
     fields,
     getFieldRenderer,
     fieldRenderers,
@@ -160,6 +163,10 @@ export default function FormEditor(props) {
   if (selection) {
     selectedField = fields.get(selection);
   }
+
+  useEffect(() => {
+    emit('selection.changed');
+  }, [ selection ]);
 
   const [ drake, setDrake ] = useState(null);
 
