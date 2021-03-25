@@ -31,6 +31,7 @@ export default [
       }),
       reactSvg(),
       babel({
+        babelHelpers: 'bundled',
         plugins: [
           [ '@babel/plugin-transform-react-jsx', {
             'importSource': 'preact',

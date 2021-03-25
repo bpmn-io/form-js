@@ -21,6 +21,7 @@ export default [
     ],
     plugins: [
       babel({
+        babelHelpers: 'bundled',
         plugins: [
           [ '@babel/plugin-transform-react-jsx', {
             'importSource': 'preact',
