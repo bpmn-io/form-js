@@ -19,7 +19,7 @@ function Lightbox(props) {
   }
 
   return (
-    <div class="bjs-powered-by-lightbox" style="z-index: 100; position: fixed; top: 0; left: 0;right: 0; bottom: 0">
+    <div class="fjs-powered-by-lightbox" style="z-index: 100; position: fixed; top: 0; left: 0;right: 0; bottom: 0">
       <div class="backdrop" style="width: 100%; height: 100%; background: rgba(40 40 40 / 20%)" onClick={ props.onBackdropClick }></div>
       <div class="notice" style="position: absolute; left: 50%; top: 40%; transform: translate(-50%); width: 260px; padding: 10px; background: white; box-shadow: 0  1px 4px rgba(0 0 0 / 30%); font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: flex; line-height: 1.3">
         <a href="https://bpmn.io" target="_blank" rel="noopener" style="margin: 15px 20px 15px 10px; align-self: center; color: #404040">
@@ -36,7 +36,9 @@ function Lightbox(props) {
 
 function Link(props) {
   return (
-    <a href="https://bpmn.io" target="_blank" rel="noopener" class="fjs-powered-by" title="Powered by bpmn.io" style="position: absolute; bottom: 15px; right: 15px; z-index: 100; color: #404040" onClick={ props.onClick }><Logo /></a>
+    <div class="fjs-powered-by fjs-form-field" style="text-align: right">
+      <a href="https://bpmn.io" target="_blank" rel="noopener" class="fjs-powered-by-link" title="Powered by bpmn.io" style="float: right; 100; color: #404040" onClick={ props.onClick }><Logo /></a>
+    </div>
   );
 }
 
