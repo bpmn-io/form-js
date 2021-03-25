@@ -125,6 +125,17 @@ export default class FormCore {
   }
 
   /**
+   * Validate all form elements and return validation errors.
+   *
+   * @return { {[x: string]: string[]} } errors
+   */
+  validate() {
+    const data = this.state.data;
+
+    return this.validateAll(data);
+  }
+
+  /**
    * @param { any } data
    * @return { {[x: string]: string[]} } errors
    */

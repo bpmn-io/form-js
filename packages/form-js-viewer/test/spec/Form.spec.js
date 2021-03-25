@@ -107,6 +107,25 @@ describe('createForm', function() {
   });
 
 
+  it('should trigger manual validation', async function() {
+
+    // given
+    const form = createForm({
+      container,
+      data: {},
+      schema
+    });
+
+    // when
+    const errors = form.validate();
+
+    // then
+    expect(errors).to.have.keys([
+      'creditor'
+    ]);
+  });
+
+
   it('should emit <changed>', async function() {
 
     // given
