@@ -1,7 +1,5 @@
 import { createFormEditor } from '../../src';
 
-import { expect } from 'chai';
-
 import { waitFor } from '@testing-library/preact/pure';
 
 import {

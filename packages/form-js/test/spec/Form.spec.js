@@ -1,7 +1,5 @@
 import { createForm } from '../../src';
 
-import { expect } from 'chai';
-
 import schema from './form.json';
 
 import {

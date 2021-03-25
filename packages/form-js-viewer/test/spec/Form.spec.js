@@ -1,7 +1,5 @@
 import { createForm } from '../../src';
 
-import { expect } from 'chai';
-
 import { spy } from 'sinon';
 
 import { waitFor } from '@testing-library/preact/pure';
