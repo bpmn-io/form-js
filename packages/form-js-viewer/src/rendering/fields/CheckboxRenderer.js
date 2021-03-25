@@ -4,9 +4,9 @@ import Label from './Label';
 
 import { formFieldClasses } from './Util';
 
-import {
-  generateIdForType
-} from '../../util';
+import { prefixId } from './Util';
+
+import { generateIdForType } from '../../util';
 
 
 export default function CheckboxRenderer(props) {
@@ -36,14 +36,14 @@ export default function CheckboxRenderer(props) {
 
   return <div class={ formFieldClasses(errors) }>
     <Label
-      id={ id }
+      id={ prefixId(id) }
       label={ label }
       required={ required } />
     <input
       checked={ value }
       class="fjs-input"
       disabled={ disabled }
-      name={ id }
+      id={ prefixId(id) }
       type="checkbox"
       onChange={ onChange } />
     <Description description={ description } />

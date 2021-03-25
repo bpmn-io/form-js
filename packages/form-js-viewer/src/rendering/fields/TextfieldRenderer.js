@@ -4,9 +4,9 @@ import Label from './Label';
 
 import { formFieldClasses } from './Util';
 
-import {
-  generateIdForType
-} from '../../util';
+import { prefixId } from './Util';
+
+import { generateIdForType } from '../../util';
 
 
 export default function TextfieldRenderer(props) {
@@ -36,13 +36,13 @@ export default function TextfieldRenderer(props) {
 
   return <div class={ formFieldClasses(errors) }>
     <Label
-      id={ id }
+      id={ prefixId(id) }
       label={ label }
       required={ required } />
     <input
       class="fjs-input"
       disabled={ disabled }
-      name={ id }
+      id={ prefixId(id) }
       onInput={ onChange }
       type="text"
       value={ value } />
