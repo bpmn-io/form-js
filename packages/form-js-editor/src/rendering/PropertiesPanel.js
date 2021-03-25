@@ -268,6 +268,7 @@ function KeyProperty(props) {
     field,
     id: 'key',
     label: 'Key',
+    description: 'Maps to a process variable',
     path: [ 'key' ]
   });
 }
