@@ -138,18 +138,6 @@ function Children(props) {
   );
 }
 
-const drake = dragula({
-  isContainer(el) {
-    return el.classList.contains('fjs-drag-container');
-  },
-  copy(el) {
-    return el.classList.contains('fjs-drag-copy');
-  },
-  accepts(el, target) {
-    return !target.classList.contains('fjs-no-drop');
-  }
-});
-
 export default function FormEditor(props) {
   const {
     fields,
@@ -173,11 +161,25 @@ export default function FormEditor(props) {
     selectedField = fields.get(selection);
   }
 
+  const [ drake, setDrake ] = useState(null);
+
   const dragAndDropContext = {
     drake
   };
 
   useEffect(() => {
+    const drake = dragula({
+      isContainer(el) {
+        return el.classList.contains('fjs-drag-container');
+      },
+      copy(el) {
+        return el.classList.contains('fjs-drag-copy');
+      },
+      accepts(el, target) {
+        return !target.classList.contains('fjs-no-drop');
+      }
+    });
+
     drake.on('drop', (el, target, source, sibling) => {
       drake.remove();
 
@@ -212,6 +214,10 @@ export default function FormEditor(props) {
         moveField(sourceField, targetField, sourceIndex, targetIndex);
       }
     });
+
+    setDrake(drake);
+
+    return () => drake.destroy();
   }, []);
 
   const selectionContext = {
@@ -300,10 +306,14 @@ function CreatePreview(props) {
   }
 
   useEffect(() => {
+    if (!drake) {
+      return;
+    }
+
     drake.on('cloned', handleCloned);
 
     return () => drake.off('cloned', handleCloned);
-  }, []);
+  }, [ drake ]);
 
   return null;
 }
