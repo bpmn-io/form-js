@@ -1,5 +1,6 @@
 .fjs-container .fjs-form-editor {
   display: flex;
+  flex: 1;
   flex-direction: row;
   height: 100%;
 }
@@ -7,6 +8,15 @@
 .fjs-container .fjs-form-container {
   flex: 1;
   height: 100%;
+  position: relative;
+}
+
+.fjs-container .fjs-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow-y: auto;
 }
 
@@ -23,6 +33,11 @@
 .fjs-container .fjs-element {
   margin: 5px;
   height: 100%;
+}
+
+.fjs-container .fjs-form > .fjs-element {
+  margin: 0;
+  padding: 5px;
 }
 
 .fjs-container .fjs-children > .fjs-element {
@@ -100,6 +115,17 @@
   width: 300px;
   background-color: var(--color-silver-base-97);
   border-left: solid 1px var(--color-silver-darken-80);
+  position: relative;
+  height: 100%;
+}
+
+.fjs-container .fjs-properties-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 .fjs-container .fjs-properties-panel * {
@@ -141,6 +167,10 @@
 
 .fjs-container .fjs-properties-panel-group-entries {
   border-bottom: solid 1px var(--color-silver-darken-80);
+}
+
+.fjs-container .fjs-properties-panel-group:last-child .fjs-properties-panel-group-entries {
+  border-bottom: none;
 }
 
 .fjs-container .fjs-chevron-down {
@@ -189,6 +219,8 @@
 .fjs-container .fjs-properties-panel-placeholder {
   padding: 10px;
   color: var(--color-silver-darken-80);
+  font-size: 14px;
+  text-align: center;
 }
 
 /**
