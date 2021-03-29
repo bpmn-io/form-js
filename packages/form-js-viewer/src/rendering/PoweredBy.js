@@ -37,7 +37,7 @@ function Lightbox(props) {
 function Link(props) {
   return (
     <div class="fjs-powered-by fjs-form-field" style="text-align: right">
-      <a href="https://bpmn.io" target="_blank" rel="noopener" class="fjs-powered-by-link" title="Powered by bpmn.io" style="float: right; 100; color: #404040" onClick={ props.onClick }><Logo /></a>
+      <a href="https://bpmn.io" target="_blank" rel="noopener" class="fjs-powered-by-link" title="Powered by bpmn.io" style="color: #404040" onClick={ props.onClick }><Logo /></a>
     </div>
   );
 }
