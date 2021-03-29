@@ -1,23 +1,23 @@
+.fjs-editor-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
 .fjs-editor-container .fjs-form-editor {
   display: flex;
   flex: 1;
   flex-direction: row;
-  height: 100%;
+}
+
+.fjs-editor-container .fjs-form-container,
+.fjs-editor-container .fjs-palette-container,
+.fjs-editor-container .fjs-properties-container {
+  overflow-y: auto;
 }
 
 .fjs-editor-container .fjs-form-container {
   flex: 1;
-  height: 100%;
-  position: relative;
-}
-
-.fjs-editor-container .fjs-form {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
 }
 
 .fjs-editor-container .fjs-children {
@@ -117,15 +117,6 @@
   border-left: solid 1px var(--color-silver-darken-80);
   position: relative;
   height: 100%;
-}
-
-.fjs-editor-container .fjs-properties-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
 }
 
 .fjs-editor-container .fjs-properties-panel * {
