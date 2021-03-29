@@ -1,17 +1,17 @@
-.fjs-container .fjs-form-editor {
+.fjs-editor-container .fjs-form-editor {
   display: flex;
   flex: 1;
   flex-direction: row;
   height: 100%;
 }
 
-.fjs-container .fjs-form-container {
+.fjs-editor-container .fjs-form-container {
   flex: 1;
   height: 100%;
   position: relative;
 }
 
-.fjs-container .fjs-form {
+.fjs-editor-container .fjs-form {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,33 +20,33 @@
   overflow-y: auto;
 }
 
-.fjs-container .fjs-children {
+.fjs-editor-container .fjs-children {
   min-width: 300px;
   min-height: 100px;
 }
 
-.fjs-container .fjs-children .fjs-children {
+.fjs-editor-container .fjs-children .fjs-children {
   border: dashed 2px var(--color-silver-darken-80);
   border-radius: 3px;
 }
 
-.fjs-container .fjs-element {
+.fjs-editor-container .fjs-element {
   margin: 5px;
   height: 100%;
 }
 
-.fjs-container .fjs-form > .fjs-element {
+.fjs-editor-container .fjs-form > .fjs-element {
   margin: 0;
   padding: 5px;
 }
 
-.fjs-container .fjs-children > .fjs-element {
+.fjs-editor-container .fjs-children > .fjs-element {
   position: relative;
   border: dashed 2px transparent;
 }
 
-.fjs-container .fjs-children > .fjs-element:hover,
-.fjs-container .fjs-children > .fjs-element.fjs-editor-selected {
+.fjs-editor-container .fjs-children > .fjs-element:hover,
+.fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected {
   border-color: var(--color-blue-darken-62);
   border-radius: 3px;
 }
@@ -54,7 +54,7 @@
 /**
  * Context Pad
  */
-.fjs-container .fjs-context-pad {
+.fjs-editor-container .fjs-context-pad {
   position: absolute;
   top: 3px;
   right: 3px;
@@ -63,7 +63,7 @@
   box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%);
 }
 
-.fjs-container .fjs-context-pad-item {
+.fjs-editor-container .fjs-context-pad-item {
   border: none;
   background-color: var(--color-white);
   padding: 0;
@@ -74,13 +74,13 @@
 /**
  * Palette
  */
-.fjs-container .fjs-palette-container {
+.fjs-editor-container .fjs-palette-container {
   width: 200px;
   background-color: var(--color-silver-base-97);
   border-right: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-container .fjs-palette-header {
+.fjs-editor-container .fjs-palette-header {
   font-size: 12px;
   font-weight: bold;
   padding: 10px;
@@ -88,7 +88,7 @@
   background-color: var(--color-silver-darken-94);
 }
 
-.fjs-container .fjs-palette-field {
+.fjs-editor-container .fjs-palette-field {
   padding: 10px;
   display: flex;
   white-space: pre;
@@ -99,11 +99,11 @@
   font-size: 14px;
 }
 
-.fjs-container .fjs-palette-field-icon {
+.fjs-editor-container .fjs-palette-field-icon {
   margin-right: 10px;
 }
 
-.fjs-container .fjs-palette-field:hover {
+.fjs-editor-container .fjs-palette-field:hover {
   background-color: var(--color-silver-darken-94);
   cursor: default;
 }
@@ -111,7 +111,7 @@
 /**
  * Properties Panel
  */
-.fjs-container .fjs-properties-container {
+.fjs-editor-container .fjs-properties-container {
   width: 300px;
   background-color: var(--color-silver-base-97);
   border-left: solid 1px var(--color-silver-darken-80);
@@ -119,7 +119,7 @@
   height: 100%;
 }
 
-.fjs-container .fjs-properties-panel {
+.fjs-editor-container .fjs-properties-panel {
   position: absolute;
   top: 0;
   left: 0;
@@ -128,11 +128,11 @@
   overflow-y: auto;
 }
 
-.fjs-container .fjs-properties-panel * {
+.fjs-editor-container .fjs-properties-panel * {
   box-sizing: border-box;
 }
 
-.fjs-container .fjs-properties-panel-header {
+.fjs-editor-container .fjs-properties-panel-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -142,19 +142,19 @@
   border-bottom: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-container .fjs-properties-panel-header-icon {
+.fjs-editor-container .fjs-properties-panel-header-icon {
   margin-right: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.fjs-container .fjs-properties-panel-header-type {
+.fjs-editor-container .fjs-properties-panel-header-type {
   font-size: 12px;
   font-weight: bold;
 }
 
-.fjs-container .fjs-properties-panel-group-header {
+.fjs-editor-container .fjs-properties-panel-group-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -165,27 +165,27 @@
   background-color: var(--color-silver-darken-94);
 }
 
-.fjs-container .fjs-properties-panel-group-entries {
+.fjs-editor-container .fjs-properties-panel-group-entries {
   border-bottom: solid 1px var(--color-silver-darken-80);
 }
 
-.fjs-container .fjs-properties-panel-group:last-child .fjs-properties-panel-group-entries {
+.fjs-editor-container .fjs-properties-panel-group:last-child .fjs-properties-panel-group-entries {
   border-bottom: none;
 }
 
-.fjs-container .fjs-chevron-down {
+.fjs-editor-container .fjs-chevron-down {
   transform: rotate(90deg);
 }
 
-.fjs-container .fjs-properties-panel-entry {
+.fjs-editor-container .fjs-properties-panel-entry {
   padding: 10px 10px 0 10px;
 }
 
-.fjs-container .fjs-properties-panel-entry:last-child {
+.fjs-editor-container .fjs-properties-panel-entry:last-child {
   padding-bottom: 10px;
 }
 
-.fjs-container .fjs-properties-panel-label {
+.fjs-editor-container .fjs-properties-panel-label {
   display: block;
   margin: 4px 0;
   font-size: 14px;
@@ -195,7 +195,7 @@
   font-size: 13px;
 }
 
-.fjs-container .fjs-properties-panel-input {
+.fjs-editor-container .fjs-properties-panel-input {
   background-color: var(--color-white);
   border: solid 1px var(--color-silver-darken-80);
   border-radius: 3px;
@@ -203,20 +203,20 @@
   font-size: 14px;
 }
 
-.fjs-container .fjs-properties-panel-input[type=number],
-.fjs-container select.fjs-properties-panel-input,
-.fjs-container .fjs-properties-panel-input[type=text] {
+.fjs-editor-container .fjs-properties-panel-input[type=number],
+.fjs-editor-container select.fjs-properties-panel-input,
+.fjs-editor-container .fjs-properties-panel-input[type=text] {
   display: block;
   width: 100%;
 }
 
-.fjs-container .fjs-properties-panel-input:focus {
+.fjs-editor-container .fjs-properties-panel-input:focus {
   outline: none;
   box-shadow: 0 0 0 4px var(--color-blue-lighten-82), 0 0 0 1px var(--color-silver-darken-80) inset;
   border: solid 1px var(--color-blue-darken-55);
 }
 
-.fjs-container .fjs-properties-panel-placeholder {
+.fjs-editor-container .fjs-properties-panel-placeholder {
   padding: 10px;
   color: var(--color-silver-darken-80);
   font-size: 14px;
