@@ -8,7 +8,17 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 0.0.9
 
+### Viewer
+
+* `FEAT`: improve positioning of powered by logo
+* `FEAT`: simplify initial form element labels
 * `FIX`: restore `for` and `name` properties on inputs and labels ([#32](https://github.com/bpmn-io/form-js/issues/32))
+* `FIX`: correct commonjs bundle issue ([#29](https://github.com/bpmn-io/form-js/issues/29))
+
+### Editor
+
+* `FEAT`: improve property labels
+* `FEAT`: emit blur and focus events
 
 ## 0.0.8
 
