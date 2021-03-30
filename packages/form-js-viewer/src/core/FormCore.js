@@ -17,11 +17,15 @@ import { clone } from '../util';
  * @typedef { any } Schema
  * @typedef { { [x: string]: any } } Data
  * @typedef { { [x: string]: string[] } } Errors
- * @typedef { { [x: string]: any } } Properties
+ * @typedef { ('readOnly') } Properties
+ * @typedef { { readOnly?: boolean } } PropertyOptions
+ * @typedef { ('submit' | 'changed') } Events
+ * @typedef { { data: Data, schema: Schema, properties?: PropertyOptions } } FormCoreOptions
+ * @typedef { { data: Data, errors: Errors, schema: Schema, properties: PropertyOptions } } State
  *
- * @typedef { { data: Data, schema: Schema, properties?: Properties } } FormCoreOptions
- *
- * @typedef { { data: Data, errors: Errors, schema: Schema, properties: Properties } } State
+ * @callback EventHandler
+ * @param { { data: Data, errors: Errors} } state
+ * @returns { void }
  */
 
 /**
@@ -86,6 +90,9 @@ export default class FormCore {
     });
   }
 
+  /**
+   * @returns { { data: Data, errors: Errors } }
+   */
   submit() {
     const data = this.state.data;
 
@@ -125,8 +132,8 @@ export default class FormCore {
   }
 
   /**
-   * @param { any } data
-   * @return { {[x: string]: string[]} } errors
+   * @param { Data } data
+   * @return Errors
    */
   validateAll(data) {
     const errors = Array.from(this.fields.values()).reduce((errors, field) => {
@@ -148,6 +155,9 @@ export default class FormCore {
     return clone(this.state);
   }
 
+  /**
+   * @param { Partial<State> } state
+   */
   setState(state) {
     this.state = {
       ...this.state,
@@ -157,20 +167,35 @@ export default class FormCore {
     this.changed(this.state);
   }
 
+  /**
+   * @param { State } state
+   */
   changed(state) {
     this.emitter.emit('changed', clone(state));
   }
 
+  /**
+   * @param { Properties } property
+   * @param { any } value
+   */
   setProperty(property, value) {
     const properties = set(this.getState().properties, [ property ], value);
 
     this.setState({ properties });
   }
 
+  /**
+   * @param { Events } event
+   * @param { EventHandler } callback
+   */
   on(event, callback) {
     this.emitter.on(event, callback);
   }
 
+  /**
+   * @param { Events } event
+   * @param { EventHandler } callback
+   */
   off(event, callback) {
     this.emitter.off(event, callback);
   }
