@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-editor",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     "import": "./dist/index.es.js",
@@ -38,7 +38,7 @@
     "mitt": "^2.1.0"
   },
   "dependencies": {
-    "@bpmn-io/form-js-viewer": "^0.0.8",
+    "@bpmn-io/form-js-viewer": "^0.0.9",
     "array-move": "^3.0.1",
     "dragula": "^3.7.3",
     "preact": "^10.5.12"
