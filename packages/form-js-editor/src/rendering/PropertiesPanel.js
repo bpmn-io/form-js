@@ -35,12 +35,12 @@ const FIELDS = [
   'textfield'
 ];
 
-function Checkbox(props) {
+export function Checkbox(props) {
   const {
     id,
     label,
-    value,
     onChange,
+    value = false,
     ...rest
   } = props;
 
@@ -56,19 +56,19 @@ function Checkbox(props) {
   );
 }
 
-function Textfield(props) {
+export function Textfield(props) {
   const { emit } = useContext(FormEditorContext);
 
   const {
     id,
     label,
-    value
+    value = ''
   } = props;
 
-  const debouncedOnInput = useCallback(debounce(props.onInput, 300), [ props.onInput ]);
+  const debouncedOnInput = useCallback(props.debounce ? debounce(props.onInput, 300) : props.onInput, [ props.onInput ]);
 
   const onInput = ({ target }) => {
-    debouncedOnInput(target.value);
+    debouncedOnInput(target.value.length ? target.value : undefined);
   };
 
   const onFocus = () => emit('propertiesPanel.focusin');
@@ -91,17 +91,17 @@ function Textfield(props) {
   );
 }
 
-function Number(props) {
+export function Number(props) {
   const {
     id,
     label,
-    value,
     onInput,
+    value,
     ...rest
   } = props;
 
   const handleInput = ({ target }) => {
-    onInput(target.value);
+    onInput(target.value ? parseInt(target.value, 10) : undefined);
   };
 
   return (
@@ -112,13 +112,13 @@ function Number(props) {
   );
 }
 
-function Select(props) {
+export function Select(props) {
   const {
     id,
     label,
-    value,
     onChange,
     options,
+    value,
     ...rest
   } = props;
 
