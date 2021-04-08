@@ -17,7 +17,7 @@ const types = [
 export default function Palette(props) {
   return <Fragment>
     <div class="fjs-palette-header">FORM ELEMENTS LIBRARY</div>
-    <div class="fjs-palette fjs-drag-container">
+    <div class="fjs-palette fjs-drag-container fjs-no-drop">
       {
         types.map(({ label, type }) => {
           const Icon = iconsByType[ type ];
