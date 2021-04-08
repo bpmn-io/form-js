@@ -40,8 +40,7 @@ export function Checkbox(props) {
     id,
     label,
     onChange,
-    value = false,
-    ...rest
+    value = false
   } = props;
 
   const handleChange = ({ target }) => {
@@ -51,7 +50,7 @@ export function Checkbox(props) {
   return (
     <div class="fjs-properties-panel-textfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
-      <input id={ prefixId(id) } type="checkbox" class="fjs-properties-panel-input" onChange={ handleChange } checked={ value } { ...rest } />
+      <input id={ prefixId(id) } type="checkbox" class="fjs-properties-panel-input" onChange={ handleChange } checked={ value } />
     </div>
   );
 }
@@ -95,19 +94,34 @@ export function Number(props) {
   const {
     id,
     label,
+    max,
+    min,
     onInput,
-    value,
-    ...rest
+    value = '',
   } = props;
 
   const handleInput = ({ target }) => {
-    onInput(target.value ? parseInt(target.value, 10) : undefined);
+    const {
+      validity,
+      value
+    } = target;
+
+    if (validity.valid) {
+      onInput(value ? parseInt(value, 10) : undefined);
+    }
   };
 
   return (
     <div class="fjs-properties-panel-textfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
-      <input id={ prefixId(id) } type="number" class="fjs-properties-panel-input" onInput={ handleInput } value={ value } { ...rest } />
+      <input
+        id={ prefixId(id) }
+        type="number"
+        class="fjs-properties-panel-input"
+        max={ max }
+        min={ min }
+        onInput={ handleInput }
+        value={ value } />
     </div>
   );
 }
@@ -118,8 +132,7 @@ export function Select(props) {
     label,
     onChange,
     options,
-    value,
-    ...rest
+    value
   } = props;
 
   const handleChange = ({ target }) => {
@@ -129,7 +142,7 @@ export function Select(props) {
   return (
     <div class="fjs-properties-panel-textfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
-      <select id={ prefixId(id) } class="fjs-properties-panel-input" onInput={ handleChange } { ...rest }>
+      <select id={ prefixId(id) } class="fjs-properties-panel-input" onInput={ handleChange }>
         {
           options.map((option) => {
             return <option value={ option.value } selected={ option.value === value }>{ option.label }</option>;
@@ -174,6 +187,8 @@ function NumberEntry(props) {
     field,
     id,
     label,
+    max,
+    min,
     path
   } = props;
 
@@ -191,7 +206,13 @@ function NumberEntry(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Number id={ id } label={ label } onInput={ onInput } value={ value } />
+      <Number
+        id={ id }
+        label={ label }
+        max={ max }
+        min={ min }
+        onInput={ onInput }
+        value={ value } />
     </div>
   );
 }
@@ -411,6 +432,7 @@ function ValidationGroup(field, editField) {
         field,
         id: 'minLength',
         label: 'Minimum Length',
+        min: 0,
         path: [ 'validate', 'minLength' ]
       }),
       NumberEntry({
@@ -418,6 +440,7 @@ function ValidationGroup(field, editField) {
         field,
         id: 'maxLength',
         label: 'Maximum Length',
+        min: 0,
         path: [ 'validate', 'maxLength' ]
       }),
       TextfieldEntry({

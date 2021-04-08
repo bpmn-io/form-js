@@ -1,6 +1,7 @@
 import {
   fireEvent,
-  render
+  render,
+  screen
 } from '@testing-library/preact/pure';
 
 import PropertiesPanel, {
@@ -20,28 +21,38 @@ const spy = sinon.spy;
 
 describe('properties panel', function() {
 
-  let container;
+  let parent,
+      container;
 
   beforeEach(function() {
+    parent = document.createElement('div');
+
+    parent.classList.add('fjs-container', 'fjs-editor-container');
+
     container = document.createElement('div');
 
-    container.style.height = '100%';
+    container.classList.add('fjs-properties-container');
 
-    document.body.appendChild(container);
+    container.style.position = 'absolute';
+    container.style.right = '0';
+
+    parent.appendChild(container);
+
+    document.body.appendChild(parent);
   });
 
   afterEach(function() {
-    document.body.removeChild(container);
+    document.body.removeChild(parent);
   });
 
 
   it('should render (no field)', async function() {
 
     // given
-    const { container } = createPropertiesPanel();
+    const result = createPropertiesPanel({ container });
 
     // then
-    expect(container.querySelector('.fjs-properties-panel-placeholder')).to.exist;
+    expect(result.container.querySelector('.fjs-properties-panel-placeholder')).to.exist;
   });
 
 
@@ -50,15 +61,95 @@ describe('properties panel', function() {
     // given
     const field = schema.components.find(({ key }) => key === 'creditor');
 
-    const { container } = createPropertiesPanel({
+    const result = createPropertiesPanel({
+      container,
       field
     });
 
     // then
-    expect(container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
+    expect(result.container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
 
-    expect(container.querySelector('.fjs-properties-panel-header-type')).to.exist;
-    expect(container.querySelectorAll('.fjs-properties-panel-group')).to.have.length(2);
+    expect(result.container.querySelector('.fjs-properties-panel-header-type')).to.exist;
+    expect(result.container.querySelectorAll('.fjs-properties-panel-group')).to.have.length(2);
+  });
+
+
+  describe('properties', function() {
+
+    describe('validation', function() {
+
+      describe('maximum length', function() {
+
+        it('should have min value of 0', function() {
+
+          // given
+          const editFieldSpy = spy((...args) => console.log(...args));
+
+          const field = schema.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Maximum Length');
+
+          expect(input.min).to.equal('0');
+
+          // when
+          fireEvent.input(input, { target: { value: -1 } });
+
+          fireEvent.input(input, { target: { value: 1 } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'validate' ], {
+            ...field.validate,
+            maxLength: 1
+          });
+        });
+
+      });
+
+      describe('minimum length', function() {
+
+        it('should have min value of 0', function() {
+
+          // given
+          const editFieldSpy = spy((...args) => console.log(...args));
+
+          const field = schema.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Minimum Length');
+
+          expect(input.min).to.equal('0');
+
+          // when
+          fireEvent.input(input, { target: { value: -1 } });
+
+          fireEvent.input(input, { target: { value: 1 } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'validate' ], {
+            ...field.validate,
+            minLength: 1
+          });
+        });
+
+      });
+
+    });
+
   });
 
 
@@ -235,6 +326,7 @@ describe('properties panel', function() {
 
 function createPropertiesPanel(options = {}) {
   const {
+    container,
     editField = () => {},
     field = null
   } = options;
@@ -242,6 +334,9 @@ function createPropertiesPanel(options = {}) {
   return render(
     <PropertiesPanel
       editField={ editField }
-      field={ field } />
+      field={ field } />,
+    {
+      container
+    }
   );
 }
