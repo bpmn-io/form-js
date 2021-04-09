@@ -9,7 +9,9 @@ const FormContext = createContext({
   editField() {},
   moveField() {},
   removeField() {},
-  emit() {}
+  emit() {},
+  on() {},
+  off() {}
 });
 
 export default FormContext;

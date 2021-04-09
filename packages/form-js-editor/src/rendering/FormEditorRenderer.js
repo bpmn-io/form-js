@@ -53,6 +53,12 @@ export default class FormEditorRenderer {
         },
         emit(event, data) {
           form.emitter.emit(event, data);
+        },
+        on(event, callback) {
+          form.emitter.on(event, callback);
+        },
+        off(event, callback) {
+          form.emitter.off(event, callback);
         }
       };
 

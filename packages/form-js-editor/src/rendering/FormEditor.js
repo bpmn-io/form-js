@@ -142,13 +142,15 @@ function Children(props) {
 
 export default function FormEditor(props) {
   const {
-    emit,
     fields,
     getFieldRenderer,
     fieldRenderers,
     addField,
     moveField,
-    editField
+    editField,
+    emit,
+    on,
+    off
   } = useContext(FormEditorContext);
 
   const { schema } = props;
@@ -175,56 +177,91 @@ export default function FormEditor(props) {
   };
 
   useEffect(() => {
-    const drake = dragula({
-      isContainer(el) {
-        return el.classList.contains('fjs-drag-container');
-      },
-      copy(el) {
-        return el.classList.contains('fjs-drag-copy');
-      },
-      accepts(el, target) {
-        return !target.classList.contains('fjs-no-drop');
+    const createDragulaInstance = () => {
+      const dragulaInstance = dragula({
+        isContainer(el) {
+          console.log('isContainer', el.classList.contains('fjs-drag-container'), el.classList.toString());
+
+          return el.classList.contains('fjs-drag-container');
+        },
+        copy(el) {
+          return el.classList.contains('fjs-drag-copy');
+        },
+        accepts(el, target) {
+          return !target.classList.contains('fjs-no-drop');
+        }
+      });
+
+      dragulaInstance.on('cloned', () => console.log('cloned'));
+      dragulaInstance.on('over', () => console.log('over'));
+
+      dragulaInstance.on('drop', (el, target, source, sibling) => {
+        dragulaInstance.remove();
+
+        if (!target) {
+          return;
+        }
+
+        const targetField = fields.get(target.dataset.id);
+
+        const siblingField = sibling && fields.get(sibling.dataset.id),
+              targetIndex = siblingField ? getFieldIndex(targetField, siblingField) : targetField.components.length;
+
+        if (source.classList.contains('fjs-palette')) {
+          const type = el.dataset.fieldType;
+
+          const fieldRenderer = getFieldRenderer(type);
+
+          const newField = fieldRenderer.create({
+            parent: targetField.id
+          });
+
+          setSelection(newField.id);
+
+          addField(targetField, targetIndex, newField);
+        } else {
+          const field = fields.get(el.dataset.id),
+                sourceField = fields.get(source.dataset.id),
+                sourceIndex = getFieldIndex(sourceField, field);
+
+          setSelection(field.id);
+
+          moveField(sourceField, targetField, sourceIndex, targetIndex);
+        }
+      });
+
+      emit('dragula.created');
+
+      setDrake(dragulaInstance);
+
+      return dragulaInstance;
+    };
+
+    let dragulaInstance = createDragulaInstance();
+
+    const onDetach = () => {
+      if (dragulaInstance) {
+        dragulaInstance.destroy();
+
+        emit('dragula.destroyed');
       }
-    });
+    };
 
-    drake.on('drop', (el, target, source, sibling) => {
-      drake.remove();
+    const onAttach = () => {
+      onDetach();
 
-      if (!target) {
-        return;
-      }
+      dragulaInstance = createDragulaInstance();
+    };
 
-      const targetField = fields.get(target.dataset.id);
+    on('attach', onAttach);
+    on('detach', onDetach);
 
-      const siblingField = sibling && fields.get(sibling.dataset.id),
-            targetIndex = siblingField ? getFieldIndex(targetField, siblingField) : targetField.components.length;
+    return () => {
+      onDetach();
 
-      if (source.classList.contains('fjs-palette')) {
-        const type = el.dataset.fieldType;
-
-        const fieldRenderer = getFieldRenderer(type);
-
-        const newField = fieldRenderer.create({
-          parent: targetField.id
-        });
-
-        setSelection(newField.id);
-
-        addField(targetField, targetIndex, newField);
-      } else {
-        const field = fields.get(el.dataset.id),
-              sourceField = fields.get(source.dataset.id),
-              sourceIndex = getFieldIndex(sourceField, field);
-
-        setSelection(field.id);
-
-        moveField(sourceField, targetField, sourceIndex, targetIndex);
-      }
-    });
-
-    setDrake(drake);
-
-    return () => drake.destroy();
+      off('attach', onAttach);
+      off('detach', onDetach);
+    };
   }, []);
 
   const selectionContext = {
