@@ -180,8 +180,6 @@ export default function FormEditor(props) {
     const createDragulaInstance = () => {
       const dragulaInstance = dragula({
         isContainer(el) {
-          console.log('isContainer', el.classList.contains('fjs-drag-container'), el.classList.toString());
-
           return el.classList.contains('fjs-drag-container');
         },
         copy(el) {
@@ -191,9 +189,6 @@ export default function FormEditor(props) {
           return !target.classList.contains('fjs-no-drop');
         }
       });
-
-      dragulaInstance.on('cloned', () => console.log('cloned'));
-      dragulaInstance.on('over', () => console.log('over'));
 
       dragulaInstance.on('drop', (el, target, source, sibling) => {
         dragulaInstance.remove();
