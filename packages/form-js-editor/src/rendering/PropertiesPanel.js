@@ -172,11 +172,11 @@ function CheckboxEntry(props) {
     }
   };
 
-  const checked = useMemo(() => get(field, path, false), [ get(field, path, false) ]);
+  const value = useMemo(() => get(field, path, false), [ get(field, path, false) ]);
 
   return (
     <div class="fjs-properties-panel-entry">
-      <Checkbox id={ id } label={ label } onChange={ onChange } checked={ checked } />
+      <Checkbox id={ id } label={ label } onChange={ onChange } value={ value } />
     </div>
   );
 }

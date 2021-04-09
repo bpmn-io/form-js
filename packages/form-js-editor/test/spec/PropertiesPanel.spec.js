@@ -160,13 +160,13 @@ describe('properties panel', function() {
       it('should render', function() {
 
         // when
-        const { container } = render(<Checkbox value={ false } />);
+        const { container } = render(<Checkbox value={ true } />);
 
         // then
         const input = container.querySelector('input[type="checkbox"]');
 
         expect(input).to.exist;
-        expect(input.checked).to.be.false;
+        expect(input.checked).to.be.true;
       });
 
 
