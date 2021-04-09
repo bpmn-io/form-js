@@ -16,11 +16,21 @@
   overflow-y: auto;
 }
 
-.fjs-editor-container .fjs-form-container {
+.fjs-editor-container .fjs-form-container,
+.fjs-editor-container .fjs-form {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
+.fjs-editor-container .fjs-form > .fjs-element {
+  flex-grow: 1;
+}
+
 .fjs-editor-container .fjs-children {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   min-width: 300px;
   min-height: 100px;
 }
@@ -31,8 +41,9 @@
 }
 
 .fjs-editor-container .fjs-element {
+  display: flex;
+  flex-direction: column;
   margin: 5px;
-  height: 100%;
 }
 
 .fjs-editor-container .fjs-form > .fjs-element {
