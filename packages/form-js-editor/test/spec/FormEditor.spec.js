@@ -19,6 +19,8 @@ import { isUndefined } from 'min-dash';
 
 insertStyles();
 
+const spy = sinon.spy;
+
 const singleStart = isSingleStart('basic');
 
 
@@ -122,6 +124,82 @@ describe('createFormEditor', function() {
 
     // then
     expect(focusinSpy).to.have.been.called;
+  });
+
+
+  describe('drag & drop', function() {
+
+    it('should enable drag and drop on mount', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const dragulaCreatedSpy = spy(),
+            dragulaDestroyedSpy = spy();
+
+      formEditor.on('dragula.created', dragulaCreatedSpy);
+      formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
+
+      await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
+
+      // then
+      expect(dragulaCreatedSpy).to.have.been.calledOnce;
+      expect(dragulaDestroyedSpy).not.to.have.been.called;
+    });
+
+
+    it('should enable drag and drop on attach', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const dragulaCreatedSpy = spy(),
+            dragulaDestroyedSpy = spy();
+
+      formEditor.on('dragula.created', dragulaCreatedSpy);
+      formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
+
+      await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
+
+      // when
+      formEditor.emitter.emit('attach');
+
+      // then
+      expect(dragulaCreatedSpy).to.have.been.calledTwice;
+      expect(dragulaDestroyedSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should disable drag and drop on detach', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const dragulaCreatedSpy = spy(),
+            dragulaDestroyedSpy = spy();
+
+      formEditor.on('dragula.created', dragulaCreatedSpy);
+      formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
+
+      await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
+
+      // when
+      formEditor.emitter.emit('detach');
+
+      // then
+      expect(dragulaCreatedSpy).to.have.been.calledOnce;
+      expect(dragulaDestroyedSpy).to.have.been.calledOnce;
+    });
+
   });
 
 });
