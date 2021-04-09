@@ -241,11 +241,13 @@
   border: solid 1px var(--color-silver-darken-80) !important;
   border-radius: 3px !important;
   box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%) !important;
-  display: flex;
+  display: flex !important;
   filter: none !important;
-  flex-direction: row;
-  height: 54px !important;
-  justify-content: center;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
   opacity: 0.5 !important;
   padding: 0 !important;
+  pointer-events: none !important;
+  height: 54px !important;
 }
