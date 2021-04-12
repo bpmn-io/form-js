@@ -43,9 +43,7 @@ export default function ColumnsRenderer(props) {
 }
 
 ColumnsRenderer.create = function(options = {}) {
-  const type = 'columns';
-
-  const id = generateIdForType(type);
+  const id = generateIdForType(this.type);
 
   return {
     components: [
@@ -53,7 +51,7 @@ ColumnsRenderer.create = function(options = {}) {
       DefaultRenderer.create({ parent: id })
     ],
     id,
-    type,
+    type: this.type,
     ...options
   };
 };

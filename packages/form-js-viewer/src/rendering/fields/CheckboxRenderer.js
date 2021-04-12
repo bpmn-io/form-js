@@ -8,6 +8,7 @@ import { prefixId } from './Util';
 
 import { generateIdForType } from '../../util';
 
+const type = 'checkbox';
 
 export default function CheckboxRenderer(props) {
   const {
@@ -34,7 +35,7 @@ export default function CheckboxRenderer(props) {
     });
   };
 
-  return <div class={ formFieldClasses(errors) }>
+  return <div class={ formFieldClasses(errors, type) }>
     <Label
       id={ prefixId(id) }
       label={ label }
@@ -52,8 +53,6 @@ export default function CheckboxRenderer(props) {
 }
 
 CheckboxRenderer.create = function(options = {}) {
-  const type = 'checkbox';
-
   const id = generateIdForType(type);
 
   return {
@@ -65,6 +64,6 @@ CheckboxRenderer.create = function(options = {}) {
   };
 };
 
-CheckboxRenderer.type = 'checkbox';
+CheckboxRenderer.type = type;
 
 CheckboxRenderer.label = 'Checkbox';

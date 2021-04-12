@@ -8,6 +8,7 @@ import { prefixId } from './Util';
 
 import { generateIdForType } from '../../util';
 
+const type = 'textfield';
 
 export default function TextfieldRenderer(props) {
   const {
@@ -34,7 +35,7 @@ export default function TextfieldRenderer(props) {
     });
   };
 
-  return <div class={ formFieldClasses(errors) }>
+  return <div class={ formFieldClasses(errors, type) }>
     <Label
       id={ prefixId(id) }
       label={ label }
@@ -52,8 +53,6 @@ export default function TextfieldRenderer(props) {
 }
 
 TextfieldRenderer.create = function(options = {}) {
-  const type = 'textfield';
-
   const id = generateIdForType(type);
 
   return {
@@ -65,6 +64,6 @@ TextfieldRenderer.create = function(options = {}) {
   };
 };
 
-TextfieldRenderer.type = 'textfield';
+TextfieldRenderer.type = type;
 
 TextfieldRenderer.label = 'Text Field';

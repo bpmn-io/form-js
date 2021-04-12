@@ -8,6 +8,8 @@ import { prefixId } from './Util';
 
 import { generateIdForType } from '../../util';
 
+const type = 'number';
+
 
 export default function NumberRenderer(props) {
   const {
@@ -34,7 +36,7 @@ export default function NumberRenderer(props) {
     });
   };
 
-  return <div class={ formFieldClasses(errors) }>
+  return <div class={ formFieldClasses(errors, type) }>
     <Label
       id={ prefixId(id) }
       label={ label }
@@ -52,8 +54,6 @@ export default function NumberRenderer(props) {
 }
 
 NumberRenderer.create = function(options = {}) {
-  const type = 'number';
-
   const id = generateIdForType(type);
 
   return {
@@ -65,6 +65,6 @@ NumberRenderer.create = function(options = {}) {
   };
 };
 
-NumberRenderer.type = 'number';
+NumberRenderer.type = type;
 
 NumberRenderer.label = 'Number';
