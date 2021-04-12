@@ -47,15 +47,13 @@ export default function DefaultRenderer(props) {
 }
 
 DefaultRenderer.create = function(options = {}) {
-  const type = 'default';
-
-  const id = generateIdForType(type);
+  const id = generateIdForType(this.type);
 
   return {
     components: [],
     id,
     label: this.label,
-    type,
+    type: this.type,
     ...options
   };
 };

@@ -4,6 +4,7 @@ import {
 
 import { formFieldClasses } from './Util';
 
+const type = 'button';
 
 export default function ButtonRenderer(props) {
   const {
@@ -13,14 +14,12 @@ export default function ButtonRenderer(props) {
 
   const { action = 'submit' } = field;
 
-  return <div class={ formFieldClasses() }>
+  return <div class={ formFieldClasses([], type) }>
     <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
   </div>;
 }
 
 ButtonRenderer.create = function(options = {}) {
-  const type = 'button';
-
   const id = generateIdForType(type);
 
   return {
@@ -32,6 +31,6 @@ ButtonRenderer.create = function(options = {}) {
   };
 };
 
-ButtonRenderer.type = 'button';
+ButtonRenderer.type = type;
 
 ButtonRenderer.label = 'Button';
