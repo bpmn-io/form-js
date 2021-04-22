@@ -35,7 +35,7 @@ export default function TextfieldRenderer(props) {
     });
   };
 
-  return <div class={ formFieldClasses(errors, type) }>
+  return <div class={ formFieldClasses(type, errors) }>
     <Label
       id={ prefixId(id) }
       label={ label }

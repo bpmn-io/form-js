@@ -1,9 +1,12 @@
-export function formFieldClasses(errors = [], type) {
-  const classes = [ 'fjs-form-field' ];
-
-  if (type) {
-    classes.push(`fjs-${ type }`);
+export function formFieldClasses(type, errors = []) {
+  if (!type) {
+    throw new Error('type required');
   }
+
+  const classes = [
+    'fjs-form-field',
+    `fjs-${ type }`
+  ];
 
   if (errors.length) {
     classes.push('fjs-has-errors');
