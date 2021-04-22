@@ -14,7 +14,7 @@ export default function ButtonRenderer(props) {
 
   const { action = 'submit' } = field;
 
-  return <div class={ formFieldClasses([], type) }>
+  return <div class={ formFieldClasses(type) }>
     <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
   </div>;
 }
