@@ -18,6 +18,11 @@
       }
     },
     {
+      "key": "approved",
+      "label": "Approved",
+      "type": "checkbox"
+    },
+    {
       "key": "approvedBy",
       "label": "Approved By",
       "type": "textfield"
