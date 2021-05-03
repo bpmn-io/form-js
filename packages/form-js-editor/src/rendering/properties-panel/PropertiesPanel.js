@@ -27,7 +27,7 @@ function getGroups(field, editField) {
     GeneralGroup(field, editField)
   ];
 
-  if (INPUTS.includes(type)) {
+  if (INPUTS.includes(type) && type !== 'checkbox') {
     groups.push(ValidationGroup(field, editField));
   }
 

@@ -94,6 +94,29 @@ describe('properties panel', function() {
     });
 
 
+    it('checkbox', function() {
+
+      // given
+      const field = schema.components.find(({ key }) => key === 'approved');
+
+      const result = createPropertiesPanel({
+        container,
+        field
+      });
+
+      // then
+      expectGroups(result.container, [
+        'General'
+      ]);
+
+      expectGroupEntries(result.container, 'General', [
+        'Field Label',
+        'Field Description',
+        'Key'
+      ]);
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {

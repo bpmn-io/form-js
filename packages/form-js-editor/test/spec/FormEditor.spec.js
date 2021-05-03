@@ -210,7 +210,7 @@ async function waitForFormEditorCreated(options) {
   const form = createFormEditor(options);
 
   await waitFor(() => {
-    expect(form.fields.size).to.equal(6);
+    expect(form.fields.size).to.equal(7);
   });
 
   return form;
