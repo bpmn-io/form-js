@@ -5,7 +5,7 @@ export function formFieldClasses(type, errors = []) {
 
   const classes = [
     'fjs-form-field',
-    `fjs-${ type }`
+    `fjs-form-field-${ type }`
   ];
 
   if (errors.length) {

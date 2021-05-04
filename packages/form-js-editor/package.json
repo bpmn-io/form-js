@@ -20,7 +20,7 @@
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint .",
-    "test": "karma start",
+    "test": "cross-env NODE_ENV=test karma start",
     "prepublishOnly": "npm run build"
   },
   "license": "SEE LICENSE IN LICENSE",

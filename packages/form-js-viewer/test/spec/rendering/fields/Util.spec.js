@@ -11,7 +11,7 @@ describe('Util', function() {
       const classes = formFieldClasses('button');
 
       // then
-      expect(classes).to.equal('fjs-form-field fjs-button');
+      expect(classes).to.equal('fjs-form-field fjs-form-field-button');
     });
 
 
@@ -21,7 +21,7 @@ describe('Util', function() {
       const classes = formFieldClasses('button', [ 'foo' ]);
 
       // then
-      expect(classes).to.equal('fjs-form-field fjs-button fjs-has-errors');
+      expect(classes).to.equal('fjs-form-field fjs-form-field-button fjs-has-errors');
     });
 
   });

@@ -27,7 +27,8 @@
   --color-red-darken-38: #C20000;
   --color-red-lighten-85: #ffb3b3;
 
-  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-white: #ffffff;
 
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-silver-darken-94);
@@ -105,9 +106,17 @@
   color: var(--color-text-light);
 }
 
-.fjs-container.fjs-form-field-label,
+.fjs-container .fjs-form-field-label {
+  display: flex;
+  align-items: center;
+}
+
 .fjs-container .fjs-form-field-description {
   display: block;
+}
+
+.fjs-container .fjs-form-field-label,
+.fjs-container .fjs-form-field-description {
   margin: 4px 0;
 }
 
@@ -140,9 +149,9 @@
   height: 90px;
 }
 
-.fjs-container .fjs-checkbox,
 .fjs-container .fjs-radio {
   display: flex;
+  flex-direction: column;
 }
 
 .fjs-container .fjs-input[type=checkbox],
@@ -218,4 +227,8 @@
 
 .fjs-container .fjs-form-field-error > ul > li {
   list-style-type: none;
+}
+
+.fjs-container .fjs-form-field-text a {
+  color: var(--color-blue-darken-48);
 }

@@ -79,6 +79,8 @@ describe('createFormEditor', function() {
       container
     });
 
+    const fieldsSize = formEditor.fields.size;
+
     // when
     const index = 1;
 
@@ -94,7 +96,7 @@ describe('createFormEditor', function() {
     );
 
     // then
-    expect(formEditor.fields.size).to.equal(7);
+    expect(formEditor.fields.size).to.equal(fieldsSize + 1);
     expect(formEditor.fields.get('foo')).to.exist;
   });
 

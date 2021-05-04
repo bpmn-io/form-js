@@ -35,7 +35,9 @@ describe('createForm', function() {
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
+      product: 'camunda-cloud',
+      language: 'english'
     };
 
     // when
