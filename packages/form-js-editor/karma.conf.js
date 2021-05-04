@@ -27,6 +27,10 @@ module.exports = function(karma) {
       [ suite ]: [ 'webpack', 'env' ]
     },
 
+    envPreprocessor: [
+      'NODE_ENV'
+    ],
+
     reporters: [ 'progress' ],
 
     browsers,

@@ -23,6 +23,7 @@ ButtonRenderer.create = function(options = {}) {
   const id = generateIdForType(type);
 
   return {
+    action: 'submit',
     id,
     key: id,
     label: this.label,

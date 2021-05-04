@@ -18,16 +18,14 @@ import {
   SelectionContext
 } from './context';
 
-import Palette from './Palette';
-import PropertiesPanel from './PropertiesPanel';
+import Palette from './palette/Palette';
+import PropertiesPanel from './properties-panel/PropertiesPanel';
 
 import dragula from 'dragula';
 
-import RemoveIcon from './icons/Remove.svg';
+import { ListDeleteIcon } from './properties-panel/icons';
 
-import { iconsByType } from './icons';
-
-import { isDefined } from 'min-dash';
+import { iconsByType } from './palette/icons';
 
 function ContextPad(props) {
   if (!props.children) {
@@ -67,7 +65,7 @@ function Element(props) {
   } = field;
 
   function onClick(event) {
-    if (!field.key) {
+    if (type === 'default') {
       return;
     }
 
@@ -112,7 +110,7 @@ function Element(props) {
       onClick={ onClick }>
       <ContextPad>
         {
-          selection === id ? <button class="fjs-context-pad-item" onClick={ onRemove }><RemoveIcon width="18" /></button> : null
+          selection === id ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button> : null
         }
       </ContextPad>
       { props.children }
@@ -144,7 +142,6 @@ export default function FormEditor(props) {
   const {
     fields,
     getFieldRenderer,
-    fieldRenderers,
     addField,
     moveField,
     editField,
@@ -290,7 +287,7 @@ export default function FormEditor(props) {
 
       <DragAndDropContext.Provider value={ dragAndDropContext }>
         <div class="fjs-palette-container">
-          <Palette fieldRenderers={ fieldRenderers } />
+          <Palette />
         </div>
         <div class="fjs-form-container">
 
@@ -367,5 +364,5 @@ function findSelectableField(schema, fields, field) {
     return parent.components[ index + 1 ];
   }
 
-  return schema.components.find(field => isDefined(field.key));
+  return schema.components.find(({ type }) => type !== 'default');
 }

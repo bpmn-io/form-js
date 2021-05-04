@@ -32,3 +32,28 @@ export function insertCSS(name, css) {
 
 
 insertStyles();
+
+/**
+ * Create form container:
+ *
+ * <div class="fjs-container">
+ *   <div class="fjs-form"></div>
+ * </div>
+ *
+ * @returns {Element}
+ */
+export function createFormContainer() {
+  const container = document.createElement('div');
+
+  container.classList.add('fjs-container');
+
+  document.body.appendChild(container);
+
+  const formContainer = document.createElement('div');
+
+  formContainer.classList.add('fjs-form');
+
+  container.appendChild(formContainer);
+
+  return container;
+}
