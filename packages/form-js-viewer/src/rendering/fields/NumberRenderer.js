@@ -10,7 +10,6 @@ import { generateIdForType } from '../../util';
 
 const type = 'number';
 
-
 export default function NumberRenderer(props) {
   const {
     disabled,

@@ -40,10 +40,11 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(6);
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(7);
 
     expectEntries(result.container, [
       'textfield',
+      'number',
       'checkbox',
       'radio',
       'select',

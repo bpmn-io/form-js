@@ -51,6 +51,21 @@ export default function ValidationGroup(field, editField) {
     );
   }
 
+  if (type === 'number') {
+    entries.push(
+      <NumberInputEntry
+        id="min"
+        label="Minimum"
+        onChange={ onChange('min') }
+        value={ get(field, [ 'validate', 'min' ]) } />,
+      <NumberInputEntry
+        id="max"
+        label="Maximum"
+        onChange={ onChange('max') }
+        value={ get(field, [ 'validate', 'max' ]) } />
+    );
+  }
+
   return (
     <Group label="Validation">
       {
