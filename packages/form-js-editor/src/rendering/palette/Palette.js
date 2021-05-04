@@ -8,6 +8,10 @@ const types = [
     type: 'textfield'
   },
   {
+    label: 'Number',
+    type: 'number'
+  },
+  {
     label: 'Checkbox',
     type: 'checkbox'
   },
