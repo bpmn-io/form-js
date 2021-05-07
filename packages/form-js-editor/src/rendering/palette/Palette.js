@@ -20,6 +20,10 @@ const types = [
     type: 'select'
   },
   {
+    label: 'Text',
+    type: 'text'
+  },
+  {
     label: 'Button',
     type: 'button'
   }

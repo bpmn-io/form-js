@@ -5,7 +5,8 @@ import {
   ColumnsEntry,
   DescriptionEntry,
   KeyEntry,
-  LabelEntry
+  LabelEntry,
+  TextEntry
 } from '../entries';
 
 import { INPUTS } from '../Util';
@@ -33,6 +34,10 @@ export default function GeneralGroup(field, editField) {
 
   if (type === 'columns') {
     entries.push(<ColumnsEntry editField={ editField } field={ field } />);
+  }
+
+  if (type === 'text') {
+    entries.push(<TextEntry editField={ editField } field={ field } />);
   }
 
   return (

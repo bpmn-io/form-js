@@ -309,6 +309,31 @@ describe('properties panel', function() {
     });
 
 
+    describe('text', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'text');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Text'
+        ]);
+      });
+
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {

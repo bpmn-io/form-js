@@ -35,7 +35,9 @@
   },
   "devDependencies": {
     "min-dash": "^3.7.0",
-    "mitt": "^2.1.0"
+    "mitt": "^2.1.0",
+    "preact-markup": "^2.1.1",
+    "snarkdown": "^2.0.0"
   },
   "dependencies": {
     "preact": "^10.5.12"
