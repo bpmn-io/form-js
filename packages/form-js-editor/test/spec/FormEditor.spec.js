@@ -117,7 +117,7 @@ describe('createFormEditor', function() {
     let input;
 
     await waitFor(async () => {
-      input = await screen.getByLabelText('Field Label');
+      input = await screen.getByLabelText('Text');
 
       expect(input).to.exist;
     });
@@ -210,7 +210,7 @@ async function waitForFormEditorCreated(options) {
   const form = createFormEditor(options);
 
   await waitFor(() => {
-    expect(form.fields.size).to.equal(9);
+    expect(form.fields.size).to.equal(10);
   });
 
   return form;
