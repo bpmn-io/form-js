@@ -22,10 +22,6 @@ import { clone } from '../util';
  * @typedef { ('submit' | 'changed') } Events
  * @typedef { { data: Data, schema: Schema, properties?: PropertyOptions } } FormCoreOptions
  * @typedef { { data: Data, errors: Errors, schema: Schema, properties: PropertyOptions } } State
- *
- * @callback EventHandler
- * @param { { data: Data, errors: Errors} } state
- * @returns { void }
  */
 
 /**
@@ -133,7 +129,7 @@ export default class FormCore {
 
   /**
    * @param { Data } data
-   * @return Errors
+   * @returns Errors
    */
   validateAll(data) {
     const errors = Array.from(this.fields.values()).reduce((errors, field) => {
@@ -185,16 +181,14 @@ export default class FormCore {
   }
 
   /**
-   * @param { Events } event
-   * @param { EventHandler } callback
+   * @type { (event: Events, callback: (state: any) => void) => void }
    */
   on(event, callback) {
     this.emitter.on(event, callback);
   }
 
   /**
-   * @param { Events } event
-   * @param { EventHandler } callback
+   * @type { (event: Events, callback: (state: any) => void) => void }
    */
   off(event, callback) {
     this.emitter.off(event, callback);
