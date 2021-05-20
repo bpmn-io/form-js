@@ -6,6 +6,7 @@ import DefaultRenderer from './DefaultRenderer';
 
 // import NumberRenderer from './NumberRenderer';
 import RadioRenderer from './RadioRenderer';
+import SelectRenderer from './SelectRenderer';
 import TextfieldRenderer from './TextfieldRenderer';
 
 export { default as ButtonRenderer } from './ButtonRenderer';
@@ -16,6 +17,7 @@ export { default as DefaultRenderer } from './DefaultRenderer';
 
 // export { default as NumberRenderer } from './NumberRenderer';
 export { default as RadioRenderer } from './RadioRenderer';
+export { default as SelectRenderer } from './SelectRenderer';
 export { default as TextfieldRenderer } from './TextfieldRenderer';
 
 export const fields = [
@@ -27,6 +29,7 @@ export const fields = [
 
   // NumberRenderer,
   RadioRenderer,
+  SelectRenderer,
   TextfieldRenderer
 ];
 

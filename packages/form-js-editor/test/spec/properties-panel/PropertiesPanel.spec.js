@@ -213,6 +213,102 @@ describe('properties panel', function() {
     });
 
 
+    describe('select', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ key }) => key === 'language');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Values',
+          'Validation'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Field Label',
+          'Field Description',
+          'Key'
+        ]);
+
+        expectGroupEntries(result.container, 'Values', [
+          [ 'Label', 2 ],
+          [ 'Value', 2 ]
+        ]);
+
+        expectGroupEntries(result.container, 'Validation', [
+          'Required'
+        ]);
+      });
+
+
+      describe('values', function() {
+
+        it('should add value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const addEntry = result.container.querySelector('.fjs-properties-panel-group-header-button-add-entry');
+
+          fireEvent.click(addEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
+            ...field.values,
+            {
+              label: 'Value',
+              value: 'value'
+            }
+          ]);
+        });
+
+
+        it('should remove value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const removeEntry = result.container.querySelector('.fjs-properties-panel-collapsible-entry-header-remove-entry');
+
+          fireEvent.click(removeEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
+            field.values[ 1 ]
+          ]);
+        });
+
+      });
+
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {
