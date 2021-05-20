@@ -28,6 +28,21 @@
       "type": "textfield"
     },
     {
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Camunda Platform",
+          "value": "camunda-platform"
+        },
+        {
+          "label": "Camunda Cloud",
+          "value": "camunda-cloud"
+        }
+      ]
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"

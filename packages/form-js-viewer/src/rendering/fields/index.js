@@ -5,6 +5,7 @@ import CheckboxRenderer from './CheckboxRenderer';
 import DefaultRenderer from './DefaultRenderer';
 
 // import NumberRenderer from './NumberRenderer';
+import RadioRenderer from './RadioRenderer';
 import TextfieldRenderer from './TextfieldRenderer';
 
 export { default as ButtonRenderer } from './ButtonRenderer';
@@ -14,6 +15,7 @@ export { default as CheckboxRenderer } from './CheckboxRenderer';
 export { default as DefaultRenderer } from './DefaultRenderer';
 
 // export { default as NumberRenderer } from './NumberRenderer';
+export { default as RadioRenderer } from './RadioRenderer';
 export { default as TextfieldRenderer } from './TextfieldRenderer';
 
 export const fields = [
@@ -24,6 +26,7 @@ export const fields = [
   DefaultRenderer,
 
   // NumberRenderer,
+  RadioRenderer,
   TextfieldRenderer
 ];
 
