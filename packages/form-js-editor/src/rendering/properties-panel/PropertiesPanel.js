@@ -1,6 +1,7 @@
 import {
   GeneralGroup,
-  ValidationGroup
+  ValidationGroup,
+  ValuesGroup
 } from './groups';
 
 import {
@@ -26,6 +27,10 @@ function getGroups(field, editField) {
   const groups = [
     GeneralGroup(field, editField)
   ];
+
+  if (type === 'radio') {
+    groups.push(ValuesGroup(field, editField));
+  }
 
   if (INPUTS.includes(type) && type !== 'checkbox') {
     groups.push(ValidationGroup(field, editField));

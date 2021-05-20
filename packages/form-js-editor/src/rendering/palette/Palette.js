@@ -12,6 +12,10 @@ const types = [
     type: 'checkbox'
   },
   {
+    label: 'Radio',
+    type: 'radio'
+  },
+  {
     label: 'Button',
     type: 'button'
   }

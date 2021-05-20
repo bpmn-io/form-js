@@ -3,3 +3,4 @@ export { default as ColumnsEntry } from './ColumnsEntry';
 export { default as DescriptionEntry } from './DescriptionEntry';
 export { default as KeyEntry } from './KeyEntry';
 export { default as LabelEntry } from './LabelEntry';
+export { default as ValueEntry } from './ValueEntry';
