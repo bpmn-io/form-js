@@ -43,6 +43,21 @@
       ]
     },
     {
+      "key": "language",
+      "label": "Language",
+      "type": "select",
+      "values": [
+        {
+          "label": "German",
+          "value": "german"
+        },
+        {
+          "label": "English",
+          "value": "english"
+        }
+      ]
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"

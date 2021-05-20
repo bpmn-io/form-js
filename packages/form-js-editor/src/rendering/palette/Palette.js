@@ -16,6 +16,10 @@ const types = [
     type: 'radio'
   },
   {
+    label: 'Select',
+    type: 'select'
+  },
+  {
     label: 'Button',
     type: 'button'
   }
