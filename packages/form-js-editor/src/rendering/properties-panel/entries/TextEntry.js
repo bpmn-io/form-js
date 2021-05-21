@@ -12,6 +12,7 @@ export default function TextEntry(props) {
       field={ field }
       id="text"
       label="Text"
-      path={ [ 'text' ] } />
+      path={ [ 'text' ] }
+      description="Use HTML or Markdown to format." />
   );
 }
