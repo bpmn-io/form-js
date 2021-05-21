@@ -13,7 +13,7 @@ export default function KeyEntry(props) {
       field={ field }
       id="key"
       label="Key"
-      description="Maps to a process variable"
+      description="Maps to a process variable."
       path={ [ 'key' ] } />
   );
 }
