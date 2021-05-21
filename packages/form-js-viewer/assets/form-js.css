@@ -32,8 +32,8 @@
 
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-silver-darken-94);
-  --color-text: var(--color-gray-darken-23);
-  --color-text-light: var(--color-gray-lighten-56);
+  --color-text: var(--color-grey-darken-23);
+  --color-text-light: var(--color-grey-lighten-56);
   --color-text-inverted: var(--color-white);
   --color-borders: var(--color-grey-lighten-56);
   --color-borders-disabled: var(--color-silver-darken-80);
