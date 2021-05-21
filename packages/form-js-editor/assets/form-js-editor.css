@@ -43,7 +43,15 @@
 .fjs-editor-container .fjs-element {
   display: flex;
   flex-direction: column;
-  margin: 5px;
+  margin: 0 5px;
+}
+
+.fjs-editor-container .fjs-element + .fjs-element {
+  margin-top: 2px;
+}
+
+.fjs-editor-container .fjs-form-field:not(.fjs-powered-by) {
+  margin: 1px 16px;
 }
 
 .fjs-editor-container .fjs-form > .fjs-element {
