@@ -9,7 +9,7 @@
 
 This library exports a form viewer and editor.
 
-### Display a Form
+### Display a Form <a id="viewer" />
 
 Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data:
 
@@ -30,7 +30,7 @@ form.on('submit', (event) => {
 See [viewer documentation](./packages/form-js-viewer) for further details.
 
 
-### Create and Edit a Form
+### Create and Edit a Form <a id="builder" />
 
 Create a new form or edit an exsting one:
 
