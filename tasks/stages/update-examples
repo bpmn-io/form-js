@@ -1,0 +1,43 @@
+#! /bin/bash
+
+# update form-js version in the <form-js-examples> project
+
+PWD="$(pwd)"
+WORKDIR="$(pwd)/tmp"
+EXAMPLES_DIR="$WORKDIR/form-js-examples"
+
+# create work dir
+mkdir -p "$WORKDIR"
+
+git clone --depth=1 "https://$BPMN_IO_TOKEN@github.com/bpmn-io/form-js-examples.git" "$EXAMPLES_DIR"
+
+cd "$EXAMPLES_DIR"
+
+TOOLKIT_VERSION="${TAG:1}"
+echo "Updating toolkit versions to $TOOLKIT_VERSION"
+
+sed -i -E "s#/form-js@[^/]+/#/form-js@$TOOLKIT_VERSION/#" **/*.{html,md}
+
+# update via npm if possible
+for dir in $(ls -d */)
+do
+  (cd $dir && [[ -f "package.json" ]] && npm install "@bpmn-io/form-js@$TOOLKIT_VERSION")
+done
+
+if [[ "x$SKIP_COMMIT" = "x" ]]; then
+
+  git config user.email "$BPMN_IO_EMAIL"
+  git config user.name "$BPMN_IO_USERNAME"
+  git config push.default simple
+
+  # add all resources
+  git add -A
+  git commit -m "deps: bump to form-js@$TAG"
+  git tag "$TAG"
+  git push -q &2>/dev/null
+  git push --tags -q &2>/dev/null
+else
+  echo "Skipping commit (SKIP_COMMIT=$SKIP_COMMIT)"
+fi
+
+cd "$PWD"
