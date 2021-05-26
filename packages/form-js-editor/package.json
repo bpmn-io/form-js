@@ -3,8 +3,11 @@
   "version": "0.0.12",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
-    "import": "./dist/index.es.js",
-    "require": "./dist/index.cjs"
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
