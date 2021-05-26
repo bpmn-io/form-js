@@ -41,5 +41,8 @@
   },
   "dependencies": {
     "preact": "^10.5.12"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

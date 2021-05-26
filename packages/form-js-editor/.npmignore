@@ -1,7 +1,0 @@
-src
-test
-.eslintignore
-.eslintrc
-karma.conf.js
-rollup.config.js
-tsconfig.json

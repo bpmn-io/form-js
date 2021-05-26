@@ -42,5 +42,8 @@
     "array-move": "^3.0.1",
     "dragula": "^3.7.3",
     "preact": "^10.5.12"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
