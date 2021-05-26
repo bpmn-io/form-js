@@ -6,6 +6,18 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.1.0
+
+_This release adds new fields. Older form-js viewers are incompatible with it._
+
+* `FEAT`: add `checkbox` field
+* `FEAT`: add `radio` field
+* `FEAT`: add `select` field
+* `FEAT`: add read-only `text` field
+* `FEAT`: add `number` field
+* `FEAT`: decrease visual presence of descriptions
+* `FEAT`: make editor field preview match renderered form
+
 ## 0.0.12
 
 * fix `required` checkbox in properties panel by passing correct props ([#53](https://github.com/bpmn-io/form-js/pull/53))
