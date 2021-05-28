@@ -1,4 +1,4 @@
-import { createForm } from '../../src';
+import { createForm, schemaVersion } from '../../src';
 
 import schema from './form.json';
 
@@ -52,6 +52,11 @@ describe('createForm', function() {
     expect(form.reset).to.exist;
     expect(form.submit).to.exist;
     expect(form.update).to.exist;
+  });
+
+
+  it('should expose schemaVersion', function() {
+    expect(typeof schemaVersion).to.eql('number');
   });
 
 });
