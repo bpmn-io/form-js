@@ -1,4 +1,4 @@
-import { createFormEditor } from '../../src';
+import { schemaVersion, createFormEditor } from '../../src';
 
 import schema from './form.json';
 
@@ -28,6 +28,21 @@ describe('createFormEditor', function() {
 
     // then
     expect(formEditor).to.exist;
+  });
+
+
+  it('should export schemaVersion', function() {
+
+    // given
+    const formEditor = createFormEditor({
+      container,
+      schema
+    });
+
+    // when
+    const savedSchema = formEditor.getSchema();
+
+    expect(savedSchema).to.have.property('schemaVersion', schemaVersion);
   });
 
 });
