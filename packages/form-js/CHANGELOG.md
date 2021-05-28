@@ -8,7 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 0.1.0
 
-_This release adds new fields. Older form-js viewers are incompatible with it._
+_This release adds new form fields that are not supported by older versions of form-js._
 
 * `FEAT`: add `checkbox` field
 * `FEAT`: add `radio` field
