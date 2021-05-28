@@ -40,6 +40,9 @@
     "@bpmn-io/form-js-editor": "^0.0.12",
     "@bpmn-io/form-js-viewer": "^0.0.12"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ]

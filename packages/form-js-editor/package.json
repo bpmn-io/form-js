@@ -46,6 +46,9 @@
     "dragula": "^3.7.3",
     "preact": "^10.5.12"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ]
