@@ -1,4 +1,7 @@
-import { createForm } from '../../src';
+import {
+  createForm,
+  schemaVersion
+} from '../../src';
 
 import { spy } from 'sinon';
 
@@ -25,6 +28,11 @@ describe('createForm', function() {
 
   !singleStart && afterEach(function() {
     document.body.removeChild(container);
+  });
+
+
+  it('should expose schemaVersion', function() {
+    expect(typeof schemaVersion).to.eql('number');
   });
 
 

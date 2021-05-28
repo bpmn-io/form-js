@@ -1,11 +1,15 @@
 import { FormCore } from './core';
 import { FormRenderer } from './rendering';
 
+const schemaVersion = 1;
+
 export * from './core';
 
 export * from './rendering';
 
 export * from './util';
+
+export { schemaVersion };
 
 /**
  * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormOptions
