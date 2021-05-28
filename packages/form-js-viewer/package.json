@@ -45,6 +45,9 @@
   "dependencies": {
     "preact": "^10.5.12"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ]
