@@ -1,4 +1,7 @@
-import { createFormEditor } from '../../src';
+import {
+  createFormEditor,
+  schemaVersion
+} from '../../src';
 
 import {
   screen,
@@ -66,8 +69,31 @@ describe('createFormEditor', function() {
     const exportedSchema = formEditor.getSchema();
 
     // then
-    expect(exportedSchema).to.eql(schema);
+    expect(exportedSchema).to.eql(exportTagged(schema));
+
     expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
+  });
+
+
+  it('should expose schema with custom exporter', async function() {
+
+    // given
+    const exporter = {
+      name: 'Foo',
+      version: 'bar'
+    };
+
+    const formEditor = await waitForFormEditorCreated({
+      container,
+      schema,
+      exporter
+    });
+
+    // when
+    const exportedSchema = formEditor.getSchema();
+
+    // then
+    expect(exportedSchema).to.eql(exportTagged(schema, exporter));
   });
 
 
@@ -214,4 +240,14 @@ async function waitForFormEditorCreated(options) {
   });
 
   return form;
+}
+
+
+function exportTagged(schema, exporter) {
+
+  return {
+    schemaVersion,
+    exporter,
+    ...schema
+  };
 }
