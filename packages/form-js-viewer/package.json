@@ -4,17 +4,19 @@
   "description": "View forms - powered by bpmn.io",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs"
+      "umd": "./dist/form-js-viewer.umd.js",
+      "import": "./dist/form-js-viewer.js",
+      "require": "./dist/form-js-viewer.cjs"
     },
     "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.es.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/form-js-viewer.cjs",
+  "module": "./dist/form-js-viewer.js",
+  "umd:main": "./dist/form-js-viewer.umd.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "all": "run-s test build",
     "build": "run-p bundle generate-types",

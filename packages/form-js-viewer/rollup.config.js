@@ -4,6 +4,31 @@ import resolve from '@rollup/plugin-node-resolve';
 
 import pkg from './package.json';
 
+
+function pgl(options = {}) {
+
+  const {
+    resolve: resolveOptions = {},
+    copy: copyOptions
+  } = options;
+
+  return [
+    babel({
+      babelHelpers: 'bundled',
+      plugins: [
+        [ '@babel/plugin-transform-react-jsx', {
+          'importSource': 'preact',
+          'runtime': 'automatic'
+        } ]
+      ]
+    }),
+    copyOptions && copy(copyOptions),
+    resolveOptions && resolve(resolveOptions)
+  ];
+
+}
+
+
 export default [
   {
     input: 'src/index.js',
@@ -19,27 +44,32 @@ export default [
         file: pkg.module
       }
     ],
-    plugins: [
-      babel({
-        babelHelpers: 'bundled',
-        plugins: [
-          [ '@babel/plugin-transform-react-jsx', {
-            'importSource': 'preact',
-            'runtime': 'automatic'
-          } ]
-        ]
-      }),
-      copy({
-        targets: [
-          { src: 'assets/form-js.css', dest: 'dist/assets' }
-        ]
-      }),
-      resolve({
+    plugins: pgl({
+      resolve: {
         resolveOnly: [
           'min-dash',
           'mitt'
         ]
-      })
-    ]
+      },
+      copy: {
+        targets: [
+          { src: 'assets/form-js.css', dest: 'dist/assets' }
+        ]
+      }
+    })
+  },
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        sourcemap: true,
+        format: 'umd',
+        file: pkg['umd:main'],
+        name: 'FormViewer'
+      }
+    ],
+    plugins: pgl({
+      resolve: {}
+    })
   }
 ];
