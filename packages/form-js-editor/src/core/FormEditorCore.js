@@ -7,18 +7,20 @@ import {
 
 import {
   clone,
-  importSchema,
-  exportSchema
+  importSchema
 } from '@bpmn-io/form-js-viewer';
 
 import arrayMove from 'array-move';
+
 
 export default class FormEditorCore {
   constructor(options) {
 
     const {
       properties = {},
-      schema = {}
+      schema = {},
+      schemaVersion,
+      exporter
     } = options;
 
     this.emitter = mitt();
@@ -29,6 +31,9 @@ export default class FormEditorCore {
     } = importSchema(schema);
 
     this.fields = fields;
+
+    this.exporter = exporter;
+    this.schemaVersion = schemaVersion;
 
     this.initialSchema = clone(importedSchema);
 
@@ -186,7 +191,12 @@ export default class FormEditorCore {
   }
 
   getSchema() {
-    return exportSchema(this.state.schema);
+
+    return exportSchema(
+      this.state.schema,
+      this.exporter,
+      this.schemaVersion
+    );
   }
 
   setState(state) {
@@ -239,4 +249,20 @@ function updatePath(fields, field, index) {
   field.path = [ ...parent.path, 'components', index ];
 
   return field;
+}
+
+export function exportSchema(schema, exporter, schemaVersion) {
+  const cleanedSchema = clone(schema, (name, value) => {
+    if ([ 'id', 'parent', 'path' ].includes(name)) {
+      return undefined;
+    }
+
+    return value;
+  });
+
+  return {
+    exporter,
+    schemaVersion,
+    ...cleanedSchema,
+  };
 }
