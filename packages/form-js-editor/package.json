@@ -4,16 +4,18 @@
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs"
+      "umd": "./dist/form-js-editor.umd.js",
+      "import": "./dist/form-js-editor.js",
+      "require": "./dist/form-js-editor.cjs"
     },
     "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.es.js",
+  "main": "dist/form-js-editor.cjs",
+  "module": "dist/form-js-editor.js",
+  "umd:main": "./dist/form-js-editor.umd.js",
   "scripts": {
     "all": "run-s lint test build",
     "build": "run-p bundle",
