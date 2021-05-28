@@ -9,9 +9,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.es.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "umd:main": "./dist/form-js-viewer.umd.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "all": "run-s test build",
     "build": "run-p bundle generate-types",
