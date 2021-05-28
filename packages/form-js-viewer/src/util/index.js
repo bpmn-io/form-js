@@ -109,13 +109,3 @@ function importFields(components, fields, parent) {
     importField(component, fields, parent, index);
   });
 }
-
-export function exportSchema(schema) {
-  return clone(schema, (name, value) => {
-    if ([ 'id', 'parent', 'path' ].includes(name)) {
-      return undefined;
-    }
-
-    return value;
-  });
-}
