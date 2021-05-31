@@ -8,14 +8,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
 
 
-function pgl(options = {}) {
-
-  const {
-    resolve: resolveOptions = {},
-    commonjs: commonjsOptions,
-    copy: copyOptions
-  } = options;
-
+function pgl(plugins=[]) {
   return [
     alias({
       entries: [
@@ -33,9 +26,8 @@ function pgl(options = {}) {
         } ]
       ]
     }),
-    copyOptions && copy(copyOptions),
-    resolveOptions && resolve(resolveOptions),
-    commonjsOptions && commonjs()
+    ...plugins,
+    commonjs()
   ];
 
 }
@@ -55,21 +47,26 @@ export default [
         file: pkg.module
       }
     ],
-    plugins: pgl({
-      resolve: {
-        resolveOnly: [
-          'min-dash',
-          'mitt'
-        ]
-      },
-      copy: {
+    external: [
+      'mitt',
+      'min-dash',
+      'array-move',
+      'preact',
+      'preact/jsx-runtime',
+      'preact/hooks',
+      'preact/compat',
+      'dragula',
+      '@bpmn-io/form-js-viewer'
+    ],
+    plugins: pgl([
+      copy({
         targets: [
           { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },
           { src: 'assets/form-js-editor.css', dest: 'dist/assets' },
           { src: '../../node_modules/dragula/dist/dragula.css', dest: 'dist/assets' }
         ]
-      }
-    })
+      })
+    ])
   },
   {
     input: 'src/index.js',
@@ -81,9 +78,8 @@ export default [
         name: 'FormEditor'
       }
     ],
-    plugins: pgl({
-      resolve: {},
-      commonjs: {}
-    })
+    plugins: pgl([
+      resolve()
+    ])
   }
 ];

@@ -1,16 +1,12 @@
 import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 import pkg from './package.json';
 
 
-function pgl(options = {}) {
-
-  const {
-    resolve: resolveOptions = {},
-    copy: copyOptions
-  } = options;
+function pgl(plugins = []) {
 
   return [
     babel({
@@ -22,8 +18,8 @@ function pgl(options = {}) {
         } ]
       ]
     }),
-    copyOptions && copy(copyOptions),
-    resolveOptions && resolve(resolveOptions)
+    ...plugins,
+    commonjs()
   ];
 
 }
@@ -44,19 +40,23 @@ export default [
         file: pkg.module
       }
     ],
-    plugins: pgl({
-      resolve: {
-        resolveOnly: [
-          'min-dash',
-          'mitt'
-        ]
-      },
-      copy: {
+    external: [
+      'mitt',
+      'min-dash',
+      'preact',
+      'preact/jsx-runtime',
+      'preact/hooks',
+      'preact/compat',
+      'preact-markup',
+      'snarkdown'
+    ],
+    plugins: pgl([
+      copy({
         targets: [
           { src: 'assets/form-js.css', dest: 'dist/assets' }
         ]
-      }
-    })
+      })
+    ])
   },
   {
     input: 'src/index.js',
@@ -68,8 +68,8 @@ export default [
         name: 'FormViewer'
       }
     ],
-    plugins: pgl({
-      resolve: {}
-    })
+    plugins: pgl([
+      resolve()
+    ])
   }
 ];
