@@ -14,15 +14,17 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "all": "run-s lint test build",
-    "build": "run-p bundle",
+    "build": "run-p bundle generate-types",
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint .",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
     "test": "cross-env NODE_ENV=test karma start",
     "prepublishOnly": "npm run build"
   },
