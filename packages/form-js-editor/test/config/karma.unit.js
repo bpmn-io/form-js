@@ -1,8 +1,8 @@
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
-var browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
+const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
-var singleStart = process.env.SINGLE_START;
+const singleStart = process.env.SINGLE_START;
 
 // use puppeteer provided Chrome for testing
 process.env.CHROME_BIN = require('puppeteer').executablePath();
@@ -11,7 +11,9 @@ const suite = 'test/testBundle.js';
 
 module.exports = function(karma) {
 
-  var config = {
+  const config = {
+
+    basePath: '../../',
 
     frameworks: [
       'webpack',
@@ -27,6 +29,10 @@ module.exports = function(karma) {
       [ suite ]: [ 'webpack', 'env' ]
     },
 
+    envPreprocessor: [
+      'NODE_ENV'
+    ],
+
     reporters: [ 'progress' ],
 
     browsers,
@@ -36,13 +42,6 @@ module.exports = function(karma) {
 
     webpack: {
       mode: 'development',
-      resolve: {
-        mainFields: [
-          'module',
-          'browser',
-          'main'
-        ]
-      },
       module: {
         rules: [
           {
@@ -63,8 +62,23 @@ module.exports = function(karma) {
                 ]
               }
             }
+          },
+          {
+            test: /\.svg$/,
+            use: [ 'react-svg-loader' ]
           }
+        ]
+      },
+      resolve: {
+        mainFields: [
+          'browser',
+          'module',
+          'main'
         ],
+        alias: {
+          'react': 'preact/compat',
+          'react-dom': 'preact/compat'
+        },
       },
       devtool: 'eval-source-map'
     }

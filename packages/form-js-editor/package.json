@@ -18,7 +18,7 @@
   "umd:main": "./dist/form-js-editor.umd.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "all": "run-s lint test build",
+    "all": "run-s lint test build test:distro",
     "build": "run-p bundle generate-types",
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
@@ -27,8 +27,9 @@
     "lint": "run-s lint:*",
     "lint:eslint": "eslint .",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
-    "test": "cross-env NODE_ENV=test karma start",
-    "prepublishOnly": "npm run build"
+    "test": "cross-env NODE_ENV=test karma start test/config/karma.unit.js",
+    "test:distro": "cross-env NODE_ENV=test karma start test/config/karma.distro.js",
+    "prepublishOnly": "run-s build test:distro"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {

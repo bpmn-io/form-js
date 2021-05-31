@@ -1,7 +1,7 @@
 {
   "name": "form-js",
   "scripts": {
-    "all": "run-s lint build lint:types test",
+    "all": "run-s lint build lint:types test test:distro",
     "build-distro": "lerna run prepublishOnly --sort",
     "clean": "del-cli \"{node_modules,dist}\" \"packages/*/{node_modules,dist}\"",
     "distro": "run-s clean reinstall build-distro",
@@ -17,6 +17,7 @@
     "reinstall": "npm ci",
     "release": "run-s distro test \"lerna-publish -- {@}\" --",
     "test": "lerna run test",
+    "test:distro": "lerna run test:distro",
     "ci": "run-s all build-distro",
     "start": "cross-env SINGLE_START=basic npm run dev --",
     "start:viewer": "npm run start -- @bpmn-io/form-js-viewer",
