@@ -1,8 +1,26 @@
 import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
-
 import pkg from './package.json';
+
+function pgl(plugins = []) {
+
+  return [
+    resolve(),
+    babel({
+      babelHelpers: 'bundled',
+      plugins: [
+        [ '@babel/plugin-transform-react-jsx', {
+          'importSource': 'preact',
+          'runtime': 'automatic'
+        } ]
+      ]
+    }),
+    ...plugins
+  ];
+
+}
+
 
 export default [
   {
@@ -19,27 +37,22 @@ export default [
         file: pkg.module
       }
     ],
-    plugins: [
-      babel({
-        babelHelpers: 'bundled',
-        plugins: [
-          [ '@babel/plugin-transform-react-jsx', {
-            'importSource': 'preact',
-            'runtime': 'automatic'
-          } ]
-        ]
-      }),
+    external: [
+      'mitt',
+      'min-dash',
+      'preact',
+      'preact/jsx-runtime',
+      'preact/hooks',
+      'preact/compat',
+      'preact-markup',
+      'snarkdown'
+    ],
+    plugins: pgl([
       copy({
         targets: [
           { src: 'assets/form-js.css', dest: 'dist/assets' }
         ]
-      }),
-      resolve({
-        resolveOnly: [
-          'min-dash',
-          'mitt'
-        ]
       })
-    ]
+    ])
   }
 ];

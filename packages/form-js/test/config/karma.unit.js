@@ -1,8 +1,8 @@
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
-var browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
+const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
-var singleStart = process.env.SINGLE_START;
+const singleStart = process.env.SINGLE_START;
 
 // use puppeteer provided Chrome for testing
 process.env.CHROME_BIN = require('puppeteer').executablePath();
@@ -11,7 +11,9 @@ const suite = 'test/testBundle.js';
 
 module.exports = function(karma) {
 
-  var config = {
+  const config = {
+
+    basePath: '../../',
 
     frameworks: [
       'webpack',

@@ -37,13 +37,11 @@
     "name": "bpmn.io contributors",
     "url": "https://github.com/bpmn-io"
   },
-  "devDependencies": {
+  "dependencies": {
     "min-dash": "^3.7.0",
     "mitt": "^2.1.0",
     "preact-markup": "^2.1.1",
-    "snarkdown": "^2.0.0"
-  },
-  "dependencies": {
+    "snarkdown": "^2.0.0",
     "preact": "^10.5.12"
   },
   "sideEffects": [
