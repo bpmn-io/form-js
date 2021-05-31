@@ -1,6 +1,6 @@
 # form-js-editor - Form editor powered by bpmn.io
 
-This library exports an editor for creating and editing forms.
+An editor to create forms that can be displayed with the [form-js viewer](../form-js-viewer).
 
 
 ## Installation
