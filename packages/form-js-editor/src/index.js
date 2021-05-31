@@ -6,13 +6,13 @@ import { schemaVersion } from '@bpmn-io/form-js-viewer';
 export { schemaVersion };
 
 /**
- * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormOptions
+ * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormEditorOptions
  */
 
 /**
  * Create a form editor.
  *
- * @param {FormOptions} options
+ * @param {FormEditorOptions} options
  *
  * @return {FormEditorCore}
  */

@@ -12,13 +12,13 @@ export * from './util';
 export { schemaVersion };
 
 /**
- * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormOptions
+ * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormViewerOptions
  */
 
 /**
  * Create a form.
  *
- * @param {FormOptions} options
+ * @param {FormViewerOptions} options
  *
  * @return {FormCore}
  */
