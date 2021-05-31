@@ -13,6 +13,8 @@ module.exports = function(karma) {
 
   var config = {
 
+    basePath: '../../',
+
     frameworks: [
       'webpack',
       'mocha',
@@ -26,10 +28,6 @@ module.exports = function(karma) {
     preprocessors: {
       [ suite ]: [ 'webpack', 'env' ]
     },
-
-    envPreprocessor: [
-      'NODE_ENV'
-    ],
 
     reporters: [ 'progress' ],
 
@@ -45,25 +43,6 @@ module.exports = function(karma) {
           {
             test: /\.css$/,
             use: 'raw-loader'
-          },
-          {
-            test: /\.m?js$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  [ '@babel/plugin-transform-react-jsx', {
-                    'importSource': 'preact',
-                    'runtime': 'automatic'
-                  } ]
-                ]
-              }
-            }
-          },
-          {
-            test: /\.svg$/,
-            use: [ 'react-svg-loader' ]
           }
         ]
       },
@@ -72,11 +51,7 @@ module.exports = function(karma) {
           'browser',
           'module',
           'main'
-        ],
-        alias: {
-          'react': 'preact/compat',
-          'react-dom': 'preact/compat'
-        },
+        ]
       },
       devtool: 'eval-source-map'
     }

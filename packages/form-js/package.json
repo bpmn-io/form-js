@@ -20,7 +20,7 @@
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
-    "test": "karma start",
+    "test": "karma start test/config/karma.unit.js -- {@}",
     "prepublishOnly": "npm run build"
   },
   "license": "SEE LICENSE IN LICENSE",
