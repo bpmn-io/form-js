@@ -1,3 +1,5 @@
+const coverage = process.env.COVERAGE;
+
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
 const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
@@ -7,7 +9,7 @@ const singleStart = process.env.SINGLE_START;
 // use puppeteer provided Chrome for testing
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-const suite = 'test/testBundle.js';
+const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
 module.exports = function(karma) {
 
@@ -29,7 +31,13 @@ module.exports = function(karma) {
       [ suite ]: [ 'webpack', 'env' ]
     },
 
-    reporters: [ 'progress' ],
+    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+
+    coverageReporter: {
+      reporters: [
+        { type: 'lcovonly', subdir: '.' },
+      ]
+    },
 
     browsers,
 
@@ -44,7 +52,18 @@ module.exports = function(karma) {
             test: /\.css$/,
             use: 'raw-loader'
           }
-        ]
+        ].concat(coverage ?
+          {
+            test: /\.js$/,
+            use: {
+              loader: 'istanbul-instrumenter-loader',
+              options: { esModules: true }
+            },
+            enforce: 'post',
+            include: /src\.*/,
+            exclude: /node_modules/
+          } : []
+        )
       },
       resolve: {
         mainFields: [
