@@ -1,17 +1,33 @@
 import { createContext } from 'preact';
 
-const FormContext = createContext({
+const FormEditorContext = createContext({
   fields: new Map(),
   properties: {},
   getFieldRenderer(type) { return null; },
   fieldRenderers: [],
-  addField() {},
-  editField() {},
-  moveField() {},
-  removeField() {},
-  emit() {},
-  on() {},
-  off() {}
+
+  addField(...args) {},
+  editField(...args) {},
+  moveField(...args) {},
+  removeField(...args) {},
+
+  /**
+   * @param {string} event
+   * @param {any?} payload
+   */
+  emit(event, payload) {},
+
+  /**
+   * @param {string} event
+   * @param {function} callback
+   */
+  on(event, callback) {},
+
+  /**
+   * @param {string} event
+   * @param {function?} callback
+   */
+  off(event, callback) {}
 });
 
-export default FormContext;
+export default FormEditorContext;

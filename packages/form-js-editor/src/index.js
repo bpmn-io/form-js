@@ -6,7 +6,7 @@ import { schemaVersion } from '@bpmn-io/form-js-viewer';
 export { schemaVersion };
 
 /**
- * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormEditorOptions
+ * @typedef { { container: Element; exporter?: { name: string, version: string }; schema: any; data: any; properties?: any } } FormEditorOptions
  */
 
 /**
