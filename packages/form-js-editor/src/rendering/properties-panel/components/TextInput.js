@@ -31,7 +31,7 @@ export default function TextInput(props) {
       <input
         id={ prefixId(id) }
         type="text"
-        spellCheck="false"
+        spellcheck={ false }
         class="fjs-properties-panel-input"
         onInput={ onInput }
         onFocus={ onFocus }

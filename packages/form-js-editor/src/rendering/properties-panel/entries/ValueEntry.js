@@ -20,7 +20,7 @@ export default function ValueEntry(props) {
     };
   };
 
-  return [
+  return <>
     <TextInputEntry
       id={ `value-label-${ index }` }
       label="Label"
@@ -31,5 +31,5 @@ export default function ValueEntry(props) {
       label="Value"
       onChange={ onChange('value') }
       value={ get(field, [ 'values', index, 'value' ]) } />
-  ];
+  </>;
 }

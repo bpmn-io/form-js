@@ -2,7 +2,11 @@ import { createContext } from 'preact';
 
 const SelectionContext = createContext({
   selection: null,
-  setSelection: () => {}
+
+  /**
+   * @param {string|null} id
+   */
+  setSelection(id) {}
 });
 
 export default SelectionContext;

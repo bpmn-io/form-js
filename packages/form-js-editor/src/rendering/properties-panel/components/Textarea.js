@@ -31,7 +31,7 @@ export default function Textarea(props) {
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <textarea
         id={ prefixId(id) }
-        spellCheck="false"
+        spellcheck={ false }
         class="fjs-properties-panel-input"
         onInput={ onInput }
         onFocus={ onFocus }
