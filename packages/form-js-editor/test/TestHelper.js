@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import formCSS from '../dist/assets/form-js.css';
+import formCSS from '@bpmn-io/form-js-viewer/dist/assets/form-js.css';
 
 // @ts-ignore-next-line
 import formEditorCSS from '../dist/assets/form-js-editor.css';

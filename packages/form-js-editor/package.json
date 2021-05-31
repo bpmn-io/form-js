@@ -7,6 +7,8 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs"
     },
+    "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
+    "./dist/assets/dragula.css": "./dist/assets/dragula.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
