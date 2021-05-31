@@ -40,14 +40,12 @@
     "name": "bpmn.io contributors",
     "url": "https://github.com/bpmn-io"
   },
-  "devDependencies": {
-    "min-dash": "^3.7.0",
-    "mitt": "^2.1.0"
-  },
   "dependencies": {
-    "@bpmn-io/form-js-viewer": "^0.0.12",
     "array-move": "^3.0.1",
+    "@bpmn-io/form-js-viewer": "^0.0.12",
     "dragula": "^3.7.3",
+    "min-dash": "^3.7.0",
+    "mitt": "^2.1.0",
     "preact": "^10.5.12"
   },
   "sideEffects": [

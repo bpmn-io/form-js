@@ -7,6 +7,12 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs"
     },
+    "./editor": {
+      "umd": "./dist/form-editor.umd.js"
+    },
+    "./viewer": {
+      "umd": "./dist/form-viewer.umd.js"
+    },
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/dragula.css": "./dist/assets/dragula.css",
@@ -18,15 +24,20 @@
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
+  "umd:main": "dist/form-viewer.umd.js",
   "scripts": {
     "all": "run-s test build",
     "build": "run-p bundle generate-types",
+    "postbuild": "run-s test:distro",
     "start": "SINGLE_START=basic npm run dev",
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
-    "test": "karma start",
+    "test": "karma start test/config/karma.unit.js",
+    "test:distro": "run-s test:distro:*",
+    "test:distro:viewer": "cross-env VARIANT=form-viewer karma start test/config/karma.distro.js",
+    "test:distro:editor": "cross-env VARIANT=form-editor karma start test/config/karma.distro.js",
     "prepublishOnly": "npm run build"
   },
   "license": "SEE LICENSE IN LICENSE",
