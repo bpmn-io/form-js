@@ -1,6 +1,6 @@
 # form-js-viewer - Form viewer powered by bpmn.io
 
-This library exports a form viewer for viewing and submitting forms. Use [@bpmn-io/form-js-editor] to create and edit forms.
+This library exports a form viewer for viewing and submitting forms. Use [our editor](../form-js-editor) to create and edit forms.
 
 
 ## Installation
