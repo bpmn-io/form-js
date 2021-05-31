@@ -4,16 +4,16 @@
   "description": "View and edit forms - powered by bpmn.io",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/form-js.js",
+      "require": "./dist/form-js.cjs"
     },
     "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.es.js",
+  "main": "dist/form-js.cjs",
+  "module": "dist/form-js.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
     "all": "run-s test build",
