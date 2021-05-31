@@ -7,6 +7,7 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs"
     },
+    "./dist/assets/form-js.css": "./dist/assets/form-js.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {

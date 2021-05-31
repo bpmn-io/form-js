@@ -41,7 +41,6 @@ export default [
       }),
       copy({
         targets: [
-          { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/form-js.css', dest: 'dist/assets' },
           { src: 'assets/form-js-editor.css', dest: 'dist/assets' },
           { src: '../../node_modules/dragula/dist/dragula.css', dest: 'dist/assets' }
         ]
