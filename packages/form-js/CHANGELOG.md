@@ -10,13 +10,24 @@ ___Note:__ Yet to be released changes appear here._
 
 _This release adds new form fields that are not supported by older versions of form-js._
 
+### General
+
 * `FEAT`: add `checkbox` field
 * `FEAT`: add `radio` field
 * `FEAT`: add `select` field
 * `FEAT`: add read-only `text` field
 * `FEAT`: add `number` field
-* `FEAT`: decrease visual presence of descriptions
+* `CHORE`: add `UMD` distributions for `editor` and `viewer`
+
+### Editor
+
 * `FEAT`: make editor field preview match renderered form
+* `FEAT`: add `schemaVersion` to exported form files
+* `FEAT`: add ability to specify `exporter`
+
+### Viewer
+
+* `FEAT`: decrease visual presence of descriptions
 
 ## 0.0.12
 
