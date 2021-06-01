@@ -63,7 +63,7 @@ export default class FormEditorCore {
     fields.forEach(field => this.fields.set(field.id, field));
 
     // Update parent
-    this.fields.set(targetField.id, get(schema, targetPath.path));
+    this.fields.set(targetField.id, get(schema, targetField.path));
 
     this.setState({ schema });
   }
@@ -91,7 +91,7 @@ export default class FormEditorCore {
       fields.forEach(field => this.fields.set(field.id, field));
 
       // Update parent
-      this.fields.set(sourceField.id, get(schema, sourcePath.path));
+      this.fields.set(sourceField.id, get(schema, sourceField.path));
     } else {
       const field = get(schema, sourcePath)[ sourceIndex ];
 
@@ -138,6 +138,8 @@ export default class FormEditorCore {
 
     const sourcePath = [ ...sourceField.path, 'components' ];
 
+    this.fields.delete(get(schema, [ ...sourcePath, sourceIndex ]).id);
+
     const fields = arrayRemove(get(schema, sourcePath), sourceIndex)
       .map((field, index) => updatePath(this.fields, field, index));
 
@@ -151,7 +153,7 @@ export default class FormEditorCore {
     fields.forEach(field => this.fields.set(field.id, field));
 
     // Update parent
-    this.fields.set(sourceField.id, get(schema, sourcePath.path));
+    this.fields.set(sourceField.id, get(schema, sourceField.path));
 
     this.setState({ schema });
   }

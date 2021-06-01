@@ -97,33 +97,156 @@ describe('createFormEditor', function() {
   });
 
 
-  it('should add field', async function() {
+  describe('modeling', function() {
 
-    // given
-    const formEditor = await waitForFormEditorCreated({
-      schema,
-      container
+    it('should add field', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const fieldsSize = formEditor.fields.size;
+
+      // when
+      const targetIndex = 0;
+
+      const field = {
+        id: 'foo',
+        type: 'button'
+      };
+
+      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      const fields = parent.components.map(({ id }) => id);
+
+      formEditor.addField(
+        parent,
+        targetIndex,
+        field
+      );
+
+      // then
+      expect(formEditor.fields.size).to.equal(fieldsSize + 1);
+
+      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        field.id,
+        ...fields
+      ]);
     });
 
-    const fieldsSize = formEditor.fields.size;
 
-    // when
-    const index = 1;
+    it('should move field down', async function() {
 
-    const field = {
-      id: 'foo',
-      type: 'button'
-    };
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
 
-    formEditor.addField(
-      Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent)),
-      index,
-      field
-    );
+      const fieldsSize = formEditor.fields.size;
 
-    // then
-    expect(formEditor.fields.size).to.equal(fieldsSize + 1);
-    expect(formEditor.fields.get('foo')).to.exist;
+      // when
+      const sourceIndex = 0,
+            targetIndex = 2;
+
+      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      const fields = parent.components.map(({ id }) => id);
+
+      formEditor.moveField(
+        parent,
+        parent,
+        sourceIndex,
+        targetIndex
+      );
+
+      // then
+      expect(formEditor.fields.size).to.equal(fieldsSize);
+
+      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        fields[ 1 ],
+        fields[ 0 ],
+        ...fields.slice(2)
+      ]);
+    });
+
+
+    it('should move field up', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const fieldsSize = formEditor.fields.size;
+
+      // when
+      const sourceIndex = 1,
+            targetIndex = 0;
+
+      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      const fields = parent.components.map(({ id }) => id);
+
+      formEditor.moveField(
+        parent,
+        parent,
+        sourceIndex,
+        targetIndex
+      );
+
+      // then
+      expect(formEditor.fields.size).to.equal(fieldsSize);
+
+      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        fields[ 1 ],
+        fields[ 0 ],
+        ...fields.slice(2)
+      ]);
+    });
+
+
+    it('should remove field', async function() {
+
+      // given
+      const formEditor = await waitForFormEditorCreated({
+        schema,
+        container
+      });
+
+      const fieldsSize = formEditor.fields.size;
+
+      // when
+      const sourceIndex = 0;
+
+      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      const fields = parent.components.map(({ id }) => id);
+
+      formEditor.removeField(
+        parent,
+        sourceIndex
+      );
+
+      // then
+      expect(formEditor.fields.size).to.equal(fieldsSize - 1);
+
+      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        ...fields.slice(1)
+      ]);
+    });
+
   });
 
 
