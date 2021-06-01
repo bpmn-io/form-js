@@ -141,6 +141,7 @@ function Children(props) {
 export default function FormEditor(props) {
   const {
     fields,
+    schema,
     getFieldRenderer,
     addField,
     moveField,
@@ -149,8 +150,6 @@ export default function FormEditor(props) {
     on,
     off
   } = useContext(FormEditorContext);
-
-  const { schema } = props;
 
   const [ selection, setSelection ] = useState(findSelectableField(schema, fields)
     ? findSelectableField(schema, fields).id
@@ -273,9 +272,9 @@ export default function FormEditor(props) {
     properties: {
       readOnly: true
     },
-    schema,
     data: {},
-    errors: {}
+    errors: {},
+    schema
   };
 
   const onSubmit = useCallback(() => {}, []);
@@ -294,7 +293,7 @@ export default function FormEditor(props) {
           <FormContext.Provider value={ formContext }>
             <FormRenderContext.Provider value={ formRenderContext }>
               <SelectionContext.Provider value={ selectionContext }>
-                <Form schema={ schema } onSubmit={ onSubmit } onReset={ onReset } />
+                <Form onSubmit={ onSubmit } onReset={ onReset } />
               </SelectionContext.Provider>
             </FormRenderContext.Provider>
           </FormContext.Provider>

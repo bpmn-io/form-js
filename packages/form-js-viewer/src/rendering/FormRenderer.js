@@ -45,6 +45,9 @@ export default function FormRenderer(options) {
       get properties() {
         return state.properties;
       },
+      get schema() {
+        return state.schema;
+      },
       getFieldRenderer(type) {
         return findFieldRenderer(renderers, type);
       }
@@ -74,8 +77,7 @@ export default function FormRenderer(options) {
           <Form
             onChange={ onChange }
             onSubmit={ onSubmit }
-            onReset={ onReset }
-            schema={ state.schema } />
+            onReset={ onReset } />
         </FormContext.Provider>
       </div>
     );
