@@ -4,7 +4,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import { TextInput } from '../../../../src/rendering/properties-panel/components';
+import { TextInput } from '../../../../src/render/components/properties-panel/components';
 
 import { insertStyles } from '../../../TestHelper';
 

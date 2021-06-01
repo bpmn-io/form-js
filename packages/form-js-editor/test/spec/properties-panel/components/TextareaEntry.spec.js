@@ -4,7 +4,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import { TextareaEntry } from '../../../../src/rendering/properties-panel/components';
+import { TextareaEntry } from '../../../../src/render/components/properties-panel/components';
 
 import { insertStyles } from '../../../TestHelper';
 
