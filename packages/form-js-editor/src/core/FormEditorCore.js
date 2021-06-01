@@ -252,6 +252,11 @@ function updatePath(fields, field, index) {
 }
 
 export function exportSchema(schema, exporter, schemaVersion) {
+
+  const exportDetails = exporter ? {
+    exporter
+  } : {};
+
   const cleanedSchema = clone(schema, (name, value) => {
     if ([ 'id', 'parent', 'path' ].includes(name)) {
       return undefined;
@@ -261,8 +266,8 @@ export function exportSchema(schema, exporter, schemaVersion) {
   });
 
   return {
-    exporter,
     schemaVersion,
-    ...cleanedSchema,
+    ...exportDetails,
+    ...cleanedSchema
   };
 }

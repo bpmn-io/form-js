@@ -52,7 +52,7 @@ describe('createFormEditor', function() {
     });
 
     formEditor.on('changed', event => {
-      console.log('Form Editor <changed>', event);
+      console.log('Form Editor <changed>', event, formEditor.getSchema());
     });
   });
 
@@ -245,9 +245,13 @@ async function waitForFormEditorCreated(options) {
 
 function exportTagged(schema, exporter) {
 
+  const exportDetails = exporter ? {
+    exporter
+  } : {};
+
   return {
     schemaVersion,
-    exporter,
+    ...exportDetails,
     ...schema
   };
 }
