@@ -25,7 +25,7 @@ export default function ValueEntry(props) {
       id={ `value-label-${ index }` }
       label="Label"
       onChange={ onChange('label') }
-      value={ get(field, [ 'values', index, 'label' ]) } />,
+      value={ get(field, [ 'values', index, 'label' ]) } />
     <TextInputEntry
       id={ `value-value-${ index }` }
       label="Value"
