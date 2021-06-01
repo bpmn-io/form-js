@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-viewer",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "View forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -40,9 +40,9 @@
   "dependencies": {
     "min-dash": "^3.7.0",
     "mitt": "^2.1.0",
+    "preact": "^10.5.12",
     "preact-markup": "^2.1.1",
-    "snarkdown": "^2.0.0",
-    "preact": "^10.5.12"
+    "snarkdown": "^2.0.0"
   },
   "sideEffects": [
     "*.css"
