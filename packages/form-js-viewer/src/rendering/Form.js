@@ -1,16 +1,20 @@
+import { useContext } from 'preact/hooks';
+
 import FormElement from './FormElement';
 
 import PoweredBy from './PoweredBy';
 
+import { FormContext } from './context';
+
 const noop = () => {};
 
 export default function Form(props) {
+  const { schema } = useContext(FormContext);
 
   const {
     onSubmit = noop,
     onReset = noop,
-    onChange = noop,
-    schema
+    onChange = noop
   } = props;
 
   const handleSubmit = (event) => {

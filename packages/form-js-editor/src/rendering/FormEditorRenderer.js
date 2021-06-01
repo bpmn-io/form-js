@@ -33,6 +33,9 @@ export default class FormEditorRenderer {
         get properties() {
           return state.properties;
         },
+        get schema() {
+          return state.schema;
+        },
         getFieldRenderer(type) {
           return findFieldRenderer(renderers, type);
         },
@@ -69,8 +72,7 @@ export default class FormEditorRenderer {
       return (
         <div class="fjs-container fjs-editor-container">
           <FormEditorContext.Provider value={ formEditorContext }>
-            <FormEditor
-              schema={ state.schema } />
+            <FormEditor />
           </FormEditorContext.Provider>
         </div>
       );

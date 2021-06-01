@@ -3,6 +3,7 @@ import { createContext } from 'preact';
 const FormEditorContext = createContext({
   fields: new Map(),
   properties: {},
+  schema: {},
   getFieldRenderer(type) { return null; },
   fieldRenderers: [],
 

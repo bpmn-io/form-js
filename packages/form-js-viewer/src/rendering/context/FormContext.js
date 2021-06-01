@@ -5,6 +5,7 @@ const FormContext = createContext({
   data: {},
   errors: {},
   properties: {},
+  schema: {},
   getFieldRenderer(type) { return null; }
 });
 
