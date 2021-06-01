@@ -57,6 +57,43 @@ describe('createFormEditor', function() {
   });
 
 
+  it('should attach', async function() {
+
+    // when
+    const formEditor = await waitForFormEditorCreated({
+      schema
+    });
+
+    // assume
+    expect(formEditor._container.parentNode).not.to.exist;
+
+    // when
+    formEditor.attachTo(container);
+
+    // then
+    expect(formEditor._container.parentNode).to.exist;
+  });
+
+
+  it('should detach', async function() {
+
+    // when
+    const formEditor = await waitForFormEditorCreated({
+      container,
+      schema
+    });
+
+    // assume
+    expect(formEditor._container.parentNode).to.exist;
+
+    // when
+    formEditor.detach();
+
+    // then
+    expect(formEditor._container.parentNode).not.to.exist;
+  });
+
+
   it('should expose schema', async function() {
 
     // given
@@ -99,7 +136,7 @@ describe('createFormEditor', function() {
 
   describe('modeling', function() {
 
-    it('should add field', async function() {
+    it('should add form field', async function() {
 
       // given
       const formEditor = await waitForFormEditorCreated({
@@ -107,34 +144,34 @@ describe('createFormEditor', function() {
         container
       });
 
-      const fieldsSize = formEditor.fields.size;
+      const formFieldsSize = formEditor.get('formFieldRegistry').size;
 
       // when
       const targetIndex = 0;
 
-      const field = {
+      const formField = {
         id: 'foo',
         type: 'button'
       };
 
-      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
-      const fields = parent.components.map(({ id }) => id);
+      const formFieldIds = parent.components.map(({ id }) => id);
 
-      formEditor.addField(
+      formEditor.get('modeling').addField(
         parent,
         targetIndex,
-        field
+        formField
       );
 
       // then
-      expect(formEditor.fields.size).to.equal(fieldsSize + 1);
+      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize + 1);
 
-      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql([
-        field.id,
-        ...fields
+        formField.id,
+        ...formFieldIds
       ]);
     });
 
@@ -147,17 +184,17 @@ describe('createFormEditor', function() {
         container
       });
 
-      const fieldsSize = formEditor.fields.size;
+      const formFieldsSize = formEditor.get('formFieldRegistry').size;
 
       // when
       const sourceIndex = 0,
             targetIndex = 2;
 
-      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
-      const fields = parent.components.map(({ id }) => id);
+      const formFieldIds = parent.components.map(({ id }) => id);
 
-      formEditor.moveField(
+      formEditor.get('modeling').moveField(
         parent,
         parent,
         sourceIndex,
@@ -165,14 +202,14 @@ describe('createFormEditor', function() {
       );
 
       // then
-      expect(formEditor.fields.size).to.equal(fieldsSize);
+      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize);
 
-      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql([
-        fields[ 1 ],
-        fields[ 0 ],
-        ...fields.slice(2)
+        formFieldIds[ 1 ],
+        formFieldIds[ 0 ],
+        ...formFieldIds.slice(2)
       ]);
     });
 
@@ -185,17 +222,17 @@ describe('createFormEditor', function() {
         container
       });
 
-      const fieldsSize = formEditor.fields.size;
+      const formFieldsSize = formEditor.get('formFieldRegistry').size;
 
       // when
       const sourceIndex = 1,
             targetIndex = 0;
 
-      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
-      const fields = parent.components.map(({ id }) => id);
+      const formFieldIds = parent.components.map(({ id }) => id);
 
-      formEditor.moveField(
+      formEditor.get('modeling').moveField(
         parent,
         parent,
         sourceIndex,
@@ -203,14 +240,14 @@ describe('createFormEditor', function() {
       );
 
       // then
-      expect(formEditor.fields.size).to.equal(fieldsSize);
+      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize);
 
-      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql([
-        fields[ 1 ],
-        fields[ 0 ],
-        ...fields.slice(2)
+        formFieldIds[ 1 ],
+        formFieldIds[ 0 ],
+        ...formFieldIds.slice(2)
       ]);
     });
 
@@ -223,27 +260,27 @@ describe('createFormEditor', function() {
         container
       });
 
-      const fieldsSize = formEditor.fields.size;
+      const formFieldsSize = formEditor.get('formFieldRegistry').size;
 
       // when
       const sourceIndex = 0;
 
-      let parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
-      const fields = parent.components.map(({ id }) => id);
+      const formFieldIds = parent.components.map(({ id }) => id);
 
-      formEditor.removeField(
+      formEditor.get('modeling').removeField(
         parent,
         sourceIndex
       );
 
       // then
-      expect(formEditor.fields.size).to.equal(fieldsSize - 1);
+      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize - 1);
 
-      parent = Array.from(formEditor.fields.values()).find(({ parent }) => isUndefined(parent));
+      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql([
-        ...fields.slice(1)
+        ...formFieldIds.slice(1)
       ]);
     });
 
@@ -319,7 +356,7 @@ describe('createFormEditor', function() {
       await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
 
       // when
-      formEditor.emitter.emit('attach');
+      formEditor.get('eventBus').fire('attach');
 
       // then
       expect(dragulaCreatedSpy).to.have.been.calledTwice;
@@ -344,7 +381,7 @@ describe('createFormEditor', function() {
       await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
 
       // when
-      formEditor.emitter.emit('detach');
+      formEditor.get('eventBus').fire('detach');
 
       // then
       expect(dragulaCreatedSpy).to.have.been.calledOnce;
@@ -356,13 +393,15 @@ describe('createFormEditor', function() {
 });
 
 async function waitForFormEditorCreated(options) {
-  const form = createFormEditor(options);
+  const formEditor = createFormEditor(options);
+
+  window.formEditor = formEditor;
 
   await waitFor(() => {
-    expect(form.fields.size).to.equal(11);
+    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
   });
 
-  return form;
+  return formEditor;
 }
 
 

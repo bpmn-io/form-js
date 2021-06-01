@@ -1,12 +1,27 @@
-import { FormEditorCore } from './core';
-import { FormEditorRenderer } from './rendering';
+import FormEditor from './FormEditor';
 
 import { schemaVersion } from '@bpmn-io/form-js-viewer';
 
-export { schemaVersion };
+export {
+  FormEditor,
+  schemaVersion
+};
 
 /**
- * @typedef { { container: Element; exporter?: { name: string, version: string }; schema: any; data: any; properties?: any } } FormEditorOptions
+ * @typedef { import('didi').Injector } Injector
+ * @typedef { any[] } Modules
+ * @typedef { { [x: string]: any } } FormEditorProperties
+ * @typedef { any } Schema
+ *
+ * @typedef { {
+ *   additionalModules?: Modules,
+ *   container?: Element|string,
+ *   exporter?: { name: string, version: string },
+ *   injector?: Injector,
+ *   modules?: Modules,
+ *   properties?: FormEditorProperties,
+ *   schema?: Schema
+ * } } FormEditorOptions
  */
 
 /**
@@ -14,28 +29,20 @@ export { schemaVersion };
  *
  * @param {FormEditorOptions} options
  *
- * @return {FormEditorCore}
+ * @return {FormEditor}
  */
 export function createFormEditor(options) {
-
   const {
-    container,
     schema,
-    properties = {},
-    exporter
+    ...rest
   } = options;
 
-  const form = new FormEditorCore({
-    schema,
-    properties,
-    schemaVersion,
-    exporter
+  const formEditor = new FormEditor({
+    ...rest,
+    schemaVersion
   });
 
-  new FormEditorRenderer({
-    container,
-    form
-  });
+  formEditor.import(schema);
 
-  return form;
+  return formEditor;
 }

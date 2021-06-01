@@ -4,7 +4,7 @@ import {
   screen
 } from '@testing-library/preact/pure';
 
-import PropertiesPanel from '../../../src/rendering/properties-panel/PropertiesPanel';
+import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
 
 import schema from '../form.json';
 

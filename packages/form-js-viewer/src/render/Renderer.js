@@ -10,14 +10,13 @@ import { FormContext } from './context';
  * @typedef {any} EventBus
  * @typedef {Map} formFieldRegistry
  * @typedef { import('../Form').default } Form
- * @typedef {any} Injector
  */
 
 /**
  * @param {Config} config
  * @param {EventBus} eventBus
  * @param {Form} form
- * @param {Injector} injector
+ * @param { import('didi').Injector } injector
  */
 export default function Renderer(config, eventBus, form, injector) {
 
