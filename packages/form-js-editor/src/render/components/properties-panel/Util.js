@@ -1,5 +1,3 @@
-import { debounce as _debounce } from 'min-dash';
-
 export function arrayAdd(array, index, item) {
   const copy = [ ...array ];
 
@@ -14,14 +12,6 @@ export function arrayRemove(array, index) {
   copy.splice(index, 1);
 
   return copy;
-}
-
-export function debounce(fn) {
-  if (isTest()) {
-    return fn;
-  }
-
-  return _debounce(fn, 300);
 }
 
 export function prefixId(id) {
@@ -51,9 +41,3 @@ export const INPUTS = [
   'select',
   'textfield'
 ];
-
-function isTest() {
-
-  // @ts-ignore-next-line
-  return window.__env__ && window.__env__.NODE_ENV === 'test';
-}

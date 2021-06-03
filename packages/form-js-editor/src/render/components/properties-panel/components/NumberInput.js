@@ -1,12 +1,10 @@
-import {
-  debounce,
-  prefixId
-} from '../Util.js';
+import { prefixId } from '../Util';
 
 import useService from '../../../hooks/useService';
 
 export default function NumberInput(props) {
-  const eventBus = useService('eventBus');
+  const debounce = useService('debounce'),
+        eventBus = useService('eventBus');
 
   const {
     id,
@@ -16,18 +14,17 @@ export default function NumberInput(props) {
     value = '',
   } = props;
 
-  const debouncedOnInput = debounce(props.onInput);
+  const onInput = debounce(event => {
 
-  const handleInput = ({ target }) => {
     const {
       validity,
       value
-    } = target;
+    } = event.target;
 
     if (validity.valid) {
-      debouncedOnInput(value ? parseInt(value, 10) : undefined);
+      props.onInput(value ? parseInt(value, 10) : undefined);
     }
-  };
+  });
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
@@ -42,7 +39,7 @@ export default function NumberInput(props) {
         class="fjs-properties-panel-input"
         max={ max }
         min={ min }
-        onInput={ handleInput }
+        onInput={ onInput }
         onFocus={ onFocus }
         onBlur={ onBlur }
         value={ value } />

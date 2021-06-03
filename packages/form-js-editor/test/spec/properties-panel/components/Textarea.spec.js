@@ -6,6 +6,8 @@ import {
 
 import { Textarea } from '../../../../src/render/components/properties-panel/components';
 
+import { WithFormEditorContext } from './Util';
+
 import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
@@ -21,7 +23,7 @@ describe('Textarea', function() {
   it('should render', function() {
 
     // when
-    const { container } = render(<Textarea value="foo" />);
+    const { container } = render(WithFormEditorContext(<Textarea value="foo" />));
 
     // then
     const textarea = container.querySelector('textarea');
@@ -36,11 +38,11 @@ describe('Textarea', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <Textarea
         value="foo"
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const textarea = container.querySelector('textarea');
@@ -59,11 +61,11 @@ describe('Textarea', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <Textarea
         value="foo"
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const textarea = container.querySelector('textarea');

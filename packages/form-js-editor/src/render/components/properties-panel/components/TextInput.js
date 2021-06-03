@@ -1,12 +1,10 @@
-import {
-  debounce,
-  prefixId
-} from '../Util';
+import { prefixId } from '../Util';
 
 import useService from '../../../hooks/useService';
 
 export default function TextInput(props) {
-  const eventBus = useService('eventBus');
+  const debounce = useService('debounce'),
+        eventBus = useService('eventBus');
 
   const {
     id,
@@ -14,11 +12,11 @@ export default function TextInput(props) {
     value = ''
   } = props;
 
-  const debouncedOnInput = debounce(props.onInput);
+  const onInput = debounce(event => {
+    const value = event.target.value;
 
-  const onInput = ({ target }) => {
-    debouncedOnInput(target.value.length ? target.value : undefined);
-  };
+    props.onInput(value.length ? value : undefined);
+  });
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 

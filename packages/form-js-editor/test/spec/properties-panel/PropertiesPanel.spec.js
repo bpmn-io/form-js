@@ -6,6 +6,8 @@ import {
 
 import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
 
+import { WithFormEditorContext } from './components/Util';
+
 import schema from '../form.json';
 
 import { insertStyles } from '../../TestHelper';
@@ -456,14 +458,13 @@ function createPropertiesPanel(options = {}) {
     field = null
   } = options;
 
-  return render(
+  return render(WithFormEditorContext(
     <PropertiesPanel
       editField={ editField }
       field={ field } />,
-    {
-      container
-    }
-  );
+  ), {
+    container
+  });
 }
 
 function expectGroups(container, groupLabels) {
