@@ -398,8 +398,6 @@ async function waitForFormEditorCreated(options) {
     ...options
   });
 
-  window.formEditor = formEditor;
-
   await waitFor(() => {
     expect(formEditor.get('formFieldRegistry').size).to.equal(11);
   });
