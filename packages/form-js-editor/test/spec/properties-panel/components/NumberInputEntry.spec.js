@@ -6,6 +6,8 @@ import {
 
 import { NumberInputEntry } from '../../../../src/render/components/properties-panel/components';
 
+import { WithFormEditorContext } from './Util';
+
 import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
@@ -25,13 +27,13 @@ describe('NumberInputEntry', function() {
 
     const editFieldSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <NumberInputEntry
         editField={ editFieldSpy }
         field={ field }
         label="Foo"
         path={ [ 'foo' ] } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="number"]');
@@ -50,12 +52,12 @@ describe('NumberInputEntry', function() {
     // given
     const onChangeSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <NumberInputEntry
         label="Foo"
         onChange={ onChangeSpy }
         value={ 0 } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="number"]');

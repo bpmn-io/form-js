@@ -6,6 +6,8 @@ import {
 
 import { TextInput } from '../../../../src/render/components/properties-panel/components';
 
+import { WithFormEditorContext } from './Util';
+
 import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
@@ -21,7 +23,7 @@ describe('TextInput', function() {
   it('should render', function() {
 
     // when
-    const { container } = render(<TextInput value="foo" />);
+    const { container } = render(WithFormEditorContext(<TextInput value="foo" />));
 
     // then
     const input = container.querySelector('input[type="text"]');
@@ -36,11 +38,11 @@ describe('TextInput', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <TextInput
         value="foo"
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="text"]');
@@ -59,11 +61,11 @@ describe('TextInput', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <TextInput
         value="foo"
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="text"]');

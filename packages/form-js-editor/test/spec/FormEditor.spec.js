@@ -48,7 +48,8 @@ describe('createFormEditor', function() {
     // given
     const formEditor = await waitForFormEditorCreated({
       container,
-      schema
+      schema,
+      debounce: true
     });
 
     formEditor.on('changed', event => {
@@ -393,7 +394,10 @@ describe('createFormEditor', function() {
 });
 
 async function waitForFormEditorCreated(options) {
-  const formEditor = createFormEditor(options);
+  const formEditor = createFormEditor({
+    debounce: false,
+    ...options
+  });
 
   window.formEditor = formEditor;
 

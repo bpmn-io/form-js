@@ -6,6 +6,8 @@ import {
 
 import { TextareaEntry } from '../../../../src/render/components/properties-panel/components';
 
+import { WithFormEditorContext } from './Util';
+
 import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
@@ -25,13 +27,13 @@ describe('TextareaEntry', function() {
 
     const editFieldSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <TextareaEntry
         editField={ editFieldSpy }
         field={ field }
         label="Foo"
         path={ [ 'foo' ] } />
-    );
+    ));
 
     // when
     const textarea = container.querySelector('textarea');
@@ -50,12 +52,12 @@ describe('TextareaEntry', function() {
     // given
     const onChangeSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <TextareaEntry
         label="Foo"
         onChange={ onChangeSpy }
         value={ 'foo' } />
-    );
+    ));
 
     // when
     const textarea = container.querySelector('textarea');

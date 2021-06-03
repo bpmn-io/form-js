@@ -6,6 +6,8 @@ import {
 
 import { NumberInput } from '../../../../src/render/components/properties-panel/components';
 
+import { WithFormEditorContext } from './Util';
+
 import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
@@ -21,7 +23,7 @@ describe('NumberInput', function() {
   it('should render', function() {
 
     // when
-    const { container } = render(<NumberInput value={ 123 } />);
+    const { container } = render(WithFormEditorContext(<NumberInput value={ 123 } />));
 
     // then
     const input = container.querySelector('input[type="number"]');
@@ -36,11 +38,11 @@ describe('NumberInput', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <NumberInput
         value={ 123 }
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="number"]');
@@ -59,11 +61,11 @@ describe('NumberInput', function() {
     // given
     const onInputSpy = spy();
 
-    const { container } = render(
+    const { container } = render(WithFormEditorContext(
       <NumberInput
         value={ 123 }
         onInput={ onInputSpy } />
-    );
+    ));
 
     // when
     const input = container.querySelector('input[type="number"]');
