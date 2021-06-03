@@ -1,6 +1,12 @@
 import Form from './Form';
 
-export * from './Form';
+export { Form };
+
+export {
+  bootstrap,
+  createContainer
+} from './Form';
+
 export * from './render';
 export * from './util';
 

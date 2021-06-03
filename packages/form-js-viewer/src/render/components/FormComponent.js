@@ -6,7 +6,7 @@ import useService from '../hooks/useService';
 
 const noop = () => {};
 
-export default function Form(props) {
+export default function FormComponent(props) {
   const form = useService('form');
 
   const { schema } = form._getState();

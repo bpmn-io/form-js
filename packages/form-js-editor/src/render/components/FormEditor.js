@@ -7,9 +7,9 @@ import {
 } from 'preact/hooks';
 
 import {
+  FormComponent,
   FormContext,
-  FormRenderContext,
-  Form
+  FormRenderContext
 } from '@bpmn-io/form-js-viewer';
 
 import useService from '../hooks/useService';
@@ -298,7 +298,7 @@ export default function FormEditor(props) {
 
           <FormContext.Provider value={ formContext }>
             <FormRenderContext.Provider value={ formRenderContext }>
-              <Form onSubmit={ onSubmit } onReset={ onReset } />
+              <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
             </FormRenderContext.Provider>
           </FormContext.Provider>
 
