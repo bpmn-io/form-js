@@ -1,7 +1,7 @@
 import Button from './form-fields/Button';
 import Checkbox from './form-fields/Checkbox';
 import Default from './form-fields/Default';
-import Form from './Form';
+import FormComponent from './FormComponent';
 import Number from './form-fields/Number';
 import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
@@ -12,7 +12,7 @@ export {
   Button,
   Checkbox,
   Default,
-  Form,
+  FormComponent,
   Number,
   Radio,
   Select,

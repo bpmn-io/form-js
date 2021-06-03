@@ -1,7 +1,7 @@
 import { render } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
-import Form from './components/Form';
+import FormComponent from './components/FormComponent';
 
 import { FormContext } from './context';
 
@@ -55,7 +55,7 @@ export default function Renderer(config, eventBus, form, injector) {
 
     return (
       <FormContext.Provider value={ formContext }>
-        <Form
+        <FormComponent
           onChange={ onChange }
           onSubmit={ onSubmit }
           onReset={ onReset } />
