@@ -344,8 +344,7 @@ describe('createFormEditor', function() {
 
       // given
       const formEditor = await waitForFormEditorCreated({
-        schema,
-        container
+        schema
       });
 
       const dragulaCreatedSpy = spy(),
@@ -357,7 +356,7 @@ describe('createFormEditor', function() {
       await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
 
       // when
-      formEditor.get('eventBus').fire('attach');
+      formEditor.attachTo(container);
 
       // then
       expect(dragulaCreatedSpy).to.have.been.calledTwice;
@@ -382,7 +381,7 @@ describe('createFormEditor', function() {
       await waitFor(() => expect(dragulaCreatedSpy).to.have.been.calledOnce);
 
       // when
-      formEditor.get('eventBus').fire('detach');
+      formEditor.detach();
 
       // then
       expect(dragulaCreatedSpy).to.have.been.calledOnce;
