@@ -101,7 +101,7 @@ export default class Form {
    * @param {Schema} schema
    * @param {Data} [data]
    */
-  import(schema, data = {}) {
+  importSchema(schema, data = {}) {
     this.importedData = clone(data);
 
     this._setState({

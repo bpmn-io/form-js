@@ -42,7 +42,7 @@ export function createFormEditor(options) {
     schemaVersion
   });
 
-  formEditor.import(schema);
+  formEditor.importSchema(schema);
 
   return formEditor;
 }

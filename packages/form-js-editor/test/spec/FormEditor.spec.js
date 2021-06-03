@@ -95,6 +95,24 @@ describe('createFormEditor', function() {
   });
 
 
+  it('#saveSchema', async function() {
+
+    // given
+    const formEditor = await waitForFormEditorCreated({
+      container,
+      schema
+    });
+
+    // when
+    const exportedSchema = formEditor.saveSchema();
+
+    // then
+    expect(exportedSchema).to.eql(exportTagged(schema));
+
+    expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
+  });
+
+
   it('should expose schema', async function() {
 
     // given
