@@ -1,4 +1,4 @@
-import Validator from '../../../../src/core/validation/Validator';
+import Validator from '../../../../src/core/Validator';
 
 
 describe('Validator', function() {

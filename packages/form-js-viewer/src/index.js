@@ -1,18 +1,30 @@
-import { FormCore } from './core';
-import { FormRenderer } from './rendering';
+import Form from './Form';
+
+export * from './Form';
+export * from './render';
+export * from './util';
 
 const schemaVersion = 1;
-
-export * from './core';
-
-export * from './rendering';
-
-export * from './util';
 
 export { schemaVersion };
 
 /**
- * @typedef { { container: Element; schema: any; data: any; properties?: any } } FormViewerOptions
+ * @typedef { import('didi').Injector } Injector
+ *
+ * @typedef { { [x: string]: any } } Data
+ * @typedef { any } Schema
+ * @typedef { any[] } Modules
+ * @typedef { { [x: string]: any } } FormPropertyOptions
+ *
+ * @typedef { {
+ *   additionalModules?: Modules,
+ *   container?: Element|string,
+ *   data?: Data,
+ *   injector?: Injector,
+ *   modules?: Modules,
+ *   properties?: FormPropertyOptions,
+ *   schema: Schema
+ * } } FormViewerOptions
  */
 
 /**
@@ -20,27 +32,18 @@ export { schemaVersion };
  *
  * @param {FormViewerOptions} options
  *
- * @return {FormCore}
+ * @return {Form}
  */
 export function createForm(options) {
-
   const {
-    container,
-    schema,
     data,
-    properties = {}
+    schema,
+    ...rest
   } = options;
 
-  const form = new FormCore({
-    schema,
-    data,
-    properties
-  });
+  const form = new Form(rest);
 
-  new FormRenderer({
-    container,
-    form
-  });
+  form.import(schema, data);
 
   return form;
 }
