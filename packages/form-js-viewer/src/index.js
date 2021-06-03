@@ -49,7 +49,7 @@ export function createForm(options) {
 
   const form = new Form(rest);
 
-  form.import(schema, data);
+  form.importSchema(schema, data);
 
   return form;
 }

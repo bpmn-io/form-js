@@ -95,7 +95,7 @@ export default class FormEditor {
   /**
    * @param {Schema} schema
    */
-  import(schema) {
+  importSchema(schema) {
     const {
       fields,
       schema: importedSchema
@@ -117,7 +117,7 @@ export default class FormEditor {
   /**
    * @returns {Schema}
    */
-  export() {
+  saveSchema() {
     return this.getSchema();
   }
 
