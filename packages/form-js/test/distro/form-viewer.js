@@ -57,7 +57,7 @@ describe('form-viewer', function() {
     expect(form).to.exist;
     expect(form.reset).to.exist;
     expect(form.submit).to.exist;
-    expect(form.update).to.exist;
+    expect(form._update).to.exist;
   });
 
 });
