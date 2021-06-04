@@ -6,7 +6,9 @@ import pkg from './package.json';
 function pgl(plugins = []) {
 
   return [
-    resolve(),
+    resolve({
+      resolveOnly: [ 'diagram-js' ]
+    }),
     babel({
       babelHelpers: 'bundled',
       plugins: [
@@ -38,7 +40,6 @@ export default [
       }
     ],
     external: [
-      'mitt',
       'min-dash',
       'preact',
       'preact/jsx-runtime',

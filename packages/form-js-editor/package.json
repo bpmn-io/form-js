@@ -45,7 +45,6 @@
     "array-move": "^3.0.1",
     "dragula": "^3.7.3",
     "min-dash": "^3.7.0",
-    "mitt": "^2.1.0",
     "preact": "^10.5.12"
   },
   "sideEffects": [
