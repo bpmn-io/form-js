@@ -4,9 +4,9 @@ import {
 } from 'min-dash';
 
 import {
-  bootstrap,
+  createInjector,
   clone,
-  createContainer,
+  createFormContainer,
   importSchema
 } from '@bpmn-io/form-js-viewer';
 
@@ -40,19 +40,20 @@ export default class FormEditor {
    * @param {FormEditorOptions} options
    */
   constructor(options) {
-    let {
-      container,
-      exporter,
-      injector,
-      properties = {},
-      schemaVersion
-    } = options;
 
     /**
      * @private
      * @type {Element}
      */
-    this._container = createContainer();
+    this._container = createFormContainer();
+
+    const {
+      container,
+      exporter,
+      injector = this._createInjector(options, this._container),
+      properties = {},
+      schemaVersion
+    } = options;
 
     /**
      * @private
@@ -74,12 +75,6 @@ export default class FormEditor {
       properties,
       schema: null
     };
-
-    if (!injector) {
-      const modules = this._init(options);
-
-      injector = bootstrap(modules);
-    }
 
     this.get = injector.get;
 
@@ -196,10 +191,11 @@ export default class FormEditor {
 
   /**
    * @param {FormEditorOptions} options
+   * @param {Element} container
    *
-   * @returns {Modules}
+   * @returns {import('didi').Injector}
    */
-  _init(options) {
+  _createInjector(options, container) {
     const {
       additionalModules = [],
       modules = []
@@ -207,17 +203,17 @@ export default class FormEditor {
 
     const config = {
       renderer: {
-        container: this._container
+        container
       }
     };
 
-    return [
+    return createInjector([
       { config: [ 'value', config ] },
       { formEditor: [ 'value', this ] },
       core,
       ...modules,
       ...additionalModules
-    ];
+    ]);
   }
 
   _emit(type, data) {
