@@ -8,12 +8,14 @@ import pkg from './package.json';
 
 function pgl(plugins=[]) {
   return [
-    resolve(),
     alias({
       entries: [
         { find: 'react', replacement: 'preact/compat' },
         { find: 'react-dom', replacement: 'preact/compat' }
       ]
+    }),
+    resolve({
+      resolveOnly: [ 'diagram-js' ]
     }),
     reactSvg(),
     babel({
@@ -46,7 +48,6 @@ export default [
       }
     ],
     external: [
-      'mitt',
       'min-dash',
       'array-move',
       'preact',
