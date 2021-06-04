@@ -7,8 +7,8 @@ import { FormContext } from './context';
 
 /**
  * @typedef { { container } } Config
- * @typedef {any} EventBus
- * @typedef {Map} formFieldRegistry
+ * @typedef { import('didi').Injector } Injector
+ * @typedef { import('../core/EventBus').default } EventBus
  * @typedef { import('../Form').default } Form
  */
 
@@ -16,7 +16,7 @@ import { FormContext } from './context';
  * @param {Config} config
  * @param {EventBus} eventBus
  * @param {Form} form
- * @param { import('didi').Injector } injector
+ * @param {Injector} injector
  */
 export default function Renderer(config, eventBus, form, injector) {
 
