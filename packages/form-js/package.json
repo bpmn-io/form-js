@@ -26,9 +26,8 @@
   "types": "dist/types/index.d.ts",
   "umd:main": "dist/form-viewer.umd.js",
   "scripts": {
-    "all": "run-s test build",
+    "all": "run-s test build test:distro",
     "build": "run-p bundle generate-types",
-    "postbuild": "run-s test:distro",
     "start": "SINGLE_START=basic npm run dev",
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
@@ -38,7 +37,7 @@
     "test:distro": "run-s test:distro:*",
     "test:distro:viewer": "cross-env VARIANT=form-viewer karma start test/config/karma.distro.js",
     "test:distro:editor": "cross-env VARIANT=form-editor karma start test/config/karma.distro.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build test:distro"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
