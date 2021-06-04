@@ -1,18 +1,14 @@
 import Form from './Form';
 
-export { Form };
-
-export {
-  bootstrap,
-  createContainer
-} from './Form';
-
 export * from './render';
 export * from './util';
 
 const schemaVersion = 1;
 
-export { schemaVersion };
+export {
+  Form,
+  schemaVersion
+};
 
 /**
  * @typedef { import('didi').Injector } Injector

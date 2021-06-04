@@ -1,9 +1,12 @@
-import { Injector } from 'didi';
-
 import {
   isString,
   set
 } from 'min-dash';
+
+import {
+  createInjector,
+  createFormContainer
+} from './util';
 
 import core from './core';
 
@@ -49,17 +52,18 @@ export default class Form {
    * @param {FormOptions} options
    */
   constructor(options) {
-    let {
-      container,
-      injector,
-      properties = {}
-    } = options;
 
     /**
      * @private
      * @type {Element}
      */
-    this._container = createContainer();
+    this._container = createFormContainer();
+
+    const {
+      container,
+      injector = this._createInjector(options, this._container),
+      properties = {}
+    } = options;
 
     /**
      * @private
@@ -78,19 +82,11 @@ export default class Form {
      */
     this.importedData = null;
 
-    if (!injector) {
-      const modules = this._init(options);
-
-      injector = bootstrap(modules);
-    }
-
     this.get = injector.get;
 
     this.invoke = injector.invoke;
 
-    const eventBus = this.get('eventBus');
-
-    eventBus.fire('form.init');
+    this.get('eventBus').fire('form.init');
 
     if (container) {
       this.attachTo(container);
@@ -228,10 +224,11 @@ export default class Form {
 
   /**
    * @param {FormOptions} options
+   * @param {Element} container
    *
-   * @returns {Modules}
+   * @returns {import('didi').Injector}
    */
-  _init(options) {
+  _createInjector(options, container) {
     const {
       additionalModules = [],
       modules = []
@@ -239,17 +236,17 @@ export default class Form {
 
     const config = {
       renderer: {
-        container: this._container
+        container
       }
     };
 
-    return [
+    return createInjector([
       { config: [ 'value', config ] },
       { form: [ 'value', this ] },
       core,
       ...modules,
       ...additionalModules
-    ];
+    ]);
   }
 
   _emit(type, data) {
@@ -295,68 +292,4 @@ export default class Form {
     this._emit('changed', this._getState());
   }
 
-}
-
-
-// helpers /////////////
-
-export function bootstrap(bootstrapModules) {
-  const modules = [],
-        components = [];
-
-  function hasModule(module) {
-    return modules.includes(module);
-  }
-
-  function addModule(module) {
-    modules.push(module);
-  }
-
-  function visit(module) {
-    if (hasModule(module)) {
-      return;
-    }
-
-    (module.__depends__ || []).forEach(visit);
-
-    if (hasModule(module)) {
-      return;
-    }
-
-    addModule(module);
-
-    (module.__init__ || []).forEach(function(component) {
-      components.push(component);
-    });
-  }
-
-  bootstrapModules.forEach(visit);
-
-  const injector = new Injector(modules);
-
-  components.forEach(function(component) {
-    try {
-      injector[ typeof component === 'string' ? 'get' : 'invoke' ](component);
-    } catch (err) {
-      console.error('Failed to instantiate component');
-      console.error(err.stack);
-
-      throw err;
-    }
-  });
-
-  return injector;
-}
-
-/**
- * @param {string?} prefix
- *
- * @returns Element
- */
-export function createContainer(prefix = 'fjs') {
-  const container = document.createElement('div');
-
-  container.classList.add(`${ prefix }-container`);
-
-  return container;
 }

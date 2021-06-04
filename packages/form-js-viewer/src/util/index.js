@@ -1,3 +1,6 @@
+export * from './injector';
+export * from './form';
+
 export function findData(data, path) {
   for (const key of path) {
     data = data[key];
@@ -53,7 +56,7 @@ export function pathStringify(path) {
 
 const indices = {};
 
-const generateIndexForType = (type) => {
+export function generateIndexForType(type) {
   if (type in indices) {
     indices[ type ]++;
   } else {
@@ -61,11 +64,11 @@ const generateIndexForType = (type) => {
   }
 
   return indices[ type ];
-};
+}
 
-export const generateIdForType = (type) => {
+export function generateIdForType(type) {
   return `${ type }${ generateIndexForType(type) }`;
-};
+}
 
 export function clone(data, replacer) {
   return JSON.parse(JSON.stringify(data, replacer));
