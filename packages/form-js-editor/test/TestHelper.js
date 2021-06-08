@@ -1,3 +1,5 @@
+import { insertCSS } from './helper';
+
 // @ts-ignore-next-line
 import formCSS from '@bpmn-io/form-js-viewer/dist/assets/form-js.css';
 
@@ -23,17 +25,4 @@ export function insertStyles() {
   insertCSS('test.css', testCSS);
 }
 
-export function insertCSS(name, css) {
-  if (document.querySelector('[data-css-file="' + name + '"]')) {
-    return;
-  }
-
-  const head = document.head || document.getElementsByTagName('head')[0];
-  const style = document.createElement('style');
-  style.setAttribute('data-css-file', name);
-
-  style.type = 'text/css';
-  style.appendChild(document.createTextNode(css));
-
-  head.appendChild(style);
-}
+export * from './helper';

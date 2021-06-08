@@ -12,6 +12,9 @@ import {
 
 import core from './core';
 
+import EditorActionsModule from './features/editor-actions';
+import KeyboardModule from './features/keyboard';
+
 /**
  * @typedef { import('didi').Injector } Injector
  * @typedef { any[] } Modules
@@ -211,13 +214,14 @@ export default class FormEditor {
   _createInjector(options, container) {
     const {
       additionalModules = [],
-      modules = []
+      modules = this._getModules()
     } = options;
 
     const config = {
       renderer: {
         container
-      }
+      },
+      ...options
     };
 
     return createInjector([
@@ -234,7 +238,7 @@ export default class FormEditor {
   }
 
   _getState() {
-    return clone(this._state);
+    return this._state;
   }
 
   _setState(state) {
@@ -244,6 +248,13 @@ export default class FormEditor {
     };
 
     this._emit('changed', this._getState());
+  }
+
+  _getModules() {
+    return [
+      EditorActionsModule,
+      KeyboardModule
+    ];
   }
 
 }

@@ -87,7 +87,7 @@ function Element(props) {
 
     const index = getFormFieldIndex(parentField, field);
 
-    modeling.removeField(parentField, index);
+    modeling.removeFormField(parentField, index);
 
     if (selectableField) {
       selection.set(selectableField.id);
@@ -206,7 +206,7 @@ export default function FormEditor(props) {
 
           selection.set(newFormField.id);
 
-          modeling.addField(targetFormField, targetIndex, newFormField);
+          modeling.addFormField(targetFormField, targetIndex, newFormField);
         } else {
           const formField = formFieldRegistry.get(el.dataset.id),
                 sourceFormField = formFieldRegistry.get(source.dataset.id),
@@ -214,7 +214,7 @@ export default function FormEditor(props) {
 
           selection.set(formField.id);
 
-          modeling.moveField(sourceFormField, targetFormField, sourceIndex, targetIndex);
+          modeling.moveFormField(sourceFormField, targetFormField, sourceIndex, targetIndex);
         }
       });
 
@@ -287,6 +287,8 @@ export default function FormEditor(props) {
 
   const onReset = useCallback(() => {}, []);
 
+  const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
+
   return (
     <div class="fjs-form-editor">
 
@@ -307,7 +309,7 @@ export default function FormEditor(props) {
       </DragAndDropContext.Provider>
 
       <div class="fjs-properties-container">
-        <PropertiesPanel field={ selectedFormField } editField={ modeling.editField.bind(modeling) } />
+        <PropertiesPanel field={ selectedFormField } editField={ editField } />
       </div>
     </div>
   );
