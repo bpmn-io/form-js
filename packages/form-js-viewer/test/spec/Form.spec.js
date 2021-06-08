@@ -135,7 +135,7 @@ describe('createForm', function() {
   });
 
 
-  it('should but customizable', async function() {
+  it('should be customizable', async function() {
 
     // given
     const data = {
