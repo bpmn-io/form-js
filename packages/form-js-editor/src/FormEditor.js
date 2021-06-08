@@ -87,6 +87,19 @@ export default class FormEditor {
     }
   }
 
+  destroy() {
+    this.get('eventBus').fire('form.destroy');
+
+    const container = this._container,
+          parentNode = container.parentNode;
+
+    if (!parentNode) {
+      return;
+    }
+
+    parentNode.removeChild(container);
+  }
+
   /**
    * @param {Schema} schema
    */

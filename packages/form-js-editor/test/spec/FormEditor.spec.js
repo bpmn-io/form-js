@@ -113,6 +113,22 @@ describe('createFormEditor', function() {
   });
 
 
+  it('#destroy', async function() {
+
+    // given
+    const formEditor = await waitForFormEditorCreated({
+      container,
+      schema
+    });
+
+    // when
+    formEditor.destroy();
+
+    // then
+    expect(container.childNodes).to.be.empty;
+  });
+
+
   it('should expose schema', async function() {
 
     // given

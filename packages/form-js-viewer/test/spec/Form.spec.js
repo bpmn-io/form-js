@@ -74,6 +74,22 @@ describe('createForm', function() {
   });
 
 
+  it('#destroy', async function() {
+
+    // given
+    const form = await waitForFormCreated({
+      container,
+      schema
+    });
+
+    // when
+    form.destroy();
+
+    // then
+    expect(container.childNodes).to.be.empty;
+  });
+
+
   it('should attach', async function() {
 
     // given
