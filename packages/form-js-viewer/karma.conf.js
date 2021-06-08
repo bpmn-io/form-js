@@ -49,6 +49,10 @@ module.exports = function(karma) {
           'module',
           'browser',
           'main'
+        ],
+        modules: [
+          'node_modules',
+          __dirname
         ]
       },
       module: {
