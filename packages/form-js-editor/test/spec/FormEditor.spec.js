@@ -15,8 +15,6 @@ import {
 
 import schema from './form.json';
 
-import { isUndefined } from 'min-dash';
-
 // import schema from './empty.json';
 // import schema from './complex.json';
 
@@ -49,7 +47,10 @@ describe('createFormEditor', function() {
     const formEditor = await waitForFormEditorCreated({
       container,
       schema,
-      debounce: true
+      debounce: true,
+      keyboard: {
+        bindTo: document
+      }
     });
 
     formEditor.on('changed', event => {
@@ -169,159 +170,6 @@ describe('createFormEditor', function() {
   });
 
 
-  describe('modeling', function() {
-
-    it('should add form field', async function() {
-
-      // given
-      const formEditor = await waitForFormEditorCreated({
-        schema,
-        container
-      });
-
-      const formFieldsSize = formEditor.get('formFieldRegistry').size;
-
-      // when
-      const targetIndex = 0;
-
-      const formField = {
-        id: 'foo',
-        type: 'button'
-      };
-
-      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      const formFieldIds = parent.components.map(({ id }) => id);
-
-      formEditor.get('modeling').addField(
-        parent,
-        targetIndex,
-        formField
-      );
-
-      // then
-      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize + 1);
-
-      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      expect(parent.components.map(({ id }) => id)).to.eql([
-        formField.id,
-        ...formFieldIds
-      ]);
-    });
-
-
-    it('should move field down', async function() {
-
-      // given
-      const formEditor = await waitForFormEditorCreated({
-        schema,
-        container
-      });
-
-      const formFieldsSize = formEditor.get('formFieldRegistry').size;
-
-      // when
-      const sourceIndex = 0,
-            targetIndex = 2;
-
-      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      const formFieldIds = parent.components.map(({ id }) => id);
-
-      formEditor.get('modeling').moveField(
-        parent,
-        parent,
-        sourceIndex,
-        targetIndex
-      );
-
-      // then
-      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize);
-
-      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      expect(parent.components.map(({ id }) => id)).to.eql([
-        formFieldIds[ 1 ],
-        formFieldIds[ 0 ],
-        ...formFieldIds.slice(2)
-      ]);
-    });
-
-
-    it('should move field up', async function() {
-
-      // given
-      const formEditor = await waitForFormEditorCreated({
-        schema,
-        container
-      });
-
-      const formFieldsSize = formEditor.get('formFieldRegistry').size;
-
-      // when
-      const sourceIndex = 1,
-            targetIndex = 0;
-
-      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      const formFieldIds = parent.components.map(({ id }) => id);
-
-      formEditor.get('modeling').moveField(
-        parent,
-        parent,
-        sourceIndex,
-        targetIndex
-      );
-
-      // then
-      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize);
-
-      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      expect(parent.components.map(({ id }) => id)).to.eql([
-        formFieldIds[ 1 ],
-        formFieldIds[ 0 ],
-        ...formFieldIds.slice(2)
-      ]);
-    });
-
-
-    it('should remove field', async function() {
-
-      // given
-      const formEditor = await waitForFormEditorCreated({
-        schema,
-        container
-      });
-
-      const formFieldsSize = formEditor.get('formFieldRegistry').size;
-
-      // when
-      const sourceIndex = 0;
-
-      let parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      const formFieldIds = parent.components.map(({ id }) => id);
-
-      formEditor.get('modeling').removeField(
-        parent,
-        sourceIndex
-      );
-
-      // then
-      expect(formEditor.get('formFieldRegistry').size).to.equal(formFieldsSize - 1);
-
-      parent = Array.from(formEditor.get('formFieldRegistry').values()).find(({ parent }) => isUndefined(parent));
-
-      expect(parent.components.map(({ id }) => id)).to.eql([
-        ...formFieldIds.slice(1)
-      ]);
-    });
-
-  });
-
-
   it('should emit event on properties panel focus', async function() {
 
     // given
@@ -334,7 +182,34 @@ describe('createFormEditor', function() {
 
     formEditor.on('propertiesPanel.focusin', focusinSpy);
 
+    let input;
+
+    await waitFor(async () => {
+      input = await screen.getByLabelText('Text');
+
+      expect(input).to.exist;
+    });
+
     // when
+    input.focus();
+
+    // then
+    expect(focusinSpy).to.have.been.called;
+  });
+
+
+  it('should emit event on properties panel blur', async function() {
+
+    // given
+    const formEditor = await waitForFormEditorCreated({
+      schema,
+      container
+    });
+
+    const focusoutSpy = sinon.spy();
+
+    formEditor.on('propertiesPanel.focusout', focusoutSpy);
+
     let input;
 
     await waitFor(async () => {
@@ -345,8 +220,11 @@ describe('createFormEditor', function() {
 
     input.focus();
 
+    // when
+    input.blur();
+
     // then
-    expect(focusinSpy).to.have.been.called;
+    expect(focusoutSpy).to.have.been.called;
   });
 
 
@@ -431,6 +309,8 @@ async function waitForFormEditorCreated(options) {
     debounce: false,
     ...options
   });
+
+  window.formEditor = formEditor;
 
   await waitFor(() => {
     expect(formEditor.get('formFieldRegistry').size).to.equal(11);

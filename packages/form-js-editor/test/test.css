@@ -9,3 +9,7 @@ body {
   font-size: 16px;
   margin: 0;
 }
+
+.test-container {
+  height: auto !important;
+}

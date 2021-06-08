@@ -4,10 +4,12 @@ import Selection from './Selection';
 import DebounceFactory from './Debounce';
 import FormFieldRegistry from './FormFieldRegistry';
 
+import commandModule from 'diagram-js/lib/command';
 import renderModule from '../render';
 
 export default {
-  __depends__: [ renderModule ],
+  __depends__: [ commandModule, renderModule ],
+  __init__: [ 'modeling' ],
   eventBus: [ 'type', EventBus ],
   formFieldRegistry: [ 'type', FormFieldRegistry ],
   modeling: [ 'type', Modeling ],
