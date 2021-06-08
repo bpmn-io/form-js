@@ -93,6 +93,19 @@ export default class Form {
     }
   }
 
+  destroy() {
+    this.get('eventBus').fire('form.destroy');
+
+    const container = this._container,
+          parentNode = container.parentNode;
+
+    if (!parentNode) {
+      return;
+    }
+
+    parentNode.removeChild(container);
+  }
+
   /**
    * @param {Schema} schema
    * @param {Data} [data]

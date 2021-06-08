@@ -63,10 +63,14 @@ export default function Renderer(config, eventBus, form, injector) {
     );
   };
 
-  eventBus.on('form.init', () => {
-    const { container } = config;
+  const { container } = config;
 
+  eventBus.on('form.init', () => {
     render(<App />, container);
+  });
+
+  eventBus.on('form.destroy', () => {
+    render(null, container);
   });
 }
 

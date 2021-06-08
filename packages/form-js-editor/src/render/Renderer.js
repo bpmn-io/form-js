@@ -49,10 +49,14 @@ export default class Renderer {
       );
     };
 
-    eventBus.on('form.init', () => {
-      const { container } = config;
+    const { container } = config;
 
+    eventBus.on('form.init', () => {
       render(<App />, container);
+    });
+
+    eventBus.on('form.destroy', () => {
+      render(null, container);
     });
   }
 }
