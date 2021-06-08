@@ -92,10 +92,14 @@ module.exports = function(karma) {
           'module',
           'main'
         ],
+        modules: [
+          'node_modules',
+          __dirname
+        ],
         alias: {
           'react': 'preact/compat',
           'react-dom': 'preact/compat'
-        },
+        }
       },
       devtool: 'eval-source-map'
     }
