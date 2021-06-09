@@ -93,14 +93,7 @@ export default class FormEditor {
   destroy() {
     this.get('eventBus').fire('form.destroy');
 
-    const container = this._container,
-          parentNode = container.parentNode;
-
-    if (!parentNode) {
-      return;
-    }
-
-    parentNode.removeChild(container);
+    this._detach(false);
   }
 
   /**
@@ -167,6 +160,13 @@ export default class FormEditor {
   }
 
   detach() {
+    this._detach();
+  }
+
+  /**
+   * @param {boolean} [emit]
+   */
+  _detach(emit = true) {
     const container = this._container,
           parentNode = container.parentNode;
 
@@ -174,7 +174,9 @@ export default class FormEditor {
       return;
     }
 
-    this._emit('detach');
+    if (emit) {
+      this._emit('detach');
+    }
 
     parentNode.removeChild(container);
   }
