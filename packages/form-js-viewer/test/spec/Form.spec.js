@@ -97,6 +97,26 @@ describe('createForm', function() {
   });
 
 
+  it('#validate', async function() {
+
+    // given
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    // when
+    const errors = form.validate();
+
+    // then
+    expect(errors).to.eql({
+      creditor: [
+        'Field is required.'
+      ]
+    });
+  });
+
+
   it('should attach', async function() {
 
     // given
