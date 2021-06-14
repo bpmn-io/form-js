@@ -1,26 +1,8 @@
 export * from './injector';
 export * from './form';
 
-export function findData(data, path) {
-  for (const key of path) {
-    data = data[key];
-
-    if (data === undefined) {
-      return undefined;
-    }
-  }
-
-  return data;
-}
-
 export function findErrors(errors, path) {
   return errors[ pathStringify(path) ];
-}
-
-export function findFieldRenderer(renderers, type) {
-  return renderers.find(renderer => {
-    return renderer.type === type;
-  });
 }
 
 export function isRequired(field) {
