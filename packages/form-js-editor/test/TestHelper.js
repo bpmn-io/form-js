@@ -25,4 +25,6 @@ export function insertStyles() {
   insertCSS('test.css', testCSS);
 }
 
+insertStyles();
+
 export * from './helper';
