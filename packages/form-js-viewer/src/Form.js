@@ -173,12 +173,12 @@ export default class Form {
 
       const fieldErrors = validator.validateField(field, value);
 
-      return set(errors, path, fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, [ pathStringify(path) ], fieldErrors.length ? fieldErrors : undefined);
     }, {});
 
     this._setState({ errors });
 
-    return this._getState().errors;
+    return errors;
   }
 
   /**
