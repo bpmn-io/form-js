@@ -29,9 +29,11 @@ export default function Number(props) {
   const { required } = validate;
 
   const onChange = ({ target }) => {
+    const parsedValue = parseInt(target.value, 10);
+
     props.onChange({
       field,
-      value: target.value ? parseInt(target.value, 10) : undefined
+      value: isNaN(parsedValue) ? undefined : parsedValue
     });
   };
 

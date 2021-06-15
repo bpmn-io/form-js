@@ -94,26 +94,53 @@ describe('Number', function() {
   });
 
 
-  it('should handle change', function() {
+  describe('change handling', function() {
 
-    // given
-    const onChangeSpy = spy();
+    it('should change number', function() {
 
-    const { container } = createTextfield({
-      onChange: onChangeSpy,
-      value: 123
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createTextfield({
+        onChange: onChangeSpy,
+        value: 123
+      });
+
+      // when
+      const input = container.querySelector('input[type="number"]');
+
+      fireEvent.input(input, { target: { value: '124' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: 124
+      });
     });
 
-    // when
-    const input = container.querySelector('input[type="number"]');
 
-    fireEvent.input(input, { target: { value: '124' } });
+    it('should clear', function() {
 
-    // then
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: defaultField,
-      value: 124
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createTextfield({
+        onChange: onChangeSpy,
+        value: 123
+      });
+
+      // when
+      const input = container.querySelector('input[type="number"]');
+
+      fireEvent.input(input, { target: { value: '' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: undefined
+      });
     });
+
   });
 
 
