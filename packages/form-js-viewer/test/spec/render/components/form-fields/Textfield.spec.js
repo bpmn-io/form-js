@@ -94,26 +94,53 @@ describe('Textfield', function() {
   });
 
 
-  it('should handle change', function() {
+  describe('change handling', function() {
 
-    // given
-    const onChangeSpy = spy();
+    it('should change text', function() {
 
-    const { container } = createTextfield({
-      onChange: onChangeSpy,
-      value: 'John Doe Company'
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createTextfield({
+        onChange: onChangeSpy,
+        value: 'John Doe Company'
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: 'Jane Doe Company'
+      });
     });
 
-    // when
-    const input = container.querySelector('input[type="text"]');
 
-    fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+    it('should clear', function() {
 
-    // then
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: defaultField,
-      value: 'Jane Doe Company'
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createTextfield({
+        onChange: onChangeSpy,
+        value: 'John Doe Company'
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: '' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: ''
+      });
     });
+
   });
 
 

@@ -31,7 +31,7 @@ export default function Textfield(props) {
   const onChange = ({ target }) => {
     props.onChange({
       field,
-      value: target.value.length ? target.value : undefined
+      value: target.value
     });
   };
 
