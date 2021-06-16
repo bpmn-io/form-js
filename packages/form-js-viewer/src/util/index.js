@@ -52,6 +52,12 @@ export function generateIdForType(type) {
   return `${ type }${ generateIndexForType(type) }`;
 }
 
+/**
+ * @template T
+ * @param {T} data
+ * @param {(this: any, key: string, value: any) => any} [replacer]
+ * @return {T}
+ */
 export function clone(data, replacer) {
   return JSON.parse(JSON.stringify(data, replacer));
 }

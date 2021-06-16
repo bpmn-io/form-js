@@ -1,0 +1,48 @@
+{
+  "components": [
+    {
+      "disabled": true,
+      "key": "creditor",
+      "label": "Creditor",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "description": "An invoice number in the format: C-123.",
+      "key": "invoiceNumber",
+      "label": "Invoice Number",
+      "type": "textfield",
+      "validate": {
+        "pattern": "^C-[0-9]+$"
+      }
+    },
+    {
+      "key": "amount",
+      "label": "Amount",
+      "type": "number",
+      "validate": {
+        "min": 0,
+        "max": 1000
+      }
+    },
+    {
+      "key": "approved",
+      "label": "Approved",
+      "type": "checkbox"
+    },
+    {
+      "key": "submit",
+      "label": "Submit",
+      "type": "button"
+    },
+    {
+      "action": "reset",
+      "key": "reset",
+      "label": "Reset",
+      "type": "button"
+    }
+  ],
+  "type": "default"
+}
