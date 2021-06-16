@@ -130,12 +130,34 @@ export default class Form {
    * @returns { { data: Data, errors: Errors } }
    */
   submit() {
-    this.validate();
 
     const {
-      data,
-      errors
+      properties
     } = this._getState();
+
+    if (properties.readOnly) {
+      throw new Error('form is read-only');
+    }
+
+    const formFieldRegistry = this.get('formFieldRegistry');
+
+    // do not submit disabled form fields
+    const data = Array.from(formFieldRegistry.values()).reduce((data, field) => {
+      const {
+        disabled,
+        path
+      } = field;
+
+      if (disabled) {
+
+        // strip disabled field value
+        set(data, path, undefined);
+      }
+
+      return data;
+    }, clone(this._getState().data));
+
+    const errors = this.validate();
 
     this._emit('submit', {
       data,
@@ -158,23 +180,30 @@ export default class Form {
   }
 
   /**
-   * @returns { { [x: string]: string[] } }
+   * @returns {Errors}
    */
   validate() {
-    const formFieldRegistry = this.get('formFieldRegistry');
-    const validator = this.get('validator');
+    const formFieldRegistry = this.get('formFieldRegistry'),
+          validator = this.get('validator');
 
     const { data } = this._getState();
 
     const errors = Array.from(formFieldRegistry.values()).reduce((errors, field) => {
-      const { path } = field;
+      const {
+        path,
+        disabled
+      } = field;
+
+      if (disabled) {
+        return errors;
+      }
 
       const value = get(data, path);
 
       const fieldErrors = validator.validateField(field, value);
 
       return set(errors, [ pathStringify(path) ], fieldErrors.length ? fieldErrors : undefined);
-    }, {});
+    }, /** @type {Errors} */ ({}));
 
     this._setState({ errors });
 
@@ -254,7 +283,7 @@ export default class Form {
    * @param {FormOptions} options
    * @param {Element} container
    *
-   * @returns {import('didi').Injector}
+   * @returns {Injector}
    */
   _createInjector(options, container) {
     const {

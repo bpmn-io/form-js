@@ -7,6 +7,7 @@ import { spy } from 'sinon';
 
 import customModule from './custom';
 
+import disabledSchema from './disabled.json';
 import schema from './form.json';
 
 import {
@@ -114,6 +115,93 @@ describe('createForm', function() {
         'Field is required.'
       ]
     });
+  });
+
+
+  it('should throw error on submit if disabled', async function() {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema,
+      properties: {
+        readOnly: true
+      }
+    });
+
+    // when
+    let error;
+
+    try {
+      form.submit();
+    } catch (_error) {
+      error = _error;
+    }
+
+    // then
+    expect(error).to.exist;
+    expect(error.message).to.eql('form is read-only');
+  });
+
+
+  it('should not submit disabled fields', async function() {
+
+    // given
+    const data = {
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema: disabledSchema
+    });
+
+    // when
+    const submission = form.submit();
+
+    // then
+    expect(submission.data).not.to.have.property('creditor');
+    expect(submission.errors).not.to.have.property('creditor');
+  });
+
+
+  it('should not validate disabled fields', async function() {
+
+    // given
+    const data = {
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema: disabledSchema
+    });
+
+    // when
+    const errors = form.validate();
+
+    // then
+    expect(errors).not.to.have.property('creditor');
   });
 
 
