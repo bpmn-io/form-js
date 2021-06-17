@@ -16,7 +16,7 @@ Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data
 ```javascript
 import { createForm } from '@bpmn-io/form-js';
 
-const form = createForm({
+const form = await createForm({
   schema,
   data,
   container: document.querySelector('#form')

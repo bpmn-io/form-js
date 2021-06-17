@@ -111,7 +111,7 @@ describe('Textfield', function() {
 
     // then
     expect(onChangeSpy).to.have.been.calledWith({
-      path: [ 'creditor' ],
+      field: defaultField,
       value: 'Jane Doe Company'
     });
   });

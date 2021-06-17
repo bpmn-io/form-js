@@ -16,7 +16,6 @@ export default function Checkbox(props) {
     disabled,
     errors = [],
     field,
-    path,
     value = false
   } = props;
 
@@ -28,7 +27,7 @@ export default function Checkbox(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      path,
+      field,
       value: target.checked
     });
   };

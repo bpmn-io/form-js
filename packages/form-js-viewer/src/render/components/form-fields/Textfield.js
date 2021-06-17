@@ -16,7 +16,6 @@ export default function Textfield(props) {
     disabled,
     errors = [],
     field,
-    path,
     value = ''
   } = props;
 
@@ -31,7 +30,7 @@ export default function Textfield(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      path,
+      field,
       value: target.value.length ? target.value : undefined
     });
   };

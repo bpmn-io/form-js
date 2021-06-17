@@ -38,7 +38,6 @@ export default function FormComponent(props) {
       <FormField
         field={ schema }
         onChange={ onChange }
-        path={ [] }
       />
 
       <PoweredBy />

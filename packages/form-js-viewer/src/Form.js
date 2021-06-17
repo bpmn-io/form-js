@@ -1,21 +1,17 @@
 import {
+  get,
   isString,
   set
 } from 'min-dash';
 
 import {
+  clone,
   createInjector,
-  createFormContainer
+  createFormContainer,
+  pathStringify
 } from './util';
 
 import core from './core';
-
-import {
-  clone,
-  findData,
-  importSchema,
-  pathsEqual
-} from './util';
 
 /**
  * @typedef { import('didi').Injector } Injector
@@ -80,7 +76,7 @@ export default class Form {
      * @private
      * @type {Data}
      */
-    this.importedData = null;
+    this._importedData = null;
 
     this.get = injector.get;
 
@@ -104,12 +100,29 @@ export default class Form {
    * @param {Data} [data]
    */
   importSchema(schema, data = {}) {
-    this.importedData = clone(data);
+    this._importedData = null;
 
-    this._setState({
-      data: clone(data),
-      errors: {},
-      schema: importSchema(schema).schema
+    return new Promise((resolve, reject) => {
+      const importer = this.get('importer');
+
+      schema = clone(schema);
+      data = clone(data);
+
+      importer.importSchema(schema, data)
+        .then(({ warnings }) => {
+          this._importedData = clone(data);
+
+          this._setState({
+            data,
+            errors: {},
+            schema
+          });
+
+          resolve({ warnings });
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   }
 
@@ -139,7 +152,7 @@ export default class Form {
     this._emit('reset');
 
     this._setState({
-      data: clone(this.importedData),
+      data: clone(this._importedData),
       errors: {}
     });
   }
@@ -148,15 +161,15 @@ export default class Form {
    * @returns { { [x: string]: string[] } }
    */
   validate() {
-    const formFieldRegistry = this.get('formFieldRegistry'),
-          validator = this.get('validator');
+    const formFieldRegistry = this.get('formFieldRegistry');
+    const validator = this.get('validator');
 
     const { data } = this._getState();
 
     const errors = Array.from(formFieldRegistry.values()).reduce((errors, field) => {
       const { path } = field;
 
-      const value = findData(data, path);
+      const value = get(data, path);
 
       const fieldErrors = validator.validateField(field, value);
 
@@ -269,33 +282,37 @@ export default class Form {
   }
 
   /**
-   * @param { { path: (string|number)[], value: any } } update
+   * @param { { add?: boolean, field: any, remove?: number, value?: any } } update
    */
   _update(update) {
     const {
-      path,
+      field,
       value
     } = update;
 
-    const formFieldRegistry = this.get('formFieldRegistry'),
-          validator = this.get('validator');
+    const { path } = field;
 
-    const field = Array.from(formFieldRegistry.values()).find((field) => pathsEqual(field.path, path));
+    let {
+      data,
+      errors
+    } = this._getState();
+
+    const validator = this.get('validator');
 
     const fieldErrors = validator.validateField(field, value);
 
-    const data = set(this._getState().data, path, value);
+    set(data, path, value);
 
-    const errors = set(this._getState().errors, path, fieldErrors.length ? fieldErrors : undefined);
+    set(errors, [ pathStringify(path) ], fieldErrors.length ? fieldErrors : undefined);
 
     this._setState({
-      data,
-      errors
+      data: clone(data),
+      errors: clone(errors)
     });
   }
 
   _getState() {
-    return clone(this._state);
+    return this._state;
   }
 
   _setState(state) {

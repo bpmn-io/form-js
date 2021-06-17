@@ -20,7 +20,7 @@ describe('form-viewer', function() {
   });
 
 
-  it('should display form', function() {
+  it('should display form', async function() {
 
     const { createForm } = window.FormViewer;
 
@@ -47,7 +47,7 @@ describe('form-viewer', function() {
     };
 
     // when
-    const form = createForm({
+    const form = await createForm({
       container,
       schema,
       data
