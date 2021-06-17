@@ -330,4 +330,39 @@ describe('createForm', function() {
     form.submit();
   });
 
+
+  it('should fail instantiation with import error', async function() {
+
+    // given
+    const data = {
+      amount: 456
+    };
+
+    const schema = {
+      type: 'default',
+      components: [
+        {
+          type: 'unknown-component'
+        }
+      ]
+    };
+
+    let error;
+
+    // when
+    try {
+      await createForm({
+        container,
+        data,
+        schema
+      });
+    } catch (_error) {
+      error = _error;
+    }
+
+    // then
+    expect(error).to.exist;
+    expect(error.message).to.eql('form field of type <unknown-component> not supported');
+  });
+
 });
