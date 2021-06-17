@@ -111,7 +111,7 @@ describe('Number', function() {
 
     // then
     expect(onChangeSpy).to.have.been.calledWith({
-      path: [ 'amount' ],
+      field: defaultField,
       value: 124
     });
   });

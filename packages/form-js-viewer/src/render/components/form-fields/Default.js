@@ -13,10 +13,7 @@ export default function Default(props) {
     Empty
   } = useContext(FormRenderContext);
 
-  let {
-    field,
-    path
-  } = props;
+  const { field } = props;
 
   const { id } = field;
 
@@ -25,16 +22,9 @@ export default function Default(props) {
   return <Children class="fjs-vertical-layout" field={ field }>
     {
       components.map((field) => {
-        if (field.key) {
-          path = [ ...path.slice(0, -1), field.key ];
-        } else {
-          path = path.slice(0, -1);
-        }
-
         return <FormField
           { ...props }
           key={ id }
-          path={ path }
           field={ field } />;
       })
     }

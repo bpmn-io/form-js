@@ -1,30 +1,25 @@
-import {
-  useContext,
-  useEffect
-} from 'preact/hooks';
+import { useContext } from 'preact/hooks';
+
+import { get } from 'min-dash';
 
 import { FormRenderContext } from '../context';
 
 import useService from '../hooks/useService';
 
-import {
-  findData,
-  findErrors,
-  pathStringify
-} from '../../util';
+import { findErrors } from '../../util';
 
 const noop = () => false;
 
 
 export default function FormField(props) {
   const {
-    path,
     field,
     onChange
   } = props;
 
-  const formFieldRegistry = useService('formFieldRegistry'),
-        formFields = useService('formFields'),
+  const { path } = field;
+
+  const formFields = useService('formFields'),
         form = useService('form');
 
   const {
@@ -39,22 +34,13 @@ export default function FormField(props) {
 
   const FormFieldComponent = formFields.get(field.type);
 
-  const { id } = field;
-
   if (!FormFieldComponent) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
-  const value = findData(data, path);
+  const value = get(data, path);
 
   const fieldErrors = findErrors(errors, path);
-
-  useEffect(() => {
-    formFieldRegistry.set(id, {
-      ...field,
-      path
-    });
-  }, [ pathStringify(path) ]);
 
   return (
     <Element field={ field }>

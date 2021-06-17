@@ -5,8 +5,6 @@ import {
 
 import { spy } from 'sinon';
 
-import { waitFor } from '@testing-library/preact/pure';
-
 import customModule from './custom';
 
 import schema from './form.json';
@@ -54,11 +52,20 @@ describe('createForm', function() {
       approved: true,
       approvedBy: 'John Doe',
       product: 'camunda-cloud',
-      language: 'english'
+      language: 'english',
+      documents: [
+        {
+          title: 'invoice.pdf',
+          author: 'John Doe'
+        },
+        {
+          title: 'products.pdf'
+        }
+      ]
     };
 
     // when
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       data,
       schema
@@ -77,7 +84,7 @@ describe('createForm', function() {
   it('#destroy', async function() {
 
     // given
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       schema
     });
@@ -104,7 +111,7 @@ describe('createForm', function() {
     };
 
     // when
-    const form = await waitForFormCreated({
+    const form = await createForm({
       data,
       schema
     });
@@ -134,7 +141,7 @@ describe('createForm', function() {
     };
 
     // when
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       data,
       schema
@@ -165,7 +172,7 @@ describe('createForm', function() {
     };
 
     // when
-    await waitForFormCreated({
+    await createForm({
       container,
       data,
       schema,
@@ -191,15 +198,17 @@ describe('createForm', function() {
     };
 
     // when
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       data,
       schema
     });
 
+    const field = Array.from(form.get('formFieldRegistry').values()).find(({ key }) => key === 'creditor');
+
     // update programmatically
     form._update({
-      path: [ 'creditor' ],
+      field,
       value: 'Jane Doe Company'
     });
 
@@ -239,7 +248,7 @@ describe('createForm', function() {
       approvedBy: 'John Doe'
     };
 
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       data,
       schema
@@ -258,8 +267,10 @@ describe('createForm', function() {
     form.on('changed', changedListener);
 
     // when
+    const field = Array.from(form.get('formFieldRegistry').values()).find(({ key }) => key === 'creditor');
+
     form._update({
-      path: [ 'creditor' ],
+      field,
       value: 'Jane Doe Company'
     });
 
@@ -275,7 +286,7 @@ describe('createForm', function() {
       amount: 456
     };
 
-    const form = await waitForFormCreated({
+    const form = await createForm({
       container,
       data,
       schema
@@ -299,62 +310,4 @@ describe('createForm', function() {
     form.submit();
   });
 
-
-  describe('error handling', function() {
-
-    // TODO: fix, will only blow up on async rendering
-    it.skip('should throw on unknown field', function() {
-
-      // given
-      const data = {
-        creditor: 'John Doe Company',
-        amount: 456,
-        invoiceNumber: 'C-123',
-        approved: true,
-        approvedBy: 'John Doe'
-      };
-
-      const schema = {
-        type: 'default',
-        components: [
-          {
-            type: 'unknown-field'
-          }
-        ]
-      };
-
-      let error;
-
-      // when
-      try {
-        createForm({
-          container,
-          data,
-          schema
-        });
-      } catch (err) {
-        error = err;
-      }
-
-      // then
-      // error indicates problem
-      expect(error).to.exist;
-      expect(error.message).to.match(/cannot render field <unknown-field>/);
-
-      // and nothing is rendered
-      expect(container.childNodes).to.be.empty;
-    });
-  });
-
 });
-
-
-async function waitForFormCreated(options) {
-  const form = createForm(options);
-
-  await waitFor(() => {
-    expect(form.get('formFieldRegistry').size).to.equal(11);
-  });
-
-  return form;
-}

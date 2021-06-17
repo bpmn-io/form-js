@@ -16,7 +16,6 @@ export default function Select(props) {
     disabled,
     errors = [],
     field,
-    path,
     value
   } = props;
 
@@ -32,7 +31,7 @@ export default function Select(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      path,
+      field,
       value: target.value === '' ? undefined : target.value
     });
   };

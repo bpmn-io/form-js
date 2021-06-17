@@ -114,7 +114,7 @@ describe('Radio', function() {
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
-        path: [ 'product' ],
+        field: defaultField,
         value: 'camunda-cloud'
       });
     });
@@ -137,7 +137,7 @@ describe('Radio', function() {
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
-        path: [ 'product' ],
+        field: defaultField,
         value: undefined
       });
     });

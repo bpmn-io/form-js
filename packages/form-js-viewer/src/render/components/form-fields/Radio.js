@@ -16,7 +16,6 @@ export default function Radio(props) {
     disabled,
     errors = [],
     field,
-    path,
     value
   } = props;
 
@@ -32,7 +31,7 @@ export default function Radio(props) {
 
   const onChange = (v) => {
     props.onChange({
-      path,
+      field,
       value: v === value ? undefined : v
     });
   };

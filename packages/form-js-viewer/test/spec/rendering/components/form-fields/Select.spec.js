@@ -110,7 +110,7 @@ describe('Select', function() {
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
-        path: [ 'language' ],
+        field: defaultField,
         value: 'english'
       });
     });
@@ -133,7 +133,7 @@ describe('Select', function() {
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
-        path: [ 'language' ],
+        field: defaultField,
         value: undefined
       });
     });

@@ -111,7 +111,7 @@ describe('Checkbox', function() {
 
     // then
     expect(onChangeSpy).to.have.been.calledWith({
-      path: [ 'approved' ],
+      field: defaultField,
       value: false
     });
   });

@@ -16,7 +16,6 @@ export default function Number(props) {
     disabled,
     errors = [],
     field,
-    path,
     value
   } = props;
 
@@ -31,7 +30,7 @@ export default function Number(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      path,
+      field,
       value: target.value ? parseInt(target.value, 10) : undefined
     });
   };

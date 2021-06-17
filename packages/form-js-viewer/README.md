@@ -32,7 +32,7 @@ const data = {
   creditor: 'John Doe Company'
 };
 
-const form = createForm({
+const form = await createForm({
   container: document.getElementById('form'),
   schema,
   data
