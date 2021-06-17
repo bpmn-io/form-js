@@ -37,7 +37,7 @@ Create a new form or edit an exsting one:
 ```javascript
 import { createFormEditor } from '@bpmn-io/form-js';
 
-const formEditor = createFormEditor({
+const formEditor = await createFormEditor({
   schema,
   container: document.querySelector('#form-editor')
 });
