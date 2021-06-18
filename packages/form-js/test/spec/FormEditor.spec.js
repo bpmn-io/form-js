@@ -45,4 +45,33 @@ describe('createFormEditor', function() {
     expect(savedSchema).to.have.property('schemaVersion', schemaVersion);
   });
 
+
+  it('should export, keeping <id>', async function() {
+
+    // given
+    const schema = {
+      id: 'FOOBAR',
+      type: 'default',
+      schemaVersion,
+      compontents: [
+        {
+          id: 'number',
+          type: 'number',
+          key: 'number'
+        }
+      ]
+    };
+
+    const formEditor = await createFormEditor({
+      container,
+      schema
+    });
+
+    // when
+    const savedSchema = formEditor.getSchema();
+
+    // then
+    expect(savedSchema).to.eql(schema);
+  });
+
 });
