@@ -17,6 +17,8 @@ describe('form-editor', function() {
     // then
     expect(FormEditor).to.exist;
     expect(FormEditor.createFormEditor).to.exist;
+    expect(FormEditor.FormEditor).to.exist;
+    expect(FormEditor.schemaVersion).to.exist;
   });
 
 

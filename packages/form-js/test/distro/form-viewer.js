@@ -17,6 +17,8 @@ describe('form-viewer', function() {
     // then
     expect(FormViewer).to.exist;
     expect(FormViewer.createForm).to.exist;
+    expect(FormViewer.Form).to.exist;
+    expect(FormViewer.schemaVersion).to.exist;
   });
 
 
