@@ -29,9 +29,9 @@ export {
  *
  * @param {FormEditorOptions} options
  *
- * @return {FormEditor}
+ * @return {Promise<FormEditor>}
  */
-export function createFormEditor(options) {
+export async function createFormEditor(options) {
   const {
     schema,
     ...rest
@@ -42,7 +42,7 @@ export function createFormEditor(options) {
     schemaVersion
   });
 
-  formEditor.importSchema(schema);
+  await formEditor.importSchema(schema);
 
   return formEditor;
 }

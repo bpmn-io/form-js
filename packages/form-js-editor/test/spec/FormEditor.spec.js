@@ -44,7 +44,7 @@ describe('createFormEditor', function() {
   (singleStart ? it.only : it)('should render', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema,
       debounce: true,
@@ -62,7 +62,7 @@ describe('createFormEditor', function() {
   it('should attach', async function() {
 
     // when
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       schema
     });
 
@@ -80,7 +80,7 @@ describe('createFormEditor', function() {
   it('should detach', async function() {
 
     // when
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
@@ -96,10 +96,40 @@ describe('createFormEditor', function() {
   });
 
 
+  it('should fail instantiation with import error', async function() {
+
+    // given
+    const schema = {
+      type: 'default',
+      components: [
+        {
+          type: 'unknown-component'
+        }
+      ]
+    };
+
+    let error;
+
+    // when
+    try {
+      await createFormEditor({
+        container,
+        schema
+      });
+    } catch (_error) {
+      error = _error;
+    }
+
+    // then
+    expect(error).to.exist;
+    expect(error.message).to.eql('form field of type <unknown-component> not supported');
+  });
+
+
   it('#saveSchema', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
@@ -117,7 +147,7 @@ describe('createFormEditor', function() {
   it('#destroy', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
@@ -133,7 +163,7 @@ describe('createFormEditor', function() {
   it('should expose schema', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
@@ -156,7 +186,7 @@ describe('createFormEditor', function() {
       version: 'bar'
     };
 
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       container,
       schema,
       exporter
@@ -173,7 +203,7 @@ describe('createFormEditor', function() {
   it('should emit event on properties panel focus', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       schema,
       container
     });
@@ -201,7 +231,7 @@ describe('createFormEditor', function() {
   it('should emit event on properties panel blur', async function() {
 
     // given
-    const formEditor = await waitForFormEditorCreated({
+    const formEditor = await createFormEditor({
       schema,
       container
     });
@@ -233,7 +263,7 @@ describe('createFormEditor', function() {
     it('should enable drag and drop on mount', async function() {
 
       // given
-      const formEditor = await waitForFormEditorCreated({
+      const formEditor = await createFormEditor({
         schema,
         container
       });
@@ -255,7 +285,7 @@ describe('createFormEditor', function() {
     it('should enable drag and drop on attach', async function() {
 
       // given
-      const formEditor = await waitForFormEditorCreated({
+      const formEditor = await createFormEditor({
         schema
       });
 
@@ -279,7 +309,7 @@ describe('createFormEditor', function() {
     it('should disable drag and drop on detach', async function() {
 
       // given
-      const formEditor = await waitForFormEditorCreated({
+      const formEditor = await createFormEditor({
         schema,
         container
       });
@@ -304,21 +334,7 @@ describe('createFormEditor', function() {
 
 });
 
-async function waitForFormEditorCreated(options) {
-  const formEditor = createFormEditor({
-    debounce: false,
-    ...options
-  });
-
-  window.formEditor = formEditor;
-
-  await waitFor(() => {
-    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
-  });
-
-  return formEditor;
-}
-
+// helpers //////////
 
 function exportTagged(schema, exporter) {
 

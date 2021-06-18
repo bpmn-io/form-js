@@ -18,10 +18,10 @@ describe('createFormEditor', function() {
   });
 
 
-  it('should render', function() {
+  it('should render', async function() {
 
     // when
-    const formEditor = createFormEditor({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
@@ -31,10 +31,10 @@ describe('createFormEditor', function() {
   });
 
 
-  it('should export schemaVersion', function() {
+  it('should export schemaVersion', async function() {
 
     // given
-    const formEditor = createFormEditor({
+    const formEditor = await createFormEditor({
       container,
       schema
     });
