@@ -15,7 +15,7 @@ export default function Text(props) {
   const { text } = field;
 
   return <div class={ formFieldClasses(type) }>
-    <Markup markup={ safeMarkdown(text) } />
+    <Markup markup={ safeMarkdown(text) } trim={ false } />
   </div>;
 }
 
