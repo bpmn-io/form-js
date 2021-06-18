@@ -36,7 +36,7 @@ export {
  *
  * @return {Promise<Form>}
  */
-export async function createForm(options) {
+export function createForm(options) {
   const {
     data,
     schema,
@@ -45,7 +45,7 @@ export async function createForm(options) {
 
   const form = new Form(rest);
 
-  await form.importSchema(schema, data);
-
-  return form;
+  return form.importSchema(schema, data).then(function() {
+    return form;
+  });
 }
