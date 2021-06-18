@@ -13,7 +13,7 @@ git clone --depth=1 "https://$BPMN_IO_TOKEN@github.com/$BPMN_IO_DEMO_ENDPOINT.gi
 
 cd "$CLONE_DIR"
 
-npm install --save @bpmn-io/form-js@latest diagram-js@latest
+npm install --save @bpmn-io/form-js@$TAG diagram-js@latest
 
 git config user.email "$BPMN_IO_EMAIL"
 git config user.name "$BPMN_IO_USERNAME"
