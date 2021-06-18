@@ -29,7 +29,7 @@ export default class AddFormFieldHandler {
 
     const targetPath = [ ...targetFormField.path, 'components' ];
 
-    newFormField.parent = targetFormField._id;
+    newFormField._parent = targetFormField._id;
 
     // (1) Add new form field
     arrayAdd(get(schema, targetPath), targetIndex, newFormField);

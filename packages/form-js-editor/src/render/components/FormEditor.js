@@ -83,7 +83,7 @@ function Element(props) {
 
     const selectableField = findSelectableField(schema, formFieldRegistry, field);
 
-    const parentField = formFieldRegistry.get(field.parent);
+    const parentField = formFieldRegistry.get(field._parent);
 
     const index = getFormFieldIndex(parentField, field);
 
@@ -201,7 +201,7 @@ export default function FormEditor(props) {
           const formField = formFields.get(type);
 
           const newFormField = formField.create({
-            parent: targetFormField._id
+            _parent: targetFormField._id
           });
 
           selection.set(newFormField._id);
@@ -362,7 +362,7 @@ function CreatePreview(props) {
 function findSelectableField(schema, formFieldRegistry, formField) {
 
   if (formField) {
-    const parent = formFieldRegistry.get(formField.parent);
+    const parent = formFieldRegistry.get(formField._parent);
 
     const index = getFormFieldIndex(parent, formField);
 

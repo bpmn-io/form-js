@@ -72,7 +72,7 @@ export default class MoveFormFieldHandler {
     } else {
       const formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
-      formField.parent = targetFormField._id;
+      formField._parent = targetFormField._id;
 
       // (1) Remove form field
       arrayRemove(get(schema, sourcePath), sourceIndex);
