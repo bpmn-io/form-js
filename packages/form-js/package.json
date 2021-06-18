@@ -37,7 +37,7 @@
     "test:distro": "run-s test:distro:*",
     "test:distro:viewer": "cross-env VARIANT=form-viewer karma start test/config/karma.distro.js",
     "test:distro:editor": "cross-env VARIANT=form-editor karma start test/config/karma.distro.js",
-    "prepublishOnly": "npm run build test:distro"
+    "prepublishOnly": "run-s build test:distro"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
