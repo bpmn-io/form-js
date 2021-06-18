@@ -128,7 +128,7 @@ describe('Checkbox', function() {
       type: 'checkbox'
     });
 
-    expect(field.id).to.match(/checkbox\d+/);
+    expect(field._id).to.match(/checkbox\d+/);
     expect(field.key).to.match(/checkbox\d+/);
   });
 

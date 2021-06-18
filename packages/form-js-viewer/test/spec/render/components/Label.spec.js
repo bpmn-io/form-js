@@ -24,7 +24,7 @@ describe('Label', function() {
 
     // when
     const { container } = createLabel({
-      id: 'foo',
+      _id: 'foo',
       label: 'Foo'
     });
 
@@ -40,7 +40,7 @@ describe('Label', function() {
 
     // when
     const { container } = createLabel({
-      id: 'foo',
+      _id: 'foo',
       label: 'Foo'
     }, <span class="foo">Foo</span>);
 
@@ -55,7 +55,7 @@ describe('Label', function() {
 
     // when
     const { container } = createLabel({
-      id: 'foo',
+      _id: 'foo',
       label: 'Foo',
       required: true
     });
@@ -71,7 +71,7 @@ describe('Label', function() {
 
     // when
     const { container } = createLabel({
-      id: 'foo'
+      _id: 'foo'
     });
 
     // then

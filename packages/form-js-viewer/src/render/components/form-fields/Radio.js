@@ -21,7 +21,7 @@ export default function Radio(props) {
 
   const {
     description,
-    id,
+    _id,
     label,
     validate = {},
     values
@@ -44,14 +44,14 @@ export default function Radio(props) {
       values.map((v, index) => {
         return (
           <Label
-            id={ prefixId(`${id}-${index}`) }
+            id={ prefixId(`${ _id }-${ index }`) }
             label={ v.label }
             required={ false }>
             <input
               checked={ v.value === value }
               class="fjs-input"
               disabled={ disabled }
-              id={ prefixId(`${id}-${index}`) }
+              id={ prefixId(`${ _id }-${ index }`) }
               type="radio"
               onClick={ () => onChange(v.value) } />
           </Label>
@@ -64,11 +64,11 @@ export default function Radio(props) {
 }
 
 Radio.create = function(options = {}) {
-  const id = generateIdForType(type);
+  const _id = generateIdForType(type);
 
   return {
-    id,
-    key: id,
+    _id,
+    key: _id,
     label: this.label,
     type,
     values: [

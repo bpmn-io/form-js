@@ -155,7 +155,7 @@ describe('Number', function() {
       type: 'number'
     });
 
-    expect(field.id).to.match(/number\d+/);
+    expect(field._id).to.match(/number\d+/);
     expect(field.key).to.match(/number\d+/);
   });
 

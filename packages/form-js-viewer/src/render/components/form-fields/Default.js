@@ -15,7 +15,7 @@ export default function Default(props) {
 
   const { field } = props;
 
-  const { id } = field;
+  const { _id } = field;
 
   const { components = [] } = field;
 
@@ -24,7 +24,7 @@ export default function Default(props) {
       components.map((field) => {
         return <FormField
           { ...props }
-          key={ id }
+          key={ _id }
           field={ field } />;
       })
     }
@@ -35,11 +35,11 @@ export default function Default(props) {
 }
 
 Default.create = function(options = {}) {
-  const id = generateIdForType(this.type);
+  const _id = generateIdForType(this.type);
 
   return {
     components: [],
-    id,
+    _id,
     label: this.label,
     type: this.type,
     ...options

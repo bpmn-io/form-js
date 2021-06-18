@@ -21,7 +21,7 @@ export default function Textfield(props) {
 
   const {
     description,
-    id,
+    _id,
     label,
     validate = {}
   } = field;
@@ -37,13 +37,13 @@ export default function Textfield(props) {
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(id) }
+      id={ prefixId(_id) }
       label={ label }
       required={ required } />
     <input
       class="fjs-input"
       disabled={ disabled }
-      id={ prefixId(id) }
+      id={ prefixId(_id) }
       onInput={ onChange }
       type="text"
       value={ value } />
@@ -53,11 +53,11 @@ export default function Textfield(props) {
 }
 
 Textfield.create = function(options = {}) {
-  const id = generateIdForType(type);
+  const _id = generateIdForType(type);
 
   return {
-    id,
-    key: id,
+    _id,
+    key: _id,
     label: this.label,
     type,
     ...options

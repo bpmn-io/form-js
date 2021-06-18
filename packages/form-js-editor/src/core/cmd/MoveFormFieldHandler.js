@@ -51,7 +51,7 @@ export default class MoveFormFieldHandler {
 
     const sourcePath = [ ...sourceFormField.path, 'components' ];
 
-    if (sourceFormField.id === targetFormField.id) {
+    if (sourceFormField._id === targetFormField._id) {
 
       if (revert) {
         if (sourceIndex > targetIndex) {
@@ -72,7 +72,7 @@ export default class MoveFormFieldHandler {
     } else {
       const formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
-      formField.parent = targetFormField.id;
+      formField.parent = targetFormField._id;
 
       // (1) Remove form field
       arrayRemove(get(schema, sourcePath), sourceIndex);

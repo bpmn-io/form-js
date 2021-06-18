@@ -20,10 +20,10 @@ export default function Text(props) {
 }
 
 Text.create = function(options = {}) {
-  const id = generateIdForType(type);
+  const _id = generateIdForType(type);
 
   return {
-    id,
+    _id,
     text: '# Text',
     type,
     ...options

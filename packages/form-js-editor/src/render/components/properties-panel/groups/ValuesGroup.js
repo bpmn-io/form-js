@@ -28,7 +28,7 @@ export default function ValuesGroup(field, editField) {
     <Group label="Values" addEntry={ addEntry } hasEntries={ hasEntries }>
       {
         values.map((value, index) => {
-          const { id } = field;
+          const { _id } = field;
 
           const { label } = value;
 
@@ -37,7 +37,7 @@ export default function ValuesGroup(field, editField) {
           };
 
           return (
-            <CollapsibleEntry key={ id } label={ label } removeEntry={ removeEntry }>
+            <CollapsibleEntry key={ _id } label={ label } removeEntry={ removeEntry }>
               <ValueEntry editField={ editField } field={ field } index={ index } />
             </CollapsibleEntry>
           );

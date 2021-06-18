@@ -29,7 +29,7 @@ export default class AddFormFieldHandler {
 
     const targetPath = [ ...targetFormField.path, 'components' ];
 
-    newFormField.parent = targetFormField.id;
+    newFormField.parent = targetFormField._id;
 
     // (1) Add new form field
     arrayAdd(get(schema, targetPath), targetIndex, newFormField);
@@ -38,7 +38,7 @@ export default class AddFormFieldHandler {
     get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Add new form field to form field registry
-    this._formFieldRegistry.set(newFormField.id, newFormField);
+    this._formFieldRegistry.set(newFormField._id, newFormField);
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
@@ -62,7 +62,7 @@ export default class AddFormFieldHandler {
     get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Remove new form field from form field registry
-    this._formFieldRegistry.delete(newFormField.id);
+    this._formFieldRegistry.delete(newFormField._id);
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });

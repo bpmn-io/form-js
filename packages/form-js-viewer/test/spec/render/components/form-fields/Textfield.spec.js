@@ -155,7 +155,7 @@ describe('Textfield', function() {
       type: 'textfield'
     });
 
-    expect(field.id).to.match(/textfield\d+/);
+    expect(field._id).to.match(/textfield\d+/);
     expect(field.key).to.match(/textfield\d+/);
   });
 
