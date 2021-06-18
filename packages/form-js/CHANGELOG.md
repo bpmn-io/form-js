@@ -11,6 +11,7 @@ ___Note:__ Yet to be released changes appear here._
 ### General
 
 * `FIX`: prevent embedded images from breaking the form layout ([#92](https://github.com/bpmn-io/form-js/pull/92))
+* `FIX`: generate proper paragraphs from markdown text ([#93](https://github.com/bpmn-io/form-js/pull/93))
 * `CHORE`: refactor for extensibility and testability
 * `CHORE`: separate component instantation and import
 
