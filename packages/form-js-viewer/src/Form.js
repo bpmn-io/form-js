@@ -145,13 +145,13 @@ export default class Form {
     const data = Array.from(formFieldRegistry.values()).reduce((data, field) => {
       const {
         disabled,
-        path
+        _path
       } = field;
 
       if (disabled) {
 
         // strip disabled field value
-        set(data, path, undefined);
+        set(data, _path, undefined);
       }
 
       return data;
@@ -190,19 +190,19 @@ export default class Form {
 
     const errors = Array.from(formFieldRegistry.values()).reduce((errors, field) => {
       const {
-        path,
-        disabled
+        disabled,
+        _path
       } = field;
 
       if (disabled) {
         return errors;
       }
 
-      const value = get(data, path);
+      const value = get(data, _path);
 
       const fieldErrors = validator.validateField(field, value);
 
-      return set(errors, [ pathStringify(path) ], fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
     }, /** @type {Errors} */ ({}));
 
     this._setState({ errors });
@@ -319,7 +319,7 @@ export default class Form {
       value
     } = update;
 
-    const { path } = field;
+    const { _path } = field;
 
     let {
       data,
@@ -330,9 +330,9 @@ export default class Form {
 
     const fieldErrors = validator.validateField(field, value);
 
-    set(data, path, value);
+    set(data, _path, value);
 
-    set(errors, [ pathStringify(path) ], fieldErrors.length ? fieldErrors : undefined);
+    set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
 
     this._setState({
       data: clone(data),

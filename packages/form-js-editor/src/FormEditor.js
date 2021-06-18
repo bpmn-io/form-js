@@ -270,7 +270,7 @@ export function exportSchema(schema, exporter, schemaVersion) {
   } : {};
 
   const cleanedSchema = clone(schema, (name, value) => {
-    if ([ '_id', '_parent', 'path' ].includes(name)) {
+    if ([ '_id', '_parent', '_path' ].includes(name)) {
       return undefined;
     }
 
