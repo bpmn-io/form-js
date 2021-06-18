@@ -54,7 +54,7 @@ function Element(props) {
   const { field } = props;
 
   const {
-    id,
+    _id,
     type
   } = field;
 
@@ -65,7 +65,7 @@ function Element(props) {
 
     event.stopPropagation();
 
-    selection.set(id);
+    selection.set(_id);
   }
 
   const classes = [ 'fjs-element' ];
@@ -74,7 +74,7 @@ function Element(props) {
     classes.push(...props.class.split(' '));
   }
 
-  if (selection.get() === id) {
+  if (selection.get() === _id) {
     classes.push('fjs-editor-selected');
   }
 
@@ -90,7 +90,7 @@ function Element(props) {
     modeling.removeFormField(parentField, index);
 
     if (selectableField) {
-      selection.set(selectableField.id);
+      selection.set(selectableField._id);
     } else {
       selection.clear();
     }
@@ -99,12 +99,12 @@ function Element(props) {
   return (
     <div
       class={ classes.join(' ') }
-      data-id={ id }
+      data-id={ _id }
       data-field-type={ type }
       onClick={ onClick }>
       <ContextPad>
         {
-          selection.get() === id ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button> : null
+          selection.get() === _id ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button> : null
         }
       </ContextPad>
       { props.children }
@@ -115,7 +115,7 @@ function Element(props) {
 function Children(props) {
   const { field } = props;
 
-  const { id } = field;
+  const { _id } = field;
 
   const classes = [ 'fjs-children', 'fjs-drag-container' ];
 
@@ -126,7 +126,7 @@ function Children(props) {
   return (
     <div
       class={ classes.join(' ') }
-      data-id={ id }>
+      data-id={ _id }>
       { props.children }
     </div>
   );
@@ -153,7 +153,7 @@ export default function FormEditor(props) {
     const selectableField = findSelectableField(schema, formFieldRegistry);
 
     if (selectableField) {
-      selection.set(selectableField.id);
+      selection.set(selectableField._id);
     }
   }, []);
 
@@ -201,10 +201,10 @@ export default function FormEditor(props) {
           const formField = formFields.get(type);
 
           const newFormField = formField.create({
-            parent: targetFormField.id
+            parent: targetFormField._id
           });
 
-          selection.set(newFormField.id);
+          selection.set(newFormField._id);
 
           modeling.addFormField(targetFormField, targetIndex, newFormField);
         } else {
@@ -212,7 +212,7 @@ export default function FormEditor(props) {
                 sourceFormField = formFieldRegistry.get(source.dataset.id),
                 sourceIndex = getFormFieldIndex(sourceFormField, formField);
 
-          selection.set(formField.id);
+          selection.set(formField._id);
 
           modeling.moveFormField(sourceFormField, targetFormField, sourceIndex, targetIndex);
         }
@@ -318,8 +318,8 @@ export default function FormEditor(props) {
 function getFormFieldIndex(parent, formField) {
   let fieldFormIndex = parent.components.length;
 
-  parent.components.forEach(({ id }, index) => {
-    if (id === formField.id) {
+  parent.components.forEach(({ _id }, index) => {
+    if (_id === formField._id) {
       fieldFormIndex = index;
     }
   });

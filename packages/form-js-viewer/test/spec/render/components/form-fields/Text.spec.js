@@ -47,8 +47,6 @@ describe('Text', function() {
     // then
     const formField = container.querySelector('.fjs-form-field');
 
-    console.log(formField);
-
     expect(formField).to.exist;
     expect(formField.classList.contains('fjs-form-field-text')).to.be.true;
 
@@ -70,7 +68,7 @@ describe('Text', function() {
       text: '# Text'
     });
 
-    expect(field.id).to.match(/text\d+/);
+    expect(field._id).to.match(/text\d+/);
   });
 
 });

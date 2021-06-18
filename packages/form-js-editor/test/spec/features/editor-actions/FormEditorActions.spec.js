@@ -27,7 +27,7 @@ describe('features/editor-actions', function() {
     const targetIndex = 0;
 
     const formField = {
-      id: 'foo',
+      _id: 'foo',
       type: 'button'
     };
 

@@ -140,7 +140,7 @@ describe('createFormEditor', function() {
     // then
     expect(exportedSchema).to.eql(exportTagged(schema));
 
-    expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
+    expect(JSON.stringify(exportedSchema)).not.to.contain('"_id"');
   });
 
 
@@ -174,7 +174,7 @@ describe('createFormEditor', function() {
     // then
     expect(exportedSchema).to.eql(exportTagged(schema));
 
-    expect(JSON.stringify(exportedSchema)).not.to.contain('"id"');
+    expect(JSON.stringify(exportedSchema)).not.to.contain('"_id"');
   });
 
 

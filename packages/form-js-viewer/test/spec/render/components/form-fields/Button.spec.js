@@ -83,7 +83,7 @@ describe('Button', function() {
       type: 'button'
     });
 
-    expect(field.id).to.match(/button\d+/);
+    expect(field._id).to.match(/button\d+/);
   });
 
 });
