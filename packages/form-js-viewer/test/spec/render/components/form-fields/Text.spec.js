@@ -35,6 +35,30 @@ describe('Text', function() {
   });
 
 
+  it('should render (no text)', function() {
+
+    // when
+    const { container } = createText({
+      field: {
+        type: 'text'
+      }
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    console.log(formField);
+
+    expect(formField).to.exist;
+    expect(formField.classList.contains('fjs-form-field-text')).to.be.true;
+
+    const paragraph = container.querySelector('p');
+
+    expect(paragraph).to.exist;
+    expect(paragraph.textContent).to.equal('');
+  });
+
+
   it('#create', function() {
 
     // when
