@@ -100,7 +100,7 @@ export function bootstrapForm(schema, options, locals) {
     FORM = new Form(_options);
 
     if (schema) {
-      return FORM.importXML(schema).then(function(result) {
+      return FORM.importSchema(schema).then(function(result) {
         return { error: null, warnings: result.warnings };
       }).catch(function(err) {
         return { error: err, warnings: err.warnings };
