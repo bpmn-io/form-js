@@ -13,7 +13,7 @@ export default class Importer {
   }
 
   /**
-   * Import schema adding `_id`, `_parent` and `path` information to each field and adding it to the form field registry.
+   * Import schema adding `_id`, `_parent` and `_path` information to each field and adding it to the form field registry.
    *
    * @param {any} schema
    *
@@ -69,9 +69,9 @@ export default class Importer {
 
     // Set form field path
     if (parent) {
-      formField.path = [ ...parent.path, 'components', index ];
+      formField._path = [ ...parent._path, 'components', index ];
     } else {
-      formField.path = [];
+      formField._path = [];
     }
 
     const _id = generateIdForType(type);

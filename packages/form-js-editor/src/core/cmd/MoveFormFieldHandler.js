@@ -49,7 +49,7 @@ export default class MoveFormFieldHandler {
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField.path, 'components' ];
+    const sourcePath = [ ...sourceFormField._path, 'components' ];
 
     if (sourceFormField._id === targetFormField._id) {
 
@@ -80,7 +80,7 @@ export default class MoveFormFieldHandler {
       // (2) Update paths of siblings
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
-      const targetPath = [ ...targetFormField.path, 'components' ];
+      const targetPath = [ ...targetFormField._path, 'components' ];
 
       // (3) Add form field
       arrayAdd(get(schema, targetPath), targetIndex, formField);

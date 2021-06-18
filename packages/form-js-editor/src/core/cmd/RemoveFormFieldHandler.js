@@ -26,7 +26,7 @@ export default class RemoveFormFieldHandler {
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField.path, 'components' ];
+    const sourcePath = [ ...sourceFormField._path, 'components' ];
 
     const formField = context.formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
@@ -52,7 +52,7 @@ export default class RemoveFormFieldHandler {
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField.path, 'components' ];
+    const sourcePath = [ ...sourceFormField._path, 'components' ];
 
     // (1) Add form field
     arrayAdd(get(schema, sourcePath), sourceIndex, formField);
