@@ -12,7 +12,7 @@ const type = 'text';
 export default function Text(props) {
   const { field } = props;
 
-  const { text } = field;
+  const { text = '' } = field;
 
   return <div class={ formFieldClasses(type) }>
     <Markup markup={ safeMarkdown(text) } trim={ false } />
