@@ -6,8 +6,7 @@ import {
 import {
   createInjector,
   clone,
-  createFormContainer,
-  importSchema
+  createFormContainer
 } from '@bpmn-io/form-js-viewer';
 
 import core from './core';
@@ -100,21 +99,22 @@ export default class FormEditor {
    * @param {Schema} schema
    */
   importSchema(schema) {
-    const {
-      fields,
-      schema: importedSchema
-    } = importSchema(schema);
+    return new Promise((resolve, reject) => {
+      const importer = this.get('importer');
 
-    const formFieldRegistry = this.get('formFieldRegistry');
+      schema = clone(schema);
 
-    formFieldRegistry.clear();
+      importer.importSchema(schema)
+        .then(({ warnings }) => {
+          this._setState({
+            schema
+          });
 
-    fields.forEach((value, key) => {
-      formFieldRegistry.set(key, value);
-    });
-
-    this._setState({
-      schema: importedSchema
+          resolve({ warnings });
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   }
 

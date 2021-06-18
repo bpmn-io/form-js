@@ -5,10 +5,11 @@ import DebounceFactory from './Debounce';
 import FormFieldRegistry from './FormFieldRegistry';
 
 import commandModule from 'diagram-js/lib/command';
+import importModule from '../import';
 import renderModule from '../render';
 
 export default {
-  __depends__: [ commandModule, renderModule ],
+  __depends__: [ commandModule, importModule, renderModule ],
   __init__: [ 'modeling' ],
   eventBus: [ 'type', EventBus ],
   formFieldRegistry: [ 'type', FormFieldRegistry ],

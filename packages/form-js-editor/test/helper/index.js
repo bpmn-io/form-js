@@ -99,7 +99,13 @@ export function bootstrapFormEditor(schema, options, locals) {
 
     FORM_EDITOR = new FormEditor(_options);
 
-    FORM_EDITOR.importSchema(schema);
+    if (schema) {
+      return FORM_EDITOR.importSchema(schema).then(function(result) {
+        return { error: null, warnings: result.warnings };
+      }).catch(function(err) {
+        return { error: err, warnings: err.warnings };
+      });
+    }
   };
 }
 

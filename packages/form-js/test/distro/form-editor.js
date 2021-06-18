@@ -20,7 +20,7 @@ describe('form-editor', function() {
   });
 
 
-  it('should edit form', function() {
+  it('should edit form', async function() {
 
     // given
     const {
@@ -51,7 +51,7 @@ describe('form-editor', function() {
     };
 
     // when
-    const editor = createFormEditor({
+    const editor = await createFormEditor({
       container,
       schema,
       data
