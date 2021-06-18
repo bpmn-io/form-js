@@ -13,7 +13,7 @@ export default class Importer {
   }
 
   /**
-   * Import schema adding `_id`, `parent` and `path` information to each field and adding it to the form field registry.
+   * Import schema adding `_id`, `_parent` and `path` information to each field and adding it to the form field registry.
    *
    * @param {any} schema
    *
@@ -50,7 +50,7 @@ export default class Importer {
     if (parentId) {
 
       // Set form field parent
-      formField.parent = parentId;
+      formField._parent = parentId;
 
       parent = this._formFieldRegistry.get(parentId);
     }

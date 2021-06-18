@@ -13,7 +13,7 @@ export function arrayRemove(array, index) {
 }
 
 export function updatePath(formFieldRegistry, formField, index) {
-  const parent = formFieldRegistry.get(formField.parent);
+  const parent = formFieldRegistry.get(formField._parent);
 
   formField.path = [ ...parent.path, 'components', index ];
 

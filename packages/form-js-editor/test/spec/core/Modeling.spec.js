@@ -49,7 +49,7 @@ describe('Modeling', function() {
       // given
       formFieldsSize = formFieldRegistry.size;
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       formFieldIds = parent.components.map(({ _id }) => _id);
 
@@ -67,7 +67,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql([
         formField._id,
@@ -84,7 +84,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
     }));
@@ -99,7 +99,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql([
         formField._id,
@@ -185,7 +185,7 @@ describe('Modeling', function() {
           // given
           formFieldsSize = formFieldRegistry.size;
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           formFieldIds = parent.components.map(({ _id }) => _id);
 
@@ -204,7 +204,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql([
             formFieldIds[ 1 ],
@@ -222,7 +222,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
         }));
@@ -237,7 +237,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql([
             formFieldIds[ 1 ],
@@ -262,7 +262,7 @@ describe('Modeling', function() {
           // given
           formFieldsSize = formFieldRegistry.size;
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           formFieldIds = parent.components.map(({ _id }) => _id);
 
@@ -281,7 +281,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql([
             formFieldIds[ 1 ],
@@ -299,7 +299,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
         }));
@@ -314,7 +314,7 @@ describe('Modeling', function() {
           // then
           expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
           expect(parent.components.map(({ _id }) => _id)).to.eql([
             formFieldIds[ 1 ],
@@ -342,7 +342,7 @@ describe('Modeling', function() {
       // given
       formFieldsSize = formFieldRegistry.size;
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       formFieldIds = parent.components.map(({ _id }) => _id);
 
@@ -359,7 +359,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize - 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds.slice(1));
     }));
@@ -373,7 +373,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
     }));
@@ -388,7 +388,7 @@ describe('Modeling', function() {
       // then
       expect(formFieldRegistry.size).to.equal(formFieldsSize - 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ parent }) => isUndefined(parent));
+      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds.slice(1));
     }));
