@@ -46,14 +46,10 @@ export default class Importer {
       type
     } = formField;
 
-    let parent;
-
     if (parentId) {
 
       // Set form field parent
       formField._parent = parentId;
-
-      parent = this._formFieldRegistry.get(parentId);
     }
 
     if (!this._formFields.get(type)) {
@@ -67,14 +63,8 @@ export default class Importer {
         }
       });
 
-      const path = [];
-
-      if (parent) {
-        path.push(...getParentPath(parent));
-      }
-
       // Set form field path
-      formField.path = [...path, key];
+      formField.path = [ key ];
     }
 
     const _id = generateIdForType(type);
@@ -91,27 +81,11 @@ export default class Importer {
     return formField;
   }
 
-  importFormFields(components, data = {}, parent) {
+  importFormFields(components, data = {}, parentId) {
     components.forEach((component) => {
-      this.importFormField(component, data, parent);
+      this.importFormField(component, data, parentId);
     });
   }
 }
 
 Importer.$inject = [ 'formFieldRegistry', 'formFields' ];
-
-// helpers //////////
-
-function getParentPath(parent) {
-  const { path } = parent;
-
-  if (path) {
-    return path;
-  }
-
-  if (parent.parent) {
-    return getParentPath(parent.parent);
-  }
-
-  return [];
-}
