@@ -6,6 +6,31 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.2.0
+
+### General
+
+* `FIX`: prevent embedded images from breaking the form layout ([#92](https://github.com/bpmn-io/form-js/pull/92))
+* `CHORE`: refactor for extensibility and testability
+* `CHORE`: separate component instantation and import
+
+### Viewer
+
+* `FEAT`: improve robustness of form import ([#79](https://github.com/bpmn-io/form-js/issues/79))
+* `FEAT`: allow programmatic form validation ([#30](https://github.com/bpmn-io/form-js/issues/30))
+* `FEAT`: prevent submission of readonly form
+* `FIX`: correct submission of empty fields ([#54](https://github.com/bpmn-io/form-js/issues/54))
+* `FIX`: correct submission of disabled fields ([#6](https://github.com/bpmn-io/form-js/issues/6))
+
+### Editor
+
+* `FEAT`: improve robustness of form editor import ([#91](https://github.com/bpmn-io/form-js/issues/91))
+* `FEAT`: add undo and redo ([#45](https://github.com/bpmn-io/form-js/issues/45))
+
+### Breaking Changes
+
+* Form viewer and editor import are now asynchronous. Creating either via `#createForm` and `#createFormEditor` must be awaited.
+
 ## 0.1.0
 
 _This release adds new form fields that are not supported by older versions of form-js._
