@@ -61,14 +61,11 @@ export default class Importer {
     }
 
     if (key) {
-
-      if (!parent || !parent.isMany) {
-        this._formFieldRegistry.forEach((formField) => {
-          if (formField.key === key) {
-            throw new Error(`form field with key <${ key }> already exists`);
-          }
-        });
-      }
+      this._formFieldRegistry.forEach((formField) => {
+        if (formField.key === key) {
+          throw new Error(`form field with key <${ key }> already exists`);
+        }
+      });
 
       const path = [];
 
