@@ -43,9 +43,21 @@ const ALLOWED_ATTRIBUTES = [
   'valign'
 ];
 
+export function markdownToHTML(markdown) {
+  const htmls = markdown
+    .split(/(?:\r?\n){2,}/)
+    .map(line =>
+      /^[<\s#-*]/.test(line)
+        ? snarkdown(line)
+        : `<p>${ snarkdown(line) }</p>`,
+    );
+
+  return htmls.join('\n\n');
+}
+
 // See https://github.com/developit/snarkdown/issues/70
 export function safeMarkdown(markdown) {
-  const html = snarkdown(markdown);
+  const html = markdownToHTML(markdown);
 
   const doc = new DOMParser().parseFromString(
     `<!DOCTYPE html>\n<html><body><div>${ html }`,
