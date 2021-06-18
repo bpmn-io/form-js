@@ -64,6 +64,10 @@
   flex-grow: 1;
 }
 
+.fjs-container img {
+  max-width: 100%;
+}
+
 /**
  * Visual styles
  */

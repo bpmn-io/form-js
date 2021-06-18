@@ -9,6 +9,7 @@ import customModule from './custom';
 
 import disabledSchema from './disabled.json';
 import schema from './form.json';
+import textSchema from './text.json';
 
 import {
   insertCSS,
@@ -79,6 +80,19 @@ describe('createForm', function() {
     expect(form.reset).to.exist;
     expect(form.submit).to.exist;
     expect(form._update).to.exist;
+  });
+
+
+  it('should render complex text', async function() {
+
+    // when
+    const form = await createForm({
+      container,
+      schema: textSchema
+    });
+
+    // then
+    expect(form).to.exist;
   });
 
 
