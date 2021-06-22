@@ -7,6 +7,7 @@ import {
 import { clone } from '@bpmn-io/form-js-viewer';
 
 import schema from '../form.json';
+import other from '../other.json';
 
 
 describe('Importer', function() {
@@ -28,6 +29,28 @@ describe('Importer', function() {
     expect(warnings).to.be.empty;
 
     expect(formFieldRegistry.size).to.equal(11);
+  }));
+
+
+  it('should reimport without errors', inject(async function(formEditor, formFieldRegistry) {
+
+    // given
+    let result = await formEditor.importSchema(schema);
+
+    // assume
+    expect(result.err).not.to.exist;
+    expect(result.warnings).to.be.empty;
+
+    expect(formFieldRegistry.size).to.equal(11);
+
+    // when
+    result = await formEditor.importSchema(other);
+
+    // then
+    expect(result.err).not.to.exist;
+    expect(result.warnings).to.be.empty;
+
+    expect(formFieldRegistry.size).to.equal(5);
   }));
 
 
