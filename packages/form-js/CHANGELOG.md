@@ -8,7 +8,8 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 0.2.2
 
-* `FIX`: add missing `min-dom` dependency
+* `FIX`: add missing `min-dom` dependency ([#100](https://github.com/bpmn-io/form-js/issues/100))
+* `FIX`: improve sanitizing of text links ([#102](https://github.com/bpmn-io/form-js/issues/102))
 
 ## 0.2.1
 
