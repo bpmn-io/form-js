@@ -192,6 +192,20 @@ Do [this](http://localhost), not __that__.
       expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
     });
 
+
+    it('should remove malicious href attributes (whitespace)', function() {
+
+      // given
+      const markdown = `<a href="j
+avascript:throw onerror=alert,'some string',123,'haha'">Foo</a>`;
+
+      // when
+      const html = safeMarkdown(markdown);
+
+      // then
+      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+    });
+
   });
 
 });
