@@ -82,6 +82,7 @@ function sanitize(node) {
 
   for (let i = node.attributes.length; i--;) {
     const name = node.attributes[ i ].name;
+
     if (!ALLOWED_ATTRIBUTES.includes(name.toLowerCase())) {
       node.attributes.removeNamedItem(name);
     }
@@ -89,7 +90,7 @@ function sanitize(node) {
     if (name === 'href') {
       const href = node.attributes.getNamedItem('href');
 
-      if (href.value.includes('javascript:')) {
+      if (href.value.replace(/\n/g, '').includes('javascript:')) {
         node.attributes.removeNamedItem('href');
       }
     }
