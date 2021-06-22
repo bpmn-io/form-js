@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.2.2
+
+* `FIX`: add missing `min-dom` dependency
+
 ## 0.2.1
 
 * `FIX`: remove `async` from public API (polyfilling `Promise` is all that is needed)
