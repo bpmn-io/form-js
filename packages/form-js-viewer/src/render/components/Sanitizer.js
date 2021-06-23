@@ -57,9 +57,16 @@ export function sanitizeHTML(html) {
 
   const element = doc.body.firstChild;
 
-  sanitizeNode(/** @type Element */ (element));
+  if (element) {
+    sanitizeNode(/** @type Element */ (element));
 
-  return new XMLSerializer().serializeToString(element);
+    return new XMLSerializer().serializeToString(element);
+  } else {
+
+    // handle the case that document parsing
+    // does not work at all, due to HTML gibberish
+    return '';
+  }
 }
 
 /**
