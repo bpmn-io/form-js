@@ -160,10 +160,37 @@ Do [this](http://localhost), not __that__.
 
   describe('safeMarkdown', function() {
 
+    it('should keep safe links', function() {
+
+      const markdown =
+        '[a](#l)' +
+        '[b](http://b)' +
+        '[c](https://c)' +
+        '[d](./d)' +
+        '[e](/e)' +
+        '[f](mailto:f)';
+
+      // when
+      const html = safeMarkdown(markdown);
+
+      // then
+      expect(html).to.eql(
+        '<div xmlns="http://www.w3.org/1999/xhtml"><p>' +
+          '<a href="#l">a</a>' +
+          '<a href="http://b">b</a>' +
+          '<a href="https://c">c</a>' +
+          '<a href="./d">d</a>' +
+          '<a href="/e">e</a>' +
+          '<a href="mailto:f">f</a>' +
+        '</p></div>'
+      );
+    });
+
+
     it('should remove disallowed tags', function() {
 
       // given
-      const markdown = '#Foo<script>alert(\'foo\');</script>';
+      const markdown = '#Foo<script>alert(\'foo\');</script><video /><iframe>';
 
       // when
       const html = safeMarkdown(markdown);
@@ -186,30 +213,76 @@ Do [this](http://localhost), not __that__.
     });
 
 
-    it('should remove malicious href attributes', function() {
+    it('should remove HTML clobbering attributes', function() {
 
       // given
-      const markdown = '<a href="javascript:throw onerror=alert,\'some string\',123,\'haha\'">Foo</a>';
+      const markdown = '<h1 name="createElement" id=createElement>Foo</h1>';
 
       // when
       const html = safeMarkdown(markdown);
 
       // then
-      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><h1>Foo</h1></div>');
     });
 
 
-    it('should remove malicious href attributes (whitespace)', function() {
+    describe('should remove <javascript:> href attributes', function() {
 
-      // given
-      const markdown = `<a href="j
-avascript:throw onerror=alert,'some string',123,'haha'">Foo</a>`;
+      it('basic', function() {
 
-      // when
-      const html = safeMarkdown(markdown);
+        // given
+        const markdown = '<a href="javascript:throw onerror=alert,\'some string\',123,\'haha\'">Foo</a>';
 
-      // then
-      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+        // when
+        const html = safeMarkdown(markdown);
+
+        // then
+        expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+      });
+
+
+      it('with whitespace', function() {
+
+        // given
+        const markdown = '<a href=" j\navas\tcript:throw onerror=alert,\'some string\',123,\'haha\'">Foo</a>';
+
+        // when
+        const html = safeMarkdown(markdown);
+
+        // then
+        expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+      });
+
+    });
+
+
+    describe('should remove <data:> href attributes', function() {
+
+      it('basic', function() {
+
+        // given
+        const markdown = '<a href="data:foo">Foo</a>';
+
+        // when
+        const html = safeMarkdown(markdown);
+
+        // then
+        expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+      });
+
+
+      it('with whitespace', function() {
+
+        // given
+        const markdown = '<a href=" da\t\nta:foo">Foo</a>';
+
+        // when
+        const html = safeMarkdown(markdown);
+
+        // then
+        expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a>Foo</a></div>');
+      });
+
     });
 
   });

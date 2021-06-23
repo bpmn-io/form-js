@@ -52,7 +52,11 @@ describe('Text', function() {
 1. ol li 1
 2. ol li 2
 
-Some _em_ **strong** [text](#text).
+\`\`\`
+Some Code
+\`\`\`
+
+Some _em_ **strong** [text](#text) \`code\`.
 
 ---
 
@@ -71,8 +75,7 @@ Some _em_ **strong** [text](#text).
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql(`
-<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>h1</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4>
+    expect(formField.innerHTML).to.eql(`<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>h1</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4>
 
 <blockquote>Blockquote</blockquote>
 
@@ -80,7 +83,9 @@ Some _em_ **strong** [text](#text).
 
 <ol><li>ol li 1</li><li>ol li 2</li></ol>
 
-<p>Some <em>em</em> <strong>strong</strong> <a href="#text">text</a>.</p>
+<p></p><pre class="code"><code>Some Code</code></pre><p></p>
+
+<p>Some <em>em</em> <strong>strong</strong> <a href="#text">text</a> <code>code</code>.</p>
 
 <p>---</p>
 
