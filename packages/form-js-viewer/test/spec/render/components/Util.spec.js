@@ -48,6 +48,9 @@ Second continued.
 
 Third.
 
+> Some
+> Block Quote
+
 1.  List
     List continued.
 2.  Second List
@@ -57,7 +60,7 @@ Third.
 *   Second Unordered List Item
 
 ![some small image](https://via.placeholder.com/400x150)
-![ſome big image](https://via.placeholder.com/1000x150)
+![some big image](https://via.placeholder.com/1000x150)
       `.trim();
 
       const expectedHTML = `
@@ -72,12 +75,15 @@ Second continued.</p>
 
 <p>Third.</p>
 
-<p><ol><li>List</li></ol><pre class="code poetry"><code>List continued.</code></pre><ol><li>Second List</li></ol></p>
+<blockquote>Some
+Block Quote</blockquote>
+
+<ol><li>List</li></ol><pre class="code poetry"><code>List continued.</code></pre><ol><li>Second List</li></ol>
 
 <ul><li>Unordered List</li></ul><pre class="code poetry"><code>Unordered list continued</code></pre><ul><li>Second Unordered List Item</li></ul>
 
 <p><img src="https://via.placeholder.com/400x150" alt="some small image">
-<img src="https://via.placeholder.com/1000x150" alt="ſome big image"></p>
+<img src="https://via.placeholder.com/1000x150" alt="some big image"></p>
       `.trim();
 
       // when
