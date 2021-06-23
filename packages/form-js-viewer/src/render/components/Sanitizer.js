@@ -31,8 +31,7 @@ const ALLOWED_ATTRIBUTES = [
   'href',
   'id',
   'name',
-  'src',
-  'valign'
+  'src'
 ];
 
 const ALLOWED_URI_PATTERN = /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i; // eslint-disable-line no-useless-escape
