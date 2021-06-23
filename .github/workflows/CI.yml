@@ -31,6 +31,7 @@ jobs:
     - name: Build
       env:
         COVERAGE: 1
-      run: npm run all
+        TEST_BROWSERS: Firefox,ChromeHeadless
+      run: xvfb-run npm run all
     - name: Upload coverage
       run: npx codecov
