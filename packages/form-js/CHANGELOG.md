@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.2.3
+
+* `FIX`: do not paragraph wrap `blockquote` and `ol` elements when rendering Markdown to HTML ([`a33d34ad`](https://github.com/bpmn-io/form-js/commit/a33d34ad584073bd3c9134997de94d325f88a0da))
+* `FIX`: make HTML sanitizer more strict ([`122467df`](https://github.com/bpmn-io/form-js/commit/122467df3879afef69df0a7d9341638889a55d8c))
+* `FIX`: gracefully handle unparseable `Text` input ([`a1121c0e`](https://github.com/bpmn-io/form-js/commit/a1121c0e7dc7a2e03854e9ff470dcdd4b6882faf))
+
 ## 0.2.2
 
 * `FIX`: add missing `min-dom` dependency ([#100](https://github.com/bpmn-io/form-js/issues/100))
