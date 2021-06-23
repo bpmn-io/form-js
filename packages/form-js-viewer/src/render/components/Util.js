@@ -27,7 +27,7 @@ export function markdownToHTML(markdown) {
   const htmls = markdown
     .split(/(?:\r?\n){2,}/)
     .map(line =>
-      /^[<\s#-*]/.test(line)
+      /^((\d+.)|[><\s#-*])/.test(line)
         ? snarkdown(line)
         : `<p>${ snarkdown(line) }</p>`,
     );
