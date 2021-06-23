@@ -35,6 +35,62 @@ describe('Text', function() {
   });
 
 
+  it('should render markdown', function() {
+
+    // given
+    const text = `
+# h1
+## h2
+### h3
+#### h4
+
+> Blockquote
+
+* ul li 1
+* ul li 2
+
+1. ol li 1
+2. ol li 2
+
+Some _em_ **strong** [text](#text).
+
+---
+
+![Image](#)
+  `.trim();
+
+    // when
+    const { container } = createText({
+      field: {
+        text,
+        type: 'Text'
+      }
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.innerHTML).to.eql(`
+<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>h1</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4>
+
+<blockquote>Blockquote</blockquote>
+
+<ul><li>ul li 1</li><li>ul li 2</li></ul>
+
+<ol><li>ol li 1</li><li>ol li 2</li></ol>
+
+<p>Some <em>em</em> <strong>strong</strong> <a href="#text">text</a>.</p>
+
+<p>---</p>
+
+<p><img alt="Image" src="#"></p></div></div>
+      `.trim()
+    );
+
+  });
+
+
   it('should render (no text)', function() {
 
     // when
