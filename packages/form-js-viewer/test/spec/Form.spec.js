@@ -1,4 +1,9 @@
 import {
+  fireEvent,
+  screen
+} from '@testing-library/preact/pure';
+
+import {
   createForm,
   schemaVersion
 } from '../../src';
@@ -465,6 +470,86 @@ describe('createForm', function() {
     // then
     expect(error).to.exist;
     expect(error.message).to.eql('form field of type <unknown-component> not supported');
+  });
+
+
+  describe('validation', function() {
+
+    it('should display error if required field empty', async function() {
+
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        product: 'camunda-cloud',
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
+
+      await createForm({
+        container,
+        data,
+        schema
+      });
+
+      // when
+      const input = await screen.getByLabelText('Creditor*');
+
+      fireEvent.input(input, { target: { value: '' } });
+
+      // then
+      expect(screen.getByText('Field is required.')).to.exist;
+    });
+
+
+    it('should display error if required field does not match pattern', async function() {
+
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        product: 'camunda-cloud',
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
+
+      await createForm({
+        container,
+        data,
+        schema
+      });
+
+      // when
+      const input = await screen.getByLabelText('Invoice Number');
+
+      fireEvent.input(input, { target: { value: 'foo' } });
+
+      // then
+      expect(screen.getByText('Field must match pattern ^C-[0-9]+$.')).to.exist;
+    });
+
   });
 
 });
