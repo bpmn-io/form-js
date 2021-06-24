@@ -17,7 +17,7 @@ export default class Validator {
       ];
     }
 
-    if (validate.required && typeof value === 'undefined') {
+    if (validate.required && (typeof value === 'undefined' || value === '')) {
       errors = [
         ...errors,
         'Field is required.'
