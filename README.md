@@ -1,4 +1,4 @@
-# form-js - Forms powered by bpmn.io
+# @bpmn-io/form-js
 
 [![CI](https://github.com/bpmn-io/form-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/form-js/actions?query=workflow%3ACI)
 
@@ -7,20 +7,20 @@
 
 ## Usage
 
-This library exports a form viewer and editor.
+This library exports a [form viewer](./packages/form-js-viewer) and [editor](./packages/form-js-editor).
 
 ### Display a Form <a id="viewer" />
 
 Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data:
 
 ```javascript
-import { createForm } from '@bpmn-io/form-js';
+import { Form } from '@bpmn-io/form-js';
 
-const form = await createForm({
-  schema,
-  data,
+const form = new Form({
   container: document.querySelector('#form')
 });
+
+await form.importSchema(schema, data);
 
 form.on('submit', (event) => {
   console.log(event.data, event.errors);
@@ -35,12 +35,13 @@ See [viewer documentation](./packages/form-js-viewer) for further details.
 Create a new form or edit an exsting one:
 
 ```javascript
-import { createFormEditor } from '@bpmn-io/form-js';
+import { FormEditor } from '@bpmn-io/form-js';
 
-const formEditor = await createFormEditor({
-  schema,
+const formEditor = new FormEditor({
   container: document.querySelector('#form-editor')
 });
+
+await formEditor.importSchema(schema);
 ```
 
 See [editor documentation](./packages/form-js-editor) for further details.
@@ -48,6 +49,7 @@ See [editor documentation](./packages/form-js-editor) for further details.
 
 ## Resources
 
+* [Demo](https://demo.bpmn.io/form)
 * [Issues](https://github.com/bpmn-io/form-js/issues)
 * [Changelog](./packages/form-js/CHANGELOG.md)
 * [Form schema](./docs/FORM_SCHEMA.md)

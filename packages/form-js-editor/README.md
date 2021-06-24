@@ -1,4 +1,4 @@
-# form-js-editor - Form editor powered by bpmn.io
+# @bpmn-io/form-js-editor
 
 An editor to create forms that can be displayed with the [form-js viewer](../form-js-viewer).
 
