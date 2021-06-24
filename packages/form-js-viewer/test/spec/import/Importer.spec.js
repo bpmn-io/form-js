@@ -7,6 +7,7 @@ import {
 import { clone } from 'src/util';
 
 import schema from '../form.json';
+import other from '../other.json';
 
 
 describe('Importer', function() {
@@ -39,6 +40,38 @@ describe('Importer', function() {
     expect(warnings).to.be.empty;
 
     expect(formFieldRegistry.size).to.equal(11);
+  }));
+
+
+  it('should reimport without errors', inject(async function(form, formFieldRegistry) {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      product: 'camunda-cloud',
+      language: 'english'
+    };
+
+    let result = await form.importSchema(schema, data);
+
+    // assume
+    expect(result.err).not.to.exist;
+    expect(result.warnings).to.be.empty;
+
+    expect(formFieldRegistry.size).to.equal(11);
+
+    // when
+    result = await form.importSchema(other, data);
+
+    // then
+    expect(result.err).not.to.exist;
+    expect(result.warnings).to.be.empty;
+
+    expect(formFieldRegistry.size).to.equal(5);
   }));
 
 
