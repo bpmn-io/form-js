@@ -6,7 +6,8 @@ import {
 import {
   createInjector,
   clone,
-  createFormContainer
+  createFormContainer,
+  schemaVersion
 } from '@bpmn-io/form-js-viewer';
 
 import core from './core';
@@ -27,7 +28,6 @@ import KeyboardModule from './features/keyboard';
  *   injector?: Injector,
  *   modules?: Modules,
  *   properties?: FormEditorProperties,
- *   schemaVersion?: number,
  *   [x: string]: any
  * } } FormEditorOptions
  *
@@ -53,8 +53,7 @@ export default class FormEditor {
       container,
       exporter,
       injector = this._createInjector(options, this._container),
-      properties = {},
-      schemaVersion
+      properties = {}
     } = options;
 
     /**
@@ -62,12 +61,6 @@ export default class FormEditor {
      * @type {any}
      */
     this.exporter = exporter;
-
-    /**
-     * @private
-     * @type {number}
-     */
-    this.schemaVersion = schemaVersion;
 
     /**
      * @private
@@ -134,7 +127,7 @@ export default class FormEditor {
     return exportSchema(
       schema,
       this.exporter,
-      this.schemaVersion
+      schemaVersion
     );
   }
 
