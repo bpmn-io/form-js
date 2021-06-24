@@ -42,13 +42,15 @@ export default function FormField(props) {
 
   const fieldErrors = findErrors(errors, _path);
 
+  const disabled = properties.readOnly || field.disabled || false;
+
   return (
     <Element field={ field }>
       <FormFieldComponent
         { ...props }
-        disabled={ properties.readOnly || false }
+        disabled={ disabled }
         errors={ fieldErrors }
-        onChange={ properties.readOnly ? noop : onChange }
+        onChange={ disabled ? noop : onChange }
         value={ value } />
     </Element>
   );
