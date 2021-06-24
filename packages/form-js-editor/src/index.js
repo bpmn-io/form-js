@@ -37,10 +37,7 @@ export function createFormEditor(options) {
     ...rest
   } = options;
 
-  const formEditor = new FormEditor({
-    ...rest,
-    schemaVersion
-  });
+  const formEditor = new FormEditor(rest);
 
   return formEditor.importSchema(schema).then(() => {
     return formEditor;
