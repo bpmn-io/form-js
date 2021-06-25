@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.2.4
+
+* `FIX`: make options optional when creating `Form` and `FormEditor` instances ([`8d9e09ae`](https://github.com/bpmn-io/form-js/commit/8d9e09ae410cbfe42a8e11a2371e45df9d926fd0))
+* `FIX`: import `schemaVersion` ([`05622a95`](https://github.com/bpmn-io/form-js/commit/05622a9568787a8c6f2fce79c60c7ff01f2b6083))
+* `FIX`: ensure `required` works with empty string ([`0279c4c4`](https://github.com/bpmn-io/form-js/commit/0279c4c4e55a0d6c3cb7d57a6818b15ecd6a583e))
+* `DOCS`: document new usage patterns ([#106](https://github.com/bpmn-io/form-js/issues/106))
+* `DOCS`: document editor API ([#24](https://github.com/bpmn-io/form-js/issues/24))
+
 ## 0.2.3
 
 * `FIX`: do not paragraph wrap `blockquote` and `ol` elements when rendering Markdown to HTML ([`a33d34ad`](https://github.com/bpmn-io/form-js/commit/a33d34ad584073bd3c9134997de94d325f88a0da))
