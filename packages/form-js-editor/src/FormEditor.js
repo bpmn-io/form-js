@@ -27,7 +27,7 @@ import KeyboardModule from './features/keyboard';
  *   injector?: Injector,
  *   modules?: Modules,
  *   properties?: FormEditorProperties,
- *   schemaVersion: number,
+ *   schemaVersion?: number,
  *   [x: string]: any
  * } } FormEditorOptions
  *
@@ -41,7 +41,7 @@ export default class FormEditor {
    * @constructor
    * @param {FormEditorOptions} options
    */
-  constructor(options) {
+  constructor(options = {}) {
 
     /**
      * @private
