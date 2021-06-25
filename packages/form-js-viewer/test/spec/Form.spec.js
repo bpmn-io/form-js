@@ -1,5 +1,6 @@
 import {
   createForm,
+  Form,
   schemaVersion
 } from '../../src';
 
@@ -24,7 +25,7 @@ insertCSS('custom.css', customCSS);
 const singleStart = isSingleStart('basic');
 
 
-describe('createForm', function() {
+describe('Form', function() {
 
   let container;
 
@@ -73,13 +74,44 @@ describe('createForm', function() {
       schema
     });
 
-    form.on('changed', ({ data, errors }) => console.log(data, errors));
+    form.on('changed', event => {
+      console.log('Form <changed>', event);
+    });
 
     // then
-    expect(form).to.exist;
-    expect(form.reset).to.exist;
-    expect(form.submit).to.exist;
-    expect(form._update).to.exist;
+    expect(form.get('formFieldRegistry').size).to.equal(11);
+  });
+
+
+  it('should create instance and import', async function() {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      product: 'camunda-cloud',
+      language: 'english',
+      documents: [
+        {
+          title: 'invoice.pdf',
+          author: 'John Doe'
+        },
+        {
+          title: 'products.pdf'
+        }
+      ]
+    };
+
+    // when
+    const form = new Form();
+
+    await form.importSchema(schema, data);
+
+    // then
+    expect(form.get('formFieldRegistry').size).to.equal(11);
   });
 
 

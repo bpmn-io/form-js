@@ -1,5 +1,6 @@
 import {
   createFormEditor,
+  FormEditor,
   schemaVersion
 } from '../../src';
 
@@ -25,7 +26,7 @@ const spy = sinon.spy;
 const singleStart = isSingleStart('basic');
 
 
-describe('createFormEditor', function() {
+describe('FormEditor', function() {
 
   let container;
 
@@ -43,7 +44,7 @@ describe('createFormEditor', function() {
 
   (singleStart ? it.only : it)('should render', async function() {
 
-    // given
+    // when
     const formEditor = await createFormEditor({
       container,
       schema,
@@ -56,6 +57,21 @@ describe('createFormEditor', function() {
     formEditor.on('changed', event => {
       console.log('Form Editor <changed>', event, formEditor.getSchema());
     });
+
+    // then
+    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
+  });
+
+
+  it('should create instance and import', async function() {
+
+    // given
+    const formEditor = new FormEditor();
+
+    await formEditor.importSchema(schema);
+
+    // then
+    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
   });
 
 

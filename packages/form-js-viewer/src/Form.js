@@ -47,7 +47,7 @@ export default class Form {
    * @constructor
    * @param {FormOptions} options
    */
-  constructor(options) {
+  constructor(options = {}) {
 
     /**
      * @private
