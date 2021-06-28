@@ -19,9 +19,10 @@
     "test": "lerna run test",
     "test:distro": "lerna run test:distro",
     "ci": "run-s all build-distro",
-    "start": "cross-env SINGLE_START=basic npm run dev --",
-    "start:viewer": "npm run start -- @bpmn-io/form-js-viewer",
-    "start:editor": "npm run start -- @bpmn-io/form-js-editor"
+    "start:pkg": "cross-env SINGLE_START=basic npm run dev --",
+    "start": "npm run start:pkg -- @bpmn-io/form-js",
+    "start:viewer": "npm run start:pkg -- @bpmn-io/form-js-viewer",
+    "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor"
   },
   "repository": {
     "type": "git",
