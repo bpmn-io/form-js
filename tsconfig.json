@@ -19,6 +19,7 @@
   "include": [
     "packages/form-js-viewer/src",
     "packages/form-js-editor/src",
+    "packages/form-js-example/src",
     "packages/form-js/src"
   ],
   "exclude": [

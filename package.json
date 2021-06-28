@@ -22,7 +22,8 @@
     "start:pkg": "cross-env SINGLE_START=basic npm run dev --",
     "start": "npm run start:pkg -- @bpmn-io/form-js",
     "start:viewer": "npm run start:pkg -- @bpmn-io/form-js-viewer",
-    "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor"
+    "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor",
+    "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground"
   },
   "repository": {
     "type": "git",
