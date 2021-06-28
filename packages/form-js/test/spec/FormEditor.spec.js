@@ -1,4 +1,8 @@
-import { schemaVersion, createFormEditor } from '../../src';
+import {
+  schemaVersion,
+  createFormEditor,
+  FormEditor
+} from '../../src';
 
 import schema from './form.json';
 
@@ -7,7 +11,7 @@ import { insertStyles } from '../TestHelper';
 insertStyles();
 
 
-describe('createFormEditor', function() {
+describe('editor exports', function() {
 
   let container;
 
@@ -25,6 +29,18 @@ describe('createFormEditor', function() {
       container,
       schema
     });
+
+    // then
+    expect(formEditor).to.exist;
+  });
+
+
+  it('should instantiate + render', async function() {
+
+    // when
+    const formEditor = new FormEditor({ container });
+
+    await formEditor.importSchema(schema);
 
     // then
     expect(formEditor).to.exist;
