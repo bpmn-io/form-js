@@ -40,7 +40,7 @@
   "dependencies": {
     "didi": "^5.2.1",
     "min-dash": "^3.7.0",
-    "preact": "^10.5.12",
+    "preact": "^10.5.13",
     "preact-markup": "^2.1.1",
     "snarkdown": "^2.0.0"
   },
