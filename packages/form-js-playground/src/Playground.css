@@ -1,0 +1,73 @@
+.app-root {
+  --color-light-gray: #EEE;
+  --color-default-gray: #AAA;
+  --color-dark-gray: #999;
+}
+
+.app-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: grid;
+  grid-template-columns: 65% 35%;
+  grid-template-rows: 70% 30%;
+}
+
+.editor-parent {
+  background: fuchsia;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.section:nth-child(1),
+.section:nth-child(2) {
+  border-bottom: double 3px var(--color-dark-gray);
+}
+
+.section:nth-child(1),
+.section:nth-child(3) {
+  border-right: double 3px var(--color-dark-gray);
+}
+
+.section .header {
+  background: var(--color-light-gray);
+  font-size: 1rem;
+  margin: 0;
+  padding: 5px 10px;
+  border-bottom: solid 1px var(--color-default-gray);
+}
+
+.section .body {
+  flex: 1;
+  overflow: hidden;
+}
+
+.form-container {
+  height: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.text-container {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 0;
+}
+
+.text-container > .cm-editor {
+  font-size: .9em;
+  height: 100%;
+}
+
+.form-container > .fjs-container {
+  overflow: auto;
+}

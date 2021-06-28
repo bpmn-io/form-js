@@ -1,0 +1,32 @@
+{
+  "name": "@bpmn-io/form-js-playground",
+  "version": "0.2.4",
+  "description": "A form-js playground",
+  "private": true,
+  "scripts": {
+    "all": "run-s test",
+    "start": "SINGLE_START=basic npm run dev",
+    "dev": "npm test -- --auto-watch --no-single-run",
+    "test": "karma start"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpmn-io/form-js.git",
+    "directory": "packages/form-js-playground"
+  },
+  "author": {
+    "name": "bpmn.io contributors",
+    "url": "https://github.com/bpmn-io"
+  },
+  "dependencies": {
+    "@bpmn-io/form-js": "^0.2.4",
+    "@codemirror/basic-setup": "^0.18.2",
+    "@codemirror/lang-json": "^0.18.0",
+    "@codemirror/state": "^0.18.7",
+    "mitt": "^3.0.0"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}
