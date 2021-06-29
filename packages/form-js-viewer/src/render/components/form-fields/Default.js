@@ -15,17 +15,15 @@ export default function Default(props) {
 
   const { field } = props;
 
-  const { _id } = field;
-
   const { components = [] } = field;
 
   return <Children class="fjs-vertical-layout" field={ field }>
     {
-      components.map((field) => {
+      components.map(childField => {
         return <FormField
           { ...props }
-          key={ _id }
-          field={ field } />;
+          key={ childField._id }
+          field={ childField } />;
       })
     }
     {
