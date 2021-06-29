@@ -1,3 +1,5 @@
+import 'preact/debug';
+
 import { insertCSS } from './helper';
 
 // @ts-ignore-next-line
