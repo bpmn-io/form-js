@@ -1,5 +1,8 @@
 #! /bin/bash
 
+set -euo pipefail
+shopt -s inherit_errexit nullglob
+
 # update form-js version in the <form-js-examples> project
 
 PWD="$(pwd)"
