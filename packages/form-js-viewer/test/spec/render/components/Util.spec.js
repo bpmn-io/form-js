@@ -243,6 +243,19 @@ Do [this](http://localhost), not __that__.
     });
 
 
+    it('should remove bogus target from links', function() {
+
+      // given
+      const markdown = '<a href="/g" target="_parent"></a>';
+
+      // when
+      const html = safeMarkdown(markdown);
+
+      // then
+      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a href="/g"></a></div>');
+    });
+
+
     it('should remove HTML clobbering attributes', function() {
 
       // given
