@@ -31,6 +31,8 @@ const ALLOWED_ATTRIBUTES = [
   'href',
   'id',
   'name',
+  'rel',
+  'target',
   'src'
 ];
 
@@ -119,6 +121,11 @@ function sanitizeNode(node) {
 
   }
 
+  // force noopener on target="_blank" links
+  if (lcTag === 'a' && node.getAttribute('target') === '_blank' && node.getAttribute('rel') !== 'noopener') {
+    node.setAttribute('rel', 'noopener');
+  }
+
   for (let i = node.childNodes.length; i--;) {
     sanitizeNode(/** @type Element */ (node.childNodes[i]));
   }
@@ -142,6 +149,10 @@ function isValidAttribute(lcTag, lcName, value) {
 
   // disallow "DOM clobbering" / polution of document and wrapping form elements
   if ((lcName === 'id' || lcName === 'name') && (value in document || value in FORM_ELEMENT)) {
+    return false;
+  }
+
+  if (lcName === 'target' && value !== '_blank') {
     return false;
   }
 
