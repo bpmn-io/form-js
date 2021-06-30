@@ -155,6 +155,21 @@ Do [this](http://localhost), not __that__.
       expect(html).to.eql(expectedHTML);
     });
 
+
+    it('should keep external link', function() {
+
+      // given
+      const markdown = '<a href="http://foo" target="_blank">foo</a>';
+
+      const expectedHTML = '<a href="http://foo" target="_blank">foo</a>';
+
+      // when
+      const html = markdownToHTML(markdown);
+
+      // then
+      expect(html).to.eql(expectedHTML);
+    });
+
   });
 
 
@@ -168,7 +183,8 @@ Do [this](http://localhost), not __that__.
         '[c](https://c)' +
         '[d](./d)' +
         '[e](/e)' +
-        '[f](mailto:f)';
+        '[f](mailto:f)' +
+        '<a href="/g" target="_blank" rel="noopener">g</a>';
 
       // when
       const html = safeMarkdown(markdown);
@@ -182,6 +198,7 @@ Do [this](http://localhost), not __that__.
           '<a href="./d">d</a>' +
           '<a href="/e">e</a>' +
           '<a href="mailto:f">f</a>' +
+          '<a rel="noopener" target="_blank" href="/g">g</a>' +
         '</p></div>'
       );
     });
@@ -210,6 +227,19 @@ Do [this](http://localhost), not __that__.
 
       // then
       expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><h1>Foo</h1></div>');
+    });
+
+
+    it('should add <rel="noopener"> to target="_blank" links', function() {
+
+      // given
+      const markdown = '<a href="/g" target="_blank"></a>';
+
+      // when
+      const html = safeMarkdown(markdown);
+
+      // then
+      expect(html).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><a target="_blank" href="/g" rel="noopener"></a></div>');
     });
 
 
