@@ -1,4 +1,4 @@
-import snarkdown from 'snarkdown';
+import snarkdown from '@bpmn-io/snarkdown';
 
 import { sanitizeHTML } from './Sanitizer';
 
