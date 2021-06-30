@@ -38,11 +38,11 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
+    "@bpmn-io/snarkdown": "^2.0.1",
     "didi": "^5.2.1",
     "min-dash": "^3.7.0",
     "preact": "^10.5.13",
-    "preact-markup": "^2.1.1",
-    "snarkdown": "^2.0.0"
+    "preact-markup": "^2.1.1"
   },
   "sideEffects": [
     "*.css"

@@ -46,7 +46,7 @@ export default [
       'preact/hooks',
       'preact/compat',
       'preact-markup',
-      'snarkdown'
+      '@bpmn-io/snarkdown'
     ],
     plugins: pgl([
       copy({
