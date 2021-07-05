@@ -112,58 +112,124 @@ describe('Modeling', function() {
 
   describe('#editFormField', function() {
 
-    let oldFormField;
+    describe('single property', function() {
 
-    beforeEach(inject(function(formFieldRegistry, modeling) {
+      let oldFormField;
 
-      // given
-      const formField = Array.from(formFieldRegistry.values()).find(({ type }) => type === 'text');
+      beforeEach(inject(function(formFieldRegistry, modeling) {
 
-      oldFormField = clone(formField);
+        // given
+        const formField = Array.from(formFieldRegistry.values()).find(({ type }) => type === 'text');
 
-      // when
-      modeling.editFormField(
-        formField,
-        'text',
-        'foo'
-      );
-    }));
+        oldFormField = clone(formField);
 
-
-    it('<do>', inject(function(formFieldRegistry) {
-
-      // then
-      expect(formFieldRegistry.get(oldFormField._id)).to.eql({
-        ...oldFormField,
-        text: 'foo'
-      });
-    }));
+        // when
+        modeling.editFormField(
+          formField,
+          'text',
+          'foo'
+        );
+      }));
 
 
-    it('<undo>', inject(function(commandStack, formFieldRegistry) {
+      it('<do>', inject(function(formFieldRegistry) {
 
-      // when
-      commandStack.undo();
-
-      // then
-      expect(formFieldRegistry.get(oldFormField._id)).to.eql({
-        ...oldFormField
-      });
-    }));
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField,
+          text: 'foo'
+        });
+      }));
 
 
-    it('<redo>', inject(function(commandStack, formFieldRegistry) {
+      it('<undo>', inject(function(commandStack, formFieldRegistry) {
 
-      // when
-      commandStack.undo();
-      commandStack.redo();
+        // when
+        commandStack.undo();
 
-      // then
-      expect(formFieldRegistry.get(oldFormField._id)).to.eql({
-        ...oldFormField,
-        text: 'foo'
-      });
-    }));
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField
+        });
+      }));
+
+
+      it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField,
+          text: 'foo'
+        });
+      }));
+
+    });
+
+
+    describe('multiple properties', function() {
+
+      let oldFormField;
+
+      beforeEach(inject(function(formFieldRegistry, modeling) {
+
+        // given
+        const formField = Array.from(formFieldRegistry.values()).find(({ key }) => key === 'creditor');
+
+        oldFormField = clone(formField);
+
+        // when
+        modeling.editFormField(
+          formField,
+          {
+            key: 'foo',
+            label: 'Foo'
+          }
+        );
+      }));
+
+
+      it('<do>', inject(function(formFieldRegistry) {
+
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField,
+          key: 'foo',
+          label: 'Foo'
+        });
+      }));
+
+
+      it('<undo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField
+        });
+      }));
+
+
+      it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+          ...oldFormField,
+          key: 'foo',
+          label: 'Foo'
+        });
+      }));
+
+    });
 
   });
 

@@ -13,16 +13,20 @@ export default class EditFormFieldHandler {
   execute(context) {
     const {
       formField,
-      key,
-      value
+      properties
     } = context;
 
     let { schema } = this._formEditor._getState();
 
-    context.oldValue = formField[ key ];
+    const oldProperties = {};
 
-    // (1) Edit form field
-    formField[ key ] = value;
+    for (let key in properties) {
+      oldProperties[ key ] = formField[ key ];
+
+      formField[ key ] = properties[ key ];
+    }
+
+    context.oldProperties = oldProperties;
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
@@ -31,14 +35,15 @@ export default class EditFormFieldHandler {
   revert(context) {
     const {
       formField,
-      key,
-      oldValue
+      oldProperties
     } = context;
 
     let { schema } = this._formEditor._getState();
 
-    // (1) Edit form field
-    formField[ key ] = oldValue;
+    for (let key in oldProperties) {
+
+      formField[ key ] = oldProperties[ key ];
+    }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
