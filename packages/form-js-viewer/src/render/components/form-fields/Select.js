@@ -38,6 +38,7 @@ export default function Select(props) {
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
+      id={ prefixId(_id) }
       label={ label }
       required={ required } />
     <select
