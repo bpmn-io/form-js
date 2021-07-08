@@ -48,9 +48,10 @@ export default function Select(props) {
       value={ value }>
       <option value=""></option>
       {
-        values.map((v, index) => {
+        values.map((v) => {
           return (
             <option
+              key={ v.value }
               value={ v.value }>
               { v.label }
             </option>
