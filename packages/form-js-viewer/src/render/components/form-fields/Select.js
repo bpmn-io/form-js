@@ -52,7 +52,7 @@ export default function Select(props) {
           return (
             <option
               value={ v.value }>
-              {v.label }
+              { v.label }
             </option>
           );
         })
