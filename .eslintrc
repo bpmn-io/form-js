@@ -6,7 +6,16 @@
   "rules": {
     "import/first": "error",
     "import/no-amd": "error",
-    "import/no-webpack-loader-syntax": "error"
+    "import/no-webpack-loader-syntax": "error",
+    "import/no-restricted-paths": [ "error", {
+      "basePath": "./packages",
+      "zones": [
+        { "target": "form-js/src", "from": ".", "except": [ "form-js" ] },
+        { "target": "form-js-editor/src", "from": ".", "except": [ "form-js-editor" ] },
+        { "target": "form-js-playground/src", "from": ".", "except": [ "form-js-playground" ] },
+        { "target": "form-js-viewer/src", "from": ".", "except": [ "form-js-viewer" ] }
+      ]
+    }]
   },
   "plugins": [
     "import"
