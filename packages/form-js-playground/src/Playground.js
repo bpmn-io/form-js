@@ -2,7 +2,9 @@ import JSONView from './JSONView';
 
 import { render } from 'preact';
 
-import { useRef, useEffect, useState } from 'preact/hooks';
+import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
+
+import download from 'downloadjs';
 
 import {
   Form,
@@ -11,16 +13,38 @@ import {
 
 function Section(props) {
 
+  const elements =
+    Array.isArray(props.children)
+      ? props.children :
+      [ props.children ];
+
+  const {
+    headerItems,
+    children
+  } = elements.reduce((_, child) => {
+    const bucket =
+      child.type === Section.HeaderItem
+        ? _.headerItems
+        : _.children;
+
+    bucket.push(child);
+
+    return _;
+  }, { headerItems: [], children: [] });
+
   return (
     <div class="section">
-      <h1 class="header">{ props.name }</h1>
+      <h1 class="header">{ props.name } { headerItems.length && <span class="header-items">{ headerItems }</span> }</h1>
       <div class="body">
-        { props.children }
+        { children }
       </div>
     </div>
   );
 }
 
+Section.HeaderItem = function(props) {
+  return props.children;
+};
 
 function AppRoot(props) {
 
@@ -123,12 +147,23 @@ function AppRoot(props) {
     });
   }, [ schema, data ]);
 
+  const handleDownload = useCallback(() => {
+
+    download(JSON.stringify(schema, null, '  '), 'form.json', 'text/json');
+  }, [ schema ]);
+
   return (
     <div class="app-root">
       <Section name="Form Definition">
+        <Section.HeaderItem>
+          <button onClick={ handleDownload }>Download</button>
+        </Section.HeaderItem>
         <div ref={ editorContainerRef } class="form-container"></div>
       </Section>
       <Section name="Form Preview">
+        <Section.HeaderItem>
+          <button>Embed</button>
+        </Section.HeaderItem>
         <div ref={ formContainerRef } class="form-container"></div>
       </Section>
       <Section name="Form Data (Input)">
