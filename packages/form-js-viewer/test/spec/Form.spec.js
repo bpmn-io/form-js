@@ -388,10 +388,45 @@ describe('Form', function() {
     // when reset
     form.reset();
 
+    // then
     const state = form._getState();
 
-    // then
     expect(state.data).to.eql(data);
+    expect(state.errors).to.be.empty;
+  });
+
+
+  it('should reset (no data)', async function() {
+
+    // when
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    // update programmatically
+    form._update({
+      field: getFormField(form, 'creditor'),
+      value: 'Jane Doe Company'
+    });
+
+    form._update({
+      field: getFormField(form, 'amount'),
+      value: '123'
+    });
+
+    form._update({
+      field: getFormField(form, 'approved'),
+      value: true
+    });
+
+    // when
+    form.reset();
+
+    // then
+    const state = form._getState();
+
+    expect(state.data).to.be.empty;
     expect(state.errors).to.be.empty;
   });
 
@@ -585,3 +620,9 @@ describe('Form', function() {
   });
 
 });
+
+// helpers //////////
+
+function getFormField(form, key) {
+  return Array.from(form.get('formFieldRegistry').values()).find((formField) => formField.key === key);
+}

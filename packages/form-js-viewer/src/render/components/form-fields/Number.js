@@ -16,7 +16,7 @@ export default function Number(props) {
     disabled,
     errors = [],
     field,
-    value
+    value = ''
   } = props;
 
   const {
