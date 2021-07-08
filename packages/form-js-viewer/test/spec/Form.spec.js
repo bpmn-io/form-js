@@ -363,7 +363,7 @@ describe('Form', function() {
       schema
     });
 
-    const field = Array.from(form.get('formFieldRegistry').values()).find(({ key }) => key === 'creditor');
+    const field = getFormField(form, 'creditor');
 
     // update programmatically
     form._update({
@@ -461,7 +461,7 @@ describe('Form', function() {
     form.on('changed', changedListener);
 
     // when
-    const field = Array.from(form.get('formFieldRegistry').values()).find(({ key }) => key === 'creditor');
+    const field = getFormField(form, 'creditor');
 
     form._update({
       field,
