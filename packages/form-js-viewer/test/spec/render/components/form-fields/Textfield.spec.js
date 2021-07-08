@@ -61,6 +61,32 @@ describe('Textfield', function() {
   });
 
 
+  it('should render default value on value removed', function() {
+
+    // given
+    const props = {
+      disabled: false,
+      errors: [],
+      field: defaultField,
+      onChange: () => {},
+      path: [ defaultField.key ]
+    };
+
+    const options = { container: container.querySelector('.fjs-form') };
+
+    const { rerender } = render(<Textfield { ...props } value={ 'John Doe Company' } />, options);
+
+    // when
+    rerender(<Textfield { ...props } value={ undefined } />, options);
+
+    // then
+    const input = container.querySelector('input[type="text"]');
+
+    expect(input).to.exist;
+    expect(input.value).to.equal('');
+  });
+
+
   it('should render disabled', function() {
 
     // when
