@@ -78,4 +78,86 @@ describe('TextInput', function() {
     expect(onInputSpy).to.have.been.calledWith(undefined);
   });
 
+
+  describe('validate', function() {
+
+    it('should validate', function() {
+
+      // given
+      const onInputSpy = spy(),
+            validateSpy = spy(() => null);
+
+      const { container } = render(WithFormEditorContext(
+        <TextInput
+          value="foo"
+          onInput={ onInputSpy }
+          validate={ validateSpy } />
+      ));
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'bar' } });
+
+      // then
+      expect(input.value).to.equal('bar');
+
+      expect(onInputSpy).to.have.been.called;
+      expect(validateSpy).to.have.been.called;
+    });
+
+
+    it('should not call callback if has error', function() {
+
+      // given
+      const onInputSpy = spy(),
+            validateSpy = spy(() => 'error');
+
+      const { container } = render(WithFormEditorContext(
+        <TextInput
+          value="foo"
+          onInput={ onInputSpy }
+          validate={ validateSpy } />
+      ));
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'bar' } });
+
+      // then
+      expect(input.value).to.equal('bar');
+
+      expect(onInputSpy).not.to.have.been.called;
+      expect(validateSpy).to.have.been.called;
+    });
+
+
+    it('should show error', function() {
+
+      // given
+      const onInputSpy = spy(),
+            validateSpy = spy(() => 'error');
+
+      const { container } = render(WithFormEditorContext(
+        <TextInput
+          value="foo"
+          onInput={ onInputSpy }
+          validate={ validateSpy } />
+      ));
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'bar' } });
+
+      // then
+      const error = container.querySelector('.fjs-properties-panel-error');
+
+      expect(error).to.exist;
+      expect(error.textContent).to.equal('error');
+    });
+
+  });
+
 });
