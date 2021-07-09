@@ -87,7 +87,11 @@ function AppRoot(props) {
     });
 
     const form = formRef.current = new Form();
-    const formEditor = formEditorRef.current = new FormEditor();
+    const formEditor = formEditorRef.current = new FormEditor({
+      renderer: {
+        compact: true
+      }
+    });
 
     formEditor.on('changed', () => {
       setSchema(formEditor.getSchema());
