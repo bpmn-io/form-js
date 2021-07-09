@@ -443,6 +443,118 @@ describe('properties panel', function() {
 
         });
 
+
+        describe('key', function() {
+
+          it('should show error key empty', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'creditor');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field,
+              services: {
+                formFieldRegistry: new Map([
+                  [ 'creditor', field ],
+                  [ 'amount', schema.components.find(({ key }) => key === 'amount') ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key');
+
+            expect(input.value).to.equal('creditor');
+
+            // when
+            fireEvent.input(input, { target: { value: '' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not be empty.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should show error if key contains spaces', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'creditor');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field,
+              services: {
+                formFieldRegistry: new Map([
+                  [ 'creditor', field ],
+                  [ 'amount', schema.components.find(({ key }) => key === 'amount') ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key');
+
+            expect(input.value).to.equal('creditor');
+
+            // when
+            fireEvent.input(input, { target: { value: 'credi tor' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not contain spaces.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should show error if key is not unique', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'creditor');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field,
+              services: {
+                formFieldRegistry: new Map([
+                  [ 'textfield1', field ],
+                  [ 'number1', schema.components.find(({ key }) => key === 'amount') ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key');
+
+            expect(input.value).to.equal('creditor');
+
+            // when
+            fireEvent.input(input, { target: { value: 'amount' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must be unique.');
+
+            expect(error).to.exist;
+          });
+
+        });
+
       });
 
     });
@@ -455,13 +567,15 @@ function createPropertiesPanel(options = {}) {
   const {
     container,
     editField = () => {},
-    field = null
+    field = null,
+    services
   } = options;
 
   return render(WithFormEditorContext(
     <PropertiesPanel
       editField={ editField }
       field={ field } />,
+    services
   ), {
     container
   });

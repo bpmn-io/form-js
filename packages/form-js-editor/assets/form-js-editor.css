@@ -266,17 +266,27 @@
 }
 
 .fjs-editor-container .fjs-properties-panel-label,
-.fjs-editor-container .fjs-properties-panel-description {
+.fjs-editor-container .fjs-properties-panel-description,
+.fjs-editor-container .fjs-properties-panel-error {
   display: block;
   margin: 4px 0;
   font-size: 14px;
   line-height: 18px;
   font-weight: 400;
-  color: var(--color-grey-base-40);
   font-size: 13px;
 }
 
+.fjs-editor-container .fjs-properties-panel-label,
 .fjs-editor-container .fjs-properties-panel-description {
+  color: var(--color-grey-base-40);
+}
+
+.fjs-editor-container .fjs-properties-panel-error {
+  color: var(--color-warning);
+}
+
+.fjs-editor-container .fjs-properties-panel-description,
+.fjs-editor-container .fjs-properties-panel-error {
   margin-top: 7px;
 }
 
@@ -294,6 +304,15 @@
 .fjs-editor-container textarea.fjs-properties-panel-input {
   display: block;
   width: 100%;
+}
+
+.fjs-editor-container .fjs-properties-panel-input.fjs-has-error {
+  border-color: var(--color-warning);
+}
+
+.fjs-editor-container .fjs-properties-panel-input.fjs-has-error:focus {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 4px var(--color-red-lighten-85), 0 0 0 1px var(--color-silver-darken-80) inset;
 }
 
 .fjs-editor-container .fjs-properties-panel-input:focus {

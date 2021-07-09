@@ -10,7 +10,8 @@ export default function TextInputEntry(props) {
     description,
     label,
     onChange,
-    path
+    path,
+    validate
   } = props;
 
   const onInput = (value) => {
@@ -25,7 +26,7 @@ export default function TextInputEntry(props) {
 
   return (
     <div class="fjs-properties-panel-entry">
-      <TextInput id={ id } label={ label } onInput={ onInput } value={ value } />
+      <TextInput id={ id } label={ label } onInput={ onInput } validate={ validate } value={ value } />
       { description && <div class="fjs-properties-panel-description">{ description }</div> }
     </div>
   );
