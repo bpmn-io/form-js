@@ -6,20 +6,25 @@ import FormEditor from './components/FormEditor';
 import { FormEditorContext } from './context';
 
 /**
- * @typedef { { container } } Config
+ * @typedef { { container: Element, compact?: boolean } } RenderConfig
  * @typedef { import('didi').Injector } Injector
  * @typedef { import('../core/EventBus').default } EventBus
  * @typedef { import('../FormEditor').default } FormEditor
  */
 
 /**
- * @param {Config} config
+ * @param {RenderConfig} renderConfig
  * @param {EventBus} eventBus
  * @param {FormEditor} formEditor
  * @param {Injector} injector
  */
 export default class Renderer {
-  constructor(config, eventBus, formEditor, injector) {
+  constructor(renderConfig, eventBus, formEditor, injector) {
+
+    const {
+      container,
+      compact = false
+    } = renderConfig;
 
     const App = () => {
       const [ state, setState ] = useState(formEditor._getState());
@@ -41,15 +46,13 @@ export default class Renderer {
       }
 
       return (
-        <div class="fjs-container fjs-editor-container">
+        <div class={ `fjs-container fjs-editor-container ${ compact ? 'fjs-editor-compact' : '' }` }>
           <FormEditorContext.Provider value={ formEditorContext }>
             <FormEditor />
           </FormEditorContext.Provider>
         </div>
       );
     };
-
-    const { container } = config;
 
     eventBus.on('form.init', () => {
       render(<App />, container);

@@ -209,14 +209,16 @@ export default class FormEditor {
   _createInjector(options, container) {
     const {
       additionalModules = [],
-      modules = this._getModules()
+      modules = this._getModules(),
+      renderer = {}
     } = options;
 
     const config = {
+      ...options,
       renderer: {
+        ...renderer,
         container
-      },
-      ...options
+      }
     };
 
     return createInjector([

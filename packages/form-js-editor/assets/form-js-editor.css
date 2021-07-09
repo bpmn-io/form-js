@@ -364,3 +364,23 @@
   pointer-events: none !important;
   height: 54px !important;
 }
+
+/**
+ * Compact editor overrides
+ */
+
+.fjs-editor-compact .fjs-hide-compact {
+  display: none;
+}
+
+.fjs-editor-compact .fjs-palette-container {
+  width: auto;
+}
+
+.fjs-editor-compact .fjs-palette-field {
+  justify-content: center;
+}
+
+.fjs-editor-compact .fjs-palette-field-icon {
+  margin: 0;
+}
