@@ -11,6 +11,41 @@ import {
   FormEditor
 } from '@bpmn-io/form-js';
 
+function Modal(props) {
+
+  useEffect(() => {
+    function handleKey(event) {
+
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+
+        props.onClose();
+      }
+    }
+
+    document.addEventListener('keydown', handleKey);
+
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+    };
+  });
+
+  return (
+    <div class="modal">
+      <div class="modal-backdrop" onClick={ props.onClose }></div>
+      <div class="modal-content">
+        <h1 class="modal-header">{ props.name }</h1>
+        <div class="modal-body">
+          { props.children }
+        </div>
+        <div class="modal-footer">
+          <button class="fjs-pgl-button fjs-pgl-button-default" onClick={ props.onClose }>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Section(props) {
 
   const elements =
@@ -46,7 +81,59 @@ Section.HeaderItem = function(props) {
   return props.children;
 };
 
-function AppRoot(props) {
+function serializeValue(obj) {
+  return JSON.stringify(JSON.stringify(obj)).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function EmbedModal(props) {
+
+  const schema = serializeValue(props.schema);
+  const data = serializeValue(props.data || {});
+
+  const fieldRef = useRef();
+
+  const snippet = `<!-- styles needed for rendering -->
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.4/dist/assets/form-js.css">
+
+<!-- container to render the form into -->
+<div class="form-container"></div>
+
+<!-- scripts needed for embedding -->
+<script src="https://unpkg.com/@bpmn-io/form-js@0.2.4/dist/form-viewer.umd.js"></script>
+
+<!-- actual script to instantiate the form and load form schema + data -->
+<script>
+  const data = JSON.parse(${data});
+  const schema = JSON.parse(${schema});
+
+  const form = new FormViewer.Form({
+    container: document.querySelector(".form-container")
+  });
+
+  form.on("submit", (event) => {
+    console.log(event.data, event.errors);
+  });
+
+  form.importSchema(schema, data).catch(err => {
+    console.error("Failed to render form", err);
+  });
+</script>
+  `.trim();
+
+  useEffect(() => {
+    fieldRef.current.select();
+  });
+
+  return (
+    <Modal name="Embed form" onClose={ props.onClose }>
+      <p>Use the following HTML snippet to embed your form with <a href="https://github.com/bpmn-io/form-js">form-js</a>:</p>
+
+      <textarea spellCheck="false" ref={ fieldRef }>{snippet}</textarea>
+    </Modal>
+  );
+}
+
+function PlaygroundRoot(props) {
 
   const editorContainerRef = useRef();
   const formContainerRef = useRef();
@@ -57,6 +144,8 @@ function AppRoot(props) {
   const formRef = useRef();
   const dataEditorRef = useRef();
   const resultViewRef = useRef();
+
+  const [ showEmbed, setShowEmbed ] = useState(false);
 
   const [ initialData ] = useState(props.data || {});
   const [ initialSchema, setInitialSchema ] = useState(props.schema);
@@ -156,26 +245,43 @@ function AppRoot(props) {
     download(JSON.stringify(schema, null, '  '), 'form.json', 'text/json');
   }, [ schema ]);
 
+  const hideEmbedModal = useCallback(() => {
+    setShowEmbed(false);
+  }, []);
+
+  const showEmbedModal = useCallback(() => {
+    setShowEmbed(true);
+  }, []);
+
   return (
     <div class="fjs-pgl-root">
-      <Section name="Form Definition">
-        <Section.HeaderItem>
-          <button class="fjs-pgl-button" onClick={ handleDownload }>Download</button>
-        </Section.HeaderItem>
-        <div ref={ editorContainerRef } class="form-container"></div>
-      </Section>
-      <Section name="Form Preview">
-        <Section.HeaderItem>
-          <button class="fjs-pgl-button">Embed</button>
-        </Section.HeaderItem>
-        <div ref={ formContainerRef } class="form-container"></div>
-      </Section>
-      <Section name="Form Data (Input)">
-        <div ref={ dataContainerRef } class="text-container"></div>
-      </Section>
-      <Section name="Form Data (Submit)">
-        <div ref={ resultContainerRef } class="text-container"></div>
-      </Section>
+      <div class="fjs-pgl-modals">
+        { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
+      </div>
+      <div class="fjs-pgl-main">
+
+        <Section name="Form Definition">
+          <Section.HeaderItem>
+            <button class="fjs-pgl-button"
+                    title="Download form definition"
+                    onClick={ handleDownload }>Download</button>
+          </Section.HeaderItem>
+          <Section.HeaderItem>
+            <button class="fjs-pgl-button"
+                    onClick={ showEmbedModal }>Embed</button>
+          </Section.HeaderItem>
+          <div ref={ editorContainerRef } class="form-container"></div>
+        </Section>
+        <Section name="Form Preview">
+          <div ref={ formContainerRef } class="form-container"></div>
+        </Section>
+        <Section name="Form Data (Input)">
+          <div ref={ dataContainerRef } class="text-container"></div>
+        </Section>
+        <Section name="Form Data (Submit)">
+          <div ref={ resultContainerRef } class="text-container"></div>
+        </Section>
+      </div>
     </div>
   );
 }
@@ -193,7 +299,7 @@ export default function Playground(options) {
   let ref;
 
   this.view = render(
-    <AppRoot
+    <PlaygroundRoot
       schema={ schema }
       data={ data }
       onStateChanged={ (_state) => state = _state }

@@ -6,23 +6,26 @@
 }
 
 .fjs-pgl-root {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
 
-  display: grid;
-  grid-template-columns: 65% 35%;
-  grid-template-rows: 70% 30%;
+  position: relative;
 
   font-family: var(--font-family);
 }
 
-.editor-parent {
-  background: fuchsia;
+.fjs-pgl-main {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 65% 35%;
+  grid-template-rows: 70% 30%;
 }
 
+/**
+ * Section
+ */
 .section {
   display: flex;
   flex-direction: column;
@@ -54,6 +57,48 @@
 .section .body {
   flex: 1;
   overflow: hidden;
+}
+
+.modal {
+  z-index: 5;
+}
+
+.modal .modal-backdrop {
+  background: rgba(0 0 0 / .5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 100%;
+  width: 500px;
+  overflow-y: auto;
+  max-height: 80%;
+  transform: translate(-40%, -50%);
+  z-index: 5;
+
+  padding: 20px;
+
+  background: white;
+}
+
+.modal-content textarea {
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+}
+
+.modal-footer {
+  margin-top: 20px;
+
+  text-align: right;
 }
 
 .form-container {
@@ -92,6 +137,14 @@
   font-family: var(--font-family);
 }
 
+.fjs-pgl-button-default {
+  padding: 7px 10px;
+}
+
 .fjs-pgl-button:hover {
   background-color: var(--color-light-gray);
+}
+
+.fjs-pgl-button + .fjs-pgl-button {
+  margin-left: 1em;
 }
