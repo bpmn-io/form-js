@@ -5,6 +5,7 @@ import fileDrop from 'file-drops';
 import { Playground } from '../../src';
 
 import schema from './form.json';
+import otherSchema from './other-form.json';
 
 import {
   insertStyles,
@@ -89,6 +90,27 @@ describe('playground', function() {
       schema,
       data
     });
+
+  });
+
+
+  it.skip('should set schema', function() {
+
+    // given
+    const playground = new Playground({
+      container,
+      schema
+    });
+
+    // when
+    playground.setSchema(otherSchema);
+
+    // then
+    expect(playground.getState()).to.eql({
+      schema: otherSchema,
+      data: {}
+    });
+
   });
 
 });
