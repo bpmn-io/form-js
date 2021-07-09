@@ -34,7 +34,7 @@ function Section(props) {
 
   return (
     <div class="section">
-      <h1 class="header">{ props.name } { headerItems.length && <span class="header-items">{ headerItems }</span> }</h1>
+      <h1 class="header">{ props.name } { headerItems.length ? <span class="header-items">{ headerItems }</span> : null }</h1>
       <div class="body">
         { children }
       </div>
@@ -153,16 +153,16 @@ function AppRoot(props) {
   }, [ schema ]);
 
   return (
-    <div class="app-root">
+    <div class="fjs-pgl-root">
       <Section name="Form Definition">
         <Section.HeaderItem>
-          <button onClick={ handleDownload }>Download</button>
+          <button class="fjs-pgl-button" onClick={ handleDownload }>Download</button>
         </Section.HeaderItem>
         <div ref={ editorContainerRef } class="form-container"></div>
       </Section>
       <Section name="Form Preview">
         <Section.HeaderItem>
-          <button>Embed</button>
+          <button class="fjs-pgl-button">Embed</button>
         </Section.HeaderItem>
         <div ref={ formContainerRef } class="form-container"></div>
       </Section>
