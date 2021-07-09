@@ -18,10 +18,14 @@ import playgroundCSS from '../../src/Playground.css';
 // @ts-ignore-next-line
 import fileDropCSS from './file-drop.css';
 
+// @ts-ignore-next-line
+import appCSS from './app.css';
+
 insertStyles();
 
 insertCSS('Playground.css', playgroundCSS);
 insertCSS('file-drop.css', fileDropCSS);
+insertCSS('app.css', appCSS);
 
 const singleStart = isSingleStart('basic');
 
@@ -32,6 +36,8 @@ describe('playground', function() {
 
   beforeEach(function() {
     container = document.createElement('div');
+
+    container.classList.add('playground-parent');
 
     document.body.appendChild(container);
   });
