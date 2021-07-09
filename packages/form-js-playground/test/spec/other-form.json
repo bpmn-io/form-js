@@ -1,0 +1,11 @@
+{
+  "components": [
+    {
+      "action": "reset",
+      "key": "reset",
+      "label": "Reset",
+      "type": "button"
+    }
+  ],
+  "type": "default"
+}
