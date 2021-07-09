@@ -34,11 +34,23 @@ function AppRoot(props) {
   const dataEditorRef = useRef();
   const resultViewRef = useRef();
 
-  const [ data, setData ] = useState(props.data || {});
+  const [ initialData ] = useState(props.data || {});
+  const [ initialSchema, setInitialSchema ] = useState(props.schema);
 
+  const [ data, setData ] = useState(props.data || {});
   const [ schema, setSchema ] = useState(props.schema);
 
   const [ resultData, setResultData ] = useState(props.data || {});
+
+  useEffect(() => {
+    props.onInit({
+      setSchema: setInitialSchema
+    });
+  });
+
+  useEffect(() => {
+    setInitialSchema(props.schema || {});
+  }, [ props.schema ]);
 
   useEffect(() => {
     const dataEditor = dataEditorRef.current = new JSONView({
@@ -52,9 +64,6 @@ function AppRoot(props) {
 
     const form = formRef.current = new Form();
     const formEditor = formEditorRef.current = new FormEditor();
-
-    formEditor.importSchema(schema);
-    dataEditor.setValue(toJSON(data));
 
     formEditor.on('changed', () => {
       setSchema(formEditor.getSchema());
@@ -92,6 +101,14 @@ function AppRoot(props) {
   }, []);
 
   useEffect(() => {
+    dataEditorRef.current.setValue(toJSON(initialData));
+  }, [ initialData ]);
+
+  useEffect(() => {
+    formEditorRef.current.importSchema(initialSchema);
+  }, [ initialSchema ]);
+
+  useEffect(() => {
     formRef.current.importSchema(schema, data);
   }, [ schema, data ]);
 
@@ -99,7 +116,7 @@ function AppRoot(props) {
     resultViewRef.current.setValue(toJSON(resultData));
   }, [ resultData ]);
 
-  useEffect((schema, data) => {
+  useEffect(() => {
     props.onStateChanged({
       schema,
       data
@@ -125,7 +142,7 @@ function AppRoot(props) {
 }
 
 
-export default function App(options) {
+export default function Playground(options) {
 
   const {
     container,
@@ -134,12 +151,14 @@ export default function App(options) {
   } = options;
 
   let state = { data, schema };
+  let ref;
 
   this.view = render(
     <AppRoot
       schema={ schema }
       data={ data }
       onStateChanged={ (_state) => state = _state }
+      onInit={ _ref => ref = _ref }
     />,
     container
   );
@@ -147,6 +166,11 @@ export default function App(options) {
   this.getState = function() {
     return state;
   };
+
+  this.setSchema = function(schema) {
+    return ref.setSchema(schema);
+  };
+
 }
 
 

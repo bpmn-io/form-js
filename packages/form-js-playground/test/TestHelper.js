@@ -1,7 +1,4 @@
 // @ts-ignore-next-line
-import playgroundCSS from '../src/Playground.css';
-
-// @ts-ignore-next-line
 import formCSS from '@bpmn-io/form-js/dist/assets/form-js.css';
 
 // @ts-ignore-next-line
@@ -23,7 +20,6 @@ export function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
   insertCSS('dragula.css', dragulaCSS);
-  insertCSS('playground.css', playgroundCSS);
   insertCSS('test.css', testCSS);
 }
 
