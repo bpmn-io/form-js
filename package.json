@@ -8,6 +8,7 @@
     "dev": "run-s build \"lerna-dev -- {@}\" -- ",
     "dev:viewer": "npm run dev -- @bpmn-io/form-js-viewer",
     "dev:editor": "npm run dev -- @bpmn-io/form-js-editor",
+    "dev:playground": "npm run dev -- @bpmn-io/form-js-playground",
     "lerna-dev": "lerna run dev --stream --scope",
     "build": "lerna run build --sort --stream",
     "lerna-publish": "lerna publish -m \"chore(project): publish %s\"",
