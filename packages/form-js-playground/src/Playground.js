@@ -298,7 +298,7 @@ export default function Playground(options) {
   let state = { data, schema };
   let ref;
 
-  this.view = render(
+  render(
     <PlaygroundRoot
       schema={ schema }
       data={ data }
