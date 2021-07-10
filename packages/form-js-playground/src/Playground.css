@@ -84,6 +84,8 @@
   transform: translate(-40%, -50%);
   z-index: 5;
 
+  font-size: 14px;
+
   padding: 20px;
 
   background: white;
