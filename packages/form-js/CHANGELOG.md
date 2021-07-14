@@ -15,7 +15,6 @@ ___Note:__ Yet to be released changes appear here._
 * `FIX`: santitize external links ([`9c53aa05`](https://github.com/bpmn-io/form-js/commit/9c53aa052dc5eb2fb37d320c0bbe334f2c3302fe))
 * `FIX`: turn number field into a controlled component ([`874545e3`](https://github.com/bpmn-io/form-js/commit/874545e3b0290d0aff72359489d34596fd4cf769))
 * `FIX`: correctly label selects ([`8eade6ca`](https://github.com/bpmn-io/form-js/commit/8eade6ca479604eb04ca08c6a17d32f73d465ead))
-* `FIX`: assign unique keys
 
 ### Editor
 
