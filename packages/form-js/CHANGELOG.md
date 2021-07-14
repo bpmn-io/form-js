@@ -6,6 +6,21 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.3.0
+
+### Viewer
+
+* `FEAT`: allow fields to be disabled via schema ([`bf185225f`](https://github.com/bpmn-io/form-js/commit/bf185225f3545c54026f80c27a864119b2cd8107))
+* `FIX`: assign unique keys for child components ([`cb86f75e`](https://github.com/bpmn-io/form-js/commit/cb86f75e3d7de96ceeb0c6e78553130358787f03), [`fd036484`](https://github.com/bpmn-io/form-js/commit/fd03648422cdd0331f10a60c9a1743aa02153300))
+* `FIX`: santitize external links ([`9c53aa05`](https://github.com/bpmn-io/form-js/commit/9c53aa052dc5eb2fb37d320c0bbe334f2c3302fe))
+* `FIX`: turn number field into a controlled component ([`874545e3`](https://github.com/bpmn-io/form-js/commit/874545e3b0290d0aff72359489d34596fd4cf769))
+* `FIX`: correctly label selects ([`8eade6ca`](https://github.com/bpmn-io/form-js/commit/8eade6ca479604eb04ca08c6a17d32f73d465ead))
+* `FIX`: assign unique keys
+
+### Editor
+
+* `FEAT`: validate `key` property ([#58](https://github.com/bpmn-io/form-js/issues/58))
+
 ## 0.2.4
 
 * `FIX`: make options optional when creating `Form` and `FormEditor` instances ([`8d9e09ae`](https://github.com/bpmn-io/form-js/commit/8d9e09ae410cbfe42a8e11a2371e45df9d926fd0))
