@@ -186,10 +186,11 @@ export default class FormEditor {
 
   /**
    * @param {string} type
+   * @param {number} priority
    * @param {Function} handler
    */
-  on(type, handler) {
-    this.get('eventBus').on(type, handler);
+  on(type, priority, handler) {
+    this.get('eventBus').on(type, priority, handler);
   }
 
   /**
@@ -197,7 +198,7 @@ export default class FormEditor {
    * @param {Function} handler
    */
   off(type, handler) {
-    this.get('eventBus').on(type, handler);
+    this.get('eventBus').off(type, handler);
   }
 
   /**

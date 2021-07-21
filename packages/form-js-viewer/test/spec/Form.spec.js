@@ -169,6 +169,50 @@ describe('Form', function() {
   });
 
 
+  it('#on', async function() {
+
+    // given
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    const fooSpy = spy();
+
+    // when
+    form.on('foo', fooSpy);
+
+    form._emit('foo');
+
+    // then
+    expect(fooSpy).to.have.been.calledOnce;
+  });
+
+
+  it('#off', async function() {
+
+    // given
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    const fooSpy = spy();
+
+    form.on('foo', fooSpy);
+
+    form._emit('foo');
+
+    // when
+    form.off('foo', fooSpy);
+
+    form._emit('foo');
+
+    // then
+    expect(fooSpy).to.have.been.calledOnce;
+  });
+
+
   it('should throw error on submit if disabled', async function() {
 
     // given
