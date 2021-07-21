@@ -198,6 +198,50 @@ describe('FormEditor', function() {
   });
 
 
+  it('#on', async function() {
+
+    // given
+    const form = await createFormEditor({
+      container,
+      schema
+    });
+
+    const fooSpy = spy();
+
+    // when
+    form.on('foo', fooSpy);
+
+    form._emit('foo');
+
+    // then
+    expect(fooSpy).to.have.been.calledOnce;
+  });
+
+
+  it('#off', async function() {
+
+    // given
+    const form = await createFormEditor({
+      container,
+      schema
+    });
+
+    const fooSpy = spy();
+
+    form.on('foo', fooSpy);
+
+    form._emit('foo');
+
+    // when
+    form.off('foo', fooSpy);
+
+    form._emit('foo');
+
+    // then
+    expect(fooSpy).to.have.been.calledOnce;
+  });
+
+
   it('should expose schema', async function() {
 
     // given
