@@ -48,7 +48,6 @@ describe('FormEditor', function() {
     const formEditor = await createFormEditor({
       container,
       schema,
-      debounce: true,
       keyboard: {
         bindTo: document
       }
