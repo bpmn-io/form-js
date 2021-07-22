@@ -85,15 +85,110 @@ describe('FormEditor', function() {
   });
 
 
-  it('should create instance and import', async function() {
+  describe('#importSchema', function() {
 
-    // given
-    const formEditor = new FormEditor();
+    it('should import without errors', async function() {
 
-    await formEditor.importSchema(schema);
+      // given
+      const formEditor = new FormEditor();
 
-    // then
-    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
+      await formEditor.importSchema(schema);
+
+      // then
+      expect(formEditor.get('formFieldRegistry').size).to.equal(11);
+    });
+
+
+    it('should fail instantiation with import error', async function() {
+
+      // given
+      const schema = {
+        type: 'default',
+        components: [
+          {
+            type: 'unknown-component'
+          }
+        ]
+      };
+
+      let error;
+
+      // when
+      try {
+        await createFormEditor({
+          container,
+          schema
+        });
+      } catch (_error) {
+        error = _error;
+      }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field of type <unknown-component> not supported');
+    });
+
+
+    it('should fire <*.clear> before import', async function() {
+
+      // given
+      const formEditor = new FormEditor();
+
+      const importDoneSpy = spy();
+
+      formEditor.on('import.done', importDoneSpy);
+
+      await formEditor.importSchema(schema);
+
+      // then
+      expect(importDoneSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should fire <import.done> after import success', async function() {
+
+      // given
+      const formEditor = new FormEditor();
+
+      const importDoneSpy = spy();
+
+      formEditor.on('import.done', importDoneSpy);
+
+      await formEditor.importSchema(schema);
+
+      // then
+      expect(importDoneSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should fire <import.done> after import error', async function() {
+
+      // given
+      const schema = {
+        type: 'default',
+        components: [
+          {
+            type: 'unknown-component'
+          }
+        ]
+      };
+
+      const formEditor = new FormEditor();
+
+      const importDoneSpy = spy();
+
+      formEditor.on('import.done', importDoneSpy);
+
+      try {
+        await formEditor.importSchema(schema);
+      } catch (err) {
+
+        // then
+        expect(importDoneSpy).to.have.been.calledOnce;
+        expect(importDoneSpy).to.have.been.calledWithMatch({ error: err, warnings: err.warnings });
+      }
+    });
+
   });
 
 
@@ -134,36 +229,6 @@ describe('FormEditor', function() {
   });
 
 
-  it('should fail instantiation with import error', async function() {
-
-    // given
-    const schema = {
-      type: 'default',
-      components: [
-        {
-          type: 'unknown-component'
-        }
-      ]
-    };
-
-    let error;
-
-    // when
-    try {
-      await createFormEditor({
-        container,
-        schema
-      });
-    } catch (_error) {
-      error = _error;
-    }
-
-    // then
-    expect(error).to.exist;
-    expect(error.message).to.eql('form field of type <unknown-component> not supported');
-  });
-
-
   it('#saveSchema', async function() {
 
     // given
@@ -179,6 +244,31 @@ describe('FormEditor', function() {
     expect(exportedSchema).to.eql(exportTagged(schema));
 
     expect(JSON.stringify(exportedSchema)).not.to.contain('"_id"');
+  });
+
+
+  it('#clear', async function() {
+
+    // given
+    const formEditor = await createFormEditor({
+      container,
+      schema
+    });
+
+    const diagramClearSpy = spy(),
+          formClearSpy = spy();
+
+    formEditor.on('diagram.clear', diagramClearSpy);
+    formEditor.on('form.clear', formClearSpy);
+
+    // when
+    formEditor.clear();
+
+    // then
+    expect(container.childNodes).not.to.be.empty;
+
+    expect(diagramClearSpy).to.have.been.calledOnce;
+    expect(formClearSpy).to.have.been.calledOnce;
   });
 
 

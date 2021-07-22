@@ -82,6 +82,15 @@ export default class FormEditor {
     }
   }
 
+  clear() {
+
+    // Clear form services
+    this._emit('diagram.clear');
+
+    // Clear diagram services (e.g. EventBus)
+    this._emit('form.clear');
+  }
+
   destroy() {
     this.get('eventBus').fire('form.destroy');
 
@@ -93,6 +102,8 @@ export default class FormEditor {
    */
   importSchema(schema) {
     return new Promise((resolve, reject) => {
+      this.clear();
+
       const importer = this.get('importer');
 
       schema = clone(schema);
@@ -103,9 +114,13 @@ export default class FormEditor {
             schema
           });
 
+          this._emit('import.done', { warnings });
+
           resolve({ warnings });
         })
         .catch(err => {
+          this._emit('import.done', { error: err, warnings: err.warnings });
+
           reject(err);
         });
     });

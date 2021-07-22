@@ -88,35 +88,135 @@ describe('Form', function() {
   });
 
 
-  it('should create instance and import', async function() {
+  describe('#importSchema', function() {
 
-    // given
-    const data = {
-      creditor: 'John Doe Company',
-      amount: 456,
-      invoiceNumber: 'C-123',
-      approved: true,
-      approvedBy: 'John Doe',
-      product: 'camunda-cloud',
-      language: 'english',
-      documents: [
-        {
-          title: 'invoice.pdf',
-          author: 'John Doe'
-        },
-        {
-          title: 'products.pdf'
-        }
-      ]
-    };
+    it('should import without errors', async function() {
 
-    // when
-    const form = new Form();
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        product: 'camunda-cloud',
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
 
-    await form.importSchema(schema, data);
+      // when
+      const form = new Form();
 
-    // then
-    expect(form.get('formFieldRegistry').size).to.equal(11);
+      await form.importSchema(schema, data);
+
+      // then
+      expect(form.get('formFieldRegistry').size).to.equal(11);
+    });
+
+
+    it('should fail instantiation with import error', async function() {
+
+      // given
+      const data = {
+        amount: 456
+      };
+
+      const schema = {
+        type: 'default',
+        components: [
+          {
+            type: 'unknown-component'
+          }
+        ]
+      };
+
+      let error;
+
+      // when
+      try {
+        await createForm({
+          container,
+          data,
+          schema
+        });
+      } catch (_error) {
+        error = _error;
+      }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field of type <unknown-component> not supported');
+    });
+
+
+    it('should fire <*.clear> before import', async function() {
+
+      // given
+      const form = new Form();
+
+      const importDoneSpy = spy();
+
+      form.on('import.done', importDoneSpy);
+
+      await form.importSchema(schema);
+
+      // then
+      expect(importDoneSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should fire <import.done> after import success', async function() {
+
+      // given
+      const form = new Form();
+
+      const importDoneSpy = spy();
+
+      form.on('import.done', importDoneSpy);
+
+      await form.importSchema(schema);
+
+      // then
+      expect(importDoneSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should fire <import.done> after import error', async function() {
+
+      // given
+      const schema = {
+        type: 'default',
+        components: [
+          {
+            type: 'unknown-component'
+          }
+        ]
+      };
+
+      const form = new Form();
+
+      const importDoneSpy = spy();
+
+      form.on('import.done', importDoneSpy);
+
+      try {
+        await form.importSchema(schema);
+      } catch (err) {
+
+        // then
+        expect(importDoneSpy).to.have.been.calledOnce;
+        expect(importDoneSpy).to.have.been.calledWithMatch({ error: err, warnings: err.warnings });
+      }
+    });
+
   });
 
 
@@ -130,6 +230,31 @@ describe('Form', function() {
 
     // then
     expect(form).to.exist;
+  });
+
+
+  it('#clear', async function() {
+
+    // given
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    const diagramClearSpy = spy(),
+          formClearSpy = spy();
+
+    form.on('diagram.clear', diagramClearSpy);
+    form.on('form.clear', formClearSpy);
+
+    // when
+    form.clear();
+
+    // then
+    expect(container.childNodes).not.to.be.empty;
+
+    expect(diagramClearSpy).to.have.been.calledOnce;
+    expect(formClearSpy).to.have.been.calledOnce;
   });
 
 
@@ -546,41 +671,6 @@ describe('Form', function() {
 
     // when
     form.submit();
-  });
-
-
-  it('should fail instantiation with import error', async function() {
-
-    // given
-    const data = {
-      amount: 456
-    };
-
-    const schema = {
-      type: 'default',
-      components: [
-        {
-          type: 'unknown-component'
-        }
-      ]
-    };
-
-    let error;
-
-    // when
-    try {
-      await createForm({
-        container,
-        data,
-        schema
-      });
-    } catch (_error) {
-      error = _error;
-    }
-
-    // then
-    expect(error).to.exist;
-    expect(error.message).to.eql('form field of type <unknown-component> not supported');
   });
 
 
