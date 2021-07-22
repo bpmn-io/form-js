@@ -15,6 +15,7 @@ import customModule from './custom';
 
 import disabledSchema from './disabled.json';
 import schema from './form.json';
+import schemaNoIds from './form.json';
 import textSchema from './text.json';
 
 import {
@@ -89,6 +90,42 @@ describe('Form', function() {
 
 
   describe('#importSchema', function() {
+
+    it('should generate IDs', async function() {
+
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        product: 'camunda-cloud',
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
+
+      // when
+      const form = new Form();
+
+      await form.importSchema(schemaNoIds, data);
+
+      // then
+      expect(form.get('formFieldRegistry').size).to.equal(11);
+
+      form.get('formFieldRegistry').forEach(field => {
+        expect(field.id).to.exist;
+      });
+    });
+
 
     it('should import without errors', async function() {
 
