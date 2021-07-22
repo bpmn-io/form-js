@@ -41,33 +41,35 @@ describe('Modeling', function() {
       type: 'button'
     };
 
-    let formFieldIds,
+    let parent,
+        formFieldIds,
         formFieldsSize;
 
-    beforeEach(inject(function(formFieldRegistry, modeling) {
+    beforeEach(inject(function(formFieldRegistry) {
 
       // given
       formFieldsSize = formFieldRegistry.size;
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       formFieldIds = parent.components.map(({ id }) => id);
+    }));
+
+
+    it('<do>', inject(function(modeling, formFieldRegistry) {
 
       // when
-      modeling.addFormField(
+      const field = modeling.addFormField(
         parent,
         targetIndex,
         formField
       );
-    }));
-
-
-    it('<do>', inject(function(formFieldRegistry) {
 
       // then
-      expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
+      expect(field.id).to.exist;
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
+      expect(formFieldRegistry.get(field.id)).to.equal(field);
 
       expect(parent.components.map(({ id }) => id)).to.eql([
         formField.id,
@@ -76,30 +78,42 @@ describe('Modeling', function() {
     }));
 
 
-    it('<undo>', inject(function(commandStack, formFieldRegistry) {
+    it('<undo>', inject(function(modeling, commandStack, formFieldRegistry) {
+
+      // given
+      const field = modeling.addFormField(
+        parent,
+        targetIndex,
+        formField
+      );
 
       // when
       commandStack.undo();
 
       // then
+      expect(formFieldRegistry.get(field.id)).not.to.exist;
       expect(formFieldRegistry.size).to.equal(formFieldsSize);
-
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
     }));
 
 
-    it('<redo>', inject(function(commandStack, formFieldRegistry) {
+    it('<redo>', inject(function(modeling, commandStack, formFieldRegistry) {
+
+      // given
+      const field = modeling.addFormField(
+        parent,
+        targetIndex,
+        formField
+      );
 
       // when
       commandStack.undo();
       commandStack.redo();
 
       // then
+      expect(formFieldRegistry.get(field.id)).to.equal(field);
       expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
-
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
       expect(parent.components.map(({ id }) => id)).to.eql([
         formField.id,

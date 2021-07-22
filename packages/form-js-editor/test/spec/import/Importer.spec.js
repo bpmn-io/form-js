@@ -7,6 +7,7 @@ import {
 import { clone } from '@bpmn-io/form-js-viewer';
 
 import schema from '../form.json';
+import schemaNoIds from '../form-no-ids.json';
 import other from '../other.json';
 
 
@@ -48,6 +49,35 @@ describe('Importer', function() {
     expect(result.warnings).to.be.empty;
     expect(formFieldRegistry.size).to.equal(5);
   }));
+
+
+  describe('import behavior', function() {
+
+    it('should deep enrich fields', inject(async function(formEditor, formFieldRegistry) {
+
+      // when
+      await formEditor.importSchema(schemaNoIds);
+
+      const { schema } = formEditor._getState();
+
+      // then
+      expect(schema.id).to.exist;
+      expect(schema._path).to.eql([]);
+
+      for (const [ key, component ] of Object.entries(schema.components)) {
+        expect(component.id).to.exist;
+        expect(component._path).to.eql([ 'components', parseInt(key) ]);
+        expect(component._parent).to.eql(schema.id);
+      }
+
+      const result = await formEditor.importSchema(other);
+
+      // then
+      expect(result.warnings).to.be.empty;
+      expect(formFieldRegistry.size).to.equal(5);
+    }));
+
+  });
 
 
   describe('error handling', function() {

@@ -3,6 +3,7 @@ import Modeling from './Modeling';
 import Selection from './Selection';
 import DebounceFactory from './Debounce';
 import FormFieldRegistry from './FormFieldRegistry';
+import FieldFactory from './FieldFactory';
 
 import commandModule from 'diagram-js/lib/command';
 import importModule from '../import';
@@ -13,6 +14,7 @@ export default {
   __init__: [ 'modeling' ],
   eventBus: [ 'type', EventBus ],
   formFieldRegistry: [ 'type', FormFieldRegistry ],
+  fieldFactory: [ 'type', FieldFactory ],
   modeling: [ 'type', Modeling ],
   selection: [ 'type', Selection ],
   debounce: [ 'factory', DebounceFactory ]
