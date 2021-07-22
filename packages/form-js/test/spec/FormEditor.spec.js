@@ -47,47 +47,101 @@ describe('editor exports', function() {
   });
 
 
-  it('should export schemaVersion', async function() {
+  describe('export', function() {
 
-    // given
-    const formEditor = await createFormEditor({
-      container,
-      schema
+    it('should expose schema', async function() {
+
+      // given
+      const versionedSchema = {
+        ...schema,
+        schemaVersion
+      };
+
+      const formEditor = await createFormEditor({
+        container,
+        schema: versionedSchema
+      });
+
+      // when
+      const savedSchema = formEditor.getSchema();
+
+      // then
+      expect(savedSchema).to.eql(versionedSchema);
     });
 
-    // when
-    const savedSchema = formEditor.getSchema();
 
-    expect(savedSchema).to.have.property('schemaVersion', schemaVersion);
-  });
+    it('should export schemaVersion', async function() {
 
+      // given
+      const formEditor = await createFormEditor({
+        container,
+        schema
+      });
 
-  it('should export, keeping <id>', async function() {
+      // when
+      const savedSchema = formEditor.getSchema();
 
-    // given
-    const schema = {
-      id: 'FOOBAR',
-      type: 'default',
-      schemaVersion,
-      compontents: [
-        {
-          id: 'number',
-          type: 'number',
-          key: 'number'
-        }
-      ]
-    };
-
-    const formEditor = await createFormEditor({
-      container,
-      schema
+      // then
+      expect(savedSchema).to.have.property('schemaVersion', schemaVersion);
     });
 
-    // when
-    const savedSchema = formEditor.getSchema();
 
-    // then
-    expect(savedSchema).to.eql(schema);
+    it('should keep IDs', async function() {
+
+      // given
+      const schema = {
+        id: 'FOOBAR',
+        type: 'default',
+        schemaVersion,
+        compontents: [
+          {
+            id: 'number',
+            type: 'number',
+            key: 'number'
+          }
+        ]
+      };
+
+      const formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      // when
+      const savedSchema = formEditor.getSchema();
+
+      // then
+      expect(savedSchema).to.eql(schema);
+    });
+
+
+    it('should assign IDs', async function() {
+
+      // given
+      const schema = {
+        type: 'default',
+        schemaVersion,
+        components: [
+          {
+            type: 'number',
+            key: 'number'
+          }
+        ]
+      };
+
+      const formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      // when
+      const savedSchema = formEditor.saveSchema();
+
+      // then
+      expect(savedSchema.id).to.exist;
+      expect(savedSchema.components[0].id).to.exist;
+    });
+
   });
 
 });
