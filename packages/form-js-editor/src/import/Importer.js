@@ -71,6 +71,14 @@ export default class Importer {
       });
     }
 
+    if (id) {
+      this._formFieldRegistry.forEach((formField) => {
+        if (formField.id === id) {
+          throw new Error(`form field with id <${ id }> already exists`);
+        }
+      });
+    }
+
     // Set form field path
     if (parent) {
       formField._path = [ ...parent._path, 'components', index ];

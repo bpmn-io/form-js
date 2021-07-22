@@ -75,95 +75,148 @@ describe('Importer', function() {
   }));
 
 
-  it('should error if form field of type not supported', inject(async function(form) {
+  describe('error handling', function() {
 
-    // given
-    const error = clone(schema);
+    it('should indicate unsupported field type', inject(async function(form) {
 
-    error.components.push({
-      type: 'foo'
-    });
+      // given
+      const errorSchema = {
+        type: 'unknown'
+      };
 
-    // when
-    try {
-      await form.importSchema(error);
-    } catch (err) {
+      let error;
 
-      // then
-      expect(err).to.exist;
-      expect(err.message).to.eql('form field of type <foo> not supported');
-
-      expect(err.warnings).to.exist;
-      expect(err.warnings).to.be.empty;
-    }
-  }));
-
-
-  it('should error if form field with key already exists', inject(async function(form) {
-
-    // given
-    const error = clone(schema);
-
-    error.components.push({
-      type: 'textfield',
-      key: 'creditor'
-    });
-
-    // when
-    try {
-      await form.importSchema(error);
-    } catch (err) {
+      // when
+      try {
+        await form.importSchema(errorSchema);
+      } catch (err) {
+        error = err;
+      }
 
       // then
-      expect(err).to.exist;
-      expect(err.message).to.eql('form field with key <creditor> already exists');
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field of type <unknown> not supported');
 
-      expect(err.warnings).to.exist;
-      expect(err.warnings).to.be.empty;
-    }
-  }));
-
-
-  it('should error if broken JSON is imported', inject(async function(form) {
-
-    // when
-    try {
-      await form.importSchema('foo');
-    } catch (err) {
-
-      // then
-      expect(err).to.exist;
-      expect(err.message).to.equal('form field of type <undefined> not supported');
-
-      expect(err.warnings).to.exist;
-      expect(err.warnings).to.be.empty;
-    }
-  }));
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
 
 
-  // TODO: Catch broken schema errors during import
-  it.skip('should error if broken schema is imported', inject(async function(form) {
+    it('should indicate duplicate <key>', inject(async function(form) {
 
-    // given
-    const error = clone(schema);
+      // given
+      const errorSchema = {
+        type: 'default',
+        components: [
+          {
+            key: 'creditor',
+            type: 'text'
+          },
+          {
+            key: 'creditor',
+            type: 'text'
+          }
+        ]
+      };
 
-    error.components.push({
-      type: 'select',
-      key: 'foo',
-      values: 123
-    });
+      let error;
 
-    // when
-    try {
-      await form.importSchema(error);
-    } catch (err) {
+      // when
+      try {
+        await form.importSchema(errorSchema);
+      } catch (err) {
+        error = err;
+      }
 
       // then
-      expect(err).to.exist;
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field with key <creditor> already exists');
 
-      expect(err.warnings).to.exist;
-      expect(err.warnings).to.be.empty;
-    }
-  }));
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
+
+
+    it('should indicate duplicate <id>', inject(async function(form) {
+
+      // given
+      const errorSchema = {
+        type: 'default',
+        components: [
+          {
+            id: 'foo',
+            type: 'text'
+          },
+          {
+            id: 'foo',
+            type: 'text'
+          }
+        ]
+      };
+
+      let error;
+
+      // when
+      try {
+        await form.importSchema(errorSchema);
+      } catch (err) {
+        error = err;
+      }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field with id <foo> already exists');
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
+
+
+    it('should handle broken JSON', inject(async function(form) {
+
+      // when
+      try {
+        await form.importSchema('foo');
+      } catch (err) {
+
+        // then
+        expect(err).to.exist;
+        expect(err.message).to.equal('form field of type <undefined> not supported');
+
+        expect(err.warnings).to.exist;
+        expect(err.warnings).to.be.empty;
+      }
+    }));
+
+
+    // TODO: Catch broken schema errors during import
+    it.skip('should error if broken schema is imported', inject(async function(form) {
+
+      // given
+      const errorSchema = clone(schema);
+
+      errorSchema.components.push({
+        type: 'select',
+        key: 'foo',
+        values: 123
+      });
+
+      let error;
+
+      // when
+      try {
+        await form.importSchema(errorSchema);
+      } catch (err) {
+        error = err;
+      }
+
+      // then
+      expect(error).to.exist;
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
+
+  });
 
 });
