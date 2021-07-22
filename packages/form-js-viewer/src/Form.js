@@ -99,7 +99,12 @@ export default class Form {
   }
 
   destroy() {
+
+    // Destroy form services
     this.get('eventBus').fire('form.destroy');
+
+    // Destroy diagram services (e.g. EventBus)
+    this.get('eventBus').fire('diagram.destroy');
 
     this._detach(false);
   }
