@@ -55,36 +55,44 @@ describe('Importer', function() {
     it('should indicate unsupported field type', inject(async function(formEditor) {
 
       // given
-      const error = clone(schema);
+      const errorSchema = {
+        type: 'unknown'
+      };
 
-      error.components.push({
-        type: 'foo'
-      });
+      let error;
 
       // when
       try {
-        await formEditor.importSchema(error);
+        await formEditor.importSchema(errorSchema);
       } catch (err) {
-
-        // then
-        expect(err).to.exist;
-        expect(err.message).to.eql('form field of type <foo> not supported');
-
-        expect(err.warnings).to.exist;
-        expect(err.warnings).to.be.empty;
+        error = err;
       }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field of type <unknown> not supported');
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
     }));
 
 
-    it('should indicate duplicate key', inject(async function(formEditor) {
+    it('should indicate duplicate <key>', inject(async function(formEditor) {
 
       // given
-      const errorSchema = clone(schema);
-
-      errorSchema.components.push({
-        type: 'textfield',
-        key: 'creditor'
-      });
+      const errorSchema = {
+        type: 'default',
+        components: [
+          {
+            key: 'creditor',
+            type: 'text'
+          },
+          {
+            key: 'creditor',
+            type: 'text'
+          }
+        ]
+      };
 
       let error;
 
@@ -98,6 +106,41 @@ describe('Importer', function() {
       // then
       expect(error).to.exist;
       expect(error.message).to.eql('form field with key <creditor> already exists');
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
+
+
+    it('should indicate duplicate <id>', inject(async function(formEditor) {
+
+      // given
+      const errorSchema = {
+        type: 'default',
+        components: [
+          {
+            id: 'foo',
+            type: 'text'
+          },
+          {
+            id: 'foo',
+            type: 'text'
+          }
+        ]
+      };
+
+      let error;
+
+      // when
+      try {
+        await formEditor.importSchema(errorSchema);
+      } catch (err) {
+        error = err;
+      }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.eql('form field with id <foo> already exists');
 
       expect(error.warnings).to.exist;
       expect(error.warnings).to.be.empty;
