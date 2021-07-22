@@ -280,11 +280,20 @@ describe('FormEditor', function() {
       schema
     });
 
+    const diagramDestroySpy = spy(),
+          formDestroySpy = spy();
+
+    formEditor.on('diagram.destroy', diagramDestroySpy);
+    formEditor.on('form.destroy', formDestroySpy);
+
     // when
     formEditor.destroy();
 
     // then
     expect(container.childNodes).to.be.empty;
+
+    expect(diagramDestroySpy).to.have.been.calledOnce;
+    expect(formDestroySpy).to.have.been.calledOnce;
   });
 
 
