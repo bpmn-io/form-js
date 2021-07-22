@@ -106,30 +106,34 @@ export default class FormEditor {
 
   /**
    * @param {Schema} schema
+   *
+   * @return {Promise<{ warnings: Array<any> }>}
    */
   importSchema(schema) {
     return new Promise((resolve, reject) => {
-      this.clear();
+      try {
+        this.clear();
 
-      const importer = this.get('importer');
+        const {
+          schema: importedSchema,
+          warnings
+        } = this.get('importer').importSchema(schema);
 
-      schema = clone(schema);
-
-      importer.importSchema(schema)
-        .then(({ warnings }) => {
-          this._setState({
-            schema
-          });
-
-          this._emit('import.done', { warnings });
-
-          resolve({ warnings });
-        })
-        .catch(err => {
-          this._emit('import.done', { error: err, warnings: err.warnings });
-
-          reject(err);
+        this._setState({
+          schema: importedSchema
         });
+
+        this._emit('import.done', { warnings });
+
+        return resolve({ warnings });
+      } catch (error) {
+        this._emit('import.done', {
+          error: error,
+          warnings: error.warnings || []
+        });
+
+        return reject(error);
+      }
     });
   }
 

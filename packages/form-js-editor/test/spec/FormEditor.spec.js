@@ -244,7 +244,10 @@ describe('FormEditor', function() {
     // then
     expect(exportedSchema).to.eql(exportTagged(schema));
 
-    expect(JSON.stringify(exportedSchema)).not.to.contain('"_id"');
+    const stringifiedSchema = JSON.stringify(exportedSchema);
+
+    expect(stringifiedSchema).not.to.contain('"_id"');
+    expect(stringifiedSchema).not.to.contain('"_path"');
   });
 
 
@@ -355,7 +358,7 @@ describe('FormEditor', function() {
       });
 
       // when
-      const exportedSchema = formEditor.getSchema();
+      const exportedSchema = formEditor.saveSchema();
 
       // then
       expect(exportedSchema).to.eql(exportTagged(schema));
@@ -382,7 +385,7 @@ describe('FormEditor', function() {
       });
 
       // when
-      const exportedSchema = formEditor.getSchema();
+      const exportedSchema = formEditor.saveSchema();
 
       // then
       expect(exportedSchema).to.eql(exportTagged(schema, exporter));
@@ -401,7 +404,7 @@ describe('FormEditor', function() {
       });
 
       // when
-      const exportedSchema = formEditor.getSchema();
+      const exportedSchema = formEditor.saveSchema();
 
       // then
       expect(exportedSchema.id).to.exist;
@@ -414,61 +417,77 @@ describe('FormEditor', function() {
   });
 
 
-  it('should emit event on properties panel focus', async function() {
+  describe('focus / blur events', function() {
 
-    // given
-    const formEditor = await createFormEditor({
-      schema,
-      container
+    const schema = {
+      type: 'default',
+      components: [
+        {
+          type: 'text',
+          label: 'Text',
+          key: 'text'
+        }
+      ]
+    };
+
+
+    it('should emit event on properties panel focus', async function() {
+
+      // given
+      const formEditor = await createFormEditor({
+        schema,
+        container
+      });
+
+      const focusinSpy = sinon.spy();
+
+      formEditor.on('propertiesPanel.focusin', focusinSpy);
+
+      let input;
+
+      await waitFor(async () => {
+        input = await screen.getByLabelText('Text');
+
+        expect(input).to.exist;
+      });
+
+      // when
+      input.focus();
+
+      // then
+      expect(focusinSpy).to.have.been.called;
     });
 
-    const focusinSpy = sinon.spy();
 
-    formEditor.on('propertiesPanel.focusin', focusinSpy);
+    it('should emit event on properties panel blur', async function() {
 
-    let input;
+      // given
+      const formEditor = await createFormEditor({
+        schema,
+        container
+      });
 
-    await waitFor(async () => {
-      input = await screen.getByLabelText('Text');
+      const focusoutSpy = sinon.spy();
 
-      expect(input).to.exist;
+      formEditor.on('propertiesPanel.focusout', focusoutSpy);
+
+      let input;
+
+      await waitFor(async () => {
+        input = await screen.getByLabelText('Text');
+
+        expect(input).to.exist;
+      });
+
+      input.focus();
+
+      // when
+      input.blur();
+
+      // then
+      expect(focusoutSpy).to.have.been.called;
     });
 
-    // when
-    input.focus();
-
-    // then
-    expect(focusinSpy).to.have.been.called;
-  });
-
-
-  it('should emit event on properties panel blur', async function() {
-
-    // given
-    const formEditor = await createFormEditor({
-      schema,
-      container
-    });
-
-    const focusoutSpy = sinon.spy();
-
-    formEditor.on('propertiesPanel.focusout', focusoutSpy);
-
-    let input;
-
-    await waitFor(async () => {
-      input = await screen.getByLabelText('Text');
-
-      expect(input).to.exist;
-    });
-
-    input.focus();
-
-    // when
-    input.blur();
-
-    // then
-    expect(focusoutSpy).to.have.been.called;
   });
 
 
