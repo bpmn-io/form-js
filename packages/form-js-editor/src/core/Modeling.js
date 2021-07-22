@@ -7,10 +7,11 @@ import { isObject } from 'min-dash';
 
 
 export default class Modeling {
-  constructor(commandStack, eventBus, formEditor, formFieldRegistry) {
+  constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
     this._commandStack = commandStack;
     this._formEditor = formEditor;
     this._formFieldRegistry = formFieldRegistry;
+    this._fieldFactory = fieldFactory;
 
     eventBus.on('form.init', () => {
       this.registerHandlers();
@@ -32,7 +33,10 @@ export default class Modeling {
     };
   }
 
-  addFormField(targetFormField, targetIndex, newFormField) {
+  addFormField(targetFormField, targetIndex, fieldAttrs) {
+
+    const newFormField = this._fieldFactory.create(fieldAttrs);
+
     const context = {
       newFormField,
       targetFormField,
@@ -40,6 +44,8 @@ export default class Modeling {
     };
 
     this._commandStack.execute('formField.add', context);
+
+    return newFormField;
   }
 
   editFormField(formField, properties, value) {
@@ -78,4 +84,10 @@ export default class Modeling {
   }
 }
 
-Modeling.$inject = [ 'commandStack', 'eventBus', 'formEditor', 'formFieldRegistry' ];
+Modeling.$inject = [
+  'commandStack',
+  'eventBus',
+  'formEditor',
+  'formFieldRegistry',
+  'fieldFactory'
+];

@@ -25,7 +25,7 @@ export default class AddFormFieldHandler {
       targetIndex
     } = context;
 
-    let { schema } = this._formEditor._getState();
+    const { schema } = this._formEditor._getState();
 
     const targetPath = [ ...targetFormField._path, 'components' ];
 
@@ -51,7 +51,7 @@ export default class AddFormFieldHandler {
       targetIndex
     } = context;
 
-    let { schema } = this._formEditor._getState();
+    const { schema } = this._formEditor._getState();
 
     const targetPath = [ ...targetFormField._path, 'components' ];
 

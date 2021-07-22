@@ -48,6 +48,7 @@ export default [
       }
     ],
     external: [
+      'ids',
       'min-dash',
       'array-move',
       'preact',
