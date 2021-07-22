@@ -21,7 +21,7 @@ export default function Select(props) {
 
   const {
     description,
-    _id,
+    id,
     label,
     validate = {},
     values
@@ -38,13 +38,13 @@ export default function Select(props) {
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(_id) }
+      id={ prefixId(id) }
       label={ label }
       required={ required } />
     <select
       class="fjs-select"
       disabled={ disabled }
-      id={ prefixId(_id) }
+      id={ prefixId(id) }
       onChange={ onChange }
       value={ value }>
       <option value=""></option>
@@ -66,11 +66,11 @@ export default function Select(props) {
 }
 
 Select.create = function(options = {}) {
-  const _id = generateIdForType(type);
+  const id = generateIdForType(type);
 
   return {
-    _id,
-    key: _id,
+    id,
+    key: id,
     label: this.label,
     type,
     values: [

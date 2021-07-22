@@ -18,12 +18,12 @@ export default function Button(props) {
 }
 
 Button.create = function(options = {}) {
-  const _id = generateIdForType(type);
+  const id = generateIdForType(type);
 
   return {
     action: 'submit',
-    _id,
-    key: _id,
+    id,
+    key: id,
     label: this.label,
     type,
     ...options

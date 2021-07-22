@@ -1,7 +1,5 @@
 import { generateIdForType, clone } from '@bpmn-io/form-js-viewer';
 
-import { isUndefined } from 'min-dash';
-
 
 export default class Importer {
 
@@ -16,7 +14,7 @@ export default class Importer {
   }
 
   /**
-   * Import schema adding `_id`, `_parent` and `_path`
+   * Import schema adding `id`, `_parent` and `_path`
    * information to each field and adding it to the
    * form field registry.
    *
@@ -46,9 +44,9 @@ export default class Importer {
   importFormField(formField, parentId, index) {
     const {
       components,
-      id,
       key,
-      type
+      type,
+      id = generateIdForType(type)
     } = formField;
 
     let parent;
@@ -80,19 +78,13 @@ export default class Importer {
       formField._path = [];
     }
 
-    const _id = generateIdForType(type);
-
     // Set form field ID
-    formField._id = _id;
+    formField.id = id;
 
-    if (isUndefined(id)) {
-      formField.id = _id;
-    }
-
-    this._formFieldRegistry.set(_id, formField);
+    this._formFieldRegistry.set(id, formField);
 
     if (components) {
-      this.importFormFields(components, _id);
+      this.importFormFields(components, id);
     }
 
     return formField;

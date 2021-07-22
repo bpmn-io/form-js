@@ -163,7 +163,7 @@ describe('Radio', function() {
       ]
     });
 
-    expect(field._id).to.match(/radio\d+/);
+    expect(field.id).to.match(/radio\d+/);
     expect(field.key).to.match(/radio\d+/);
   });
 

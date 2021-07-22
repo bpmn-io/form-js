@@ -21,7 +21,7 @@ export default function Checkbox(props) {
 
   const {
     description,
-    _id,
+    id,
     label
   } = field;
 
@@ -34,14 +34,14 @@ export default function Checkbox(props) {
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(_id) }
+      id={ prefixId(id) }
       label={ label }
       required={ false }>
       <input
         checked={ value }
         class="fjs-input"
         disabled={ disabled }
-        id={ prefixId(_id) }
+        id={ prefixId(id) }
         type="checkbox"
         onChange={ onChange } />
     </Label>
@@ -51,11 +51,11 @@ export default function Checkbox(props) {
 }
 
 Checkbox.create = function(options = {}) {
-  const _id = generateIdForType(type);
+  const id = generateIdForType(type);
 
   return {
-    _id,
-    key: _id,
+    id,
+    key: id,
     label: this.label,
     type,
     ...options

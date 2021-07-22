@@ -37,7 +37,7 @@ describe('Modeling', function() {
     const targetIndex = 0;
 
     const formField = {
-      _id: 'foo',
+      id: 'foo',
       type: 'button'
     };
 
@@ -51,7 +51,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      formFieldIds = parent.components.map(({ _id }) => _id);
+      formFieldIds = parent.components.map(({ id }) => id);
 
       // when
       modeling.addFormField(
@@ -69,8 +69,8 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql([
-        formField._id,
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        formField.id,
         ...formFieldIds
       ]);
     }));
@@ -86,7 +86,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
+      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
     }));
 
 
@@ -101,8 +101,8 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql([
-        formField._id,
+      expect(parent.components.map(({ id }) => id)).to.eql([
+        formField.id,
         ...formFieldIds
       ]);
     }));
@@ -135,7 +135,7 @@ describe('Modeling', function() {
       it('<do>', inject(function(formFieldRegistry) {
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           text: 'foo'
         });
@@ -148,7 +148,7 @@ describe('Modeling', function() {
         commandStack.undo();
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField
         });
       }));
@@ -161,7 +161,7 @@ describe('Modeling', function() {
         commandStack.redo();
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           text: 'foo'
         });
@@ -195,7 +195,7 @@ describe('Modeling', function() {
       it('<do>', inject(function(formFieldRegistry) {
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           key: 'foo',
           label: 'Foo'
@@ -209,7 +209,7 @@ describe('Modeling', function() {
         commandStack.undo();
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField
         });
       }));
@@ -222,7 +222,7 @@ describe('Modeling', function() {
         commandStack.redo();
 
         // then
-        expect(formFieldRegistry.get(oldFormField._id)).to.eql({
+        expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           key: 'foo',
           label: 'Foo'
@@ -253,7 +253,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          formFieldIds = parent.components.map(({ _id }) => _id);
+          formFieldIds = parent.components.map(({ id }) => id);
 
           // when
           modeling.moveFormField(
@@ -272,7 +272,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql([
+          expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
             formFieldIds[ 0 ],
             ...formFieldIds.slice(2)
@@ -290,7 +290,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
+          expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
         }));
 
 
@@ -305,7 +305,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql([
+          expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
             formFieldIds[ 0 ],
             ...formFieldIds.slice(2)
@@ -330,7 +330,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          formFieldIds = parent.components.map(({ _id }) => _id);
+          formFieldIds = parent.components.map(({ id }) => id);
 
           // when
           modeling.moveFormField(
@@ -349,7 +349,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql([
+          expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
             formFieldIds[ 0 ],
             ...formFieldIds.slice(2)
@@ -367,7 +367,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
+          expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
         }));
 
 
@@ -382,7 +382,7 @@ describe('Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-          expect(parent.components.map(({ _id }) => _id)).to.eql([
+          expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
             formFieldIds[ 0 ],
             ...formFieldIds.slice(2)
@@ -410,7 +410,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      formFieldIds = parent.components.map(({ _id }) => _id);
+      formFieldIds = parent.components.map(({ id }) => id);
 
       // when
       modeling.removeFormField(
@@ -427,7 +427,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds.slice(1));
+      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
     }));
 
 
@@ -441,7 +441,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds);
+      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
     }));
 
 
@@ -456,7 +456,7 @@ describe('Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
-      expect(parent.components.map(({ _id }) => _id)).to.eql(formFieldIds.slice(1));
+      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
     }));
 
   });
