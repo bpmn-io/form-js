@@ -255,6 +255,8 @@ describe('Form', function() {
 
     expect(diagramClearSpy).to.have.been.calledOnce;
     expect(formClearSpy).to.have.been.calledOnce;
+
+    expect(form.get('formFieldRegistry')).to.be.empty;
   });
 
 

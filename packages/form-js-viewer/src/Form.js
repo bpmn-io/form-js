@@ -96,6 +96,8 @@ export default class Form {
 
     // Clear diagram services (e.g. EventBus)
     this._emit('form.clear');
+
+    this.get('formFieldRegistry').clear();
   }
 
   destroy() {

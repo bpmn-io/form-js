@@ -20,7 +20,6 @@ export default class Importer {
    * @returns {Promise}
    */
   importSchema(schema) {
-    this._formFieldRegistry.clear();
 
     // TODO: Add warnings
     const warnings = [];

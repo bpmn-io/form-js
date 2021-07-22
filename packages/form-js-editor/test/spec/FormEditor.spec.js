@@ -269,6 +269,8 @@ describe('FormEditor', function() {
 
     expect(diagramClearSpy).to.have.been.calledOnce;
     expect(formClearSpy).to.have.been.calledOnce;
+
+    expect(formEditor.get('formFieldRegistry')).to.be.empty;
   });
 
 
