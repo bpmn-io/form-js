@@ -34,6 +34,7 @@ import core from './core';
  *
  * @typedef { {
  *   data: Data,
+ *   initialData: Data,
  *   errors: Errors,
  *   properties: FormProperties,
  *   schema: Schema
@@ -66,17 +67,12 @@ export default class Form {
      * @type {State}
      */
     this._state = {
+      initialData: null,
       data: null,
       properties,
       errors: {},
       schema: null
     };
-
-    /**
-     * @private
-     * @type {Data}
-     */
-    this._importedData = null;
 
     this.get = injector.get;
 
@@ -117,34 +113,33 @@ export default class Form {
    */
   importSchema(schema, data = {}) {
     return new Promise((resolve, reject) => {
-      this.clear();
+      try {
+        this.clear();
 
-      this._importedData = null;
+        const {
+          schema: importedSchema,
+          data: importedData,
+          warnings
+        } = this.get('importer').importSchema(schema, data);
 
-      const importer = this.get('importer');
-
-      schema = clone(schema);
-      data = clone(data);
-
-      importer.importSchema(schema, data)
-        .then(({ warnings }) => {
-          this._importedData = clone(data);
-
-          this._setState({
-            data,
-            errors: {},
-            schema
-          });
-
-          this._emit('import.done', { warnings });
-
-          resolve({ warnings });
-        })
-        .catch(err => {
-          this._emit('import.done', { error: err, warnings: err.warnings });
-
-          reject(err);
+        this._setState({
+          data: importedData,
+          errors: {},
+          schema: importedSchema,
+          initialData: clone(importedData)
         });
+
+        this._emit('import.done', { warnings });
+
+        return resolve({ warnings });
+      } catch (error) {
+        this._emit('import.done', {
+          error,
+          warnings: error.warnings || []
+        });
+
+        return reject(error);
+      }
     });
   }
 
@@ -196,7 +191,7 @@ export default class Form {
     this._emit('reset');
 
     this._setState({
-      data: clone(this._importedData),
+      data: clone(this._state.initialData),
       errors: {}
     });
   }

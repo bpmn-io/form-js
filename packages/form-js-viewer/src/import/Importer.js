@@ -1,6 +1,7 @@
-import { generateIdForType } from '../util';
+import { clone, generateIdForType } from '../util';
 
 import { isUndefined } from 'min-dash';
+
 
 export default class Importer {
 
@@ -15,31 +16,43 @@ export default class Importer {
   }
 
   /**
-   * Import schema adding `_id`, `_parent` and `_path` information to each field and adding it to the form field registry.
+   * Import schema adding `_id`, `_parent` and `_path`
+   * information to each field and adding it to the
+   * form field registry.
    *
    * @param {any} schema
-   * @param {any} data
+   * @param {any} [data]
    *
-   * @returns {Promise}
+   * @return { { warnings: Array<any>, schema: any, data: any } }
    */
   importSchema(schema, data = {}) {
 
     // TODO: Add warnings
     const warnings = [];
 
-    return new Promise((resolve, reject) => {
-      try {
-        this.importFormField(schema, data);
-      } catch (err) {
-        err.warnings = warnings;
+    try {
+      const importedData = clone(data);
+      const importedSchema = this.importFormField(clone(schema), importedData);
 
-        reject(err);
-      }
+      return {
+        warnings,
+        schema: importedSchema,
+        data: importedData
+      };
+    } catch (err) {
+      err.warnings = warnings;
 
-      resolve({ warnings });
-    });
+      throw err;
+    }
   }
 
+  /**
+   * @param {any} formField
+   * @param {Object} [data]
+   * @param {string} [parentId]
+   *
+   * @return {any} field
+   */
   importFormField(formField, data = {}, parentId) {
     const {
       components,

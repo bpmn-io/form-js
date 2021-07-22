@@ -1,6 +1,7 @@
-import { generateIdForType } from '@bpmn-io/form-js-viewer';
+import { generateIdForType, clone } from '@bpmn-io/form-js-viewer';
 
 import { isUndefined } from 'min-dash';
+
 
 export default class Importer {
 
@@ -15,28 +16,31 @@ export default class Importer {
   }
 
   /**
-   * Import schema adding `_id`, `_parent` and `_path` information to each field and adding it to the form field registry.
+   * Import schema adding `_id`, `_parent` and `_path`
+   * information to each field and adding it to the
+   * form field registry.
    *
    * @param {any} schema
    *
-   * @returns {Promise}
+   * @returns { { warnings: Array<any>, schema: any } }
    */
   importSchema(schema) {
 
     // TODO: Add warnings
     const warnings = [];
 
-    return new Promise((resolve, reject) => {
-      try {
-        this.importFormField(schema);
-      } catch (err) {
-        err.warnings = warnings;
+    try {
+      const importedSchema = this.importFormField(clone(schema));
 
-        reject(err);
-      }
+      return {
+        schema: importedSchema,
+        warnings
+      };
+    } catch (err) {
+      err.warnings = warnings;
 
-      resolve({ warnings });
-    });
+      throw err;
+    }
   }
 
   importFormField(formField, parentId, index) {
