@@ -1,10 +1,14 @@
 {
+  "id": "Form_1",
+  "type": "default",
   "components": [
     {
+      "id": "Field_1",
       "type": "text",
-      "text": "# Invoice\n\nLorem _ipsum_ __dolor__ `sit`.\n\nA list of BPMN symbols:\n\n* Start Event\n* Task\n\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
+      "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
     },
     {
+      "id": "Field_2",
       "key": "creditor",
       "label": "Creditor",
       "type": "textfield",
@@ -13,6 +17,7 @@
       }
     },
     {
+      "id": "Field_3",
       "description": "An invoice number in the format: C-123.",
       "key": "invoiceNumber",
       "label": "Invoice Number",
@@ -22,6 +27,7 @@
       }
     },
     {
+      "id": "Field_4",
       "key": "amount",
       "label": "Amount",
       "type": "number",
@@ -31,16 +37,19 @@
       }
     },
     {
+      "id": "Field_5",
       "key": "approved",
       "label": "Approved",
       "type": "checkbox"
     },
     {
+      "id": "Field_6",
       "key": "approvedBy",
       "label": "Approved By",
       "type": "textfield"
     },
     {
+      "id": "Field_7",
       "key": "product",
       "label": "Product",
       "type": "radio",
@@ -56,6 +65,7 @@
       ]
     },
     {
+      "id": "Field_8",
       "key": "language",
       "label": "Language",
       "type": "select",
@@ -71,16 +81,17 @@
       ]
     },
     {
+      "id": "Field_9",
       "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
+      "id": "Field_10",
       "action": "reset",
       "key": "reset",
       "label": "Reset",
       "type": "button"
     }
-  ],
-  "type": "default"
+  ]
 }

@@ -15,6 +15,7 @@ import {
 } from '../TestHelper';
 
 import schema from './form.json';
+import schemaNoIds from './form-no-ids.json';
 
 // import schema from './empty.json';
 // import schema from './complex.json';
@@ -343,43 +344,73 @@ describe('FormEditor', function() {
   });
 
 
-  it('should expose schema', async function() {
+  describe('export', function() {
 
-    // given
-    const formEditor = await createFormEditor({
-      container,
-      schema
+    it('should expose schema', async function() {
+
+      // given
+      const formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      // when
+      const exportedSchema = formEditor.getSchema();
+
+      // then
+      expect(exportedSchema).to.eql(exportTagged(schema));
+
+      const exportedString = JSON.stringify(exportedSchema);
+
+      expect(exportedString).not.to.contain('"_id"');
+      expect(exportedString).not.to.contain('"_parent"');
     });
 
-    // when
-    const exportedSchema = formEditor.getSchema();
 
-    // then
-    expect(exportedSchema).to.eql(exportTagged(schema));
+    it('should expose custom exporter', async function() {
 
-    expect(JSON.stringify(exportedSchema)).not.to.contain('"_id"');
-  });
+      // given
+      const exporter = {
+        name: 'Foo',
+        version: 'bar'
+      };
 
+      const formEditor = await createFormEditor({
+        container,
+        schema,
+        exporter
+      });
 
-  it('should expose schema with custom exporter', async function() {
+      // when
+      const exportedSchema = formEditor.getSchema();
 
-    // given
-    const exporter = {
-      name: 'Foo',
-      version: 'bar'
-    };
-
-    const formEditor = await createFormEditor({
-      container,
-      schema,
-      exporter
+      // then
+      expect(exportedSchema).to.eql(exportTagged(schema, exporter));
     });
 
-    // when
-    const exportedSchema = formEditor.getSchema();
 
-    // then
-    expect(exportedSchema).to.eql(exportTagged(schema, exporter));
+    it('should generate ids', async function() {
+
+      // assume
+      expect(schemaNoIds.id).not.to.exist;
+
+      // given
+      const formEditor = await createFormEditor({
+        container,
+        schema: schemaNoIds
+      });
+
+      // when
+      const exportedSchema = formEditor.getSchema();
+
+      // then
+      expect(exportedSchema.id).to.exist;
+
+      for (const component of exportedSchema.components) {
+        expect(component.id).to.exist;
+      }
+    });
+
   });
 
 
