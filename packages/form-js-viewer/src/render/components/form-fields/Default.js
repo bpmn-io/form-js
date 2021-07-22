@@ -22,7 +22,7 @@ export default function Default(props) {
       components.map(childField => {
         return <FormField
           { ...props }
-          key={ childField._id }
+          key={ childField.id }
           field={ childField } />;
       })
     }
@@ -33,11 +33,11 @@ export default function Default(props) {
 }
 
 Default.create = function(options = {}) {
-  const _id = generateIdForType(this.type);
+  const id = generateIdForType(this.type);
 
   return {
     components: [],
-    _id,
+    id,
     label: this.label,
     type: this.type,
     ...options

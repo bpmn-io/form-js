@@ -13,7 +13,7 @@ export default function ColumnsEntry(props) {
 
     if (value > components.length) {
       while (value > components.length) {
-        components.push(Default.create({ _parent: field._id }));
+        components.push(Default.create({ _parent: field.id }));
       }
     } else {
       components = components.slice(0, value);

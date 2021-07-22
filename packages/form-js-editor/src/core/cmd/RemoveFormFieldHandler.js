@@ -37,7 +37,7 @@ export default class RemoveFormFieldHandler {
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Remove form field from form field registry
-    this._formFieldRegistry.delete(formField._id);
+    this._formFieldRegistry.delete(formField.id);
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
@@ -61,7 +61,7 @@ export default class RemoveFormFieldHandler {
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Add form field to form field registry
-    this._formFieldRegistry.set(formField._id, formField);
+    this._formFieldRegistry.set(formField.id, formField);
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });

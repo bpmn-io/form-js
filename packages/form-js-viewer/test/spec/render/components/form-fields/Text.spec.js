@@ -129,7 +129,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       text: '# Text'
     });
 
-    expect(field._id).to.match(/text\d+/);
+    expect(field.id).to.match(/text\d+/);
   });
 
 });

@@ -21,7 +21,7 @@ export default function Number(props) {
 
   const {
     description,
-    _id,
+    id,
     label,
     validate = {}
   } = field;
@@ -39,13 +39,13 @@ export default function Number(props) {
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(_id) }
+      id={ prefixId(id) }
       label={ label }
       required={ required } />
     <input
       class="fjs-input"
       disabled={ disabled }
-      id={ prefixId(_id) }
+      id={ prefixId(id) }
       onInput={ onChange }
       type="number"
       value={ value } />
@@ -55,11 +55,11 @@ export default function Number(props) {
 }
 
 Number.create = function(options = {}) {
-  const _id = generateIdForType(type);
+  const id = generateIdForType(type);
 
   return {
-    _id,
-    key: _id,
+    id,
+    key: id,
     label: this.label,
     type,
     ...options

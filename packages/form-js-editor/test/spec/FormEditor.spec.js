@@ -244,10 +244,10 @@ describe('FormEditor', function() {
     // then
     expect(exportedSchema).to.eql(exportTagged(schema));
 
-    const stringifiedSchema = JSON.stringify(exportedSchema);
+    const exportedString = JSON.stringify(exportedSchema);
 
-    expect(stringifiedSchema).not.to.contain('"_id"');
-    expect(stringifiedSchema).not.to.contain('"_path"');
+    expect(exportedString).not.to.contain('"_path"');
+    expect(exportedString).not.to.contain('"_parent"');
   });
 
 
@@ -365,7 +365,7 @@ describe('FormEditor', function() {
 
       const exportedString = JSON.stringify(exportedSchema);
 
-      expect(exportedString).not.to.contain('"_id"');
+      expect(exportedString).not.to.contain('"_path"');
       expect(exportedString).not.to.contain('"_parent"');
     });
 

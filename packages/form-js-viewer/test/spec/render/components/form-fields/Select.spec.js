@@ -159,7 +159,7 @@ describe('Select', function() {
       ]
     });
 
-    expect(field._id).to.match(/select\d+/);
+    expect(field.id).to.match(/select\d+/);
     expect(field.key).to.match(/select\d+/);
   });
 
