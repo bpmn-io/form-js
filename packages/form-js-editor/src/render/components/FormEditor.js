@@ -172,7 +172,9 @@ export default function FormEditor(props) {
         },
         accepts(el, target) {
           return !target.classList.contains('fjs-no-drop');
-        }
+        },
+        slideFactorX: 10,
+        slideFactorY: 5
       });
 
       dragulaInstance.on('drop', (el, target, source, sibling) => {
