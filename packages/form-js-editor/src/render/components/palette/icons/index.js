@@ -15,5 +15,6 @@ export const iconsByType = {
   radio: RadioIcon,
   select: SelectIcon,
   text: TextIcon,
-  textfield: TextfieldIcon
+  textfield: TextfieldIcon,
+  default: TextIcon
 };

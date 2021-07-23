@@ -4,6 +4,7 @@ import {
   ActionEntry,
   ColumnsEntry,
   DescriptionEntry,
+  IdEntry,
   KeyEntry,
   LabelEntry,
   TextEntry
@@ -15,6 +16,10 @@ export default function GeneralGroup(field, editField) {
   const { type } = field;
 
   const entries = [];
+
+  if (type === 'default') {
+    entries.push(<IdEntry editField={ editField } field={ field } />);
+  }
 
   if (INPUTS.includes(type) || type === 'button') {
     entries.push(<LabelEntry editField={ editField } field={ field } />);

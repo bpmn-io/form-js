@@ -18,7 +18,8 @@ const labelsByType = {
   number: 'NUMBER',
   radio: 'RADIO',
   text: 'TEXT',
-  textfield: 'TEXT FIELD'
+  textfield: 'TEXT FIELD',
+  default: 'FORM'
 };
 
 function getGroups(field, editField) {
@@ -45,7 +46,7 @@ export default function PropertiesPanel(props) {
     field
   } = props;
 
-  if (!field || field.type === 'default') {
+  if (!field) {
     return <div class="fjs-properties-panel-placeholder">Select a form field to edit its properties.</div>;
   }
 
@@ -65,7 +66,9 @@ export default function PropertiesPanel(props) {
         {
           type === 'text'
             ? <div class="fjs-properties-panel-header-label">{ textToLabel(field.text) }</div>
-            : <div class="fjs-properties-panel-header-label">{ field.label }</div>
+            : type === 'default'
+              ? <div class="fjs-properties-panel-header-label">{ field.id }</div>
+              : <div class="fjs-properties-panel-header-label">{ field.label }</div>
         }
       </div>
     </div>
