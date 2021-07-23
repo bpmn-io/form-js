@@ -74,6 +74,27 @@ describe('properties panel', function() {
 
   describe('fields', function() {
 
+    it('default', function() {
+
+      // given
+      const field = schema;
+
+      const result = createPropertiesPanel({
+        container,
+        field
+      });
+
+      // then
+      expectGroups(result.container, [
+        'General'
+      ]);
+
+      expectGroupEntries(result.container, 'General', [
+        'Id',
+      ]);
+    });
+
+
     it('button', function() {
 
       // given
@@ -446,7 +467,7 @@ describe('properties panel', function() {
 
         describe('key', function() {
 
-          it('should show error key empty', function() {
+          it('should not be empty', function() {
 
             // given
             const editFieldSpy = spy();
@@ -482,7 +503,7 @@ describe('properties panel', function() {
           });
 
 
-          it('should show error if key contains spaces', function() {
+          it('should not contain spaces', function() {
 
             // given
             const editFieldSpy = spy();
@@ -518,7 +539,7 @@ describe('properties panel', function() {
           });
 
 
-          it('should show error if key is not unique', function() {
+          it('should be unique', function() {
 
             // given
             const editFieldSpy = spy();
@@ -555,6 +576,155 @@ describe('properties panel', function() {
 
         });
 
+
+        describe('id', function() {
+
+          const schema = {
+            type: 'default',
+            id: 'form',
+            components: [
+              { type: 'text', id: 'text', text: 'TEXT' }
+            ]
+          };
+
+
+          it('should not be empty', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: schema,
+              services: {
+                formFieldRegistry: new Map([
+                  [ schema.id, schema ],
+                  [ schema.components[0].id, schema.components[0] ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Id');
+
+            expect(input.value).to.equal(schema.id);
+
+            // when
+            fireEvent.input(input, { target: { value: '' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not be empty.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should not contain spaces', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: schema,
+              services: {
+                formFieldRegistry: new Map([
+                  [ schema.id, schema ],
+                  [ schema.components[0].id, schema.components[0] ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Id');
+
+            expect(input.value).to.equal(schema.id);
+
+            // when
+            fireEvent.input(input, { target: { value: 'fo rm' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not contain spaces.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should be unique', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: schema,
+              services: {
+                formFieldRegistry: new Map([
+                  [ schema.id, schema ],
+                  [ schema.components[0].id, schema.components[0] ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Id');
+
+            expect(input.value).to.equal(schema.id);
+
+            // when
+            fireEvent.input(input, { target: { value: 'text' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must be unique.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should be a valid QName', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: schema,
+              services: {
+                formFieldRegistry: new Map([
+                  [ schema.id, schema ],
+                  [ schema.components[0].id, schema.components[0] ]
+                ])
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Id');
+
+            expect(input.value).to.equal(schema.id);
+
+            // when
+            fireEvent.input(input, { target: { value: '<HELLO>' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must be a valid QName.');
+
+            expect(error).to.exist;
+          });
+
+        });
+
       });
 
     });
@@ -562,6 +732,9 @@ describe('properties panel', function() {
   });
 
 });
+
+
+// helpers //////////////
 
 function createPropertiesPanel(options = {}) {
   const {
