@@ -1,4 +1,8 @@
 .fjs-editor-container {
+  --color-blue-lighten-99: #fafcff;
+}
+
+.fjs-editor-container {
   height: 100%;
   width: 100%;
   display: flex;
@@ -61,13 +65,21 @@
 
 .fjs-editor-container .fjs-children > .fjs-element {
   position: relative;
-  border: dashed 2px transparent;
+  border: solid 2px transparent;
 }
 
 .fjs-editor-container .fjs-children > .fjs-element:hover,
 .fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected {
-  border-color: var(--color-blue-darken-62);
   border-radius: 3px;
+}
+
+.fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected {
+  border-color: var(--color-blue-lighten-75);
+  background-color: var(--color-blue-lighten-99);
+}
+
+.fjs-editor-container .fjs-children > .fjs-element:hover {
+  border-color: var(--color-blue-lighten-82) !important;
 }
 
 /**
