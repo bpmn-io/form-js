@@ -7,9 +7,8 @@ import {
   prefixId
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'number';
+
 
 export default function Number(props) {
   const {
@@ -55,17 +54,11 @@ export default function Number(props) {
 }
 
 Number.create = function(options = {}) {
-  const id = generateIdForType(type);
-
   return {
-    id,
-    key: id,
-    label: this.label,
-    type,
     ...options
   };
 };
 
 Number.type = type;
-
+Number.keyed = true;
 Number.label = 'Number';

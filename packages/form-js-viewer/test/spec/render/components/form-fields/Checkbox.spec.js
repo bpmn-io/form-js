@@ -119,17 +119,26 @@ describe('Checkbox', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Checkbox.type).to.eql('checkbox');
+    expect(Checkbox.label).to.eql('Checkbox');
+    expect(Checkbox.keyed).to.be.true;
+
     // when
     const field = Checkbox.create();
 
     // then
-    expect(field).to.contain({
-      label: 'Checkbox',
-      type: 'checkbox'
+    expect(field).to.eql({});
+
+    // but when
+    const customField = Checkbox.create({
+      custom: true
     });
 
-    expect(field.id).to.match(/checkbox\d+/);
-    expect(field.key).to.match(/checkbox\d+/);
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

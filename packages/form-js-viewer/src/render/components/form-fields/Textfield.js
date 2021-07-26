@@ -7,9 +7,8 @@ import {
   prefixId
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'textfield';
+
 
 export default function Textfield(props) {
   const {
@@ -53,17 +52,11 @@ export default function Textfield(props) {
 }
 
 Textfield.create = function(options = {}) {
-  const id = generateIdForType(type);
-
   return {
-    id,
-    key: id,
-    label: this.label,
-    type,
     ...options
   };
 };
 
 Textfield.type = type;
-
 Textfield.label = 'Text Field';
+Textfield.keyed = true;

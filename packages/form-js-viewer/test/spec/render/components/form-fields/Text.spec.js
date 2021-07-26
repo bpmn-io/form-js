@@ -120,16 +120,28 @@ Some _em_ **strong** [text](#text) \`code\`.
 
   it('#create', function() {
 
+    // assume
+    expect(Text.type).to.eql('text');
+    expect(Text.label).not.to.exist;
+    expect(Text.keyed).to.be.false;
+
     // when
     const field = Text.create();
 
     // then
-    expect(field).to.contain({
-      type: 'text',
+    expect(field).to.eql({
       text: '# Text'
     });
 
-    expect(field.id).to.match(/text\d+/);
+    // but when
+    const customField = Text.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

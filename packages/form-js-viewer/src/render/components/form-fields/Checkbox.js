@@ -7,9 +7,8 @@ import {
   prefixId
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'checkbox';
+
 
 export default function Checkbox(props) {
   const {
@@ -51,17 +50,11 @@ export default function Checkbox(props) {
 }
 
 Checkbox.create = function(options = {}) {
-  const id = generateIdForType(type);
-
   return {
-    id,
-    key: id,
-    label: this.label,
-    type,
     ...options
   };
 };
 
 Checkbox.type = type;
-
 Checkbox.label = 'Checkbox';
+Checkbox.keyed = true;

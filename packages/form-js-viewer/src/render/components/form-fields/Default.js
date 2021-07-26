@@ -4,8 +4,6 @@ import FormField from '../FormField';
 
 import { FormRenderContext } from '../../context';
 
-import { generateIdForType } from '../../../util';
-
 
 export default function Default(props) {
   const {
@@ -33,17 +31,11 @@ export default function Default(props) {
 }
 
 Default.create = function(options = {}) {
-  const id = generateIdForType(this.type);
-
   return {
     components: [],
-    id,
-    label: this.label,
-    type: this.type,
     ...options
   };
 };
 
 Default.type = 'default';
-
-Default.label = 'Default';
+Default.keyed = false;
