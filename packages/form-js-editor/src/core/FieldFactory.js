@@ -22,7 +22,7 @@ export default class FieldFactory {
     });
   }
 
-  create(attrs) {
+  create(attrs, applyDefaults=true) {
 
     const {
       type
@@ -34,11 +34,11 @@ export default class FieldFactory {
       throw new Error(`form field of type <${ type }> not supported`);
     }
 
-    const labelAttrs = fieldDefinition.label ? {
+    const labelAttrs = applyDefaults && fieldDefinition.label ? {
       label: fieldDefinition.label
     } : {};
 
-    const keyAttrs = fieldDefinition.keyed ? {
+    const keyAttrs = applyDefaults && fieldDefinition.keyed ? {
       key: `field_${ (this._num++) }`
     } : {};
 

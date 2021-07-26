@@ -93,7 +93,7 @@ export default class Importer {
       ...fieldAttrs,
       _path: path,
       _parent: parent && parent.id
-    });
+    }, false);
 
     this._formFieldRegistry.set(field.id, field);
 
