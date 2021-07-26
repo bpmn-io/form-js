@@ -9,9 +9,21 @@ export default class Selection {
   }
 
   set(selection) {
+    if (this._selection === selection) {
+      return;
+    }
+
     this._selection = selection;
 
-    this._eventBus.fire('selection.changed', this._selection);
+    this._eventBus.fire('selection.changed', {
+      selection: this._selection
+    });
+  }
+
+  toggle(selection) {
+    const newSelection = this._selection === selection ? null : selection;
+
+    this.set(newSelection);
   }
 
   clear() {

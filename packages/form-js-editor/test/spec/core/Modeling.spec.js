@@ -17,7 +17,7 @@ import schema from '../form.json';
 insertStyles();
 
 
-describe('Modeling', function() {
+describe('core/Modeling', function() {
 
   beforeEach(bootstrapFormEditor(schema));
 
