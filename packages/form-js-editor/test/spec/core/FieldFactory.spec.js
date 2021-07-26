@@ -86,12 +86,24 @@ describe('core/FieldFactory', function() {
 
   });
 
+
+  describe('#create (no defaults)', function() {
+
+    it('Button', testCreate({
+      type: 'button',
+      defaults: {
+        action: 'submit'
+      }
+    }, false));
+
+  });
+
 });
 
 
 // helpers //////////////
 
-function testCreate(options) {
+function testCreate(options, applyDefaults=true) {
 
   const {
     type,
@@ -103,7 +115,7 @@ function testCreate(options) {
   return inject(function(fieldFactory) {
 
     // when
-    const field = fieldFactory.create({ type });
+    const field = fieldFactory.create({ type }, applyDefaults);
 
     // then
     expect(field.id).to.exist;
@@ -112,10 +124,14 @@ function testCreate(options) {
 
     if (keyed) {
       expect(field.key).to.exist;
+    } else {
+      expect(field.key).not.to.exist;
     }
 
     if (label) {
       expect(field.label).to.eql(label);
+    } else {
+      expect(field.label).not.to.exist;
     }
 
     expect(field).to.deep.contain(defaults);
