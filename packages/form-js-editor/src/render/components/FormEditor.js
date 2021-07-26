@@ -59,13 +59,9 @@ function Element(props) {
   } = field;
 
   function onClick(event) {
-    if (type === 'default') {
-      return;
-    }
-
     event.stopPropagation();
 
-    selection.set(id);
+    selection.toggle(id);
   }
 
   const classes = [ 'fjs-element' ];
@@ -143,29 +139,21 @@ export default function FormEditor(props) {
 
   const { schema } = formEditor._getState();
 
-  const [ _, setSelection ] = useState(null);
-
-  eventBus.on('selection.changed', (event) => {
-    const {
-      selection
-    } = event;
-
-    setSelection(selection);
-  });
+  const [ selectedFormField, setSelection ] = useState(schema);
 
   useEffect(() => {
-    const selectableField = findSelectableField(schema, formFieldRegistry);
-
-    if (selectableField) {
-      selection.set(selectableField.id);
+    function handleSelectionChanged(event) {
+      setSelection(event.selection ? formFieldRegistry.get(event.selection) : schema);
     }
-  }, []);
 
-  let selectedFormField;
+    eventBus.on('selection.changed', handleSelectionChanged);
 
-  if (selection.get()) {
-    selectedFormField = formFieldRegistry.get(selection.get());
-  }
+    setSelection(selection.get() ? formFieldRegistry.get(selection.get()) : schema);
+
+    return () => {
+      eventBus.off('selection.changed', handleSelectionChanged);
+    };
+  }, [ selection, formFieldRegistry, schema ]);
 
   const [ drake, setDrake ] = useState(null);
 
