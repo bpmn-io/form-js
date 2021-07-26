@@ -23,7 +23,7 @@
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
-    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --removeComments --outDir dist/types src/index.js",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js",
     "test": "karma start",
     "prepublishOnly": "npm run build"
   },
