@@ -103,7 +103,9 @@ export function bootstrapFormEditor(schema, options, locals) {
       return FORM_EDITOR.importSchema(schema).then(function(result) {
         return { error: null, warnings: result.warnings };
       }).catch(function(err) {
-        return { error: err, warnings: err.warnings };
+        console.error('#bootstrapFormEditor failed', err, err.warnings);
+
+        return Promise.reject(err);
       });
     }
   };
