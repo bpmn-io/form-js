@@ -56,7 +56,7 @@ export default function PropertiesPanel(props) {
 
   const label = labelsByType[ type ];
 
-  return <div class="fjs-properties-panel">
+  return <div class="fjs-properties-panel" data-field={ field.id }>
     <div class="fjs-properties-panel-header">
       <div class="fjs-properties-panel-header-icon">
         <Icon width="36" height="36" viewBox="0 0 54 54" />

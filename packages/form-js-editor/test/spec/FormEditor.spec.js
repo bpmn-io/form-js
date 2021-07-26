@@ -417,75 +417,145 @@ describe('FormEditor', function() {
   });
 
 
-  describe('focus / blur events', function() {
+  describe('properties panel', function() {
 
-    const schema = {
-      type: 'default',
-      components: [
-        {
-          type: 'text',
-          label: 'Text',
-          key: 'text'
-        }
-      ]
-    };
+    describe('selection behavior', function() {
+
+      const schema = {
+        type: 'default',
+        id: 'Form_1',
+        components: [
+          {
+            type: 'text',
+            id: 'text',
+            label: 'Text',
+            key: 'text'
+          }
+        ]
+      };
+
+      function expectSelected(expectedId) {
+        const panelEl = document.querySelector('.fjs-properties-panel');
+
+        const selectedId = panelEl.dataset.field;
+
+        expect(selectedId).to.eql(expectedId);
+      }
 
 
-    it('should emit event on properties panel focus', async function() {
+      it('should show schema per default', async function() {
 
-      // given
-      const formEditor = await createFormEditor({
-        schema,
-        container
+        // when
+        const form = await createFormEditor({
+          container,
+          schema
+        });
+
+        // assume
+        expect(form.get('selection').get()).not.to.exist;
+
+        // when
+        await wait();
+
+        // then
+        await expectSelected('Form_1');
       });
 
-      const focusinSpy = sinon.spy();
 
-      formEditor.on('propertiesPanel.focusin', focusinSpy);
+      it('should update on selection changed', async function() {
 
-      let input;
+        // given
+        const form = await createFormEditor({
+          container,
+          schema
+        });
 
-      await waitFor(async () => {
-        input = await screen.getByLabelText('Text');
+        // when
+        form.get('selection').set('text');
 
-        expect(input).to.exist;
+        await wait();
+
+        // then
+        expectSelected('text');
       });
 
-      // when
-      input.focus();
-
-      // then
-      expect(focusinSpy).to.have.been.called;
     });
 
 
-    it('should emit event on properties panel blur', async function() {
+    describe('focus / blur events', function() {
 
-      // given
-      const formEditor = await createFormEditor({
-        schema,
-        container
+      const schema = {
+        type: 'default',
+        components: [
+          {
+            type: 'text',
+            id: 'text',
+            label: 'Text',
+            key: 'text'
+          }
+        ]
+      };
+
+
+      it('should emit event on properties panel focus', async function() {
+
+        // given
+        const formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const focusinSpy = sinon.spy();
+
+        formEditor.on('propertiesPanel.focusin', focusinSpy);
+        formEditor.get('selection').set('text');
+
+        let input;
+
+        await waitFor(async () => {
+          input = await screen.getByLabelText('Text');
+
+          expect(input).to.exist;
+        });
+
+        // when
+        input.focus();
+
+        // then
+        expect(focusinSpy).to.have.been.called;
       });
 
-      const focusoutSpy = sinon.spy();
 
-      formEditor.on('propertiesPanel.focusout', focusoutSpy);
+      it('should emit event on properties panel blur', async function() {
 
-      let input;
+        // given
+        const formEditor = await createFormEditor({
+          schema,
+          container
+        });
 
-      await waitFor(async () => {
-        input = await screen.getByLabelText('Text');
+        const focusoutSpy = sinon.spy();
 
-        expect(input).to.exist;
+        formEditor.on('propertiesPanel.focusout', focusoutSpy);
+        formEditor.get('selection').set('text');
+
+        let input;
+
+        await waitFor(async () => {
+          input = await screen.getByLabelText('Text');
+
+          expect(input).to.exist;
+        });
+
+        input.focus();
+
+        // when
+        input.blur();
+
+        // then
+        expect(focusoutSpy).to.have.been.called;
       });
 
-      input.focus();
-
-      // when
-      input.blur();
-
-      // then
-      expect(focusoutSpy).to.have.been.called;
     });
 
   });
@@ -580,4 +650,11 @@ function exportTagged(schema, exporter) {
     ...exportDetails,
     ...schema
   };
+}
+
+
+function wait(ms=300) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
 }
