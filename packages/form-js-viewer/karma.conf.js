@@ -71,7 +71,8 @@ module.exports = function(karma) {
                   [ '@babel/plugin-transform-react-jsx', {
                     'importSource': 'preact',
                     'runtime': 'automatic'
-                  } ]
+                  } ],
+                  '@babel/plugin-transform-react-jsx-source'
                 ]
               }
             }
