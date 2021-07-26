@@ -12,9 +12,12 @@ export default class FieldFactory {
   constructor(formFields, eventBus) {
     this._ids = new Ids([ 32, 36, 1 ]);
 
+    this._num = 0;
+
     this._formFields = formFields;
 
     eventBus.on('diagram.clear', () => {
+      this._num = 0;
       this._ids.clear();
     });
   }
@@ -22,16 +25,29 @@ export default class FieldFactory {
   create(attrs) {
 
     const {
-      type
+      type,
+      key
     } = attrs;
 
-    if (!this._formFields.get(type)) {
+    const fieldDefinition = this._formFields.get(type);
+
+    if (!fieldDefinition) {
       throw new Error(`form field of type <${ type }> not supported`);
     }
 
-    const field = {
+    const labelAttrs = fieldDefinition.label ? {
+      label: fieldDefinition.label
+    } : {};
+
+    const keyAttrs = fieldDefinition.keyed ? {
+      key: `field_${ (this._num++) }`
+    } : {};
+
+    const field = fieldDefinition.create({
+      ...keyAttrs,
+      ...labelAttrs,
       ...attrs
-    };
+    });
 
     this._ensureId(field);
 

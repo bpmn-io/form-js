@@ -131,7 +131,6 @@ function Children(props) {
 export default function FormEditor(props) {
   const eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
-        formFields = useService('formFields'),
         formFieldRegistry = useService('formFieldRegistry'),
         injector = useService('injector'),
         modeling = useService('modeling'),
@@ -192,15 +191,9 @@ export default function FormEditor(props) {
         if (source.classList.contains('fjs-palette')) {
           const type = el.dataset.fieldType;
 
-          const formField = formFields.get(type);
+          const newField = modeling.addFormField(targetFormField, targetIndex, { type });
 
-          const newFormField = formField.create({
-            _parent: targetFormField.id
-          });
-
-          selection.set(newFormField.id);
-
-          modeling.addFormField(targetFormField, targetIndex, newFormField);
+          selection.set(newField.id);
         } else {
           const formField = formFieldRegistry.get(el.dataset.id),
                 sourceFormField = formFieldRegistry.get(source.dataset.id),
