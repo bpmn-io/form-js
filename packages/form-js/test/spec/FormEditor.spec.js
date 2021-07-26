@@ -93,7 +93,7 @@ describe('editor exports', function() {
         id: 'FOOBAR',
         type: 'default',
         schemaVersion,
-        compontents: [
+        components: [
           {
             id: 'number',
             type: 'number',
