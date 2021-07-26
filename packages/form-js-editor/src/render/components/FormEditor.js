@@ -61,7 +61,11 @@ function Element(props) {
   function onClick(event) {
     event.stopPropagation();
 
-    selection.toggle(id);
+    if (field.type === 'default') {
+      selection.set(null);
+    } else {
+      selection.toggle(id);
+    }
   }
 
   const classes = [ 'fjs-element' ];
