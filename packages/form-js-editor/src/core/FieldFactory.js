@@ -25,8 +25,7 @@ export default class FieldFactory {
   create(attrs) {
 
     const {
-      type,
-      key
+      type
     } = attrs;
 
     const fieldDefinition = this._formFields.get(type);
