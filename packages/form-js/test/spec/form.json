@@ -82,6 +82,7 @@
     },
     {
       "id": "Field_9",
+      "action": "submit",
       "key": "submit",
       "label": "Submit",
       "type": "button"
