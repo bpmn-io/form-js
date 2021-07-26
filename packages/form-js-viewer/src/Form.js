@@ -96,6 +96,10 @@ export default class Form {
     this.get('formFieldRegistry').clear();
   }
 
+  /**
+   * Destroy the form, removing it from DOM,
+   * if attached.
+   */
   destroy() {
 
     // Destroy form services
@@ -108,8 +112,12 @@ export default class Form {
   }
 
   /**
+   * Open a form schema with the given initial data.
+   *
    * @param {Schema} schema
    * @param {Data} [data]
+   *
+   * @return Promise<{ warnings: Array<any> }>
    */
   importSchema(schema, data = {}) {
     return new Promise((resolve, reject) => {
@@ -144,6 +152,8 @@ export default class Form {
   }
 
   /**
+   * Submit the form, triggering all field validations.
+   *
    * @returns { { data: Data, errors: Errors } }
    */
   submit() {
