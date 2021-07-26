@@ -148,13 +148,16 @@ describe('Radio', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Radio.type).to.eql('radio');
+    expect(Radio.label).to.eql('Radio');
+    expect(Radio.keyed).to.be.true;
+
     // when
     const field = Radio.create();
 
     // then
-    expect(field).to.deep.contain({
-      label: 'Radio',
-      type: 'radio',
+    expect(field).to.eql({
       values: [
         {
           label: 'Value',
@@ -163,8 +166,15 @@ describe('Radio', function() {
       ]
     });
 
-    expect(field.id).to.match(/radio\d+/);
-    expect(field.key).to.match(/radio\d+/);
+    // but when
+    const customField = Radio.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

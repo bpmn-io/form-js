@@ -7,8 +7,6 @@ import {
   prefixId
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'select';
 
 export default function Select(props) {
@@ -66,13 +64,8 @@ export default function Select(props) {
 }
 
 Select.create = function(options = {}) {
-  const id = generateIdForType(type);
 
   return {
-    id,
-    key: id,
-    label: this.label,
-    type,
     values: [
       {
         label: 'Value',
@@ -84,5 +77,5 @@ Select.create = function(options = {}) {
 };
 
 Select.type = type;
-
 Select.label = 'Select';
+Select.keyed = true;

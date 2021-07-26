@@ -7,9 +7,8 @@ import {
   prefixId
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'radio';
+
 
 export default function Radio(props) {
   const {
@@ -65,13 +64,7 @@ export default function Radio(props) {
 }
 
 Radio.create = function(options = {}) {
-  const id = generateIdForType(type);
-
   return {
-    id,
-    key: id,
-    label: this.label,
-    type,
     values: [
       {
         label: 'Value',
@@ -83,5 +76,5 @@ Radio.create = function(options = {}) {
 };
 
 Radio.type = type;
-
 Radio.label = 'Radio';
+Radio.keyed = true;

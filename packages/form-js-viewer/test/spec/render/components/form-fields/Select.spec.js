@@ -144,13 +144,16 @@ describe('Select', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Select.type).to.eql('select');
+    expect(Select.label).to.eql('Select');
+    expect(Select.keyed).to.be.true;
+
     // when
     const field = Select.create();
 
     // then
-    expect(field).to.deep.contain({
-      label: 'Select',
-      type: 'select',
+    expect(field).to.eql({
       values: [
         {
           label: 'Value',
@@ -159,8 +162,15 @@ describe('Select', function() {
       ]
     });
 
-    expect(field.id).to.match(/select\d+/);
-    expect(field.key).to.match(/select\d+/);
+    // but when
+    const customField = Select.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

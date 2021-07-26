@@ -172,17 +172,26 @@ describe('Number', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Number.type).to.eql('number');
+    expect(Number.label).to.eql('Number');
+    expect(Number.keyed).to.be.true;
+
     // when
     const field = Number.create();
 
     // then
-    expect(field).to.contain({
-      label: 'Number',
-      type: 'number'
+    expect(field).to.eql({});
+
+    // but when
+    const customField = Number.create({
+      custom: true
     });
 
-    expect(field.id).to.match(/number\d+/);
-    expect(field.key).to.match(/number\d+/);
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

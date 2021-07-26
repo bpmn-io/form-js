@@ -73,17 +73,28 @@ describe('Button', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Button.type).to.eql('button');
+    expect(Button.label).to.eql('Button');
+    expect(Button.keyed).to.be.true;
+
     // when
     const field = Button.create();
 
     // then
-    expect(field).to.contain({
-      action: 'submit',
-      label: 'Button',
-      type: 'button'
+    expect(field).to.eql({
+      action: 'submit'
     });
 
-    expect(field.id).to.match(/button\d+/);
+    // but when
+    const customField = Button.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });

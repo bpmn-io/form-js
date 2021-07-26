@@ -5,9 +5,8 @@ import {
   safeMarkdown
 } from '../Util';
 
-import { generateIdForType } from '../../../util';
-
 const type = 'text';
+
 
 export default function Text(props) {
   const { field } = props;
@@ -20,14 +19,11 @@ export default function Text(props) {
 }
 
 Text.create = function(options = {}) {
-  const id = generateIdForType(type);
-
   return {
-    id,
     text: '# Text',
-    type,
     ...options
   };
 };
 
 Text.type = type;
+Text.keyed = false;

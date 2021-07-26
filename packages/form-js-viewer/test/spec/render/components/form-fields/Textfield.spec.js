@@ -172,17 +172,26 @@ describe('Textfield', function() {
 
   it('#create', function() {
 
+    // assume
+    expect(Textfield.type).to.eql('textfield');
+    expect(Textfield.label).to.eql('Text Field');
+    expect(Textfield.keyed).to.be.true;
+
     // when
     const field = Textfield.create();
 
     // then
-    expect(field).to.contain({
-      label: 'Text Field',
-      type: 'textfield'
+    expect(field).to.eql({});
+
+    // but when
+    const customField = Textfield.create({
+      custom: true
     });
 
-    expect(field.id).to.match(/textfield\d+/);
-    expect(field.key).to.match(/textfield\d+/);
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
   });
 
 });
