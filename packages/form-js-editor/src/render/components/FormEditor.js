@@ -145,8 +145,12 @@ export default function FormEditor(props) {
 
   const [ _, setSelection ] = useState(null);
 
-  eventBus.on('selection.changed', (newSelection) => {
-    setSelection(newSelection);
+  eventBus.on('selection.changed', (event) => {
+    const {
+      selection
+    } = event;
+
+    setSelection(selection);
   });
 
   useEffect(() => {
