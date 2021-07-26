@@ -3,7 +3,7 @@ import Form from './Form';
 export * from './render';
 export * from './util';
 
-const schemaVersion = 1;
+const schemaVersion = 2;
 
 export {
   Form,
