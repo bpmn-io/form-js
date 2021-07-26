@@ -258,6 +258,8 @@ export default class Form {
   }
 
   /**
+   * @private
+   *
    * @param {boolean} [emit]
    */
   _detach(emit = true) {
@@ -303,6 +305,8 @@ export default class Form {
   }
 
   /**
+   * @private
+   *
    * @param {FormOptions} options
    * @param {Element} container
    *
@@ -329,11 +333,16 @@ export default class Form {
     ]);
   }
 
+  /**
+   * @private
+   */
   _emit(type, data) {
     this.get('eventBus').fire(type, data);
   }
 
   /**
+   * @internal
+   *
    * @param { { add?: boolean, field: any, remove?: number, value?: any } } update
    */
   _update(update) {
