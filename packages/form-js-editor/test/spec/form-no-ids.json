@@ -73,6 +73,7 @@
     },
     {
       "key": "submit",
+      "action": "submit",
       "label": "Submit",
       "type": "button"
     },
