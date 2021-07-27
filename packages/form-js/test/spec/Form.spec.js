@@ -85,6 +85,35 @@ describe('viewer exports', function() {
   });
 
 
+  it('should import schema without IDs', async function() {
+
+    // given
+    const schema = {
+      type: 'default',
+      schemaVersion,
+      components: [
+        {
+          type: 'number',
+          key: 'number'
+        }
+      ]
+    };
+
+    const form = new Form({ container });
+
+    // when
+    await form.importSchema(schema);
+
+    // then
+    const fieldRegistry = form.get('formFieldRegistry');
+
+    expect(fieldRegistry.size).to.eql(2);
+
+    fieldRegistry.forEach(function(field) {
+      expect(field).to.have.property('id');
+    });
+  });
+
   it('should expose schemaVersion', function() {
     expect(typeof schemaVersion).to.eql('number');
 
