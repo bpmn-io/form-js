@@ -17,7 +17,6 @@ import {
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
 
-// import schema from './empty.json';
 // import schema from './complex.json';
 
 insertStyles();
