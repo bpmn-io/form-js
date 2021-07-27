@@ -8,9 +8,16 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 0.3.0
 
+### General
+
+* `FEAT`: add `id` to form fields ([#80](https://github.com/bpmn-io/form-js/issues/80), [#137](https://github.com/bpmn-io/form-js/pull/137))
+* `DOCS`: publish typings with documentation tags ([#138](https://github.com/bpmn-io/form-js/pull/138))
+* `DOCS`: mark private and internal APIs
+* `CHORE`: bump to `schemaVersion=2`
+
 ### Viewer
 
-* `FEAT`: allow fields to be disabled via schema ([`bf185225f`](https://github.com/bpmn-io/form-js/commit/bf185225f3545c54026f80c27a864119b2cd8107))
+* `FEAT`: allow fields to be disabled via schema ([`bf185225`](https://github.com/bpmn-io/form-js/commit/bf185225f3545c54026f80c27a864119b2cd8107))
 * `FIX`: assign unique keys for child components ([`cb86f75e`](https://github.com/bpmn-io/form-js/commit/cb86f75e3d7de96ceeb0c6e78553130358787f03), [`fd036484`](https://github.com/bpmn-io/form-js/commit/fd03648422cdd0331f10a60c9a1743aa02153300))
 * `FIX`: santitize external links ([`9c53aa05`](https://github.com/bpmn-io/form-js/commit/9c53aa052dc5eb2fb37d320c0bbe334f2c3302fe))
 * `FIX`: turn number field into a controlled component ([`874545e3`](https://github.com/bpmn-io/form-js/commit/874545e3b0290d0aff72359489d34596fd4cf769))
@@ -18,7 +25,17 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Editor
 
+* `FEAT`: add compact mode ([#130](https://github.com/bpmn-io/form-js/pull/130))
 * `FEAT`: validate `key` property ([#58](https://github.com/bpmn-io/form-js/issues/58))
+* `FEAT`: debounce input per default ([#132](https://github.com/bpmn-io/form-js/pull/132))
+* `FEAT`: allow editing multiple properties at once ([`e68526c1`](https://github.com/bpmn-io/form-js/commit/e68526c14bae5e08ceecf4fb85d12de0081e60b6))
+* `FEAT`: allow editing of form root ([`9193bb22`](https://github.com/bpmn-io/form-js/commit/9193bb220ea9be922433c026ecabe65542befb07))
+* `FEAT`: improve form field selection and hover styles ([`71061807`](https://github.com/bpmn-io/form-js/commit/71061807451e99b73f913392bbfe2d5e8e340e3e))
+* `FIX`: make form element drag sticky ([`e2c2bdd0`](https://github.com/bpmn-io/form-js/commit/e2c2bdd0f12539b0a0b049350a4a0d4763592d3f))
+* `FIX`: clear before re-import ([#135](https://github.com/bpmn-io/form-js/issues/135))
+* `FIX`: event listeners not de-registered ([#133](https://github.com/bpmn-io/form-js/issues/133))
+* `FIX`: assign unique keys to rendered components ([#139](https://github.com/bpmn-io/form-js/pull/139))
+* `CHORE`: rework import and field creation
 
 ## 0.2.4
 
