@@ -91,6 +91,24 @@ describe('Form', function() {
 
   describe('#importSchema', function() {
 
+    it('should import empty schema', async function() {
+
+      // given
+      const schema = {
+        type: 'default'
+      };
+
+      // when
+      const form = await createForm({
+        container,
+        schema
+      });
+
+      // then
+      expect(form.get('formFieldRegistry').size).to.eql(1);
+    });
+
+
     it('should generate IDs', async function() {
 
       // given

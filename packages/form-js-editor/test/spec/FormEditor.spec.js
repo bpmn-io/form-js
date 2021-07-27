@@ -87,6 +87,23 @@ describe('FormEditor', function() {
 
   describe('#importSchema', function() {
 
+    it('should import empty schema', async function() {
+
+      // given
+      const schema = {
+        type: 'default'
+      };
+
+      // when
+      const formEditor = new FormEditor();
+
+      await formEditor.importSchema(schema);
+
+      // then
+      expect(formEditor.get('formFieldRegistry').size).to.eql(1);
+    });
+
+
     it('should import without errors', async function() {
 
       // given
