@@ -33,19 +33,19 @@ export default class Modeling {
     };
   }
 
-  addFormField(targetFormField, targetIndex, fieldAttrs) {
+  addFormField(attrs, targetFormField, targetIndex) {
 
-    const newFormField = this._fieldFactory.create(fieldAttrs);
+    const formField = this._fieldFactory.create(attrs);
 
     const context = {
-      newFormField,
+      formField,
       targetFormField,
       targetIndex
     };
 
     this._commandStack.execute('formField.add', context);
 
-    return newFormField;
+    return formField;
   }
 
   editFormField(formField, properties, value) {
@@ -63,8 +63,9 @@ export default class Modeling {
     this._commandStack.execute('formField.edit', context);
   }
 
-  moveFormField(sourceFormField, targetFormField, sourceIndex, targetIndex) {
+  moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex) {
     const context = {
+      formField,
       sourceFormField,
       targetFormField,
       sourceIndex,
@@ -74,8 +75,9 @@ export default class Modeling {
     this._commandStack.execute('formField.move', context);
   }
 
-  removeFormField(sourceFormField, sourceIndex) {
+  removeFormField(formField, sourceFormField, sourceIndex) {
     const context = {
+      formField,
       sourceFormField,
       sourceIndex
     };

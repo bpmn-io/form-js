@@ -81,13 +81,13 @@ function Element(props) {
   const onRemove = (event) => {
     event.stopPropagation();
 
-    const selectableField = findSelectableField(schema, formFieldRegistry, field);
+    const selectableField = findSelectableField(schema, field);
 
     const parentField = formFieldRegistry.get(field._parent);
 
     const index = getFormFieldIndex(parentField, field);
 
-    modeling.removeFormField(parentField, index);
+    modeling.removeFormField(field, parentField, index);
 
     if (selectableField) {
       selection.set(selectableField.id);
@@ -195,7 +195,7 @@ export default function FormEditor(props) {
         if (source.classList.contains('fjs-palette')) {
           const type = el.dataset.fieldType;
 
-          const newField = modeling.addFormField(targetFormField, targetIndex, { type });
+          const newField = modeling.addFormField({ type }, targetFormField, targetIndex);
 
           selection.set(newField.id);
         } else {
@@ -205,7 +205,7 @@ export default function FormEditor(props) {
 
           selection.set(formField.id);
 
-          modeling.moveFormField(sourceFormField, targetFormField, sourceIndex, targetIndex);
+          modeling.moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex);
         }
       });
 
@@ -350,15 +350,8 @@ function CreatePreview(props) {
   return null;
 }
 
-function findSelectableField(schema, formFieldRegistry, formField) {
+function findSelectableField(schema, formField) {
+  const index = getFormFieldIndex(schema, formField);
 
-  if (formField) {
-    const parent = formFieldRegistry.get(formField._parent);
-
-    const index = getFormFieldIndex(parent, formField);
-
-    return parent.components[ index + 1 ];
-  }
-
-  return schema.components.find(({ type }) => type !== 'default');
+  return schema.components[ index + 1 ] || schema.components[ index - 1 ];
 }
