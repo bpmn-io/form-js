@@ -34,9 +34,9 @@ describe('features/editor-actions', function() {
     const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
     modeling.addFormField(
+      formField,
       parent,
-      targetIndex,
-      formField
+      targetIndex
     );
   }));
 

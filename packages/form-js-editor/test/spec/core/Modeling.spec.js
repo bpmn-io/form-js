@@ -60,9 +60,9 @@ describe('core/Modeling', function() {
 
       // when
       const field = modeling.addFormField(
+        formField,
         parent,
-        targetIndex,
-        formField
+        targetIndex
       );
 
       // then
@@ -82,9 +82,9 @@ describe('core/Modeling', function() {
 
       // given
       const field = modeling.addFormField(
+        formField,
         parent,
-        targetIndex,
-        formField
+        targetIndex
       );
 
       // when
@@ -102,9 +102,9 @@ describe('core/Modeling', function() {
 
       // given
       const field = modeling.addFormField(
+        formField,
         parent,
-        targetIndex,
-        formField
+        targetIndex
       );
 
       // when
@@ -267,10 +267,13 @@ describe('core/Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
+          const formField = parent.components[ sourceIndex ];
+
           formFieldIds = parent.components.map(({ id }) => id);
 
           // when
           modeling.moveFormField(
+            formField,
             parent,
             parent,
             sourceIndex,
@@ -344,10 +347,13 @@ describe('core/Modeling', function() {
 
           const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
+          const formField = parent.components[ sourceIndex ];
+
           formFieldIds = parent.components.map(({ id }) => id);
 
           // when
           modeling.moveFormField(
+            formField,
             parent,
             parent,
             sourceIndex,
@@ -424,10 +430,13 @@ describe('core/Modeling', function() {
 
       const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
 
+      const formField = parent.components[ sourceIndex ];
+
       formFieldIds = parent.components.map(({ id }) => id);
 
       // when
       modeling.removeFormField(
+        formField,
         parent,
         sourceIndex
       );
