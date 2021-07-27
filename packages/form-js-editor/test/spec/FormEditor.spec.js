@@ -454,8 +454,11 @@ describe('FormEditor', function() {
         // assume
         expect(form.get('selection').get()).not.to.exist;
 
-        // when
-        await wait();
+        await waitFor(async () => {
+          const input = await screen.getByLabelText('Id');
+
+          expect(input).to.exist;
+        });
 
         // then
         await expectSelected('Form_1');
@@ -473,7 +476,11 @@ describe('FormEditor', function() {
         // when
         form.get('selection').set('text');
 
-        await wait();
+        await waitFor(async () => {
+          const input = await screen.getByLabelText('Text');
+
+          expect(input).to.exist;
+        });
 
         // then
         expectSelected('text');
@@ -650,11 +657,4 @@ function exportTagged(schema, exporter) {
     ...exportDetails,
     ...schema
   };
-}
-
-
-function wait(ms=300) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
 }
