@@ -1,12 +1,9 @@
-import { waitFor } from '@testing-library/preact/pure';
-
 import { isUndefined } from 'min-dash';
 
 import { clone } from '@bpmn-io/form-js-viewer';
 
 import {
   bootstrapFormEditor,
-  getFormEditor,
   inject
 } from '../../TestHelper';
 
@@ -20,16 +17,6 @@ insertStyles();
 describe('core/Modeling', function() {
 
   beforeEach(bootstrapFormEditor(schema));
-
-  beforeEach(async function() {
-    await waitFor(inject(function(formFieldRegistry) {
-      expect(formFieldRegistry.size).to.equal(11);
-    }));
-  });
-
-  afterEach(function() {
-    getFormEditor().destroy();
-  });
 
 
   describe('#addFormField', function() {
