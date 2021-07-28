@@ -61,7 +61,7 @@ export default class Importer {
 
     if (parentId) {
 
-      // Set form field parent
+      // set form field parent
       formField._parent = parentId;
     }
 
@@ -76,7 +76,7 @@ export default class Importer {
         }
       });
 
-      // Set form field path
+      // set form field path
       formField._path = [ key ];
     }
 
@@ -88,7 +88,7 @@ export default class Importer {
       });
     }
 
-    // Set form field ID
+    // set form field ID
     formField.id = id;
 
     this._formFieldRegistry.set(id, formField);

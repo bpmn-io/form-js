@@ -35,7 +35,7 @@ export function markdownToHTML(markdown) {
   return htmls.join('\n\n');
 }
 
-// See https://github.com/developit/snarkdown/issues/70
+// see https://github.com/developit/snarkdown/issues/70
 export function safeMarkdown(markdown) {
   const html = markdownToHTML(markdown);
 

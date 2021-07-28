@@ -28,7 +28,7 @@ export default class FormEditorKeyboardBindings {
       }
     }
 
-    // Undo
+    // undo
     // (CTRL|CMD) + Z
     addListener('undo', (context) => {
       const { keyEvent } = context;
@@ -40,7 +40,7 @@ export default class FormEditorKeyboardBindings {
       }
     });
 
-    // Redo
+    // redo
     // CTRL + Y
     // CMD + SHIFT + Z
     addListener('redo', (context) => {

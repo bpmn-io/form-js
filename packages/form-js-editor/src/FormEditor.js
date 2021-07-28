@@ -82,10 +82,10 @@ export default class FormEditor {
 
   clear() {
 
-    // Clear form services
+    // clear form services
     this._emit('diagram.clear');
 
-    // Clear diagram services (e.g. EventBus)
+    // clear diagram services (e.g. EventBus)
     this._emit('form.clear');
 
     this.get('formFieldRegistry').clear();
@@ -93,10 +93,10 @@ export default class FormEditor {
 
   destroy() {
 
-    // Destroy form services
+    // destroy form services
     this.get('eventBus').fire('form.destroy');
 
-    // Destroy diagram services (e.g. EventBus)
+    // destroy diagram services (e.g. EventBus)
     this.get('eventBus').fire('diagram.destroy');
 
     this._detach(false);
