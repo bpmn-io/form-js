@@ -16,25 +16,22 @@ import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 
 /**
- * @typedef { import('didi').Injector } Injector
- * @typedef { any[] } Modules
- * @typedef { { [x: string]: any } } FormEditorProperties
- * @typedef { any } Schema
+ * @typedef { import('./types').Injector } Injector
+ * @typedef { import('./types').Module } Module
+ * @typedef { import('./types').Schema } Schema
+ *
+ * @typedef { import('./types').FormEditorOptions } FormEditorOptions
+ * @typedef { import('./types').FormEditorProperties } FormEditorProperties
  *
  * @typedef { {
- *   additionalModules?: Modules,
- *   container?: Element|string,
- *   exporter?: any,
- *   injector?: Injector,
- *   modules?: Modules,
- *   properties?: FormEditorProperties,
- *   [x: string]: any
- * } } FormEditorOptions
- *
- * @typedef { { properties: FormEditorProperties, schema: Schema } } State
+ *   properties: FormEditorProperties,
+ *   schema: Schema
+ * } } State
  */
 
-
+/**
+ * The form editor.
+ */
 export default class FormEditor {
 
   /**
@@ -183,6 +180,8 @@ export default class FormEditor {
   }
 
   /**
+   * @internal
+   *
    * @param {boolean} [emit]
    */
   _detach(emit = true) {
@@ -228,10 +227,12 @@ export default class FormEditor {
   }
 
   /**
+   * @internal
+   *
    * @param {FormEditorOptions} options
    * @param {Element} container
    *
-   * @returns {import('didi').Injector}
+   * @returns {Injector}
    */
   _createInjector(options, container) {
     const {
@@ -257,14 +258,23 @@ export default class FormEditor {
     ]);
   }
 
+  /**
+   * @internal
+   */
   _emit(type, data) {
     this.get('eventBus').fire(type, data);
   }
 
+  /**
+   * @internal
+   */
   _getState() {
     return this._state;
   }
 
+  /**
+   * @internal
+   */
   _setState(state) {
     this._state = {
       ...this._state,
@@ -274,6 +284,9 @@ export default class FormEditor {
     this._emit('changed', this._getState());
   }
 
+  /**
+   * @internal
+   */
   _getModules() {
     return [
       EditorActionsModule,
