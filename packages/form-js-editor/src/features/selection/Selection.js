@@ -29,6 +29,10 @@ export default class Selection {
   clear() {
     this.set(null);
   }
+
+  isSelected(formField) {
+    return this._selection === formField;
+  }
 }
 
 Selection.$inject = [ 'eventBus' ];

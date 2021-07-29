@@ -14,6 +14,7 @@ import core from './core';
 
 import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
+import SelectionModule from './features/selection';
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -290,7 +291,8 @@ export default class FormEditor {
   _getModules() {
     return [
       EditorActionsModule,
-      KeyboardModule
+      KeyboardModule,
+      SelectionModule
     ];
   }
 
