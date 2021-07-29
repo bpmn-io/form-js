@@ -8,6 +8,10 @@ import schema from './form.json';
 
 import { insertStyles } from '../TestHelper';
 
+import {
+  expect
+} from 'chai';
+
 insertStyles();
 
 
@@ -41,6 +45,21 @@ describe('editor exports', function() {
     const formEditor = new FormEditor({ container });
 
     await formEditor.importSchema(schema);
+
+    // then
+    expect(formEditor).to.exist;
+  });
+
+
+  it('should instantiate with additional options', async function() {
+
+    // when
+    const formEditor = new FormEditor({
+      container,
+      foo: {
+        bar: true
+      }
+    });
 
     // then
     expect(formEditor).to.exist;
