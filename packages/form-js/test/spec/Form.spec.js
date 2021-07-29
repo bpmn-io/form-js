@@ -11,6 +11,11 @@ import {
   isSingleStart
 } from '../TestHelper';
 
+import {
+  expect
+} from 'chai';
+
+
 insertStyles();
 
 const singleStart = isSingleStart('basic');
@@ -113,6 +118,7 @@ describe('viewer exports', function() {
       expect(field).to.have.property('id');
     });
   });
+
 
   it('should expose schemaVersion', function() {
     expect(typeof schemaVersion).to.eql('number');
