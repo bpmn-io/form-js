@@ -26,7 +26,7 @@
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint .",
-    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && cp src/**.d.ts dist/types",
     "test": "cross-env NODE_ENV=test karma start",
     "prepublishOnly": "npm run build"
   },

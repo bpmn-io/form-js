@@ -8,26 +8,13 @@ export {
 };
 
 /**
- * @typedef { import('didi').Injector } Injector
- * @typedef { any[] } Modules
- * @typedef { { [x: string]: any } } FormEditorProperties
- * @typedef { any } Schema
- *
- * @typedef { {
- *   additionalModules?: Modules,
- *   container?: Element|string,
- *   exporter?: { name: string, version: string },
- *   injector?: Injector,
- *   modules?: Modules,
- *   properties?: FormEditorProperties,
- *   schema?: Schema
- * } } FormEditorOptions
+ * @typedef { import('./types').CreateFormEditorOptions } CreateFormEditorOptions
  */
 
 /**
  * Create a form editor.
  *
- * @param {FormEditorOptions} options
+ * @param {CreateFormEditorOptions} options
  *
  * @return {Promise<FormEditor>}
  */
