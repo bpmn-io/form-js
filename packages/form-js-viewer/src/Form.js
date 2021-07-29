@@ -14,23 +14,14 @@ import {
 import core from './core';
 
 /**
- * @typedef { import('didi').Injector } Injector
- *
- * @typedef { { [x: string]: any } } Data
- * @typedef { { [x: string]: string[] } } Errors
- * @typedef { any[] } Modules
- * @typedef { ('readOnly' | string) } FormProperty
- * @typedef { ('submit' | 'changed' | string) } FormEvent
- * @typedef { { [x: string]: any } } FormProperties
- * @typedef { any } Schema
- *
- * @typedef { {
- *   additionalModules?: Modules,
- *   container?: Element|string,
- *   injector?: Injector,
- *   modules?: Modules,
- *   properties?: FormProperties
- * } } FormOptions
+ * @typedef { import('./types').Injector } Injector
+ * @typedef { import('./types').Data } Data
+ * @typedef { import('./types').Errors } Errors
+ * @typedef { import('./types').Schema } Schema
+ * @typedef { import('./types').FormProperties } FormProperties
+ * @typedef { import('./types').FormProperty } FormProperty
+ * @typedef { import('./types').FormEvent } FormEvent
+ * @typedef { import('./types').FormOptions } FormOptions
  *
  * @typedef { {
  *   data: Data,
@@ -42,6 +33,9 @@ import core from './core';
  */
 
 
+/**
+ * The form.
+ */
 export default class Form {
 
   /**

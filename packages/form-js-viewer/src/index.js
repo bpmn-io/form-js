@@ -11,28 +11,13 @@ export {
 };
 
 /**
- * @typedef { import('didi').Injector } Injector
- *
- * @typedef { { [x: string]: any } } Data
- * @typedef { any } Schema
- * @typedef { any[] } Modules
- * @typedef { { [x: string]: any } } FormPropertyOptions
- *
- * @typedef { {
- *   additionalModules?: Modules,
- *   container?: Element|string,
- *   data?: Data,
- *   injector?: Injector,
- *   modules?: Modules,
- *   properties?: FormPropertyOptions,
- *   schema: Schema
- * } } FormViewerOptions
+ * @typedef { import('./types').CreateFormOptions } CreateFormOptions
  */
 
 /**
  * Create a form.
  *
- * @param {FormViewerOptions} options
+ * @param {CreateFormOptions} options
  *
  * @return {Promise<Form>}
  */
