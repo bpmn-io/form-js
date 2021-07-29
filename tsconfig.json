@@ -20,7 +20,8 @@
     "packages/form-js-viewer/src",
     "packages/form-js-editor/src",
     "packages/form-js/src",
-    "packages/form-js/test/spec"
+    "packages/form-js/test/spec",
+    "packages/form-js-integration/src"
   ],
   "exclude": [
     "node_modules"
