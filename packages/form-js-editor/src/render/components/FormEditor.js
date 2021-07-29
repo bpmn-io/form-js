@@ -44,12 +44,9 @@ function Empty(props) {
 }
 
 function Element(props) {
-  const formEditor = useService('formEditor'),
-        formFieldRegistry = useService('formFieldRegistry'),
+  const formFieldRegistry = useService('formFieldRegistry'),
         modeling = useService('modeling'),
         selection = useService('selection');
-
-  const { schema } = formEditor._getState();
 
   const { field } = props;
 
@@ -61,11 +58,7 @@ function Element(props) {
   function onClick(event) {
     event.stopPropagation();
 
-    if (field.type === 'default') {
-      selection.set(null);
-    } else {
-      selection.toggle(id);
-    }
+    selection.toggle(field);
   }
 
   const classes = [ 'fjs-element' ];
@@ -74,26 +67,18 @@ function Element(props) {
     classes.push(...props.class.split(' '));
   }
 
-  if (selection.get() === id) {
+  if (selection.isSelected(field)) {
     classes.push('fjs-editor-selected');
   }
 
   const onRemove = (event) => {
     event.stopPropagation();
 
-    const selectableField = findSelectableField(schema, field);
-
     const parentField = formFieldRegistry.get(field._parent);
 
     const index = getFormFieldIndex(parentField, field);
 
     modeling.removeFormField(field, parentField, index);
-
-    if (selectableField) {
-      selection.set(selectableField.id);
-    } else {
-      selection.clear();
-    }
   };
 
   return (
@@ -104,7 +89,9 @@ function Element(props) {
       onClick={ onClick }>
       <ContextPad>
         {
-          selection.get() === id ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button> : null
+          selection.isSelected(field) && field.type !== 'default'
+            ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button>
+            : null
         }
       </ContextPad>
       { props.children }
@@ -146,17 +133,17 @@ export default function FormEditor(props) {
 
   useEffect(() => {
     function handleSelectionChanged(event) {
-      setSelection(event.selection ? formFieldRegistry.get(event.selection) : schema);
+      setSelection(event.selection || schema);
     }
 
     eventBus.on('selection.changed', handleSelectionChanged);
 
-    setSelection(selection.get() ? formFieldRegistry.get(selection.get()) : schema);
+    setSelection(selection.get() || schema);
 
     return () => {
       eventBus.off('selection.changed', handleSelectionChanged);
     };
-  }, [ selection, formFieldRegistry, schema ]);
+  }, [ schema, selection ]);
 
   const [ drake, setDrake ] = useState(null);
 
@@ -195,15 +182,11 @@ export default function FormEditor(props) {
         if (source.classList.contains('fjs-palette')) {
           const type = el.dataset.fieldType;
 
-          const newField = modeling.addFormField({ type }, targetFormField, targetIndex);
-
-          selection.set(newField.id);
+          modeling.addFormField({ type }, targetFormField, targetIndex);
         } else {
           const formField = formFieldRegistry.get(el.dataset.id),
                 sourceFormField = formFieldRegistry.get(source.dataset.id),
                 sourceIndex = getFormFieldIndex(sourceFormField, formField);
-
-          selection.set(formField.id);
 
           modeling.moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex);
         }
@@ -348,10 +331,4 @@ function CreatePreview(props) {
   }, [ drake ]);
 
   return null;
-}
-
-function findSelectableField(schema, formField) {
-  const index = getFormFieldIndex(schema, formField);
-
-  return schema.components[ index + 1 ] || schema.components[ index - 1 ];
 }

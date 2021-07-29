@@ -1,6 +1,5 @@
 import EventBus from './EventBus';
 import Modeling from './Modeling';
-import Selection from './Selection';
 import DebounceFactory from './Debounce';
 import FormFieldRegistry from './FormFieldRegistry';
 import FieldFactory from './FieldFactory';
@@ -16,6 +15,5 @@ export default {
   formFieldRegistry: [ 'type', FormFieldRegistry ],
   fieldFactory: [ 'type', FieldFactory ],
   modeling: [ 'type', Modeling ],
-  selection: [ 'type', Selection ],
   debounce: [ 'factory', DebounceFactory ]
 };

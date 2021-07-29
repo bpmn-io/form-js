@@ -1,39 +1,44 @@
 import {
   bootstrapFormEditor,
   inject
-} from '../../TestHelper';
+} from '../../../TestHelper';
+
+import selectionModule from 'src/features/selection';
 
 const { spy } = sinon;
 
 
-describe('core/Selection', function() {
+describe('features/selection', function() {
 
   const schema = {
-    type: 'default',
     components: [
       {
-        id: 'text1',
-        type: 'text',
-        label: 'Text 1',
-        text: 'TEXT 1'
+        id: 'Text_1',
+        text: 'Foo',
+        type: 'text'
       },
       {
-        id: 'text2',
-        type: 'text',
-        label: 'Text 2',
-        text: 'TEXT 2'
+        id: 'Text_2',
+        text: 'Bar',
+        type: 'text'
       }
-    ]
+    ],
+    id: 'Form_1',
+    type: 'default'
   };
 
-  beforeEach(bootstrapFormEditor(schema));
+  beforeEach(bootstrapFormEditor(schema, {
+    modules: [
+      selectionModule
+    ]
+  }));
 
 
   it('should get and set', inject(
     function(selection, eventBus, formFieldRegistry) {
 
       // given
-      const text1 = formFieldRegistry.get('text1');
+      const text1 = formFieldRegistry.get('Text_1');
 
       // assume
       expect(text1).to.exist;
@@ -48,15 +53,15 @@ describe('core/Selection', function() {
         changedSpy(event.selection);
       });
 
-      selection.set('text1');
+      selection.set(text1);
 
       // then
-      expect(changedSpy).to.have.been.calledOnceWith('text1');
+      expect(changedSpy).to.have.been.calledOnceWith(text1);
 
-      expect(selection.get()).to.eq('text1');
+      expect(selection.get()).to.equal(text1);
 
       // but when
-      selection.set('text1');
+      selection.set(text1);
 
       // then
       expect(changedSpy).to.have.been.calledOnce;
@@ -77,8 +82,8 @@ describe('core/Selection', function() {
     function(selection, eventBus, formFieldRegistry) {
 
       // given
-      const text1 = formFieldRegistry.get('text1');
-      const text2 = formFieldRegistry.get('text2');
+      const text1 = formFieldRegistry.get('Text_1');
+      const text2 = formFieldRegistry.get('Text_2');
 
       // assume
       expect(text1).to.exist;
@@ -92,23 +97,23 @@ describe('core/Selection', function() {
         changedSpy(event.selection);
       });
 
-      selection.toggle('text1');
+      selection.toggle(text1);
 
       // then
-      expect(changedSpy).to.have.been.calledOnceWith('text1');
+      expect(changedSpy).to.have.been.calledOnceWith(text1);
 
-      expect(selection.get()).to.eq('text1');
+      expect(selection.get()).to.equal(text1);
 
       // but when
-      selection.toggle('text2');
+      selection.toggle(text2);
 
       // then
       expect(changedSpy).to.have.been.calledTwice;
-      expect(changedSpy).to.have.been.calledWith('text2');
+      expect(changedSpy).to.have.been.calledWith(text2);
 
 
       // but when
-      selection.toggle('text2');
+      selection.toggle(text2);
 
       // then
       expect(changedSpy).to.have.been.calledThrice;

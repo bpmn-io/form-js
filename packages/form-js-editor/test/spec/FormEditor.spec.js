@@ -438,43 +438,28 @@ describe('FormEditor', function() {
     describe('selection behavior', function() {
 
       const schema = {
-        type: 'default',
-        id: 'Form_1',
         components: [
           {
-            type: 'text',
-            id: 'text',
-            label: 'Text',
-            key: 'text'
+            id: 'Text_1',
+            text: 'Foo',
+            type: 'text'
           }
-        ]
+        ],
+        id: 'Form_1',
+        type: 'default'
       };
-
-      function expectSelected(expectedId) {
-        const panelEl = document.querySelector('.fjs-properties-panel');
-
-        const selectedId = panelEl.dataset.field;
-
-        expect(selectedId).to.eql(expectedId);
-      }
 
 
       it('should show schema per default', async function() {
 
         // when
-        const form = await createFormEditor({
+        const formEditor = await createFormEditor({
           container,
           schema
         });
 
         // assume
-        expect(form.get('selection').get()).not.to.exist;
-
-        await waitFor(async () => {
-          const input = await screen.getByLabelText('Id');
-
-          expect(input).to.exist;
-        });
+        expect(formEditor.get('selection').get()).not.to.exist;
 
         // then
         await expectSelected('Form_1');
@@ -484,22 +469,22 @@ describe('FormEditor', function() {
       it('should update on selection changed', async function() {
 
         // given
-        const form = await createFormEditor({
+        const formEditor = await createFormEditor({
           container,
           schema
         });
 
+        await expectSelected('Form_1');
+
+        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
+
         // when
-        form.get('selection').set('text');
+        formEditor.get('selection').set(text1);
 
-        await waitFor(async () => {
-          const input = await screen.getByLabelText('Text');
-
-          expect(input).to.exist;
-        });
+        await expectSelected('Text_1');
 
         // then
-        expectSelected('text');
+        expectSelected('Text_1');
       });
 
     });
@@ -508,15 +493,15 @@ describe('FormEditor', function() {
     describe('focus / blur events', function() {
 
       const schema = {
-        type: 'default',
         components: [
           {
-            type: 'text',
-            id: 'text',
-            label: 'Text',
-            key: 'text'
+            id: 'Text_1',
+            text: 'Foo',
+            type: 'text'
           }
-        ]
+        ],
+        id: 'Form_1',
+        type: 'default'
       };
 
 
@@ -531,15 +516,16 @@ describe('FormEditor', function() {
         const focusinSpy = sinon.spy();
 
         formEditor.on('propertiesPanel.focusin', focusinSpy);
-        formEditor.get('selection').set('text');
 
-        let input;
+        await expectSelected('Form_1');
 
-        await waitFor(async () => {
-          input = await screen.getByLabelText('Text');
+        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
 
-          expect(input).to.exist;
-        });
+        formEditor.get('selection').set(text1);
+
+        await expectSelected('Text_1');
+
+        const input = await screen.getByLabelText('Text');
 
         // when
         input.focus();
@@ -560,15 +546,16 @@ describe('FormEditor', function() {
         const focusoutSpy = sinon.spy();
 
         formEditor.on('propertiesPanel.focusout', focusoutSpy);
-        formEditor.get('selection').set('text');
 
-        let input;
+        await expectSelected('Form_1');
 
-        await waitFor(async () => {
-          input = await screen.getByLabelText('Text');
+        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
 
-          expect(input).to.exist;
-        });
+        formEditor.get('selection').set(text1);
+
+        await expectSelected('Text_1');
+
+        const input = await screen.getByLabelText('Text');
 
         input.focus();
 
@@ -673,4 +660,14 @@ function exportTagged(schema, exporter) {
     ...exportDetails,
     ...schema
   };
+}
+
+async function expectSelected(expectedId) {
+  await waitFor(() => {
+    const propertiesPanel = document.querySelector('.fjs-properties-panel');
+
+    const selectedId = propertiesPanel.dataset.field;
+
+    expect(selectedId).to.equal(expectedId);
+  });
 }
