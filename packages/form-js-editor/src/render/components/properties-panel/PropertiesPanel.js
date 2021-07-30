@@ -15,11 +15,12 @@ const labelsByType = {
   button: 'BUTTON',
   checkbox: 'CHECKBOX',
   columns: 'COLUMNS',
+  default: 'FORM',
   number: 'NUMBER',
   radio: 'RADIO',
+  select: 'SELECT',
   text: 'TEXT',
   textfield: 'TEXT FIELD',
-  default: 'FORM'
 };
 
 function getGroups(field, editField) {
