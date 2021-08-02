@@ -105,4 +105,30 @@ describe('features/selection', function() {
     }
   ));
 
+
+  it('should deselect form field on undo', inject(
+    function(commandStack, formEditor, modeling, selection) {
+
+      // given
+      const attrs = {
+        id: 'text3',
+        type: 'text',
+        text: 'TEXT 3'
+      };
+
+      const { schema } = formEditor._getState();
+
+      const formField = modeling.addFormField(attrs, schema, 0);
+
+      // assume
+      expect(selection.get()).to.equal(formField);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(selection.get()).to.be.null;
+    }
+  ));
+
 });
