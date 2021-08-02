@@ -23,6 +23,12 @@ export default class SelectionBehavior {
         selection.clear();
       }
     });
+
+    eventBus.on('formField.remove', ({ formField }) => {
+      if (selection.isSelected(formField)) {
+        selection.clear();
+      }
+    });
   }
 }
 
