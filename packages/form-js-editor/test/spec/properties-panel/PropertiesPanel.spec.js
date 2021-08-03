@@ -479,10 +479,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field,
               services: {
-                formFieldRegistry: new Map([
-                  [ 'creditor', field ],
-                  [ 'amount', schema.components.find(({ key }) => key === 'amount') ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      field,
+                      schema.components.find(({ key }) => key === 'amount')
+                    ];
+                  }
+                }
               }
             });
 
@@ -515,10 +519,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field,
               services: {
-                formFieldRegistry: new Map([
-                  [ 'creditor', field ],
-                  [ 'amount', schema.components.find(({ key }) => key === 'amount') ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      field,
+                      schema.components.find(({ key }) => key === 'amount')
+                    ];
+                  }
+                }
               }
             });
 
@@ -551,10 +559,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field,
               services: {
-                formFieldRegistry: new Map([
-                  [ 'textfield1', field ],
-                  [ 'number1', schema.components.find(({ key }) => key === 'amount') ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      field,
+                      schema.components.find(({ key }) => key === 'amount')
+                    ];
+                  }
+                }
               }
             });
 
@@ -598,10 +610,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field: schema,
               services: {
-                formFieldRegistry: new Map([
-                  [ schema.id, schema ],
-                  [ schema.components[0].id, schema.components[0] ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      schema,
+                      schema.components[0]
+                    ];
+                  }
+                }
               }
             });
 
@@ -632,10 +648,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field: schema,
               services: {
-                formFieldRegistry: new Map([
-                  [ schema.id, schema ],
-                  [ schema.components[0].id, schema.components[0] ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      schema,
+                      schema.components[0]
+                    ];
+                  }
+                }
               }
             });
 
@@ -666,10 +686,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field: schema,
               services: {
-                formFieldRegistry: new Map([
-                  [ schema.id, schema ],
-                  [ schema.components[0].id, schema.components[0] ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      schema,
+                      schema.components[0]
+                    ];
+                  }
+                }
               }
             });
 
@@ -700,10 +724,14 @@ describe('properties panel', function() {
               editField: editFieldSpy,
               field: schema,
               services: {
-                formFieldRegistry: new Map([
-                  [ schema.id, schema ],
-                  [ schema.components[0].id, schema.components[0] ]
-                ])
+                formFieldRegistry: {
+                  getAll() {
+                    return [
+                      schema,
+                      schema.components[0]
+                    ];
+                  }
+                }
               }
             });
 

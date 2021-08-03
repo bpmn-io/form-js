@@ -5,6 +5,8 @@ import FormFieldRegistry from './FormFieldRegistry';
 import importModule from '../import';
 import renderModule from '../render';
 
+export { FormFieldRegistry };
+
 export default {
   __depends__: [ importModule, renderModule ],
   eventBus: [ 'type', EventBus ],

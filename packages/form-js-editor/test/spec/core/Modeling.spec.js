@@ -1,5 +1,3 @@
-import { isUndefined } from 'min-dash';
-
 import { clone } from '@bpmn-io/form-js-viewer';
 
 import {
@@ -30,14 +28,14 @@ describe('core/Modeling', function() {
 
     let parent,
         formFieldIds,
-        formFieldsSize;
+        formFieldsLength;
 
     beforeEach(inject(function(formFieldRegistry) {
 
       // given
-      formFieldsSize = formFieldRegistry.size;
+      formFieldsLength = formFieldRegistry.getAll().length;
 
-      parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      parent = formFieldRegistry.get('Form_1');
 
       formFieldIds = parent.components.map(({ id }) => id);
     }));
@@ -55,7 +53,7 @@ describe('core/Modeling', function() {
       // then
       expect(field.id).to.exist;
 
-      expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
       expect(formFieldRegistry.get(field.id)).to.equal(field);
 
       expect(parent.components.map(({ id }) => id)).to.eql([
@@ -78,8 +76,8 @@ describe('core/Modeling', function() {
       commandStack.undo();
 
       // then
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
       expect(formFieldRegistry.get(field.id)).not.to.exist;
-      expect(formFieldRegistry.size).to.equal(formFieldsSize);
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
     }));
@@ -99,8 +97,8 @@ describe('core/Modeling', function() {
       commandStack.redo();
 
       // then
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
       expect(formFieldRegistry.get(field.id)).to.equal(field);
-      expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
 
       expect(parent.components.map(({ id }) => id)).to.eql([
         formField.id,
@@ -120,7 +118,7 @@ describe('core/Modeling', function() {
       beforeEach(inject(function(formFieldRegistry, modeling) {
 
         // given
-        const formField = Array.from(formFieldRegistry.values()).find(({ type }) => type === 'text');
+        const formField = formFieldRegistry.get('Text_1');
 
         oldFormField = clone(formField);
 
@@ -178,7 +176,7 @@ describe('core/Modeling', function() {
       beforeEach(inject(function(formFieldRegistry, modeling) {
 
         // given
-        const formField = Array.from(formFieldRegistry.values()).find(({ key }) => key === 'creditor');
+        const formField = formFieldRegistry.get('Textfield_1');
 
         oldFormField = clone(formField);
 
@@ -245,14 +243,14 @@ describe('core/Modeling', function() {
               targetIndex = 2;
 
         let formFieldIds,
-            formFieldsSize;
+            formFieldsLength;
 
         beforeEach(inject(function(formFieldRegistry, modeling) {
 
           // given
-          formFieldsSize = formFieldRegistry.size;
+          formFieldsLength = formFieldRegistry.getAll().length;
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           const formField = parent.components[ sourceIndex ];
 
@@ -272,9 +270,9 @@ describe('core/Modeling', function() {
         it('<do>', inject(function(formFieldRegistry) {
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
@@ -290,9 +288,9 @@ describe('core/Modeling', function() {
           commandStack.undo();
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
         }));
@@ -305,9 +303,9 @@ describe('core/Modeling', function() {
           commandStack.redo();
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
@@ -330,9 +328,9 @@ describe('core/Modeling', function() {
         beforeEach(inject(function(formFieldRegistry, modeling) {
 
           // given
-          formFieldsSize = formFieldRegistry.size;
+          formFieldsSize = formFieldRegistry.getAll().length;
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           const formField = parent.components[ sourceIndex ];
 
@@ -352,9 +350,9 @@ describe('core/Modeling', function() {
         it('<do>', inject(function(formFieldRegistry) {
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
@@ -370,9 +368,9 @@ describe('core/Modeling', function() {
           commandStack.undo();
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
         }));
@@ -385,9 +383,9 @@ describe('core/Modeling', function() {
           commandStack.redo();
 
           // then
-          expect(formFieldRegistry.size).to.equal(formFieldsSize);
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsSize);
 
-          const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+          const parent = formFieldRegistry.get('Form_1');
 
           expect(parent.components.map(({ id }) => id)).to.eql([
             formFieldIds[ 1 ],
@@ -408,14 +406,14 @@ describe('core/Modeling', function() {
     const sourceIndex = 0;
 
     let formFieldIds,
-        formFieldsSize;
+        formFieldsLength;
 
     beforeEach(inject(function(formFieldRegistry, modeling) {
 
       // given
-      formFieldsSize = formFieldRegistry.size;
+      formFieldsLength = formFieldRegistry.getAll().length;
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      const parent = formFieldRegistry.get('Form_1');
 
       const formField = parent.components[ sourceIndex ];
 
@@ -433,9 +431,9 @@ describe('core/Modeling', function() {
     it('<do>', inject(function(formFieldRegistry) {
 
       // then
-      expect(formFieldRegistry.size).to.equal(formFieldsSize - 1);
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      const parent = formFieldRegistry.get('Form_1');
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
     }));
@@ -447,9 +445,9 @@ describe('core/Modeling', function() {
       commandStack.undo();
 
       // then
-      expect(formFieldRegistry.size).to.equal(formFieldsSize);
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      const parent = formFieldRegistry.get('Form_1');
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
     }));
@@ -462,9 +460,9 @@ describe('core/Modeling', function() {
       commandStack.redo();
 
       // then
-      expect(formFieldRegistry.size).to.equal(formFieldsSize - 1);
+      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
 
-      const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+      const parent = formFieldRegistry.get('Form_1');
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
     }));

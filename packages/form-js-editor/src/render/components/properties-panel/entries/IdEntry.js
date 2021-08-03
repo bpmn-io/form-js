@@ -38,7 +38,7 @@ export default function IdEntry(props) {
 // helpers //////////
 
 function isUnique(id, field, formFieldRegistry) {
-  return !Array.from(formFieldRegistry.values()).find((formField) => {
+  return !formFieldRegistry.getAll().find((formField) => {
     return formField !== field && formField.id === id;
   });
 }

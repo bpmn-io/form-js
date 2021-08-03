@@ -5,7 +5,7 @@ export default class Importer {
 
   /**
    * @constructor
-   * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../core').FormFieldRegistry } formFieldRegistry
    * @param { import('../render/FormFields').default } formFields
    */
   constructor(formFieldRegistry, formFields) {
@@ -91,7 +91,7 @@ export default class Importer {
     // set form field ID
     formField.id = id;
 
-    this._formFieldRegistry.set(id, formField);
+    this._formFieldRegistry.add(formField);
 
     if (components) {
       this.importFormFields(components, data, id);

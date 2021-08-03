@@ -43,7 +43,7 @@ export default function KeyEntry(props) {
 // helpers //////////
 
 function isUnique(key, field, formFieldRegistry) {
-  return !Array.from(formFieldRegistry.values()).find((formField) => {
+  return !formFieldRegistry.getAll().find((formField) => {
     return formField !== field && formField.key === key;
   });
 }

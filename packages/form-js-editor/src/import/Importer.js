@@ -5,7 +5,7 @@ export default class Importer {
 
   /**
    * @constructor
-   * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('@bpmn-io/form-js-viewer').FormFieldRegistry } formFieldRegistry
    * @param { import('../core/FieldFactory').default } fieldFactory
    */
   constructor(formFieldRegistry, fieldFactory) {
@@ -95,7 +95,7 @@ export default class Importer {
       _parent: parent && parent.id
     }, false);
 
-    this._formFieldRegistry.set(field.id, field);
+    this._formFieldRegistry.add(field);
 
     if (components) {
       field.components = this.importFormFields(components, field.id);

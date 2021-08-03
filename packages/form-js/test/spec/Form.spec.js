@@ -112,7 +112,7 @@ describe('viewer exports', function() {
     // then
     const fieldRegistry = form.get('formFieldRegistry');
 
-    expect(fieldRegistry.size).to.eql(2);
+    expect(fieldRegistry.getAll()).to.have.length(2);
 
     fieldRegistry.forEach(function(field) {
       expect(field).to.have.property('id');

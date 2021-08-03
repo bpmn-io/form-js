@@ -1,5 +1,3 @@
-import { isUndefined } from 'min-dash';
-
 import {
   bootstrapFormEditor,
   getFormEditor,
@@ -13,7 +11,7 @@ import schema from '../../form.json';
 
 describe('features/editor-actions', function() {
 
-  let formFieldsSize;
+  let formFieldsLength;
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
@@ -22,7 +20,7 @@ describe('features/editor-actions', function() {
   }));
 
   beforeEach(inject(function(formFieldRegistry, modeling) {
-    formFieldsSize = formFieldRegistry.size;
+    formFieldsLength = formFieldRegistry.getAll().length;
 
     const targetIndex = 0;
 
@@ -31,7 +29,7 @@ describe('features/editor-actions', function() {
       type: 'button'
     };
 
-    const parent = Array.from(formFieldRegistry.values()).find(({ _parent }) => isUndefined(_parent));
+    const parent = formFieldRegistry.get('Form_1');
 
     modeling.addFormField(
       formField,
@@ -52,7 +50,7 @@ describe('features/editor-actions', function() {
 
     // then
     expect(formFieldRegistry.get('foo')).not.to.exist;
-    expect(formFieldRegistry.size).to.equal(formFieldsSize);
+    expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
   }));
 
 
@@ -64,7 +62,7 @@ describe('features/editor-actions', function() {
 
     // then
     expect(formFieldRegistry.get('foo')).to.exist;
-    expect(formFieldRegistry.size).to.equal(formFieldsSize + 1);
+    expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
   }));
 
 });

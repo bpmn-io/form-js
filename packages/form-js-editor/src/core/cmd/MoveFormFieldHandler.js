@@ -12,7 +12,7 @@ export default class MoveFormFieldHandler {
   /**
    * @constructor
    * @param { import('../../FormEditor').default } formEditor
-   * @param { import('../FormFieldRegistry').default } formFieldRegistry
+   * @param { import('@bpmn-io/form-js-viewer').FormFieldRegistry } formFieldRegistry
    */
   constructor(formEditor, formFieldRegistry) {
     this._formEditor = formEditor;

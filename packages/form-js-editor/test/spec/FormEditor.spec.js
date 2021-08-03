@@ -58,7 +58,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').size).to.equal(11);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(11);
   });
 
 
@@ -100,7 +100,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').size).to.eql(1);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(1);
     });
 
 
@@ -112,7 +112,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').size).to.equal(11);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(11);
     });
 
 
@@ -290,7 +290,7 @@ describe('FormEditor', function() {
     expect(diagramClearSpy).to.have.been.calledOnce;
     expect(formClearSpy).to.have.been.calledOnce;
 
-    expect(formEditor.get('formFieldRegistry')).to.be.empty;
+    expect(formEditor.get('formFieldRegistry').getAll()).to.be.empty;
   });
 
 

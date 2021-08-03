@@ -85,7 +85,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').size).to.equal(11);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(11);
   });
 
 
@@ -105,7 +105,7 @@ describe('Form', function() {
       });
 
       // then
-      expect(form.get('formFieldRegistry').size).to.eql(1);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(1);
     });
 
 
@@ -137,7 +137,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').size).to.equal(11);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(11);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -173,7 +173,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').size).to.equal(11);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(11);
     });
 
 
@@ -311,7 +311,7 @@ describe('Form', function() {
     expect(diagramClearSpy).to.have.been.calledOnce;
     expect(formClearSpy).to.have.been.calledOnce;
 
-    expect(form.get('formFieldRegistry')).to.be.empty;
+    expect(form.get('formFieldRegistry').getAll()).to.be.empty;
   });
 
 
@@ -824,5 +824,5 @@ describe('Form', function() {
 // helpers //////////
 
 function getFormField(form, key) {
-  return Array.from(form.get('formFieldRegistry').values()).find((formField) => formField.key === key);
+  return form.get('formFieldRegistry').getAll().find((formField) => formField.key === key);
 }

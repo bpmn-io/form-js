@@ -86,8 +86,6 @@ export default class Form {
 
     // clear diagram services (e.g. EventBus)
     this._emit('form.clear');
-
-    this.get('formFieldRegistry').clear();
   }
 
   /**
@@ -163,7 +161,7 @@ export default class Form {
     const formFieldRegistry = this.get('formFieldRegistry');
 
     // do not submit disabled form fields
-    const data = Array.from(formFieldRegistry.values()).reduce((data, field) => {
+    const data = formFieldRegistry.getAll().reduce((data, field) => {
       const {
         disabled,
         _path
@@ -209,7 +207,7 @@ export default class Form {
 
     const { data } = this._getState();
 
-    const errors = Array.from(formFieldRegistry.values()).reduce((errors, field) => {
+    const errors = formFieldRegistry.getAll().reduce((errors, field) => {
       const {
         disabled,
         _path
