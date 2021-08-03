@@ -341,6 +341,7 @@
 }
 
 .fjs-editor-container textarea.fjs-properties-panel-input {
+  font-family: sans-serif;
   resize: vertical;
 }
 
