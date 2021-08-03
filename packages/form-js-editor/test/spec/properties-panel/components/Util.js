@@ -22,7 +22,16 @@ export function WithFormEditorContext(Component, services = {}) {
           off() {}
         };
       } else if (type === 'formFieldRegistry') {
-        return new Map();
+        return {
+          add() {},
+          remove() {},
+          get() {},
+          getAll() {
+            return [];
+          },
+          forEach() {},
+          clear() {}
+        };
       }
     }
   };

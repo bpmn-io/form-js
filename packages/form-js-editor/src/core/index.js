@@ -1,7 +1,7 @@
 import EventBus from './EventBus';
 import Modeling from './Modeling';
 import DebounceFactory from './Debounce';
-import FormFieldRegistry from './FormFieldRegistry';
+import { FormFieldRegistry } from '@bpmn-io/form-js-viewer';
 import FieldFactory from './FieldFactory';
 
 import commandModule from 'diagram-js/lib/command';

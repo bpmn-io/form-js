@@ -3,12 +3,12 @@
   "type": "default",
   "components": [
     {
-      "id": "Field_1",
+      "id": "Text_1",
       "type": "text",
       "text": "# Invoice\n\nLorem _ipsum_ __dolor__ `sit`.\n\nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n\nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
     },
     {
-      "id": "Field_2",
+      "id": "Textfield_1",
       "key": "creditor",
       "label": "Creditor",
       "type": "textfield",
@@ -17,7 +17,7 @@
       }
     },
     {
-      "id": "Field_3",
+      "id": "Textfield_2",
       "description": "An invoice number in the format: C-123.",
       "key": "invoiceNumber",
       "label": "Invoice Number",
@@ -27,7 +27,7 @@
       }
     },
     {
-      "id": "Field_4",
+      "id": "Number_1",
       "key": "amount",
       "label": "Amount",
       "type": "number",
@@ -37,19 +37,19 @@
       }
     },
     {
-      "id": "Field_5",
+      "id": "Checkbox_1",
       "key": "approved",
       "label": "Approved",
       "type": "checkbox"
     },
     {
-      "id": "Field_6",
+      "id": "Textfield_3",
       "key": "approvedBy",
       "label": "Approved By",
       "type": "textfield"
     },
     {
-      "id": "Field_7",
+      "id": "Radio_1",
       "key": "product",
       "label": "Product",
       "type": "radio",
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "id": "Field_8",
+      "id": "Select_1",
       "key": "language",
       "label": "Language",
       "type": "select",
@@ -81,14 +81,14 @@
       ]
     },
     {
-      "id": "Field_9",
+      "id": "Button_1",
       "action": "submit",
       "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
-      "id": "Field_10",
+      "id": "Button_2",
       "action": "reset",
       "key": "reset",
       "label": "Reset",

@@ -30,7 +30,7 @@ describe('Importer', function() {
     // then
     expect(warnings).to.be.empty;
 
-    expect(formFieldRegistry.size).to.equal(11);
+    expect(formFieldRegistry.getAll()).to.have.length(11);
   }));
 
 
@@ -40,14 +40,14 @@ describe('Importer', function() {
     await formEditor.importSchema(schema);
 
     // assume
-    expect(formFieldRegistry.size).to.equal(11);
+    expect(formFieldRegistry.getAll()).to.have.length(11);
 
     // when
     const result = await formEditor.importSchema(other);
 
     // then
     expect(result.warnings).to.be.empty;
-    expect(formFieldRegistry.size).to.equal(5);
+    expect(formFieldRegistry.getAll()).to.have.length(5);
   }));
 
 
@@ -74,7 +74,7 @@ describe('Importer', function() {
 
       // then
       expect(result.warnings).to.be.empty;
-      expect(formFieldRegistry.size).to.equal(5);
+      expect(formFieldRegistry.getAll()).to.have.length(5);
     }));
 
   });
