@@ -9,7 +9,7 @@ export interface FormEditorProperties {
 
 export interface FormEditorOptions {
   additionalModules?: Module[];
-  container?: Element|string;
+  container?: Element | null | string;
   exporter?: {
     name: string,
     version: string
