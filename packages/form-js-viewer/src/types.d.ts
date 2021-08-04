@@ -20,7 +20,7 @@ export interface FormProperties {
 
 export interface FormOptions {
   additionalModules?: Module[];
-  container?: Element | string;
+  container?: Element | null | string;
   injector?: Injector;
   modules?: Module[];
   properties?: FormProperties;

@@ -11,11 +11,9 @@ import {
  * A TypeScript application that verifies our type
  * definitions are stable (enough).
  */
-export async function createApp(options: { container: Element }) {
+export async function createApp() {
 
-  const {
-    container
-  } = options;
+  const container = document.querySelector('#app');
 
   await createForm({
     schema: {},
@@ -48,7 +46,7 @@ export async function createApp(options: { container: Element }) {
 
   // eslint-disable-next-line
   const formEditorExtraOpts = new FormEditor({
-    container,
+    container: '#app',
     foo: {
       bar: true
     }
