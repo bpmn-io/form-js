@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState
 } from 'preact/hooks';
 
@@ -44,7 +45,9 @@ function Empty(props) {
 }
 
 function Element(props) {
-  const formFieldRegistry = useService('formFieldRegistry'),
+  const eventBus = useService('eventBus'),
+        formEditor = useService('formEditor'),
+        formFieldRegistry = useService('formFieldRegistry'),
         modeling = useService('modeling'),
         selection = useService('selection');
 
@@ -54,6 +57,27 @@ function Element(props) {
     id,
     type
   } = field;
+
+  const ref = useRef();
+
+  function scrollIntoView({ selection }) {
+    if (!selection || selection.id !== id || !ref.current) {
+      return;
+    }
+
+    const elementBounds = ref.current.getBoundingClientRect(),
+          containerBounds = formEditor._container.getBoundingClientRect();
+
+    if (elementBounds.top < 0 || elementBounds.top > containerBounds.bottom) {
+      ref.current.scrollIntoView();
+    }
+  }
+
+  useEffect(() => {
+    eventBus.on('selection.changed', scrollIntoView);
+
+    return () => eventBus.off('selection.changed', scrollIntoView);
+  }, [ id ]);
 
   function onClick(event) {
     event.stopPropagation();
@@ -86,7 +110,8 @@ function Element(props) {
       class={ classes.join(' ') }
       data-id={ id }
       data-field-type={ type }
-      onClick={ onClick }>
+      onClick={ onClick }
+      ref={ ref }>
       <ContextPad>
         {
           selection.isSelected(field) && field.type !== 'default'
