@@ -8,10 +8,10 @@ describe('properties panel util', function() {
     it('should shorten text', function() {
 
       // when
-      const label = textToLabel('Lorem ipsum dolor sit amet');
+      const label = textToLabel('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.');
 
       // then
-      expect(label).to.equal('Lorem ipsu...');
+      expect(label).to.equal('Lorem ipsum dolor sit amet, co...');
     });
 
 
