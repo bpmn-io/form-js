@@ -1,5 +1,3 @@
-import { Fragment } from 'preact';
-
 import { iconsByType } from './icons';
 
 const types = [
@@ -35,11 +33,11 @@ const types = [
 
 
 export default function Palette(props) {
-  return <Fragment>
+  return <div class="fjs-palette">
     <div class="fjs-palette-header" title="Form elements library">
       <span class="fjs-hide-compact">FORM ELEMENTS </span>LIBRARY
     </div>
-    <div class="fjs-palette fjs-drag-container fjs-no-drop">
+    <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
       {
         types.map(({ label, type }) => {
           const Icon = iconsByType[ type ];
@@ -59,5 +57,5 @@ export default function Palette(props) {
         })
       }
     </div>
-  </Fragment>;
+  </div>;
 }

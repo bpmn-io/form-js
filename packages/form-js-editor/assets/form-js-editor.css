@@ -18,6 +18,7 @@
 .fjs-editor-container .fjs-palette-container,
 .fjs-editor-container .fjs-properties-container {
   overflow-y: auto;
+  position: relative;
 }
 
 .fjs-editor-container .fjs-form-container,
@@ -154,7 +155,6 @@
   width: 300px;
   background-color: var(--color-silver-base-97);
   border-left: solid 1px var(--color-silver-darken-80);
-  position: relative;
   height: 100%;
 }
 
