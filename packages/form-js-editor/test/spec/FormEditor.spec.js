@@ -671,7 +671,6 @@ describe('FormEditor', function() {
 
       dispatchEvent(formField, 'mousedown', { which: 1 });
 
-
       dispatchEvent(form, 'mousemove', { clientX: bounds.x, clientY: bounds.y });
 
       dispatchEvent(form, 'mouseup');
