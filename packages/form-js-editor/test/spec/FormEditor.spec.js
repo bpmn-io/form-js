@@ -28,7 +28,8 @@ const singleStart = isSingleStart('basic');
 
 describe('FormEditor', function() {
 
-  let container;
+  let container,
+      formEditor;
 
   beforeEach(function() {
     container = document.createElement('div');
@@ -40,12 +41,14 @@ describe('FormEditor', function() {
 
   !singleStart && afterEach(function() {
     document.body.removeChild(container);
+
+    formEditor && formEditor.destroy();
   });
 
   (singleStart ? it.only : it)('should render', async function() {
 
     // when
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema,
       keyboard: {
@@ -65,7 +68,7 @@ describe('FormEditor', function() {
   it('should render compact', async function() {
 
     // when
-    await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema,
       debounce: true,
@@ -95,7 +98,7 @@ describe('FormEditor', function() {
       };
 
       // when
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       await formEditor.importSchema(schema);
 
@@ -107,7 +110,7 @@ describe('FormEditor', function() {
     it('should import without errors', async function() {
 
       // given
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       await formEditor.importSchema(schema);
 
@@ -132,7 +135,7 @@ describe('FormEditor', function() {
 
       // when
       try {
-        await createFormEditor({
+        formEditor = await createFormEditor({
           container,
           schema
         });
@@ -149,7 +152,7 @@ describe('FormEditor', function() {
     it('should fire <*.clear> before import', async function() {
 
       // given
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       const importDoneSpy = spy();
 
@@ -165,7 +168,7 @@ describe('FormEditor', function() {
     it('should fire <import.done> after import success', async function() {
 
       // given
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       const importDoneSpy = spy();
 
@@ -190,7 +193,7 @@ describe('FormEditor', function() {
         ]
       };
 
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       const importDoneSpy = spy();
 
@@ -212,7 +215,7 @@ describe('FormEditor', function() {
   it('should attach', async function() {
 
     // when
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       schema
     });
 
@@ -230,7 +233,7 @@ describe('FormEditor', function() {
   it('should detach', async function() {
 
     // when
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -249,7 +252,7 @@ describe('FormEditor', function() {
   it('#saveSchema', async function() {
 
     // given
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -270,7 +273,7 @@ describe('FormEditor', function() {
   it('#clear', async function() {
 
     // given
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -297,7 +300,7 @@ describe('FormEditor', function() {
   it('#destroy', async function() {
 
     // given
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -322,7 +325,7 @@ describe('FormEditor', function() {
   it('#on', async function() {
 
     // given
-    const form = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -330,9 +333,9 @@ describe('FormEditor', function() {
     const fooSpy = spy();
 
     // when
-    form.on('foo', fooSpy);
+    formEditor.on('foo', fooSpy);
 
-    form._emit('foo');
+    formEditor._emit('foo');
 
     // then
     expect(fooSpy).to.have.been.calledOnce;
@@ -342,21 +345,21 @@ describe('FormEditor', function() {
   it('#off', async function() {
 
     // given
-    const form = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
 
     const fooSpy = spy();
 
-    form.on('foo', fooSpy);
+    formEditor.on('foo', fooSpy);
 
-    form._emit('foo');
+    formEditor._emit('foo');
 
     // when
-    form.off('foo', fooSpy);
+    formEditor.off('foo', fooSpy);
 
-    form._emit('foo');
+    formEditor._emit('foo');
 
     // then
     expect(fooSpy).to.have.been.calledOnce;
@@ -368,7 +371,7 @@ describe('FormEditor', function() {
     it('should expose schema', async function() {
 
       // given
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         container,
         schema
       });
@@ -394,7 +397,7 @@ describe('FormEditor', function() {
         version: 'bar'
       };
 
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         container,
         schema,
         exporter
@@ -414,7 +417,7 @@ describe('FormEditor', function() {
       expect(schemaNoIds.id).not.to.exist;
 
       // given
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         container,
         schema: schemaNoIds
       });
@@ -453,7 +456,7 @@ describe('FormEditor', function() {
       it('should show schema per default', async function() {
 
         // when
-        const formEditor = await createFormEditor({
+        formEditor = await createFormEditor({
           container,
           schema
         });
@@ -469,7 +472,7 @@ describe('FormEditor', function() {
       it('should update on selection changed', async function() {
 
         // given
-        const formEditor = await createFormEditor({
+        formEditor = await createFormEditor({
           container,
           schema
         });
@@ -508,7 +511,7 @@ describe('FormEditor', function() {
       it('should emit event on properties panel focus', async function() {
 
         // given
-        const formEditor = await createFormEditor({
+        formEditor = await createFormEditor({
           schema,
           container
         });
@@ -538,7 +541,7 @@ describe('FormEditor', function() {
       it('should emit event on properties panel blur', async function() {
 
         // given
-        const formEditor = await createFormEditor({
+        formEditor = await createFormEditor({
           schema,
           container
         });
@@ -576,7 +579,7 @@ describe('FormEditor', function() {
     it('should enable drag and drop on mount', async function() {
 
       // given
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         schema,
         container
       });
@@ -598,7 +601,7 @@ describe('FormEditor', function() {
     it('should enable drag and drop on attach', async function() {
 
       // given
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         schema
       });
 
@@ -622,7 +625,7 @@ describe('FormEditor', function() {
     it('should disable drag and drop on detach', async function() {
 
       // given
-      const formEditor = await createFormEditor({
+      formEditor = await createFormEditor({
         schema,
         container
       });
@@ -641,6 +644,44 @@ describe('FormEditor', function() {
       // then
       expect(dragulaCreatedSpy).to.have.been.calledOnce;
       expect(dragulaDestroyedSpy).to.have.been.calledOnce;
+    });
+
+
+    it('should create and select new form field', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema,
+        container
+      });
+
+      await expectDragulaCreated(formEditor);
+
+      // assume
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      expect(formFieldRegistry.getAll()).to.have.length(11);
+
+      // when
+      const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
+
+      const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+
+      const bounds = form.getBoundingClientRect();
+
+      dispatchEvent(formField, 'mousedown', { which: 1 });
+
+
+      dispatchEvent(form, 'mousemove', { clientX: bounds.x, clientY: bounds.y });
+
+      dispatchEvent(form, 'mouseup');
+
+      // then
+      expect(formFieldRegistry.getAll()).to.have.length(12);
+
+      const selection = formEditor.get('selection');
+
+      expect(selection.get()).to.include({ type: 'textfield' });
     });
 
   });
@@ -670,4 +711,26 @@ async function expectSelected(expectedId) {
 
     expect(selectedId).to.equal(expectedId);
   });
+}
+
+async function expectDragulaCreated(formEditor) {
+  let dragulaCreated = false;
+
+  formEditor.on('dragula.created', () => {
+    dragulaCreated = true;
+  });
+
+  await waitFor(() => {
+    expect(dragulaCreated).to.be.true;
+  });
+}
+
+function dispatchEvent(element, type, options = {}) {
+  const event = document.createEvent('Event');
+
+  event.initEvent(type, true, true);
+
+  Object.keys(options).forEach(key => event[ key ] = options[ key ]);
+
+  element.dispatchEvent(event);
 }

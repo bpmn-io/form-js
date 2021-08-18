@@ -204,7 +204,7 @@ export default function FormEditor(props) {
         const siblingFormField = sibling && formFieldRegistry.get(sibling.dataset.id),
               targetIndex = siblingFormField ? getFormFieldIndex(targetFormField, siblingFormField) : targetFormField.components.length;
 
-        if (source.classList.contains('fjs-palette')) {
+        if (source.classList.contains('fjs-palette-fields')) {
           const type = el.dataset.fieldType;
 
           modeling.addFormField({ type }, targetFormField, targetIndex);
