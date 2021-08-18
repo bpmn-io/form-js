@@ -65,4 +65,17 @@ describe('features/editor-actions', function() {
     expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
   }));
 
+
+  it('should select form field', inject(function(editorActions, formFieldRegistry, selection) {
+
+    // given
+    const formField = formFieldRegistry.get('Field_1');
+
+    // when
+    editorActions.trigger('selectFormField', { id: 'Field_1' });
+
+    // then
+    expect(selection.get()).to.equal(formField);
+  }));
+
 });
