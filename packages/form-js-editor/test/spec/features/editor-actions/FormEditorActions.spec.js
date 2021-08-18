@@ -5,6 +5,7 @@ import {
 } from 'test/TestHelper';
 
 import formEditorActionsModule from 'src/features/editor-actions';
+import selectionModule from 'src/features/selection';
 
 import schema from '../../form.json';
 
@@ -15,7 +16,8 @@ describe('features/editor-actions', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
-      formEditorActionsModule
+      formEditorActionsModule,
+      selectionModule
     ]
   }));
 
@@ -69,10 +71,10 @@ describe('features/editor-actions', function() {
   it('should select form field', inject(function(editorActions, formFieldRegistry, selection) {
 
     // given
-    const formField = formFieldRegistry.get('Field_1');
+    const formField = formFieldRegistry.get('Text_1');
 
     // when
-    editorActions.trigger('selectFormField', { id: 'Field_1' });
+    editorActions.trigger('selectFormField', { id: 'Text_1' });
 
     // then
     expect(selection.get()).to.equal(formField);
