@@ -6,6 +6,20 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.0
+
+* `FEAT`: refactor selection ([#140](https://github.com/bpmn-io/form-js/pull/140))
+* `FEAT`: add selection behavior ([#140](https://github.com/bpmn-io/form-js/pull/140))
+* `FEAT` add editor action to select form field ([#149](https://github.com/bpmn-io/form-js/pull/149))
+* `FIX`: add missing select label to properties panel ([#148](https://github.com/bpmn-io/form-js/pull/148))
+* `FIX`: fix palette overflow ([#147](https://github.com/bpmn-io/form-js/pull/147))
+* `FIX`: fix type definitions for `container` option when creating form or form editor ([#145](https://github.com/bpmn-io/form-js/pull/145))
+
+### Breaking Changes
+
+* `Modeling#addFormField`, `Modeling#moveFormField` and `Modeling#remove` parameters have changed
+* selection in `Selection` is now form field, not its ID
+
 ## 0.3.1
 
 * `FIX`: use external type declarations ([#143](https://github.com/bpmn-io/form-js/pull/143))
