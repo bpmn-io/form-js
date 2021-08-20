@@ -5,6 +5,7 @@ import {
 } from 'test/TestHelper';
 
 import formEditorActionsModule from 'src/features/editor-actions';
+import modelingModule from 'src/features/modeling';
 import selectionModule from 'src/features/selection';
 
 import schema from '../../form.json';
@@ -17,6 +18,7 @@ describe('features/editor-actions', function() {
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
       formEditorActionsModule,
+      modelingModule,
       selectionModule
     ]
   }));

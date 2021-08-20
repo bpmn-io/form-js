@@ -4,6 +4,7 @@ import {
 } from '../../../TestHelper';
 
 import selectionModule from 'src/features/selection';
+import modelingModule from 'src/features/modeling';
 
 
 describe('features/selection', function() {
@@ -27,6 +28,7 @@ describe('features/selection', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
+      modelingModule,
       selectionModule
     ]
   }));

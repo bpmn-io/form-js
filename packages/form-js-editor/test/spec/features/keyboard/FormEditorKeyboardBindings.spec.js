@@ -6,6 +6,7 @@ import {
 
 import formEditorActionsModule from 'src/features/editor-actions';
 import keyboardModule from 'src/features/keyboard';
+import modelingModule from 'src/features/modeling';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents';
 
@@ -21,6 +22,7 @@ describe('features/editor-actions', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
+      modelingModule,
       formEditorActionsModule,
       keyboardModule
     ]

@@ -2,19 +2,24 @@ import { clone } from '@bpmn-io/form-js-viewer';
 
 import {
   bootstrapFormEditor,
+  insertStyles,
   inject
-} from '../../TestHelper';
+} from '../../../TestHelper';
 
-import { insertStyles } from '../../TestHelper';
+import modelingModule from 'src/features/modeling';
 
-import schema from '../form.json';
+import schema from '../../form.json';
 
 insertStyles();
 
 
 describe('core/Modeling', function() {
 
-  beforeEach(bootstrapFormEditor(schema));
+  beforeEach(bootstrapFormEditor(schema, {
+    additionalModules: [
+      modelingModule
+    ]
+  }));
 
 
   describe('#addFormField', function() {
