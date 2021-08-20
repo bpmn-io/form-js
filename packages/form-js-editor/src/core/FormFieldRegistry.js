@@ -25,6 +25,15 @@ export default class FormFieldRegistry extends BaseFieldRegistry {
     formField.id = newId;
 
     this.add(formField);
+
+    // TODO(nikku): make this a proper object graph so we
+    // do not have to deal with IDs this way...
+    if ('components' in formField) {
+      for (const component of formField.components) {
+        component._parent = newId;
+      }
+    }
+
   }
 
 
