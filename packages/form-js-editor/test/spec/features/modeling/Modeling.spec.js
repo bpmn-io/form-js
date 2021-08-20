@@ -315,6 +315,30 @@ describe('core/Modeling', function() {
         expect(formFieldRegistry.get('Text_1')).to.equal(field);
       }));
 
+
+      // this is necessary due to the fact that _parent
+      // is not an object reference but rather a plain
+      // string *sad*
+      it('<do> - updating <_parent> references', inject(function(modeling, formFieldRegistry) {
+
+        // given
+        const field = formFieldRegistry.get('Form_1');
+
+        // when
+        modeling.editFormField(
+          field,
+          'id',
+          'Form_AAA'
+        );
+
+        // then
+        expect(formFieldRegistry.get('Form_AAA')).to.equal(field);
+
+        for (const component of field.components) {
+          expect(component).to.have.property('_parent', 'Form_AAA');
+        }
+      }));
+
     });
 
   });
