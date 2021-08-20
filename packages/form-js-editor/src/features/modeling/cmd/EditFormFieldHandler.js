@@ -23,7 +23,11 @@ export default class EditFormFieldHandler {
     for (let key in properties) {
       oldProperties[ key ] = formField[ key ];
 
-      formField[ key ] = properties[ key ];
+      if (key === 'id') {
+        this._formFieldRegistry.updateId(formField, properties[ key ]);
+      } else {
+        formField[ key ] = properties[ key ];
+      }
     }
 
     context.oldProperties = oldProperties;
@@ -42,7 +46,11 @@ export default class EditFormFieldHandler {
 
     for (let key in oldProperties) {
 
-      formField[ key ] = oldProperties[ key ];
+      if (key === 'id') {
+        this._formFieldRegistry.updateId(formField, oldProperties[ key ]);
+      } else {
+        formField[ key ] = oldProperties[ key ];
+      }
     }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
@@ -50,4 +58,7 @@ export default class EditFormFieldHandler {
   }
 }
 
-EditFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry' ];
+EditFormFieldHandler.$inject = [
+  'formEditor',
+  'formFieldRegistry'
+];

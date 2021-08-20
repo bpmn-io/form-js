@@ -235,6 +235,69 @@ describe('core/Modeling', function() {
 
     });
 
+
+    describe('id property', function() {
+
+      it('<do>', inject(function(modeling, formFieldRegistry) {
+
+        // given
+        const field = formFieldRegistry.get('Text_1');
+
+        // when
+        modeling.editFormField(
+          field,
+          'id',
+          'OtherText'
+        );
+
+        // then
+        expect(formFieldRegistry.get('Text_1')).not.to.exist;
+        expect(formFieldRegistry.get('OtherText')).to.equal(field);
+      }));
+
+
+      it('<undo>', inject(function(commandStack, modeling, formFieldRegistry) {
+
+        // given
+        const field = formFieldRegistry.get('Text_1');
+
+        modeling.editFormField(
+          field,
+          'id',
+          'OtherText'
+        );
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(formFieldRegistry.get('OtherText')).not.to.exist;
+        expect(formFieldRegistry.get('Text_1')).to.equal(field);
+      }));
+
+
+      it('<redo>', inject(function(modeling, commandStack, formFieldRegistry) {
+
+        // given
+        const field = formFieldRegistry.get('Text_1');
+
+        modeling.editFormField(
+          field,
+          'id',
+          'OtherText'
+        );
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(formFieldRegistry.get('Text_1')).not.to.exist;
+        expect(formFieldRegistry.get('OtherText')).to.equal(field);
+      }));
+
+    });
+
   });
 
 

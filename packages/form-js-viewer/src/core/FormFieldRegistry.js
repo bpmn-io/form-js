@@ -46,6 +46,7 @@ export default class FormFieldRegistry {
   clear() {
     this._formFields = {};
   }
+
 }
 
 FormFieldRegistry.$inject = [ 'eventBus' ];
