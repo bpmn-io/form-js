@@ -1,7 +1,7 @@
 import EventBus from './EventBus';
 import DebounceFactory from './Debounce';
-import { FormFieldRegistry } from '@bpmn-io/form-js-viewer';
 import FieldFactory from './FieldFactory';
+import FormFieldRegistry from './FormFieldRegistry';
 
 import importModule from '../import';
 import renderModule from '../render';
