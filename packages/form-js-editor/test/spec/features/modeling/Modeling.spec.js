@@ -296,6 +296,25 @@ describe('core/Modeling', function() {
         expect(formFieldRegistry.get('OtherText')).to.equal(field);
       }));
 
+
+      // essentially an empty update; still emitted
+      // by the form editor though, so it shall work
+      it('<do> - update with no change', inject(function(modeling, formFieldRegistry) {
+
+        // given
+        const field = formFieldRegistry.get('Text_1');
+
+        // when
+        modeling.editFormField(
+          field,
+          'id',
+          'Text_1'
+        );
+
+        // then
+        expect(formFieldRegistry.get('Text_1')).to.equal(field);
+      }));
+
     });
 
   });

@@ -23,10 +23,14 @@ export default class EditFormFieldHandler {
     for (let key in properties) {
       oldProperties[ key ] = formField[ key ];
 
+      const property = properties[ key ];
+
       if (key === 'id') {
-        this._formFieldRegistry.updateId(formField, properties[ key ]);
+        if (property !== formField.id) {
+          this._formFieldRegistry.updateId(formField, property);
+        }
       } else {
-        formField[ key ] = properties[ key ];
+        formField[ key ] = property;
       }
     }
 
@@ -34,6 +38,8 @@ export default class EditFormFieldHandler {
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
+
+    return formField;
   }
 
   revert(context) {
@@ -46,16 +52,23 @@ export default class EditFormFieldHandler {
 
     for (let key in oldProperties) {
 
+      const property = oldProperties[ key ];
+
       if (key === 'id') {
-        this._formFieldRegistry.updateId(formField, oldProperties[ key ]);
+        if (property !== formField.id) {
+          this._formFieldRegistry.updateId(formField, property);
+        }
       } else {
-        formField[ key ] = oldProperties[ key ];
+        formField[ key ] = property;
       }
     }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
+
+    return formField;
   }
+
 }
 
 EditFormFieldHandler.$inject = [
