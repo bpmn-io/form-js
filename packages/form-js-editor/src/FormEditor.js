@@ -14,6 +14,7 @@ import core from './core';
 
 import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
+import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
 
 /**
@@ -288,6 +289,7 @@ export default class FormEditor {
    */
   _getModules() {
     return [
+      ModelingModule,
       EditorActionsModule,
       KeyboardModule,
       SelectionModule
