@@ -43,6 +43,21 @@ describe('Importer', function() {
   }));
 
 
+  it('should decode JSON', inject(async function(form, formFieldRegistry) {
+
+    // when
+    const { err, warnings } = await form.importSchema(JSON.stringify({
+      type: 'default'
+    }));
+
+    // then
+    expect(err).not.to.exist;
+    expect(warnings).to.be.empty;
+
+    expect(formFieldRegistry.getAll()).to.have.length(1);
+  }));
+
+
   it('should reimport without errors', inject(async function(form, formFieldRegistry) {
 
     // given
@@ -172,20 +187,43 @@ describe('Importer', function() {
     }));
 
 
+    it('should handle undefined', inject(async function(form) {
+
+      let error;
+
+      // when
+      try {
+        await form.importSchema(null);
+      } catch (err) {
+        error = err;
+      }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.equal('must provide <schema>');
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
+    }));
+
+
     it('should handle broken JSON', inject(async function(form) {
+
+      let error;
 
       // when
       try {
         await form.importSchema('foo');
       } catch (err) {
-
-        // then
-        expect(err).to.exist;
-        expect(err.message).to.equal('form field of type <undefined> not supported');
-
-        expect(err.warnings).to.exist;
-        expect(err.warnings).to.be.empty;
+        error = err;
       }
+
+      // then
+      expect(error).to.exist;
+      expect(error.message).to.match(/failed to parse schema: /);
+
+      expect(error.warnings).to.exist;
+      expect(error.warnings).to.be.empty;
     }));
 
 

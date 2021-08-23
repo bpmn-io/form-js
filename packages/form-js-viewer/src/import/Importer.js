@@ -29,6 +29,19 @@ export default class Importer {
     const warnings = [];
 
     try {
+
+      if (typeof schema === 'string') {
+        try {
+          schema = JSON.parse(schema);
+        } catch (error) {
+          throw new Error('failed to parse schema: ' + error.message);
+        }
+      }
+
+      if (!schema) {
+        throw new Error('must provide <schema>');
+      }
+
       const importedData = clone(data);
       const importedSchema = this.importFormField(clone(schema), importedData);
 

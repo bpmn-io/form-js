@@ -28,7 +28,7 @@ export interface FormOptions {
 
 export interface CreateFormOptions extends FormOptions {
   data?: Data;
-  schema: Schema;
+  schema: Schema | string;
 }
 
 export {

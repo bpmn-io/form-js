@@ -106,7 +106,7 @@ export default class Form {
   /**
    * Open a form schema with the given initial data.
    *
-   * @param {Schema} schema
+   * @param {Schema|string} schema
    * @param {Data} [data]
    *
    * @return Promise<{ warnings: Array<any> }>
