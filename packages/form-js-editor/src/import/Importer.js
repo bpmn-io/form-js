@@ -5,7 +5,7 @@ export default class Importer {
 
   /**
    * @constructor
-   * @param { import('@bpmn-io/form-js-viewer').FormFieldRegistry } formFieldRegistry
+   * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
    * @param { import('../core/FieldFactory').default } fieldFactory
    */
   constructor(formFieldRegistry, fieldFactory) {
