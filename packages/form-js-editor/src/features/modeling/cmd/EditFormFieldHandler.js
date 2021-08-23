@@ -2,8 +2,8 @@ export default class EditFormFieldHandler {
 
   /**
    * @constructor
-   * @param { import('../../FormEditor').default } formEditor
-   * @param { import('@bpmn-io/form-js-viewer').FormFieldRegistry } formFieldRegistry
+   * @param { import('../../../FormEditor').default } formEditor
+   * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
    */
   constructor(formEditor, formFieldRegistry) {
     this._formEditor = formEditor;
