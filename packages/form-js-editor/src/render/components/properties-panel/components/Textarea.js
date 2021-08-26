@@ -1,23 +1,27 @@
 import { prefixId } from '../Util';
 
-import useService from '../../../hooks/useService';
+import {
+  useDebounce,
+  useService
+} from '../../../hooks';
+
 
 export default function Textarea(props) {
-  const debounce = useService('debounce'),
-        eventBus = useService('eventBus');
+  const eventBus = useService('eventBus');
 
   const {
     id,
     label,
     rows = 10,
-    value = ''
+    value = '',
+    onInput: _onInput
   } = props;
 
-  const onInput = debounce(event => {
+  const onInput = useDebounce(event => {
     const value = event.target.value;
 
-    props.onInput(value.length ? value : undefined);
-  });
+    _onInput(value.length ? value : undefined);
+  }, [ _onInput ]);
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 

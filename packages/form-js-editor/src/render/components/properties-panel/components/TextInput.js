@@ -5,17 +5,21 @@ import {
 
 import { prefixId } from '../Util';
 
-import usePrevious from '../../../hooks/usePrevious';
-import useService from '../../../hooks/useService';
+import {
+  usePrevious,
+  useService,
+  useDebounce
+} from '../../../hooks';
+
 
 export default function TextInput(props) {
-  const debounce = useService('debounce'),
-        eventBus = useService('eventBus');
+  const eventBus = useService('eventBus');
 
   let {
     id,
     label,
     validate = () => null,
+    onInput: _onInput,
     value = ''
   } = props;
 
@@ -27,7 +31,8 @@ export default function TextInput(props) {
 
   useEffect(() => setError(validate(value)), [ value ]);
 
-  const onInput = debounce(event => {
+  const onInput = useDebounce(event => {
+
     const value = event.target.value;
 
     const error = validate(value);
@@ -35,11 +40,12 @@ export default function TextInput(props) {
     if (error) {
       setCachedValue(value);
     } else {
-      props.onInput(value.length ? value : undefined);
+      _onInput(value.length ? value : undefined);
     }
 
     setError(error);
-  });
+  }, [ validate, setCachedValue, _onInput ]);
+
 
   if (prevValue === value && error) {
     value = cachedValue;
