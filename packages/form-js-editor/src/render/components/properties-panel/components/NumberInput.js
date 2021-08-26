@@ -1,10 +1,12 @@
 import { prefixId } from '../Util';
 
-import useService from '../../../hooks/useService';
+import {
+  useDebounce,
+  useService
+} from '../../../hooks';
 
 export default function NumberInput(props) {
-  const debounce = useService('debounce'),
-        eventBus = useService('eventBus');
+  const eventBus = useService('eventBus');
 
   const {
     id,
@@ -12,9 +14,10 @@ export default function NumberInput(props) {
     max,
     min,
     value = '',
+    onInput: _onInput
   } = props;
 
-  const onInput = debounce(event => {
+  const onInput = useDebounce(event => {
 
     const {
       validity,
@@ -22,9 +25,9 @@ export default function NumberInput(props) {
     } = event.target;
 
     if (validity.valid) {
-      props.onInput(value ? parseInt(value, 10) : undefined);
+      _onInput(value ? parseInt(value, 10) : undefined);
     }
-  });
+  }, [ _onInput ]);
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
