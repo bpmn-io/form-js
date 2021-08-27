@@ -7,13 +7,11 @@ import { prefixId } from '../Util';
 
 import {
   usePrevious,
-  useService,
   useDebounce
 } from '../../../hooks';
 
 
 export default function TextInput(props) {
-  const eventBus = useService('eventBus');
 
   let {
     id,
@@ -51,10 +49,6 @@ export default function TextInput(props) {
     value = cachedValue;
   }
 
-  const onFocus = () => eventBus.fire('propertiesPanel.focusin');
-
-  const onBlur = () => eventBus.fire('propertiesPanel.focusout');
-
   const classes = [ 'fjs-properties-panel-input' ];
 
   if (error) {
@@ -70,8 +64,6 @@ export default function TextInput(props) {
         spellcheck={ false }
         class={ classes.join(' ') }
         onInput={ onInput }
-        onFocus={ onFocus }
-        onBlur={ onBlur }
         value={ value } />
       {
         error && <div class="fjs-properties-panel-error">{ error }</div>

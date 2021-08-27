@@ -1,13 +1,11 @@
 import { prefixId } from '../Util';
 
 import {
-  useDebounce,
-  useService
+  useDebounce
 } from '../../../hooks';
 
 
 export default function Textarea(props) {
-  const eventBus = useService('eventBus');
 
   const {
     id,
@@ -23,10 +21,6 @@ export default function Textarea(props) {
     _onInput(value.length ? value : undefined);
   }, [ _onInput ]);
 
-  const onFocus = () => eventBus.fire('propertiesPanel.focusin');
-
-  const onBlur = () => eventBus.fire('propertiesPanel.focusout');
-
   return (
     <div class="fjs-properties-panel-textfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
@@ -35,8 +29,6 @@ export default function Textarea(props) {
         spellcheck={ false }
         class="fjs-properties-panel-input"
         onInput={ onInput }
-        onFocus={ onFocus }
-        onBlur={ onBlur }
         rows={ rows }
         value={ value } />
     </div>

@@ -1,12 +1,10 @@
 import { prefixId } from '../Util';
 
 import {
-  useDebounce,
-  useService
+  useDebounce
 } from '../../../hooks';
 
 export default function NumberInput(props) {
-  const eventBus = useService('eventBus');
 
   const {
     id,
@@ -29,10 +27,6 @@ export default function NumberInput(props) {
     }
   }, [ _onInput ]);
 
-  const onFocus = () => eventBus.fire('propertiesPanel.focusin');
-
-  const onBlur = () => eventBus.fire('propertiesPanel.focusout');
-
   return (
     <div class="fjs-properties-panel-textfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
@@ -43,8 +37,6 @@ export default function NumberInput(props) {
         max={ max }
         min={ min }
         onInput={ onInput }
-        onFocus={ onFocus }
-        onBlur={ onBlur }
         value={ value } />
     </div>
   );
