@@ -1,4 +1,7 @@
-import { FormEditorContext } from '../../../../src/render/context';
+import {
+  FormEditorContext
+} from '../../../../src/render/context';
+
 
 export function WithFormEditorContext(Component, services = {}) {
   const formEditorContext = {

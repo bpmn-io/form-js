@@ -6,7 +6,7 @@ import {
 
 import { NumberInput } from '../../../../src/render/components/properties-panel/components';
 
-import { WithFormEditorContext } from './Util';
+import { WithFormEditorContext } from '../helper';
 
 import { insertStyles } from '../../../TestHelper';
 
