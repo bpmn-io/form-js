@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.1
+
+* `FIX`: update fields in registry on ID change ([#152](https://github.com/bpmn-io/form-js/issues/152))
+
 ## 0.4.0
 
 * `FEAT`: refactor selection ([#140](https://github.com/bpmn-io/form-js/pull/140))
