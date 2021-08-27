@@ -9,6 +9,10 @@ import {
   textToLabel
 } from './Util';
 
+import {
+  useService
+} from '../../hooks';
+
 import { iconsByType } from '../palette/icons';
 
 const labelsByType = {
@@ -51,30 +55,43 @@ export default function PropertiesPanel(props) {
     return <div class="fjs-properties-panel-placeholder">Select a form field to edit its properties.</div>;
   }
 
+  const eventBus = useService('eventBus');
+
+  const onFocus = () => eventBus.fire('propertiesPanel.focusin');
+
+  const onBlur = () => eventBus.fire('propertiesPanel.focusout');
+
   const { type } = field;
 
   const Icon = iconsByType[ type ];
 
   const label = labelsByType[ type ];
 
-  return <div class="fjs-properties-panel" data-field={ field.id }>
-    <div class="fjs-properties-panel-header">
-      <div class="fjs-properties-panel-header-icon">
-        <Icon width="36" height="36" viewBox="0 0 54 54" />
+  return (
+    <div
+      class="fjs-properties-panel"
+      data-field={ field.id }
+      onFocusCapture={ onFocus }
+      onBlurCapture={ onBlur }
+    >
+      <div class="fjs-properties-panel-header">
+        <div class="fjs-properties-panel-header-icon">
+          <Icon width="36" height="36" viewBox="0 0 54 54" />
+        </div>
+        <div>
+          <span class="fjs-properties-panel-header-type">{ label }</span>
+          {
+            type === 'text'
+              ? <div class="fjs-properties-panel-header-label">{ textToLabel(field.text) }</div>
+              : type === 'default'
+                ? <div class="fjs-properties-panel-header-label">{ field.id }</div>
+                : <div class="fjs-properties-panel-header-label">{ field.label }</div>
+          }
+        </div>
       </div>
-      <div>
-        <span class="fjs-properties-panel-header-type">{ label }</span>
-        {
-          type === 'text'
-            ? <div class="fjs-properties-panel-header-label">{ textToLabel(field.text) }</div>
-            : type === 'default'
-              ? <div class="fjs-properties-panel-header-label">{ field.id }</div>
-              : <div class="fjs-properties-panel-header-label">{ field.label }</div>
-        }
-      </div>
+      {
+        getGroups(field, editField)
+      }
     </div>
-    {
-      getGroups(field, editField)
-    }
-  </div>;
+  );
 }
