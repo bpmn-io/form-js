@@ -6,7 +6,7 @@ import {
 
 import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
 
-import { WithFormEditorContext } from './components/Util';
+import { WithFormEditorContext } from './helper';
 
 import schema from '../form.json';
 
