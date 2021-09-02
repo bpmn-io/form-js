@@ -98,6 +98,102 @@ describe('core/FieldFactory', function() {
 
   });
 
+
+  describe('id', function() {
+
+    it('should assign ID', inject(function(fieldFactory) {
+
+      // when
+      const field = fieldFactory.create({
+        type: 'textfield'
+      });
+
+      // then
+      expect(field.id).to.match(/Field_[a-z|0-9]{7}/);
+    }));
+
+
+    it('should not assign ID', inject(function(fieldFactory) {
+
+      // when
+      const field = fieldFactory.create({
+        id: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(field.id).to.equal('foo');
+    }));
+
+
+    it('should throw if ID already assigned', inject(function(fieldFactory) {
+
+      // given
+      fieldFactory.create({
+        id: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // when
+      const create = () => fieldFactory.create({
+        id: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(create).to.throw('ID <foo> already assigned');
+    }));
+
+  });
+
+
+  describe('key', function() {
+
+    it('should assign key', inject(function(fieldFactory) {
+
+      // when
+      const field = fieldFactory.create({
+        type: 'textfield'
+      });
+
+      // then
+      expect(field.key).to.match(/field_[a-z|0-9]{7}/);
+    }));
+
+
+    it('should not assign key', inject(function(fieldFactory) {
+
+      // when
+      const field = fieldFactory.create({
+        key: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(field.key).to.equal('foo');
+    }));
+
+
+    it('should throw if ID already assigned', inject(function(fieldFactory) {
+
+      // given
+      fieldFactory.create({
+        key: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // when
+      const create = () => fieldFactory.create({
+        key: 'foo',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(create).to.throw('key <foo> already assigned');
+    }));
+
+  });
+
 });
 
 

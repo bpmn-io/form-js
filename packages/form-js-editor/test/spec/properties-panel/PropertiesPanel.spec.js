@@ -477,17 +477,7 @@ describe('properties panel', function() {
             createPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field,
-              services: {
-                formFieldRegistry: {
-                  getAll() {
-                    return [
-                      field,
-                      schema.components.find(({ key }) => key === 'amount')
-                    ];
-                  }
-                }
-              }
+              field
             });
 
             // assume
@@ -517,17 +507,7 @@ describe('properties panel', function() {
             createPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field,
-              services: {
-                formFieldRegistry: {
-                  getAll() {
-                    return [
-                      field,
-                      schema.components.find(({ key }) => key === 'amount')
-                    ];
-                  }
-                }
-              }
+              field
             });
 
             // assume
@@ -560,11 +540,10 @@ describe('properties panel', function() {
               field,
               services: {
                 formFieldRegistry: {
-                  getAll() {
-                    return [
-                      field,
-                      schema.components.find(({ key }) => key === 'amount')
-                    ];
+                  _keys: {
+                    assigned(key) {
+                      return schema.components.find((component) => component.key === key);
+                    }
                   }
                 }
               }
@@ -608,17 +587,7 @@ describe('properties panel', function() {
             createPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field: schema,
-              services: {
-                formFieldRegistry: {
-                  getAll() {
-                    return [
-                      schema,
-                      schema.components[0]
-                    ];
-                  }
-                }
-              }
+              field: schema
             });
 
             // assume
@@ -646,17 +615,7 @@ describe('properties panel', function() {
             createPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field: schema,
-              services: {
-                formFieldRegistry: {
-                  getAll() {
-                    return [
-                      schema,
-                      schema.components[0]
-                    ];
-                  }
-                }
-              }
+              field: schema
             });
 
             // assume
@@ -687,11 +646,10 @@ describe('properties panel', function() {
               field: schema,
               services: {
                 formFieldRegistry: {
-                  getAll() {
-                    return [
-                      schema,
-                      schema.components[0]
-                    ];
+                  _ids: {
+                    assigned(id) {
+                      return schema.components.find((component) => component.id === id);
+                    }
                   }
                 }
               }
@@ -722,17 +680,7 @@ describe('properties panel', function() {
             createPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field: schema,
-              services: {
-                formFieldRegistry: {
-                  getAll() {
-                    return [
-                      schema,
-                      schema.components[0]
-                    ];
-                  }
-                }
-              }
+              field: schema
             });
 
             // assume

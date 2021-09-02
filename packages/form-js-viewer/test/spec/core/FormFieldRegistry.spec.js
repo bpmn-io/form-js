@@ -69,7 +69,7 @@ describe('FormFieldRegistry', function() {
   });
 
 
-  describe('#add', function() {
+  describe('#remove', function() {
 
     let formField;
 
@@ -82,7 +82,7 @@ describe('FormFieldRegistry', function() {
     }));
 
 
-    it('should add form field', inject(function(formFieldRegistry) {
+    it('should remove form field', inject(function(formFieldRegistry) {
 
       // when
       formFieldRegistry.remove(formField);
@@ -134,7 +134,7 @@ describe('FormFieldRegistry', function() {
   });
 
 
-  describe('#get', function() {
+  describe('#getAll', function() {
 
     let formField1,
         formField2;
@@ -211,16 +211,24 @@ describe('FormFieldRegistry', function() {
 
     beforeEach(inject(function(formFieldRegistry) {
       formField1 = {
-        id: 'foo'
+        id: 'foo',
+        key: 'foo'
       };
 
       formFieldRegistry.add(formField1);
 
+      formFieldRegistry._ids.claim(formField1.id, formField1);
+      formFieldRegistry._keys.claim(formField1.key, formField1);
+
       formField2 = {
-        id: 'bar'
+        id: 'bar',
+        key: 'foo'
       };
 
       formFieldRegistry.add(formField2);
+
+      formFieldRegistry._ids.claim(formField2.id, formField2);
+      formFieldRegistry._keys.claim(formField2.key, formField2);
     }));
 
 
@@ -231,6 +239,12 @@ describe('FormFieldRegistry', function() {
 
       // then
       expect(formFieldRegistry.getAll()).to.have.length(0);
+
+      expect(formFieldRegistry._ids.assigned('foo')).to.be.false;
+      expect(formFieldRegistry._ids.assigned('bar')).to.be.false;
+
+      expect(formFieldRegistry._keys.assigned('foo')).to.be.false;
+      expect(formFieldRegistry._keys.assigned('bar')).to.be.false;
     }));
 
 
@@ -241,6 +255,12 @@ describe('FormFieldRegistry', function() {
 
       // then
       expect(formFieldRegistry.getAll()).to.have.length(0);
+
+      expect(formFieldRegistry._ids.assigned('foo')).to.be.false;
+      expect(formFieldRegistry._ids.assigned('bar')).to.be.false;
+
+      expect(formFieldRegistry._keys.assigned('foo')).to.be.false;
+      expect(formFieldRegistry._keys.assigned('bar')).to.be.false;
     }));
 
   });

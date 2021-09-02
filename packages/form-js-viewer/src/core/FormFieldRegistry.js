@@ -1,3 +1,5 @@
+import Ids from 'ids';
+
 export default class FormFieldRegistry {
   constructor(eventBus) {
     this._eventBus = eventBus;
@@ -5,6 +7,9 @@ export default class FormFieldRegistry {
     this._formFields = {};
 
     eventBus.on('form.clear', () => this.clear());
+
+    this._ids = new Ids([ 32, 36, 1 ]);
+    this._keys = new Ids([ 32, 36, 1 ]);
   }
 
   add(formField) {
@@ -45,6 +50,9 @@ export default class FormFieldRegistry {
 
   clear() {
     this._formFields = {};
+
+    this._ids.clear();
+    this._keys.clear();
   }
 
 }

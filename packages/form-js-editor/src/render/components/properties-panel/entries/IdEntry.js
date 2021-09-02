@@ -17,7 +17,9 @@ export default function IdEntry(props) {
       return 'Must not be empty.';
     }
 
-    if (!isUnique(value, field, formFieldRegistry)) {
+    const assigned = formFieldRegistry._ids.assigned(value);
+
+    if (assigned && assigned !== field) {
       return 'Must be unique.';
     }
 
@@ -33,14 +35,6 @@ export default function IdEntry(props) {
       path={ [ 'id' ] }
       validate={ validate } />
   );
-}
-
-// helpers //////////
-
-function isUnique(id, field, formFieldRegistry) {
-  return !formFieldRegistry.getAll().find((formField) => {
-    return formField !== field && formField.id === id;
-  });
 }
 
 // id structural validation /////////////

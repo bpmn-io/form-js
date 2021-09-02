@@ -70,22 +70,26 @@ export default class Importer {
     }
 
     if (key) {
-      this._formFieldRegistry.forEach((formField) => {
-        if (formField.key === key) {
-          throw new Error(`form field with key <${ key }> already exists`);
-        }
-      });
+
+      // validate <key> uniqueness
+      if (this._formFieldRegistry._keys.assigned(key)) {
+        throw new Error(`form field with key <${ key }> already exists`);
+      }
+
+      this._formFieldRegistry._keys.claim(key, formField);
 
       // set form field path
       formField._path = [ key ];
     }
 
     if (id) {
-      this._formFieldRegistry.forEach((formField) => {
-        if (formField.id === id) {
-          throw new Error(`form field with id <${ id }> already exists`);
-        }
-      });
+
+      // validate <id> uniqueness
+      if (this._formFieldRegistry._ids.assigned(id)) {
+        throw new Error(`form field with id <${ id }> already exists`);
+      }
+
+      this._formFieldRegistry._ids.claim(id, formField);
     }
 
     // set form field ID
