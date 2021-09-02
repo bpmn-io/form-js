@@ -13,7 +13,7 @@ import schema from '../../form.json';
 insertStyles();
 
 
-describe('core/Modeling', function() {
+describe('features/modeling', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     additionalModules: [
@@ -576,6 +576,210 @@ describe('core/Modeling', function() {
       const parent = formFieldRegistry.get('Form_1');
 
       expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
+    }));
+
+  });
+
+
+  describe('#claimId', function() {
+
+    const formField = {
+      id: 'foo',
+      key: 'foo',
+      type: 'textfield'
+    };
+
+
+    it('<do>', inject(function(formFieldRegistry, modeling) {
+
+      // when
+      modeling.claimId(formField, formField.id);
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
+    }));
+
+
+    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.claimId(formField, formField.id);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
+    }));
+
+
+    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.claimId(formField, formField.id);
+
+      commandStack.undo();
+
+      // when
+      commandStack.redo();
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
+    }));
+
+  });
+
+
+  describe('#unclaimId', function() {
+
+    const formField = {
+      id: 'foo',
+      key: 'foo',
+      type: 'textfield'
+    };
+
+    this.beforeEach(inject(function(modeling) {
+      modeling.claimId(formField, formField.id);
+    }));
+
+
+    it('<do>', inject(function(formFieldRegistry, modeling) {
+
+      // when
+      modeling.unclaimId(formField, formField.id);
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
+    }));
+
+
+    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.unclaimId(formField, formField.id);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
+    }));
+
+
+    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.unclaimId(formField, formField.id);
+
+      commandStack.undo();
+
+      // when
+      commandStack.redo();
+
+      // then
+      expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
+    }));
+
+  });
+
+
+  describe('#claimKey', function() {
+
+    const formField = {
+      id: 'foo',
+      key: 'foo',
+      type: 'textfield'
+    };
+
+
+    it('<do>', inject(function(formFieldRegistry, modeling) {
+
+      // when
+      modeling.claimKey(formField, formField.key);
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+    }));
+
+
+    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.claimKey(formField, formField.key);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+    }));
+
+
+    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.claimKey(formField, formField.key);
+
+      commandStack.undo();
+
+      // when
+      commandStack.redo();
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+    }));
+
+  });
+
+
+  describe('#unclaimId', function() {
+
+    const formField = {
+      id: 'foo',
+      key: 'foo',
+      type: 'textfield'
+    };
+
+    this.beforeEach(inject(function(modeling) {
+      modeling.claimId(formField, formField.id);
+    }));
+
+
+    it('<do>', inject(function(formFieldRegistry, modeling) {
+
+      // when
+      modeling.unclaimKey(formField, formField.key);
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+    }));
+
+
+    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.unclaimKey(formField, formField.key);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+    }));
+
+
+    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+
+      // given
+      modeling.unclaimKey(formField, formField.key);
+
+      commandStack.undo();
+
+      // when
+      commandStack.redo();
+
+      // then
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
     }));
 
   });

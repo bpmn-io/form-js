@@ -2,6 +2,8 @@ import AddFormFieldHandler from './cmd/AddFormFieldHandler';
 import EditFormFieldHandler from './cmd/EditFormFieldHandler';
 import MoveFormFieldHandler from './cmd/MoveFormFieldHandler';
 import RemoveFormFieldHandler from './cmd/RemoveFormFieldHandler';
+import UpdateIdClaimHandler from './cmd/UpdateIdClaimHandler';
+import UpdateKeyClaimHandler from './cmd/UpdateKeyClaimHandler';
 
 import { isObject } from 'min-dash';
 
@@ -29,7 +31,9 @@ export default class Modeling {
       'formField.add': AddFormFieldHandler,
       'formField.edit': EditFormFieldHandler,
       'formField.move': MoveFormFieldHandler,
-      'formField.remove': RemoveFormFieldHandler
+      'formField.remove': RemoveFormFieldHandler,
+      'id.updateClaim': UpdateIdClaimHandler,
+      'key.updateClaim': UpdateKeyClaimHandler
     };
   }
 
@@ -83,6 +87,46 @@ export default class Modeling {
     };
 
     this._commandStack.execute('formField.remove', context);
+  }
+
+  claimId(formField, id) {
+    const context = {
+      formField,
+      id,
+      claiming: true
+    };
+
+    this._commandStack.execute('id.updateClaim', context);
+  }
+
+  unclaimId(formField, id) {
+    const context = {
+      formField,
+      id,
+      claiming: false
+    };
+
+    this._commandStack.execute('id.updateClaim', context);
+  }
+
+  claimKey(formField, key) {
+    const context = {
+      formField,
+      key,
+      claiming: true
+    };
+
+    this._commandStack.execute('key.updateClaim', context);
+  }
+
+  unclaimKey(formField, key) {
+    const context = {
+      formField,
+      key,
+      claiming: false
+    };
+
+    this._commandStack.execute('key.updateClaim', context);
   }
 }
 
