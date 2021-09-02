@@ -69,21 +69,13 @@ export default class Importer {
     }
 
     // validate <id> uniqueness
-    if (id) {
-      this._formFieldRegistry.forEach(field => {
-        if (field.id === id) {
-          throw new Error(`form field with id <${ id }> already exists`);
-        }
-      });
+    if (id && this._formFieldRegistry._ids.assigned(id)) {
+      throw new Error(`form field with id <${ id }> already exists`);
     }
 
     // validate <key> uniqueness
-    if (key) {
-      this._formFieldRegistry.forEach(field => {
-        if (field.key === key) {
-          throw new Error(`form field with key <${ key }> already exists`);
-        }
-      });
+    if (key && this._formFieldRegistry._keys.assigned(key)) {
+      throw new Error(`form field with key <${ key }> already exists`);
     }
 
     // set form field path

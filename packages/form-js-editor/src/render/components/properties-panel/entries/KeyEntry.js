@@ -21,7 +21,9 @@ export default function KeyEntry(props) {
       return 'Must not contain spaces.';
     }
 
-    if (!isUnique(value, field, formFieldRegistry)) {
+    const assigned = formFieldRegistry._keys.assigned(value);
+
+    if (assigned && assigned !== field) {
       return 'Must be unique.';
     }
 
@@ -38,12 +40,4 @@ export default function KeyEntry(props) {
       path={ [ 'key' ] }
       validate={ validate } />
   );
-}
-
-// helpers //////////
-
-function isUnique(key, field, formFieldRegistry) {
-  return !formFieldRegistry.getAll().find((formField) => {
-    return formField !== field && formField.key === key;
-  });
 }

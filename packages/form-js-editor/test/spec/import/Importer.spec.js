@@ -115,11 +115,11 @@ describe('Importer', function() {
         components: [
           {
             key: 'creditor',
-            type: 'text'
+            type: 'textfield'
           },
           {
             key: 'creditor',
-            type: 'text'
+            type: 'textfield'
           }
         ]
       };

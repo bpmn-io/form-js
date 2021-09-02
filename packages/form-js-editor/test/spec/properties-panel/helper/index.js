@@ -33,7 +33,17 @@ export function WithFormEditorContext(Component, services = {}) {
             return [];
           },
           forEach() {},
-          clear() {}
+          clear() {},
+          _ids: {
+            assigned() {
+              return false;
+            }
+          },
+          _keys: {
+            assigned() {
+              return false;
+            }
+          },
         };
       }
     }

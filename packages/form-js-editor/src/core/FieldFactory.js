@@ -1,30 +1,21 @@
-import Ids from 'ids';
-
-
 export default class FieldFactory {
 
   /**
    * @constructor
    *
+   * @param { import('./FormFieldRegistry').default } formFieldRegistry
    * @param { import('@bpmn-io/form-js-viewer').FormFields } formFields
-   * @param { import('./EventBus').default } eventBus
    */
-  constructor(formFields, eventBus) {
-    this._ids = new Ids([ 32, 36, 1 ]);
-
-    this._num = 0;
-
+  constructor(formFieldRegistry, formFields) {
+    this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;
-
-    eventBus.on('diagram.clear', () => {
-      this._num = 0;
-      this._ids.clear();
-    });
   }
 
-  create(attrs, applyDefaults=true) {
+  create(attrs, applyDefaults = true) {
 
     const {
+      id,
+      key,
       type
     } = attrs;
 
@@ -34,21 +25,28 @@ export default class FieldFactory {
       throw new Error(`form field of type <${ type }> not supported`);
     }
 
+    if (id && this._formFieldRegistry._ids.assigned(id)) {
+      throw new Error(`ID <${ id }> already assigned`);
+    }
+
+    if (key && this._formFieldRegistry._keys.assigned(key)) {
+      throw new Error(`key <${ key }> already assigned`);
+    }
+
     const labelAttrs = applyDefaults && fieldDefinition.label ? {
       label: fieldDefinition.label
     } : {};
 
-    const keyAttrs = applyDefaults && fieldDefinition.keyed ? {
-      key: `field_${ (this._num++) }`
-    } : {};
-
     const field = fieldDefinition.create({
-      ...keyAttrs,
       ...labelAttrs,
       ...attrs
     });
 
     this._ensureId(field);
+
+    if (fieldDefinition.keyed) {
+      this._ensureKey(field, applyDefaults);
+    }
 
     return field;
   }
@@ -56,6 +54,8 @@ export default class FieldFactory {
   _ensureId(field) {
 
     if (field.id) {
+      this._formFieldRegistry._ids.claim(field.id, field);
+
       return;
     }
 
@@ -65,12 +65,27 @@ export default class FieldFactory {
       prefix = 'Form';
     }
 
-    field.id = this._ids.nextPrefixed(`${prefix}_`);
+    field.id = this._formFieldRegistry._ids.nextPrefixed(`${prefix}_`, field);
+  }
+
+  _ensureKey(field, applyDefaults) {
+
+    if (field.key) {
+      this._formFieldRegistry._keys.claim(field.key, field);
+
+      return;
+    }
+
+    if (applyDefaults) {
+      let prefix = 'field';
+
+      field.key = this._formFieldRegistry._keys.nextPrefixed(`${prefix}_`, field);
+    }
   }
 }
 
 
 FieldFactory.$inject = [
-  'formFields',
-  'eventBus'
+  'formFieldRegistry',
+  'formFields'
 ];
