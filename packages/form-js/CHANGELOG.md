@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.2
+
+### Editor
+
+* `FIX`: prevent generation of duplicate keys when creating form fields ([#161](https://github.com/bpmn-io/form-js/issues/161))
+* `FIX`: make field hover and select state better distinguishable ([#163](https://github.com/bpmn-io/form-js/issues/163))
+
 ## 0.4.1
 
 * `FIX`: update fields in registry on ID change ([#152](https://github.com/bpmn-io/form-js/issues/152))
