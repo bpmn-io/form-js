@@ -76,7 +76,7 @@
 
 .fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected {
   border-color: var(--color-blue-lighten-75);
-  background-color: var(--color-blue-lighten-99);
+  background-color: var(--color-blue-lighten-93);
 }
 
 .fjs-editor-container .fjs-children > .fjs-element:hover {
