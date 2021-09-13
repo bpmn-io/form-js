@@ -51,11 +51,11 @@ export default function PropertiesPanel(props) {
     field
   } = props;
 
+  const eventBus = useService('eventBus');
+
   if (!field) {
     return <div class="fjs-properties-panel-placeholder">Select a form field to edit its properties.</div>;
   }
-
-  const eventBus = useService('eventBus');
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 

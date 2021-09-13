@@ -1,7 +1,8 @@
 {
   "extends": [
     "plugin:bpmn-io/es6",
-    "plugin:bpmn-io/jsx"
+    "plugin:bpmn-io/jsx",
+    "plugin:react-hooks/recommended"
   ],
   "rules": {
     "import/first": "error",
