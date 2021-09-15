@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.3
+
+* `FIX`: correct form icon ([#170](https://github.com/bpmn-io/form-js/issues/170))
+
 ## 0.4.2
 
 ### Editor
