@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -euo pipefail
+set -eo pipefail
 shopt -s inherit_errexit nullglob
 
 # bumps form-js dependencies in bpmn-io-demo
@@ -18,14 +18,19 @@ cd "$CLONE_DIR"
 
 npm install --save @bpmn-io/form-js@$TAG diagram-js@latest
 
-git config user.email "$BPMN_IO_EMAIL"
-git config user.name "$BPMN_IO_USERNAME"
-git config push.default simple
+if [[ "x$SKIP_COMMIT" = "x" ]]; then
 
-git add -A
-git commit -m "deps: bump to form-js@$TAG"
-git tag "form-js-$TAG"
-git push -q &2>/dev/null
-git push --tags -q &2>/dev/null
+  git config user.email "$BPMN_IO_EMAIL"
+  git config user.name "$BPMN_IO_USERNAME"
+  git config push.default simple
+
+  git add -A
+  git commit -m "deps: bump to @bpmn-io/form-js@$TAG"
+  git tag "form-js-$TAG"
+  git push -q &2>/dev/null
+  git push --tags -q &2>/dev/null
+else
+  echo "Skipping commit (SKIP_COMMIT=$SKIP_COMMIT)"
+fi
 
 cd "$PWD"
