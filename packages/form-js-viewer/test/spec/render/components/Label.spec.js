@@ -67,17 +67,20 @@ describe('Label', function() {
   });
 
 
-  it('should not render if no label', function() {
+  it('should render empty also without text', function() {
 
     // when
     const { container } = createLabel({
-      id: 'foo'
+      id: 'foo',
+      required: true
     });
 
     // then
     const label = container.querySelector('.fjs-form-field-label');
+    const requiredIndicator = container.querySelector('.fjs-asterix');
 
-    expect(label).not.to.exist;
+    expect(label).to.exist;
+    expect(requiredIndicator).to.exist;
   });
 
 });

@@ -76,6 +76,23 @@ describe('Checkbox', function() {
   });
 
 
+  it('should render without label', function() {
+
+    // when
+    const { container } = createCheckbox({
+      field: {
+        ...defaultField,
+        label: ''
+      }
+    });
+
+    // then
+    const label = container.querySelector('label');
+
+    expect(label).to.exist;
+  });
+
+
   it('should render description', function() {
 
     // when
