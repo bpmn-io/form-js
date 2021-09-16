@@ -31,7 +31,7 @@ export default function Radio(props) {
   const onChange = (v) => {
     props.onChange({
       field,
-      value: v === value ? undefined : v
+      value: v
     });
   };
 
