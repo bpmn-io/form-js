@@ -26,7 +26,7 @@ describe('Number', function() {
   it('should render', function() {
 
     // when
-    const { container } = createTextfield({
+    const { container } = createNumberField({
       value: 123
     });
 
@@ -51,7 +51,7 @@ describe('Number', function() {
   it('should render default value (\'\')', function() {
 
     // when
-    const { container } = createTextfield();
+    const { container } = createNumberField();
 
     // then
     const input = container.querySelector('input[type="number"]');
@@ -90,7 +90,7 @@ describe('Number', function() {
   it('should render disabled', function() {
 
     // when
-    const { container } = createTextfield({
+    const { container } = createNumberField({
       disabled: true
     });
 
@@ -105,7 +105,7 @@ describe('Number', function() {
   it('should render description', function() {
 
     // when
-    const { container } = createTextfield({
+    const { container } = createNumberField({
       field: {
         ...defaultField,
         description: 'foo'
@@ -127,7 +127,7 @@ describe('Number', function() {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123
       });
@@ -150,7 +150,7 @@ describe('Number', function() {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123
       });
@@ -204,7 +204,7 @@ const defaultField = {
   type: 'number'
 };
 
-function createTextfield(options = {}) {
+function createNumberField(options = {}) {
   const {
     disabled,
     errors,
