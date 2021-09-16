@@ -61,6 +61,22 @@ describe('Radio', function() {
   });
 
 
+  it('should render <null> value', function() {
+
+    // when
+    const { container } = createRadio({
+      value: null
+    });
+
+    // then
+    const inputs = container.querySelectorAll('input[type="radio"]');
+
+    inputs.forEach(input => {
+      expect(input.checked).to.be.false;
+    });
+  });
+
+
   it('should render disabled', function() {
 
     // when
@@ -120,7 +136,7 @@ describe('Radio', function() {
     });
 
 
-    it('should handle change (undefined)', function() {
+    it('should handle toggle', function() {
 
       // given
       const onChangeSpy = spy();
@@ -138,7 +154,7 @@ describe('Radio', function() {
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: undefined
+        value: 'camunda-platform'
       });
     });
 
