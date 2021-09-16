@@ -97,6 +97,24 @@ describe('Validator', function() {
       });
 
 
+      it('should be invalid (null)', function() {
+
+        // given
+        const field = {
+          validate: {
+            required: true
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, null);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field is required.');
+      });
+
+
       it('should be invalid (empty string)', function() {
 
         // given

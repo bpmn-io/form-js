@@ -61,6 +61,21 @@ describe('Number', function() {
   });
 
 
+  it('should render <null> value', function() {
+
+    // when
+    const { container } = createNumberField({
+      value: null
+    });
+
+    // then
+    const input = container.querySelector('input[type="number"]');
+
+    expect(input).to.exist;
+    expect(input.value).to.equal('');
+  });
+
+
   it('should render default value on value removed', function() {
 
     // given
@@ -163,7 +178,7 @@ describe('Number', function() {
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: undefined
+        value: null
       });
     });
 

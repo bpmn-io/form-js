@@ -1,3 +1,5 @@
+import { isNil } from 'min-dash';
+
 export default class Validator {
 
   validateField(field, value) {
@@ -17,7 +19,7 @@ export default class Validator {
       ];
     }
 
-    if (validate.required && (typeof value === 'undefined' || value === '')) {
+    if (validate.required && (isNil(value) || value === '')) {
       errors = [
         ...errors,
         'Field is required.'

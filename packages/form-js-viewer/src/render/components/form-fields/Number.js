@@ -36,7 +36,7 @@ export default function Number(props) {
 
     props.onChange({
       field,
-      value: isNaN(parsedValue) ? undefined : parsedValue
+      value: isNaN(parsedValue) ? null : parsedValue
     });
   };
 
