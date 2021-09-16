@@ -44,7 +44,7 @@ export default function Select(props) {
       disabled={ disabled }
       id={ prefixId(id) }
       onChange={ onChange }
-      value={ value }>
+      value={ value || '' }>
       <option value=""></option>
       {
         values.map((v) => {
