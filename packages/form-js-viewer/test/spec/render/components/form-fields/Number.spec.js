@@ -77,7 +77,7 @@ describe('Number', function() {
     const { rerender } = render(<Number { ...props } value={ 123 } />, options);
 
     // when
-    rerender(<Number { ...props } value={ undefined } />, options);
+    rerender(<Number { ...props } value={ null } />, options);
 
     // then
     const input = container.querySelector('input[type="number"]');

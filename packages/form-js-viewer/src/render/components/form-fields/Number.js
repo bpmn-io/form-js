@@ -15,7 +15,7 @@ export default function Number(props) {
     disabled,
     errors = [],
     field,
-    value = ''
+    value
   } = props;
 
   const {
@@ -47,7 +47,7 @@ export default function Number(props) {
       id={ prefixId(id) }
       onInput={ onChange }
       type="number"
-      value={ value } />
+      value={ value || '' } />
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;

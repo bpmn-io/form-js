@@ -73,6 +73,32 @@ describe('Select', function() {
   });
 
 
+  it('should render default value on value removed', function() {
+
+    // given
+    const props = {
+      disabled: false,
+      errors: [],
+      field: defaultField,
+      onChange: () => {},
+      path: [ defaultField.key ]
+    };
+
+    const options = { container: container.querySelector('.fjs-form') };
+
+    const { rerender } = render(<Select { ...props } value={ 'german' } />, options);
+
+    // when
+    rerender(<Select { ...props } value={ null } />, options);
+
+    // then
+    const input = container.querySelector('select');
+
+    expect(input).to.exist;
+    expect(input.value).to.equal('');
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -174,6 +200,7 @@ describe('Select', function() {
   });
 
 });
+
 
 // helpers //////////
 
