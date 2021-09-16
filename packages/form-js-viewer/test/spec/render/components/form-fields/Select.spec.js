@@ -63,6 +63,20 @@ describe('Select', function() {
   });
 
 
+  it('should render <null> value', function() {
+
+    // when
+    const { container } = createSelect({
+      value: null
+    });
+
+    // then
+    const select = container.querySelector('select');
+
+    expect(select.value).to.equal('');
+  });
+
+
   it('should render disabled', function() {
 
     // when
@@ -146,7 +160,7 @@ describe('Select', function() {
     });
 
 
-    it('should handle change (undefined)', function() {
+    it('should clear', function() {
 
       // given
       const onChangeSpy = spy();
@@ -164,7 +178,7 @@ describe('Select', function() {
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: undefined
+        value: null
       });
     });
 

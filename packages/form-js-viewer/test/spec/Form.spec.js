@@ -288,6 +288,32 @@ describe('Form', function() {
   });
 
 
+  it('should render empty', async function() {
+
+    // given
+    const data = {
+      creditor: null,
+      amount: null,
+      invoiceNumber: null,
+      approved: null,
+      approvedBy: null,
+      product: null,
+      language: null,
+      documents: null
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema: textSchema
+    });
+
+    // then
+    expect(form).to.exist;
+  });
+
+
   it('#clear', async function() {
 
     // given
