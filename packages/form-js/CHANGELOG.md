@@ -6,7 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.4
+
+### Viewer
+
+* `FIX`: properly reset UI state of `select` and `number` fields ([#155](https://github.com/bpmn-io/form-js/issues/155))
+* `FIX`: prevent un-checking of `radio` fields ([#176](https://github.com/bpmn-io/form-js/issues/176))
+* `FIX`: correct display of `checkbox` fields without label ([#168](https://github.com/bpmn-io/form-js/issues/168))
+
 ## 0.4.3
+
+### Editor
 
 * `FIX`: correct form icon ([#170](https://github.com/bpmn-io/form-js/issues/170))
 
