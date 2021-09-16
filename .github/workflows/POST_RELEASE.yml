@@ -21,7 +21,7 @@ jobs:
     - name: Wait for published
       env:
         PKG: '@bpmn-io/form-js@${{ env.TAG }}'
-      run: tasks/await-published
+      run: tasks/stages/await-published
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
