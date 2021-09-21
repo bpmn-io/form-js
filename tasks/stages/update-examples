@@ -17,9 +17,10 @@ git clone --depth=1 "https://$BPMN_IO_TOKEN@github.com/bpmn-io/form-js-examples.
 cd "$EXAMPLES_DIR"
 
 TOOLKIT_VERSION="${TAG:1}"
-echo "Updating toolkit versions to $TOOLKIT_VERSION"
+echo "Updating to @bpmn-io/form-js@$TOOLKIT_VERSION"
 
-sed -i -E "s#/form-js@[^/]+/#/form-js@$TOOLKIT_VERSION/#" **/*.{html,md}
+# update links to static resources
+sed -i -E "s#/@bpmn-io/form-js@[^/]+/#/@bpmn-io/form-js@$TOOLKIT_VERSION/#" **/*.{html,md}
 
 # update via npm if possible
 for dir in $(ls -d */)
