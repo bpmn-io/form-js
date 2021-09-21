@@ -3,7 +3,7 @@
 set -eo pipefail
 shopt -s inherit_errexit nullglob
 
-# update dmn-js version in the <bpmn.io> project
+# update form-js version in the <bpmn.io> project
 
 PWD="$(pwd)"
 WORKDIR="$(pwd)/tmp"
