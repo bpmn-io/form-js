@@ -1,26 +1,13 @@
-// @ts-ignore-next-line
-import formCSS from '@bpmn-io/form-js/dist/assets/form-js.css';
+import './test.css';
 
-// @ts-ignore-next-line
-import formEditorCSS from '@bpmn-io/form-js/dist/assets/form-js-editor.css';
-
-// @ts-ignore-next-line
-import dragulaCSS from '@bpmn-io/form-js/dist/assets/dragula.css';
-
-// @ts-ignore-next-line
-import testCSS from './test.css';
+import '@bpmn-io/form-js/dist/assets/form-js.css';
+import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
+import '@bpmn-io/form-js/dist/assets/dragula.css';
 
 export function isSingleStart(topic) {
 
   // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;
-}
-
-export function insertStyles() {
-  insertCSS('form-js.css', formCSS);
-  insertCSS('form-js-editor.css', formEditorCSS);
-  insertCSS('dragula.css', dragulaCSS);
-  insertCSS('test.css', testCSS);
 }
 
 export function insertCSS(name, css) {

@@ -1,50 +1,39 @@
 import 'preact/debug';
 
-import fileDrop from 'file-drops';
-
-import { Playground } from '../../src';
+import {
+  PlaygroundParent as Playground
+} from '../../src';
 
 import schema from './form.json';
 import otherSchema from './other-form.json';
 
 import {
-  insertStyles,
   insertCSS,
   isSingleStart
 } from '../TestHelper';
 
-// @ts-ignore-next-line
-import playgroundCSS from '../../src/Playground.css';
-
-// @ts-ignore-next-line
-import fileDropCSS from './file-drop.css';
-
-// @ts-ignore-next-line
-import appCSS from './app.css';
-
-insertStyles();
-
-insertCSS('Playground.css', playgroundCSS);
-insertCSS('file-drop.css', fileDropCSS);
-insertCSS('app.css', appCSS);
+insertCSS('Test.css', `
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+`);
 
 const singleStart = isSingleStart('basic');
 
 
 describe('playground', function() {
 
-  let container;
+  const container = document.body;
 
-  beforeEach(function() {
-    container = document.createElement('div');
-
-    container.classList.add('playground-parent');
-
-    document.body.appendChild(container);
-  });
+  let playground;
 
   !singleStart && afterEach(function() {
-    document.body.removeChild(container);
+    if (playground) {
+      playground.destroy();
+    }
   });
 
 
@@ -62,26 +51,11 @@ describe('playground', function() {
     };
 
     // when
-    const playground = new Playground({
+    playground = new Playground({
       container,
       schema,
       data
     });
-
-    const handleDrop = fileDrop('Drop a form file', function(files) {
-      const file = files[0];
-
-      if (file) {
-        try {
-          playground.setSchema(JSON.parse(file.contents));
-        } catch (err) {
-
-          // TODO(nikku): indicate JSON parse error
-        }
-      }
-    });
-
-    container.addEventListener('dragover', handleDrop);
 
     // then
     expect(playground).to.exist;
