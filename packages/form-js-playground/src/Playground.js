@@ -4,6 +4,10 @@ import { render } from 'preact';
 
 import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
 
+import './Playground.css';
+
+import mitt from 'mitt';
+
 import download from 'downloadjs';
 
 import {
@@ -295,6 +299,8 @@ export default function Playground(options) {
     data
   } = options;
 
+  const emitter = mitt();
+
   let state = { data, schema };
   let ref;
 
@@ -308,6 +314,15 @@ export default function Playground(options) {
     container
   );
 
+  this.on = emitter.on;
+  this.off = emitter.off;
+
+  this.emit = emitter.emit;
+
+  this.on('destroy', function() {
+    render(null, container);
+  });
+
   this.getState = function() {
     return state;
   };
@@ -316,6 +331,9 @@ export default function Playground(options) {
     return ref.setSchema(schema);
   };
 
+  this.destroy = function() {
+    this.emit('destroy');
+  };
 }
 
 
