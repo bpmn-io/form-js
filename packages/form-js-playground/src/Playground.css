@@ -46,7 +46,8 @@
   background: var(--color-light-gray);
   font-size: 1rem;
   margin: 0;
-  padding: 5px 10px;
+  line-height: 2em;
+  padding: 0 .5em;
   border-bottom: solid 1px var(--color-default-gray);
 }
 
