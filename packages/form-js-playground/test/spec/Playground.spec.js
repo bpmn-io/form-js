@@ -1,7 +1,7 @@
 import 'preact/debug';
 
 import {
-  PlaygroundParent as Playground
+  Playground
 } from '../../src';
 
 import schema from './form.json';
