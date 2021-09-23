@@ -4,12 +4,19 @@
 
 A tool to try out and explore [@bpmn-io/form-js](../form-js) in a playful manner.
 
+![Playground Screenshot](./resources/screenshot.png)
+
 
 ## Usage
 
-Bootstrap the playground.
+Integrate the playground into your application:
 
 ```javascript
+import '@bpmn-io/form-js/dist/assets/form-js.css';
+import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
+import '@bpmn-io/form-js/dist/assets/dragula.css';
+import '@bpmn-io/form-js-playground/dist/assets/form-js-playground.css';
+
 import { Playground } from '@bpmn-io/form-js-playground';
 
 const playground = new Playground({
