@@ -35,14 +35,14 @@ function Modal(props) {
   });
 
   return (
-    <div class="modal">
-      <div class="modal-backdrop" onClick={ props.onClose }></div>
-      <div class="modal-content">
-        <h1 class="modal-header">{ props.name }</h1>
-        <div class="modal-body">
+    <div class="fjs-pgl-modal">
+      <div class="fjs-pgl-modal-backdrop" onClick={ props.onClose }></div>
+      <div class="fjs-pgl-modal-content">
+        <h1 class="fjs-pgl-modal-header">{ props.name }</h1>
+        <div class="fjs-pgl-modal-body">
           { props.children }
         </div>
-        <div class="modal-footer">
+        <div class="fjs-pgl-modal-footer">
           <button class="fjs-pgl-button fjs-pgl-button-default" onClick={ props.onClose }>Close</button>
         </div>
       </div>
@@ -72,7 +72,7 @@ function Section(props) {
   }, { headerItems: [], children: [] });
 
   return (
-    <div class="section">
+    <div class="fjs-pgl-section">
       <h1 class="header">{ props.name } { headerItems.length ? <span class="header-items">{ headerItems }</span> : null }</h1>
       <div class="body">
         { children }
@@ -100,7 +100,7 @@ function EmbedModal(props) {
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.4/dist/assets/form-js.css">
 
 <!-- container to render the form into -->
-<div class="form-container"></div>
+<div class="fjs-pgl-form-container"></div>
 
 <!-- scripts needed for embedding -->
 <script src="https://unpkg.com/@bpmn-io/form-js@0.2.4/dist/form-viewer.umd.js"></script>
@@ -111,7 +111,7 @@ function EmbedModal(props) {
   const schema = JSON.parse(${schema});
 
   const form = new FormViewer.Form({
-    container: document.querySelector(".form-container")
+    container: document.querySelector(".fjs-pgl-form-container")
   });
 
   form.on("submit", (event) => {
@@ -266,24 +266,28 @@ function PlaygroundRoot(props) {
 
         <Section name="Form Definition">
           <Section.HeaderItem>
-            <button class="fjs-pgl-button"
-                    title="Download form definition"
-                    onClick={ handleDownload }>Download</button>
+            <button
+              class="fjs-pgl-button"
+              title="Download form definition"
+              onClick={ handleDownload }
+            >Download</button>
           </Section.HeaderItem>
           <Section.HeaderItem>
-            <button class="fjs-pgl-button"
-                    onClick={ showEmbedModal }>Embed</button>
+            <button
+              class="fjs-pgl-button"
+              onClick={ showEmbedModal }
+            >Embed</button>
           </Section.HeaderItem>
-          <div ref={ editorContainerRef } class="form-container"></div>
+          <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Preview">
-          <div ref={ formContainerRef } class="form-container"></div>
+          <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Data (Input)">
-          <div ref={ dataContainerRef } class="text-container"></div>
+          <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
         <Section name="Form Data (Submit)">
-          <div ref={ resultContainerRef } class="text-container"></div>
+          <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
       </div>
     </div>

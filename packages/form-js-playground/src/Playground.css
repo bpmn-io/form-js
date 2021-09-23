@@ -26,23 +26,23 @@
 /**
  * Section
  */
-.section {
+.fjs-pgl-section {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
 }
 
-.section:nth-child(1),
-.section:nth-child(2) {
+.fjs-pgl-section:nth-child(1),
+.fjs-pgl-section:nth-child(2) {
   border-bottom: double 3px var(--color-dark-gray);
 }
 
-.section:nth-child(1),
-.section:nth-child(3) {
+.fjs-pgl-section:nth-child(1),
+.fjs-pgl-section:nth-child(3) {
   border-right: double 3px var(--color-dark-gray);
 }
 
-.section .header {
+.fjs-pgl-section .header {
   background: var(--color-light-gray);
   font-size: 1rem;
   margin: 0;
@@ -51,20 +51,20 @@
   border-bottom: solid 1px var(--color-default-gray);
 }
 
-.section .header-items {
+.fjs-pgl-section .header-items {
   float: right;
 }
 
-.section .body {
+.fjs-pgl-section .body {
   flex: 1;
   overflow: hidden;
 }
 
-.modal {
+.fjs-pgl-modal {
   z-index: 5;
 }
 
-.modal .modal-backdrop {
+.fjs-pgl-modal .fjs-pgl-modal-backdrop {
   background: rgba(0 0 0 / .5);
   position: absolute;
   top: 0;
@@ -74,7 +74,7 @@
   z-index: 5;
 }
 
-.modal-content {
+.fjs-pgl-modal-content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -92,25 +92,25 @@
   background: white;
 }
 
-.modal-content textarea {
+.fjs-pgl-modal-content textarea {
   width: 100%;
   height: 300px;
   overflow: auto;
 }
 
-.modal-footer {
+.fjs-pgl-modal-footer {
   margin-top: 20px;
 
   text-align: right;
 }
 
-.form-container {
+.fjs-pgl-form-container {
   height: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.text-container {
+.fjs-pgl-text-container {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -118,12 +118,12 @@
   border-radius: 0;
 }
 
-.text-container > .cm-editor {
+.fjs-pgl-text-container > .cm-editor {
   font-size: .9em;
   height: 100%;
 }
 
-.form-container > .fjs-container {
+.fjs-pgl-form-container > .fjs-container {
   overflow: auto;
 }
 
