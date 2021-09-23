@@ -4,7 +4,7 @@ import { render } from 'preact';
 
 import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
 
-import './Playground.css';
+import fileDrop from 'file-drops';
 
 import mitt from 'mitt';
 
@@ -14,6 +14,10 @@ import {
   Form,
   FormEditor
 } from '@bpmn-io/form-js';
+
+import './FileDrop.css';
+import './Playground.css';
+
 
 function Modal(props) {
 
@@ -298,7 +302,7 @@ function PlaygroundRoot(props) {
 export default function Playground(options) {
 
   const {
-    container,
+    container: parent,
     schema,
     data
   } = options;
@@ -307,6 +311,27 @@ export default function Playground(options) {
 
   let state = { data, schema };
   let ref;
+
+  const container = document.createElement('div');
+
+  container.classList.add('fjs-pgl-parent');
+
+  parent.appendChild(container);
+
+  const handleDrop = fileDrop('Drop a form file', function(files) {
+    const file = files[0];
+
+    if (file) {
+      try {
+        ref.setSchema(JSON.parse(file.contents));
+      } catch (err) {
+
+        // TODO(nikku): indicate JSON parse error
+      }
+    }
+  });
+
+  container.addEventListener('dragover', handleDrop);
 
   render(
     <PlaygroundRoot
@@ -325,6 +350,10 @@ export default function Playground(options) {
 
   this.on('destroy', function() {
     render(null, container);
+  });
+
+  this.on('destroy', function() {
+    parent.removeChild(container);
   });
 
   this.getState = function() {

@@ -151,3 +151,8 @@
 .fjs-pgl-button + .fjs-pgl-button {
   margin-left: 1em;
 }
+
+.fjs-pgl-parent {
+  width: 100%;
+  height: 100%;
+}
