@@ -2,7 +2,6 @@
   "name": "@bpmn-io/form-js-playground",
   "version": "0.4.4",
   "description": "A form-js playground",
-  "private": true,
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
