@@ -135,7 +135,8 @@ describe('properties panel', function() {
       expectGroupEntries(result.container, 'General', [
         'Field Label',
         'Field Description',
-        'Key'
+        'Key',
+        'Disabled'
       ]);
     });
 
@@ -162,7 +163,8 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'General', [
           'Field Label',
           'Field Description',
-          'Key'
+          'Key',
+          'Disabled'
         ]);
 
         expectGroupEntries(result.container, 'Values', [
@@ -258,7 +260,8 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'General', [
           'Field Label',
           'Field Description',
-          'Key'
+          'Key',
+          'Disabled'
         ]);
 
         expectGroupEntries(result.container, 'Values', [
@@ -378,7 +381,8 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'General', [
           'Field Label',
           'Field Description',
-          'Key'
+          'Key',
+          'Disabled'
         ]);
 
         expectGroupEntries(result.container, 'Validation', [

@@ -10,6 +10,10 @@ import {
   TextEntry
 } from '../entries';
 
+import {
+  CheckboxInputEntry
+} from '../components';
+
 import { INPUTS } from '../Util';
 
 export default function GeneralGroup(field, editField) {
@@ -43,6 +47,10 @@ export default function GeneralGroup(field, editField) {
 
   if (type === 'text') {
     entries.push(<TextEntry editField={ editField } field={ field } />);
+  }
+
+  if (INPUTS.includes(type)) {
+    entries.push(<CheckboxInputEntry id="disabled" label="Disabled" editField={ editField } field={ field } path={ [ 'disabled' ] } />);
   }
 
   return (
