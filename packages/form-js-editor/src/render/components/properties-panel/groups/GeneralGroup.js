@@ -4,6 +4,7 @@ import {
   ActionEntry,
   ColumnsEntry,
   DescriptionEntry,
+  DisabledEntry,
   IdEntry,
   KeyEntry,
   LabelEntry,
@@ -43,6 +44,10 @@ export default function GeneralGroup(field, editField) {
 
   if (type === 'text') {
     entries.push(<TextEntry editField={ editField } field={ field } />);
+  }
+
+  if (INPUTS.includes(type)) {
+    entries.push(<DisabledEntry editField={ editField } field={ field } />);
   }
 
   return (
