@@ -744,6 +744,20 @@ function expectGroupEntries(container, groupLabel, entryLabels) {
       expect(findEntries(container, groupLabel, entryLabel)).to.have.length(1);
     }
   });
+
+  const group = findGroup(container, groupLabel);
+  expect(group).to.exist;
+
+  const entryLabel = entryLabels[0];
+  const isEntryLabelKeyValuePair = Array.isArray(entryLabel);
+
+  const groupParent = group.parentNode.parentNode;
+  const groupEntries = Array.from(groupParent.querySelectorAll('.fjs-properties-panel-entry'));
+  if (isEntryLabelKeyValuePair === false) {
+    expect(groupEntries).to.have.length(entryLabels.length);
+  } else {
+    expect(groupEntries).to.have.length(entryLabels.length * 2);
+  }
 }
 
 function findGroup(container, groupLabel) {
