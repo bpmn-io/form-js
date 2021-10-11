@@ -90,13 +90,12 @@
   position: absolute;
   top: 3px;
   right: 3px;
-  background-color: white;
-  border-radius: 3px;
   box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%);
 }
 
 .fjs-editor-container .fjs-context-pad-item {
   border: none;
+  border-radius: 3px;
   background-color: var(--color-white);
   padding: 0;
   width: 24px;
