@@ -6,6 +6,18 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.5.0
+
+## Editor
+
+* `FEAT`: allow disabling of form fields ([#182](https://github.com/bpmn-io/form-js/pull/182), [#181](https://github.com/bpmn-io/form-js/issues/181))
+* `FIX`: correct border radius on context pad ([#185](https://github.com/bpmn-io/form-js/pull/185))
+* `FIX`: ensure form fields react to click events ([#186](https://github.com/bpmn-io/form-js/pull/186))
+
+### Playground
+
+_Initial public release of the `@bpmn-io/form-js-playground` :tada:._
+
 ## 0.4.4
 
 ### Viewer
