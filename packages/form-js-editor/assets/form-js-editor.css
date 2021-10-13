@@ -83,6 +83,11 @@
   border-color: var(--color-blue-lighten-82) !important;
 }
 
+.fjs-editor-container .fjs-input:disabled,
+.fjs-editor-container .fjs-select:disabled {
+  pointer-events: none;
+}
+
 /**
  * Context Pad
  */
