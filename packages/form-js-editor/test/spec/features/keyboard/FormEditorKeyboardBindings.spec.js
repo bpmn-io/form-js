@@ -76,4 +76,31 @@ describe('features/editor-actions', function() {
 
   });
 
+
+  it('should undo/redo when focused on input', inject(function(formEditor, keyboard, editorActions) {
+
+    // given
+    const spy = sinon.spy(editorActions, 'trigger');
+
+    const container = formEditor._container;
+    const inputField = document.createElement('input');
+
+    container.appendChild(inputField);
+
+    // when
+    // select all
+    keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+
+    // then
+    expect(spy).to.not.have.been.called;
+
+    // when
+    // undo/redo
+    keyboard._keyHandler({ key: 'z', ctrlKey: true, target: inputField, preventDefault: () => {} });
+    keyboard._keyHandler({ key: 'y', ctrlKey: true, target: inputField, preventDefault: () => {} });
+
+    // then
+    expect(spy).to.have.been.called.calledTwice;
+  }));
+
 });
