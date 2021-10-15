@@ -6,9 +6,20 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.5.1
+
+### Editor
+
+* `FIX`: assign unique DOM IDs
+* `FIX`: correctly handling of undo/redo shortcuts in form
+
+### Viewer
+
+* `FIX`: assign unique DOM IDs
+
 ## 0.5.0
 
-## Editor
+### Editor
 
 * `FEAT`: allow disabling of form fields ([#182](https://github.com/bpmn-io/form-js/pull/182), [#181](https://github.com/bpmn-io/form-js/issues/181))
 * `FIX`: correct border radius on context pad ([#185](https://github.com/bpmn-io/form-js/pull/185))
