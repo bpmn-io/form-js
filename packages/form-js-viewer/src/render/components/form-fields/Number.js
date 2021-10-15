@@ -1,3 +1,7 @@
+import { useContext } from 'preact/hooks';
+
+import { FormContext } from '../../context';
+
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
@@ -36,15 +40,17 @@ export default function Number(props) {
     });
   };
 
+  const { formId } = useContext(FormContext);
+
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(id) }
+      id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
     <input
       class="fjs-input"
       disabled={ disabled }
-      id={ prefixId(id) }
+      id={ prefixId(id, formId) }
       onInput={ onChange }
       type="number"
       value={ value || '' } />

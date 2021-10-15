@@ -7,6 +7,8 @@ import Select from '../../../../../src/render/components/form-fields/Select';
 
 import { createFormContainer } from '../../../../TestHelper';
 
+import { WithFormContext } from './helper';
+
 const spy = sinon.spy;
 
 let container;
@@ -39,11 +41,13 @@ describe('Select', function() {
     const select = container.querySelector('select');
 
     expect(select).to.exist;
+    expect(select.id).to.equal('fjs-form-foo-Select_1');
 
     const label = container.querySelector('label');
 
     expect(label).to.exist;
     expect(label.textContent).to.equal('Language');
+    expect(label.htmlFor).to.equal('fjs-form-foo-Select_1');
   });
 
 
@@ -205,6 +209,7 @@ describe('Select', function() {
 // helpers //////////
 
 const defaultField = {
+  id: 'Select_1',
   key: 'language',
   label: 'Language',
   type: 'select',
@@ -230,16 +235,15 @@ function createSelect(options = {}) {
     value
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Select
       disabled={ disabled }
       errors={ errors }
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />,
-    {
-      container: options.container || container.querySelector('.fjs-form')
-    }
-  );
+      value={ value } />
+  ), {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }

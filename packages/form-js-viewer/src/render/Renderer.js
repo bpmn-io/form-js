@@ -26,7 +26,8 @@ export default function Renderer(config, eventBus, form, injector) {
     const formContext = {
       getService(type, strict = true) {
         return injector.get(type, strict);
-      }
+      },
+      formId: form._id
     };
 
     eventBus.on('changed', (newState) => {

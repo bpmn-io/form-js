@@ -1,3 +1,5 @@
+import Ids from 'ids';
+
 import {
   get,
   isString,
@@ -32,6 +34,7 @@ import core from './core';
  * } } State
  */
 
+const ids = new Ids([ 32, 36, 1 ]);
 
 /**
  * The form.
@@ -43,6 +46,12 @@ export default class Form {
    * @param {FormOptions} options
    */
   constructor(options = {}) {
+
+    /**
+     * @public
+     * @type {String}
+     */
+    this._id = ids.next();
 
     /**
      * @private

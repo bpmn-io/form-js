@@ -1,3 +1,7 @@
+import { useContext } from 'preact/hooks';
+
+import { FormContext } from '../../context';
+
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
@@ -31,16 +35,18 @@ export default function Checkbox(props) {
     });
   };
 
+  const { formId } = useContext(FormContext);
+
   return <div class={ formFieldClasses(type, errors) }>
     <Label
-      id={ prefixId(id) }
+      id={ prefixId(id, formId) }
       label={ label }
       required={ false }>
       <input
         checked={ value }
         class="fjs-input"
         disabled={ disabled }
-        id={ prefixId(id) }
+        id={ prefixId(id, formId) }
         type="checkbox"
         onChange={ onChange } />
     </Label>
