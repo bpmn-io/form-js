@@ -1,3 +1,7 @@
+import { useContext } from 'preact/hooks';
+
+import { FormContext } from '../../context';
+
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
@@ -35,6 +39,8 @@ export default function Radio(props) {
     });
   };
 
+  const { formId } = useContext(FormContext);
+
   return <div class={ formFieldClasses(type, errors) }>
     <Label
       label={ label }
@@ -43,7 +49,7 @@ export default function Radio(props) {
       values.map((v, index) => {
         return (
           <Label
-            id={ prefixId(`${ id }-${ index }`) }
+            id={ prefixId(`${ id }-${ index }`, formId) }
             key={ v.value }
             label={ v.label }
             required={ false }>
@@ -51,7 +57,7 @@ export default function Radio(props) {
               checked={ v.value === value }
               class="fjs-input"
               disabled={ disabled }
-              id={ prefixId(`${ id }-${ index }`) }
+              id={ prefixId(`${ id }-${ index }`, formId) }
               type="radio"
               onClick={ () => onChange(v.value) } />
           </Label>

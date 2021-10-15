@@ -126,4 +126,29 @@ describe('viewer exports', function() {
     expect(schemaVersion).to.eql(2);
   });
 
+
+  it('should generate unique ID for every instance', async function() {
+
+    // given
+    const schema = {
+      components: [
+        {
+          id: 'Text_1',
+          type: 'textfield'
+        }
+      ],
+      id: 'Form_1',
+      type: 'default'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      schema
+    });
+
+    // then
+    expect(form._id).to.exist;
+  });
+
 });

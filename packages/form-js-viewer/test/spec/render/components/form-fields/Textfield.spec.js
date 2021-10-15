@@ -7,6 +7,8 @@ import Textfield from '../../../../../src/render/components/form-fields/Textfiel
 
 import { createFormContainer } from '../../../../TestHelper';
 
+import { WithFormContext } from './helper';
+
 const spy = sinon.spy;
 
 let container;
@@ -40,11 +42,13 @@ describe('Textfield', function() {
 
     expect(input).to.exist;
     expect(input.value).to.equal('John Doe Company');
+    expect(input.id).to.equal('fjs-form-foo-Textfield_1');
 
     const label = container.querySelector('label');
 
     expect(label).to.exist;
     expect(label.textContent).to.equal('Creditor');
+    expect(label.htmlFor).to.equal('fjs-form-foo-Textfield_1');
   });
 
 
@@ -199,6 +203,7 @@ describe('Textfield', function() {
 // helpers //////////
 
 const defaultField = {
+  id: 'Textfield_1',
   key: 'creditor',
   label: 'Creditor',
   type: 'textfield'
@@ -214,16 +219,15 @@ function createTextfield(options = {}) {
     value
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Textfield
       disabled={ disabled }
       errors={ errors }
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />,
-    {
-      container: options.container || container.querySelector('.fjs-form')
-    }
-  );
+      value={ value } />
+  ), {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }

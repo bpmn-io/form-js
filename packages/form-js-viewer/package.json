@@ -40,6 +40,7 @@
   "dependencies": {
     "@bpmn-io/snarkdown": "^2.1.0",
     "didi": "^5.2.1",
+    "ids": "^1.0.0",
     "min-dash": "^3.7.0",
     "preact": "^10.5.14",
     "preact-markup": "^2.1.1"

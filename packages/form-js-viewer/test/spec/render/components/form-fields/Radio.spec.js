@@ -7,6 +7,8 @@ import Radio from '../../../../../src/render/components/form-fields/Radio';
 
 import { createFormContainer } from '../../../../TestHelper';
 
+import { WithFormContext } from './helper';
+
 const spy = sinon.spy;
 
 let container;
@@ -39,11 +41,15 @@ describe('Radio', function() {
     const inputs = container.querySelectorAll('input[type="radio"]');
 
     expect(inputs).to.have.length(2);
+    expect(inputs[ 0 ].id).to.equal('fjs-form-foo-Radio_1-0');
+    expect(inputs[ 1 ].id).to.equal('fjs-form-foo-Radio_1-1');
 
-    const label = container.querySelector('label');
+    const labels = container.querySelectorAll('label');
 
-    expect(label).to.exist;
-    expect(label.textContent).to.equal('Product');
+    expect(labels).to.have.length(3);
+    expect(labels[ 0 ].textContent).to.equal('Product');
+    expect(labels[ 1 ].htmlFor).to.equal('fjs-form-foo-Radio_1-0');
+    expect(labels[ 2 ].htmlFor).to.equal('fjs-form-foo-Radio_1-1');
   });
 
 
@@ -198,6 +204,7 @@ describe('Radio', function() {
 // helpers //////////
 
 const defaultField = {
+  id: 'Radio_1',
   key: 'product',
   label: 'Product',
   type: 'radio',
@@ -223,16 +230,15 @@ function createRadio(options = {}) {
     value
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Radio
       disabled={ disabled }
       errors={ errors }
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />,
-    {
-      container: options.container || container.querySelector('.fjs-form')
-    }
-  );
+      value={ value } />
+  ), {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }
