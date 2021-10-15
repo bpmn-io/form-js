@@ -436,6 +436,31 @@ describe('FormEditor', function() {
   });
 
 
+  it('should generate unique ID for every instance', async function() {
+
+    // given
+    const schema = {
+      components: [
+        {
+          id: 'Text_1',
+          type: 'textfield'
+        }
+      ],
+      id: 'Form_1',
+      type: 'default'
+    };
+
+    // when
+    const formEditor = await createFormEditor({
+      container,
+      schema
+    });
+
+    // then
+    expect(formEditor._id).to.exist;
+  });
+
+
   describe('properties panel', function() {
 
     describe('selection behavior', function() {

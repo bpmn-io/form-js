@@ -279,7 +279,8 @@ export default function FormEditor(props) {
       }
 
       return injector.get(type, strict);
-    }
+    },
+    formId: formEditor._id
   };
 
   const onSubmit = useCallback(() => {}, []);
