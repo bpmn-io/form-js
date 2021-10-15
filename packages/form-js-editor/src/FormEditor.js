@@ -1,3 +1,5 @@
+import Ids from 'ids';
+
 import {
   isString,
   set
@@ -16,6 +18,8 @@ import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
+
+const ids = new Ids([ 32, 36, 1 ]);
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -41,6 +45,12 @@ export default class FormEditor {
    * @param {FormEditorOptions} options
    */
   constructor(options = {}) {
+
+    /**
+     * @public
+     * @type {String}
+     */
+    this._id = ids.next();
 
     /**
      * @private
