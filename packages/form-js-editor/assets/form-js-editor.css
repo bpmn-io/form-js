@@ -312,6 +312,7 @@
   border-radius: 3px;
   padding: 4px 8px;
   font-size: 14px;
+  font-family: inherit;
 }
 
 .fjs-editor-container .fjs-properties-panel-input[type=number],
@@ -345,7 +346,7 @@
 }
 
 .fjs-editor-container textarea.fjs-properties-panel-input {
-  font-family: sans-serif;
+  font-family: inherit;
   resize: vertical;
 }
 
