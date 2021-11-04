@@ -2,45 +2,42 @@
  * Theming
  */
 .fjs-container {
-  --color-blue-base-65: #4d90ff;
-  --color-blue-base-65-opacity-10: rgba(77, 144, 255, 0.1);
-  --color-blue-darken-48: #005df7;
-  --color-blue-darken-55: #1a70ff;
-  --color-blue-darken-62: #3c85ff;
-  --color-blue-lighten-75: #80b0ff;
-  --color-blue-lighten-82: #a2c5ff;
-  --color-blue-lighten-93: #dbe9ff;
+  --color-grey-225-10-15: hsl(225, 10%, 15%);
+  --color-grey-225-10-35: hsl(225, 10%, 35%);
+  --color-grey-225-10-55: hsl(225, 10%, 55%);
+  --color-grey-225-10-75: hsl(225, 10%, 75%);
+  --color-grey-225-10-80: hsl(225, 10%, 80%);
+  --color-grey-225-10-85: hsl(225, 10%, 85%);
+  --color-grey-225-10-90: hsl(225, 10%, 90%);
+  --color-grey-225-10-95: hsl(225, 10%, 95%); 
+  --color-grey-225-10-97: hsl(225, 10%, 97%);
 
-  --color-silver-base-97: #f8f8f8;
-  --color-silver-lighten-99: #fcfcfc;
-  --color-silver-darken-80: #cdcdcd;
-  --color-silver-darken-87: #dedede;
-  --color-silver-darken-94: #efefef;
+  --color-blue-205-100-45: hsl(205, 100%, 45%);
+  --color-blue-205-100-50: hsl(205, 100%, 50%);
+  --color-blue-205-100-80: hsl(205, 100%, 80%);
+  --color-blue-205-100-95: hsl(205, 100%, 95%);
 
-  --color-grey-base-40: #666666;
-  --color-grey-lighten-56: #909090;
-  --color-grey-darken-23: #3b3b3b;
-  --color-grey-darken-30: #4c4c4c;
-  --color-grey-darken-33: #535353;
+  --color-green-150-86-44: hsl(150, 86%, 44%);
 
-  --color-red-base-62: #ff3d3d;
-  --color-red-darken-38: #C20000;
-  --color-red-lighten-85: #ffb3b3;
+  --color-red-360-100-40: hsl(360, 100%, 40%);
+  --color-red-360-100-45: hsl(360, 100%, 45%);
+  --color-red-360-100-92: hsl(360, 100%, 92%);
+  --color-red-360-100-97: hsl(360, 100%, 97%);
 
-  --color-black: #000000;
-  --color-white: #ffffff;
+  --color-white: hsl(0, 0%, 100%);
+  --color-black: hsl(0, 0%, 0%); 
 
   --color-background: var(--color-white);
-  --color-background-disabled: var(--color-silver-darken-94);
-  --color-text: var(--color-grey-darken-23);
-  --color-text-light: var(--color-grey-lighten-56);
-  --color-text-lighter: var(--color-grey-base-40);
+  --color-background-disabled: var(--color-grey-225-10-95);
+  --color-text: var(--color-grey-225-10-15);
+  --color-text-light: var(--color-grey-225-10-35);
+  --color-text-lighter: var(--color-grey-225-10-55);
   --color-text-inverted: var(--color-white);
-  --color-borders: var(--color-grey-lighten-56);
-  --color-borders-disabled: var(--color-silver-darken-80);
-  --color-warning: var(--color-red-base-62);
-  --color-accent: var(--color-blue-darken-62);
-  --color-accent-dark: var(--color-blue-darken-48);
+  --color-borders: var(--color-grey-225-10-55);
+  --color-borders-disabled: var(--color-grey-225-10-75);
+  --color-warning: var(--color-red-360-100-45);
+  --color-accent: var(--color-blue-205-100-45);
+  --color-accent-dark: var(--color-blue-205-100-45);
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -108,7 +105,7 @@
   font-style: italic;
   letter-spacing: .25px;
 
-  color: var(--color-text-light);
+  color: var(--color-text-lighter);
 }
 
 .fjs-container .fjs-form-field-label {
@@ -236,5 +233,5 @@
 }
 
 .fjs-container .fjs-form-field-text a {
-  color: var(--color-blue-darken-48);
+  color: var(--color-blue-205-100-45);
 }
