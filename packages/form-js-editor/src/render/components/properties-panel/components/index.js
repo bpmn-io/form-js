@@ -6,6 +6,7 @@ export { default as TextInput } from './TextInput';
 
 export { default as CheckboxInputEntry } from './CheckboxInputEntry';
 export { default as NumberInputEntry } from './NumberInputEntry';
+export { default as SelectEntry } from './SelectEntry';
 export { default as TextareaEntry } from './TextareaEntry';
 export { default as TextInputEntry } from './TextInputEntry';
 
