@@ -1,0 +1,91 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "# Invoice\n\nLorem _ipsum_ __dolor__ `sit`.\n\nA list of BPMN symbols:\n\n* Start Event\n* Task\n\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
+    },
+    {
+      "defaultValue": "Max Mustermann GmbH",
+      "key": "creditor",
+      "label": "Creditor",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "description": "An invoice number in the format: C-123.",
+      "key": "invoiceNumber",
+      "label": "Invoice Number",
+      "type": "textfield",
+      "validate": {
+        "pattern": "^C-[0-9]+$"
+      }
+    },
+    {
+      "defaultValue": 0,
+      "key": "amount",
+      "label": "Amount",
+      "type": "number",
+      "validate": {
+        "min": 0,
+        "max": 1000
+      }
+    },
+    {
+      "defaultValue": true,
+      "key": "approved",
+      "label": "Approved",
+      "type": "checkbox"
+    },
+    {
+      "key": "approvedBy",
+      "label": "Approved By",
+      "type": "textfield"
+    },
+    {
+      "defaultValue": "camunda-platform",
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Camunda Platform",
+          "value": "camunda-platform"
+        },
+        {
+          "label": "Camunda Cloud",
+          "value": "camunda-cloud"
+        }
+      ]
+    },
+    {
+      "defaultValue": "english",
+      "key": "language",
+      "label": "Language",
+      "type": "select",
+      "values": [
+        {
+          "label": "German",
+          "value": "german"
+        },
+        {
+          "label": "English",
+          "value": "english"
+        }
+      ]
+    },
+    {
+      "key": "submit",
+      "label": "Submit",
+      "type": "button"
+    },
+    {
+      "action": "reset",
+      "key": "reset",
+      "label": "Reset",
+      "type": "button"
+    }
+  ],
+  "type": "default"
+}

@@ -9,6 +9,7 @@ import PropertiesPanel from '../../../src/render/components/properties-panel/Pro
 import { WithFormEditorContext } from './helper';
 
 import schema from '../form.json';
+import defaultValues from '../defaultValues.json';
 
 import { insertStyles } from '../../TestHelper';
 
@@ -117,27 +118,90 @@ describe('properties panel', function() {
     });
 
 
-    it('checkbox', function() {
+    describe('checkbox', function() {
 
-      // given
-      const field = schema.components.find(({ key }) => key === 'approved');
+      it('entries', function() {
 
-      const result = createPropertiesPanel({
-        container,
-        field
+        // given
+        const field = schema.components.find(({ key }) => key === 'approved');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Field Label',
+          'Field Description',
+          'Key',
+          'Default Value',
+          'Disabled'
+        ]);
       });
 
-      // then
-      expectGroups(result.container, [
-        'General'
-      ]);
 
-      expectGroupEntries(result.container, 'General', [
-        'Field Label',
-        'Field Description',
-        'Key',
-        'Disabled'
-      ]);
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'approved');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'true' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], true);
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ key }) => key === 'approved');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('true');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
+      });
+
     });
 
 
@@ -164,6 +228,7 @@ describe('properties panel', function() {
           'Field Label',
           'Field Description',
           'Key',
+          'Default Value',
           'Disabled'
         ]);
 
@@ -175,6 +240,64 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'Validation', [
           'Required'
         ]);
+      });
+
+
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'product');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'camunda-platform' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'camunda-platform');
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ key }) => key === 'product');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('camunda-platform');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
       });
 
 
@@ -261,6 +384,7 @@ describe('properties panel', function() {
           'Field Label',
           'Field Description',
           'Key',
+          'Default Value',
           'Disabled'
         ]);
 
@@ -272,6 +396,64 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'Validation', [
           'Required'
         ]);
+      });
+
+
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'english' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'english');
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ key }) => key === 'language');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('english');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
       });
 
 
@@ -382,6 +564,7 @@ describe('properties panel', function() {
           'Field Label',
           'Field Description',
           'Key',
+          'Default Value',
           'Disabled'
         ]);
 
@@ -391,6 +574,64 @@ describe('properties panel', function() {
           'Maximum Length',
           'Regular Expression Pattern'
         ]);
+      });
+
+
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'Max Mustermann GmbH' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'Max Mustermann GmbH');
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default Value');
+
+          expect(input.value).to.equal('Max Mustermann GmbH');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
       });
 
 
