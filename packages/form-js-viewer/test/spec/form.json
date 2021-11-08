@@ -8,6 +8,7 @@
       "key": "creditor",
       "label": "Creditor",
       "type": "textfield",
+      "defaultValue": "creditor defaultValue",
       "validate": {
         "required": true
       }
@@ -25,6 +26,7 @@
       "key": "amount",
       "label": "Amount",
       "type": "number",
+      "defaultValue": 12,
       "validate": {
         "min": 0,
         "max": 1000
@@ -33,6 +35,7 @@
     {
       "key": "approved",
       "label": "Approved",
+      "defaultValue": true,
       "type": "checkbox"
     },
     {
@@ -44,6 +47,7 @@
       "key": "product",
       "label": "Product",
       "type": "radio",
+      "defaultValue": "camunda-platform",
       "values": [
         {
           "label": "Camunda Platform",
@@ -59,6 +63,7 @@
       "key": "language",
       "label": "Language",
       "type": "select",
+      "defaultValue": "german",
       "values": [
         {
           "label": "German",

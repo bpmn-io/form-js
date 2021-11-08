@@ -37,13 +37,10 @@ export default function FormField(props) {
   if (!FormFieldComponent) {
     throw new Error(`cannot render field <${field.type}>`);
   }
-
-  const value = get(data, _path);
-
+  const value = get(data, _path) || field.defaultValue;
   const fieldErrors = findErrors(errors, _path);
 
   const disabled = properties.readOnly || field.disabled || false;
-
   return (
     <Element field={ field }>
       <FormFieldComponent

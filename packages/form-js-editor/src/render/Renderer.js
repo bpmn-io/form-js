@@ -40,7 +40,6 @@ export default class Renderer {
       });
 
       const { schema } = state;
-
       if (!schema) {
         return null;
       }

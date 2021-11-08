@@ -4,11 +4,12 @@ import {
 } from 'min-dash';
 
 import {
-  CheckboxInputEntry,
   Group,
   NumberInputEntry,
   TextInputEntry
 } from '../components';
+
+import RequireCheckBox from './components/RequireCheckBox';
 
 export default function ValidationGroup(field, editField) {
   const { type } = field;
@@ -22,11 +23,12 @@ export default function ValidationGroup(field, editField) {
   };
 
   const entries = [
-    <CheckboxInputEntry
-      id="required"
-      label="Required"
-      onChange={ onChange('required') }
-      value={ get(field, [ 'validate', 'required' ]) } />
+    <RequireCheckBox
+      editField={ editField }
+      field={ field }
+      onChange={ onChange }
+      value={ get(field, [ 'validate', 'required' ]) }
+    />
   ];
 
   if (type === 'textfield') {

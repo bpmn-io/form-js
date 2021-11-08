@@ -12,6 +12,7 @@
       "key": "creditor",
       "label": "Creditor",
       "type": "textfield",
+      "defaultValue": "creditor",
       "validate": {
         "required": true
       }
