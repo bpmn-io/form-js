@@ -14,7 +14,7 @@ export default function Select(props) {
   };
 
   return (
-    <div class="fjs-properties-panel-textfield">
+    <div class="fjs-properties-panel-select">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <select id={ prefixId(id) } class="fjs-properties-panel-input" onInput={ handleChange }>
         {
