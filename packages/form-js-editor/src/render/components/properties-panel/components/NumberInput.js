@@ -28,7 +28,7 @@ export default function NumberInput(props) {
   }, [ _onInput ]);
 
   return (
-    <div class="fjs-properties-panel-textfield">
+    <div class="fjs-properties-panel-numberfield">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <input
         id={ prefixId(id) }

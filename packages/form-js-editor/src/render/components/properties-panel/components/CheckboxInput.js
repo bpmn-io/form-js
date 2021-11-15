@@ -13,7 +13,7 @@ export default function CheckboxInput(props) {
   };
 
   return (
-    <div class="fjs-properties-panel-textfield">
+    <div class="fjs-properties-panel-checkbox">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <input
         id={ prefixId(id) }

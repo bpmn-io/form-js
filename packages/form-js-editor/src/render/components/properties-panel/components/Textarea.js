@@ -22,7 +22,7 @@ export default function Textarea(props) {
   }, [ _onInput ]);
 
   return (
-    <div class="fjs-properties-panel-textfield">
+    <div class="fjs-properties-panel-textarea">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <textarea
         id={ prefixId(id) }
