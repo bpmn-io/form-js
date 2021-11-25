@@ -5,11 +5,11 @@ import {
 
 import {
   Group,
+  CheckboxInputEntry,
   NumberInputEntry,
   TextInputEntry
 } from '../components';
 
-import RequireCheckBox from './components/RequireCheckBox';
 
 export default function ValidationGroup(field, editField) {
   const { type } = field;
@@ -23,12 +23,11 @@ export default function ValidationGroup(field, editField) {
   };
 
   const entries = [
-    <RequireCheckBox
-      editField={ editField }
-      field={ field }
-      onChange={ onChange }
-      value={ get(field, [ 'validate', 'required' ]) }
-    />
+    <CheckboxInputEntry
+      id="required"
+      label="Required"
+      onChange={ onChange('required') }
+      value={ get(field, [ 'validate', 'required' ]) } />
   ];
 
   if (type === 'textfield') {

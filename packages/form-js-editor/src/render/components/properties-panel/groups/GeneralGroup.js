@@ -5,6 +5,7 @@ import {
   ColumnsEntry,
   DescriptionEntry,
   DisabledEntry,
+  DefaultValueEntry,
   IdEntry,
   KeyEntry,
   LabelEntry,
@@ -17,7 +18,6 @@ export default function GeneralGroup(field, editField) {
   const { type } = field;
 
   const entries = [];
-
   if (type === 'default') {
     entries.push(<IdEntry editField={ editField } field={ field } />);
   }
@@ -32,6 +32,10 @@ export default function GeneralGroup(field, editField) {
 
   if (INPUTS.includes(type)) {
     entries.push(<KeyEntry editField={ editField } field={ field } />);
+  }
+
+  if (INPUTS.includes(type)) {
+    entries.push(<DefaultValueEntry editField={ editField } field={ field } />);
   }
 
   if (type === 'button') {
