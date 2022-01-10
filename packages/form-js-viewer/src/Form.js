@@ -169,21 +169,24 @@ export default class Form {
 
     const formFieldRegistry = this.get('formFieldRegistry');
 
-    // do not submit disabled form fields
     const data = formFieldRegistry.getAll().reduce((data, field) => {
       const {
         disabled,
         _path
       } = field;
 
-      if (disabled) {
-
-        // strip disabled field value
-        set(data, _path, undefined);
+      // do not submit disabled form fields
+      if (disabled || !_path) {
+        return data;
       }
 
-      return data;
-    }, clone(this._getState().data));
+      const value = get(this._getState().data, _path);
+
+      return {
+        ...data,
+        [ _path[ 0 ] ]: value
+      };
+    }, {});
 
     const errors = this.validate();
 

@@ -68,3 +68,4 @@ Number.create = function(options = {}) {
 Number.type = type;
 Number.keyed = true;
 Number.label = 'Number';
+Number.emptyValue = null;

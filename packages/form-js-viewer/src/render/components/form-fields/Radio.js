@@ -84,3 +84,4 @@ Radio.create = function(options = {}) {
 Radio.type = type;
 Radio.label = 'Radio';
 Radio.keyed = true;
+Radio.emptyValue = null;

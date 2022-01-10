@@ -85,3 +85,4 @@ Select.create = function(options = {}) {
 Select.type = type;
 Select.label = 'Select';
 Select.keyed = true;
+Select.emptyValue = null;
