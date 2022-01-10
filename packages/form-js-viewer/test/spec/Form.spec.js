@@ -84,6 +84,10 @@ describe('Form', function() {
       console.log('Form <changed>', event);
     });
 
+    form.on('submit', event => {
+      console.log('Form <submit>', event);
+    });
+
     // then
     expect(form.get('formFieldRegistry').getAll()).to.have.length(11);
   });
@@ -288,29 +292,55 @@ describe('Form', function() {
   });
 
 
-  it('should render empty', async function() {
+  describe('empty', function() {
 
-    // given
-    const data = {
-      creditor: null,
-      amount: null,
-      invoiceNumber: null,
-      approved: null,
-      approvedBy: null,
-      product: null,
-      language: null,
-      documents: null
-    };
+    it('should render empty', async function() {
 
-    // when
-    const form = await createForm({
-      container,
-      data,
-      schema: textSchema
+      // given
+      const data = {};
+
+      // when
+      const form = await createForm({
+        container,
+        data,
+        schema
+      });
+
+      // then
+      expect(form).to.exist;
     });
 
-    // then
-    expect(form).to.exist;
+
+    it('should submit empty', async function() {
+
+      // given
+      const data = {};
+
+      const form = await createForm({
+        container,
+        data,
+        schema
+      });
+
+      // when
+      const submission = form.submit();
+
+      // then
+      expect(submission.data).to.eql({
+        creditor: '',
+        invoiceNumber: '',
+        amount: null,
+        approved: false,
+        approvedBy: '',
+        product: null,
+        language: null
+      });
+
+      expect(submission.errors).to.eql({
+        creditor: [ 'Field is required.' ]
+      });
+    });
+
   });
 
 
@@ -492,6 +522,33 @@ describe('Form', function() {
   });
 
 
+  it('should not submit data without corresponding field', async function() {
+
+    // given
+    const data = {
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      foo: 'bar'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema: disabledSchema
+    });
+
+    // when
+    const submission = form.submit();
+
+    // then
+    expect(submission.data).not.to.have.property('foo');
+    expect(submission.errors).not.to.have.property('foo');
+  });
+
+
   it('should not validate disabled fields', async function() {
 
     // given
@@ -638,13 +695,15 @@ describe('Form', function() {
     // then
     expect(submission.data).to.eql({
       creditor: 'Jane Doe Company',
-      amount: 456,
       invoiceNumber: 'C-123',
+      amount: 456,
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
+      product: null,
+      language: null
     });
 
-    expect(submission.errors).to.eql({});
+    expect(submission.errors).to.be.empty;
 
     // when reset
     form.reset();
@@ -652,7 +711,16 @@ describe('Form', function() {
     // then
     const state = form._getState();
 
-    expect(state.data).to.eql(data);
+    expect(state.data).to.eql({
+      creditor: 'John Doe Company',
+      invoiceNumber: 'C-123',
+      amount: 456,
+      approved: true,
+      approvedBy: 'John Doe',
+      product: null,
+      language: null
+    });
+
     expect(state.errors).to.be.empty;
   });
 
@@ -687,7 +755,16 @@ describe('Form', function() {
     // then
     const state = form._getState();
 
-    expect(state.data).to.be.empty;
+    expect(state.data).to.eql({
+      creditor: '',
+      invoiceNumber: '',
+      amount: null,
+      approved: false,
+      approvedBy: '',
+      product: null,
+      language: null
+    });
+
     expect(state.errors).to.be.empty;
   });
 
@@ -752,11 +829,19 @@ describe('Form', function() {
       expect(event.data).to.exist;
       expect(event.errors).to.exist;
 
+      expect(event.data).to.eql({
+        creditor: '',
+        invoiceNumber: '',
+        amount: 456,
+        approved: false,
+        approvedBy: '',
+        product: null,
+        language: null
+      });
+
       expect(event.errors).to.eql({
         creditor: [ 'Field is required.' ]
       });
-
-      expect(event.data).to.eql(data);
     });
 
     form.on('submit', submitListener);

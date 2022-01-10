@@ -64,3 +64,4 @@ Checkbox.create = function(options = {}) {
 Checkbox.type = type;
 Checkbox.label = 'Checkbox';
 Checkbox.keyed = true;
+Checkbox.emptyValue = false;

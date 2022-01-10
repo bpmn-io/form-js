@@ -66,3 +66,4 @@ Textfield.create = function(options = {}) {
 Textfield.type = type;
 Textfield.label = 'Text Field';
 Textfield.keyed = true;
+Textfield.emptyValue = '';

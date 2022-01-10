@@ -1,3 +1,5 @@
+import { get } from 'min-dash';
+
 import { clone, generateIdForType } from '../util';
 
 
@@ -29,8 +31,8 @@ export default class Importer {
     const warnings = [];
 
     try {
-      const importedData = clone(data);
-      const importedSchema = this.importFormField(clone(schema), importedData);
+      const importedSchema = this.importFormField(clone(schema)),
+            importedData = this.importData(clone(data));
 
       return {
         warnings,
@@ -46,12 +48,11 @@ export default class Importer {
 
   /**
    * @param {any} formField
-   * @param {Object} [data]
    * @param {string} [parentId]
    *
-   * @return {any} field
+   * @return {any} importedField
    */
-  importFormField(formField, data = {}, parentId) {
+  importFormField(formField, parentId) {
     const {
       components,
       key,
@@ -78,8 +79,12 @@ export default class Importer {
 
       this._formFieldRegistry._keys.claim(key, formField);
 
-      // set form field path
-      formField._path = [ key ];
+      // TODO: buttons should not have key
+      if (type !== 'button') {
+
+        // set form field path
+        formField._path = [ key ];
+      }
     }
 
     if (id) {
@@ -98,16 +103,39 @@ export default class Importer {
     this._formFieldRegistry.add(formField);
 
     if (components) {
-      this.importFormFields(components, data, id);
+      this.importFormFields(components, id);
     }
 
     return formField;
   }
 
-  importFormFields(components, data = {}, parentId) {
+  importFormFields(components, parentId) {
     components.forEach((component) => {
-      this.importFormField(component, data, parentId);
+      this.importFormField(component, parentId);
     });
+  }
+
+  /**
+   * @param {Object} data
+   *
+   * @return {Object} importedData
+   */
+  importData(data) {
+    return this._formFieldRegistry.getAll().reduce((importedData, formField) => {
+      const {
+        _path,
+        type
+      } = formField;
+
+      if (!_path) {
+        return importedData;
+      }
+
+      return {
+        ...importedData,
+        [ _path[ 0 ] ]: get(data, _path, this._formFields.get(type).emptyValue)
+      };
+    }, {});
   }
 }
 
