@@ -38,7 +38,7 @@ export default function ValuesGroup(field, editField) {
           };
 
           return (
-            <CollapsibleEntry key={ `${ id }-${ value.value }` } label={ label } removeEntry={ removeEntry }>
+            <CollapsibleEntry key={ `${ id }-${ index }` } label={ label } removeEntry={ removeEntry }>
               <ValueEntry editField={ editField } field={ field } index={ index } />
             </CollapsibleEntry>
           );
