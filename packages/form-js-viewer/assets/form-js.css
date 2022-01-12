@@ -214,6 +214,7 @@
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-select,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea {
   border-color: var(--color-warning);
 }
