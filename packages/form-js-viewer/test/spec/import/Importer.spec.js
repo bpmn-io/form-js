@@ -8,6 +8,7 @@ import { clone } from 'src/util';
 
 import schema from '../form.json';
 import other from '../other.json';
+import defaultValues from '../defaultValues.json';
 
 
 describe('Importer', function() {
@@ -272,6 +273,27 @@ describe('Importer', function() {
         approvedBy: '',
         product: null,
         language: null
+      });
+    }));
+
+
+    it('should import data (default values)', inject(async function(form) {
+
+      // given
+      const data = {};
+
+      // when
+      await form.importSchema(defaultValues, data);
+
+      // then
+      expect(form._getState().data).to.eql({
+        creditor: 'Max Mustermann GmbH',
+        invoiceNumber: '',
+        amount: 0,
+        approved: true,
+        approvedBy: '',
+        product: 'camunda-platform',
+        language: 'english'
       });
     }));
 

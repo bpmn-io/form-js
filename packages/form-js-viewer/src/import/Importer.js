@@ -1,6 +1,12 @@
-import { get } from 'min-dash';
+import {
+  get,
+  isUndefined
+} from 'min-dash';
 
-import { clone, generateIdForType } from '../util';
+import {
+  clone,
+  generateIdForType
+} from '../util';
 
 
 export default class Importer {
@@ -123,6 +129,7 @@ export default class Importer {
   importData(data) {
     return this._formFieldRegistry.getAll().reduce((importedData, formField) => {
       const {
+        defaultValue,
         _path,
         type
       } = formField;
@@ -131,9 +138,12 @@ export default class Importer {
         return importedData;
       }
 
+      // (1) try to get value from data
+      // (2) try to get default value from form field
+      // (3) get empty value from form field
       return {
         ...importedData,
-        [ _path[ 0 ] ]: get(data, _path, this._formFields.get(type).emptyValue)
+        [ _path[ 0 ] ]: get(data, _path, isUndefined(defaultValue) ? this._formFields.get(type).emptyValue : defaultValue)
       };
     }, {});
   }
