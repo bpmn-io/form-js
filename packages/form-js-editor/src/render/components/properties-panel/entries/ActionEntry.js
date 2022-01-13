@@ -1,16 +1,10 @@
-import { Select } from '../components';
+import { SelectEntry } from '../components';
 
 export default function ActionEntry(props) {
   const {
     editField,
     field
   } = props;
-
-  const onChange = (value) => {
-    editField(field, 'action', value);
-  };
-
-  const value = field.action;
 
   const options = [
     {
@@ -24,8 +18,12 @@ export default function ActionEntry(props) {
   ];
 
   return (
-    <div class="fjs-properties-panel-entry">
-      <Select id="action" label="Action" options={ options } onChange={ onChange } value={ value } />
-    </div>
+    <SelectEntry
+      editField={ editField }
+      field={ field }
+      id="action"
+      label="Action"
+      options={ options }
+      path={ [ 'action' ] } />
   );
 }

@@ -96,25 +96,60 @@ describe('properties panel', function() {
     });
 
 
-    it('button', function() {
+    describe('button', function() {
 
-      // given
-      const field = schema.components.find(({ key }) => key === 'submit');
+      it('entries', function() {
 
-      const result = createPropertiesPanel({
-        container,
-        field
+        // given
+        const field = schema.components.find(({ key }) => key === 'submit');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Field Label',
+          'Action'
+        ]);
       });
 
-      // then
-      expectGroups(result.container, [
-        'General'
-      ]);
 
-      expectGroupEntries(result.container, 'General', [
-        'Field Label',
-        'Action'
-      ]);
+      describe('action', function() {
+
+        it('should change action', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ action }) => action === 'reset');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Action');
+
+          expect(input.value).to.equal('reset');
+
+          // when
+          fireEvent.input(input, { target: { value: 'submit' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'action' ], 'submit');
+        });
+
+      });
+
     });
 
 
