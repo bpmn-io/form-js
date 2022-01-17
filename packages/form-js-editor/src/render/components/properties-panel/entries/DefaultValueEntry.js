@@ -19,9 +19,6 @@ export default function DefaultValueEntry(props) {
   if (type === 'checkbox') {
     const options = [
       {
-        label: '<none>'
-      },
-      {
         label: 'Checked',
         value: 'true'
       },
@@ -32,7 +29,7 @@ export default function DefaultValueEntry(props) {
     ];
 
     const onChange = (value) => {
-      editField(field, [ 'defaultValue' ], parseBoolean(value));
+      editField(field, [ 'defaultValue' ], parseStringToBoolean(value));
     };
 
     return (
@@ -41,7 +38,7 @@ export default function DefaultValueEntry(props) {
         label="Default Value"
         onChange={ onChange }
         options={ options }
-        value={ parseString(defaultValue) } />
+        value={ parseBooleanToString(defaultValue) } />
     );
   }
 
@@ -90,22 +87,18 @@ export default function DefaultValueEntry(props) {
   }
 }
 
-function parseBoolean(value) {
+function parseStringToBoolean(value) {
   if (value === 'true') {
     return true;
-  } else if (value === 'false') {
-    return false;
   }
 
-  return undefined;
+  return false;
 }
 
-function parseString(value) {
+function parseBooleanToString(value) {
   if (value === true) {
     return 'true';
-  } else if (value === false) {
-    return 'false';
   }
 
-  return '';
+  return 'false';
 }
