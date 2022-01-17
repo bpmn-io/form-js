@@ -56,7 +56,7 @@ export default function TextInput(props) {
   }
 
   return (
-    <div class="fjs-properties-panel-textfield">
+    <div class="fjs-properties-panel-text">
       <label for={ prefixId(id) } class="fjs-properties-panel-label">{ label }</label>
       <input
         id={ prefixId(id) }
