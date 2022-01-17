@@ -6,6 +6,26 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.6.0
+
+* `CHORE`: update color scheme ([#193](https://github.com/bpmn-io/form-js/pull/193))
+
+### Viewer
+
+* `FEAT`: be able to set default value of a field ([#213](https://github.com/bpmn-io/form-js/pull/213)) 
+* `FIX`: submit data for every field that is not disabled ([#210](https://github.com/bpmn-io/form-js/pull/210))
+* `FIX`: do not submit data without corresponding field ([#210](https://github.com/bpmn-io/form-js/pull/210))
+
+### Editor
+
+* `FIX`: prevent properties panel from losing focus ([#211](https://github.com/bpmn-io/form-js/pull/211))
+* `CHORE`: properties panel inputs inherit font family ([#189](https://github.com/bpmn-io/form-js/pull/189))
+
+### Breaking Changes
+
+* Data will now be submitted for every form field that is not disabled.
+* Imported data without form field will not be submitted anymore.
+
 ## 0.5.1
 
 ### Editor
