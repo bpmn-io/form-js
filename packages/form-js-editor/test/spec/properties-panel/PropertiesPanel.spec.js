@@ -198,7 +198,7 @@ describe('properties panel', function() {
           // assume
           const input = screen.getByLabelText('Default Value');
 
-          expect(input.value).to.equal('');
+          expect(input.value).to.equal('false');
 
           // when
           fireEvent.input(input, { target: { value: 'true' } });
@@ -206,33 +206,6 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], true);
-        });
-
-
-        it('should remove default value', function() {
-
-          // given
-          const editFieldSpy = spy();
-
-          const field = defaultValues.components.find(({ key }) => key === 'approved');
-
-          createPropertiesPanel({
-            container,
-            editField: editFieldSpy,
-            field
-          });
-
-          // assume
-          const input = screen.getByLabelText('Default Value');
-
-          expect(input.value).to.equal('true');
-
-          // when
-          fireEvent.input(input, { target: { value: '' } });
-
-          // then
-          expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
         });
 
       });
