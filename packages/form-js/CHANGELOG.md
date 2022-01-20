@@ -8,6 +8,8 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 0.6.0
 
+### General
+
 * `CHORE`: update color scheme ([#193](https://github.com/bpmn-io/form-js/pull/193))
 
 ### Viewer
