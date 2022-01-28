@@ -411,6 +411,36 @@ describe('FormEditor', function() {
     });
 
 
+    it('should override custom exporter', async function() {
+
+      // given
+      const oldExporter = {
+        name: 'Foo',
+        version: 'bar'
+      };
+
+      const newExporter = {
+        name: 'Baz',
+        version: 'qux'
+      };
+
+      const taggedSchema = exportTagged(schema, oldExporter);
+
+      formEditor = await createFormEditor({
+        container,
+        schema: taggedSchema,
+        exporter: newExporter
+      });
+
+      // when
+      const exportedSchema = formEditor.saveSchema();
+
+      // then
+      expect(exportedSchema.exporter).to.eql(newExporter);
+      expect(exportedSchema).to.eql(exportTagged(schema, newExporter));
+    });
+
+
     it('should generate ids', async function() {
 
       // assume
@@ -721,9 +751,9 @@ function exportTagged(schema, exporter) {
   } : {};
 
   return {
-    schemaVersion,
+    ...schema,
     ...exportDetails,
-    ...schema
+    schemaVersion
   };
 }
 

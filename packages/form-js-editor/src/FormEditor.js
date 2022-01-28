@@ -327,8 +327,8 @@ export function exportSchema(schema, exporter, schemaVersion) {
   });
 
   return {
-    schemaVersion,
+    ...cleanedSchema,
     ...exportDetails,
-    ...cleanedSchema
+    schemaVersion
   };
 }
