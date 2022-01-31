@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-playground",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A form-js playground",
   "exports": {
     ".": {
@@ -32,7 +32,7 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js": "^0.6.0",
+    "@bpmn-io/form-js": "^0.6.1",
     "@codemirror/basic-setup": "^0.18.2",
     "@codemirror/lang-json": "^0.18.0",
     "@codemirror/state": "^0.18.7",
