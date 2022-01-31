@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.6.1
+
+### Editor
+
+* `FIX`: override `exporter` property on save ([#221](https://github.com/bpmn-io/form-js/pull/221))
+
 ## 0.6.0
 
 ### General
