@@ -158,6 +158,53 @@ describe('TextInput', function() {
       expect(error.textContent).to.equal('error');
     });
 
+
+    it('should validate if validate prop changes', function() {
+
+      // given
+      let validateSpy = spy(() => 'error');
+
+      const {
+        container,
+        rerender
+      } = render(WithFormEditorContext(
+        <TextInput
+          value="foo"
+          onInput={ () => {} }
+          validate={ validateSpy } />
+      ));
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'bar' } });
+
+      // assume
+      expect(validateSpy).to.have.been.called;
+
+      let error = container.querySelector('.fjs-properties-panel-error');
+
+      expect(error).to.exist;
+      expect(error.textContent).to.equal('error');
+
+      // then
+      validateSpy = spy(() => null);
+
+      rerender(WithFormEditorContext(
+        <TextInput
+          value="foo"
+          onInput={ () => {} }
+          validate={ validateSpy } />
+      ));
+
+      // assume
+      expect(validateSpy).to.have.been.called;
+
+      error = container.querySelector('.fjs-properties-panel-error');
+
+      expect(error).not.to.exist;
+    });
+
   });
 
 });
