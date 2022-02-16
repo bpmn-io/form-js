@@ -69,7 +69,7 @@ describe('properties panel', function() {
     expect(result.container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
 
     expect(result.container.querySelector('.fjs-properties-panel-header-type')).to.exist;
-    expect(result.container.querySelectorAll('.fjs-properties-panel-group')).to.have.length(2);
+    expect(result.container.querySelectorAll('.fjs-properties-panel-group')).to.have.length(3);
   });
 
 
@@ -110,7 +110,8 @@ describe('properties panel', function() {
 
         // then
         expectGroups(result.container, [
-          'General'
+          'General',
+          'Custom Properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -167,7 +168,8 @@ describe('properties panel', function() {
 
         // then
         expectGroups(result.container, [
-          'General'
+          'General',
+          'Custom Properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -229,7 +231,8 @@ describe('properties panel', function() {
         expectGroups(result.container, [
           'General',
           'Values',
-          'Validation'
+          'Validation',
+          'Custom Properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -369,6 +372,60 @@ describe('properties panel', function() {
     });
 
 
+    describe('custom properties', function() {
+
+      it('should add property', function() {
+
+        // given
+        const editFieldSpy = spy();
+
+        const field = schema.components.find(({ key }) => key === 'creditor');
+
+        const result = createPropertiesPanel({
+          container,
+          editField: editFieldSpy,
+          field
+        });
+
+        // when
+        const addEntry = result.container.querySelector('.fjs-properties-panel-group-header-button-add-entry');
+        fireEvent.click(addEntry);
+
+        // then
+        expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ],
+          {
+            ...field.properties,
+            'key':'value'
+          }
+        );
+      });
+
+
+      it('should remove property', function() {
+
+        // given
+        const editFieldSpy = spy();
+
+        const field = schema.components.find(({ key }) => key === 'creditor');
+
+        const result = createPropertiesPanel({
+          container,
+          editField: editFieldSpy,
+          field
+        });
+
+        // when
+        const removeEntry = result.container.querySelector('.fjs-properties-panel-collapsible-entry-header-remove-entry');
+
+        fireEvent.click(removeEntry);
+
+        // then
+        expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {});
+      });
+
+    });
+
+
     describe('select', function() {
 
       it('entries', function() {
@@ -385,7 +442,8 @@ describe('properties panel', function() {
         expectGroups(result.container, [
           'General',
           'Values',
-          'Validation'
+          'Validation',
+          'Custom Properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -403,6 +461,11 @@ describe('properties panel', function() {
 
         expectGroupEntries(result.container, 'Validation', [
           'Required'
+        ]);
+
+        expectGroupEntries(result.container, 'Custom Properties', [
+          [ 'Key', 2 ],
+          [ 'Value', 2 ]
         ]);
       });
 
@@ -539,7 +602,8 @@ describe('properties panel', function() {
 
         // then
         expectGroups(result.container, [
-          'General'
+          'General',
+          'Custom Properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -734,7 +798,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = screen.getByLabelText('Key');
+            const input = container.querySelector('input[id=fjs-properties-panel-key]');
 
             expect(input.value).to.equal('creditor');
 
@@ -764,7 +828,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = screen.getByLabelText('Key');
+            const input = container.querySelector('input[id=fjs-properties-panel-key]');
 
             expect(input.value).to.equal('creditor');
 
@@ -803,7 +867,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = screen.getByLabelText('Key');
+            const input = container.querySelector('input[id=fjs-properties-panel-key]');
 
             expect(input.value).to.equal('creditor');
 
@@ -954,6 +1018,60 @@ describe('properties panel', function() {
 
         });
 
+
+        describe('custom property key', function() {
+
+          it('should not be empty', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'language');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // when
+            const input = container.querySelector('input[id=fjs-properties-panel-value-key-0]');
+            fireEvent.input(input, { target: { value: '' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Must not be empty.');
+            expect(error).to.exist;
+          });
+
+
+          it('should be unique', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'language');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // when
+            const input = container.querySelector('input[id=fjs-properties-panel-value-key-0]');
+            fireEvent.input(input, { target: { value: 'customKey 2' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Must be unique.');
+            expect(error).to.exist;
+          });
+
+        });
+
       });
 
     });
@@ -1000,16 +1118,24 @@ function expectGroupEntries(container, groupLabel, entryLabels) {
 }
 
 function findGroup(container, groupLabel) {
-  const groups = container.querySelectorAll('.fjs-properties-panel-group-header-label');
+  let groups = container.querySelectorAll('.fjs-properties-panel-group');
+  const groupIndex = findGroupIndex(container, groupLabel);
 
-  return Array.from(groups).find(group => group.textContent === groupLabel);
+  if (groupIndex >= 0) {
+    return groups[groupIndex];
+  }
+}
+
+function findGroupIndex(container, groupLabel) {
+  const groupLabels = container.querySelectorAll('.fjs-properties-panel-group-header-label');
+  return Array.from(groupLabels).findIndex(group => group.textContent === groupLabel);
 }
 
 function findEntries(container, groupLabel, entryLabel) {
   const group = findGroup(container, groupLabel);
 
   if (group) {
-    const entries = container.querySelectorAll('.fjs-properties-panel-label');
+    const entries = group.querySelectorAll('.fjs-properties-panel-label');
 
     return Array.from(entries).filter(entry => entry.textContent === entryLabel);
   }
