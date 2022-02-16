@@ -14,6 +14,9 @@
       "type": "textfield",
       "validate": {
         "required": true
+      },
+      "properties": {
+        "customKey":"value"
       }
     },
     {
@@ -78,7 +81,11 @@
           "label": "English",
           "value": "english"
         }
-      ]
+      ],
+      "properties": {
+        "customKey 1":"value",
+        "customKey 2":"value"
+      }
     },
     {
       "id": "Button_1",

@@ -1,7 +1,8 @@
 import {
   GeneralGroup,
   ValidationGroup,
-  ValuesGroup
+  ValuesGroup,
+  CustomValuesGroup
 } from './groups';
 
 import {
@@ -40,6 +41,10 @@ function getGroups(field, editField) {
 
   if (INPUTS.includes(type) && type !== 'checkbox') {
     groups.push(ValidationGroup(field, editField));
+  }
+
+  if (type !== 'default') {
+    groups.push(CustomValuesGroup(field, editField));
   }
 
   return groups;
