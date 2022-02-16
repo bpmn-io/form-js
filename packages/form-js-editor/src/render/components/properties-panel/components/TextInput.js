@@ -27,7 +27,7 @@ export default function TextInput(props) {
 
   const [ error, setError ] = useState(null);
 
-  useEffect(() => setError(validate(value)), [ value ]);
+  useEffect(() => setError(validate(value)), [ validate, value ]);
 
   const onInput = useDebounce(event => {
 
