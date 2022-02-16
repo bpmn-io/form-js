@@ -136,14 +136,11 @@ describe('TextInput', function() {
     it('should show error', function() {
 
       // given
-      const onInputSpy = spy(),
-            validateSpy = spy(() => 'error');
-
       const { container } = render(WithFormEditorContext(
         <TextInput
           value="foo"
-          onInput={ onInputSpy }
-          validate={ validateSpy } />
+          onInput={ () => {} }
+          validate={ () => 'error' } />
       ));
 
       // when
