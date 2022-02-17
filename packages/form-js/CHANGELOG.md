@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.7.0
+
+### Editor
+
+* `FEAT`: allow to set custom properties for form fields ([#226](https://github.com/bpmn-io/form-js/pull/226))
+* `FIX`: validate TextInput when validate function changes ([#225](https://github.com/bpmn-io/form-js/pull/225))
+* `FIX`: don't allow duplicate values for select and radio fields ([#229](https://github.com/bpmn-io/form-js/pull/229))
+
 ## 0.6.1
 
 ### Editor
