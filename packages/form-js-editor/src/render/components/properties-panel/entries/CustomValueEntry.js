@@ -10,29 +10,24 @@ export default function CustomValueEntry(props) {
     validate
   } = props;
 
-  const onChange = (key) => {
-    let properties = get(field, [ 'properties' ]);
-
-    return (newValue) => {
-      if (key == 'value') {
-        properties[getKey()] = newValue;
-      }
-
-      else if (key == 'key') {
-        properties = updateObjectKey(properties, getKey(), newValue);
-      }
-
-      editField(field, 'properties', properties);
-    };
-  };
-
   const getKey = () => {
-    return Object.keys(get(field, [ 'properties']))[index];
+    return Object.keys(get(field, [ 'properties' ]))[ index ];
   };
 
   const getValue = () => {
-    const properties = get(field, [ 'properties']);
-    return properties[getKey()];
+    return get(field, [ 'properties', getKey() ]);
+  };
+
+  const onChange = (key) => {
+    const properties = get(field, [ 'properties' ]);
+
+    return (value) => {
+      if (key === 'value') {
+        editField(field, 'properties', updateValue(properties, getKey(), value));
+      } else if (key === 'key') {
+        editField(field, 'properties', updateKey(properties, getKey(), value));
+      }
+    };
   };
 
   return <>
@@ -50,19 +45,40 @@ export default function CustomValueEntry(props) {
   </>;
 }
 
-// helpers
-function updateObjectKey(object, oldKey, newKey) {
-  const keys = Object.keys(object);
-  const newObject = {};
+// helpers //////////
 
-  keys.forEach(key => {
+/**
+ * Returns copy of object with updated value.
+ *
+ * @param {Object} properties
+ * @param {string} key
+ * @param {string} value
+ *
+ * @returns {Object}
+ */
+function updateValue(properties, key, value) {
+  return {
+    ...properties,
+    [ key ]: value
+  };
+}
 
-    if (key === oldKey) {
-      newObject[newKey] = object[key];
-    }
+/**
+ * Returns copy of object with updated key.
+ *
+ * @param {Object} properties
+ * @param {string} oldKey
+ * @param {string} newKey
+ *
+ * @returns {Object}
+ */
+function updateKey(properties, oldKey, newKey) {
+  return Object.entries(properties).reduce((newProperties, entry) => {
+    const [ key, value ] = entry;
 
-    else newObject[key] = object[key];
-  });
-
-  return newObject;
+    return {
+      ...newProperties,
+      [ key === oldKey ? newKey: key ]: value
+    };
+  }, {});
 }
