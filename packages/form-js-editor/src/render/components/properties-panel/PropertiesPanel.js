@@ -1,8 +1,8 @@
 import {
+  CustomValuesGroup,
   GeneralGroup,
   ValidationGroup,
-  ValuesGroup,
-  CustomValuesGroup
+  ValuesGroup
 } from './groups';
 
 import {

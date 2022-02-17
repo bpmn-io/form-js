@@ -3,30 +3,30 @@ import {
   Group
 } from '../components';
 
-import { isUndefined } from 'min-dash';
+import {
+  has,
+  isUndefined
+} from 'min-dash';
 
 import { CustomValueEntry } from '../entries';
 
 export default function CustomValuesGroup(field, editField) {
   const {
     id,
-    properties = []
+    properties = {}
   } = field;
 
   const addEntry = () => {
     const index = Object.keys(properties).length + 1;
-    const entry = {};
 
-    let key = properties.key ? `key ${index}` : 'key';
+    const key = `key${ index }`,
+          value = 'value';
 
-    entry[key] = 'value';
-
-    editField(field, [ 'properties' ], { ...properties, ...entry });
+    editField(field, [ 'properties' ], { ...properties, [ key ]: value });
   };
 
   const validateFactory = (key) => {
     return (value) => {
-
       if (value === key) {
         return;
       }
@@ -35,8 +35,9 @@ export default function CustomValuesGroup(field, editField) {
         return 'Must not be empty.';
       }
 
-      if (properties[value])
+      if (has(properties, value)) {
         return 'Must be unique.';
+      }
     };
   };
 
@@ -46,10 +47,8 @@ export default function CustomValuesGroup(field, editField) {
     <Group label="Custom Properties" addEntry={ addEntry } hasEntries={ hasEntries }>
       {
         Object.keys(properties).map((key, index) => {
-
           const removeEntry = () => {
-            delete properties[key];
-            editField(field, [ 'properties' ], properties);
+            editField(field, [ 'properties' ], removeKey(properties, key));
           };
 
           return (
@@ -61,4 +60,29 @@ export default function CustomValuesGroup(field, editField) {
       }
     </Group>
   );
+}
+
+// helpers //////////
+
+/**
+ * Returns copy of object without key.
+ *
+ * @param {Object} properties
+ * @param {string} oldKey
+ *
+ * @returns {Object}
+ */
+export function removeKey(properties, oldKey) {
+  return Object.entries(properties).reduce((newProperties, entry) => {
+    const [ key, value ] = entry;
+
+    if (key === oldKey) {
+      return newProperties;
+    }
+
+    return {
+      ...newProperties,
+      [ key ]: value
+    };
+  }, {});
 }
