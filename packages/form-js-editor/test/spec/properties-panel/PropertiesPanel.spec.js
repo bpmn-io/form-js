@@ -338,8 +338,8 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
             ...field.values,
             {
-              label: 'Value',
-              value: 'value'
+              label: 'Value 3',
+              value: 'value3',
             }
           ]);
         });
@@ -367,6 +367,68 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
             field.values[ 1 ]
           ]);
+        });
+
+
+        describe('validation', function() {
+
+          describe('value', function() {
+
+            it('should not be empty', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'product');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: '' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must not be empty.');
+
+              expect(error).to.exist;
+            });
+
+
+            it('should be unique', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'product');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: 'camunda-cloud' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must be unique.');
+
+              expect(error).to.exist;
+            });
+
+          });
+
         });
 
       });
@@ -495,8 +557,8 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
             ...field.values,
             {
-              label: 'Value',
-              value: 'value'
+              label: 'Value 3',
+              value: 'value3',
             }
           ]);
         });
@@ -524,6 +586,68 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
             field.values[ 1 ]
           ]);
+        });
+
+
+        describe('validation', function() {
+
+          describe('value', function() {
+
+            it('should not be empty', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'language');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: '' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must not be empty.');
+
+              expect(error).to.exist;
+            });
+
+
+            it('should be unique', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'language');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: 'english' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must be unique.');
+
+              expect(error).to.exist;
+            });
+
+          });
+
         });
 
       });

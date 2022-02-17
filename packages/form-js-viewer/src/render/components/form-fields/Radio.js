@@ -50,7 +50,7 @@ export default function Radio(props) {
         return (
           <Label
             id={ prefixId(`${ id }-${ index }`, formId) }
-            key={ v.value }
+            key={ `${ id }-${ index }` }
             label={ v.label }
             required={ false }>
             <input
