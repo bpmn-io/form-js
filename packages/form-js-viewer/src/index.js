@@ -4,7 +4,7 @@ export { FormFieldRegistry } from './core';
 export * from './render';
 export * from './util';
 
-const schemaVersion = 3;
+const schemaVersion = 4;
 
 export {
   Form,
