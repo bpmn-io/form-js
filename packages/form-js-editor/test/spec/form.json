@@ -16,7 +16,9 @@
         "required": true
       },
       "properties": {
-        "customKey":"value"
+        "firstName": "John",
+        "middleName": "Richard",
+        "lastName": "Doe"
       }
     },
     {
@@ -81,11 +83,7 @@
           "label": "English",
           "value": "english"
         }
-      ],
-      "properties": {
-        "customKey 1":"value",
-        "customKey 2":"value"
-      }
+      ]
     },
     {
       "id": "Button_1",

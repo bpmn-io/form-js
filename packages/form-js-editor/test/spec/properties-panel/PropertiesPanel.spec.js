@@ -6,6 +6,8 @@ import {
 
 import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
 
+import { removeKey } from '../../../src/render/components/properties-panel/groups/CustomValuesGroup';
+
 import { WithFormEditorContext } from './helper';
 
 import schema from '../form.json';
@@ -372,60 +374,6 @@ describe('properties panel', function() {
     });
 
 
-    describe('custom properties', function() {
-
-      it('should add property', function() {
-
-        // given
-        const editFieldSpy = spy();
-
-        const field = schema.components.find(({ key }) => key === 'creditor');
-
-        const result = createPropertiesPanel({
-          container,
-          editField: editFieldSpy,
-          field
-        });
-
-        // when
-        const addEntry = result.container.querySelector('.fjs-properties-panel-group-header-button-add-entry');
-        fireEvent.click(addEntry);
-
-        // then
-        expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ],
-          {
-            ...field.properties,
-            'key':'value'
-          }
-        );
-      });
-
-
-      it('should remove property', function() {
-
-        // given
-        const editFieldSpy = spy();
-
-        const field = schema.components.find(({ key }) => key === 'creditor');
-
-        const result = createPropertiesPanel({
-          container,
-          editField: editFieldSpy,
-          field
-        });
-
-        // when
-        const removeEntry = result.container.querySelector('.fjs-properties-panel-collapsible-entry-header-remove-entry');
-
-        fireEvent.click(removeEntry);
-
-        // then
-        expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {});
-      });
-
-    });
-
-
     describe('select', function() {
 
       it('entries', function() {
@@ -461,11 +409,6 @@ describe('properties panel', function() {
 
         expectGroupEntries(result.container, 'Validation', [
           'Required'
-        ]);
-
-        expectGroupEntries(result.container, 'Custom Properties', [
-          [ 'Key', 2 ],
-          [ 'Value', 2 ]
         ]);
       });
 
@@ -798,7 +741,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = container.querySelector('input[id=fjs-properties-panel-key]');
+            const input = screen.getByLabelText('Key', { selector: '#fjs-properties-panel-key' });
 
             expect(input.value).to.equal('creditor');
 
@@ -828,7 +771,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = container.querySelector('input[id=fjs-properties-panel-key]');
+            const input = screen.getByLabelText('Key', { selector: '#fjs-properties-panel-key' });
 
             expect(input.value).to.equal('creditor');
 
@@ -867,7 +810,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = container.querySelector('input[id=fjs-properties-panel-key]');
+            const input = screen.getByLabelText('Key', { selector: '#fjs-properties-panel-key' });
 
             expect(input.value).to.equal('creditor');
 
@@ -1018,58 +961,121 @@ describe('properties panel', function() {
 
         });
 
+      });
 
-        describe('custom property key', function() {
+    });
 
-          it('should not be empty', function() {
+  });
 
-            // given
-            const editFieldSpy = spy();
 
-            const field = schema.components.find(({ key }) => key === 'language');
+  describe('custom properties', function() {
 
-            createPropertiesPanel({
-              container,
-              editField: editFieldSpy,
-              field
-            });
+    it('should add property', function() {
 
-            // when
-            const input = container.querySelector('input[id=fjs-properties-panel-value-key-0]');
-            fireEvent.input(input, { target: { value: '' } });
+      // given
+      const editFieldSpy = spy();
 
-            // then
-            expect(editFieldSpy).to.not.have.been.called;
+      const field = schema.components.find(({ key }) => key === 'creditor');
 
-            const error = screen.getByText('Must not be empty.');
-            expect(error).to.exist;
+      const result = createPropertiesPanel({
+        container,
+        editField: editFieldSpy,
+        field
+      });
+
+      // when
+      const addEntry = result.container.querySelector('.fjs-properties-panel-group-header-button-add-entry');
+
+      fireEvent.click(addEntry);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
+        ...field.properties,
+        key4: 'value'
+      });
+    });
+
+
+    it('should remove property', function() {
+
+      // given
+      const editFieldSpy = spy();
+
+      const field = schema.components.find(({ key }) => key === 'creditor');
+
+      const result = createPropertiesPanel({
+        container,
+        editField: editFieldSpy,
+        field
+      });
+
+      // when
+      const removeEntry = result.container.querySelector('.fjs-properties-panel-collapsible-entry-header-remove-entry');
+
+      fireEvent.click(removeEntry);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
+        ...removeKey(field.properties, 'firstName')
+      });
+    });
+
+
+    describe('validation', function() {
+
+      describe('custom property key', function() {
+
+        it('should not be empty', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
           });
 
+          // when
+          const input = screen.getByLabelText('Key', { selector: '#fjs-properties-panel-value-key-0' });
 
-          it('should be unique', function() {
+          fireEvent.input(input, { target: { value: '' } });
 
-            // given
-            const editFieldSpy = spy();
+          // then
+          expect(editFieldSpy).to.not.have.been.called;
 
-            const field = schema.components.find(({ key }) => key === 'language');
+          const error = screen.getByText('Must not be empty.');
 
-            createPropertiesPanel({
-              container,
-              editField: editFieldSpy,
-              field
-            });
+          expect(error).to.exist;
+        });
 
-            // when
-            const input = container.querySelector('input[id=fjs-properties-panel-value-key-0]');
-            fireEvent.input(input, { target: { value: 'customKey 2' } });
 
-            // then
-            expect(editFieldSpy).to.not.have.been.called;
+        it('should be unique', function() {
 
-            const error = screen.getByText('Must be unique.');
-            expect(error).to.exist;
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'creditor');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
           });
 
+          // when
+          const input = screen.getByLabelText('Key', { selector: '#fjs-properties-panel-value-key-0' });
+
+          fireEvent.input(input, { target: { value: 'middleName' } });
+
+          // then
+          expect(editFieldSpy).to.not.have.been.called;
+
+          const error = screen.getByText('Must be unique.');
+
+          expect(error).to.exist;
         });
 
       });
