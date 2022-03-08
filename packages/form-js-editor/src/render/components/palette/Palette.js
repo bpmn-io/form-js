@@ -22,9 +22,14 @@ const types = [
     type: 'select'
   },
   {
+    label: 'File',
+    type: 'file'
+  },
+  {
     label: 'Text',
     type: 'text'
   },
+
   {
     label: 'Button',
     type: 'button'

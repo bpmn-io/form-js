@@ -1,20 +1,7 @@
-import {
-  CustomValuesGroup,
-  GeneralGroup,
-  ValidationGroup,
-  ValuesGroup
-} from './groups';
-
-import {
-  INPUTS,
-  textToLabel
-} from './Util';
-
-import {
-  useService
-} from '../../hooks';
-
+import { useService } from '../../hooks';
 import { iconsByType } from '../palette/icons';
+import { CustomValuesGroup, GeneralGroup, ValidationGroup, ValuesGroup } from './groups';
+import { INPUTS, textToLabel } from './Util';
 
 const labelsByType = {
   button: 'BUTTON',
@@ -26,6 +13,7 @@ const labelsByType = {
   select: 'SELECT',
   text: 'TEXT',
   textfield: 'TEXT FIELD',
+  file: 'FILE'
 };
 
 function getGroups(field, editField) {

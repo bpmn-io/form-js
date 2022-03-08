@@ -54,6 +54,14 @@ export default class Validator {
       ];
     }
 
+    if ('filetypes' in validate && value && validate.filetypes.split(',').every((ft) => ft !== value.split(';base64')[0].split('data:')[1])) {
+      errors = [
+        ...errors,
+        `Field must be of type(s) ${ validate.filetypes }.`
+      ];
+
+    }
+
     return errors;
   }
 }

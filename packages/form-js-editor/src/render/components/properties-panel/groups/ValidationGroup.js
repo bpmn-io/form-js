@@ -1,14 +1,7 @@
-import {
-  get,
-  set
-} from 'min-dash';
+import { get, set } from 'min-dash';
 
-import {
-  CheckboxInputEntry,
-  Group,
-  NumberInputEntry,
-  TextInputEntry
-} from '../components';
+import { CheckboxInputEntry, Group, NumberInputEntry, TextInputEntry } from '../components';
+import { FileTypeEntry } from '../entries';
 
 export default function ValidationGroup(field, editField) {
   const { type } = field;
@@ -63,6 +56,19 @@ export default function ValidationGroup(field, editField) {
         label="Maximum"
         onChange={ onChange('max') }
         value={ get(field, [ 'validate', 'max' ]) } />
+    );
+  }
+
+
+  if (type === 'file') {
+    entries.push(
+      <FileTypeEntry
+        id="filetypes"
+        label="File Types"
+        validate="filetypes"
+        description="Comma separated list of file types. e.g. 'image/png,application/pdf'"
+        onChange={ onChange('filetypes') }
+        value={ get(field, ['validate', 'filetypes']) } />
     );
   }
 

@@ -137,8 +137,11 @@
 .fjs-container .fjs-input[type=number],
 .fjs-container .fjs-button[type=submit],
 .fjs-container .fjs-button[type=reset],
+.fjs-container .fjs-button[type=secondary],
+.fjs-container .fjs-input[type=file],
 .fjs-container .fjs-textarea,
-.fjs-container .fjs-select {
+.fjs-container .fjs-select,
+.fjs-container ::-webkit-file-upload-button {
   display: block;
   width: 100%;
   padding: 8px;
@@ -146,6 +149,13 @@
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;
+}
+
+.fjs-container ::-webkit-file-upload-button {
+  display: inline-block;
+  min-width: 100px;
+  width: auto;
+  margin-right: 4px;
 }
 
 .fjs-container .fjs-textarea {
@@ -162,10 +172,20 @@
   margin: 6px 10px 6px 4px;
 }
 
-.fjs-container .fjs-button[type=submit] {
+.fjs-container .fjs-button[type=submit],
+::-webkit-file-upload-button
+ {
   color: var(--color-text-inverted);
   background-color: var(--color-accent);
   border-color: var(--color-accent);
+}
+
+.fjs-container .fjs-button[type=secondary],
+.fjs-container .fjs-input[type=file] ::-webkit-file-upload-button {
+  color: var(--color-text-inverted);
+  background-color: var(--color-grey-225-10-55);
+  border-color: var(--color-grey-225-10-33);
+ 
 }
 
 .fjs-container .fjs-button[type=reset] {
@@ -175,7 +195,9 @@
 }
 
 .fjs-container .fjs-button[type=submit],
-.fjs-container .fjs-button[type=reset] {
+.fjs-container .fjs-button[type=reset],
+.fjs-container .fjs-button[type=secondary],
+::-webkit-file-upload-button {
   min-width: 100px;
   width: auto;
 }
@@ -195,7 +217,14 @@
   border-width: 2px;
 }
 
-.fjs-container .fjs-button[type=submit]:focus {
+.fjs-container .fjs-input[type=file]:focus {
+  outline: none;
+  padding: 7px;
+  border-width: 2px;
+}
+
+.fjs-container .fjs-button[type=submit]:focus,
+::-webkit-file-upload-button:focus {
   border-color: var(--color-accent-dark);
 }
 

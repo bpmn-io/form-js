@@ -1,17 +1,15 @@
 import { Group } from '../components';
-
 import {
   ActionEntry,
   ColumnsEntry,
-  DescriptionEntry,
   DefaultValueEntry,
+  DescriptionEntry,
   DisabledEntry,
   IdEntry,
   KeyEntry,
   LabelEntry,
-  TextEntry
+  TextEntry,
 } from '../entries';
-
 import { INPUTS } from '../Util';
 
 export default function GeneralGroup(field, editField) {
@@ -53,6 +51,17 @@ export default function GeneralGroup(field, editField) {
   if (INPUTS.includes(type)) {
     entries.push(<DisabledEntry editField={ editField } field={ field } />);
   }
+
+  if (type === 'file') {
+    entries.push(
+      <div class="fjs-properties-panel-entry">
+        <div class="fjs-properties-panel-description">
+          if a file key/value is supplied, disabling this field will change component to a View/Download button
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <Group label="General">

@@ -39,5 +39,6 @@ export const INPUTS = [
   'number',
   'radio',
   'select',
-  'textfield'
+  'textfield',
+  'file'
 ];
