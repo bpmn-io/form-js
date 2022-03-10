@@ -1,7 +1,6 @@
 import { render } from '@testing-library/preact/pure';
 
 import Palette from '../../../src/render/components/palette/Palette';
-
 import { insertStyles } from '../../TestHelper';
 
 insertStyles();
@@ -40,7 +39,7 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(7);
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(8);
 
     expectEntries(result.container, [
       'textfield',
@@ -48,6 +47,7 @@ describe('palette', function() {
       'checkbox',
       'radio',
       'select',
+      'file',
       'text',
       'button'
     ]);
