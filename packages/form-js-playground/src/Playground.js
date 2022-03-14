@@ -1,23 +1,14 @@
-import JSONView from './JSONView';
-
-import { render } from 'preact';
-
-import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
-
-import fileDrop from 'file-drops';
-
-import mitt from 'mitt';
-
-import download from 'downloadjs';
-
-import {
-  Form,
-  FormEditor
-} from '@bpmn-io/form-js';
-
 import './FileDrop.css';
 import './Playground.css';
 
+import { Form, FormEditor } from '@bpmn-io/form-js';
+import download from 'downloadjs';
+import fileDrop from 'file-drops';
+import mitt from 'mitt';
+import { render } from 'preact';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+
+import JSONView from './JSONView';
 
 function Modal(props) {
 
@@ -178,12 +169,13 @@ function PlaygroundRoot(props) {
       value: toJSON(data)
     });
 
+    const form = formRef.current = new Form();
+
     const resultView = resultViewRef.current = new JSONView({
       readonly: true,
       value: toJSON(resultData)
     });
 
-    const form = formRef.current = new Form();
     const formEditor = formEditorRef.current = new FormEditor({
       renderer: {
         compact: true
@@ -238,8 +230,31 @@ function PlaygroundRoot(props) {
   }, [ schema, data ]);
 
   useEffect(() => {
-    resultViewRef.current.setValue(toJSON(resultData));
-  }, [ resultData ]);
+
+    // Process Data as per submit handler
+    const formFieldRegistry = formRef.current.get('formFieldRegistry');
+
+    const _resultData = formFieldRegistry.getAll().reduce((data, field) => {
+      const {
+        disabled,
+        _path
+      } = field;
+
+      // do not submit disabled form fields
+      if (disabled || !_path) {
+        return data;
+      }
+
+      const value = resultData?.[_path[0]];
+
+      return {
+        ...data,
+        [ _path[ 0 ] ]: value
+      };
+    }, {});
+
+    resultViewRef.current.setValue(toJSON(_resultData));
+  }, [ resultData,formRef ]);
 
   useEffect(() => {
     props.onStateChanged({

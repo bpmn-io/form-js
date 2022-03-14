@@ -1,24 +1,15 @@
-import {
-  CollapsibleEntry,
-  Group
-} from '../components';
+import { isUndefined } from 'min-dash';
 
+import { CollapsibleEntry, Group } from '../components';
 import { ValueEntry } from '../entries';
-
-import {
-  arrayAdd,
-  arrayRemove
-} from '../Util';
-
-import {
-  isUndefined
-} from 'min-dash';
+import { arrayAdd, arrayRemove } from '../Util';
 
 
 export default function ValuesGroup(field, editField) {
   const {
     id,
-    values = []
+    values = [],
+    optionsFromKey
   } = field;
 
   const addEntry = () => {
@@ -52,7 +43,8 @@ export default function ValuesGroup(field, editField) {
 
   const hasEntries = values.length > 0;
 
-  return (
+  // do not show values group if field is obtaining values from a key
+  return !optionsFromKey ? (
     <Group label="Values" addEntry={ addEntry } hasEntries={ hasEntries }>
       {
         values.map((value, index) => {
@@ -70,5 +62,5 @@ export default function ValuesGroup(field, editField) {
         })
       }
     </Group>
-  );
+  ): <></>;
 }

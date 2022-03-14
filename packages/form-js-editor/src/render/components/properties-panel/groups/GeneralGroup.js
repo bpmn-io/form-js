@@ -1,18 +1,17 @@
 import { Group } from '../components';
-
 import {
   ActionEntry,
   ColumnsEntry,
-  DescriptionEntry,
   DefaultValueEntry,
+  DescriptionEntry,
   DisabledEntry,
   IdEntry,
   KeyEntry,
   LabelEntry,
-  TextEntry
+  OptionsFromKeyEntry,
+  TextEntry,
 } from '../entries';
-
-import { INPUTS } from '../Util';
+import { INPUTS, INPUTSWITHOPTIONS } from '../Util';
 
 export default function GeneralGroup(field, editField) {
   const { type } = field;
@@ -50,9 +49,14 @@ export default function GeneralGroup(field, editField) {
     entries.push(<TextEntry editField={ editField } field={ field } />);
   }
 
+  if (INPUTSWITHOPTIONS.includes(type)) {
+    entries.push(<OptionsFromKeyEntry editField={ editField } field={ field } />);
+  }
+
   if (INPUTS.includes(type)) {
     entries.push(<DisabledEntry editField={ editField } field={ field } />);
   }
+
 
   return (
     <Group label="General">

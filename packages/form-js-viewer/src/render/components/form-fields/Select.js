@@ -1,15 +1,11 @@
 import { useContext } from 'preact/hooks';
 
 import { FormContext } from '../../context';
-
+import useService from '../../hooks/useService';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
-
-import {
-  formFieldClasses,
-  prefixId
-} from '../Util';
+import { formFieldClasses, prefixId } from '../Util';
 
 const type = 'select';
 
@@ -18,7 +14,7 @@ export default function Select(props) {
     disabled,
     errors = [],
     field,
-    value
+    value,
   } = props;
 
   const {
@@ -26,7 +22,9 @@ export default function Select(props) {
     id,
     label,
     validate = {},
-    values
+    values,
+    optionsFromKey,
+    optionsKey
   } = field;
 
   const { required } = validate;
@@ -37,6 +35,13 @@ export default function Select(props) {
       value: target.value === '' ? null : target.value
     });
   };
+  let _values = values;
+  const form = useService('form');
+
+  if (optionsFromKey && optionsKey) {
+    const options = form?._getState()?.initialData && form._getState().initialData[optionsKey];
+    _values = options ? options : [];
+  }
 
   const { formId } = useContext(FormContext);
 
@@ -53,7 +58,7 @@ export default function Select(props) {
       value={ value || '' }>
       <option value=""></option>
       {
-        values.map((v, index) => {
+        _values.map((v, index) => {
           return (
             <option
               key={ `${ id }-${ index }` }

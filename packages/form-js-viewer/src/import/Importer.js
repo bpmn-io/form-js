@@ -1,12 +1,6 @@
-import {
-  get,
-  isUndefined
-} from 'min-dash';
+import { get, isUndefined } from 'min-dash';
 
-import {
-  clone,
-  generateIdForType
-} from '../util';
+import { clone, generateIdForType } from '../util';
 
 
 export default class Importer {
@@ -131,7 +125,9 @@ export default class Importer {
       const {
         defaultValue,
         _path,
-        type
+        type,
+        optionsFromKey,
+        optionsKey
       } = formField;
 
       if (!_path) {
@@ -141,9 +137,20 @@ export default class Importer {
       // (1) try to get value from data
       // (2) try to get default value from form field
       // (3) get empty value from form field
+      // (4) return data for keys that are used by other elements (i.e. Select using values from key)
+      if (optionsFromKey) return {
+        ...importedData,
+        [_path[0]]: get(data, _path, isUndefined(defaultValue) ? this._formFields.get(type).emptyValue : defaultValue),
+        [optionsKey]: optionsFromKey ?
+          (typeof get(data, [optionsKey], null) === 'string' ?
+            JSON.parse(get(data, [optionsKey], null)) :
+            get(data, [optionsKey], null))
+          : undefined
+      };
+
       return {
         ...importedData,
-        [ _path[ 0 ] ]: get(data, _path, isUndefined(defaultValue) ? this._formFields.get(type).emptyValue : defaultValue)
+        [_path[0]]: get(data, _path, isUndefined(defaultValue) ? this._formFields.get(type).emptyValue : defaultValue),
       };
     }, {});
   }

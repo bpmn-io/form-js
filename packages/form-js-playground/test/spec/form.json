@@ -36,9 +36,13 @@
       "type": "checkbox"
     },
     {
-      "key": "approvedBy",
-      "label": "Approved By",
-      "type": "textfield"
+      "values": [],
+      "label": "Select",
+      "type": "select",
+      "id": "Field_08qjd33",
+      "key": "selectOptionFromKey",
+      "optionsFromKey": true,
+      "optionsKey": "options"
     },
     {
       "key": "product",

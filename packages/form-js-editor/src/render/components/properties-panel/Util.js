@@ -41,3 +41,8 @@ export const INPUTS = [
   'select',
   'textfield'
 ];
+
+export const INPUTSWITHOPTIONS = [
+  'select',
+  'radio'
+];
