@@ -3,6 +3,7 @@ import Ids from 'ids';
 import { isString, set } from 'min-dash';
 
 import core from './core';
+
 import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
@@ -23,28 +24,15 @@ const ids = new Ids([ 32, 36, 1 ]);
  *   schema: Schema
  * } } State
  *
- * @typedef { (type:string,priority:number,handler:Function) => void } OnEventWithPriority;
- * @typedef { (type:string,handler:Function) => void } OnEventWithOutPriority;
- * @typedef { OnEventWithPriority & OnEventWithOutPriority} OnEventType
+ * @typedef { (type:string, priority:number, handler:Function) => void } OnEventWithPriority
+ * @typedef { (type:string, handler:Function) => void } OnEventWithOutPriority
+ * @typedef { OnEventWithPriority & OnEventWithOutPriority } OnEventType
  */
 
 /**
  * The form editor.
  */
 export default class FormEditor {
-
-
-  /**
-   *  private OnEvent function definition
-   *
-   */
-  _onEvent = (type,priority,handler) => {
-    if (typeof priority === 'function' && typeof handler === 'undefined') {
-      handler = priority;
-      priority = 0;
-    }
-    this.get('eventBus').on(type, priority, handler);
-  }
 
   /**
    * @constructor
@@ -53,8 +41,9 @@ export default class FormEditor {
   constructor(options = {}) {
 
     /**
+     * @public
      * @type {OnEventType}
-    */
+     */
     this.on = this._onEvent;
 
     /**
@@ -309,6 +298,13 @@ export default class FormEditor {
       KeyboardModule,
       SelectionModule
     ];
+  }
+
+  /**
+   * @internal
+   */
+  _onEvent(type, priority, handler) {
+    this.get('eventBus').on(type, priority, handler);
   }
 
 }
