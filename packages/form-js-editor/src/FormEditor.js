@@ -1,19 +1,8 @@
+import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import Ids from 'ids';
-
-import {
-  isString,
-  set
-} from 'min-dash';
-
-import {
-  createInjector,
-  clone,
-  createFormContainer,
-  schemaVersion
-} from '@bpmn-io/form-js-viewer';
+import { isString, set } from 'min-dash';
 
 import core from './core';
-
 import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
@@ -33,6 +22,10 @@ const ids = new Ids([ 32, 36, 1 ]);
  *   properties: FormEditorProperties,
  *   schema: Schema
  * } } State
+ *
+ * @typedef { (type:string,priority:number,handler:Function) => void } OnEventWithPriority;
+ * @typedef { (type:string,handler:Function) => void } OnEventWithOutPriority;
+ * @typedef { OnEventWithPriority & OnEventWithOutPriority} OnEventType
  */
 
 /**
@@ -40,11 +33,29 @@ const ids = new Ids([ 32, 36, 1 ]);
  */
 export default class FormEditor {
 
+
+  /**
+   *  private OnEvent function definition
+   *
+   */
+  _onEvent = (type,priority,handler) => {
+    if (typeof priority === 'function' && typeof handler === 'undefined') {
+      handler = priority;
+      priority = 0;
+    }
+    this.get('eventBus').on(type, priority, handler);
+  }
+
   /**
    * @constructor
    * @param {FormEditorOptions} options
    */
   constructor(options = {}) {
+
+    /**
+     * @type {OnEventType}
+    */
+    this.on = this._onEvent;
 
     /**
      * @public
@@ -221,14 +232,6 @@ export default class FormEditor {
     this._setState({ properties });
   }
 
-  /**
-   * @param {string} type
-   * @param {number} priority
-   * @param {Function} handler
-   */
-  on(type, priority, handler) {
-    this.get('eventBus').on(type, priority, handler);
-  }
 
   /**
    * @param {string} type
