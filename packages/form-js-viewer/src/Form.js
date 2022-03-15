@@ -2,6 +2,7 @@ import Ids from 'ids';
 import { get, isString, set } from 'min-dash';
 
 import core from './core';
+
 import { clone, createFormContainer, createInjector, pathStringify } from './util';
 
 /**
@@ -22,12 +23,10 @@ import { clone, createFormContainer, createInjector, pathStringify } from './uti
  *   schema: Schema
  * } } State
  *
- * @typedef { (type:FormEvent,priority:number,handler:Function) => void } OnEventWithPriority;
- * @typedef { (type:FormEvent,handler:Function) => void } OnEventWithOutPriority;
- * @typedef { OnEventWithPriority & OnEventWithOutPriority} OnEventType
+ * @typedef { (type:FormEvent, priority:number, handler:Function) => void } OnEventWithPriority
+ * @typedef { (type:FormEvent, handler:Function) => void } OnEventWithOutPriority
+ * @typedef { OnEventWithPriority & OnEventWithOutPriority } OnEventType
  */
-
-
 
 const ids = new Ids([ 32, 36, 1 ]);
 
@@ -37,26 +36,15 @@ const ids = new Ids([ 32, 36, 1 ]);
 export default class Form {
 
   /**
-   *  private OnEvent function definition
-   *
-   */
-  _onEvent = (type,priority,handler) => {
-    if (typeof priority === 'function' && typeof handler === 'undefined') {
-      handler = priority;
-      priority = 0;
-    }
-    this.get('eventBus').on(type, priority, handler);
-  }
-
-  /**
    * @constructor
    * @param {FormOptions} options
    */
   constructor(options = {}) {
 
     /**
+     * @public
      * @type {OnEventType}
-    */
+     */
     this.on = this._onEvent;
 
     /**
@@ -401,6 +389,13 @@ export default class Form {
     };
 
     this._emit('changed', this._getState());
+  }
+
+  /**
+   * @internal
+   */
+  _onEvent(type, priority, handler) {
+    this.get('eventBus').on(type, priority, handler);
   }
 
 }
