@@ -1,19 +1,11 @@
-import {
-  fireEvent,
-  render,
-  screen
-} from '@testing-library/preact/pure';
-
-import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
+import { fireEvent, render, screen } from '@testing-library/preact/pure';
 
 import { removeKey } from '../../../src/render/components/properties-panel/groups/CustomValuesGroup';
-
-import { WithFormEditorContext } from './helper';
-
-import schema from '../form.json';
-import defaultValues from '../defaultValues.json';
-
+import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
 import { insertStyles } from '../../TestHelper';
+import defaultValues from '../defaultValues.json';
+import schema from '../form.json';
+import { WithFormEditorContext } from './helper';
 
 insertStyles();
 
@@ -74,6 +66,39 @@ describe('properties panel', function() {
     expect(result.container.querySelectorAll('.fjs-properties-panel-group')).to.have.length(3);
   });
 
+  it('should render (readonly)', async function() {
+
+    // given
+    const field = schema.components.find(({ key }) => key === 'creditor');
+
+    const result = createPropertiesPanel({
+      container,
+      field:{ ...field, readonly: true }
+    });
+
+    // then
+    expect(result.container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
+
+    expect(result.container.querySelector('.fjs-properties-panel-header-type')).to.exist;
+    expect(result.container.querySelectorAll('.fjs-properties-panel-readonly')).to.have.length(1);
+  });
+
+  it('should render (unallowed)', async function() {
+
+    // given
+    const field = schema.components.find(({ key }) => key === 'creditor');
+
+    const result = createPropertiesPanel({
+      container,
+      field:{ ...field, readonly: true }
+    });
+
+    // then
+    expect(result.container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
+
+    expect(result.container.querySelector('.fjs-properties-panel-header-type')).to.exist;
+    expect(result.container.querySelectorAll('.fjs-properties-panel-unallowed')).to.have.length(1);
+  });
 
   describe('fields', function() {
 

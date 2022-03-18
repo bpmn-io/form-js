@@ -1,3 +1,8 @@
+/**
+ * @typedef { import('../../../types').ComponentTypes} ComponentTypes
+ */
+
+
 export function arrayAdd(array, index, item) {
   const copy = [ ...array ];
 
@@ -34,10 +39,31 @@ export function textToLabel(text = '...') {
   return text;
 }
 
+/**
+ * @type {ComponentTypes[]}
+ */
 export const INPUTS = [
   'checkbox',
   'number',
   'radio',
   'select',
-  'textfield'
+  'textfield',
+
 ];
+
+export const labelsByType = {
+  button: 'BUTTON',
+  checkbox: 'CHECKBOX',
+  columns: 'COLUMNS',
+  default: 'FORM',
+  number: 'NUMBER',
+  radio: 'RADIO',
+  select: 'SELECT',
+  text: 'TEXT',
+  textfield: 'TEXT FIELD',
+};
+
+/**
+ * @type {ComponentTypes[]}
+ */
+export const ALL_COMPONENTS = [...INPUTS, 'button','text'];

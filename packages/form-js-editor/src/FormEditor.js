@@ -3,11 +3,11 @@ import Ids from 'ids';
 import { isString, set } from 'min-dash';
 
 import core from './core';
-
 import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
+import { ALL_COMPONENTS } from './render/components/properties-panel/Util';
 
 const ids = new Ids([ 32, 36, 1 ]);
 
@@ -15,12 +15,18 @@ const ids = new Ids([ 32, 36, 1 ]);
  * @typedef { import('./types').Injector } Injector
  * @typedef { import('./types').Module } Module
  * @typedef { import('./types').Schema } Schema
- *
+ * @typedef { import('./types').ComponentTypes} ComponentTypes
+ * @typedef { import('./types').ComponentActions} ComponentActions
  * @typedef { import('./types').FormEditorOptions } FormEditorOptions
  * @typedef { import('./types').FormEditorProperties } FormEditorProperties
  *
+ *
+ *
+ *
  * @typedef { {
  *   properties: FormEditorProperties,
+ *   availableComponentTypes?: ComponentTypes[],
+ *   unavailableComponentAction: ComponentActions,
  *   schema: Schema
  * } } State
  *
@@ -28,6 +34,7 @@ const ids = new Ids([ 32, 36, 1 ]);
  * @typedef { (type:string, handler:Function) => void } OnEventWithOutPriority
  * @typedef { OnEventWithPriority & OnEventWithOutPriority } OnEventType
  */
+
 
 /**
  * The form editor.
@@ -60,8 +67,13 @@ export default class FormEditor {
 
     this._container.setAttribute('input-handle-modified-keys', 'z,y');
 
+    /**
+     * @type {FormEditorOptions}
+     */
     const {
       container,
+      availableComponentTypes=[],
+      unavailableComponentAction,
       exporter,
       injector = this._createInjector(options, this._container),
       properties = {}
@@ -74,11 +86,23 @@ export default class FormEditor {
     this.exporter = exporter;
 
     /**
+     * Typechecking
+     */
+    // if (!(Array.isArray(availableComponentTypes) && availableComponentTypes.every((elem => typeof elem === 'string')))) {
+    //   throw Error('Form Schema option "availableComponentTypes" is invalid');
+    // }
+    // if (!(typeof unavailableComponentAction === 'string' && ['allow', 'readonly', 'remove'].includes(unavailableComponentAction))) {
+    //   throw Error('Form Schema option "unavailableComponentAction" must be one of "remove","allow", or "readonly"');
+    // }
+
+    /**
      * @private
      * @type {State}
      */
     this._state = {
       properties,
+      availableComponentTypes,
+      unavailableComponentAction,
       schema: null
     };
 
@@ -128,8 +152,35 @@ export default class FormEditor {
           warnings
         } = this.get('importer').importSchema(schema);
 
+        /**
+         * Check that components are allowed and act accordingly
+         */
+        const { unavailableComponentAction: action, availableComponentTypes } = this._state;
+        const { components: schemaComponents } = importedSchema;
+        const availableTypes = availableComponentTypes.length !== 0 ? availableComponentTypes : ALL_COMPONENTS;
+
+        const components = schemaComponents.reduce((comps, comp) => {
+
+          if (!availableTypes.includes(comp.type)) {
+            if (action === 'remove' || !ALL_COMPONENTS.includes(comp.type)) {
+              if (!ALL_COMPONENTS.includes(comp.type)) warnings.push(`component of type '${comp.type}' is not supported and was removed from imported schema`);
+              return comps;
+            }
+
+            if (action === 'readonly') {
+              warnings.push(`component of type '${comp.type}' is not allowed and was marked readonly in imported schema`);
+              return [ ...comps,{ ...comp, readonly: true } ];
+            }
+            if (action === 'allow') {
+              warnings.push(`component of type '${comp.type}' is not of an allowed type, it has been retained in imported schema but additional components of this type can not be added to form`);
+              return [ ...comps, { ...comp, unallowed: true } ];
+            }
+          }
+          return [ ...comps, comp ];
+        }, []);
+
         this._setState({
-          schema: importedSchema
+          schema: { ...importedSchema, components }
         });
 
         this._emit('import.done', { warnings });

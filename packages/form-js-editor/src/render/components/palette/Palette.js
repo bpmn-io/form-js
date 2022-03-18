@@ -1,5 +1,17 @@
+import { useService } from '../../hooks';
+import { ALL_COMPONENTS } from '../properties-panel/Util';
 import { iconsByType } from './icons';
 
+/**
+ * @typedef { import('../../../types').ComponentTypes} ComponentTypes
+ *
+ * @typedef { {label:string,type:ComponentTypes}} PalletComponents
+ */
+
+
+/**
+ * @type { PalletComponents[] } types
+ */
 const types = [
   {
     label: 'Text Field',
@@ -33,6 +45,11 @@ const types = [
 
 
 export default function Palette(props) {
+
+  const formEditor = useService('formEditor');
+  const formState = formEditor && formEditor._getState();
+  const availableComponentTypes = formState.availableComponentTypes || ALL_COMPONENTS;
+
   return <div class="fjs-palette">
     <div class="fjs-palette-header" title="Form elements library">
       <span class="fjs-hide-compact">FORM ELEMENTS </span>LIBRARY
@@ -41,6 +58,8 @@ export default function Palette(props) {
       {
         types.map(({ label, type }) => {
           const Icon = iconsByType[ type ];
+
+          if (!availableComponentTypes.includes(type)) return <></>;
 
           return (
             <div

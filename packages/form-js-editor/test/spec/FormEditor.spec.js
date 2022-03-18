@@ -1,21 +1,9 @@
-import {
-  createFormEditor,
-  FormEditor,
-  schemaVersion
-} from '../../src';
+import { screen, waitFor } from '@testing-library/preact/pure';
 
-import {
-  screen,
-  waitFor
-} from '@testing-library/preact/pure';
-
-import {
-  insertStyles,
-  isSingleStart
-} from '../TestHelper';
-
-import schema from './form.json';
+import { createFormEditor, FormEditor, schemaVersion } from '../../src';
+import { insertStyles, isSingleStart } from '../TestHelper';
 import schemaNoIds from './form-no-ids.json';
+import schema from './form.json';
 
 // import schema from './complex.json';
 
@@ -259,6 +247,8 @@ describe('FormEditor', function() {
 
     // when
     const exportedSchema = formEditor.saveSchema();
+
+    console.log(exportedSchema,schema);
 
     // then
     expect(exportedSchema).to.eql(exportTagged(schema));

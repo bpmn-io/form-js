@@ -1,22 +1,14 @@
-import JSONView from './JSONView';
-
-import { render } from 'preact';
-
-import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
-
-import fileDrop from 'file-drops';
-
-import mitt from 'mitt';
-
-import download from 'downloadjs';
-
-import {
-  Form,
-  FormEditor
-} from '@bpmn-io/form-js';
-
 import './FileDrop.css';
 import './Playground.css';
+
+import { Form, FormEditor } from '@bpmn-io/form-js';
+import download from 'downloadjs';
+import fileDrop from 'file-drops';
+import mitt from 'mitt';
+import { render } from 'preact';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+
+import JSONView from './JSONView';
 
 
 function Modal(props) {
@@ -187,7 +179,9 @@ function PlaygroundRoot(props) {
     const formEditor = formEditorRef.current = new FormEditor({
       renderer: {
         compact: true
-      }
+      },
+      availableComponentTypes: ['button', 'select', 'textfield'],
+      unavailableComponentAction: 'remove',
     });
 
     formEditor.on('changed', () => {

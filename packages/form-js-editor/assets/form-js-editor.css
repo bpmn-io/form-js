@@ -120,6 +120,28 @@
   background-color: var(--color-children-selected-background);
 }
 
+.fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected.fjs-editor-readonly {
+  border-color: var(--color-children-selected-border);
+  background: repeating-linear-gradient(
+  45deg,
+  #e987879a,
+  #e987879a 10px,
+  #e16c6c9a 10px,
+  #e16c6c9a 20px
+); 
+}
+
+.fjs-editor-container .fjs-children > .fjs-element.fjs-editor-selected.fjs-editor-unallowed {
+  border-color: var(--color-children-selected-border);
+  background: repeating-linear-gradient(
+  45deg,
+  #e9e7879a,
+  #e9e7879a 10px,
+  #e1df6c9a 10px,
+  #e1df6c9a 20px
+); 
+}
+
 .fjs-editor-container .fjs-children > .fjs-element:hover {
   border-color: var(--color-children-hover-border) !important;
 }
@@ -128,6 +150,7 @@
 .fjs-editor-container .fjs-select:disabled {
   pointer-events: none;
 }
+
 
 /**
  * Context Pad
@@ -164,6 +187,8 @@
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
 }
+
+
 
 .fjs-editor-container .fjs-palette-header {
   font-size: 12px;
@@ -208,6 +233,28 @@
 
 .fjs-editor-container .fjs-properties-panel * {
   box-sizing: border-box;
+}
+
+.fjs-editor-container div.fjs-properties-panel-entry.fjs-properties-panel-unallowed {
+  border-color: var(--color-children-selected-border);
+  background: repeating-linear-gradient(
+  45deg,
+  #e9e7879a,
+  #e9e7879a 10px,
+  #e1df6c9a 10px,
+  #e1df6c9a 20px
+); 
+}
+
+.fjs-editor-container div.fjs-properties-panel-entry.fjs-properties-panel-readonly {
+  border-color: var(--color-children-selected-border);
+  background: repeating-linear-gradient(
+  45deg,
+  #e987879a,
+  #e987879a 10px,
+  #e16c6c9a 10px,
+  #e16c6c9a 20px
+); 
 }
 
 .fjs-editor-container .fjs-properties-panel-header {

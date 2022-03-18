@@ -1,30 +1,14 @@
+import { FormComponent, FormContext, FormRenderContext } from '@bpmn-io/form-js-viewer';
+import dragula from 'dragula';
 import { render } from 'preact';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'preact/hooks';
-
-import {
-  FormComponent,
-  FormContext,
-  FormRenderContext
-} from '@bpmn-io/form-js-viewer';
-
-import useService from '../hooks/useService';
+import { useCallback, useContext, useEffect, useRef, useState } from 'preact/hooks';
 
 import { DragAndDropContext } from '../context';
-
-import Palette from './palette/Palette';
-import PropertiesPanel from './properties-panel/PropertiesPanel';
-
-import dragula from 'dragula';
-
-import { ListDeleteIcon } from './properties-panel/icons';
-
+import useService from '../hooks/useService';
 import { iconsByType } from './palette/icons';
+import Palette from './palette/Palette';
+import { ListDeleteIcon } from './properties-panel/icons';
+import PropertiesPanel from './properties-panel/PropertiesPanel';
 
 function ContextPad(props) {
   if (!props.children) {
@@ -55,7 +39,9 @@ function Element(props) {
 
   const {
     id,
-    type
+    type,
+    readonly,
+    unallowed
   } = field;
 
   const ref = useRef();
@@ -93,6 +79,14 @@ function Element(props) {
 
   if (selection.isSelected(field)) {
     classes.push('fjs-editor-selected');
+  }
+
+  if (readonly) {
+    classes.push('fjs-editor-readonly');
+  }
+
+  if (unallowed) {
+    classes.push('fjs-editor-unallowed');
   }
 
   const onRemove = (event) => {

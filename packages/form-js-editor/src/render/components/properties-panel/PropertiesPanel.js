@@ -1,39 +1,24 @@
-import {
-  CustomValuesGroup,
-  GeneralGroup,
-  ValidationGroup,
-  ValuesGroup
-} from './groups';
-
-import {
-  INPUTS,
-  textToLabel
-} from './Util';
-
-import {
-  useService
-} from '../../hooks';
-
+import { useService } from '../../hooks';
 import { iconsByType } from '../palette/icons';
+import { CustomValuesGroup, GeneralGroup, ValidationGroup, ValuesGroup } from './groups';
+import ReadOnlyGroup from './groups/ReadOnlyGroup';
+import UnallowedGroup from './groups/UnallowedGroup';
+import { INPUTS, labelsByType, textToLabel } from './Util';
 
-const labelsByType = {
-  button: 'BUTTON',
-  checkbox: 'CHECKBOX',
-  columns: 'COLUMNS',
-  default: 'FORM',
-  number: 'NUMBER',
-  radio: 'RADIO',
-  select: 'SELECT',
-  text: 'TEXT',
-  textfield: 'TEXT FIELD',
-};
+
+
 
 function getGroups(field, editField) {
-  const { type } = field;
+  const { type,readonly = false,unallowed = false } = field;
 
-  const groups = [
-    GeneralGroup(field, editField)
-  ];
+  const groups = [];
+
+  if (unallowed) {
+    groups.push(
+      <UnallowedGroup field={ field } editField={ editField } />
+    );
+  }
+  groups.push(GeneralGroup(field, editField));
 
   if (type === 'radio' || type === 'select') {
     groups.push(ValuesGroup(field, editField));
@@ -47,7 +32,8 @@ function getGroups(field, editField) {
     groups.push(CustomValuesGroup(field, editField));
   }
 
-  return groups;
+
+  return [ ...groups.filter(()=>!readonly), readonly && ReadOnlyGroup(field, editField) ];
 }
 
 export default function PropertiesPanel(props) {
