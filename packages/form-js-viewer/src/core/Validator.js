@@ -57,3 +57,5 @@ export default class Validator {
     return errors;
   }
 }
+
+Validator.$inject = [];
