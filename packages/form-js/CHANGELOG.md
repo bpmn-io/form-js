@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.7.1
+
+* `FIX`: explicitly declare `Validator` dependencies ([#240](https://github.com/bpmn-io/form-js/issues/240))
+* `FIX`: improve types ([#159](https://github.com/bpmn-io/form-js/issues/159))
+
 ## 0.7.0
 
 ### Editor
