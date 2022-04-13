@@ -44,10 +44,10 @@ export default function ValidationGroup(field, editField) {
         onChange={ onChange('maxLength') }
         value={ get(field, [ 'validate', 'maxLength' ]) } />,
       <TextInputEntry
-        id="regularExpressionPattern"
+        id="pattern"
         label="Regular Expression Pattern"
-        onChange={ onChange('regularExpressionPattern') }
-        value={ get(field, [ 'validate', 'regularExpressionPattern' ]) } />
+        onChange={ onChange('pattern') }
+        value={ get(field, [ 'validate', 'pattern' ]) } />
     );
   }
 
