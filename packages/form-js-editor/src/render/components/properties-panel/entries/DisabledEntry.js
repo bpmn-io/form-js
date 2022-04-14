@@ -7,7 +7,7 @@ export default function DisabledEntry(props) {
   } = props;
 
   const onChange = (value) => {
-    editField(field, 'disabled', value);
+    editField(field, [ 'disabled' ], value);
   };
 
   return <CheckboxInputEntry
