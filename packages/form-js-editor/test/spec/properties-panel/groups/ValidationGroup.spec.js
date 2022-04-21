@@ -11,7 +11,6 @@ import { prefixId } from '../../../../src/render/components/properties-panel/Uti
 import { WithFormEditorContext } from '../helper';
 
 
-
 describe('ValidationGroup', function() {
 
   afterEach(() => cleanup());
