@@ -56,6 +56,25 @@
       ]
     },
     {
+      "key": "mailto",
+      "label": "Email Summary To",
+      "type": "checklist",
+      "values": [
+        {
+          "label": "Approver",
+          "value": "approver"
+        },
+        {
+          "label": "Manager",
+          "value": "manager"
+        },
+        {
+          "label": "Regional Manager",
+          "value": "regional-manager"
+        }
+      ]
+    },
+    {
       "key": "language",
       "label": "Language",
       "type": "select",

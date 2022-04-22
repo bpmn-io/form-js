@@ -31,6 +31,20 @@ describe('core/FieldFactory', function() {
       keyed: true
     }));
 
+    it('Checklist', testCreate({
+      type: 'checklist',
+      label: 'Checklist',
+      keyed: true,
+      defaults: {
+        values: [
+          {
+            label: 'Value',
+            value: 'value'
+          }
+        ]
+      }
+    }));
+
 
     it('Default', testCreate({
       type: 'default',

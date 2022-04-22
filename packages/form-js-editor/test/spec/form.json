@@ -54,6 +54,26 @@
       "type": "textfield"
     },
     {
+      "id": "Checklist_1",
+      "key": "mailto",
+      "label": "Email data to",
+      "type": "checklist",
+      "values": [
+        {
+          "label": "Approver",
+          "value": "approver"
+        },
+        {
+          "label": "Manager",
+          "value": "manager"
+        },
+        {
+          "label": "Regional Manager",
+          "value": "regional-manager"
+        }
+      ]
+    },
+    {
       "id": "Radio_1",
       "key": "product",
       "label": "Product",

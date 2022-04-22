@@ -31,6 +31,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
         language: 'english'
       };
@@ -42,7 +43,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(11);
+      expect(formFieldRegistry.getAll()).to.have.length(12);
     }));
 
 
@@ -55,6 +56,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
         language: 'english'
       };
@@ -65,7 +67,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(11);
+      expect(formFieldRegistry.getAll()).to.have.length(12);
 
       // when
       result = await form.importSchema(other, data);
@@ -236,6 +238,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
         language: 'english'
       };
@@ -250,6 +253,7 @@ describe('Importer', function() {
         amount: 456,
         approved: true,
         approvedBy: 'John Doe',
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
         language: 'english'
       });
@@ -271,6 +275,7 @@ describe('Importer', function() {
         amount: null,
         approved: false,
         approvedBy: '',
+        mailto: [],
         product: null,
         language: null
       });
@@ -292,6 +297,7 @@ describe('Importer', function() {
         amount: 0,
         approved: true,
         approvedBy: '',
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-platform',
         language: 'english'
       });

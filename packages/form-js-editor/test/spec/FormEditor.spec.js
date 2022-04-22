@@ -61,7 +61,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(11);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(12);
   });
 
 
@@ -115,7 +115,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(11);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(12);
     });
 
 
@@ -715,7 +715,7 @@ describe('FormEditor', function() {
       // assume
       const formFieldRegistry = formEditor.get('formFieldRegistry');
 
-      expect(formFieldRegistry.getAll()).to.have.length(11);
+      expect(formFieldRegistry.getAll()).to.have.length(12);
 
       // when
       const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
@@ -731,7 +731,7 @@ describe('FormEditor', function() {
       dispatchEvent(form, 'mouseup');
 
       // then
-      expect(formFieldRegistry.getAll()).to.have.length(12);
+      expect(formFieldRegistry.getAll()).to.have.length(13);
 
       const selection = formEditor.get('selection');
 

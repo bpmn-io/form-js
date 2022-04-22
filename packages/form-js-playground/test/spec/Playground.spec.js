@@ -46,6 +46,7 @@ describe('playground', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
       language: 'english'
     };
