@@ -65,7 +65,7 @@ export default function JSONEditor(options = {}) {
   this.off = emitter.off;
 
   this.attachTo = function(container) {
-    container.appendChild(view.dom);
+    container && container.appendChild(view.dom);
   };
 
   this.destroy = function() {

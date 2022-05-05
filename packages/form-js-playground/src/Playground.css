@@ -17,10 +17,35 @@
 .fjs-pgl-main {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  display: grid;
-  grid-template-columns: 65% 35%;
-  grid-template-rows: 70% 30%;
+.fjs-pgl-forms-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+.fjs-pgl-data-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+.fjs-pgl-main--no-preview .fjs-pgl-forms-container .fjs-pgl-section:nth-child(1) {
+  border-right: none;
+}
+
+.fjs-pgl-main--no-preview .fjs-pgl-forms-container .fjs-pgl-section:nth-child(2) {
+  display: none;
+}
+
+.fjs-pgl-main--no-data .fjs-pgl-forms-container .fjs-pgl-section:nth-child(1),
+.fjs-pgl-main--no-data .fjs-pgl-forms-container .fjs-pgl-section:nth-child(2) {
+  border-bottom: none;
 }
 
 /**
@@ -28,6 +53,7 @@
  */
 .fjs-pgl-section {
   display: flex;
+  flex-basis: 100%;
   flex-direction: column;
   justify-content: stretch;
 }
@@ -39,7 +65,13 @@
 
 .fjs-pgl-section:nth-child(1),
 .fjs-pgl-section:nth-child(3) {
+  flex: 65%;
   border-right: double 3px var(--color-dark-gray);
+}
+
+.fjs-pgl-section:nth-child(2),
+.fjs-pgl-section:nth-child(4) {
+  flex: 35%;
 }
 
 .fjs-pgl-section .header {

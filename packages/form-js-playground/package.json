@@ -21,6 +21,7 @@
   "scripts": {
     "all": "run-s test build",
     "build": "rollup -c --failAfterWarnings",
+    "build:watch": "rollup -c -w --failAfterWarnings",
     "start": "SINGLE_START=basic npm run dev",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
@@ -37,10 +38,12 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js": "^0.7.2",
+    "@bpmn-io/form-js-editor": "^0.7.2",
+    "@bpmn-io/form-js-viewer": "^0.7.2",
     "@codemirror/basic-setup": "^0.18.2",
     "@codemirror/lang-json": "^0.18.0",
     "@codemirror/state": "^0.18.7",
+    "classnames": "^2.3.1",
     "downloadjs": "^1.4.7",
     "file-drops": "^0.4.0",
     "mitt": "^3.0.0",

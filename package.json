@@ -6,6 +6,7 @@
     "build:watch": "npm run build-watch -- @bpmn-io/form-js",
     "build-distro": "lerna run prepublishOnly --sort",
     "build-watch": "run-s \"lerna-build-watch -- {@}\" -- ",
+    "build:playground": "lerna run build:watch --stream --scope @bpmn-io/form-js-playground",
     "clean": "del-cli \"{node_modules,dist}\" \"packages/*/{node_modules,dist}\"",
     "distro": "run-s clean reinstall build-distro",
     "dev": "run-s build \"lerna-dev -- {@}\" -- ",

@@ -23,13 +23,15 @@ export default [
     ],
     external: [
       '@bpmn-io/form-js-viewer',
-      '@bpmn-io/form-js-editor'
+      '@bpmn-io/form-js-editor',
+      '@bpmn-io/form-js-playground'
     ],
     plugins: [
       copy({
         targets: [
           { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' }
+          { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
+          { src: 'node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
         ]
       })
     ]
@@ -55,6 +57,20 @@ export default [
         format: 'umd',
         file: pkg.exports['./viewer'].umd,
         name: 'FormViewer'
+      }
+    ],
+    plugins: [
+      resolve(),
+      commonjs()
+    ]
+  },
+  {
+    input: 'src/playground.js',
+    output: [
+      {
+        format: 'umd',
+        file: pkg.exports['./playground'].umd,
+        name: 'FormPlayground'
       }
     ],
     plugins: [

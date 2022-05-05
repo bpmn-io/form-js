@@ -10,10 +10,15 @@ import mitt from 'mitt';
 
 import download from 'downloadjs';
 
+import classNames from 'classnames';
+
 import {
-  Form,
+  Form
+} from '@bpmn-io/form-js-viewer';
+
+import {
   FormEditor
-} from '@bpmn-io/form-js';
+} from '@bpmn-io/form-js-editor';
 
 import './FileDrop.css';
 import './Playground.css';
@@ -155,6 +160,8 @@ function PlaygroundRoot(props) {
 
   const [ showEmbed, setShowEmbed ] = useState(false);
 
+  const [ showPreview, setShowPreview ] = useState(true);
+
   const [ initialData ] = useState(props.data || {});
   const [ initialSchema, setInitialSchema ] = useState(props.schema);
 
@@ -165,12 +172,18 @@ function PlaygroundRoot(props) {
 
   useEffect(() => {
     props.onInit({
-      setSchema: setInitialSchema
+      setSchema: setInitialSchema,
+      getSchema: schema,
+      form: formRef,
+      formEditor: formEditorRef,
+      attachDataContainer: (node) => dataEditorRef.current.attachTo(node),
+      attachResultContainer: (node) => resultViewRef.current.attachTo(node),
+      setShowDataPreview: (show) => setShowPreview(show)
     });
   });
 
   useEffect(() => {
-    setInitialSchema(props.schema || {});
+    setInitialSchema(props.schema);
   }, [ props.schema ]);
 
   useEffect(() => {
@@ -230,11 +243,13 @@ function PlaygroundRoot(props) {
   }, [ initialData ]);
 
   useEffect(() => {
-    formEditorRef.current.importSchema(initialSchema);
+    initialSchema && formEditorRef.current.importSchema(initialSchema);
   }, [ initialSchema ]);
 
   useEffect(() => {
-    formRef.current.importSchema(schema, data);
+
+    // todo: is this safeguard needed (lazy import)?
+    schema && formRef.current.importSchema(schema, data);
   }, [ schema, data ]);
 
   useEffect(() => {
@@ -261,38 +276,57 @@ function PlaygroundRoot(props) {
     setShowEmbed(true);
   }, []);
 
+  // todo: reconsider having 4 sections (uncommented for spike)
   return (
     <div class="fjs-pgl-root">
       <div class="fjs-pgl-modals">
         { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
       </div>
-      <div class="fjs-pgl-main">
-
-        <Section name="Form Definition">
-          <Section.HeaderItem>
-            <button
-              class="fjs-pgl-button"
-              title="Download form definition"
-              onClick={ handleDownload }
-            >Download</button>
-          </Section.HeaderItem>
-          <Section.HeaderItem>
-            <button
-              class="fjs-pgl-button"
-              onClick={ showEmbedModal }
-            >Embed</button>
-          </Section.HeaderItem>
-          <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
-        </Section>
-        <Section name="Form Preview">
-          <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
-        </Section>
-        <Section name="Form Data (Input)">
-          <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
-        </Section>
-        <Section name="Form Data (Submit)">
-          <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
-        </Section>
+      <div class={ classNames(
+        'fjs-pgl-main', {
+          'fjs-pgl-main--no-preview': !showPreview,
+          'fjs-pgl-main--no-data': props.hideData
+        }
+      ) }>
+        <div class="fjs-pgl-forms-container">
+          <Section name="Form Definition">
+            <Section.HeaderItem>
+              <button
+                class="fjs-pgl-button fjs-pgl-button--download"
+                title="Download form definition"
+                onClick={ handleDownload }
+              >Download</button>
+            </Section.HeaderItem>
+            <Section.HeaderItem>
+              <button
+                class="fjs-pgl-button fjs-pgl-button--modal"
+                onClick={ showEmbedModal }
+              >Embed</button>
+            </Section.HeaderItem>
+            <Section.HeaderItem>
+              <button
+                class="fjs-pgl-button fjs-pgl-button--preview"
+                title={ `${showPreview ? 'Close' : 'Open'} Preview` }
+                onClick={ () => setShowPreview(!showPreview) }
+              >{ `${showPreview ? 'Close' : 'Open'} Preview` }</button>
+            </Section.HeaderItem>
+            <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
+          </Section>
+          <Section name="Form Preview">
+            <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
+          </Section>
+        </div>
+        { !props.hideData ?
+          <div class="fjs-pgl-data-container">
+            <Section name="Form Data (Input)">
+              <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
+            </Section>
+            <Section name="Form Data (Submit)">
+              <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
+            </Section>
+          </div>
+          : null
+        }
       </div>
     </div>
   );
@@ -303,8 +337,9 @@ export default function Playground(options) {
 
   const {
     container: parent,
+    data,
+    hideData,
     schema,
-    data
   } = options;
 
   const emitter = mitt();
@@ -315,8 +350,6 @@ export default function Playground(options) {
   const container = document.createElement('div');
 
   container.classList.add('fjs-pgl-parent');
-
-  parent.appendChild(container);
 
   const handleDrop = fileDrop('Drop a form file', function(files) {
     const file = files[0];
@@ -331,14 +364,41 @@ export default function Playground(options) {
     }
   });
 
+  const onInit = _ref => {
+    ref = _ref;
+  };
+
+  this.attachTo = function(parent) {
+    parent && parent.appendChild(container);
+  };
+
+  this.detach = function(emit = true) {
+    const parentNode = container.parentNode;
+
+    if (!parentNode) {
+      return;
+    }
+
+    if (emit) {
+      this.emit('detach');
+    }
+
+    parentNode.removeChild(container);
+  };
+
+  if (parent) {
+    this.attachTo(parent);
+  }
+
   container.addEventListener('dragover', handleDrop);
 
   render(
     <PlaygroundRoot
       schema={ schema }
       data={ data }
+      hideData={ hideData }
       onStateChanged={ (_state) => state = _state }
-      onInit={ _ref => ref = _ref }
+      onInit={ onInit }
     />,
     container
   );
@@ -353,19 +413,54 @@ export default function Playground(options) {
   });
 
   this.on('destroy', function() {
-    parent.removeChild(container);
+    const parent = container.parentNode;
+
+    // todo: why would the parent be gone?
+    parent && parent.removeChild(container);
   });
 
   this.getState = function() {
     return state;
   };
 
+  this.getSchema = function() {
+    return state.schema;
+  };
+
   this.setSchema = function(schema) {
-    return ref.setSchema(schema);
+    return ref && ref.setSchema(schema);
+  };
+
+  this.importSchema = function(schema) {
+    return this.setSchema(schema);
+  };
+
+  this.getFormEditor = function() {
+    return ref && ref.formEditor.current;
   };
 
   this.destroy = function() {
     this.emit('destroy');
+  };
+
+  this.get = function(type) {
+    return this.getFormEditor().get(type);
+  };
+
+  this.saveSchema = function() {
+    return this.getFormEditor().saveSchema();
+  };
+
+  this.attachDataContainer = function(containerRef) {
+    return ref && ref.attachDataContainer(containerRef);
+  };
+
+  this.attachResultContainer = function(containerRef) {
+    return ref && ref.attachResultContainer(containerRef);
+  };
+
+  this.setShowDataPreview = function(show) {
+    return ref && ref.setShowDataPreview(show);
   };
 }
 
