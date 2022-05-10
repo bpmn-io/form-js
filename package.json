@@ -12,7 +12,7 @@
     "dev:editor": "npm run dev -- @bpmn-io/form-js-editor",
     "dev:playground": "npm run dev -- @bpmn-io/form-js-playground",
     "lerna-dev": "lerna run dev --stream --scope",
-    "lerna-build-watch": "lerna run bundle:watch --stream --scope",
+    "lerna-build-watch": "lerna run bundle:watch --stream --parallel --include-dependencies --scope",
     "lerna-publish": "lerna publish -m \"chore(project): publish %s\"",
     "lint": "eslint packages",
     "lint:types": "tsc --noEmit --pretty",
