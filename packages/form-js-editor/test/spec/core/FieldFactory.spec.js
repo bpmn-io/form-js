@@ -31,6 +31,14 @@ describe('core/FieldFactory', function() {
       keyed: true
     }));
 
+    it('Fieldset', testCreate({
+      type: 'fieldset',
+      label: 'Fieldset',
+      keyed: false,
+      defaults: {
+        components: []
+      }
+    }));
 
     it('Checklist', testCreate({
       type: 'checklist',

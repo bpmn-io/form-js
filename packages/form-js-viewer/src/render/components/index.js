@@ -2,6 +2,7 @@ import Button from './form-fields/Button';
 import Checkbox from './form-fields/Checkbox';
 import Checklist from './form-fields/Checklist';
 import Default from './form-fields/Default';
+import Fieldset from './form-fields/Fieldset';
 import FormComponent from './FormComponent';
 import Number from './form-fields/Number';
 import Radio from './form-fields/Radio';
@@ -15,6 +16,7 @@ export {
   Checkbox,
   Checklist,
   Default,
+  Fieldset,
   FormComponent,
   Number,
   Radio,
@@ -29,6 +31,7 @@ export const formFields = [
   Checkbox,
   Checklist,
   Default,
+  Fieldset,
   Number,
   Radio,
   Select,

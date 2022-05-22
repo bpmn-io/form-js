@@ -36,6 +36,10 @@ const types = [
   {
     label: 'Button',
     type: 'button'
+  },
+  {
+    label: 'Fieldset',
+    type: 'fieldset'
   }
 ];
 

@@ -145,6 +145,21 @@ describe('GeneralGroup', function() {
     });
 
 
+    it('should render for fieldset', function() {
+
+      // given
+      const field = { type: 'fieldset' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const labelInput = findInput('label', container);
+
+      expect(labelInput).to.exist;
+    });
+
+
     it('should read', function() {
 
       // given

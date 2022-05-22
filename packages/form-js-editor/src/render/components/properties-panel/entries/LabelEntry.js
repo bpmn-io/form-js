@@ -19,7 +19,7 @@ export default function LabelEntry(props) {
 
   const entries = [];
 
-  if (INPUTS.includes(type) || type === 'button') {
+  if (INPUTS.includes(type) || type === 'button' || type === 'fieldset') {
     entries.push({
       id: 'label',
       component: Label,
