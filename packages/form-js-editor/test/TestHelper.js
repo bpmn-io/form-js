@@ -6,10 +6,13 @@ import { insertCSS } from './helper';
 import formCSS from '@bpmn-io/form-js-viewer/dist/assets/form-js.css';
 
 // @ts-ignore-next-line
-import formEditorCSS from '../dist/assets/form-js-editor.css';
+import formEditorCSS from '../assets/form-js-editor.css';
 
 // @ts-ignore-next-line
 import dragulaCSS from '../dist/assets/dragula.css';
+
+// @ts-ignore-next-line
+import propertiesPanelCSS from '@bpmn-io/properties-panel/assets/properties-panel.css';
 
 // @ts-ignore-next-line
 import testCSS from './test.css';
@@ -24,6 +27,7 @@ export function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
   insertCSS('dragula.css', dragulaCSS);
+  insertCSS('properties-panel.css', propertiesPanelCSS);
   insertCSS('test.css', testCSS);
 }
 

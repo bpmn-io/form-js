@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
 html,
 body,
 .fjs-editor {
@@ -5,11 +7,16 @@ body,
 }
 
 body {
-  font-family: sans-serif;
+  --font-family: 'IBM Plex Sans', sans-serif;
   font-size: 16px;
   margin: 0;
 }
 
 .test-container {
   height: auto !important;
+}
+
+.bio-properties-panel {
+  --font-family: inherit;
+  --font-family-monospace: inherit;
 }
