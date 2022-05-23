@@ -1,8 +1,18 @@
 import {
-  NumberInputEntry,
+  isNumberFieldEntryEdited,
+  isSelectEntryEdited,
+  isTextFieldEntryEdited,
+  NumberFieldEntry,
   SelectEntry,
-  TextInputEntry
-} from '../components';
+  TextFieldEntry
+} from '@bpmn-io/properties-panel';
+
+import { get } from 'min-dash';
+
+import { useService } from '../../../hooks';
+
+import { INPUTS } from '../Util';
+
 
 export default function DefaultValueEntry(props) {
   const {
@@ -11,13 +21,73 @@ export default function DefaultValueEntry(props) {
   } = props;
 
   const {
-    defaultValue,
-    type,
-    values = []
+    type
   } = field;
 
+  const entries = [];
+
+  if (!INPUTS.includes(type)) {
+    return entries;
+  }
+
+  const defaultOptions = {
+    editField,
+    field,
+    id: 'defaultValue',
+    label: 'Default value'
+  };
+
   if (type === 'checkbox') {
-    const options = [
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueCheckbox,
+      isEdited: isSelectEntryEdited
+    });
+  }
+
+  if (type === 'number') {
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueNumber,
+      isEdited: isNumberFieldEntryEdited
+    });
+  }
+
+  if (type === 'radio' || type === 'select') {
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueMulti,
+      isEdited: isSelectEntryEdited
+    });
+  }
+
+  if (type === 'textfield') {
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueTextfield,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function DefaultValueCheckbox(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const {
+    defaultValue
+  } = field;
+
+  const path = [ 'defaultValue' ];
+
+  const getOptions = () => {
+    return [
       {
         label: 'Checked',
         value: 'true'
@@ -27,65 +97,130 @@ export default function DefaultValueEntry(props) {
         value: 'false'
       }
     ];
+  };
 
-    const onChange = (value) => {
-      editField(field, [ 'defaultValue' ], parseStringToBoolean(value));
-    };
+  const setValue = (value) => {
+    return editField(field, path, parseStringToBoolean(value));
+  };
 
-    return (
-      <SelectEntry
-        id="defaultValue"
-        label="Default Value"
-        onChange={ onChange }
-        options={ options }
-        value={ parseBooleanToString(defaultValue) } />
-    );
-  }
+  const getValue = () => {
+    return parseBooleanToString(defaultValue);
+  };
 
-  if (type === 'number') {
-    return (
-      <NumberInputEntry
-        editField={ editField }
-        field={ field }
-        id="defaultValue"
-        label="Default Value"
-        path={ [ 'defaultValue' ] } />
-    );
-  }
+  return SelectEntry({
+    element: field,
+    getOptions,
+    getValue,
+    id,
+    label,
+    setValue
+  });
+}
 
-  if (type === 'radio' || type === 'select') {
-    const options = [
+function DefaultValueNumber(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const path = [ 'defaultValue' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  return NumberFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label,
+    setValue
+  });
+}
+
+function DefaultValueMulti(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const {
+    defaultValue,
+    values = []
+  } = field;
+
+  const path = [ 'defaultValue' ];
+
+  const getOptions = () => {
+    return [
       {
         label: '<none>'
       },
       ...values
     ];
+  };
 
-    const onChange = (value) => {
-      editField(field, [ 'defaultValue' ], value.length ? value : undefined);
-    };
+  const setValue = (value) => {
+    return editField(field, path, value.length ? value : undefined);
+  };
 
-    return (
-      <SelectEntry
-        id="defaultValue"
-        label="Default Value"
-        onChange={ onChange }
-        options={ options }
-        value={ defaultValue } />
-    );
-  }
+  const getValue = () => {
+    return defaultValue;
+  };
 
-  if (type === 'textfield') {
-    return (
-      <TextInputEntry
-        editField={ editField }
-        field={ field }
-        id="defaultValue"
-        label="Default Value"
-        path={ [ 'defaultValue' ] } />
-    );
-  }
+  return SelectEntry({
+    element: field,
+    getOptions,
+    getValue,
+    id,
+    label,
+    setValue
+  });
 }
+
+function DefaultValueTextfield(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const path = [ 'defaultValue' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  return TextFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label,
+    setValue
+  });
+}
+
+
+// helpers /////////////////
 
 function parseStringToBoolean(value) {
   if (value === 'true') {

@@ -16,7 +16,7 @@
   --color-palette-field-border: var(--color-grey-225-10-80);
   --color-palette-field-hover-background: var(--color-grey-225-10-95);
 
-  --color-properties-container-background: var(--color-grey-225-10-97);
+  --color-properties-container-background: var(--color-white);
   --color-properties-container-border: var(--color-grey-225-10-80);
   --color-properties-header-background: var(--color-grey-225-10-95);
   --color-properties-header-border: var(--color-grey-225-10-80);
@@ -163,6 +163,7 @@
   width: 200px;
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
+  font-family: var(--font-family);
 }
 
 .fjs-editor-container .fjs-palette-header {
@@ -206,6 +207,10 @@
   color: var(--color-text);
 }
 
+.fjs-editor-container .fjs-properties-panel {
+  height: 100%;
+}
+
 .fjs-editor-container .fjs-properties-panel * {
   box-sizing: border-box;
 }
@@ -226,6 +231,10 @@
   flex-direction: row;
   align-items: center;
   fill: var(--color-properties-header-icon-fill);
+}
+
+.fjs-editor-container .bio-properties-panel-header-icon svg {
+  transform: scale(1.3);
 }
 
 .fjs-editor-container .fjs-properties-panel-header-type {

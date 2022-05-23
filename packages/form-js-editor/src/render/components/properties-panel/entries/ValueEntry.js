@@ -3,44 +3,102 @@ import {
   set
 } from 'min-dash';
 
-import { TextInputEntry } from '../components';
+import { useService } from '../../../hooks';
+
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
+
 
 export default function ValueEntry(props) {
   const {
     editField,
     field,
+    idPrefix,
     index,
-    validate
+    validateFactory
   } = props;
 
-  const getLabel = () => {
+  const entries = [
+    {
+      component: Label,
+      editField,
+      field,
+      id: idPrefix + '-label',
+      idPrefix,
+      index,
+      validateFactory
+    },
+    {
+      component: Value,
+      editField,
+      field,
+      id: idPrefix + '-value',
+      idPrefix,
+      index,
+      validateFactory
+    }
+  ];
+
+  return entries;
+}
+
+function Label(props) {
+  const {
+    editField,
+    field,
+    id,
+    index,
+    validateFactory
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const setValue = (value) => {
+    const values = get(field, [ 'values' ]);
+    return editField(field, 'values', set(values, [ index, 'label' ], value));
+  };
+
+  const getValue = () => {
     return get(field, [ 'values', index, 'label' ]);
+  };
+
+  return TextFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label: 'Label',
+    setValue,
+    validate: validateFactory(getValue())
+  });
+}
+
+function Value(props) {
+  const {
+    editField,
+    field,
+    id,
+    index,
+    validateFactory
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const setValue = (value) => {
+    const values = get(field, [ 'values' ]);
+    return editField(field, 'values', set(values, [ index, 'value' ], value));
   };
 
   const getValue = () => {
     return get(field, [ 'values', index, 'value' ]);
   };
 
-  const onChange = (key) => {
-    const values = get(field, [ 'values' ]);
-
-    return (value) => {
-      editField(field, 'values', set(values, [ index, key ], value));
-    };
-  };
-
-  return <>
-    <TextInputEntry
-      id={ `value-label-${ index }` }
-      label="Label"
-      onChange={ onChange('label') }
-      value={ getLabel() } />
-    <TextInputEntry
-      id={ `value-value-${ index }` }
-      label="Value"
-      onChange={ onChange('value') }
-      value={ getValue() }
-      validate={ validate(getValue()) } />
-
-  </>;
+  return TextFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label: 'Value',
+    setValue,
+    validate: validateFactory(getValue())
+  });
 }

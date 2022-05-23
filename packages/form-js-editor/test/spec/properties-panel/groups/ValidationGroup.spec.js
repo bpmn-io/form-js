@@ -6,9 +6,7 @@ import {
 
 import { ValidationGroup } from '../../../../src/render/components/properties-panel/groups';
 
-import { prefixId } from '../../../../src/render/components/properties-panel/Util';
-
-import { WithFormEditorContext } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 
 describe('ValidationGroup', function() {
@@ -16,17 +14,32 @@ describe('ValidationGroup', function() {
   afterEach(() => cleanup());
 
 
+  it('should NOT render for checkbox', function() {
+
+    // given
+    const field = { type: 'checkbox' };
+
+    const group = ValidationGroup(field);
+
+    // then
+    expect(group).to.not.exist;
+  });
+
+
   describe('required', function() {
 
-    it('should render for any field', function() {
+    it('should render for textfield', function() {
+
+      // given
+      const field = { type: 'textfield' };
 
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'any' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const checkboxInput = container.querySelector(`#${prefixId('required')}`);
+      const requiredInput = findInput('required', container);
 
-      expect(checkboxInput).to.exist;
+      expect(requiredInput).to.exist;
     });
 
 
@@ -34,20 +47,21 @@ describe('ValidationGroup', function() {
 
       // given
       const field = {
-        type: 'any',
+        type: 'textfield',
         validate: {
           required: true
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const checkboxInput = container.querySelector(`#${prefixId('required')}`);
+      const { container } = renderValidationGroup({ field });
 
       // then
-      expect(checkboxInput).to.exist;
-      expect(checkboxInput.checked).to.be.true;
+      const requiredInput = findInput('required', container);
+
+      // then
+      expect(requiredInput).to.exist;
+      expect(requiredInput.checked).to.be.true;
     });
 
 
@@ -55,7 +69,7 @@ describe('ValidationGroup', function() {
 
       // given
       const field = {
-        type: 'any',
+        type: 'textfield',
         validate: {
           required: true
         }
@@ -63,12 +77,12 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const checkboxInput = container.querySelector(`#${prefixId('required')}`);
+      const requiredInput = findInput('required', container);
 
       // when
-      fireEvent.click(checkboxInput);
+      fireEvent.click(requiredInput);
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
@@ -82,11 +96,14 @@ describe('ValidationGroup', function() {
 
     it('should render for textfield', function() {
 
+      // given
+      const field = { type: 'textfield' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'textfield' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const minLengthInput = container.querySelector(`#${prefixId('minLength')}`);
+      const minLengthInput = findInput('minLength', container);
 
       expect(minLengthInput).to.exist;
     });
@@ -94,11 +111,14 @@ describe('ValidationGroup', function() {
 
     it('should NOT render for number', function() {
 
+      // given
+      const field = { type: 'number' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'number' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const minLengthInput = container.querySelector(`#${prefixId('minLength')}`);
+      const minLengthInput = findInput('minLength', container);
 
       expect(minLengthInput).to.not.exist;
     });
@@ -114,10 +134,10 @@ describe('ValidationGroup', function() {
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const minLengthInput = container.querySelector(`#${prefixId('minLength')}`);
+      const { container } = renderValidationGroup({ field });
+
+      const minLengthInput = findInput('minLength', container);
 
       // then
       expect(minLengthInput).to.exist;
@@ -137,9 +157,9 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const minLengthInput = container.querySelector(`#${prefixId('minLength')}`);
+      const minLengthInput = findInput('minLength', container);
 
       // when
       fireEvent.input(minLengthInput, { target: { value: '2' } });
@@ -156,11 +176,14 @@ describe('ValidationGroup', function() {
 
     it('should render for textfield', function() {
 
+      // given
+      const field = { type: 'textfield' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'textfield' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const maxLengthInput = container.querySelector(`#${prefixId('maxLength')}`);
+      const maxLengthInput = findInput('maxLength', container);
 
       expect(maxLengthInput).to.exist;
     });
@@ -168,11 +191,14 @@ describe('ValidationGroup', function() {
 
     it('should NOT render for number', function() {
 
+      // given
+      const field = { type: 'number' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'number' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const maxLengthInput = container.querySelector(`#${prefixId('maxLength')}`);
+      const maxLengthInput = findInput('maxLength', container);
 
       expect(maxLengthInput).to.not.exist;
     });
@@ -188,10 +214,10 @@ describe('ValidationGroup', function() {
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const maxLengthInput = container.querySelector(`#${prefixId('maxLength')}`);
+      const { container } = renderValidationGroup({ field });
+
+      const maxLengthInput = findInput('maxLength', container);
 
       // then
       expect(maxLengthInput).to.exist;
@@ -211,9 +237,9 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const maxLengthInput = container.querySelector(`#${prefixId('maxLength')}`);
+      const maxLengthInput = findInput('maxLength', container);
 
       // when
       fireEvent.input(maxLengthInput, { target: { value: '2' } });
@@ -230,11 +256,14 @@ describe('ValidationGroup', function() {
 
     it('should render for textfield', function() {
 
+      // given
+      const field = { type: 'textfield' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'textfield' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const patternInput = container.querySelector(`#${prefixId('pattern')}`);
+      const patternInput = findInput('pattern', container);
 
       expect(patternInput).to.exist;
     });
@@ -242,11 +271,14 @@ describe('ValidationGroup', function() {
 
     it('should NOT render for number', function() {
 
+      // given
+      const field = { type: 'number' };
+
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'number' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const patternInput = container.querySelector(`#${prefixId('pattern')}`);
+      const patternInput = findInput('pattern', container);
 
       expect(patternInput).to.not.exist;
     });
@@ -262,10 +294,10 @@ describe('ValidationGroup', function() {
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const patternInput = container.querySelector(`#${prefixId('pattern')}`);
+      const { container } = renderValidationGroup({ field });
+
+      const patternInput = findInput('pattern', container);
 
       // then
       expect(patternInput).to.exist;
@@ -285,9 +317,9 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const patternInput = container.querySelector(`#${prefixId('pattern')}`);
+      const patternInput = findInput('pattern', container);
 
       // when
       fireEvent.input(patternInput, { target: { value: 'foo' } });
@@ -302,27 +334,33 @@ describe('ValidationGroup', function() {
 
   describe('min', function() {
 
-    it('should NOT render for textfield', function() {
+    it('should render for number', function() {
+
+      // given
+      const field = { type: 'number' };
 
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'textfield' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const minInput = container.querySelector(`#${prefixId('min')}`);
+      const minInput = findInput('min', container);
 
-      expect(minInput).to.not.exist;
+      expect(minInput).to.exist;
     });
 
 
-    it('should render for number', function() {
+    it('should NOT render for textfield', function() {
+
+      // given
+      const field = { type: 'textfield' };
 
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'number' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const minInput = container.querySelector(`#${prefixId('min')}`);
+      const minInput = findInput('min', container);
 
-      expect(minInput).to.exist;
+      expect(minInput).to.not.exist;
     });
 
 
@@ -336,10 +374,10 @@ describe('ValidationGroup', function() {
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const minInput = container.querySelector(`#${prefixId('min')}`);
+      const { container } = renderValidationGroup({ field });
+
+      const minInput = findInput('min', container);
 
       // then
       expect(minInput).to.exist;
@@ -359,9 +397,9 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const minInput = container.querySelector(`#${prefixId('min')}`);
+      const minInput = findInput('min', container);
 
       // when
       fireEvent.input(minInput, { target: { value: '2' } });
@@ -376,27 +414,33 @@ describe('ValidationGroup', function() {
 
   describe('max', function() {
 
-    it('should NOT render for textfield', function() {
+    it('should render for number', function() {
+
+      // given
+      const field = { type: 'number' };
 
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'textfield' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const maxInput = container.querySelector(`#${prefixId('max')}`);
+      const maxInput = findInput('max', container);
 
-      expect(maxInput).to.not.exist;
+      expect(maxInput).to.exist;
     });
 
 
-    it('should render for number', function() {
+    it('should NOT render for textfield', function() {
+
+      // given
+      const field = { type: 'textfield' };
 
       // when
-      const { container } = render(WithFormEditorContext(ValidationGroup({ type: 'number' })));
+      const { container } = renderValidationGroup({ field });
 
       // then
-      const maxInput = container.querySelector(`#${prefixId('max')}`);
+      const maxInput = findInput('max', container);
 
-      expect(maxInput).to.exist;
+      expect(maxInput).to.not.exist;
     });
 
 
@@ -410,10 +454,10 @@ describe('ValidationGroup', function() {
         }
       };
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field)));
-
       // when
-      const maxInput = container.querySelector(`#${prefixId('max')}`);
+      const { container } = renderValidationGroup({ field });
+
+      const maxInput = findInput('max', container);
 
       // then
       expect(maxInput).to.exist;
@@ -433,9 +477,9 @@ describe('ValidationGroup', function() {
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = render(WithFormEditorContext(ValidationGroup(field, editFieldSpy)));
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
 
-      const maxInput = container.querySelector(`#${prefixId('max')}`);
+      const maxInput = findInput('max', container);
 
       // when
       fireEvent.input(maxInput, { target: { value: '2' } });
@@ -448,3 +492,24 @@ describe('ValidationGroup', function() {
   });
 
 });
+
+
+// helper ///////////////
+
+function renderValidationGroup(options) {
+  const {
+    editField,
+    field
+  } = options;
+
+  const groups = [ ValidationGroup(field, editField) ];
+
+  return render(WithFormEditorContext(WithPropertiesPanel({
+    field,
+    groups
+  })));
+}
+
+function findInput(id, container) {
+  return container.querySelector(`input[name="${id}"]`);
+}
