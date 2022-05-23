@@ -1,8 +1,13 @@
 import { isUndefined } from 'min-dash';
 
-import useService from '../../../hooks/useService';
+import { get } from 'min-dash';
 
-import { TextInputEntry } from '../components';
+import { INPUTS } from '../Util';
+
+import { useService } from '../../../hooks';
+
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+
 
 export default function KeyEntry(props) {
   const {
@@ -10,7 +15,45 @@ export default function KeyEntry(props) {
     field
   } = props;
 
+  const {
+    type
+  } = field;
+
+  const entries = [];
+
+  if (INPUTS.includes(type)) {
+    entries.push({
+      id: 'key',
+      component: Key,
+      editField: editField,
+      field: field,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function Key(props) {
+  const {
+    editField,
+    field,
+    id
+  } = props;
+
   const formFieldRegistry = useService('formFieldRegistry');
+
+  const debounce = useService('debounce');
+
+  const path = [ 'key' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
 
   const validate = (value) => {
     if (isUndefined(value) || !value.length) {
@@ -30,14 +73,14 @@ export default function KeyEntry(props) {
     return null;
   };
 
-  return (
-    <TextInputEntry
-      editField={ editField }
-      field={ field }
-      id="key"
-      label="Key"
-      description="Maps to a process variable."
-      path={ [ 'key' ] }
-      validate={ validate } />
-  );
+  return TextFieldEntry({
+    debounce,
+    description: 'Maps to a process variable',
+    element: field,
+    getValue,
+    id,
+    label: 'Key',
+    setValue,
+    validate
+  });
 }

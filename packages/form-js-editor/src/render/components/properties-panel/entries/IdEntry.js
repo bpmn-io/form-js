@@ -1,8 +1,9 @@
-import { isUndefined } from 'min-dash';
+import { get, isUndefined } from 'min-dash';
 
-import useService from '../../../hooks/useService';
+import { useService } from '../../../hooks';
 
-import { TextInputEntry } from '../components';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+
 
 export default function IdEntry(props) {
   const {
@@ -10,7 +11,40 @@ export default function IdEntry(props) {
     field
   } = props;
 
+  const entries = [];
+
+  if (field.type === 'default') {
+    entries.push({
+      id: 'id',
+      component: Id,
+      editField: editField,
+      field: field,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function Id(props) {
+  const {
+    editField,
+    field,
+    id
+  } = props;
+
   const formFieldRegistry = useService('formFieldRegistry');
+  const debounce = useService('debounce');
+
+  const path = [ 'id' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
 
   const validate = (value) => {
     if (isUndefined(value) || !value.length) {
@@ -26,15 +60,15 @@ export default function IdEntry(props) {
     return validateId(value) || null;
   };
 
-  return (
-    <TextInputEntry
-      editField={ editField }
-      field={ field }
-      id="id"
-      label="Id"
-      path={ [ 'id' ] }
-      validate={ validate } />
-  );
+  return TextFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label: 'ID',
+    setValue,
+    validate,
+  });
 }
 
 // id structural validation /////////////

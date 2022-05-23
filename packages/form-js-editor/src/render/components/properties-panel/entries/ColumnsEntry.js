@@ -1,6 +1,9 @@
 import { Default } from '@bpmn-io/form-js-viewer';
 
-import { NumberInputEntry } from '../components';
+import { useService } from '../../../hooks';
+
+import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
+
 
 export default function ColumnsEntry(props) {
   const {
@@ -8,7 +11,39 @@ export default function ColumnsEntry(props) {
     field
   } = props;
 
-  const onInput = (value) => {
+  const {
+    type
+  } = field;
+
+  const entries = [];
+
+  if (type === 'columns') {
+    entries.push({
+      id: 'columns',
+      component: Columns,
+      editField: editField,
+      field: field,
+      isEdited: isNumberFieldEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function Columns(props) {
+  const {
+    editField,
+    field,
+    id
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const getValue = () => {
+    return field.components.length;
+  };
+
+  const setValue = (value) => {
     let components = field.components.slice();
 
     if (value > components.length) {
@@ -22,17 +57,12 @@ export default function ColumnsEntry(props) {
     editField(field, 'components', components);
   };
 
-  const value = field.components.length;
-
-  return (
-    <div class="fjs-properties-panel-entry">
-      <NumberInputEntry
-        id="columns"
-        label="Columns"
-        onInput={ onInput }
-        value={ value }
-        min="1"
-        max="3" />
-    </div>
-  );
+  return NumberFieldEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label: 'Columns',
+    setValue
+  });
 }

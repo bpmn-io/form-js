@@ -1,4 +1,7 @@
-import { SelectEntry } from '../components';
+import { get } from 'min-dash';
+
+import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
+
 
 export default function ActionEntry(props) {
   const {
@@ -6,7 +9,43 @@ export default function ActionEntry(props) {
     field
   } = props;
 
-  const options = [
+  const {
+    type
+  } = field;
+
+  const entries = [];
+
+  if (type === 'button') {
+    entries.push({
+      id: 'action',
+      component: Action,
+      editField: editField,
+      field: field,
+      isEdited: isSelectEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function Action(props) {
+  const {
+    editField,
+    field,
+    id
+  } = props;
+
+  const path = [ 'action' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  const getOptions = () => [
     {
       label: 'Submit',
       value: 'submit'
@@ -17,13 +56,12 @@ export default function ActionEntry(props) {
     }
   ];
 
-  return (
-    <SelectEntry
-      editField={ editField }
-      field={ field }
-      id="action"
-      label="Action"
-      options={ options }
-      path={ [ 'action' ] } />
-  );
+  return SelectEntry({
+    element: field,
+    getOptions,
+    getValue,
+    id,
+    label: 'Action',
+    setValue
+  });
 }

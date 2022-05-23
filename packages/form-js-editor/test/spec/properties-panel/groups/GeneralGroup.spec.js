@@ -6,9 +6,7 @@ import {
 
 import { GeneralGroup } from '../../../../src/render/components/properties-panel/groups';
 
-import { prefixId } from '../../../../src/render/components/properties-panel/Util';
-
-import { WithFormEditorContext } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 import { set } from 'min-dash';
 
@@ -24,23 +22,29 @@ describe('GeneralGroup', function() {
 
     it('should render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const idInput = container.querySelector(`#${prefixId('id')}`);
+      const idInput = findInput('id', container);
 
       expect(idInput).to.exist;
     });
 
 
-    it('should render for textfield', function() {
+    it('should NOT render for textfield', function() {
+
+      // given
+      const field = { type: 'textfield' };
 
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'textfield' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const idInput = container.querySelector(`#${prefixId('id')}`);
+      const idInput = findInput('id', container);
 
       expect(idInput).to.not.exist;
     });
@@ -54,10 +58,11 @@ describe('GeneralGroup', function() {
         id: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
+      // when
+      const { container } = renderGeneralGroup({ field });
 
       // when
-      const idInput = container.querySelector(`#${prefixId('id')}`);
+      const idInput = findInput('id', container);
 
       // then
       expect(idInput).to.exist;
@@ -75,9 +80,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const idInput = container.querySelector(`#${prefixId('id')}`);
+      const idInput = findInput('id', container);
 
       // when
       fireEvent.input(idInput, { target: { value: 'newVal' } });
@@ -94,11 +99,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const labelInput = container.querySelector(`#${prefixId('label')}`);
+      const labelInput = findInput('label', container);
 
       expect(labelInput).to.not.exist;
     });
@@ -106,11 +114,14 @@ describe('GeneralGroup', function() {
 
     it('should render for button', function() {
 
+      // given
+      const field = { type: 'button' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'button' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const labelInput = container.querySelector(`#${prefixId('label')}`);
+      const labelInput = findInput('label', container);
 
       expect(labelInput).to.exist;
     });
@@ -121,11 +132,13 @@ describe('GeneralGroup', function() {
       // given
       for (const type of INPUTS) {
 
+        const field = { type };
+
         // when
-        const { container } = render(WithFormEditorContext(GeneralGroup({ type })));
+        const { container } = renderGeneralGroup({ field });
 
         // then
-        const labelInput = container.querySelector(`#${prefixId('label')}`);
+        const labelInput = findInput('label', container);
 
         expect(labelInput).to.exist;
       }
@@ -140,10 +153,10 @@ describe('GeneralGroup', function() {
         label: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const labelInput = container.querySelector(`#${prefixId('label')}`);
+      const { container } = renderGeneralGroup({ field });
+
+      const labelInput = findInput('label', container);
 
       // then
       expect(labelInput).to.exist;
@@ -161,9 +174,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const labelInput = container.querySelector(`#${prefixId('label')}`);
+      const labelInput = findInput('label', container);
 
       // when
       fireEvent.input(labelInput, { target: { value: 'newVal' } });
@@ -180,11 +193,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const descriptionInput = container.querySelector(`#${prefixId('description')}`);
+      const descriptionInput = findInput('description', container);
 
       expect(descriptionInput).to.not.exist;
     });
@@ -195,11 +211,13 @@ describe('GeneralGroup', function() {
       // given
       for (const type of INPUTS) {
 
+        const field = { type };
+
         // when
-        const { container } = render(WithFormEditorContext(GeneralGroup({ type })));
+        const { container } = renderGeneralGroup({ field });
 
         // then
-        const descriptionInput = container.querySelector(`#${prefixId('description')}`);
+        const descriptionInput = findInput('description', container);
 
         expect(descriptionInput).to.exist;
       }
@@ -214,10 +232,11 @@ describe('GeneralGroup', function() {
         description: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const descriptionInput = container.querySelector(`#${prefixId('description')}`);
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const descriptionInput = findInput('description', container);
 
       // then
       expect(descriptionInput).to.exist;
@@ -235,9 +254,10 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      // when
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const descriptionInput = container.querySelector(`#${prefixId('description')}`);
+      const descriptionInput = findInput('description', container);
 
       // when
       fireEvent.input(descriptionInput, { target: { value: 'newVal' } });
@@ -254,11 +274,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const keyInput = container.querySelector(`#${prefixId('key')}`);
+      const keyInput = findInput('key', container);
 
       expect(keyInput).to.not.exist;
     });
@@ -269,11 +292,13 @@ describe('GeneralGroup', function() {
       // given
       for (const type of INPUTS) {
 
+        const field = { type };
+
         // when
-        const { container } = render(WithFormEditorContext(GeneralGroup({ type })));
+        const { container } = renderGeneralGroup({ field });
 
         // then
-        const keyInput = container.querySelector(`#${prefixId('key')}`);
+        const keyInput = findInput('key', container);
 
         expect(keyInput).to.exist;
       }
@@ -288,10 +313,11 @@ describe('GeneralGroup', function() {
         key: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const keyInput = container.querySelector(`#${prefixId('key')}`);
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const keyInput = findInput('key', container);
 
       // then
       expect(keyInput).to.exist;
@@ -309,9 +335,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const keyInput = container.querySelector(`#${prefixId('key')}`);
+      const keyInput = findInput('key', container);
 
       // when
       fireEvent.input(keyInput, { target: { value: 'newVal' } });
@@ -328,11 +354,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const defaultValueInput = container.querySelector(`#${prefixId('defaultValue')}`);
+      const defaultValueInput = findInput('defaultValue', container);
 
       expect(defaultValueInput).to.not.exist;
     });
@@ -343,13 +372,15 @@ describe('GeneralGroup', function() {
       // given
       for (const type of INPUTS.filter(i => ![ 'checklist', 'taglist' ].includes(i))) {
 
+        const field = { type };
+
         // when
-        const { container } = render(WithFormEditorContext(GeneralGroup({ type })));
+        const { container } = renderGeneralGroup({ field });
 
         // then
-        const defaultValueInput = container.querySelector(`#${prefixId('defaultValue')}`);
+        const defaultValueEntry = findEntry('defaultValue', container);
 
-        expect(defaultValueInput).to.exist;
+        expect(defaultValueEntry).to.exist;
       }
     });
 
@@ -362,10 +393,11 @@ describe('GeneralGroup', function() {
         defaultValue: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const defaultValueInput = container.querySelector(`#${prefixId('defaultValue')}`);
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const defaultValueInput = findInput('defaultValue', container);
 
       // then
       expect(defaultValueInput).to.exist;
@@ -383,9 +415,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const defaultValueInput = container.querySelector(`#${prefixId('defaultValue')}`);
+      const defaultValueInput = findInput('defaultValue', container);
 
       // when
       fireEvent.input(defaultValueInput, { target: { value: 'newVal' } });
@@ -402,11 +434,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const actionInput = container.querySelector(`#${prefixId('action')}`);
+      const actionInput = findSelect('action', container);
 
       expect(actionInput).to.not.exist;
     });
@@ -414,11 +449,14 @@ describe('GeneralGroup', function() {
 
     it('should render for button', function() {
 
+      // given
+      const field = { type: 'button' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'button' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const actionInput = container.querySelector(`#${prefixId('action')}`);
+      const actionInput = findSelect('action', container);
 
       expect(actionInput).to.exist;
     });
@@ -432,12 +470,12 @@ describe('GeneralGroup', function() {
         action: 'submit'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const actionInput = container.querySelector(`#${prefixId('action')}`);
+      const { container } = renderGeneralGroup({ field });
 
       // then
+      const actionInput = findSelect('action', container);
+
       expect(actionInput).to.exist;
       expect(actionInput.value).to.equal('submit');
     });
@@ -453,9 +491,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const actionInput = container.querySelector(`#${prefixId('action')}`);
+      const actionInput = findSelect('action', container);
 
       // when
       fireEvent.input(actionInput, { target: { value: 'reset' } });
@@ -472,11 +510,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const textInput = container.querySelector(`#${prefixId('text')}`);
+      const textInput = findTextarea('text', container);
 
       expect(textInput).to.not.exist;
     });
@@ -484,11 +525,14 @@ describe('GeneralGroup', function() {
 
     it('should render for text', function() {
 
+      // given
+      const field = { type: 'text' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'text' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const textInput = container.querySelector(`#${prefixId('text')}`);
+      const textInput = findTextarea('text', container);
 
       expect(textInput).to.exist;
     });
@@ -502,12 +546,12 @@ describe('GeneralGroup', function() {
         text: 'foobar'
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const textInput = container.querySelector(`#${prefixId('text')}`);
+      const { container } = renderGeneralGroup({ field });
 
       // then
+      const textInput = findTextarea('text', container);
+
       expect(textInput).to.exist;
       expect(textInput.value).to.equal('foobar');
     });
@@ -523,9 +567,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const textInput = container.querySelector(`#${prefixId('text')}`);
+      const textInput = findTextarea('text', container);
 
       // when
       fireEvent.input(textInput, { target: { value: 'newVal' } });
@@ -542,11 +586,14 @@ describe('GeneralGroup', function() {
 
     it('should NOT render for default', function() {
 
+      // given
+      const field = { type: 'default' };
+
       // when
-      const { container } = render(WithFormEditorContext(GeneralGroup({ type: 'default' })));
+      const { container } = renderGeneralGroup({ field });
 
       // then
-      const disabledInput = container.querySelector(`#${prefixId('disabled')}`);
+      const disabledInput = findInput('disabled', container);
 
       expect(disabledInput).to.not.exist;
     });
@@ -557,11 +604,13 @@ describe('GeneralGroup', function() {
       // given
       for (const type of INPUTS) {
 
+        const field = { type };
+
         // when
-        const { container } = render(WithFormEditorContext(GeneralGroup({ type })));
+        const { container } = renderGeneralGroup({ field });
 
         // then
-        const disabledInput = container.querySelector(`#${prefixId('disabled')}`);
+        const disabledInput = findInput('disabled', container);
 
         expect(disabledInput).to.exist;
       }
@@ -576,10 +625,10 @@ describe('GeneralGroup', function() {
         disabled: true
       };
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field)));
-
       // when
-      const disabledInput = container.querySelector(`#${prefixId('disabled')}`);
+      const { container } = renderGeneralGroup({ field });
+
+      const disabledInput = findInput('disabled', container);
 
       // then
       expect(disabledInput).to.exist;
@@ -597,9 +646,9 @@ describe('GeneralGroup', function() {
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
 
-      const { container } = render(WithFormEditorContext(GeneralGroup(field, editFieldSpy)));
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const disabledInput = container.querySelector(`#${prefixId('disabled')}`);
+      const disabledInput = findInput('disabled', container);
 
       // when
       fireEvent.click(disabledInput);
@@ -612,3 +661,36 @@ describe('GeneralGroup', function() {
   });
 
 });
+
+
+// helper ///////////////
+
+function renderGeneralGroup(options) {
+  const {
+    editField,
+    field
+  } = options;
+
+  const groups = [ GeneralGroup(field, editField) ];
+
+  return render(WithFormEditorContext(WithPropertiesPanel({
+    field,
+    groups
+  })));
+}
+
+function findEntry(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"]`);
+}
+
+function findInput(id, container) {
+  return container.querySelector(`input[name="${id}"]`);
+}
+
+function findSelect(id, container) {
+  return container.querySelector(`select[name="${id}"]`);
+}
+
+function findTextarea(id, container) {
+  return container.querySelector(`textarea[name="${id}"]`);
+}

@@ -1,7 +1,4 @@
-import {
-  CollapsibleEntry,
-  Group
-} from '../components';
+import { ListGroup } from '@bpmn-io/properties-panel';
 
 import {
   has,
@@ -12,11 +9,17 @@ import { CustomValueEntry } from '../entries';
 
 export default function CustomValuesGroup(field, editField) {
   const {
-    id,
-    properties = {}
+    properties = {},
+    type
   } = field;
 
-  const addEntry = () => {
+  if (type === 'default') {
+    return null;
+  }
+
+  const addEntry = (event) => {
+    event.stopPropagation();
+
     const index = Object.keys(properties).length + 1;
 
     const key = `key${ index }`,
@@ -41,26 +44,40 @@ export default function CustomValuesGroup(field, editField) {
     };
   };
 
-  const hasEntries = Object.keys(properties).length > 0;
+  const items = Object.keys(properties).map((key, index) => {
+    const removeEntry = (event) => {
+      event.stopPropagation();
 
-  return (
-    <Group label="Custom Properties" addEntry={ addEntry } hasEntries={ hasEntries }>
-      {
-        Object.keys(properties).map((key, index) => {
-          const removeEntry = () => {
-            editField(field, [ 'properties' ], removeKey(properties, key));
-          };
+      return editField(field, [ 'properties' ], removeKey(properties, key));
+    };
 
-          return (
-            <CollapsibleEntry key={ `${ id }-${ index }` } label={ key } removeEntry={ removeEntry }>
-              <CustomValueEntry editField={ editField } field={ field } index={ index } validate={ validateFactory } />
-            </CollapsibleEntry>
-          );
-        })
-      }
-    </Group>
-  );
+    const id = `${ field.id }-property-${ index }`;
+
+    return {
+      autoFocusEntry: id + '-key',
+      entries: CustomValueEntry({
+        editField,
+        field,
+        idPrefix: id,
+        index,
+        validateFactory
+      }),
+      id,
+      label: key || '',
+      remove: removeEntry
+    };
+  });
+
+  return {
+    add: addEntry,
+    component: ListGroup,
+    id: 'custom-values',
+    items,
+    label: 'Custom properties',
+    shouldSort: false
+  };
 }
+
 
 // helpers //////////
 

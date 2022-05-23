@@ -1,3 +1,8 @@
+import { PropertiesPanel } from '@bpmn-io/properties-panel';
+
+import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
+import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
+
 import {
   CustomValuesGroup,
   GeneralGroup,
@@ -6,54 +11,27 @@ import {
 } from './groups';
 
 import {
-  INPUTS,
-  OPTION_INPUTS,
-  textToLabel
-} from './Util';
-
-import {
   useService
 } from '../../hooks';
 
-import { iconsByType } from '../palette/icons';
-
-const labelsByType = {
-  button: 'BUTTON',
-  checkbox: 'CHECKBOX',
-  checklist: 'CHECKLIST',
-  columns: 'COLUMNS',
-  default: 'FORM',
-  number: 'NUMBER',
-  radio: 'RADIO',
-  select: 'SELECT',
-  taglist: 'TAGLIST',
-  text: 'TEXT',
-  textfield: 'TEXT FIELD',
-};
-
 function getGroups(field, editField) {
-  const { type } = field;
+
+  if (!field) {
+    return [];
+  }
 
   const groups = [
-    GeneralGroup(field, editField)
+    GeneralGroup(field, editField),
+    ValuesGroup(field, editField),
+    ValidationGroup(field, editField),
+    CustomValuesGroup(field, editField)
   ];
 
-  if (OPTION_INPUTS.includes(type)) {
-    groups.push(ValuesGroup(field, editField));
-  }
-
-  if (INPUTS.includes(type) && !['checkbox', 'checklist', 'taglist'].includes(type)) {
-    groups.push(ValidationGroup(field, editField));
-  }
-
-  if (type !== 'default') {
-    groups.push(CustomValuesGroup(field, editField));
-  }
-
-  return groups;
+  // contract: if a group returns null, it should not be displayed at all
+  return groups.filter(group => group !== null);
 }
 
-export default function PropertiesPanel(props) {
+export default function FormPropertiesPanel(props) {
   const {
     editField,
     field
@@ -61,45 +39,24 @@ export default function PropertiesPanel(props) {
 
   const eventBus = useService('eventBus');
 
-  if (!field) {
-    return <div class="fjs-properties-panel-placeholder">Select a form field to edit its properties.</div>;
-  }
-
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
   const onBlur = () => eventBus.fire('propertiesPanel.focusout');
 
-  const { type } = field;
-
-  const Icon = iconsByType[ type ];
-
-  const label = labelsByType[ type ];
-
   return (
     <div
       class="fjs-properties-panel"
-      data-field={ field.id }
+      data-field={ field && field.id }
       onFocusCapture={ onFocus }
       onBlurCapture={ onBlur }
     >
-      <div class="fjs-properties-panel-header">
-        <div class="fjs-properties-panel-header-icon">
-          <Icon width="36" height="36" viewBox="0 0 54 54" />
-        </div>
-        <div>
-          <span class="fjs-properties-panel-header-type">{ label }</span>
-          {
-            type === 'text'
-              ? <div class="fjs-properties-panel-header-label">{ textToLabel(field.text) }</div>
-              : type === 'default'
-                ? <div class="fjs-properties-panel-header-label">{ field.id }</div>
-                : <div class="fjs-properties-panel-header-label">{ field.label }</div>
-          }
-        </div>
-      </div>
-      {
-        getGroups(field, editField)
-      }
+      <PropertiesPanel
+        element={ field }
+        eventBus={ eventBus }
+        groups={ getGroups(field, editField) }
+        headerProvider={ PropertiesPanelHeaderProvider }
+        placeholderProvider={ PropertiesPanelPlaceholderProvider }
+      />
     </div>
   );
 }

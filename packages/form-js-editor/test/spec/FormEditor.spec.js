@@ -5,6 +5,7 @@ import {
 } from '../../src';
 
 import {
+  fireEvent,
   screen,
   waitFor
 } from '@testing-library/preact/pure';
@@ -583,6 +584,10 @@ describe('FormEditor', function() {
 
         await expectSelected('Text_1');
 
+        // open group to make entry focusable
+        const group = await screen.getByText('General');
+        fireEvent.click(group);
+
         const input = await screen.getByLabelText('Text');
 
         // when
@@ -612,6 +617,10 @@ describe('FormEditor', function() {
         formEditor.get('selection').set(text1);
 
         await expectSelected('Text_1');
+
+        // open group to make entry focusable
+        const group = await screen.getByText('General');
+        fireEvent.click(group);
 
         const input = await screen.getByLabelText('Text');
 

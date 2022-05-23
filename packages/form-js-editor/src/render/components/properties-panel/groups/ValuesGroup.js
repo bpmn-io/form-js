@@ -1,27 +1,32 @@
-import {
-  CollapsibleEntry,
-  Group
-} from '../components';
+import { ListGroup } from '@bpmn-io/properties-panel';
 
 import { ValueEntry } from '../entries';
 
 import {
   arrayAdd,
-  arrayRemove
+  arrayRemove,
+  OPTIONS_INPUTS
 } from '../Util';
 
 import {
   isUndefined
 } from 'min-dash';
 
-
+// todo(pinussilvestrus): move me to a normal group with nested list
+// (cf. https://github.com/bpmn-io/form-js/issues/197#issuecomment-1116047809)
 export default function ValuesGroup(field, editField) {
   const {
-    id,
-    values = []
+    values = [],
+    type
   } = field;
 
-  const addEntry = () => {
+  if (!OPTIONS_INPUTS.includes(type)) {
+    return null;
+  }
+
+  const addEntry = (event) => {
+    event.stopPropagation();
+
     const index = values.length + 1;
 
     const entry = {
@@ -50,25 +55,40 @@ export default function ValuesGroup(field, editField) {
     };
   };
 
-  const hasEntries = values.length > 0;
+  const items = values.map((value, index) => {
+    const {
+      label
+    } = value;
 
-  return (
-    <Group label="Values" addEntry={ addEntry } hasEntries={ hasEntries }>
-      {
-        values.map((value, index) => {
-          const { label } = value;
+    const removeEntry = (event) => {
+      event.stopPropagation();
 
-          const removeEntry = () => {
-            editField(field, [ 'values' ], arrayRemove(values, index));
-          };
+      editField(field, [ 'values' ], arrayRemove(values, index));
+    };
 
-          return (
-            <CollapsibleEntry key={ `${ id }-${ index }` } label={ label } removeEntry={ removeEntry }>
-              <ValueEntry editField={ editField } field={ field } index={ index } validate={ validateFactory } />
-            </CollapsibleEntry>
-          );
-        })
-      }
-    </Group>
-  );
+    const id = `${ field.id }-value-${ index }`;
+
+    return {
+      autoFocusEntry: id + '-label',
+      entries: ValueEntry({
+        editField,
+        field,
+        idPrefix: id,
+        index,
+        validateFactory
+      }),
+      id,
+      label: label || '',
+      remove: removeEntry
+    };
+  });
+
+  return {
+    add: addEntry,
+    component: ListGroup,
+    id: 'values',
+    items,
+    label: 'Values',
+    shouldSort: false
+  };
 }

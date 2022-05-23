@@ -1,4 +1,9 @@
-import { CheckboxInputEntry } from '../components';
+import { get } from 'min-dash';
+
+import { INPUTS } from '../Util';
+
+import { CheckboxEntry, isCheckboxEntryEdited } from '@bpmn-io/properties-panel';
+
 
 export default function DisabledEntry(props) {
   const {
@@ -6,14 +11,47 @@ export default function DisabledEntry(props) {
     field
   } = props;
 
-  const onChange = (value) => {
-    editField(field, [ 'disabled' ], value);
+  const {
+    type
+  } = field;
+
+  const entries = [];
+
+  if (INPUTS.includes(type)) {
+    entries.push({
+      id: 'disabled',
+      component: Disabled,
+      editField: editField,
+      field: field,
+      isEdited: isCheckboxEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+function Disabled(props) {
+  const {
+    editField,
+    field,
+    id
+  } = props;
+
+  const path = [ 'disabled' ];
+
+  const getValue = () => {
+    return get(field, path, '');
   };
 
-  return <CheckboxInputEntry
-    id="disabled"
-    field={ field }
-    label="Disabled"
-    path={ [ 'disabled' ] }
-    onChange={ onChange } />;
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  return CheckboxEntry({
+    element: field,
+    getValue,
+    id,
+    label: 'Disabled',
+    setValue
+  });
 }

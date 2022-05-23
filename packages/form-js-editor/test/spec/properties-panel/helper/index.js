@@ -2,6 +2,20 @@ import {
   FormEditorContext
 } from '../../../../src/render/context';
 
+import { PropertiesPanel } from '@bpmn-io/properties-panel';
+
+const noop = () => {};
+
+const noopField = {
+  id: 'foobar',
+  type: 'default'
+};
+
+const noopHeaderProvider = {
+  getElementLabel: noop,
+  getElementIcon: noop,
+  getTypeLabel: noop
+};
 
 export function WithFormEditorContext(Component, services = {}) {
   const formEditorContext = {
@@ -53,5 +67,22 @@ export function WithFormEditorContext(Component, services = {}) {
     <FormEditorContext.Provider value={ formEditorContext }>
       { Component }
     </FormEditorContext.Provider>
+  );
+}
+
+export function WithPropertiesPanel(options = {}) {
+
+  const {
+    field = noopField,
+    groups = [],
+    headerProvider = noopHeaderProvider
+  } = options;
+
+  return (
+    <PropertiesPanel
+      element={ field }
+      groups={ groups }
+      headerProvider={ headerProvider }
+    />
   );
 }
