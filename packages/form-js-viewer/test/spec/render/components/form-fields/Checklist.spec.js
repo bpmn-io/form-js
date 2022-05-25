@@ -42,16 +42,19 @@ describe('Checklist', function() {
 
     expect(inputs).to.have.length(3);
     expect(inputs[ 0 ].id).to.equal('fjs-form-foo-Checklist_1-0');
+    expect(inputs[ 1 ].id).to.equal('fjs-form-foo-Checklist_1-1');
     expect(inputs[ 2 ].id).to.equal('fjs-form-foo-Checklist_1-2');
 
     expect(inputs[ 0 ].checked).to.be.true;
     expect(inputs[ 1 ].checked).to.be.false;
+    expect(inputs[ 2 ].checked).to.be.false;
 
     const labels = container.querySelectorAll('label');
 
     expect(labels).to.have.length(4);
     expect(labels[ 0 ].textContent).to.equal('Email data to');
     expect(labels[ 1 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-0');
+    expect(labels[ 2 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-1');
     expect(labels[ 3 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
   });
 

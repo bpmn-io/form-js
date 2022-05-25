@@ -31,6 +31,7 @@ describe('core/FieldFactory', function() {
       keyed: true
     }));
 
+
     it('Checklist', testCreate({
       type: 'checklist',
       label: 'Checklist',
