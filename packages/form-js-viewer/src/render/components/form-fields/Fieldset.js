@@ -15,7 +15,7 @@ export default function Fieldset(props) {
 
   return (
     <fieldset class="fjs-form-fieldset">
-      <legend>{ label }</legend>
+      { label == null ? null : <legend>{ label }</legend> }
       <Children class="fjs-vertical-layout" field={ field }>
         {
           components.map((childField) => {
