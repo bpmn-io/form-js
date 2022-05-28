@@ -50,6 +50,26 @@
     },
     {
       "id": "Field_7",
+      "key": "mailto",
+      "label": "Email data to",
+      "type": "checklist",
+      "values": [
+        {
+          "label": "Approver",
+          "value": "approver"
+        },
+        {
+          "label": "Manager",
+          "value": "manager"
+        },
+        {
+          "label": "Regional Manager",
+          "value": "regional-manager"
+        }
+      ]
+    },
+    {
+      "id": "Field_8",
       "key": "product",
       "label": "Product",
       "type": "radio",
@@ -65,7 +85,7 @@
       ]
     },
     {
-      "id": "Field_8",
+      "id": "Field_9",
       "key": "language",
       "label": "Language",
       "type": "select",
@@ -81,14 +101,14 @@
       ]
     },
     {
-      "id": "Field_9",
+      "id": "Field_10",
       "action": "submit",
       "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
-      "id": "Field_10",
+      "id": "Field_11",
       "action": "reset",
       "key": "reset",
       "label": "Reset",

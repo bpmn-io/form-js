@@ -33,6 +33,26 @@
       }
     },
     {
+      "defaultValue": ["regional-manager", "approver"],
+      "key": "mailto",
+      "label": "Email data to",
+      "type": "checklist",
+      "values": [
+        {
+          "label": "Approver",
+          "value": "approver"
+        },
+        {
+          "label": "Manager",
+          "value": "manager"
+        },
+        {
+          "label": "Regional Manager",
+          "value": "regional-manager"
+        }
+      ]
+    },
+    {
       "defaultValue": true,
       "key": "approved",
       "label": "Approved",

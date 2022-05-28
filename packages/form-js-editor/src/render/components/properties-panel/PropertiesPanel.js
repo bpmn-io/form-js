@@ -19,6 +19,7 @@ import { iconsByType } from '../palette/icons';
 const labelsByType = {
   button: 'BUTTON',
   checkbox: 'CHECKBOX',
+  checklist: 'CHECKLIST',
   columns: 'COLUMNS',
   default: 'FORM',
   number: 'NUMBER',
@@ -35,11 +36,11 @@ function getGroups(field, editField) {
     GeneralGroup(field, editField)
   ];
 
-  if (type === 'radio' || type === 'select') {
+  if (type === 'radio' || type === 'select' || type === 'checklist') {
     groups.push(ValuesGroup(field, editField));
   }
 
-  if (INPUTS.includes(type) && type !== 'checkbox') {
+  if (INPUTS.includes(type) && type !== 'checkbox' && type != 'checklist') {
     groups.push(ValidationGroup(field, editField));
   }
 

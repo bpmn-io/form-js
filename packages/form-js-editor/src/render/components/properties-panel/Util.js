@@ -36,6 +36,7 @@ export function textToLabel(text = '...') {
 
 export const INPUTS = [
   'checkbox',
+  'checklist',
   'number',
   'radio',
   'select',
