@@ -27,6 +27,7 @@ module.exports = function(karma) {
       'dist/assets/dragula.css',
       'dist/assets/form-js.css',
       'dist/assets/form-js-editor.css',
+      'dist/assets/properties-panel.css',
       `test/distro/${variant}.js`
     ],
 

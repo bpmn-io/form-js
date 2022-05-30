@@ -48,6 +48,7 @@ For proper styling include the necessary stylesheets, and font used:
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.3/dist/assets/form-js.css">
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.3/dist/assets/form-js-editor.css">
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.3/dist/assets/dragula.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.2.3/dist/assets/properties-panel.css">
 ```
 
 

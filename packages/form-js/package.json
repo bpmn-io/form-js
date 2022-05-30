@@ -16,6 +16,7 @@
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/dragula.css": "./dist/assets/dragula.css",
+    "./dist/assets/properties-panel.css": "./dist/assets/properties-panel.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
