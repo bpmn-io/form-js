@@ -18,6 +18,10 @@ const types = [
     type: 'checklist'
   },
   {
+    label: 'Taglist',
+    type: 'taglist'
+  },
+  {
     label: 'Radio',
     type: 'radio'
   },

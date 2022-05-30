@@ -593,6 +593,163 @@ describe('properties panel', function() {
     });
 
 
+    describe('taglist', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ key }) => key === 'tags');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Values',
+          'Custom Properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Field Label',
+          'Field Description',
+          'Key',
+          'Disabled'
+        ]);
+
+        expectGroupEntries(result.container, 'Values', [
+          [ 'Label', 11 ],
+          [ 'Value', 11 ]
+        ]);
+
+      });
+
+
+      describe('values', function() {
+
+        it('should add value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'tags');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const addEntry = result.container.querySelector('.fjs-properties-panel-group-header-button-add-entry');
+
+          fireEvent.click(addEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
+            ...field.values,
+            {
+              label: 'Value 12',
+              value: 'value12',
+            }
+          ]);
+        });
+
+
+        it('should remove value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'tags');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const removeEntry = result.container.querySelector('.fjs-properties-panel-collapsible-entry-header-remove-entry');
+
+          fireEvent.click(removeEntry);
+
+          // then
+          const expectedValues = [...field.values];
+          expectedValues.shift();
+
+          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], expectedValues);
+        });
+
+
+        describe('validation', function() {
+
+          describe('value', function() {
+
+            it('should not be empty', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'tags');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: '' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must not be empty.');
+
+              expect(error).to.exist;
+            });
+
+
+            it('should be unique', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'tags');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Value', { selector: '#fjs-properties-panel-value-value-0' });
+
+              fireEvent.input(input, { target: { value: 'tag2' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must be unique.');
+
+              expect(error).to.exist;
+            });
+
+          });
+
+        });
+
+      });
+
+    });
+
+
     describe('select', function() {
 
       it('entries', function() {

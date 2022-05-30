@@ -62,6 +62,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english',
       documents: [
         {
@@ -90,7 +91,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(12);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
   });
 
 
@@ -125,6 +126,7 @@ describe('Form', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english',
         documents: [
           {
@@ -143,7 +145,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(12);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -162,6 +164,7 @@ describe('Form', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: ['tag1','tag2', 'tag3'],
         language: 'english',
         documents: [
           {
@@ -180,7 +183,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(12);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
     });
 
 
@@ -337,6 +340,7 @@ describe('Form', function() {
         approvedBy: '',
         mailto: [],
         product: null,
+        tags: [],
         language: null
       });
 
@@ -589,6 +593,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };
 
@@ -620,6 +625,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };
 
@@ -652,6 +658,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };
 
@@ -678,7 +685,8 @@ describe('Form', function() {
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
+      tags: [ 'tag1', 'tag2', 'tag3' ]
     };
 
     // when
@@ -708,6 +716,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: [],
       product: null,
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: null
     });
 
@@ -727,6 +736,7 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       mailto: [],
       product: null,
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: null
     });
 
@@ -772,6 +782,7 @@ describe('Form', function() {
       approvedBy: '',
       mailto: [],
       product: null,
+      tags: [],
       language: null
     });
 
@@ -847,6 +858,7 @@ describe('Form', function() {
         approvedBy: '',
         mailto: [],
         product: null,
+        tags: [],
         language: null
       });
 
@@ -875,6 +887,7 @@ describe('Form', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english',
         documents: [
           {
@@ -914,6 +927,7 @@ describe('Form', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english',
         documents: [
           {

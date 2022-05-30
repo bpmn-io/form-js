@@ -80,6 +80,58 @@
       ]
     },
     {
+      "defaultValue": [ "tag1", "tag2", "tag3" ],
+      "key": "tags",
+      "label": "Taglist",
+      "type": "taglist",
+      "values": [
+        {
+          "label": "Tag1",
+          "value": "tag1"
+        },
+        {
+          "label": "Tag2",
+          "value": "tag2"
+        },
+        {
+          "label": "Tag3",
+          "value": "tag3"
+        },
+        {
+          "label": "Tag4",
+          "value": "tag4"
+        },
+        {
+          "label": "Tag5",
+          "value": "tag5"
+        },
+        {
+          "label": "Tag6",
+          "value": "tag6"
+        },
+        {
+          "label": "Tag7",
+          "value": "tag7"
+        },
+        {
+          "label": "Tag8",
+          "value": "tag8"
+        },
+        {
+          "label": "Tag9",
+          "value": "tag9"
+        },
+        {
+          "label": "Tag10",
+          "value": "tag10"
+        },
+        {
+          "label": "Tag11",
+          "value": "tag11"
+        }
+      ]
+    },
+    {
       "defaultValue": "english",
       "key": "language",
       "label": "Language",
