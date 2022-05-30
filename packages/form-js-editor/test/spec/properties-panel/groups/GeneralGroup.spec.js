@@ -341,7 +341,7 @@ describe('GeneralGroup', function() {
     it('should render for INPUTS', function() {
 
       // given
-      for (const type of INPUTS.filter(i => i !== 'checklist')) {
+      for (const type of INPUTS.filter(i => ![ 'checklist', 'taglist' ].includes(i))) {
 
         // when
         const { container } = render(WithFormEditorContext(GeneralGroup({ type })));

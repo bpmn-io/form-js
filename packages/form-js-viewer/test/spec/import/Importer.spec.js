@@ -33,6 +33,7 @@ describe('Importer', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
       };
 
@@ -43,7 +44,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(12);
+      expect(formFieldRegistry.getAll()).to.have.length(13);
     }));
 
 
@@ -58,6 +59,7 @@ describe('Importer', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
       };
 
@@ -67,7 +69,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(12);
+      expect(formFieldRegistry.getAll()).to.have.length(13);
 
       // when
       result = await form.importSchema(other, data);
@@ -240,6 +242,7 @@ describe('Importer', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
       };
 
@@ -255,6 +258,7 @@ describe('Importer', function() {
         approvedBy: 'John Doe',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
       });
     }));
@@ -277,6 +281,7 @@ describe('Importer', function() {
         approvedBy: '',
         mailto: [],
         product: null,
+        tags: [],
         language: null
       });
     }));
@@ -299,6 +304,7 @@ describe('Importer', function() {
         approvedBy: '',
         mailto: ['regional-manager', 'approver'],
         product: 'camunda-platform',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
       });
     }));

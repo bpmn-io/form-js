@@ -1,6 +1,7 @@
 import ButtonIcon from './Button.svg';
 import CheckboxIcon from './Checkbox.svg';
 import ChecklistIcon from './Checklist.svg';
+import TaglistIcon from './Taglist.svg';
 import FormIcon from './Form.svg';
 import ColumnsIcon from './Group.svg';
 import NumberIcon from './Number.svg';
@@ -17,6 +18,7 @@ export const iconsByType = {
   number: NumberIcon,
   radio: RadioIcon,
   select: SelectIcon,
+  taglist: TaglistIcon,
   text: TextIcon,
   textfield: TextfieldIcon,
   default: FormIcon

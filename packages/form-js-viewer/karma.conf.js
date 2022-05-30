@@ -53,7 +53,11 @@ module.exports = function(karma) {
         modules: [
           'node_modules',
           __dirname
-        ]
+        ],
+        alias: {
+          'react': 'preact/compat',
+          'react-dom': 'preact/compat'
+        }
       },
       module: {
         rules: [
@@ -81,6 +85,10 @@ module.exports = function(karma) {
                 ]
               }
             }
+          },
+          {
+            test: /\.svg$/,
+            use: [ 'react-svg-loader' ]
           }
         ].concat(coverage ?
           {

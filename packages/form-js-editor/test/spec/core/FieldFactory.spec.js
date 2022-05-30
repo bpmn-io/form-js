@@ -93,6 +93,21 @@ describe('core/FieldFactory', function() {
     }));
 
 
+    it('Taglist', testCreate({
+      type: 'taglist',
+      label: 'Taglist',
+      keyed: true,
+      defaults: {
+        values: [
+          {
+            label: 'Value',
+            value: 'value'
+          }
+        ]
+      }
+    }));
+
+
     it('Text Field', testCreate({
       type: 'textfield',
       label: 'Text Field',

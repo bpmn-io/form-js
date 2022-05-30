@@ -1,14 +1,23 @@
+import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
+import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
 function pgl(plugins = []) {
 
   return [
+    alias({
+      entries: [
+        { find: 'react', replacement: 'preact/compat' },
+        { find: 'react-dom', replacement: 'preact/compat' }
+      ]
+    }),
     resolve({
       resolveOnly: [ 'diagram-js' ]
     }),
+    reactSvg(),
     babel({
       babelHelpers: 'bundled',
       plugins: [

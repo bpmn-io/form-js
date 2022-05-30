@@ -6,6 +6,7 @@ import FormComponent from './FormComponent';
 import Number from './form-fields/Number';
 import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
+import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
 import Textfield from './form-fields/Textfield';
 
@@ -18,6 +19,7 @@ export {
   Number,
   Radio,
   Select,
+  Taglist,
   Text,
   Textfield
 };
@@ -30,6 +32,7 @@ export const formFields = [
   Number,
   Radio,
   Select,
+  Taglist,
   Text,
   Textfield
 ];

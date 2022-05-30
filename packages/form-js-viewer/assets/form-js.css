@@ -9,7 +9,7 @@
   --color-grey-225-10-80: hsl(225, 10%, 80%);
   --color-grey-225-10-85: hsl(225, 10%, 85%);
   --color-grey-225-10-90: hsl(225, 10%, 90%);
-  --color-grey-225-10-95: hsl(225, 10%, 95%); 
+  --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
 
   --color-blue-205-100-45: hsl(205, 100%, 45%);
@@ -25,7 +25,7 @@
   --color-red-360-100-97: hsl(360, 100%, 97%);
 
   --color-white: hsl(0, 0%, 100%);
-  --color-black: hsl(0, 0%, 0%); 
+  --color-black: hsl(0, 0%, 0%);
 
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-grey-225-10-95);
@@ -103,8 +103,7 @@
 .fjs-container .fjs-select > option:disabled,
 .fjs-container .fjs-select [disabled] {
   font-style: italic;
-  letter-spacing: .25px;
-
+  letter-spacing: 0.25px;
   color: var(--color-text-lighter);
 }
 
@@ -125,7 +124,7 @@
 
 .fjs-container .fjs-form-field.required label::after,
 .fjs-container .fjs-form-field.required .group-title::after {
-  content: "*";
+  content: '*';
 }
 
 .fjs-container .fjs-checkbox.group.required label::after,
@@ -133,10 +132,10 @@
   display: none;
 }
 
-.fjs-container .fjs-input[type=text],
-.fjs-container .fjs-input[type=number],
-.fjs-container .fjs-button[type=submit],
-.fjs-container .fjs-button[type=reset],
+.fjs-container .fjs-input[type='text'],
+.fjs-container .fjs-input[type='number'],
+.fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='reset'],
 .fjs-container .fjs-textarea,
 .fjs-container .fjs-select {
   display: block;
@@ -157,37 +156,37 @@
   flex-direction: column;
 }
 
-.fjs-container .fjs-input[type=checkbox],
-.fjs-container .fjs-input[type=radio] {
+.fjs-container .fjs-input[type='checkbox'],
+.fjs-container .fjs-input[type='radio'] {
   margin: 6px 10px 6px 4px;
 }
 
-.fjs-container .fjs-button[type=submit] {
+.fjs-container .fjs-button[type='submit'] {
   color: var(--color-text-inverted);
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.fjs-container .fjs-button[type=reset] {
+.fjs-container .fjs-button[type='reset'] {
   color: var(--color-text);
   background-color: transparent;
   border-color: var(--color-borders);
 }
 
-.fjs-container .fjs-button[type=submit],
-.fjs-container .fjs-button[type=reset] {
+.fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='reset'] {
   min-width: 100px;
   width: auto;
 }
 
-.fjs-container .fjs-button[type=submit] {
+.fjs-container .fjs-button[type='submit'] {
   font-weight: 600;
 }
 
-.fjs-container .fjs-input[type=text]:focus,
-.fjs-container .fjs-input[type=number]:focus,
-.fjs-container .fjs-button[type=submit]:focus,
-.fjs-container .fjs-button[type=reset]:focus,
+.fjs-container .fjs-input[type='text']:focus,
+.fjs-container .fjs-input[type='number']:focus,
+.fjs-container .fjs-button[type='submit']:focus,
+.fjs-container .fjs-button[type='reset']:focus,
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
   outline: none;
@@ -195,7 +194,7 @@
   border-width: 2px;
 }
 
-.fjs-container .fjs-button[type=submit]:focus {
+.fjs-container .fjs-button[type='submit']:focus {
   border-color: var(--color-accent-dark);
 }
 
@@ -206,8 +205,8 @@
   border-color: var(--color-borders-disabled);
 }
 
-.fjs-container .fjs-button[type=submit]:disabled,
-.fjs-container .fjs-button[type=reset]:disabled {
+.fjs-container .fjs-button[type='submit']:disabled,
+.fjs-container .fjs-button[type='reset']:disabled {
   color: var(--text-light);
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
@@ -235,4 +234,104 @@
 
 .fjs-container .fjs-form-field-text a {
   color: var(--color-blue-205-100-45);
+}
+
+.fjs-container .fjs-taglist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  border: var(--color-borders) solid 1px;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: var(--color-background);
+}
+
+.fjs-container .fjs-taglist:focus-within {
+  outline: var(--color-borders) solid 1px;
+}
+
+.fjs-container .fjs-taglist.disabled {
+  border: var(--color-borders-disabled) solid 1px;
+  background-color: var(--color-background-disabled);
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  border-radius: 2px;
+  background-color: var(--color-grey-225-10-90);
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-label {
+  padding: 2px 6px 2px 8px;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove {
+  overflow: clip;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  line-height: 28px;
+  background-color: var(--color-grey-225-10-80);
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove svg {
+  opacity: 0.6;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover {
+  background-color: var(--color-grey-225-10-75);
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover > svg {
+  opacity: 1;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-input {
+  border: none;
+  background-color: transparent;
+  min-width: 100px;
+  height: 22px;
+  flex-grow: 1;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-input:focus-visible {
+  outline: none;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-dropdown-anchor {
+  position: relative;
+}
+
+.fjs-container .fjs-dropdownlist {
+  position: absolute;
+  user-select: none;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  border-radius: 3px;
+  margin-top: 3px;
+  box-shadow: 0px 0px 5px var(--color-grey-225-10-85);
+  background-color: var(--color-white);
+}
+
+.fjs-container .fjs-dropdownlist .fjs-dropdownlist-item {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--color-grey-225-10-90);
+  color: var(--color-grey-225-10-35);
+}
+
+.fjs-container .fjs-dropdownlist .fjs-dropdownlist-item:last-child {
+  border-bottom: none;
+}
+
+.fjs-container .fjs-dropdownlist .fjs-dropdownlist-item.focused {
+  background-color: var(--color-grey-225-10-90);
+  color: var(--color-black);
+}
+
+.fjs-container .fjs-dropdownlist .fjs-dropdownlist-empty {
+  padding: 6px 8px;
+  color: var(--color-text-lighter);
 }

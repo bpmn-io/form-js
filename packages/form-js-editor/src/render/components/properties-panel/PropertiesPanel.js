@@ -7,6 +7,7 @@ import {
 
 import {
   INPUTS,
+  OPTION_INPUTS,
   textToLabel
 } from './Util';
 
@@ -25,6 +26,7 @@ const labelsByType = {
   number: 'NUMBER',
   radio: 'RADIO',
   select: 'SELECT',
+  taglist: 'TAGLIST',
   text: 'TEXT',
   textfield: 'TEXT FIELD',
 };
@@ -36,11 +38,11 @@ function getGroups(field, editField) {
     GeneralGroup(field, editField)
   ];
 
-  if (type === 'radio' || type === 'select' || type === 'checklist') {
+  if (OPTION_INPUTS.includes(type)) {
     groups.push(ValuesGroup(field, editField));
   }
 
-  if (INPUTS.includes(type) && type !== 'checkbox' && type != 'checklist') {
+  if (INPUTS.includes(type) && !['checkbox', 'checklist', 'taglist'].includes(type)) {
     groups.push(ValidationGroup(field, editField));
   }
 

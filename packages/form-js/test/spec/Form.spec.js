@@ -47,6 +47,7 @@ describe('viewer exports', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };
 
@@ -76,6 +77,7 @@ describe('viewer exports', function() {
       approvedBy: 'John Doe',
       mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };
 
