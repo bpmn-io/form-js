@@ -15,6 +15,7 @@ Integrate the playground into your application:
 import '@bpmn-io/form-js/dist/assets/form-js.css';
 import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
 import '@bpmn-io/form-js/dist/assets/dragula.css';
+import '@bpmn-io/form-js/dist/assets/properties-panel.css';
 import '@bpmn-io/form-js-playground/dist/assets/form-js-playground.css';
 
 import { Playground } from '@bpmn-io/form-js-playground';
