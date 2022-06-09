@@ -34,4 +34,4 @@ jobs:
         TEST_BROWSERS: Firefox,ChromeHeadless
       run: xvfb-run npm run all
     - name: Upload coverage
-      run: npx codecov
+      uses: codecov/codecov-action@v2
