@@ -20,7 +20,7 @@
     "all": "run-s test build",
     "build": "run-p bundle generate-types",
     "start": "SINGLE_START=basic npm run dev",
-    "bundle": "rollup -c",
+    "bundle": "rollup -c --failAfterWarnings",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && cp src/*.d.ts dist/types",
