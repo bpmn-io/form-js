@@ -41,7 +41,19 @@ export default [
         file: pkg.module
       }
     ],
-    plugins: pgl()
+    plugins: pgl(),
+    external: [
+      'preact',
+      'preact/hooks',
+      'file-drops',
+      'mitt',
+      'downloadjs',
+      '@bpmn-io/form-js',
+      'preact/jsx-runtime',
+      '@codemirror/basic-setup',
+      '@codemirror/state',
+      '@codemirror/lang-json'
+    ]
   },
   {
     input: 'src/index.js',
