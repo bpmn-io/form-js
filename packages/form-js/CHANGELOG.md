@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.7.2
+
+* `FIX`: serialize regex pattern as 'pattern' ([#245](https://github.com/bpmn-io/form-js/pull/245))
+* `CHORE`: added build:watch script ([#248](https://github.com/bpmn-io/form-js/pull/248))
+* `CHORE`: general local HTML coverage report ([#250](https://github.com/bpmn-io/form-js/pull/250))
+* `CHORE`: format files to end with LF instead of CRLF ([#259](https://github.com/bpmn-io/form-js/issues/259))
+* `DEPS`: cleaned up some audit errors ([#261](https://github.com/bpmn-io/form-js/pull/261))
+
 ## 0.7.1
 
 * `FIX`: explicitly declare `Validator` dependencies ([#240](https://github.com/bpmn-io/form-js/issues/240))
