@@ -2,6 +2,9 @@
   "name": "@bpmn-io/form-js-playground",
   "version": "0.7.2",
   "description": "A form-js playground",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
