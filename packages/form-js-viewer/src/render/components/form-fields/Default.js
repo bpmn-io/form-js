@@ -18,10 +18,12 @@ export default function Default(props) {
   return <Children class="fjs-vertical-layout" field={ field }>
     {
       components.map(childField => {
-        return <FormField
-          { ...props }
-          key={ childField.id }
-          field={ childField } />;
+        return (
+          <FormField
+            { ...props }
+            key={ childField.id }
+            field={ childField } />
+        );
       })
     }
     {

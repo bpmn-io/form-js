@@ -36,7 +36,7 @@ export default function Taglist(props) {
   } = field;
 
   const { formId } = useContext(FormContext);
-  const [ filter, setFilter] = useState('');
+  const [ filter, setFilter ] = useState('');
   const [ selectedValues, setSelectedValues ] = useState([]);
   const [ filteredValues, setFilteredValues ] = useState([]);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
@@ -57,7 +57,7 @@ export default function Taglist(props) {
 
   useEffect(() => {
     setHasValuesLeft(selectedValues.length < options.length);
-  }, [selectedValues.length, options.length]);
+  }, [ selectedValues.length, options.length ]);
 
   const onFilterChange = ({ target }) => {
     setEscapeClose(false);
@@ -66,7 +66,7 @@ export default function Taglist(props) {
 
   const selectValue = (option) => {
     setFilter('');
-    props.onChange({ value: [...values, option.value], field });
+    props.onChange({ value: [ ...values, option.value ], field });
   };
 
   const deselectValue = (option) => {

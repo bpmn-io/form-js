@@ -29,7 +29,7 @@ describe('Checklist', function() {
 
     // when
     const { container } = createChecklist({
-      value: ['approver']
+      value: [ 'approver' ]
     });
 
     // then
@@ -116,7 +116,7 @@ describe('Checklist', function() {
 
       const { container } = createChecklist({
         onChange: onChangeSpy,
-        value: ['approver']
+        value: [ 'approver' ]
       });
 
       // when
@@ -127,7 +127,7 @@ describe('Checklist', function() {
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: ['approver', 'manager']
+        value: [ 'approver', 'manager' ]
       });
     });
 
@@ -139,7 +139,7 @@ describe('Checklist', function() {
 
       const { container } = createChecklist({
         onChange: onChangeSpy,
-        value: ['approver']
+        value: [ 'approver' ]
       });
 
       // when

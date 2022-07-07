@@ -5,7 +5,7 @@ import { debounce } from 'min-dash';
  *
  * @param {number|boolean} [config=true]
  */
-export default function DebounceFactory(config=true) {
+export default function DebounceFactory(config = true) {
 
   const timeout = typeof config === 'number' ? config : config ? 300 : 0;
 

@@ -59,7 +59,7 @@ module.exports = function(karma) {
           {
             test: /\.js$/,
             enforce: 'pre',
-            use: ['source-map-loader']
+            use: [ 'source-map-loader' ]
           },
           {
             test: /\.css$/,

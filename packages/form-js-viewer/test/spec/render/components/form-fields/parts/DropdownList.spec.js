@@ -25,7 +25,7 @@ describe('DropdownList', function() {
 
     // when
     const { container } = createDropdownList({
-      values: ['item1', 'item2']
+      values: [ 'item1', 'item2' ]
     });
 
     // then
@@ -99,7 +99,7 @@ describe('DropdownList', function() {
 
       // given
       const { container } = createDropdownList({
-        values: ['value1', 'value2', 'value3']
+        values: [ 'value1', 'value2', 'value3' ]
       });
 
       // when

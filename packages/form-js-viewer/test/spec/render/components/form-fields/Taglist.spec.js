@@ -122,7 +122,7 @@ describe('Taglist', function() {
 
     // when
     const { container } = createTaglist({
-      value: ['tag1', 'tag2', 'tag3'],
+      value: [ 'tag1', 'tag2', 'tag3' ],
       onChange: () => { }
     });
 
@@ -199,7 +199,7 @@ describe('Taglist', function() {
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: ['tag1', 'tag3']
+          value: [ 'tag1', 'tag3' ]
         });
       });
 
@@ -221,7 +221,7 @@ describe('Taglist', function() {
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: ['tag1', 'tag2']
+          value: [ 'tag1', 'tag2' ]
         });
       });
     });
@@ -327,7 +327,7 @@ describe('Taglist', function() {
 
         const { container } = createTaglist({
           onChange: onChangeSpy,
-          value: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag9', 'tag8', 'tag10', 'tag11']
+          value: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag9', 'tag8', 'tag10', 'tag11' ]
         });
 
         // when
@@ -439,7 +439,7 @@ describe('Taglist', function() {
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: ['tag1', 'tag2', 'tag3', 'tag4']
+          value: [ 'tag1', 'tag2', 'tag3', 'tag4' ]
         });
       });
 
@@ -462,7 +462,7 @@ describe('Taglist', function() {
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: ['tag1', 'tag2', 'tag3', 'tag4']
+          value: [ 'tag1', 'tag2', 'tag3', 'tag4' ]
         });
       });
     });

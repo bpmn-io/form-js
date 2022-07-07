@@ -229,7 +229,7 @@ describe('core/FieldFactory', function() {
 
 // helpers //////////////
 
-function testCreate(options, applyDefaults=true) {
+function testCreate(options, applyDefaults = true) {
 
   const {
     type,

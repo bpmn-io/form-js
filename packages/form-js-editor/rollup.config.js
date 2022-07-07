@@ -6,7 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 
 import pkg from './package.json';
 
-function pgl(plugins=[]) {
+function pgl(plugins = []) {
   return [
     alias({
       entries: [
