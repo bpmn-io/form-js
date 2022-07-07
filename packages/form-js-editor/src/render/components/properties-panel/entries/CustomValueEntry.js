@@ -138,7 +138,7 @@ function updateKey(properties, oldKey, newKey) {
 
     return {
       ...newProperties,
-      [ key === oldKey ? newKey: key ]: value
+      [ key === oldKey ? newKey : key ]: value
     };
   }, {});
 }

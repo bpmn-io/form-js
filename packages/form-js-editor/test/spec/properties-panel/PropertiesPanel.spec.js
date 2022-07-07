@@ -827,10 +827,10 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          const expectedValues = [...field.values];
+          const expectedValues = [ ...field.values ];
           expectedValues.shift();
 
-          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], expectedValues);
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], expectedValues);
         });
 
 

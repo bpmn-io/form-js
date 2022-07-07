@@ -31,7 +31,7 @@ export default function Checklist(props) {
 
   const toggleCheckbox = (v) => {
 
-    let newValue = [...value];
+    let newValue = [ ...value ];
 
     if (!newValue.includes(v)) {
       newValue.push(v);

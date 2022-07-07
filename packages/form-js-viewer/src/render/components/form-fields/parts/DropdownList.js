@@ -20,11 +20,11 @@ export default function DropdownList(props) {
   const dropdownContainer = useRef();
   const mouseScreenPos = useRef();
 
-  const focusedItem = useMemo(() => values.length ? values[focusedValueIndex] : null, [focusedValueIndex, values]);
+  const focusedItem = useMemo(() => values.length ? values[focusedValueIndex] : null, [ focusedValueIndex, values ]);
 
   const changeFocusedValueIndex = useCallback((delta) => {
     setFocusedValueIndex(x => Math.min(Math.max(0, x + delta), values.length - 1));
-  }, [values.length]);
+  }, [ values.length ]);
 
   useEffect(() => {
     if (focusedValueIndex === 0) return;
@@ -35,7 +35,7 @@ export default function DropdownList(props) {
     else if (focusedValueIndex >= values.length) {
       setFocusedValueIndex(values.length - 1);
     }
-  }, [focusedValueIndex, values.length]);
+  }, [ focusedValueIndex, values.length ]);
 
   useKeyDownAction('ArrowUp', () => {
     if (values.length) {
@@ -62,7 +62,7 @@ export default function DropdownList(props) {
     if (individualEntries.length && !mouseControl) {
       individualEntries[focusedValueIndex].scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
-  }, [focusedValueIndex, mouseControl]);
+  }, [ focusedValueIndex, mouseControl ]);
 
   const mouseMove = (e, i) => {
     const userMoved = !mouseScreenPos.current || mouseScreenPos.current.x !== e.screenX && mouseScreenPos.current.y !== e.screenY;

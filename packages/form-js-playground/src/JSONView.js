@@ -16,7 +16,7 @@ export default function JSONEditor(options = {}) {
   let language = new Compartment().of(json());
   let tabSize = new Compartment().of(EditorState.tabSize.of(2));
 
-  function createState(doc, extensions=[]) {
+  function createState(doc, extensions = []) {
     return EditorState.create({
       doc,
       extensions: [

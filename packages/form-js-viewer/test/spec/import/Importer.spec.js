@@ -31,7 +31,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: ['regional-manager', 'approver'],
+        mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
@@ -57,7 +57,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: ['regional-manager', 'approver'],
+        mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
@@ -240,7 +240,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: ['regional-manager', 'approver'],
+        mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
@@ -256,7 +256,7 @@ describe('Importer', function() {
         amount: 456,
         approved: true,
         approvedBy: 'John Doe',
-        mailto: ['regional-manager', 'approver'],
+        mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
@@ -302,7 +302,7 @@ describe('Importer', function() {
         amount: 0,
         approved: true,
         approvedBy: '',
-        mailto: ['regional-manager', 'approver'],
+        mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-platform',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'

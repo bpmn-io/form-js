@@ -6,7 +6,7 @@ import {
 import useService from './useService';
 
 
-export default function useDebounce(fn, dependencies=[]) {
+export default function useDebounce(fn, dependencies = []) {
 
   const debounce = useService('debounce');
 
