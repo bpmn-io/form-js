@@ -236,6 +236,10 @@
   color: var(--color-blue-205-100-45);
 }
 
+.fjs-container .fjs-taglist-anchor {
+  position: relative;
+}
+
 .fjs-container .fjs-taglist {
   display: flex;
   flex-wrap: wrap;
