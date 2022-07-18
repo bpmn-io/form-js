@@ -44,7 +44,7 @@ export const INPUTS = [
   'textfield'
 ];
 
-export const OPTIONS_INPUTS = [
+export const VALUES_INPUTS = [
   'checklist',
   'radio',
   'select',

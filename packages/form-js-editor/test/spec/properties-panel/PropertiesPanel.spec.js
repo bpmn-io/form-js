@@ -5,7 +5,7 @@ import {
 } from '@testing-library/preact/pure';
 
 import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
-
+import { VALUES_SOURCES } from '../../../src/render/components/properties-panel/entries/ValuesSourceUtil';
 import { removeKey } from '../../../src/render/components/properties-panel/groups/CustomValuesGroup';
 
 import { WithFormEditorContext } from './helper';
@@ -370,7 +370,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values',
+          'Values source',
+          'Static values',
           'Validation',
           'Custom properties'
         ]);
@@ -383,7 +384,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values', [
+        expectGroupEntries(result.container, 'Values source', [
+          'Type'
+        ]);
+
+        expectGroupEntries(result.container, 'Static values', [
           [ 'Label', 2 ],
           [ 'Value', 2 ]
         ]);
@@ -467,7 +472,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -498,7 +503,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -530,7 +535,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Radio_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Radio_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: '' } });
 
@@ -557,7 +562,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Radio_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Radio_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: 'camunda-cloud' } });
 
@@ -571,6 +576,108 @@ describe('properties panel', function() {
 
           });
 
+        });
+
+      });
+
+
+      describe('dynamic values', function() {
+
+        it('should configure input source & cleanup static source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'product');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledTwice;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+        });
+
+
+        it('should configure valuesKey', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'product');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'newKey' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'product');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Values source',
+            'Dynamic values',
+            'Validation',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Values source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Dynamic values', [
+            'Input values key'
+          ]);
+
+          expectGroupEntries(result.container, 'Validation', [
+            'Required'
+          ]);
         });
 
       });
@@ -593,7 +700,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values',
+          'Values source',
+          'Static values',
           'Custom properties'
         ]);
 
@@ -604,7 +712,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values', [
+        expectGroupEntries(result.container, 'Values source', [
+          'Type'
+        ]);
+
+        expectGroupEntries(result.container, 'Static values', [
           [ 'Label', 3 ],
           [ 'Value', 3 ]
         ]);
@@ -627,7 +739,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -658,7 +770,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -691,7 +803,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Checklist_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Checklist_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: '' } });
 
@@ -718,7 +830,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Checklist_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Checklist_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: 'manager' } });
 
@@ -732,6 +844,103 @@ describe('properties panel', function() {
 
           });
 
+        });
+
+      });
+
+
+      describe('dynamic values', function() {
+
+        it('should configure input source & cleanup static source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'mailto');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledTwice;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+        });
+
+
+        it('should configure valuesKey', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'mailto');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'newKey' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'mailto');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Values source',
+            'Dynamic values',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Values source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Dynamic values', [
+            'Input values key'
+          ]);
         });
 
       });
@@ -754,7 +963,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values',
+          'Values source',
+          'Static values',
           'Custom properties'
         ]);
 
@@ -765,7 +975,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values', [
+        expectGroupEntries(result.container, 'Values source', [
+          'Type'
+        ]);
+
+        expectGroupEntries(result.container, 'Static values', [
           [ 'Label', 11 ],
           [ 'Value', 11 ]
         ]);
@@ -788,7 +1002,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -819,7 +1033,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -852,7 +1066,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Taglist_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Taglist_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: '' } });
 
@@ -879,7 +1093,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Taglist_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Taglist_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: 'tag2' } });
 
@@ -892,6 +1106,104 @@ describe('properties panel', function() {
             });
 
           });
+
+        });
+
+      });
+
+
+      describe('dynamic values', function() {
+
+        it('should configure input source & cleanup static source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'tags');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledTwice;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+        });
+
+
+        it('should configure valuesKey', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'tags');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'newKey' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'tags');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Values source',
+            'Dynamic values',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Values source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Dynamic values', [
+            'Input values key'
+          ]);
 
         });
 
@@ -915,7 +1227,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values',
+          'Values source',
+          'Static values',
           'Validation',
           'Custom properties'
         ]);
@@ -928,7 +1241,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values', [
+        expectGroupEntries(result.container, 'Values source', [
+          'Type'
+        ]);
+
+        expectGroupEntries(result.container, 'Static values', [
           [ 'Label', 2 ],
           [ 'Value', 2 ]
         ]);
@@ -1012,7 +1329,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -1043,7 +1360,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Values');
+          const group = findGroup(result.container, 'Static values');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -1075,7 +1392,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Select_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Select_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: '' } });
 
@@ -1102,7 +1419,7 @@ describe('properties panel', function() {
               });
 
               // when
-              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Select_1-value-0-value' });
+              const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-Select_1-staticValues-0-value' });
 
               fireEvent.input(input, { target: { value: 'english' } });
 
@@ -1116,6 +1433,108 @@ describe('properties panel', function() {
 
           });
 
+        });
+
+      });
+
+
+      describe('dynamic values', function() {
+
+        it('should configure input source & cleanup static source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledTwice;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+        });
+
+
+        it('should configure valuesKey', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'language');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'newKey' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'language');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Values source',
+            'Dynamic values',
+            'Validation',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Values source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Dynamic values', [
+            'Input values key'
+          ]);
+
+          expectGroupEntries(result.container, 'Validation', [
+            'Required'
+          ]);
         });
 
       });

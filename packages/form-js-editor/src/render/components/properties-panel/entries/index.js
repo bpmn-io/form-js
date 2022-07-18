@@ -9,3 +9,6 @@ export { default as LabelEntry } from './LabelEntry';
 export { default as TextEntry } from './TextEntry';
 export { default as ValueEntry } from './ValueEntry';
 export { default as CustomValueEntry } from './CustomValueEntry';
+export { default as ValuesSourceSelectEntry } from './ValuesSourceSelectEntry';
+export { default as InputKeyValuesSourceEntry } from './InputKeyValuesSourceEntry';
+export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';

@@ -10,7 +10,7 @@ import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 import { set } from 'min-dash';
 
-import { INPUTS } from '../../../../src/render/components/properties-panel/Util';
+import { INPUTS, VALUES_INPUTS } from '../../../../src/render/components/properties-panel/Util';
 
 
 describe('GeneralGroup', function() {
@@ -367,21 +367,115 @@ describe('GeneralGroup', function() {
     });
 
 
-    it('should render for INPUTS', function() {
+    describe('for singleSelect-like INPUTS', () => {
 
-      // given
-      for (const type of INPUTS.filter(i => ![ 'checklist', 'taglist' ].includes(i))) {
+      const singleSelectInputTypes = [ 'radio', 'select' ];
 
-        const field = { type };
+      it('should NOT render by default', () => {
 
-        // when
-        const { container } = renderGeneralGroup({ field });
+        // given
+        for (const type of singleSelectInputTypes) {
 
-        // then
-        const defaultValueEntry = findEntry('defaultValue', container);
+          const field = { type };
 
-        expect(defaultValueEntry).to.exist;
-      }
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.not.exist;
+        }
+
+      });
+
+
+      it('should render when static values are defined', () => {
+
+        // given
+        for (const type of singleSelectInputTypes) {
+
+          const field = { type, values: [ { value: 'value1', label: 'Value 1' } ] };
+
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.exist;
+        }
+
+      });
+
+    });
+
+
+    describe('for multiSelect-like INPUTS', () => {
+
+      const multiSelectInputTypes = [ 'taglist', 'checklist' ];
+
+      it('should NOT render by default', () => {
+
+        // given
+        for (const type of multiSelectInputTypes) {
+
+          const field = { type };
+
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.not.exist;
+        }
+
+      });
+
+
+      it('should NOT render when static values are defined', () => {
+
+        // given
+        for (const type of multiSelectInputTypes) {
+
+          const field = { type, values: [ { value: 'value1', label: 'Value 1' } ] };
+
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.not.exist;
+        }
+
+      });
+
+    });
+
+
+    describe('for all other INPUTS', () => {
+
+      const otherInputTypes = INPUTS.filter(i => !VALUES_INPUTS.includes(i));
+
+      it('should render', function() {
+
+        // given
+        for (const type of otherInputTypes) {
+
+          const field = { type };
+
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.exist;
+        }
+      });
+
     });
 
 
