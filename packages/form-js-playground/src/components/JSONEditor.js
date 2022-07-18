@@ -5,7 +5,7 @@ import { EditorState, Compartment } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
 
 
-export default function JSONEditor(options = {}) {
+export function JSONEditor(options = {}) {
 
   const emitter = mitt();
 
