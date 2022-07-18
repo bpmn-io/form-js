@@ -6,6 +6,22 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.8.0-alpha.0
+
+### General
+
+* `FEAT`: add `checklist` component ([#196](https://github.com/bpmn-io/form-js/issues/196))
+* `FEAT`: add `taglist` component ([#198](https://github.com/bpmn-io/form-js/issues/198))
+
+### Editor
+
+* `FEAT`: migrate properties panel to new framework ([#249](https://github.com/bpmn-io/form-js/issues/249))
+* `FEAT`: allow to configure `valuesKey` ([#256](https://github.com/bpmn-io/form-js/issues/256))
+
+### Viewer
+
+* `FEAT`: load dynamic input data ([#197](https://github.com/bpmn-io/form-js/issues/197))
+
 ## 0.7.2
 
 * `FIX`: serialize regex pattern as 'pattern' ([#245](https://github.com/bpmn-io/form-js/pull/245))
