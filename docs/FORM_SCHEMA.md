@@ -43,6 +43,12 @@ A form is defined as JSON.
       "type": "textfield"
     },
     {
+      "key": "mailSummaryTo",
+      "label": "Mail Summary To",
+      "type": "checklist",
+      "valuesKey": "queriedEmailData"
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"
