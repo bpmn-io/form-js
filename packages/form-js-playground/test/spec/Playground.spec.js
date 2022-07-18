@@ -48,6 +48,20 @@ describe('playground', function() {
       approvedBy: 'John Doe',
       mailto: [ 'regional-manager', 'approver' ],
       product: 'camunda-cloud',
+      queriedDRIs: [
+        {
+          'label': 'John Doe',
+          'value': 'johnDoe'
+        },
+        {
+          'label': 'Anna Bell',
+          'value': 'annaBell'
+        },
+        {
+          'label': 'Nico Togin',
+          'value': 'incognito'
+        }
+      ],
       tags: [ 'tag1', 'tag2', 'tag3' ],
       language: 'english'
     };

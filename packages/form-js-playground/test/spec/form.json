@@ -40,7 +40,7 @@
       "label": "Approved By",
       "type": "textfield"
     },
-    { 
+    {
       "key": "mailto",
       "label": "Email data to",
       "type": "checklist",
@@ -73,6 +73,12 @@
           "value": "camunda-cloud"
         }
       ]
+    },
+    {
+      "key": "dri",
+      "label": "Assign DRI",
+      "type": "radio",
+      "valuesKey": "queriedDRIs"
     },
     {
       "key": "tags",
