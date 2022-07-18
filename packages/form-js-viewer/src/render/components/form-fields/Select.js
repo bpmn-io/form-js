@@ -1,4 +1,5 @@
 import { useContext } from 'preact/hooks';
+import useOptionsAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
 
@@ -25,8 +26,7 @@ export default function Select(props) {
     description,
     id,
     label,
-    validate = {},
-    values
+    validate = {}
   } = field;
 
   const { required } = validate;
@@ -37,6 +37,11 @@ export default function Select(props) {
       value: target.value === '' ? null : target.value
     });
   };
+
+  const {
+    state: loadState,
+    values: options
+  } = useOptionsAsync(field);
 
   const { formId } = useContext(FormContext);
 
@@ -53,12 +58,12 @@ export default function Select(props) {
       value={ value || '' }>
       <option value=""></option>
       {
-        values.map((v, index) => {
+        loadState == LOAD_STATES.LOADED && options.map((option, index) => {
           return (
             <option
               key={ `${ id }-${ index }` }
-              value={ v.value }>
-              { v.label }
+              value={ option.value }>
+              { option.label }
             </option>
           );
         })
@@ -70,6 +75,8 @@ export default function Select(props) {
 }
 
 Select.create = function(options = {}) {
+
+  if (options.valuesKey) return options;
 
   return {
     values: [

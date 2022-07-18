@@ -78,6 +78,33 @@ describe('Taglist', function() {
   });
 
 
+  it('should render tags dynamically', function() {
+
+    // when
+    const { container } = createTaglist({
+      value: [ 'dynamicValue1', 'dynamicValue2' ],
+      onchange: () => { },
+      field: dynamicField,
+      initialData: dynamicFieldInitialData
+    });
+
+    // then
+    const tags = container.querySelectorAll('.fjs-taglist-tag');
+    expect(tags).to.have.length(2);
+
+    const tag = tags[0];
+    const tagLabelArea = tag.querySelector('.fjs-taglist-tag-label');
+    expect(tagLabelArea).to.exist;
+
+    const tagDeleteArea = tag.querySelector('.fjs-taglist-tag-remove');
+    expect(tagLabelArea).to.exist;
+
+    const tagCross = tagDeleteArea.querySelector('svg');
+    expect(tagCross).to.exist;
+
+  });
+
+
   it('should render dropdown when filter focused', function() {
 
     // when
@@ -224,6 +251,30 @@ describe('Taglist', function() {
           value: [ 'tag1', 'tag2' ]
         });
       });
+
+
+      it('should work with dynamic data', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createTaglist({
+          value: [ 'dynamicValue1', 'dynamicValue2' ],
+          onChange: onChangeSpy,
+          field: dynamicField,
+          initialData: dynamicFieldInitialData
+        });
+
+        // when
+        const filterInput = container.querySelector('.fjs-taglist-input');
+        fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: dynamicField,
+          value: [ 'dynamicValue1' ]
+        });
+      });
     });
 
     describe('filtering', function() {
@@ -231,10 +282,8 @@ describe('Taglist', function() {
       it('should filter dropdown', function() {
 
         // given
-        const onChangeSpy = spy();
-
         const { container } = createTaglist({
-          onChange: onChangeSpy,
+          onChange: () => {},
           value: [ 'tag1', 'tag2', 'tag3' ]
         });
 
@@ -258,10 +307,8 @@ describe('Taglist', function() {
 
       it ('should filter dropdown case insensitively', function() {
 
-        const onChangeSpy = spy();
-
         const { container } = createTaglist({
-          onChange: onChangeSpy,
+          onChange: () => {},
           value: [ 'tag1', 'tag2', 'tag3' ]
         });
 
@@ -283,6 +330,35 @@ describe('Taglist', function() {
 
       });
 
+
+      it('should filter dropdown for dynamic data', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createTaglist({
+          value: [ 'dynamicValue1', 'dynamicValue2' ],
+          onChange: onChangeSpy,
+          field: dynamicField,
+          initialData: dynamicFieldInitialData
+        });
+
+        // when
+        const filterInput = container.querySelector('.fjs-taglist-input');
+        fireEvent.focus(filterInput);
+
+        const dropdownList = container.querySelector('.fjs-dropdownlist');
+        expect(dropdownList).to.exist;
+        expect(dropdownList.children.length).to.equal(2);
+
+        // then
+        fireEvent.input(filterInput, { target: { value: '4' } });
+        expect(dropdownList.children.length).to.equal(1);
+
+        fireEvent.input(filterInput, { target: { value: 'dyna' } });
+        expect(dropdownList.children.length).to.equal(2);
+
+      });
     });
 
   });
@@ -558,6 +634,35 @@ const defaultField = {
   ]
 };
 
+const dynamicField = {
+  id: 'Taglist_1',
+  key: 'tags',
+  label: 'Taglist',
+  type: 'taglist',
+  valuesKey: 'dynamicValues'
+};
+
+const dynamicFieldInitialData = {
+  dynamicValues: [
+    {
+      label: 'Dynamic Value 1',
+      value: 'dynamicValue1'
+    },
+    {
+      label: 'Dynamic Value 2',
+      value: 'dynamicValue2'
+    },
+    {
+      label: 'Dynamic Value 3',
+      value: 'dynamicValue3'
+    },
+    {
+      label: 'Dynamic Value 4',
+      value: 'dynamicValue4'
+    }
+  ]
+};
+
 function createTaglist(options = {}) {
   const {
     disabled,
@@ -575,7 +680,8 @@ function createTaglist(options = {}) {
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />
+      value={ value } />,
+    options
   ), {
     container: options.container || formContainer.querySelector('.fjs-form')
   });

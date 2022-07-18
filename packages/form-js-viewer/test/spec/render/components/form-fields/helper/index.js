@@ -1,14 +1,30 @@
 import { FormContext } from '../../../../../../src/render/context';
 
-/**
- * @param {string} type
- * @param {boolean} [strict]
- *
- * @returns {any}
- */
-function getService(type, strict) {}
+export function WithFormContext(Component, options = {}, formId = 'foo') {
 
-export function WithFormContext(Component, formId = 'foo') {
+  function getService(type, strict) {
+
+    const {
+      data,
+      errors,
+      properties,
+      initialData
+    } = options;
+
+    if (type === 'form') {
+      return {
+        _getState() {
+          return {
+            data,
+            errors,
+            properties,
+            initialData
+          };
+        }
+      };
+    }
+  }
+
   const formContext = {
     getService,
     formId

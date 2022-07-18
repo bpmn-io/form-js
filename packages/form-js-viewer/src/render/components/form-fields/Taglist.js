@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
 
@@ -31,8 +32,7 @@ export default function Taglist(props) {
   const {
     description,
     id,
-    label,
-    values : options
+    label
   } = field;
 
   const { formId } = useContext(FormContext);
@@ -41,18 +41,33 @@ export default function Taglist(props) {
   const [ filteredValues, setFilteredValues ] = useState([]);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const [ hasValuesLeft, setHasValuesLeft ] = useState(true);
-  const [ escapeClose, setEscapeClose ] = useState(false);
+  const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const searchbarRef = useRef();
+
+  const {
+    state: loadState,
+    values: options
+  } = useValuesAsync(field);
 
 
   // Usage of stringify is necessary here because we want this effect to only trigger when there is a value change to the array
   useEffect(() => {
-    const selectedValues = values.map(v => options.find(o => o.value === v)).filter(v => v !== undefined);
-    setSelectedValues(selectedValues);
-  }, [ JSON.stringify(values), options ]);
+    if (loadState === LOAD_STATES.LOADED) {
+      const selectedValues = values.map(v => options.find(o => o.value === v)).filter(v => v !== undefined);
+      setSelectedValues(selectedValues);
+    }
+    else {
+      setSelectedValues([]);
+    }
+  }, [ JSON.stringify(values), options, loadState ]);
 
   useEffect(() => {
-    setFilteredValues(options.filter((o) => o.label && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
+    if (loadState === LOAD_STATES.LOADED) {
+      setFilteredValues(options.filter((o) => o.label && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
+    }
+    else {
+      setFilteredValues([]);
+    }
   }, [ filter, JSON.stringify(values), options ]);
 
   useEffect(() => {
@@ -60,7 +75,7 @@ export default function Taglist(props) {
   }, [ selectedValues.length, options.length ]);
 
   const onFilterChange = ({ target }) => {
-    setEscapeClose(false);
+    setIsEscapeClose(false);
     setFilter(target.value);
   };
 
@@ -88,11 +103,11 @@ export default function Taglist(props) {
       }
       break;
     case 'Escape':
-      setEscapeClose(true);
+      setIsEscapeClose(true);
       break;
     case 'Enter':
-      if (escapeClose) {
-        setEscapeClose(false);
+      if (isEscapeClosed) {
+        setIsEscapeClose(false);
       }
       break;
     }
@@ -103,7 +118,7 @@ export default function Taglist(props) {
       label={ label }
       id={ prefixId(id, formId) } />
     <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
-      {!disabled &&
+      {!disabled && loadState === LOAD_STATES.LOADED &&
         selectedValues.map((sv) => {
           return (
             <div class="fjs-taglist-tag" onMouseDown={ (e) => e.preventDefault() }>
@@ -126,12 +141,12 @@ export default function Taglist(props) {
         placeholder={ 'Search' }
         autoComplete="off"
         onKeyDown={ (e) => onInputKeyDown(e) }
-        onMouseDown={ () => setEscapeClose(false) }
+        onMouseDown={ () => setIsEscapeClose(false) }
         onFocus={ () => setIsDropdownExpanded(true) }
         onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } } />
     </div>
     <div class="fjs-taglist-anchor">
-      {!disabled && isDropdownExpanded && !escapeClose && <DropdownList
+      {!disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
         values={ filteredValues }
         getLabel={ (v) => v.label }
         onValueSelected={ (v) => selectValue(v) }
@@ -144,6 +159,9 @@ export default function Taglist(props) {
 }
 
 Taglist.create = function(options = {}) {
+
+  if (options.valuesKey) return options;
+
   return {
     values: [
       {

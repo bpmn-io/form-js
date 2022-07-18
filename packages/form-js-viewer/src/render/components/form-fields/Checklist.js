@@ -1,4 +1,5 @@
 import { useContext } from 'preact/hooks';
+import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
 
@@ -25,8 +26,7 @@ export default function Checklist(props) {
   const {
     description,
     id,
-    label,
-    values
+    label
   } = field;
 
   const toggleCheckbox = (v) => {
@@ -45,13 +45,18 @@ export default function Checklist(props) {
     });
   };
 
+  const {
+    state: loadState,
+    values: options
+  } = useValuesAsync(field);
+
   const { formId } = useContext(FormContext);
 
   return <div class={ formFieldClasses(type, errors) }>
     <Label
       label={ label } />
     {
-      values.map((v, index) => {
+      loadState == LOAD_STATES.LOADED && options.map((v, index) => {
         return (
           <Label
             id={ prefixId(`${id}-${index}`, formId) }
@@ -75,6 +80,9 @@ export default function Checklist(props) {
 }
 
 Checklist.create = function(options = {}) {
+
+  if (options.valuesKey) return options;
+
   return {
     values: [
       {
