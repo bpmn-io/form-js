@@ -104,10 +104,14 @@ describe('Select', function() {
 
     const options = { container: container.querySelector('.fjs-form') };
 
-    const { rerender } = render(<Select { ...props } value={ 'german' } />, options);
+    const { rerender } = render(
+      WithFormContext(<Select { ...props } value={ 'german' } />, options)
+      , options);
 
     // when
-    rerender(<Select { ...props } value={ null } />, options);
+    rerender(
+      WithFormContext(<Select { ...props } value={ null } />, options)
+      , options);
 
     // then
     const input = container.querySelector('select');
@@ -135,7 +139,7 @@ describe('Select', function() {
   });
 
 
-  describe('handle change', function() {
+  describe('handle change (static)', function() {
 
     it('should handle change', function() {
 
@@ -184,6 +188,59 @@ describe('Select', function() {
 
   });
 
+
+  describe('handle change (dynamic)', function() {
+
+    it('should handle change', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createSelect({
+        onChange: onChangeSpy,
+        value: 'dynamicValue1',
+        field: dynamicField,
+        initialData: dynamicFieldInitialData
+      });
+
+      // when
+      const select = container.querySelector('select');
+
+      fireEvent.change(select, { target: { value: 'dynamicValue2' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: 'dynamicValue2'
+      });
+    });
+
+
+    it('should clear', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createSelect({
+        onChange: onChangeSpy,
+        value: 'dynamicValue1',
+        field: dynamicField,
+        initialData: dynamicFieldInitialData
+      });
+
+      // when
+      const select = container.querySelector('select');
+
+      fireEvent.change(select, { target: { value: '' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: null
+      });
+    });
+
+  });
 
 
   it('#create', function() {
@@ -239,6 +296,27 @@ const defaultField = {
   ]
 };
 
+const dynamicField = {
+  id: 'Select_1',
+  key: 'language',
+  label: 'Language',
+  type: 'select',
+  valuesKey: 'dynamicValues'
+};
+
+const dynamicFieldInitialData = {
+  dynamicValues: [
+    {
+      label: 'Dynamic Value 1',
+      value: 'dynamicValue1'
+    },
+    {
+      label: 'Dynamic Value 2',
+      value: 'dynamicValue2'
+    }
+  ]
+};
+
 function createSelect(options = {}) {
   const {
     disabled,
@@ -256,7 +334,8 @@ function createSelect(options = {}) {
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />
+      value={ value } />,
+    options
   ), {
     container: options.container || container.querySelector('.fjs-form')
   });

@@ -53,6 +53,36 @@ describe('Radio', function() {
   });
 
 
+  it('should render dynamically', function() {
+
+    // when
+    const { container } = createRadio({
+      value: 'dynamicValue1',
+      field: dynamicField,
+      initialData: dynamicFieldInitialData
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.classList.contains('fjs-form-field-radio')).to.be.true;
+
+    const inputs = container.querySelectorAll('input[type="radio"]');
+
+    expect(inputs).to.have.length(2);
+    expect(inputs[0].id).to.equal('fjs-form-foo-Radio_1-0');
+    expect(inputs[1].id).to.equal('fjs-form-foo-Radio_1-1');
+
+    const labels = container.querySelectorAll('label');
+
+    expect(labels).to.have.length(3);
+    expect(labels[0].textContent).to.equal('Product');
+    expect(labels[1].htmlFor).to.equal('fjs-form-foo-Radio_1-0');
+    expect(labels[2].htmlFor).to.equal('fjs-form-foo-Radio_1-1');
+  });
+
+
   it('should render default value (undefined)', function() {
 
     // when
@@ -117,7 +147,61 @@ describe('Radio', function() {
   });
 
 
-  describe('handle change', function() {
+  describe('handle change (dynamic)', function() {
+
+    it('should handle change', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createRadio({
+        onChange: onChangeSpy,
+        value: 'dynamicValue1',
+        field: dynamicField,
+        initialData: dynamicFieldInitialData
+      });
+
+      // when
+      const input = container.querySelectorAll('input[type="radio"]')[ 1 ];
+
+      fireEvent.click(input);
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: 'dynamicValue2'
+      });
+    });
+
+
+    it('should handle toggle', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createRadio({
+        onChange: onChangeSpy,
+        value: 'dynamicValue1',
+        field: dynamicField,
+        initialData: dynamicFieldInitialData
+      });
+
+      // when
+      const input = container.querySelectorAll('input[type="radio"]')[ 0 ];
+
+      fireEvent.click(input, { target: { checked: false } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: 'dynamicValue1'
+      });
+    });
+
+  });
+
+
+  describe('handle change (static)', function() {
 
     it('should handle change', function() {
 
@@ -130,7 +214,7 @@ describe('Radio', function() {
       });
 
       // when
-      const input = container.querySelectorAll('input[type="radio"]')[ 1 ];
+      const input = container.querySelectorAll('input[type="radio"]')[1];
 
       fireEvent.click(input);
 
@@ -153,7 +237,7 @@ describe('Radio', function() {
       });
 
       // when
-      const input = container.querySelectorAll('input[type="radio"]')[ 0 ];
+      const input = container.querySelectorAll('input[type="radio"]')[0];
 
       fireEvent.click(input, { target: { checked: false } });
 
@@ -165,7 +249,6 @@ describe('Radio', function() {
     });
 
   });
-
 
 
   it('#create', function() {
@@ -220,6 +303,27 @@ const defaultField = {
   ]
 };
 
+const dynamicField = {
+  id: 'Radio_1',
+  key: 'product',
+  label: 'Product',
+  type: 'radio',
+  valuesKey: 'dynamicValues'
+};
+
+const dynamicFieldInitialData = {
+  dynamicValues: [
+    {
+      label: 'Dynamic Value 1',
+      value: 'dynamicValue1'
+    },
+    {
+      label: 'Dynamic Value 2',
+      value: 'dynamicValue2'
+    }
+  ]
+};
+
 function createRadio(options = {}) {
   const {
     disabled,
@@ -237,7 +341,8 @@ function createRadio(options = {}) {
       field={ field }
       onChange={ onChange }
       path={ path }
-      value={ value } />
+      value={ value } />,
+    options
   ), {
     container: options.container || container.querySelector('.fjs-form')
   });

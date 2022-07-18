@@ -1,4 +1,5 @@
 import { useContext } from 'preact/hooks';
+import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
 
@@ -26,8 +27,7 @@ export default function Radio(props) {
     description,
     id,
     label,
-    validate = {},
-    values
+    validate = {}
   } = field;
 
   const { required } = validate;
@@ -39,6 +39,11 @@ export default function Radio(props) {
     });
   };
 
+  const {
+    state: loadState,
+    values: options
+  } = useValuesAsync(field);
+
   const { formId } = useContext(FormContext);
 
   return <div class={ formFieldClasses(type, errors) }>
@@ -46,20 +51,20 @@ export default function Radio(props) {
       label={ label }
       required={ required } />
     {
-      values.map((v, index) => {
+      loadState == LOAD_STATES.LOADED && options.map((option, index) => {
         return (
           <Label
             id={ prefixId(`${ id }-${ index }`, formId) }
             key={ `${ id }-${ index }` }
-            label={ v.label }
+            label={ option.label }
             required={ false }>
             <input
-              checked={ v.value === value }
+              checked={ option.value === value }
               class="fjs-input"
               disabled={ disabled }
               id={ prefixId(`${ id }-${ index }`, formId) }
               type="radio"
-              onClick={ () => onChange(v.value) } />
+              onClick={ () => onChange(option.value) } />
           </Label>
         );
       })
@@ -70,6 +75,9 @@ export default function Radio(props) {
 }
 
 Radio.create = function(options = {}) {
+
+  if (options.valuesKey) return options;
+
   return {
     values: [
       {
