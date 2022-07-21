@@ -1,4 +1,4 @@
-import { iconsByType } from './icons';
+import { iconsByType } from '../../../render/components/icons';
 
 const types = [
   {

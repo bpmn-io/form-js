@@ -8,6 +8,7 @@ import EditorActionsModule from './features/editor-actions';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
+import PaletteModule from './features/palette';
 
 const ids = new Ids([ 32, 36, 1 ]);
 
@@ -296,7 +297,8 @@ export default class FormEditor {
       ModelingModule,
       EditorActionsModule,
       KeyboardModule,
-      SelectionModule
+      SelectionModule,
+      PaletteModule
     ];
   }
 
