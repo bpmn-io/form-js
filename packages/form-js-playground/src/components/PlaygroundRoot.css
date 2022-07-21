@@ -1,7 +1,15 @@
 .fjs-pgl-root {
-  --color-light-gray: #EEE;
-  --color-default-gray: #AAA;
-  --color-dark-gray: #999;
+  --color-button-hover: var(--color-grey-225-10-95);
+
+  --color-section-border: var(--color-grey-225-10-55);
+  --color-section-header-background: var(--color-grey-225-10-95);
+  --color-section-header-border-bottom: var(--color-grey-225-10-75);
+
+  --color-palette-container-background: var(--color-grey-225-10-97);
+  --color-palette-container-border: var(--color-grey-225-10-80);
+
+  --color-text: var(--color-grey-225-10-15);
+
   --font-family: 'IBM Plex Sans', sans-serif;
 }
 
@@ -10,6 +18,7 @@
   height: 100%;
 
   position: relative;
+  display: flex;
 
   font-family: var(--font-family);
 }
@@ -24,6 +33,33 @@
 }
 
 /**
+ * Palette
+ */
+.fjs-pgl-palette-container {
+  height: 100%;
+  width: auto;
+  background-color: var(--color-palette-container-background);
+  border-right: solid 1px var(--color-palette-container-border);
+}
+
+.fjs-pgl-palette-container .fjs-palette-container {
+  border-right: none;
+  width: auto;
+}
+
+.fjs-pgl-palette-container .fjs-hide-compact {
+  display: none;
+}
+
+.fjs-pgl-palette-container .fjs-palette-container .fjs-palette-field {
+  justify-content: center;
+}
+
+.fjs-pgl-palette-container .fjs-palette-container .fjs-palette-field-icon {
+  margin: 0;
+}
+
+/**
  * Section
  */
 .fjs-pgl-section {
@@ -34,21 +70,21 @@
 
 .fjs-pgl-section:nth-child(1),
 .fjs-pgl-section:nth-child(2) {
-  border-bottom: double 3px var(--color-dark-gray);
+  border-bottom: double 3px var(--color-section-border);
 }
 
 .fjs-pgl-section:nth-child(1),
 .fjs-pgl-section:nth-child(3) {
-  border-right: double 3px var(--color-dark-gray);
+  border-right: double 3px var(--color-section-border);
 }
 
 .fjs-pgl-section .header {
-  background: var(--color-light-gray);
+  background: var(--color-section-header-background);
   font-size: 1rem;
   margin: 0;
   line-height: 2em;
-  padding: 0 .5em;
-  border-bottom: solid 1px var(--color-default-gray);
+  padding: .1em .5em;
+  border-bottom: solid 1px var(--color-section-header-border-bottom);
 }
 
 .fjs-pgl-section .header-items {
@@ -89,7 +125,7 @@
 
   padding: 20px;
 
-  background: white;
+  background: var(--color-white);
 }
 
 .fjs-pgl-modal-content textarea {
@@ -128,14 +164,12 @@
 }
 
 .fjs-pgl-button {
-
   color: var(--color-text);
-  background-color: #fff;
+  background-color: var(--color-white);
 
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;
-  border-color: var(--color-lighter-gray);
 
   font-family: var(--font-family);
 }
@@ -145,7 +179,7 @@
 }
 
 .fjs-pgl-button:hover {
-  background-color: var(--color-light-gray);
+  background-color: var(--color-button-hover);
 }
 
 .fjs-pgl-button + .fjs-pgl-button {

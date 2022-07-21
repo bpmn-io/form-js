@@ -18,6 +18,7 @@ import './PlaygroundRoot.css';
 
 export function PlaygroundRoot(props) {
 
+  const paletteContainerRef = useRef();
   const editorContainerRef = useRef();
   const formContainerRef = useRef();
   const dataContainerRef = useRef();
@@ -62,6 +63,9 @@ export function PlaygroundRoot(props) {
     const formEditor = formEditorRef.current = new FormEditor({
       renderer: {
         compact: true
+      },
+      palette: {
+        parent: paletteContainerRef.current
       }
     });
 
@@ -137,10 +141,11 @@ export function PlaygroundRoot(props) {
   }, []);
 
   return (
-    <div class="fjs-pgl-root">
+    <div class="fjs-container fjs-pgl-root">
       <div class="fjs-pgl-modals">
         { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
       </div>
+      <div class="fjs-pgl-palette-container" ref={ paletteContainerRef } />
       <div class="fjs-pgl-main">
 
         <Section name="Form Definition">
