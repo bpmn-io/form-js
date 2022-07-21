@@ -8,14 +8,6 @@
   --color-context-pad-item-fill: var(--color-grey-225-10-35);
   --color-context-pad-item-hover-fill: var(--color-black);
 
-  --color-palette-container-background: var(--color-grey-225-10-97);
-  --color-palette-container-border: var(--color-grey-225-10-80);
-  --color-palette-header-color: var(--color-text);
-  --color-palette-header-background: var(--color-grey-225-10-95);
-  --color-palette-header-border: var(--color-grey-225-10-80);
-  --color-palette-field-border: var(--color-grey-225-10-80);
-  --color-palette-field-hover-background: var(--color-grey-225-10-95);
-
   --color-properties-container-background: var(--color-white);
   --color-properties-container-border: var(--color-grey-225-10-80);
 
@@ -23,6 +15,16 @@
   --color-dragula-border: var(--color-blue-205-100-45);
   --color-dragula-mirror-background: var(--color-white);
   --color-dragula-mirror-border: var(--color-grey-225-10-80);
+}
+
+.fjs-palette-container {
+  --color-palette-container-background: var(--color-grey-225-10-97);
+  --color-palette-container-border: var(--color-grey-225-10-80);
+  --color-palette-header-color: var(--color-text);
+  --color-palette-header-background: var(--color-grey-225-10-95);
+  --color-palette-header-border: var(--color-grey-225-10-80);
+  --color-palette-field-border: var(--color-grey-225-10-80);
+  --color-palette-field-hover-background: var(--color-grey-225-10-95);
 }
 
 .fjs-editor-container {
@@ -38,7 +40,7 @@
 }
 
 .fjs-editor-container .fjs-form-container,
-.fjs-editor-container .fjs-palette-container,
+.fjs-editor-container .fjs-editor-palette-container,
 .fjs-editor-container .fjs-properties-container {
   overflow-y: auto;
   position: relative;
@@ -142,13 +144,17 @@
  * Palette
  */
 .fjs-editor-container .fjs-palette-container {
+  height: 100%;
+}
+
+.fjs-palette-container {
   width: 200px;
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
   font-family: var(--font-family);
 }
 
-.fjs-editor-container .fjs-palette-header {
+.fjs-palette-container .fjs-palette-header {
   font-size: 12px;
   font-weight: bold;
   color: var(--color-palette-header-color);
@@ -157,7 +163,7 @@
   background-color: var(--color-palette-header-background);
 }
 
-.fjs-editor-container .fjs-palette-field {
+.fjs-palette-container .fjs-palette-field {
   padding: 10px;
   display: flex;
   white-space: pre;
@@ -169,11 +175,11 @@
   color: var(--color-text);
 }
 
-.fjs-editor-container .fjs-palette-field-icon {
+.fjs-palette-container .fjs-palette-field-icon {
   margin-right: 10px;
 }
 
-.fjs-editor-container .fjs-palette-field:hover {
+.fjs-palette-container .fjs-palette-field:hover {
   background-color: var(--color-palette-field-hover-background);
   cursor: default;
 }
