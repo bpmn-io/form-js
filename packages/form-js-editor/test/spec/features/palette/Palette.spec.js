@@ -1,8 +1,8 @@
 import { render } from '@testing-library/preact/pure';
 
-import Palette from '../../../src/render/components/palette/Palette';
+import Palette from '../../../../src/features/palette/components/Palette';
 
-import { insertStyles } from '../../TestHelper';
+import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
 

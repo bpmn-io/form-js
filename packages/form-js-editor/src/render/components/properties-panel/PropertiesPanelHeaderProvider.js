@@ -2,7 +2,7 @@ import {
   textToLabel
 } from './Util';
 
-import { iconsByType } from '../palette/icons';
+import { iconsByType } from '../icons';
 
 const labelsByType = {
   button: 'BUTTON',
