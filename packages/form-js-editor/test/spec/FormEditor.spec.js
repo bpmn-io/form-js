@@ -5,10 +5,15 @@ import {
 } from '../../src';
 
 import {
+  act,
   fireEvent,
   screen,
   waitFor
 } from '@testing-library/preact/pure';
+
+import {
+  query as domQuery
+} from 'min-dom';
 
 import {
   insertStyles,
@@ -367,6 +372,29 @@ describe('FormEditor', function() {
   });
 
 
+  describe('event emitting', function() {
+
+    it('should emit <formEditor.rendered>', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const formEditor = new FormEditor();
+
+      const eventBus = formEditor.get('eventBus');
+
+      eventBus.on('formEditor.rendered', spy);
+
+      // when
+      await act(async () => await formEditor.importSchema(schema));
+
+      // then
+      expect(spy).to.have.been.called;
+    });
+
+  });
+
+
   describe('export', function() {
 
     it('should expose schema', async function() {
@@ -489,6 +517,76 @@ describe('FormEditor', function() {
 
     // then
     expect(formEditor._id).to.exist;
+  });
+
+
+  describe('palette', function() {
+
+    const schema = {
+      components: [
+        {
+          id: 'Text_1',
+          text: 'Foo',
+          type: 'text'
+        }
+      ],
+      id: 'Form_1',
+      type: 'default'
+    };
+
+
+    it('should provide palette module', async function() {
+
+      // when
+      formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      expect(formEditor.get('palette')).to.exist;
+    });
+
+
+    it('should render palette per default', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      // when
+      const paletteContainer = domQuery('.fjs-editor-palette-container', container);
+
+      // then
+      expect(paletteContainer).to.exist;
+    });
+
+
+    it('should render palette on given container', async function() {
+
+      // given
+      const paletteParent = document.createElement('div');
+      document.body.appendChild(paletteParent);
+
+      formEditor = await createFormEditor({
+        container,
+        schema,
+        palette: {
+          parent: paletteParent
+        }
+      });
+
+      // when
+      const paletteContainer = domQuery('.fjs-palette-container', paletteParent);
+
+      // then
+      expect(domQuery('.fjs-editor-palette-container', container)).to.not.exist;
+      expect(paletteContainer).to.exist;
+
+      document.body.removeChild(paletteParent);
+    });
+
   });
 
 

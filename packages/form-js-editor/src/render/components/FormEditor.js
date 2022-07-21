@@ -17,14 +17,13 @@ import useService from '../hooks/useService';
 
 import { DragAndDropContext } from '../context';
 
-import Palette from './palette/Palette';
 import PropertiesPanel from './properties-panel/PropertiesPanel';
 
 import dragula from 'dragula';
 
 import { ListDeleteIcon } from './properties-panel/icons';
 
-import { iconsByType } from './palette/icons';
+import { iconsByType } from './icons';
 
 function ContextPad(props) {
   if (!props.children) {
@@ -150,9 +149,13 @@ export default function FormEditor(props) {
         formFieldRegistry = useService('formFieldRegistry'),
         injector = useService('injector'),
         modeling = useService('modeling'),
-        selection = useService('selection');
+        selection = useService('selection'),
+        palette = useService('palette'),
+        paletteConfig = useService('config.palette');
 
   const { schema } = formEditor._getState();
+
+  const paletteRef = useRef(null);
 
   const [ selectedFormField, setSelection ] = useState(schema);
 
@@ -251,6 +254,11 @@ export default function FormEditor(props) {
     };
   }, []);
 
+  // fire event after first render to notify interested parties
+  useEffect(() => {
+    eventBus.fire('formEditor.rendered');
+  }, []);
+
   const formRenderContext = {
     Children,
     Element,
@@ -289,13 +297,20 @@ export default function FormEditor(props) {
 
   const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
 
+  // attach default palette
+  const hasDefaultPalette = defaultPalette(paletteConfig);
+
+  useEffect(() => {
+    if (hasDefaultPalette) {
+      palette.attachTo(paletteRef.current);
+    }
+  }, [ palette, paletteRef, hasDefaultPalette ]);
+
   return (
     <div class="fjs-form-editor">
 
       <DragAndDropContext.Provider value={ dragAndDropContext }>
-        <div class="fjs-palette-container">
-          <Palette />
-        </div>
+        { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
         <div class="fjs-form-container">
 
           <FormContext.Provider value={ formContext }>
@@ -357,4 +372,11 @@ function CreatePreview(props) {
   }, [ drake ]);
 
   return null;
+}
+
+
+// helper //////
+
+function defaultPalette(paletteConfig) {
+  return !(paletteConfig && paletteConfig.parent);
 }
