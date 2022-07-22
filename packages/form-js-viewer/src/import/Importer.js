@@ -33,7 +33,7 @@ export default class Importer {
    */
   importSchema(schema, data = {}) {
 
-    // TODO: Add warnings
+    // TODO: Add warnings - https://github.com/bpmn-io/form-js/issues/289
     const warnings = [];
 
     try {
@@ -149,9 +149,19 @@ export default class Importer {
       // if unavailable - get empty value from form field
 
       if (_path) {
+
+        const fieldImplementation = this._formFields.get(type);
+        let valueData = get(data, _path);
+
+        if (!isUndefined(valueData) && fieldImplementation.sanitizeValue) {
+          valueData = fieldImplementation.sanitizeValue({ formField, data, value: valueData });
+        }
+
+        const initialFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldImplementation.emptyValue);
+
         importedData = {
           ...importedData,
-          [_path[0]]: get(data, _path, isUndefined(defaultValue) ? this._formFields.get(type).emptyValue : defaultValue),
+          [_path[0]]: initialFieldValue,
         };
       }
 

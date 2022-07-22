@@ -9,7 +9,8 @@ import Label from '../Label';
 
 import {
   formFieldClasses,
-  prefixId
+  prefixId,
+  sanitizeMultiSelectValue
 } from '../Util';
 
 const type = 'checklist';
@@ -98,3 +99,4 @@ Checklist.type = type;
 Checklist.label = 'Checklist';
 Checklist.keyed = true;
 Checklist.emptyValue = [];
+Checklist.sanitizeValue = sanitizeMultiSelectValue;

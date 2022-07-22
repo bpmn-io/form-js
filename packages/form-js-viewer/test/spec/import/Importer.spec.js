@@ -8,6 +8,7 @@ import { clone } from 'src/util';
 
 import schema from '../form.json';
 import other from '../other.json';
+import dynamicSchema from '../dynamic.json';
 import defaultValues from '../defaultValues.json';
 
 
@@ -306,6 +307,72 @@ describe('Importer', function() {
         product: 'camunda-platform',
         tags: [ 'tag1', 'tag2', 'tag3' ],
         language: 'english'
+      });
+    }));
+
+
+    it('should sanitize data (static)', inject(async function(form) {
+
+      // given
+      const data = {
+        mailto: [ 'invalid1', 'invalid2', 'approver' ],
+        product: 'invalid',
+        tags: [ 'invalid1', 'invalid2', 'invalid3', 'tag1' ],
+        language: 'invalid'
+      };
+
+      // when
+      await form.importSchema(defaultValues, data);
+
+      expect(form._getState().data).to.eql({
+        creditor: 'Max Mustermann GmbH',
+        invoiceNumber: '',
+        amount: 0,
+        approved: true,
+        approvedBy: '',
+        mailto: [ 'approver' ],
+        product: null,
+        tags: [ 'tag1' ],
+        language: null
+      });
+    }));
+
+
+    it('should sanitize data (dynamic)', inject(async function(form) {
+
+      // given
+      const xyzData = [
+        {
+          label: 'x',
+          value: 'dataX'
+        },
+        {
+          label: 'y',
+          value: 'dataY'
+        },
+        {
+          label: 'x',
+          value: 'dataZ'
+        },
+      ];
+
+      const data = {
+        mailto: [ 'invalidData1', 'invalidData2', 'invalidData3', 'dataX' ],
+        product: 'invalidData',
+        tags: [ 'dataX', 'dataY', 'invalidData' ],
+        language: 'invalidData',
+        xyzData
+      };
+
+      // when
+      await form.importSchema(dynamicSchema, data);
+
+      expect(form._getState().data).to.eql({
+        mailto: [ 'dataX' ],
+        product: null,
+        tags: [ 'dataX', 'dataY' ],
+        language: null,
+        xyzData
       });
     }));
 
