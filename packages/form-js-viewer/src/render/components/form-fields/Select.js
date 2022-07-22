@@ -9,7 +9,8 @@ import Label from '../Label';
 
 import {
   formFieldClasses,
-  prefixId
+  prefixId,
+  sanitizeSingleSelectValue
 } from '../Util';
 
 const type = 'select';
@@ -93,3 +94,4 @@ Select.type = type;
 Select.label = 'Select';
 Select.keyed = true;
 Select.emptyValue = null;
+Select.sanitizeValue = sanitizeSingleSelectValue;

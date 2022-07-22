@@ -32,11 +32,9 @@ export default function Number(props) {
   const { required } = validate;
 
   const onChange = ({ target }) => {
-    const parsedValue = parseInt(target.value, 10);
-
     props.onChange({
       field,
-      value: isNaN(parsedValue) ? null : parsedValue
+      value: Number.sanitizeValue({ value: target.value })
     });
   };
 
@@ -63,6 +61,11 @@ Number.create = function(options = {}) {
   return {
     ...options
   };
+};
+
+Number.sanitizeValue = ({ value }) => {
+  const parsedValue = parseInt(value, 10);
+  return isNaN(parsedValue) ? null : parsedValue;
 };
 
 Number.type = type;

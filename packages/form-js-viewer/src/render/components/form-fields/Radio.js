@@ -9,7 +9,8 @@ import Label from '../Label';
 
 import {
   formFieldClasses,
-  prefixId
+  prefixId,
+  sanitizeSingleSelectValue
 } from '../Util';
 
 const type = 'radio';
@@ -93,3 +94,4 @@ Radio.type = type;
 Radio.label = 'Radio';
 Radio.keyed = true;
 Radio.emptyValue = null;
+Radio.sanitizeValue = sanitizeSingleSelectValue;

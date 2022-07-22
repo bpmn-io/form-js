@@ -1,3 +1,4 @@
+import { isArray, isObject } from 'min-dash';
 import { useContext } from 'preact/hooks';
 
 import { FormContext } from '../../context';
@@ -67,3 +68,4 @@ Textfield.type = type;
 Textfield.label = 'Text Field';
 Textfield.keyed = true;
 Textfield.emptyValue = '';
+Textfield.sanitizeValue = ({ value }) => (isArray(value) || isObject(value)) ? null : String(value);

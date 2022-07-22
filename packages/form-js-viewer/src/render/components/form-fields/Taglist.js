@@ -11,7 +11,8 @@ import Label from '../Label';
 
 import {
   formFieldClasses,
-  prefixId
+  prefixId,
+  sanitizeMultiSelectValue
 } from '../Util';
 
 import classNames from 'classnames';
@@ -177,3 +178,4 @@ Taglist.type = type;
 Taglist.label = 'Taglist';
 Taglist.keyed = true;
 Taglist.emptyValue = [];
+Taglist.sanitizeValue = sanitizeMultiSelectValue;

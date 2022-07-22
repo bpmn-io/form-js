@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "valuesKey": "xyzData"
+    },
+    {
+      "key": "mailto",
+      "label": "Email Summary To",
+      "type": "checklist",
+      "valuesKey": "xyzData"
+    },
+    {
+      "key": "language",
+      "label": "Language",
+      "type": "select",
+      "valuesKey": "xyzData"
+    },
+    {
+      "key": "tags",
+      "label": "Taglist",
+      "type": "taglist",
+      "valuesKey": "xyzData"
+    }
+  ],
+  "type": "default"
+}
