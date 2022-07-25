@@ -16,7 +16,7 @@ insertStyles();
 describe('features/modeling', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
-    additionalModules: [
+    modules: [
       modelingModule
     ]
   }));
