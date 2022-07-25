@@ -85,14 +85,15 @@ export function bootstrapFormEditor(schema, options, locals) {
       }
     }, OPTIONS, _options);
 
+    if (_locals) {
+      const mockModule = {};
 
-    const mockModule = {};
+      forEach(_locals, function(value, key) {
+        mockModule[ key ] = [ 'value', value ];
+      });
 
-    forEach(_locals, function(value, key) {
-      mockModule[ key ] = [ 'value', value ];
-    });
-
-    _options.modules = [].concat(_options.modules || [], [ mockModule ]);
+      _options.modules = [].concat(_options.modules || [], [ mockModule ]);
+    }
 
     // remove previous instance
     cleanup();

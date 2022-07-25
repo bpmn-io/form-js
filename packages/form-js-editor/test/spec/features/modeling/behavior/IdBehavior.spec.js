@@ -11,7 +11,7 @@ import schema from '../../../form.json';
 describe('features/modeling - IdBehavior', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
-    additionalModules: [
+    modules: [
       modelingModule
     ]
   }));
