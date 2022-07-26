@@ -8,9 +8,6 @@
   --color-context-pad-item-fill: var(--color-grey-225-10-35);
   --color-context-pad-item-hover-fill: var(--color-black);
 
-  --color-properties-container-background: var(--color-white);
-  --color-properties-container-border: var(--color-grey-225-10-80);
-
   --color-dragula-background: var(--color-blue-205-100-45);
   --color-dragula-border: var(--color-blue-205-100-45);
   --color-dragula-mirror-background: var(--color-white);
@@ -27,6 +24,12 @@
   --color-palette-field-hover-background: var(--color-grey-225-10-95);
 }
 
+.fjs-properties-container {
+  --color-properties-container-background: var(--color-white);
+  --color-properties-container-border: var(--color-grey-225-10-80);
+  --properties-panel-width: 300px;
+}
+
 .fjs-editor-container {
   height: 100%;
   width: 100%;
@@ -41,7 +44,7 @@
 
 .fjs-editor-container .fjs-form-container,
 .fjs-editor-container .fjs-editor-palette-container,
-.fjs-editor-container .fjs-properties-container {
+.fjs-editor-container .fjs-editor-properties-container {
   overflow-y: auto;
   position: relative;
 }
@@ -188,22 +191,25 @@
  * Properties Panel
  */
 .fjs-editor-container .fjs-properties-container {
-  width: 300px;
-  background-color: var(--color-properties-container-background);
-  border-left: solid 1px var(--color-properties-container-border);
   height: 100%;
+}
+
+.fjs-properties-container {
+  background-color: var(--color-properties-container-background);
+  width: var(--properties-panel-width);
+  border-left: solid 1px var(--color-properties-container-border);
   color: var(--color-text);
 }
 
-.fjs-editor-container .fjs-properties-panel {
+.fjs-properties-container .fjs-properties-panel {
   height: 100%;
 }
 
-.fjs-editor-container .fjs-properties-panel * {
+.fjs-properties-container .fjs-properties-panel * {
   box-sizing: border-box;
 }
 
-.fjs-editor-container .bio-properties-panel-header-icon svg {
+.fjs-properties-container .fjs-properties-panel .bio-properties-panel-header-icon svg {
   transform: scale(1.3);
 }
 
