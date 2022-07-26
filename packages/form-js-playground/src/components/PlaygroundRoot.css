@@ -8,6 +8,8 @@
   --color-palette-container-background: var(--color-grey-225-10-97);
   --color-palette-container-border: var(--color-grey-225-10-80);
 
+  --color-properties-container-background: var(--color-white);
+
   --color-text: var(--color-grey-225-10-15);
 
   --font-family: 'IBM Plex Sans', sans-serif;
@@ -28,8 +30,12 @@
   height: 100%;
 
   display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 50% 50%;
   grid-template-rows: 70% 30%;
+}
+
+.fjs-pgl-inline-editor-panel .fjs-pgl-main {
+  grid-template-columns: 65% 35%;
 }
 
 /**
@@ -57,6 +63,22 @@
 
 .fjs-pgl-palette-container .fjs-palette-container .fjs-palette-field-icon {
   margin: 0;
+}
+
+/**
+ * Properties Panel
+ */
+.fjs-pgl-properties-container {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--color-properties-container-background);
+  --properties-panel-width: 200px;
+}
+
+.fjs-pgl-properties-container .bio-properties-panel {
+  --font-family: var(--font-family);
 }
 
 /**
