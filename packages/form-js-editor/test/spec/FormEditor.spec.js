@@ -592,6 +592,59 @@ describe('FormEditor', function() {
 
   describe('properties panel', function() {
 
+    it('should provide propertiesPanel module', async function() {
+
+      // when
+      formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      expect(formEditor.get('propertiesPanel')).to.exist;
+    });
+
+
+    it('should render propertiesPanel per default', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        container,
+        schema
+      });
+
+      // when
+      const propertiesContainer = domQuery('.fjs-editor-properties-container', container);
+
+      // then
+      expect(propertiesContainer).to.exist;
+    });
+
+
+    it('should render propertiesPanel on given container', async function() {
+
+      // given
+      const propertiesParent = document.createElement('div');
+      document.body.appendChild(propertiesParent);
+
+      formEditor = await createFormEditor({
+        container,
+        schema,
+        propertiesPanel: {
+          parent: propertiesParent
+        }
+      });
+
+      // when
+      const propertiesContainer = domQuery('.fjs-properties-container', propertiesParent);
+
+      // then
+      expect(domQuery('.fjs-editor-properties-container', container)).to.not.exist;
+      expect(propertiesContainer).to.exist;
+
+      document.body.removeChild(propertiesParent);
+    });
+
+
     describe('selection behavior', function() {
 
       const schema = {

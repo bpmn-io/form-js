@@ -17,11 +17,9 @@ import useService from '../hooks/useService';
 
 import { DragAndDropContext } from '../context';
 
-import PropertiesPanel from './properties-panel/PropertiesPanel';
-
 import dragula from 'dragula';
 
-import { ListDeleteIcon } from './properties-panel/icons';
+import { ListDeleteIcon } from '../../features/properties-panel/icons';
 
 import { iconsByType } from './icons';
 
@@ -151,13 +149,16 @@ export default function FormEditor(props) {
         modeling = useService('modeling'),
         selection = useService('selection'),
         palette = useService('palette'),
-        paletteConfig = useService('config.palette');
+        paletteConfig = useService('config.palette'),
+        propertiesPanel = useService('propertiesPanel'),
+        propertiesPanelConfig = useService('config.propertiesPanel');
 
   const { schema } = formEditor._getState();
 
   const paletteRef = useRef(null);
+  const propertiesPanelRef = useRef(null);
 
-  const [ selectedFormField, setSelection ] = useState(schema);
+  const [ , setSelection ] = useState(schema);
 
   useEffect(() => {
     function handleSelectionChanged(event) {
@@ -254,7 +255,7 @@ export default function FormEditor(props) {
     };
   }, []);
 
-  // fire event after first render to notify interested parties
+  // fire event after render to notify interested parties
   useEffect(() => {
     eventBus.fire('formEditor.rendered');
   }, []);
@@ -295,8 +296,6 @@ export default function FormEditor(props) {
 
   const onReset = useCallback(() => {}, []);
 
-  const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
-
   // attach default palette
   const hasDefaultPalette = defaultPalette(paletteConfig);
 
@@ -305,6 +304,15 @@ export default function FormEditor(props) {
       palette.attachTo(paletteRef.current);
     }
   }, [ palette, paletteRef, hasDefaultPalette ]);
+
+  // attach default properties panel
+  const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
+
+  useEffect(() => {
+    if (hasDefaultPropertiesPanel) {
+      propertiesPanel.attachTo(propertiesPanelRef.current);
+    }
+  }, [ propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel ]);
 
   return (
     <div class="fjs-form-editor">
@@ -323,9 +331,7 @@ export default function FormEditor(props) {
         <CreatePreview />
       </DragAndDropContext.Provider>
 
-      <div class="fjs-properties-container">
-        <PropertiesPanel field={ selectedFormField } editField={ editField } />
-      </div>
+      { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
     </div>
   );
 }
@@ -379,4 +385,8 @@ function CreatePreview(props) {
 
 function defaultPalette(paletteConfig) {
   return !(paletteConfig && paletteConfig.parent);
+}
+
+function defaultPropertiesPanel(propertiesPanelConfig) {
+  return !(propertiesPanelConfig && propertiesPanelConfig.parent);
 }
