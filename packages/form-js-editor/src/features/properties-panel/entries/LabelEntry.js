@@ -1,11 +1,14 @@
 import { get } from 'min-dash';
 
-import { useService } from '../../../hooks';
+import { INPUTS } from '../Util';
 
-import { TextAreaEntry, isTextAreaEntryEdited } from '@bpmn-io/properties-panel';
+import { useService } from '../hooks';
 
 
-export default function TextEntry(props) {
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+
+
+export default function LabelEntry(props) {
   const {
     editField,
     field
@@ -17,20 +20,20 @@ export default function TextEntry(props) {
 
   const entries = [];
 
-  if (type === 'text') {
+  if (INPUTS.includes(type) || type === 'button') {
     entries.push({
-      id: 'text',
-      component: Text,
+      id: 'label',
+      component: Label,
       editField: editField,
       field: field,
-      isEdited: isTextAreaEntryEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
   return entries;
 }
 
-function Text(props) {
+function Label(props) {
   const {
     editField,
     field,
@@ -39,7 +42,7 @@ function Text(props) {
 
   const debounce = useService('debounce');
 
-  const path = [ 'text' ];
+  const path = [ 'label' ];
 
   const getValue = () => {
     return get(field, path, '');
@@ -49,14 +52,12 @@ function Text(props) {
     return editField(field, path, value);
   };
 
-  return TextAreaEntry({
+  return TextFieldEntry({
     debounce,
-    description: 'Use Markdown or basic HTML to format.',
     element: field,
     getValue,
     id,
-    label: 'Text',
-    rows: 10,
+    label: 'Field label',
     setValue
   });
 }

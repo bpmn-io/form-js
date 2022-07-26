@@ -12,7 +12,7 @@ import {
   TextFieldEntry
 } from '@bpmn-io/properties-panel';
 
-import { useService } from '../../../hooks';
+import { useService } from '../hooks';
 
 import { INPUTS } from '../Util';
 

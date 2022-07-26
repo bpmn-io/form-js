@@ -3,9 +3,9 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import { PropertiesPanelHeaderProvider } from '../../../src/render/components/properties-panel/PropertiesPanelHeaderProvider';
+import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
-import { WithFormEditorContext, WithPropertiesPanel } from './helper';
+import { WithPropertiesPanelContext, WithPropertiesPanel } from './helper';
 
 
 describe('PropertiesPanelHeaderProvider', function() {
@@ -68,7 +68,7 @@ function renderHeader(options) {
     field
   } = options;
 
-  return render(WithFormEditorContext(WithPropertiesPanel({
+  return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     headerProvider: PropertiesPanelHeaderProvider
   })));

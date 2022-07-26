@@ -2,7 +2,7 @@ import {
   textToLabel
 } from './Util';
 
-import { iconsByType } from '../icons';
+import { iconsByType } from '../../render/components/icons';
 
 const labelsByType = {
   button: 'BUTTON',

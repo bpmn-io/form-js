@@ -4,16 +4,22 @@ import {
   screen
 } from '@testing-library/preact/pure';
 
-import PropertiesPanel from '../../../src/render/components/properties-panel/PropertiesPanel';
-import { VALUES_SOURCES } from '../../../src/render/components/properties-panel/entries/ValuesSourceUtil';
-import { removeKey } from '../../../src/render/components/properties-panel/groups/CustomValuesGroup';
+import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
+import { VALUES_SOURCES } from '../../../../src/features/properties-panel/entries/ValuesSourceUtil';
+import { removeKey } from '../../../../src/features/properties-panel/groups/CustomValuesGroup';
 
-import { WithFormEditorContext } from './helper';
+import {
+  EventBus as eventBusMock,
+  FormEditor as formEditorMock,
+  Injector as injectorMock,
+  Selection as selectionMock,
+  Modeling as modelingMock
+} from './helper';
 
-import schema from '../form.json';
-import defaultValues from '../defaultValues.json';
+import schema from '../../form.json';
+import defaultValues from '../../defaultValues.json';
 
-import { insertStyles } from '../../TestHelper';
+import { insertStyles } from '../../../TestHelper';
 
 insertStyles();
 
@@ -58,6 +64,28 @@ describe('properties panel', function() {
 
     expect(placeholder).to.exist;
     expect(text.innerText).to.eql('Select a form field to edit its properties.');
+  });
+
+
+  it('should render (multiple)', async function() {
+
+    // given
+    const field = [
+      schema.components.find(({ key }) => key === 'creditor'),
+      schema.components.find(({ key }) => key === 'invoiceNumber'),
+    ];
+
+    const result = createPropertiesPanel({
+      container,
+      field
+    });
+
+    // then
+    const placeholder = result.container.querySelector('.bio-properties-panel-placeholder');
+    const text = placeholder.querySelector('.bio-properties-panel-placeholder-text');
+
+    expect(placeholder).to.exist;
+    expect(text.innerText).to.eql('Multiple form fields are selected. Select a single form field to edit its properties.');
   });
 
 
@@ -178,12 +206,10 @@ describe('properties panel', function() {
           container,
           editField: editFieldSpy,
           field: schema,
-          services: {
-            formFieldRegistry: {
-              _ids: {
-                assigned(id) {
-                  return schema.components.find((component) => component.id === id);
-                }
+          formFieldRegistry: {
+            _ids: {
+              assigned(id) {
+                return schema.components.find((component) => component.id === id);
               }
             }
           }
@@ -1809,12 +1835,10 @@ describe('properties panel', function() {
               container,
               editField: editFieldSpy,
               field,
-              services: {
-                formFieldRegistry: {
-                  _keys: {
-                    assigned(key) {
-                      return schema.components.find((component) => component.key === key);
-                    }
+              formFieldRegistry: {
+                _keys: {
+                  assigned(key) {
+                    return schema.components.find((component) => component.key === key);
                   }
                 }
               }
@@ -1974,16 +1998,50 @@ function createPropertiesPanel(options = {}) {
   const {
     container,
     editField = () => {},
-    field = null,
-    services
+    field = null
   } = options;
 
-  return render(WithFormEditorContext(
-    <PropertiesPanel
-      editField={ editField }
-      field={ field } />,
-    services
-  ), {
+  let {
+    eventBus,
+    formEditor,
+    modeling,
+    selection
+  } = options;
+
+  if (!eventBus) {
+    eventBus = new eventBusMock();
+  }
+
+  if (!formEditor) {
+    formEditor = new formEditorMock({
+      state: { schema: (options.schema !== 'undefined' ? options.schema : schema) }
+    });
+  }
+
+  if (!modeling) {
+    modeling = new modelingMock({
+      editFormField: editField
+    });
+  }
+
+  if (!selection) {
+    selection = new selectionMock({
+      selection: field
+    });
+  }
+
+  const injector = new injectorMock({
+    ...options,
+    eventBus,
+    formEditor,
+    modeling,
+    selection
+  });
+
+  return render(<PropertiesPanel
+    eventBus={ eventBus }
+    injector={ injector } />,
+  {
     container
   });
 }

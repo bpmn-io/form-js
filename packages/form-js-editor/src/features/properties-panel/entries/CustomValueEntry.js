@@ -1,6 +1,6 @@
 import { get } from 'min-dash';
 
-import { useService } from '../../../hooks';
+import { useService } from '../hooks';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
