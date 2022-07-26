@@ -1,4 +1,4 @@
-import { textToLabel } from 'src/render/components/properties-panel/Util';
+import { textToLabel } from '../../../../src/features/properties-panel/Util';
 
 
 describe('properties panel util', function() {

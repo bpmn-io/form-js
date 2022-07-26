@@ -4,13 +4,13 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import { GeneralGroup } from '../../../../src/render/components/properties-panel/groups';
+import { GeneralGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
+import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
 import { set } from 'min-dash';
 
-import { INPUTS, VALUES_INPUTS } from '../../../../src/render/components/properties-panel/Util';
+import { INPUTS, VALUES_INPUTS } from '../../../../../src/features/properties-panel/Util';
 
 
 describe('GeneralGroup', function() {
@@ -767,7 +767,7 @@ function renderGeneralGroup(options) {
 
   const groups = [ GeneralGroup(field, editField) ];
 
-  return render(WithFormEditorContext(WithPropertiesPanel({
+  return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     groups
   })));

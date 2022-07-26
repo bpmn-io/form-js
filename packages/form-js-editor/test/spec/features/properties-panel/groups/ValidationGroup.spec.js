@@ -4,9 +4,9 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import { ValidationGroup } from '../../../../src/render/components/properties-panel/groups';
+import { ValidationGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
+import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
 
 describe('ValidationGroup', function() {
@@ -504,7 +504,7 @@ function renderValidationGroup(options) {
 
   const groups = [ ValidationGroup(field, editField) ];
 
-  return render(WithFormEditorContext(WithPropertiesPanel({
+  return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     groups
   })));

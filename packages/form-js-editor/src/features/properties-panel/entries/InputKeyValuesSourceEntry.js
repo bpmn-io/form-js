@@ -1,6 +1,6 @@
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
-import { useService } from '../../../hooks';
+import { useService } from '../hooks';
 import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
 
 export default function InputKeyValuesSourceEntry(props) {

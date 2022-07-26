@@ -1,6 +1,6 @@
 import { get, isUndefined } from 'min-dash';
 
-import { useService } from '../../../hooks';
+import { useService } from '../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 

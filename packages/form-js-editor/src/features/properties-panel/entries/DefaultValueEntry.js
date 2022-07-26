@@ -9,7 +9,7 @@ import {
 
 import { get } from 'min-dash';
 
-import { useService } from '../../../hooks';
+import { useService } from '../hooks';
 
 import { INPUTS, VALUES_INPUTS } from '../Util';
 
