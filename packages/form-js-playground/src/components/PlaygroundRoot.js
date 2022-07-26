@@ -2,6 +2,8 @@ import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
 
 import download from 'downloadjs';
 
+import classNames from 'classnames';
+
 import {
   Form,
   FormEditor
@@ -18,11 +20,20 @@ import './PlaygroundRoot.css';
 
 export function PlaygroundRoot(props) {
 
+  const {
+    editor: editorConfig = {}
+  } = props;
+
+  const {
+    inlinePropertiesPanel = true
+  } = editorConfig;
+
   const paletteContainerRef = useRef();
   const editorContainerRef = useRef();
   const formContainerRef = useRef();
   const dataContainerRef = useRef();
   const resultContainerRef = useRef();
+  const propertiesPanelContainerRef = useRef();
 
   const formEditorRef = useRef();
   const formRef = useRef();
@@ -66,6 +77,9 @@ export function PlaygroundRoot(props) {
       },
       palette: {
         parent: paletteContainerRef.current
+      },
+      propertiesPanel: {
+        parent: !inlinePropertiesPanel && propertiesPanelContainerRef.current
       }
     });
 
@@ -141,7 +155,10 @@ export function PlaygroundRoot(props) {
   }, []);
 
   return (
-    <div class="fjs-container fjs-pgl-root">
+    <div class={ classNames(
+      'fjs-container',
+      'fjs-pgl-root',
+      { 'fjs-pgl-inline-editor-panel': inlinePropertiesPanel }) }>
       <div class="fjs-pgl-modals">
         { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
       </div>
@@ -174,6 +191,7 @@ export function PlaygroundRoot(props) {
           <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
       </div>
+      <div class="fjs-pgl-properties-container" ref={ propertiesPanelContainerRef } />
     </div>
   );
 }

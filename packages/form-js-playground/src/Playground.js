@@ -6,13 +6,25 @@ import mitt from 'mitt';
 
 import { PlaygroundRoot } from './components/PlaygroundRoot';
 
+/**
+ * @typedef { {
+ *  container: Element,
+ *  schema: any,
+ *  data: any,
+ *  editor?: { inlinePropertiesPanel: Boolean }
+ * } } FormPlaygroundOptions
+ */
 
+/**
+ * @param {FormPlaygroundOptions} options
+ */
 export default function Playground(options) {
 
   const {
     container: parent,
     schema,
-    data
+    data,
+    ...rest
   } = options;
 
   const emitter = mitt();
@@ -47,6 +59,7 @@ export default function Playground(options) {
       data={ data }
       onStateChanged={ (_state) => state = _state }
       onInit={ _ref => ref = _ref }
+      { ...rest }
     />,
     container
   );

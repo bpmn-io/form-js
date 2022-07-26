@@ -1,5 +1,11 @@
 import 'preact/debug';
 
+import { act } from '@testing-library/preact/pure';
+
+import {
+  query as domQuery
+} from 'min-dom';
+
 import {
   Playground
 } from '../../src';
@@ -84,22 +90,97 @@ describe('playground', function() {
   });
 
 
-  it.skip('should set schema', function() {
+  it('should render properties panel (inline)', async function() {
 
     // given
-    const playground = new Playground({
-      container,
-      schema
+    const data = {
+      creditor: 'foo'
+    };
+
+    // when
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        data
+      });
+    });
+
+    const editorContainer = domQuery('.fjs-form-editor', container);
+    const propertiesContainer = domQuery('.fjs-pgl-properties-container', container);
+
+    // then
+    expect(domQuery('.fjs-properties-panel', editorContainer)).to.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesContainer)).to.not.exist;
+  });
+
+
+  it('should render own properties panel', async function() {
+
+    // given
+    const data = {
+      creditor: 'foo'
+    };
+
+    // when
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        data,
+        editor: { inlinePropertiesPanel: false }
+      });
+    });
+
+    const editorContainer = domQuery('.fjs-form-editor', container);
+    const propertiesContainer = domQuery('.fjs-pgl-properties-container', container);
+
+    // then
+    expect(domQuery('.fjs-properties-panel', editorContainer)).to.not.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesContainer)).to.exist;
+  });
+
+
+  it('should render own palette', async function() {
+
+    // given
+    const data = {
+      creditor: 'foo'
+    };
+
+    // when
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        data
+      });
+    });
+
+    const editorContainer = domQuery('.fjs-form-editor', container);
+    const paletteContainer = domQuery('.fjs-pgl-palette-container', container);
+
+    // then
+    expect(domQuery('.fjs-palette', editorContainer)).to.not.exist;
+    expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
+  });
+
+
+  it('should set schema', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
     });
 
     // when
-    playground.setSchema(otherSchema);
+    await act(() => playground.setSchema(otherSchema));
 
     // then
-    expect(playground.getState()).to.eql({
-      schema: otherSchema,
-      data: {}
-    });
+    expect(playground.getState().schema).to.deep.include(otherSchema);
 
   });
 
