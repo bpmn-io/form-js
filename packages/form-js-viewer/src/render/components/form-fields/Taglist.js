@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
@@ -38,10 +38,9 @@ export default function Taglist(props) {
 
   const { formId } = useContext(FormContext);
   const [ filter, setFilter ] = useState('');
-  const [ selectedValues, setSelectedValues ] = useState([]);
-  const [ filteredValues, setFilteredValues ] = useState([]);
+  const [ filteredOptions, setFilteredOptions ] = useState([]);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
-  const [ hasValuesLeft, setHasValuesLeft ] = useState(true);
+  const [ hasOptionsLeft, setHasOptionsLeft ] = useState(true);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const searchbarRef = useRef();
 
@@ -50,43 +49,43 @@ export default function Taglist(props) {
     values: options
   } = useValuesAsync(field);
 
+  // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
+  const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]:  options[x] }))), [ options ]);
 
   // Usage of stringify is necessary here because we want this effect to only trigger when there is a value change to the array
   useEffect(() => {
     if (loadState === LOAD_STATES.LOADED) {
-      const selectedValues = values.map(v => options.find(o => o.value === v)).filter(v => v !== undefined);
-      setSelectedValues(selectedValues);
+      setFilteredOptions(options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
     }
     else {
-      setSelectedValues([]);
+      setFilteredOptions([]);
     }
-  }, [ JSON.stringify(values), options, loadState ]);
+  }, [ filter, JSON.stringify(values), options, loadState ]);
 
   useEffect(() => {
-    if (loadState === LOAD_STATES.LOADED) {
-      setFilteredValues(options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
-    }
-    else {
-      setFilteredValues([]);
-    }
-  }, [ filter, JSON.stringify(values), options ]);
-
-  useEffect(() => {
-    setHasValuesLeft(selectedValues.length < options.length);
-  }, [ selectedValues.length, options.length ]);
+    setHasOptionsLeft(options.length > values.length);
+  }, [ options.length, values.length ]);
 
   const onFilterChange = ({ target }) => {
     setIsEscapeClose(false);
     setFilter(target.value);
   };
 
-  const selectValue = (option) => {
-    setFilter('');
-    props.onChange({ value: [ ...values, option.value ], field });
+  const selectValue = (value) => {
+    if (filter) {
+      setFilter('');
+    }
+
+    // Ensure values cannot be double selected due to latency
+    if (values.at(-1) === value) {
+      return;
+    }
+
+    props.onChange({ value: [ ...values, value ], field });
   };
 
-  const deselectValue = (option) => {
-    props.onChange({ value: values.filter((v) => v != option.value), field });
+  const deselectValue = (value) => {
+    props.onChange({ value: values.filter((v) => v != value), field });
   };
 
   const onInputKeyDown = (e) => {
@@ -99,8 +98,8 @@ export default function Taglist(props) {
       e.preventDefault();
       break;
     case 'Backspace':
-      if (!filter && selectedValues.length) {
-        deselectValue(selectedValues[selectedValues.length - 1]);
+      if (!filter && values.length) {
+        deselectValue(values[values.length - 1]);
       }
       break;
     case 'Escape':
@@ -120,13 +119,13 @@ export default function Taglist(props) {
       id={ prefixId(id, formId) } />
     <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
       {!disabled && loadState === LOAD_STATES.LOADED &&
-        selectedValues.map((sv) => {
+        values.map((v) => {
           return (
             <div class="fjs-taglist-tag" onMouseDown={ (e) => e.preventDefault() }>
               <span class="fjs-taglist-tag-label">
-                {sv.label}
+                {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
               </span>
-              <span class="fjs-taglist-tag-remove" onMouseDown={ () => deselectValue(sv) }><CloseIcon /></span>
+              <span class="fjs-taglist-tag-remove" onMouseDown={ () => deselectValue(v) }><CloseIcon /></span>
             </div>
           );
         })
@@ -148,10 +147,10 @@ export default function Taglist(props) {
     </div>
     <div class="fjs-taglist-anchor">
       {!disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
-        values={ filteredValues }
-        getLabel={ (v) => v.label }
-        onValueSelected={ (v) => selectValue(v) }
-        emptyListMessage={ hasValuesLeft ? 'No results' : 'All values selected' }
+        values={ filteredOptions }
+        getLabel={ (o) => o.label }
+        onValueSelected={ (o) => selectValue(o.value) }
+        emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
         listenerElement={ searchbarRef.current } />}
     </div>
     <Description description={ description } />
