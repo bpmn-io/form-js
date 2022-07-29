@@ -61,3 +61,42 @@ export function generateIdForType(type) {
 export function clone(data, replacer) {
   return JSON.parse(JSON.stringify(data, replacer));
 }
+
+/**
+ * Parse the schema for input variables a form might make use of
+ *
+ * @param {any} schema
+ *
+ * @return {string[]}
+ */
+
+export function getSchemaVariables(schema) {
+
+  if (!schema.components) {
+    return [];
+  }
+
+  return schema.components.reduce((variables, component) => {
+
+    const {
+      key,
+      valuesKey,
+      type
+    } = component;
+
+    if ([ 'text', 'button' ].includes(type)) {
+      return variables;
+    }
+
+    if (key) {
+      variables = [ ...variables, key ];
+    }
+
+    if (valuesKey && !variables.includes(valuesKey)) {
+      variables = [ ...variables, valuesKey ];
+    }
+
+    return variables;
+
+  }, []);
+}
