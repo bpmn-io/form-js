@@ -5,7 +5,10 @@ import {
 
 import Radio from '../../../../../src/render/components/form-fields/Radio';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 import { WithFormContext } from './helper';
 
@@ -280,6 +283,24 @@ describe('Radio', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createRadio({
+        value: 'camunda-platform'
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

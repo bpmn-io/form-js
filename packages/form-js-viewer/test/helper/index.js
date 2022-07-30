@@ -4,6 +4,8 @@ import {
   merge
 } from 'min-dash';
 
+import axe from 'axe-core';
+
 import TestContainer from 'mocha-test-container-support';
 
 import Form from '../../src/Form';
@@ -17,6 +19,16 @@ function cleanup() {
 
   FORM.destroy();
 }
+
+/**
+ * https://www.deque.com/axe/core-documentation/api-documentation/#axe-core-tags
+ */
+const DEFAULT_AXE_RULES = [
+  'best-practice',
+  'wcag2a',
+  'wcag2aa',
+  'cat.semantics'
+];
 
 /**
  * Bootstrap the form given the specified options and a number of locals (i.e. services)
@@ -162,4 +174,19 @@ export function insertCSS(name, css) {
   style.appendChild(document.createTextNode(css));
 
   head.appendChild(style);
+}
+
+export async function expectNoViolations(node, options = {}) {
+  const {
+    rules,
+    ...rest
+  } = options;
+
+  const results = await axe.run(node, {
+    runOnly: rules || DEFAULT_AXE_RULES,
+    ...rest
+  });
+
+  expect(results.passes).to.be.not.empty;
+  expect(results.violations).to.be.empty;
 }

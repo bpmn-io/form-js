@@ -5,7 +5,10 @@ import {
 
 import Select from '../../../../../src/render/components/form-fields/Select';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 import { WithFormContext } from './helper';
 
@@ -272,6 +275,24 @@ describe('Select', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'foo'
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

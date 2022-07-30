@@ -5,7 +5,10 @@ import {
 
 import Checkbox from '../../../../../src/render/components/form-fields/Checkbox';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 const spy = sinon.spy;
 
@@ -156,6 +159,24 @@ describe('Checkbox', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createCheckbox({
+        value: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

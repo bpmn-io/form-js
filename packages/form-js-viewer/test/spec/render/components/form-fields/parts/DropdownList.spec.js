@@ -5,7 +5,10 @@ import {
 
 import DropdownList from '../../../../../../src/render/components/form-fields/parts/DropdownList';
 
-import { createFormContainer } from '../../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../../TestHelper';
 
 let formContainer;
 
@@ -147,6 +150,24 @@ describe('DropdownList', function() {
       fireEvent.mouseMove(toFocus);
       expect(toFocus.classList.contains('focused')).to.be.true;
 
+    });
+
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDropdownList({
+        values: [ 'item1', 'item2' ]
+      });
+
+      // then
+      await expectNoViolations(container);
     });
 
   });

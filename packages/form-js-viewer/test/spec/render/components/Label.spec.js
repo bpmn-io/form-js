@@ -4,7 +4,10 @@ import {
 
 import Label from '../../../../src/render/components/Label';
 
-import { createFormContainer } from '../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../TestHelper';
 
 let container;
 
@@ -81,6 +84,25 @@ describe('Label', function() {
 
     expect(label).to.exist;
     expect(requiredIndicator).to.exist;
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createLabel({
+        id: 'foo',
+        label: 'Foo'
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

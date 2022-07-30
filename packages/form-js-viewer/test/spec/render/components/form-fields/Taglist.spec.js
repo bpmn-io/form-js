@@ -5,7 +5,10 @@ import {
 
 import Taglist from '../../../../../src/render/components/form-fields/Taglist';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 import { WithFormContext } from './helper';
 
@@ -575,6 +578,24 @@ describe('Taglist', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTaglist({
+        value: [ 'tag1', 'tag2', 'tag3' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });
