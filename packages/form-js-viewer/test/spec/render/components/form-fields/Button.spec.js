@@ -2,7 +2,10 @@ import { render } from '@testing-library/preact/pure';
 
 import Button from '../../../../../src/render/components/form-fields/Button';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 let container;
 
@@ -95,6 +98,28 @@ describe('Button', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createButton({
+        field: {
+          ...defaultField,
+          action: 'reset',
+          label: 'Reset'
+        }
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

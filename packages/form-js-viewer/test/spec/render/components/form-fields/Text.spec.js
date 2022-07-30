@@ -2,7 +2,10 @@ import { render } from '@testing-library/preact/pure';
 
 import Text from '../../../../../src/render/components/form-fields/Text';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 let container;
 
@@ -142,6 +145,22 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createText();
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

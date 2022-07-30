@@ -5,7 +5,10 @@ import {
 
 import Number from '../../../../../src/render/components/form-fields/Number';
 
-import { createFormContainer } from '../../../../TestHelper';
+import {
+  createFormContainer,
+  expectNoViolations
+} from '../../../../TestHelper';
 
 const spy = sinon.spy;
 
@@ -207,6 +210,24 @@ describe('Number', function() {
     expect(customField).to.contain({
       custom: true
     });
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createNumberField({
+        value: 123
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });
