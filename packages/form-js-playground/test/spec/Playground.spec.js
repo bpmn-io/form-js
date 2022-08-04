@@ -181,7 +181,30 @@ describe('playground', function() {
 
     // then
     expect(playground.getState().schema).to.deep.include(otherSchema);
+  });
 
+
+  it('should emit <formPlayground.rendered>', async function() {
+
+    // given
+    const spy = sinon.spy();
+
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    playground.on('formPlayground.rendered', spy);
+
+    const eventBus = playground.get('eventBus');
+
+    // when
+    eventBus.fire('formEditor.rendered');
+
+    // then
+    expect(spy).to.have.been.called;
   });
 
 });
