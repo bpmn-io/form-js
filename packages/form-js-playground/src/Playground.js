@@ -59,6 +59,7 @@ export default function Playground(options) {
       data={ data }
       onStateChanged={ (_state) => state = _state }
       onInit={ _ref => ref = _ref }
+      emit={ emitter.emit }
       { ...rest }
     />,
     container
@@ -83,6 +84,10 @@ export default function Playground(options) {
 
   this.setSchema = function(schema) {
     return ref.setSchema(schema);
+  };
+
+  this.get = function(name, strict) {
+    return ref.get(name, strict);
   };
 
   this.destroy = function() {

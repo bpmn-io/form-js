@@ -24,7 +24,8 @@ import './PlaygroundRoot.css';
 export function PlaygroundRoot(props) {
 
   const {
-    editor: editorConfig = {}
+    editor: editorConfig = {},
+    emit
   } = props;
 
   const {
@@ -53,8 +54,10 @@ export function PlaygroundRoot(props) {
 
   const [ resultData, setResultData ] = useState(props.data || {});
 
+  // pipe to playground API
   useEffect(() => {
     props.onInit({
+      get: (name, strict) => formEditorRef.current.get(name, strict),
       setSchema: setInitialSchema
     });
   });
@@ -88,6 +91,12 @@ export function PlaygroundRoot(props) {
 
     formEditor.on('changed', () => {
       setSchema(formEditor.getSchema());
+    });
+
+    formEditor.on('formEditor.rendered', () => {
+
+      // notifiy interested parties after render
+      emit('formPlayground.rendered');
     });
 
     form.on('changed', event => {
