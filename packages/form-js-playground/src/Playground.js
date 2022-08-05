@@ -8,10 +8,11 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
 
 /**
  * @typedef { {
- *  container: Element,
+ *  container?: Element,
  *  schema: any,
  *  data: any,
  *  editor?: { inlinePropertiesPanel: Boolean }
+ *  actions?: { display: Boolean }
  * } } FormPlaygroundOptions
  */
 
@@ -36,7 +37,9 @@ export default function Playground(options) {
 
   container.classList.add('fjs-pgl-parent');
 
-  parent.appendChild(container);
+  if (parent) {
+    parent.appendChild(container);
+  }
 
   const handleDrop = fileDrop('Drop a form file', function(files) {
     const file = files[0];
@@ -50,6 +53,16 @@ export default function Playground(options) {
       }
     }
   });
+
+  const withRef = function(fn) {
+    return function(...args) {
+      if (!ref) {
+        throw new Error('Playground is not initialized.');
+      }
+
+      fn(...args);
+    };
+  };
 
   container.addEventListener('dragover', handleDrop);
 
@@ -93,4 +106,28 @@ export default function Playground(options) {
   this.destroy = function() {
     this.emit('destroy');
   };
+
+  this.attachEditorContainer = withRef(function(node) {
+    return ref.attachEditorContainer(node);
+  });
+
+  this.attachPreviewContainer = withRef(function(node) {
+    return ref.attachFormContainer(node);
+  });
+
+  this.attachDataContainer = withRef(function(node) {
+    return ref.attachDataContainer(node);
+  });
+
+  this.attachResultContainer = withRef(function(node) {
+    return ref.attachResultContainer(node);
+  });
+
+  this.attachPaletteContainer = withRef(function(node) {
+    return ref.attachPaletteContainer(node);
+  });
+
+  this.attachPropertiesPanelContainer = withRef(function(node) {
+    return ref.attachPropertiesPanelContainer(node);
+  });
 }
