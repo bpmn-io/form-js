@@ -51,7 +51,7 @@ function Text(props) {
 
   return TextAreaEntry({
     debounce,
-    description: 'Use Markdown or basic HTML to format.',
+    description: 'Use Markdown or basic HTML to format. You may also use Mustache Template Language.',
     element: field,
     getValue,
     id,

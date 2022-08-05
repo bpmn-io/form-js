@@ -2,19 +2,19 @@ import Markup from 'preact-markup';
 
 import {
   formFieldClasses,
-  safeMarkdown
+  safeTemplateMarkdown
 } from '../Util';
 
 const type = 'text';
 
 
 export default function Text(props) {
-  const { field } = props;
+  const { field,value } = props;
 
   const { text = '' } = field;
 
   return <div class={ formFieldClasses(type) }>
-    <Markup markup={ safeMarkdown(text) } trim={ false } />
+    <Markup markup={ safeTemplateMarkdown(text,value) } trim={ false } />
   </div>;
 }
 

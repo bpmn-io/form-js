@@ -1,5 +1,6 @@
 import snarkdown from '@bpmn-io/snarkdown';
 import { get } from 'min-dash';
+import mustache from 'mustache';
 
 import { sanitizeHTML } from './Sanitizer';
 
@@ -45,6 +46,19 @@ export function safeMarkdown(markdown) {
   const html = markdownToHTML(markdown);
 
   return sanitizeHTML(html);
+}
+
+export function safeTemplateMarkdown(markdown,templateContext) {
+  let templatedMarkdown = markdown;
+  if (templateContext) {
+    try {
+      templatedMarkdown = mustache.render(markdown,templateContext);
+      console.log('Successfully applied template!');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return safeMarkdown(templatedMarkdown);
 }
 
 export function sanitizeSingleSelectValue(options) {
