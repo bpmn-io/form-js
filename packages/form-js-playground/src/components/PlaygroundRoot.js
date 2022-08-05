@@ -24,9 +24,14 @@ import './PlaygroundRoot.css';
 export function PlaygroundRoot(props) {
 
   const {
+    actions: actionsConfig = {},
     editor: editorConfig = {},
     emit
   } = props;
+
+  const {
+    display: displayActions = true
+  } = actionsConfig;
 
   const {
     inlinePropertiesPanel = true
@@ -39,10 +44,12 @@ export function PlaygroundRoot(props) {
   const resultContainerRef = useRef();
   const propertiesPanelContainerRef = useRef();
 
+  const paletteRef = useRef();
   const formEditorRef = useRef();
   const formRef = useRef();
   const dataEditorRef = useRef();
   const resultViewRef = useRef();
+  const propertiesPanelRef = useRef();
 
   const [ showEmbed, setShowEmbed ] = useState(false);
 
@@ -57,6 +64,12 @@ export function PlaygroundRoot(props) {
   // pipe to playground API
   useEffect(() => {
     props.onInit({
+      attachDataContainer: (node) => dataEditorRef.current.attachTo(node),
+      attachEditorContainer: (node) => formEditorRef.current.attachTo(node),
+      attachFormContainer: (node) => formRef.current.attachTo(node),
+      attachPaletteContainer: (node) => paletteRef.current.attachTo(node),
+      attachPropertiesPanelContainer: (node) => propertiesPanelRef.current.attachTo(node),
+      attachResultContainer: (node) => resultViewRef.current.attachTo(node),
       get: (name, strict) => formEditorRef.current.get(name, strict),
       setSchema: setInitialSchema
     });
@@ -88,6 +101,9 @@ export function PlaygroundRoot(props) {
         parent: !inlinePropertiesPanel && propertiesPanelContainerRef.current
       }
     });
+
+    paletteRef.current = formEditor.get('palette');
+    propertiesPanelRef.current = formEditor.get('propertiesPanel');
 
     formEditor.on('changed', () => {
       setSchema(formEditor.getSchema());
@@ -178,19 +194,26 @@ export function PlaygroundRoot(props) {
       <div class="fjs-pgl-main">
 
         <Section name="Form Definition">
-          <Section.HeaderItem>
-            <button
-              class="fjs-pgl-button"
-              title="Download form definition"
-              onClick={ handleDownload }
-            >Download</button>
-          </Section.HeaderItem>
-          <Section.HeaderItem>
-            <button
-              class="fjs-pgl-button"
-              onClick={ showEmbedModal }
-            >Embed</button>
-          </Section.HeaderItem>
+
+          {
+            displayActions && <Section.HeaderItem>
+              <button
+                class="fjs-pgl-button"
+                title="Download form definition"
+                onClick={ handleDownload }
+              >Download</button>
+            </Section.HeaderItem>
+          }
+
+          {
+            displayActions && <Section.HeaderItem>
+              <button
+                class="fjs-pgl-button"
+                onClick={ showEmbedModal }
+              >Embed</button>
+            </Section.HeaderItem>
+          }
+
           <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Preview">
