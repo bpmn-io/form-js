@@ -63,7 +63,7 @@
     "@types/sinon-chai": "^3.2.5",
     "axe-core": "^4.4.3",
     "babel-loader": "^8.2.2",
-    "chai": "^4.3.4",
+    "chai": "^4.3.5",
     "cross-env": "^7.0.3",
     "del-cli": "^4.0.0",
     "diagram-js": "^7.5.0",
