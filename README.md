@@ -55,6 +55,36 @@ See [editor documentation](./packages/form-js-editor) for further details.
 * [Form schema](./docs/FORM_SCHEMA.md)
 
 
+## Build and Run
+
+Prepare the project by installing all dependencies:
+
+```sh
+npm install
+```
+
+Then, depending on your use-case you may run any of the following commands:
+
+```sh
+# build the library and run all tests
+npm run all
+
+# spin up a single local form-js instance
+npm start
+
+# spin up a specific instance
+
+## viewer
+npm run start:viewer
+
+## editor
+npm run start:editor
+
+## playground
+npm run start:playground
+```
+
+
 ## License
 
 Use under the terms of the [bpmn.io license](http://bpmn.io/license).
