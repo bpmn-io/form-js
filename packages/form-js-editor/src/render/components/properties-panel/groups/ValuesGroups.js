@@ -26,7 +26,7 @@ export default function ValuesGroups(field, editField) {
   const groups = [
     {
       id: valuesSourceId,
-      label: 'Values source',
+      label: 'Options source',
       component: Group,
       entries: ValuesSourceSelectEntry({ ...context, id: valuesSourceId })
     }
@@ -38,7 +38,7 @@ export default function ValuesGroups(field, editField) {
     const dynamicValuesId = `${fieldId}-dynamicValues`;
     groups.push({
       id: dynamicValuesId,
-      label: 'Dynamic values',
+      label: 'Dynamic options',
       component: Group,
       entries: InputKeyValuesSourceEntry({ ...context, id: dynamicValuesId })
     });
@@ -47,7 +47,7 @@ export default function ValuesGroups(field, editField) {
     const staticValuesId = `${fieldId}-staticValues`;
     groups.push({
       id: staticValuesId,
-      label: 'Static values',
+      label: 'Static options',
       component: ListGroup,
       ...StaticValuesSourceEntry({ ...context, id: staticValuesId })
     });
