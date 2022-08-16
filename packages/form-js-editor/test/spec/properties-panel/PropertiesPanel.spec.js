@@ -370,8 +370,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values source',
-          'Static values',
+          'Options source',
+          'Static options',
           'Validation',
           'Custom properties'
         ]);
@@ -384,11 +384,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values source', [
+        expectGroupEntries(result.container, 'Options source', [
           'Type'
         ]);
 
-        expectGroupEntries(result.container, 'Static values', [
+        expectGroupEntries(result.container, 'Static options', [
           [ 'Label', 2 ],
           [ 'Value', 2 ]
         ]);
@@ -472,7 +472,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -503,7 +503,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -581,7 +581,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('dynamic values', function() {
+      describe('dynamic options', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -654,8 +654,8 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
-            'Values source',
-            'Dynamic values',
+            'Options source',
+            'Dynamic options',
             'Validation',
             'Custom properties'
           ]);
@@ -667,11 +667,11 @@ describe('properties panel', function() {
             'Disabled'
           ]);
 
-          expectGroupEntries(result.container, 'Values source', [
+          expectGroupEntries(result.container, 'Options source', [
             'Type'
           ]);
 
-          expectGroupEntries(result.container, 'Dynamic values', [
+          expectGroupEntries(result.container, 'Dynamic options', [
             'Input values key'
           ]);
 
@@ -700,8 +700,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values source',
-          'Static values',
+          'Options source',
+          'Static options',
           'Custom properties'
         ]);
 
@@ -712,11 +712,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values source', [
+        expectGroupEntries(result.container, 'Options source', [
           'Type'
         ]);
 
-        expectGroupEntries(result.container, 'Static values', [
+        expectGroupEntries(result.container, 'Static options', [
           [ 'Label', 3 ],
           [ 'Value', 3 ]
         ]);
@@ -739,7 +739,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -770,7 +770,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -849,7 +849,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('dynamic values', function() {
+      describe('dynamic options', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -922,8 +922,8 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
-            'Values source',
-            'Dynamic values',
+            'Options source',
+            'Dynamic options',
             'Custom properties'
           ]);
 
@@ -934,11 +934,11 @@ describe('properties panel', function() {
             'Disabled'
           ]);
 
-          expectGroupEntries(result.container, 'Values source', [
+          expectGroupEntries(result.container, 'Options source', [
             'Type'
           ]);
 
-          expectGroupEntries(result.container, 'Dynamic values', [
+          expectGroupEntries(result.container, 'Dynamic options', [
             'Input values key'
           ]);
         });
@@ -963,8 +963,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values source',
-          'Static values',
+          'Options source',
+          'Static options',
           'Custom properties'
         ]);
 
@@ -975,11 +975,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values source', [
+        expectGroupEntries(result.container, 'Options source', [
           'Type'
         ]);
 
-        expectGroupEntries(result.container, 'Static values', [
+        expectGroupEntries(result.container, 'Static options', [
           [ 'Label', 11 ],
           [ 'Value', 11 ]
         ]);
@@ -1002,7 +1002,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -1033,7 +1033,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -1112,7 +1112,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('dynamic values', function() {
+      describe('Dynamic options', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -1185,8 +1185,8 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
-            'Values source',
-            'Dynamic values',
+            'Options source',
+            'Dynamic options',
             'Custom properties'
           ]);
 
@@ -1197,11 +1197,11 @@ describe('properties panel', function() {
             'Disabled'
           ]);
 
-          expectGroupEntries(result.container, 'Values source', [
+          expectGroupEntries(result.container, 'Options source', [
             'Type'
           ]);
 
-          expectGroupEntries(result.container, 'Dynamic values', [
+          expectGroupEntries(result.container, 'Dynamic options', [
             'Input values key'
           ]);
 
@@ -1227,8 +1227,8 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Values source',
-          'Static values',
+          'Options source',
+          'Static options',
           'Validation',
           'Custom properties'
         ]);
@@ -1241,11 +1241,11 @@ describe('properties panel', function() {
           'Disabled'
         ]);
 
-        expectGroupEntries(result.container, 'Values source', [
+        expectGroupEntries(result.container, 'Options source', [
           'Type'
         ]);
 
-        expectGroupEntries(result.container, 'Static values', [
+        expectGroupEntries(result.container, 'Static options', [
           [ 'Label', 2 ],
           [ 'Value', 2 ]
         ]);
@@ -1329,7 +1329,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -1360,7 +1360,7 @@ describe('properties panel', function() {
             field
           });
 
-          const group = findGroup(result.container, 'Static values');
+          const group = findGroup(result.container, 'Static options');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -1438,7 +1438,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('dynamic values', function() {
+      describe('dynamic options', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -1511,8 +1511,8 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
-            'Values source',
-            'Dynamic values',
+            'Options source',
+            'Dynamic options',
             'Validation',
             'Custom properties'
           ]);
@@ -1524,11 +1524,11 @@ describe('properties panel', function() {
             'Disabled'
           ]);
 
-          expectGroupEntries(result.container, 'Values source', [
+          expectGroupEntries(result.container, 'Options source', [
             'Type'
           ]);
 
-          expectGroupEntries(result.container, 'Dynamic values', [
+          expectGroupEntries(result.container, 'Dynamic options', [
             'Input values key'
           ]);
 
