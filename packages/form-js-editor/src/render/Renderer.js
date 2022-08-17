@@ -36,6 +36,12 @@ export default class Renderer {
       });
     });
 
+    eventBus.on('element.hover', function() {
+      if (document.activeElement === document.body) {
+        container.focus({ preventScroll: true });
+      }
+    });
+
     const App = () => {
       const [ state, setState ] = useState(formEditor._getState());
 
