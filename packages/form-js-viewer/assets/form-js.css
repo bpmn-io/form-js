@@ -189,9 +189,7 @@
 .fjs-container .fjs-button[type='reset']:focus,
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
-  outline: none;
-  padding: 7px;
-  border-width: 2px;
+  outline: var(--color-borders) solid 1px;
 }
 
 .fjs-container .fjs-button[type='submit']:focus {
