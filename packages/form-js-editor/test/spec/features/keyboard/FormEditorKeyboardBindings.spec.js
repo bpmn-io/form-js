@@ -10,12 +10,10 @@ import modelingModule from 'src/features/modeling';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents';
 
-import {
-  KEYS_REDO,
-  KEYS_UNDO
-} from 'diagram-js/lib/features/keyboard/KeyboardBindings';
-
 import schema from '../../form.json';
+
+var KEYS_REDO = [ 'y', 'Y', 89 ];
+var KEYS_UNDO = [ 'z', 'Z', 90 ];
 
 
 describe('features/editor-actions', function() {
@@ -32,21 +30,26 @@ describe('features/editor-actions', function() {
     getFormEditor().destroy();
   });
 
+  function triggerEvent(key, attrs, target) {
+    return getFormEditor().invoke(function(config) {
+      target = target || config.renderer.container;
+
+      return target.dispatchEvent(createKeyEvent(key, attrs));
+    });
+  }
 
   KEYS_UNDO.forEach((key) => {
 
-    it('should undo', inject(function(keyboard, editorActions) {
+    it('should undo', inject(function(config, keyboard, editorActions) {
 
       // given
       const undoSpy = sinon.spy(editorActions, 'trigger');
 
-      const event = createKeyEvent(key, {
+      // when
+      triggerEvent(key, {
         ctrlKey: true,
         shiftKey: false
       });
-
-      // when
-      keyboard._keyHandler(event);
 
       // then
       expect(undoSpy).to.have.been.calledWith('undo');
@@ -62,13 +65,11 @@ describe('features/editor-actions', function() {
       // given
       const redoSpy = sinon.spy(editorActions, 'trigger');
 
-      const event = createKeyEvent(key, {
+      // when
+      triggerEvent(key, {
         ctrlKey: true,
         shiftKey: false
       });
-
-      // when
-      keyboard._keyHandler(event);
 
       // then
       expect(redoSpy).to.have.been.calledWith('redo');
@@ -77,30 +78,32 @@ describe('features/editor-actions', function() {
   });
 
 
-  it('should undo/redo when focused on input', inject(function(formEditor, keyboard, editorActions) {
+  it('should undo/redo when focused on input', inject(
+    function(formEditor, keyboard, editorActions) {
 
-    // given
-    const spy = sinon.spy(editorActions, 'trigger');
+      // given
+      const spy = sinon.spy(editorActions, 'trigger');
 
-    const container = formEditor._container;
-    const inputField = document.createElement('input');
+      const container = formEditor._container;
+      const inputEl = document.createElement('input');
 
-    container.appendChild(inputField);
+      container.appendChild(inputEl);
 
-    // when
-    // select all
-    keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+      // when
+      // select all
+      triggerEvent('a', { ctrlKey: true }, inputEl);
 
-    // then
-    expect(spy).to.not.have.been.called;
+      // then
+      expect(spy).to.not.have.been.called;
 
-    // when
-    // undo/redo
-    keyboard._keyHandler({ key: 'z', ctrlKey: true, target: inputField, preventDefault: () => {} });
-    keyboard._keyHandler({ key: 'y', ctrlKey: true, target: inputField, preventDefault: () => {} });
+      // when
+      // undo/redo
+      triggerEvent('z', { ctrlKey: true }, inputEl);
+      triggerEvent('y', { ctrlKey: true }, inputEl);
 
-    // then
-    expect(spy).to.have.been.called.calledTwice;
-  }));
+      // then
+      expect(spy).to.have.been.called.calledTwice;
+    }
+  ));
 
 });
