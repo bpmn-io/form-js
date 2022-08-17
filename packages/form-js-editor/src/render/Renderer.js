@@ -26,6 +26,16 @@ export default class Renderer {
       compact = false
     } = renderConfig;
 
+    eventBus.on('form.init', function() {
+
+      // emit <canvas.init> so dependent components can hook in
+      // this is required to register keyboard bindings
+      eventBus.fire('canvas.init', {
+        svg: container,
+        viewport: null
+      });
+    });
+
     const App = () => {
       const [ state, setState ] = useState(formEditor._getState());
 
