@@ -59,7 +59,7 @@ export default class FormEditor {
      */
     this._container = createFormContainer();
 
-    this._container.setAttribute('input-handle-modified-keys', 'z,y');
+    this._container.setAttribute('tabindex', '0');
 
     const {
       container,

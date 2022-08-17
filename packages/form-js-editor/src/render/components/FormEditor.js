@@ -78,11 +78,22 @@ function Element(props) {
     return () => eventBus.off('selection.changed', scrollIntoView);
   }, [ id ]);
 
-  function onClick(event) {
-    event.stopPropagation();
+  const onClick = useCallback((event) => {
 
-    selection.toggle(field);
-  }
+    // TODO(nikku): refactor this to use proper DOM delegation
+    const fieldEl = event.target.closest('[data-id]');
+
+    if (!fieldEl) {
+      return;
+    }
+
+    const id = fieldEl.dataset.id;
+
+    if (id === field.id) {
+      selection.toggle(field);
+    }
+  }, [ 'field' ]);
+
 
   const classes = [ 'fjs-element' ];
 

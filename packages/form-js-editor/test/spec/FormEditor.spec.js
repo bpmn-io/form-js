@@ -56,10 +56,7 @@ describe('FormEditor', function() {
     // when
     formEditor = await createFormEditor({
       container,
-      schema,
-      keyboard: {
-        bindTo: document
-      }
+      schema
     });
 
     formEditor.on('changed', event => {
@@ -80,9 +77,6 @@ describe('FormEditor', function() {
       debounce: true,
       renderer: {
         compact: true
-      },
-      keyboard: {
-        bindTo: document
       }
     });
 
