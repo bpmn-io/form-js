@@ -17,6 +17,7 @@ import disabledSchema from './disabled.json';
 import schema from './form.json';
 import schemaNoIds from './form.json';
 import textSchema from './text.json';
+import stress from './stress.json';
 
 import {
   insertCSS,
@@ -28,7 +29,9 @@ import customCSS from './custom/custom.css';
 
 insertCSS('custom.css', customCSS);
 
-const singleStart = isSingleStart('basic');
+const singleStartBasic = isSingleStart('basic');
+const singleStartStress = isSingleStart('stress');
+const singleStart = singleStartBasic || singleStartStress;
 
 
 describe('Form', function() {
@@ -51,7 +54,7 @@ describe('Form', function() {
   });
 
 
-  (singleStart ? it.only : it)('should render', async function() {
+  (singleStartBasic ? it.only : it)('should render', async function() {
 
     // given
     const data = {
@@ -92,6 +95,31 @@ describe('Form', function() {
 
     // then
     expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
+  });
+
+
+  (singleStartStress ? it.only : it)('should render stress test', async function() {
+
+    const array = [ ...Array(4000).keys() ];
+    const largeDataset = array.map(x => ({ value: `value:${x}`, label: `label:${x}` }));
+
+    // given
+    const data = {
+      largeDataset
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      schema: stress,
+      data
+    });
+
+    // then
+    expect(form).to.exist;
+    expect(form.reset).to.exist;
+    expect(form.submit).to.exist;
+    expect(form._update).to.exist;
   });
 
 

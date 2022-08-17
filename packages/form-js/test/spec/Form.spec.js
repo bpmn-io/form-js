@@ -20,7 +20,6 @@ insertStyles();
 
 const singleStart = isSingleStart('basic');
 
-
 describe('viewer exports', function() {
 
   let container;

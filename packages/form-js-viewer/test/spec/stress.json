@@ -1,0 +1,34 @@
+{
+  "id": "Form_1",
+  "type": "default",
+  "components": [
+    {
+      "id": "Field_9",
+      "key": "taglist",
+      "label": "Taglist Performance Test",
+      "type": "taglist",
+      "valuesKey": "largeDataset"
+    },
+    {
+      "id": "Field_10",
+      "key": "select",
+      "label": "Select Performance Test",
+      "type": "select",
+      "valuesKey": "largeDataset"
+    },
+    {
+      "id": "Field_11",
+      "action": "submit",
+      "key": "submit",
+      "label": "Submit",
+      "type": "button"
+    },
+    {
+      "id": "Field_12",
+      "action": "reset",
+      "key": "reset",
+      "label": "Reset",
+      "type": "button"
+    }
+  ]
+}
