@@ -1,13 +1,7 @@
 import {
-  isCmd,
-  isKey,
-  isShift
+  isUndo,
+  isRedo
 } from 'diagram-js/lib/features/keyboard/KeyboardUtil';
-
-import {
-  KEYS_REDO,
-  KEYS_UNDO
-} from 'diagram-js/lib/features/keyboard/KeyboardBindings';
 
 const LOW_PRIORITY = 500;
 
@@ -33,7 +27,7 @@ export default class FormEditorKeyboardBindings {
     addListener('undo', (context) => {
       const { keyEvent } = context;
 
-      if (isCmd(keyEvent) && !isShift(keyEvent) && isKey(KEYS_UNDO, keyEvent)) {
+      if (isUndo(keyEvent)) {
         editorActions.trigger('undo');
 
         return true;
@@ -46,7 +40,7 @@ export default class FormEditorKeyboardBindings {
     addListener('redo', (context) => {
       const { keyEvent } = context;
 
-      if (isCmd(keyEvent) && (isKey(KEYS_REDO, keyEvent) || (isKey(KEYS_UNDO, keyEvent) && isShift(keyEvent)))) {
+      if (isRedo(keyEvent)) {
         editorActions.trigger('redo');
 
         return true;
