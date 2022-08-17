@@ -5,7 +5,7 @@ import {
 } from 'test/TestHelper';
 
 
-describe('renderer', function() {
+describe('render', function() {
 
   beforeEach(bootstrapFormEditor());
 
@@ -46,7 +46,7 @@ describe('renderer', function() {
         var container = getContainer();
 
         // when
-        eventBus.fire('element.hover');
+        container.emit(document.createEvent('mouseover'));
 
         // then
         expect(document.activeElement).to.equal(container);
@@ -61,7 +61,7 @@ describe('renderer', function() {
         var clientRect = container.getBoundingClientRect();
 
         // when
-        eventBus.fire('element.hover');
+        container.emit(document.createEvent('mouseover'));
 
         // then
         expect(clientRect).to.eql(container.getBoundingClientRect());
@@ -71,6 +71,7 @@ describe('renderer', function() {
       it('should not focus on existing document focus', inject(function(canvas, eventBus) {
 
         // given
+        var container = getContainer();
         var inputEl = document.createElement('input');
 
         document.body.appendChild(inputEl);
@@ -80,7 +81,7 @@ describe('renderer', function() {
         expect(document.activeElement).to.equal(inputEl);
 
         // when
-        eventBus.fire('element.hover');
+        container.emit(document.createEvent('mouseover'));
 
         // then
         expect(document.activeElement).to.eql(inputEl);

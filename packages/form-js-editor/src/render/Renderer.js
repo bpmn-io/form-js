@@ -36,8 +36,19 @@ export default class Renderer {
       });
     });
 
-    eventBus.on('element.hover', function() {
+    // focus container on over if no selection
+    container.addEventListener('mouseover', function() {
       if (document.activeElement === document.body) {
+        container.focus({ preventScroll: true });
+      }
+    });
+
+    // ensure we focus the container if the users clicks
+    // inside; this follows input focus handling closely
+    container.addEventListener('click', function(event) {
+
+      // force focus when clicking container
+      if (!container.contains(document.activeElement)) {
         container.focus({ preventScroll: true });
       }
     });
