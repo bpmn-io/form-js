@@ -36,6 +36,22 @@ export default class Renderer {
       });
     });
 
+    // emit poor mans <element.hover> event
+    // when hovering the form container
+    container.addEventListener('mouseover', function() {
+      eventBus.fire('element.hover');
+    });
+
+    // ensure we focus the container if the users clicks
+    // inside; this follows input focus handling closely
+    container.addEventListener('click', function(event) {
+
+      // force focus when clicking container
+      if (!container.contains(document.activeElement)) {
+        container.focus({ preventScroll: true });
+      }
+    });
+
     eventBus.on('element.hover', function() {
       if (document.activeElement === document.body) {
         container.focus({ preventScroll: true });
