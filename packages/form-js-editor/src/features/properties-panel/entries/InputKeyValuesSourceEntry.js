@@ -11,12 +11,20 @@ export default function InputKeyValuesSourceEntry(props) {
     id
   } = props;
 
+  const schema = '[\n  {\n    "label": "dollar",\n    "value": "$"\n  }\n]';
+
+  const description = <div>
+    Define which input property to populate the values from.
+    <br /><br />The input property must follow this schema:
+    <pre><code>{schema}</code></pre>
+  </div>;
+
   return [
     {
       id: id + '-key',
       component: InputValuesKey,
       label: 'Input values key',
-      description: 'Define which input property to populate the values from',
+      description,
       isEdited: isTextFieldEntryEdited,
       editField,
       field,
