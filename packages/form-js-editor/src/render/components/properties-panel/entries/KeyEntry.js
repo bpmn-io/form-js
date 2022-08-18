@@ -75,7 +75,7 @@ function Key(props) {
 
   return TextFieldEntry({
     debounce,
-    description: 'Maps to a process variable',
+    description: 'Binds to a form variable',
     element: field,
     getValue,
     id,
