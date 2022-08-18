@@ -368,6 +368,45 @@ describe('Taglist', function() {
 
   describe('dropdown', function() {
 
+    describe('items', function() {
+
+      it('should not render invalid items', function() {
+
+        // when
+        const { container } = createTaglist({
+          onchange: () => { },
+          field: dynamicField,
+          initialData: {
+            dynamicValues: [
+              {
+                value: 'dynamicValue1'
+              },
+              {
+                label: 'Dynamic Value 2',
+              }
+            ] }
+        });
+
+        // then
+        const filterInput = container.querySelector('input[type="text"]');
+
+        fireEvent.focus(filterInput);
+
+        // then
+        const taglistAnchor = container.querySelector('.fjs-taglist-anchor');
+        expect(taglistAnchor).to.exist;
+
+        const dropdownList = taglistAnchor.querySelector('.fjs-dropdownlist');
+        expect(dropdownList).to.exist;
+
+        const dropdownItems = dropdownList.querySelectorAll('.fjs-dropdownlist-item');
+        expect(dropdownItems).to.have.length(0);
+
+      });
+
+    });
+
+
     describe('filtering', function() {
 
       it ('should render no results state', function() {

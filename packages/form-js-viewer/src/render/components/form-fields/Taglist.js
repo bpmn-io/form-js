@@ -64,7 +64,7 @@ export default function Taglist(props) {
 
   useEffect(() => {
     if (loadState === LOAD_STATES.LOADED) {
-      setFilteredValues(options.filter((o) => o.label && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
+      setFilteredValues(options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
     }
     else {
       setFilteredValues([]);
