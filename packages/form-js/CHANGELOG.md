@@ -6,6 +6,24 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.8.0-alpha.1
+
+### General
+
+* `FEAT`: provide `getSchemaVariables` utility ([#103](https://github.com/bpmn-io/form-js/issues/103))
+
+### Editor
+
+* `FEAT`: provide palette as feature module ([#280](https://github.com/bpmn-io/form-js/issues/280))
+* `FIX`: remove term "process variable" from `key` property ([#241](https://github.com/bpmn-io/form-js/issues/241))
+* `CHORE`: change labels `Values` to `Options` ([#304](https://github.com/bpmn-io/form-js/issues/304))
+
+### Viewer
+
+* `FEAT`: sanitize form field values on import ([#266](https://github.com/bpmn-io/form-js/issues/266))
+* `FIX`: use outline for field focus state ([#267](https://github.com/bpmn-io/form-js/issues/267))
+* `FIX`: filter invalid taglist options ([#303](https://github.com/bpmn-io/form-js/issues/303))
+
 ## 0.8.0-alpha.0
 
 ### General
