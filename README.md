@@ -9,7 +9,7 @@
 
 This library exports a [form viewer](./packages/form-js-viewer), [editor](./packages/form-js-editor) and [playground](./packages/form-js-playground).
 
-### Display a Form <a id="viewer" />
+### Display a form <a id="viewer" />
 
 Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data:
 
@@ -30,7 +30,7 @@ form.on('submit', (event) => {
 See [viewer documentation](./packages/form-js-viewer) for further details.
 
 
-### Create and Edit a Form <a id="builder" />
+### Create and edit a form <a id="builder" />
 
 Create a new form or edit an exsting one:
 
@@ -47,7 +47,7 @@ await formEditor.importSchema(schema);
 See [editor documentation](./packages/form-js-editor) for further details.
 
 
-### Create and Simulate a Form with Input and Output Data <a id="playground" />
+### Create and simulate a form with input and output data <a id="playground" />
 
 Create and simulate a form with input and output data:
 
@@ -72,7 +72,7 @@ See [playground documentation](./packages/form-js-playground) for further detail
 * [Form schema](./docs/FORM_SCHEMA.md)
 
 
-## Build and Run
+## Build and run
 
 Prepare the project by installing all dependencies:
 
