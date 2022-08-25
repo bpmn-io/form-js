@@ -2,12 +2,12 @@
 
 [![CI](https://github.com/bpmn-io/form-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/form-js/actions?query=workflow%3ACI)
 
-[View](./packages/form-js-viewer) and [visually edit](./packages/form-js-editor) JSON-based forms.
+[View](./packages/form-js-viewer), [visually edit](./packages/form-js-editor) and [simulate](./packages/form-js-playground/) JSON-based forms.
 
 
 ## Usage
 
-This library exports a [form viewer](./packages/form-js-viewer) and [editor](./packages/form-js-editor).
+This library exports a [form viewer](./packages/form-js-viewer), [editor](./packages/form-js-editor) and [playground](./packages/form-js-playground).
 
 ### Display a Form <a id="viewer" />
 
@@ -45,6 +45,23 @@ await formEditor.importSchema(schema);
 ```
 
 See [editor documentation](./packages/form-js-editor) for further details.
+
+
+### Create and Simulate a Form with Input and Output Data <a id="playground" />
+
+Create and simulate a form with input and output data:
+
+```javascript
+import { FormPlayground } from '@bpmn-io/form-js';
+
+const formPlayground = new FormPlayground({
+  container: document.querySelector('#form-playground'),
+  schema,
+  data
+});
+```
+
+See [playground documentation](./packages/form-js-playground) for further details.
 
 
 ## Resources
