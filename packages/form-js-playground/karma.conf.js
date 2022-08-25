@@ -74,22 +74,21 @@ module.exports = function(karma) {
                     'importSource': 'preact',
                     'runtime': 'automatic'
                   } ]
-                ]
+                ].concat(
+                  coverage ? [
+                    [
+                      'istanbul', {
+                        include: [
+                          'src/**'
+                        ]
+                      }
+                    ]
+                  ] : []
+                )
               }
             }
           }
-        ].concat(coverage ?
-          {
-            test: /\.js$/,
-            use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: { esModules: true }
-            },
-            enforce: 'post',
-            include: /src\.*/,
-            exclude: /node_modules/
-          } : []
-        )
+        ]
       },
       devtool: 'eval-source-map'
     }
