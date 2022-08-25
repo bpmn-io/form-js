@@ -44,7 +44,8 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js": "^0.8.0-alpha.1",
+    "@bpmn-io/form-js-editor": "^0.8.0-alpha.1",
+    "@bpmn-io/form-js-viewer": "^0.8.0-alpha.1",
     "@codemirror/basic-setup": "^0.18.2",
     "@codemirror/lang-json": "^0.18.0",
     "@codemirror/state": "^0.18.7",
