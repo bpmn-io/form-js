@@ -51,9 +51,10 @@ export default [
       '@bpmn-io/form-js-editor',
       '@bpmn-io/form-js-viewer',
       'preact/jsx-runtime',
-      '@codemirror/basic-setup',
       '@codemirror/state',
       '@codemirror/lang-json',
+      '@codemirror/view',
+      'codemirror',
       'classnames'
     ]
   },

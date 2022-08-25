@@ -13,6 +13,7 @@
   --color-text: var(--color-grey-225-10-15);
 
   --font-family: 'IBM Plex Sans', sans-serif;
+  --font-family-monospace: 'IBM Plex Mono', monospace;
 }
 
 .fjs-pgl-root {
@@ -179,6 +180,10 @@
 .fjs-pgl-text-container > .cm-editor {
   font-size: .9em;
   height: 100%;
+}
+
+.fjs-pgl-text-container > .cm-editor > .cm-scroller {
+  font-family: var(--font-family-monospace);
 }
 
 .fjs-pgl-form-container > .fjs-container {
