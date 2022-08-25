@@ -5,9 +5,12 @@ import download from 'downloadjs';
 import classNames from 'classnames';
 
 import {
-  Form,
+  Form
+} from '@bpmn-io/form-js-viewer';
+
+import {
   FormEditor
-} from '@bpmn-io/form-js';
+} from '@bpmn-io/form-js-editor';
 
 import { EmbedModal } from './EmbedModal';
 import { JSONEditor } from './JSONEditor';
