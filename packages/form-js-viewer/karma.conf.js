@@ -82,7 +82,17 @@ module.exports = function(karma) {
                     'runtime': 'automatic'
                   } ],
                   '@babel/plugin-transform-react-jsx-source'
-                ]
+                ].concat(
+                  coverage ? [
+                    [
+                      'istanbul', {
+                        include: [
+                          'src/**'
+                        ]
+                      }
+                    ]
+                  ] : []
+                )
               }
             }
           },
@@ -90,18 +100,7 @@ module.exports = function(karma) {
             test: /\.svg$/,
             use: [ 'react-svg-loader' ]
           }
-        ].concat(coverage ?
-          {
-            test: /\.js$/,
-            use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: { esModules: true }
-            },
-            enforce: 'post',
-            include: /src\.*/,
-            exclude: /node_modules/
-          } : []
-        )
+        ]
       },
       devtool: 'eval-source-map'
     }
