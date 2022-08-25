@@ -10,7 +10,8 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs"
     },
-    "./dist/assets/form-js-playground.css": "./dist/assets/form-js-playground.css"
+    "./dist/assets/form-js-playground.css": "./dist/assets/form-js-playground.css",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -18,11 +19,17 @@
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "umd:main": "dist/form-playground.umd.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "all": "run-s test build",
-    "build": "rollup -c --failAfterWarnings",
+    "all": "run-s lint test build",
+    "build": "run-p bundle generate-types",
+    "bundle": "rollup -c --failAfterWarnings",
+    "bundle:watch": "rollup -c -w",
     "start": "SINGLE_START=basic npm run dev",
     "dev": "npm test -- --auto-watch --no-single-run",
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint .",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js",
     "test": "karma start",
     "prepublishOnly": "npm run build"
   },

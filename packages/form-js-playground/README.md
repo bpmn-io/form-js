@@ -12,12 +12,6 @@ A tool to try out and explore [@bpmn-io/form-js](../form-js) in a playful manner
 Integrate the playground into your application:
 
 ```javascript
-import '@bpmn-io/form-js/dist/assets/form-js.css';
-import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
-import '@bpmn-io/form-js/dist/assets/dragula.css';
-import '@bpmn-io/form-js/dist/assets/properties-panel.css';
-import '@bpmn-io/form-js-playground/dist/assets/form-js-playground.css';
-
 import { Playground } from '@bpmn-io/form-js-playground';
 
 const playground = new Playground({
@@ -30,6 +24,20 @@ const {
   schema,
   data
 } = playground.getState();
+```
+
+## Styling
+
+For proper styling include the necessary stylesheets, and font used:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/form-js.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/form-js-editor.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/dragula.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/properties-panel.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/form-js-playground.css">
 ```
 
 ## Resources
