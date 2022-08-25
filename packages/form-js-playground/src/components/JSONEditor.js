@@ -1,6 +1,7 @@
 import mitt from 'mitt';
 
-import { basicSetup, EditorView } from '@codemirror/basic-setup';
+import { basicSetup } from 'codemirror';
+import { EditorView } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
 

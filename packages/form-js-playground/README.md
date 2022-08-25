@@ -32,6 +32,7 @@ For proper styling include the necessary stylesheets, and font used:
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/form-js.css">
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/form-js@0.7.0/dist/assets/form-js-editor.css">
