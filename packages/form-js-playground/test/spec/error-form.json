@@ -1,0 +1,13 @@
+{
+  "type": "default",
+  "components": [
+    {
+      "id": "foo",
+      "type": "text"
+    },
+    {
+      "id": "foo",
+      "type": "text"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import {
 
 import schema from './form.json';
 import otherSchema from './other-form.json';
+import errorSchema from './error-form.json';
 
 import {
   insertCSS,
@@ -255,6 +256,33 @@ describe('playground', function() {
 
     // then
     expect(playground.getState().schema).to.deep.include(otherSchema);
+  });
+
+
+  it('should handle import errors', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // when
+    let error;
+    try {
+      playground.setSchema(errorSchema);
+    } catch (err) {
+      error = err;
+    }
+
+    // then
+    expect(error).to.exist;
+    expect(error.message).to.eql('form field with id <foo> already exists');
+
+    expect(error.warnings).to.exist;
+    expect(error.warnings).to.be.empty;
   });
 
 
