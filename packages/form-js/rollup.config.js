@@ -29,9 +29,9 @@ export default [
     plugins: [
       copy({
         targets: [
-          { src: 'node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: 'node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: 'node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
+          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
         ]
       })
     ]
