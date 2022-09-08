@@ -6,6 +6,27 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 0.8.0
+
+### General
+
+* `FEAT`: add playground distro ([#318](https://github.com/bpmn-io/form-js/issues/318))
+* `FIX`: stop taglist duplicate entries during slowdowns  ([#268](https://github.com/bpmn-io/form-js/issues/268))
+
+### Editor
+
+* `FEAT`: provide properties panel module ([#286](https://github.com/bpmn-io/form-js/issues/286))
+* `FEAT`: render properties panel per default ([#286](https://github.com/bpmn-io/form-js/issues/286))
+
+### Playground
+
+* `FEAT`: support components to be rendered flexible ([#292](https://github.com/bpmn-io/form-js/issues/292))
+* `FEAT`: emit `formPlayground.rendered` event ([#292](https://github.com/bpmn-io/form-js/issues/292))
+* `FEAT`: make it possible to render own properties panel ([#286](https://github.com/bpmn-io/form-js/issues/286))
+* `CHORE`: clean up package definition ([#318](https://github.com/bpmn-io/form-js/issues/318))
+* `CHORE`: use editor and viewer packages directly ([#318](https://github.com/bpmn-io/form-js/issues/318))
+
 ## 0.8.0-alpha.1
 
 ### General
