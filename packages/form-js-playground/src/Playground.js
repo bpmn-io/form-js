@@ -64,6 +64,11 @@ export default function Playground(options) {
     };
   };
 
+  const onInit = function(_ref) {
+    ref = _ref;
+    emitter.emit('formPlayground.init');
+  };
+
   container.addEventListener('dragover', handleDrop);
 
   render(
@@ -71,7 +76,7 @@ export default function Playground(options) {
       schema={ schema }
       data={ data }
       onStateChanged={ (_state) => state = _state }
-      onInit={ _ref => ref = _ref }
+      onInit={ onInit }
       emit={ emitter.emit }
       { ...rest }
     />,
