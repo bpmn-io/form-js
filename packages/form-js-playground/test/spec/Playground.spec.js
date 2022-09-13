@@ -330,27 +330,55 @@ describe('playground', function() {
   });
 
 
-  it('should emit <formPlayground.rendered>', async function() {
+  describe('event emitting', function() {
 
-    // given
-    const spy = sinon.spy();
+    it('should emit <formPlayground.rendered>', async function() {
 
-    await act(() => {
-      playground = new Playground({
-        container,
-        schema
+      // given
+      const spy = sinon.spy();
+
+      await act(() => {
+        playground = new Playground({
+          container,
+          schema
+        });
       });
+
+      playground.on('formPlayground.rendered', spy);
+
+      const eventBus = playground.get('eventBus');
+
+      // when
+      eventBus.fire('formEditor.rendered');
+
+      // then
+      expect(spy).to.have.been.called;
     });
 
-    playground.on('formPlayground.rendered', spy);
 
-    const eventBus = playground.get('eventBus');
+    it('should emit <formPlayground.init>', async function() {
 
-    // when
-    eventBus.fire('formEditor.rendered');
+      // given
+      const spy = sinon.spy();
 
-    // then
-    expect(spy).to.have.been.called;
+      await act(() => {
+        playground = new Playground({
+          container,
+          schema
+        });
+      });
+
+      playground.on('formPlayground.init', spy);
+
+      // when
+      await act(() => {
+        playground.setSchema(otherSchema);
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+    });
+
   });
 
 
