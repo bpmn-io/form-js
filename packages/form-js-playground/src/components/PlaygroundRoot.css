@@ -60,6 +60,11 @@
 
 .fjs-pgl-palette-container .fjs-palette-container .fjs-palette-field {
   justify-content: center;
+  flex-direction: column;
+}
+
+.fjs-pgl-palette-container .fjs-palette-container .fjs-palette-header {
+  text-align: center;
 }
 
 .fjs-pgl-palette-container .fjs-palette-container .fjs-palette-field-icon {

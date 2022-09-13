@@ -59,7 +59,7 @@ export default function Palette(props) {
               {
                 Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
               }
-              <span class="fjs-palette-field-text fjs-hide-compact">{ label }</span>
+              <span class="fjs-palette-field-text">{ label }</span>
             </div>
           );
         })
