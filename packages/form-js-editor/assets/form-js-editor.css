@@ -260,8 +260,13 @@
 
 .fjs-editor-compact .fjs-palette-field {
   justify-content: center;
+  flex-direction: column;
 }
 
 .fjs-editor-compact .fjs-palette-field-icon {
   margin: 0;
+}
+
+.fjs-editor-compact .fjs-palette-header {
+  text-align: center;
 }
