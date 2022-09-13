@@ -60,7 +60,7 @@ export default function Playground(options) {
         throw new Error('Playground is not initialized.');
       }
 
-      fn(...args);
+      return fn(...args);
     };
   };
 
@@ -95,13 +95,25 @@ export default function Playground(options) {
     return state;
   };
 
-  this.setSchema = function(schema) {
-    return ref.setSchema(schema);
-  };
+  this.getSchema = withRef(function() {
+    return ref.getSchema();
+  });
 
-  this.get = function(name, strict) {
+  this.setSchema = withRef(function(schema) {
+    return ref.setSchema(schema);
+  });
+
+  this.saveSchema = withRef(function() {
+    return ref.saveSchema();
+  });
+
+  this.get = withRef(function(name, strict) {
     return ref.get(name, strict);
-  };
+  });
+
+  this.getEditor = withRef(function() {
+    return ref.getEditor();
+  });
 
   this.destroy = function() {
     this.emit('destroy');

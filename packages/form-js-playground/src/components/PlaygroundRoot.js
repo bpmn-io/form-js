@@ -71,7 +71,10 @@ export function PlaygroundRoot(props) {
       attachPropertiesPanelContainer: (node) => propertiesPanelRef.current.attachTo(node),
       attachResultContainer: (node) => resultViewRef.current.attachTo(node),
       get: (name, strict) => formEditorRef.current.get(name, strict),
-      setSchema: setInitialSchema
+      getEditor: () => formEditorRef.current,
+      getSchema: () => formEditorRef.current.getSchema(),
+      setSchema: setInitialSchema,
+      saveSchema: () => formEditorRef.current.saveSchema()
     });
   });
 
