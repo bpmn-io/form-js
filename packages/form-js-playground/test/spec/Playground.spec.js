@@ -240,7 +240,7 @@ describe('playground', function() {
   });
 
 
-  it('should set schema', async function() {
+  it('#setSchema', async function() {
 
     // given
     await act(() => {
@@ -255,6 +255,40 @@ describe('playground', function() {
 
     // then
     expect(playground.getState().schema).to.deep.include(otherSchema);
+  });
+
+
+  it('#getSchema', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    await act(() => playground.setSchema(otherSchema));
+
+    // then
+    expect(playground.getSchema()).to.deep.include(otherSchema);
+  });
+
+
+  it('#saveSchema', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    await act(() => playground.setSchema(otherSchema));
+
+    // then
+    expect(playground.saveSchema()).to.deep.include(otherSchema);
   });
 
 
@@ -273,6 +307,26 @@ describe('playground', function() {
 
     // then
     expect(eventBus).to.exist;
+  });
+
+
+  it('#getEditor', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // when
+    const editor = playground.getEditor();
+
+    // then
+    expect(editor).to.exist;
+    expect(editor.on).to.exist;
+    expect(editor.off).to.exist;
   });
 
 
