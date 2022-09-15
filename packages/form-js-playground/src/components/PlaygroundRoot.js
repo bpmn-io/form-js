@@ -156,11 +156,11 @@ export function PlaygroundRoot(props) {
   }, [ initialData ]);
 
   useEffect(() => {
-    formEditorRef.current.importSchema(initialSchema);
+    initialSchema && formEditorRef.current.importSchema(initialSchema);
   }, [ initialSchema ]);
 
   useEffect(() => {
-    formRef.current.importSchema(schema, data);
+    schema && formRef.current.importSchema(schema, data);
   }, [ schema, data ]);
 
   useEffect(() => {

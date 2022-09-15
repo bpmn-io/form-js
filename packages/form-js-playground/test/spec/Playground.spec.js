@@ -282,6 +282,20 @@ describe('playground', function() {
   });
 
 
+  it('should not blow up on empty schema', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container
+      });
+    });
+
+    // then
+    expect(playground.getState().schema).to.be.undefined;
+  });
+
+
   it('#getSchema', async function() {
 
     // given
