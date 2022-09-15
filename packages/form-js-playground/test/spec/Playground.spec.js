@@ -240,6 +240,30 @@ describe('playground', function() {
   });
 
 
+  it('should configure exporter', async function() {
+
+    // given
+    const exporter = {
+      name: 'Foo',
+      version: 'bar'
+    };
+
+    // when
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        exporter
+      });
+    });
+
+    const editor = playground.getEditor();
+
+    // then
+    expect(editor.exporter).to.eql(exporter);
+  });
+
+
   it('#setSchema', async function() {
 
     // given

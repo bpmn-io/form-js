@@ -8,11 +8,12 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
 
 /**
  * @typedef { {
- *  container?: Element,
- *  schema: any,
- *  data: any,
- *  editor?: { inlinePropertiesPanel: Boolean }
  *  actions?: { display: Boolean }
+ *  container?: Element
+ *  data: any
+ *  editor?: { inlinePropertiesPanel: Boolean }
+ *  exporter?: { name: String, version: String }
+ *  schema: any
  * } } FormPlaygroundOptions
  */
 
@@ -73,11 +74,11 @@ export default function Playground(options) {
 
   render(
     <PlaygroundRoot
-      schema={ schema }
       data={ data }
-      onStateChanged={ (_state) => state = _state }
-      onInit={ onInit }
       emit={ emitter.emit }
+      onInit={ onInit }
+      onStateChanged={ (_state) => state = _state }
+      schema={ schema }
       { ...rest }
     />,
     container

@@ -26,7 +26,8 @@ export function PlaygroundRoot(props) {
   const {
     actions: actionsConfig = {},
     editor: editorConfig = {},
-    emit
+    emit,
+    exporter: exporterConfig = {}
   } = props;
 
   const {
@@ -102,7 +103,8 @@ export function PlaygroundRoot(props) {
       },
       propertiesPanel: {
         parent: !inlinePropertiesPanel && propertiesPanelContainerRef.current
-      }
+      },
+      exporter: exporterConfig
     });
 
     paletteRef.current = formEditor.get('palette');
