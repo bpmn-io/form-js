@@ -7,6 +7,20 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 ___Note:__ Yet to be released changes appear here._
 
 
+## 0.9.0
+
+### Editor
+
+* `CHORE`: show palette action names in compact mode ([`fc41baf9`](https://github.com/bpmn-io/form-js/commit/fc41baf97b4739ac8f688ea4dda3290f7d6dee8b))
+
+### Playground
+
+* `FEAT`: mirror editor API ([`30d4363b`](https://github.com/bpmn-io/form-js/commit/30d4363b524dd1f0159828f7b125db4cba415f82))
+* `FEAT`: emit `formPlayground.init` after full initialization ([`dbb174c6`](https://github.com/bpmn-io/form-js/commit/dbb174c63a28e00bf3c9336192b5d5c46135867f))
+* `FEAT`: allow to configure `exporter` ([#331](https://github.com/bpmn-io/form-js/issues/331))
+* `FEAT`: make initial schema optional ([`e041c24a`](https://github.com/bpmn-io/form-js/commit/e041c24a86f3a5dc75ebba2cf5ac3ce724d65384))
+
+
 ## 0.8.0
 
 ### General
