@@ -646,6 +646,7 @@ const defaultField = {
   key: 'tags',
   label: 'Taglist',
   type: 'taglist',
+  description: 'taglist',
   'values': [
     {
       'label': 'Tag1',

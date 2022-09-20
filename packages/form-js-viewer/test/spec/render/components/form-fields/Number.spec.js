@@ -237,7 +237,8 @@ describe('Number', function() {
 const defaultField = {
   key: 'amount',
   label: 'Amount',
-  type: 'number'
+  type: 'number',
+  description: 'number'
 };
 
 function createNumberField(options = {}) {
