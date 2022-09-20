@@ -312,6 +312,7 @@ const defaultField = {
   key: 'product',
   label: 'Product',
   type: 'radio',
+  description: 'radio',
   values: [
     {
       label: 'Camunda Platform',

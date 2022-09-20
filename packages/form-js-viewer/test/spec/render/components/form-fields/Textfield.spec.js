@@ -227,6 +227,7 @@ const defaultField = {
   id: 'Textfield_1',
   key: 'creditor',
   label: 'Creditor',
+  description: 'textfield',
   type: 'textfield'
 };
 

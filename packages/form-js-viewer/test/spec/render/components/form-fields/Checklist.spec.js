@@ -308,6 +308,7 @@ const defaultField = {
   key: 'mailto',
   label: 'Email data to',
   type: 'checklist',
+  description: 'checklist',
   values: [
     {
       label: 'Approver',

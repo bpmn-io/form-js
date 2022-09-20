@@ -186,7 +186,8 @@ describe('Checkbox', function() {
 const defaultField = {
   key: 'approved',
   label: 'Approved',
-  type: 'checkbox'
+  type: 'checkbox',
+  description: 'checkbox'
 };
 
 function createCheckbox(options = {}) {

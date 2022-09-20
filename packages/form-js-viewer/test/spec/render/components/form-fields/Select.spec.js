@@ -305,6 +305,7 @@ const defaultField = {
   key: 'language',
   label: 'Language',
   type: 'select',
+  description: 'select',
   values: [
     {
       label: 'German',
