@@ -7,6 +7,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 ___Note:__ Yet to be released changes appear here._
 
 
+## 0.9.2
+
+### General
+
+* `CHORE`: upgrade to `properties-panel@0.21.0` ([b914b2f3](https://github.com/bpmn-io/form-js/commit/b914b2f3b862c0c9f2828f29e93ed2bbd076941c))
+
+
 ## 0.9.1
 
 ### Viewer
