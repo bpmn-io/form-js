@@ -7,6 +7,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 ___Note:__ Yet to be released changes appear here._
 
 
+## 0.9.3
+
+_Re-release of 0.9.2._
+
 ## 0.9.2
 
 ### General
