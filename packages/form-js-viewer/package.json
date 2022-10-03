@@ -40,7 +40,7 @@
   "dependencies": {
     "@bpmn-io/snarkdown": "^2.1.0",
     "classnames": "^2.3.1",
-    "didi": "^8.0.1",
+    "didi": "^9.0.0",
     "ids": "^1.0.0",
     "min-dash": "^3.8.1",
     "preact": "^10.5.14",
