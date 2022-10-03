@@ -6,6 +6,9 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.9.4
+
+* `CHORE`: update `package-lock.json` to v2
 
 ## 0.9.3
 
@@ -128,7 +131,7 @@ _Re-release of 0.9.2._
 
 ### Viewer
 
-* `FEAT`: be able to set default value of a field ([#213](https://github.com/bpmn-io/form-js/pull/213)) 
+* `FEAT`: be able to set default value of a field ([#213](https://github.com/bpmn-io/form-js/pull/213))
 * `FIX`: submit data for every field that is not disabled ([#210](https://github.com/bpmn-io/form-js/pull/210))
 * `FIX`: do not submit data without corresponding field ([#210](https://github.com/bpmn-io/form-js/pull/210))
 
