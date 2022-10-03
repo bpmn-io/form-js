@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+* `DEPS`: update to `didi@9`
+
 ## 0.9.4
 
 * `CHORE`: update `package-lock.json` to v2
