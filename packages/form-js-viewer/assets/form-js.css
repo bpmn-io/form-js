@@ -98,6 +98,13 @@
   border-color: var(--color-borders);
   background-color: var(--color-background);
 }
+
+.fjs-container .fjs-input-button {
+  border-color: var(--color-borders);
+  background-color: var(--color-background-disabled);
+  width: auto !important;
+}
+
 .fjs-container .fjs-input::placeholder,
 .fjs-container .fjs-textarea::placeholder,
 .fjs-container .fjs-select > option:disabled,
@@ -137,6 +144,7 @@
 .fjs-container .fjs-button[type='submit'],
 .fjs-container .fjs-button[type='reset'],
 .fjs-container .fjs-textarea,
+.fjs-container .fjs-input-button,
 .fjs-container .fjs-select {
   display: block;
   width: 100%;
@@ -145,6 +153,63 @@
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;
+}
+
+.fjs-container .fjs-input-button {
+  font-size: 12px;
+}
+
+.fjs-container .fjs-input-button svg {
+  display: block;
+  margin: auto;
+  width: 15px;
+}
+
+.fjs-container .fjs-input-button span {
+  color: gray;
+}
+
+.fjs-container .fjs-vertical-group {
+  display: flex;
+  width: 100%;
+}
+
+.fjs-container .fjs-vertical-group .fjs-input[type='text'],
+.fjs-container .fjs-vertical-group .fjs-input[type='number'],
+.fjs-container .fjs-vertical-group .fjs-button[type='submit'],
+.fjs-container .fjs-vertical-group .fjs-button[type='reset'],
+.fjs-container .fjs-vertical-group .fjs-textarea,
+.fjs-container .fjs-vertical-group .fjs-input-button,
+.fjs-container .fjs-vertical-group .fjs-select {
+  border-radius: 0px;
+}
+
+.fjs-container .fjs-vertical-group:focus-within .fjs-input[type='text'],
+.fjs-container .fjs-vertical-group:focus-within .fjs-input[type='number'],
+.fjs-container .fjs-vertical-group:focus-within .fjs-button[type='submit'],
+.fjs-container .fjs-vertical-group:focus-within .fjs-button[type='reset'],
+.fjs-container .fjs-vertical-group:focus-within .fjs-textarea,
+.fjs-container .fjs-vertical-group:focus-within .fjs-input-button,
+.fjs-container .fjs-vertical-group:focus-within .fjs-select {
+  outline: 1px;
+  outline-style: solid;
+  outline-color: var(--color-borders);
+}
+
+.fjs-container .fjs-input-button .fjs-text
+
+.fjs-container .fjs-vertical-group {
+  display: flex;
+  width: 100%;
+}
+
+.fjs-container .flatpickr-wrapper {
+  width: 100%;
+}
+
+.fjs-container .flatpickr-calendar.hasTime.noCalendar {
+  width: auto !important;
+  max-width: 250px !important;
 }
 
 .fjs-container .fjs-textarea {
@@ -336,4 +401,20 @@
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-empty {
   padding: 6px 8px;
   color: var(--color-text-lighter);
+}
+
+/**
+ * Visual style utils
+ */
+
+.fjs-container .border-radius-left {
+   border-radius: 3px 0 0 3px !important;
+}
+
+.fjs-container .border-radius-right {
+   border-radius: 0 3px 3px 0 !important;
+}
+
+.fjs-container .hide-left-border {
+  border-left-width: 0 !important;
 }

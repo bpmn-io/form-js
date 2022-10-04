@@ -10,6 +10,10 @@ const types = [
     type: 'number'
   },
   {
+    label: 'DateTime',
+    type: 'datetime'
+  },
+  {
     label: 'Checkbox',
     type: 'checkbox'
   },

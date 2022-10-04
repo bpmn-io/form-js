@@ -8,6 +8,9 @@ import formEditorCSS from '../dist/assets/form-js-editor.css';
 import dragulaCSS from '../dist/assets/dragula.css';
 
 // @ts-ignore-next-line
+import darkCSS from '../dist/assets/dark.css';
+
+// @ts-ignore-next-line
 import propertiesPanelCSS from '../dist/assets/properties-panel.css';
 
 // @ts-ignore-next-line
@@ -22,6 +25,7 @@ export function isSingleStart(topic) {
 export function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
+  insertCSS('dark.css', darkCSS);
   insertCSS('dragula.css', dragulaCSS);
   insertCSS('properties-panel.css', propertiesPanelCSS);
   insertCSS('test.css', testCSS);

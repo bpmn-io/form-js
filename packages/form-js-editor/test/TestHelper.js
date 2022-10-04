@@ -27,6 +27,7 @@ export function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
   insertCSS('dragula.css', dragulaCSS);
+  insertCSS('dark.css', darkCSS);
   insertCSS('properties-panel.css', propertiesPanelCSS);
   insertCSS('test.css', testCSS);
 }

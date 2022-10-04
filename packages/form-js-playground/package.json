@@ -23,7 +23,7 @@
   "scripts": {
     "all": "run-s lint test build",
     "build": "run-p bundle generate-types",
-    "bundle": "rollup -c --failAfterWarnings",
+    "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "start": "SINGLE_START=basic npm run dev",
     "dev": "npm test -- --auto-watch --no-single-run",

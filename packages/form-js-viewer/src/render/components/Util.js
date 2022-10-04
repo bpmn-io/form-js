@@ -92,3 +92,16 @@ export function sanitizeMultiSelectValue(options) {
     return [];
   }
 }
+
+export function formatTimezoneOffset(minutes) {
+  return 'GMT' + getPaddedHours(minutes) + ':' + (minutes % 60).toString().padStart(2, '0');
+}
+
+function getPaddedHours(minutes) {
+  if (minutes >= 0) {
+    return '-' + (Math.floor(minutes / 60)).toString().padStart(2, '0');
+  }
+  else {
+    return '+' + (Math.floor((0 - minutes) / 60)).toString().padStart(2., '0');
+  }
+}
