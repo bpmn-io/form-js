@@ -159,7 +159,9 @@
 
 .fjs-editor-container .fjs-palette-container .fjs-palette {
   height: 100%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .fjs-palette-container .fjs-palette-header {
