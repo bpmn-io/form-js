@@ -158,6 +158,8 @@
 }
 
 .fjs-palette-container .fjs-palette-header {
+  position: sticky;
+  top: 0;
   font-size: 12px;
   font-weight: bold;
   color: var(--color-palette-header-color);
