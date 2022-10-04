@@ -8,6 +8,7 @@
       "require": "./dist/index.cjs"
     },
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
+    "./dist/assets/light.css": "./dist/assets/light.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -20,7 +21,7 @@
     "all": "run-s test build",
     "build": "run-p bundle generate-types",
     "start": "SINGLE_START=basic npm run dev",
-    "bundle": "rollup -c --failAfterWarnings",
+    "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && cp src/*.d.ts dist/types",
@@ -41,6 +42,7 @@
     "@bpmn-io/snarkdown": "^2.1.0",
     "classnames": "^2.3.1",
     "didi": "^9.0.0",
+    "flatpickr": "^4.6.13",
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",

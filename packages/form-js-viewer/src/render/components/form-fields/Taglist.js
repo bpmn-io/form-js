@@ -2,25 +2,22 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
+import classNames from 'classnames';
 
 import CloseIcon from './icons/Close.svg';
 
+import DropdownList from './parts/DropdownList';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
+import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 import {
   formFieldClasses,
-  prefixId,
-  sanitizeMultiSelectValue
+  prefixId
 } from '../Util';
 
-import classNames from 'classnames';
-
-import DropdownList from './parts/DropdownList';
-
 const type = 'taglist';
-
 
 export default function Taglist(props) {
   const {

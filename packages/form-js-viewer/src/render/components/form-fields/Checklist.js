@@ -7,10 +7,10 @@ import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
+import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 import {
   formFieldClasses,
-  prefixId,
-  sanitizeMultiSelectValue
+  prefixId
 } from '../Util';
 
 const type = 'checklist';
