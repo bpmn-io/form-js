@@ -157,6 +157,11 @@
   font-family: var(--font-family);
 }
 
+.fjs-editor-container .fjs-palette-container .fjs-palette {
+  height: 100%;
+  overflow: hidden;
+}
+
 .fjs-palette-container .fjs-palette-header {
   font-size: 12px;
   font-weight: bold;
@@ -164,6 +169,12 @@
   padding: 10px;
   border-bottom: solid 1px var(--color-palette-header-border);
   background-color: var(--color-palette-header-background);
+}
+
+.fjs-palette-container .fjs-palette-fields {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .fjs-palette-container .fjs-palette-field {
