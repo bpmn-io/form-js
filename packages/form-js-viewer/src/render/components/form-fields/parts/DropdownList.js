@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'preact/hooks';
 import useKeyDownAction from '../../../hooks/useKeyDownAction';
 
@@ -13,10 +14,12 @@ export default function DropdownList(props) {
     onValueSelected = NOOP,
     height = 235,
     emptyListMessage = 'No results',
+    initialFocusIndex = 0
   } = props;
 
-  const [ mouseControl, setMouseControl ] = useState(true);
-  const [ focusedValueIndex, setFocusedValueIndex ] = useState(0);
+  const [ mouseControl, setMouseControl ] = useState(false);
+  const [ focusedValueIndex, setFocusedValueIndex ] = useState(initialFocusIndex);
+  const [ smoothScrolling, setSmoothScrolling ] = useState(false);
   const dropdownContainer = useRef();
   const mouseScreenPos = useRef();
 
@@ -64,6 +67,10 @@ export default function DropdownList(props) {
     }
   }, [ focusedValueIndex, mouseControl ]);
 
+  useEffect(() => {
+    setSmoothScrolling(true);
+  }, []);
+
   const mouseMove = (e, i) => {
     const userMoved = !mouseScreenPos.current || mouseScreenPos.current.x !== e.screenX && mouseScreenPos.current.y !== e.screenY;
 
@@ -81,14 +88,14 @@ export default function DropdownList(props) {
     ref={ dropdownContainer }
     tabIndex={ -1 }
     class="fjs-dropdownlist"
-    style={ { maxHeight: height } }>
+    style={ { maxHeight: height, scrollBehavior: smoothScrolling ? 'smooth' : 'auto' } }>
     {
-      !!values.length && values.map((v, i) => {
+      values.length && values.map((v, i) => {
         return (
           <div
-            class={ 'fjs-dropdownlist-item' + (focusedValueIndex === i ? ' focused' : '') }
+            class={ classNames('fjs-dropdownlist-item', { 'focused': focusedValueIndex === i }) }
             onMouseMove={ (e) => mouseMove(e, i) }
-            onMouseEnter={ mouseControl ? () => setFocusedValueIndex(i) : undefined }
+            onMouseEnter={ (e) => mouseControl && setFocusedValueIndex(i) }
             onMouseDown={ (e) => { e.preventDefault(); onValueSelected(v); } }>
             {getLabel(v)}
           </div>

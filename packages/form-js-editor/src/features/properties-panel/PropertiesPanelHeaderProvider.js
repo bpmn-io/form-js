@@ -11,6 +11,7 @@ const labelsByType = {
   columns: 'COLUMNS',
   default: 'FORM',
   image: 'IMAGE',
+  datetime: 'DATETIME',
   number: 'NUMBER',
   radio: 'RADIO',
   select: 'SELECT',

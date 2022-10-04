@@ -16,6 +16,9 @@ import {
   CustomValuesGroup,
   GeneralGroup,
   SerializationGroup,
+  DisplayGroup,
+  FormatGroup,
+  ConstraintsGroup,
   ValidationGroup,
   ValuesGroups
 } from './groups';
@@ -29,8 +32,11 @@ function getGroups(field, editField) {
   const groups = [
     GeneralGroup(field, editField),
     ConditionGroup(field, editField),
+    DisplayGroup(field, editField),
     SerializationGroup(field, editField),
+    FormatGroup(field, editField),
     ...ValuesGroups(field, editField),
+    ConstraintsGroup(field, editField),
     ValidationGroup(field, editField),
     CustomValuesGroup(field, editField)
   ];

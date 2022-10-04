@@ -12,6 +12,9 @@ import formEditorCSS from '../assets/form-js-editor.css';
 import dragulaCSS from '../dist/assets/dragula.css';
 
 // @ts-ignore-next-line
+import lightCSS from '../dist/assets/light.css';
+
+// @ts-ignore-next-line
 import propertiesPanelCSS from '@bpmn-io/properties-panel/assets/properties-panel.css';
 
 // @ts-ignore-next-line
@@ -27,6 +30,7 @@ export function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
   insertCSS('dragula.css', dragulaCSS);
+  insertCSS('light.css', lightCSS);
   insertCSS('properties-panel.css', propertiesPanelCSS);
   insertCSS('test.css', testCSS);
 }

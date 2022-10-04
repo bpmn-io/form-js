@@ -66,6 +66,11 @@
   flex-direction: row;
 }
 
+.fjs-container .fjs-vertical-group {
+  display: flex;
+  width: 100%;
+}
+
 .fjs-container .fjs-column {
   flex-grow: 1;
 }
@@ -82,10 +87,8 @@
   font-size: 14px;
   line-height: 1.3;
   font-weight: 400;
-
   color: var(--color-text);
   background-color: var(--color-background);
-
   position: relative;
 }
 
@@ -143,6 +146,39 @@
   display: none;
 }
 
+.fjs-container .fjs-input,
+.fjs-container .fjs-textarea,
+.fjs-container .fjs-select {
+  background-color: var(--color-background);
+}
+
+.fjs-container .fjs-input-adornment {
+  border-style: solid;
+  border-color: var(--color-borders-adornment);
+  background-color: var(--color-background-adornment);
+  padding: 8px;
+  width: auto !important;
+}
+
+.fjs-container .fjs-input-adornment svg {
+  display: block;
+  margin: auto;
+  width: 15px;
+}
+
+.fjs-container .fjs-input-adornment span {
+  color: var(--color-background-adornment);
+}
+
+.fjs-container .fjs-input::placeholder,
+.fjs-container .fjs-textarea::placeholder,
+.fjs-container .fjs-select > option:disabled,
+.fjs-container .fjs-select [disabled] {
+  font-style: italic;
+  letter-spacing: 0.25px;
+  color: var(--color-text-lighter);
+}
+
 .fjs-container .fjs-input[type='text'],
 .fjs-container .fjs-input[type='email'],
 .fjs-container .fjs-input[type='tel'],
@@ -155,8 +191,7 @@
   width: 100%;
   padding: 8px;
   margin: 4px 0;
-  border-width: 1px;
-  border-style: solid;
+  border: var(--border-definition);
   border-radius: 3px;
 }
 
@@ -164,6 +199,7 @@
   display: flex;
   width: 100%;
   margin-top: 8px;
+  margin: 4px, 0;
   border: var(--border-definition);
   border-radius: 3px;
 }
@@ -214,6 +250,15 @@
 .fjs-container .fjs-vertical-group {
   display: flex;
   width: 100%;
+}
+
+.fjs-container .flatpickr-wrapper {
+  width: 100%;
+}
+
+.fjs-container .flatpickr-calendar.hasTime.noCalendar {
+  width: auto !important;
+  max-width: 250px !important;
 }
 
 .fjs-container .fjs-textarea {
@@ -290,7 +335,6 @@
 
 .fjs-container .fjs-taglist:focus-within,
 .fjs-container .fjs-input-group:focus-within,
-.fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-input[type='text']:focus,
 .fjs-container .fjs-input[type='email']:focus,
 .fjs-container .fjs-input[type='tel']:focus,
@@ -299,7 +343,12 @@
 .fjs-container .fjs-button[type='reset']:focus,
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
-  outline: var(--color-borders) solid 1px;
+  outline: var(--outline-definition);
+}
+
+.fjs-container .fjs-input-group .fjs-input,
+.fjs-container .fjs-input-group .fjs-input:focus {
+  outline: none;
 }
 
 .fjs-container .fjs-input-group .fjs-input,
@@ -313,7 +362,8 @@
 
 .fjs-container .fjs-input:disabled,
 .fjs-container .fjs-textarea:disabled,
-.fjs-container .fjs-select:disabled {
+.fjs-container .fjs-select:disabled,
+.fjs-container .fjs-taglist.disabled {
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
@@ -327,8 +377,9 @@
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-select,
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group,
-.fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea {
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group .fjs-input {
   border-color: var(--color-warning);
   outline-color: var(--color-warning);
 }
@@ -349,6 +400,11 @@
   background-color: var(--color-red-360-100-95);
 }
 
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-input-adornment {
+  border-color: var(--color-red-360-100-92);
+  background: var(--color-red-360-100-97);
+}
+
 .fjs-container .fjs-form-field-error {
   color: var(--color-warning);
 }
@@ -367,7 +423,8 @@
   color: var(--color-accent);
 }
 
-.fjs-container .fjs-taglist-anchor {
+.fjs-container .fjs-taglist-anchor,
+.fjs-container .fjs-timepicker-anchor {
   position: relative;
 }
 
@@ -442,20 +499,10 @@
   flex-grow: 1;
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-input:focus-visible {
-  outline: none;
-}
-
-.fjs-container .fjs-taglist .fjs-taglist-dropdown-anchor {
-  position: relative;
-}
-
 .fjs-container .fjs-dropdownlist {
   position: absolute;
   user-select: none;
-  overflow-y: scroll;
-  max-height: 120px;
-  scroll-behavior: smooth;
+  overflow-y: auto;
   width: 100%;
   border-radius: 3px;
   margin-top: 3px;
@@ -495,4 +542,49 @@
 .fjs-container .fjs-image-placeholder {
   height: 64px;
   margin: 2px 0;
+}
+
+
+/**
+* Flatpickr style adjustments
+*/
+
+.flatpickr-day.today {
+  border-color: transparent !important;
+  background-color: transparent !important;
+  font-weight: bold !important;
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+  border-color: var(--color-grey-225-10-55) !important;
+  background-color: var(--color-grey-225-10-55) !important;
+  color: var(--color-text-inverted) !important;
+}
+
+.flatpickr-day.selected {
+  border-color: var(--color-accent) !important;
+  background-color: inherit !important;
+  color: inherit !important;
+  font-weight: normal !important;
+}
+
+.flatpickr-day.selected.today {
+  font-weight: bold !important;
+}
+
+.flatpickr-day.selected:hover,
+.flatpickr-day.selected:focus {
+  background-color: var(--color-accent) !important;
+  font-weight: bold !important; 
+  color: var(--color-text-inverted) !important;
+}
+
+.flatpickr-days, .flatpickr-weekdays {
+  padding: 10px !important;
+  width: 100% !important;
+}
+
+.flatpickr-calendar {
+  width: 326px !important;
 }

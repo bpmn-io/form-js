@@ -58,12 +58,14 @@ export default [
       'preact/hooks',
       'preact/compat',
       'preact-markup',
+      'flatpickr',
       '@bpmn-io/snarkdown'
     ],
     plugins: pgl([
       copy({
         targets: [
-          { src: 'assets/form-js.css', dest: 'dist/assets' }
+          { src: 'assets/form-js.css', dest: 'dist/assets' },
+          { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets' }
         ]
       })
     ]),
