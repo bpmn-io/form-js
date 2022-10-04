@@ -47,9 +47,12 @@
   width: auto;
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
+  overflow-y: scroll;
+  flex-shrink: 0;
 }
 
 .fjs-pgl-palette-container .fjs-palette-container {
+  height: 100%;
   border-right: none;
   width: auto;
 }
