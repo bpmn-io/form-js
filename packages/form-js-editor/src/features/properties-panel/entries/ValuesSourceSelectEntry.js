@@ -33,13 +33,16 @@ function ValuesSourceSelect(props) {
 
     let newField = field;
 
+    const newProperties = {};
+
     Object.values(VALUES_SOURCES).forEach(source => {
 
       // Clear all values source definitions and default the newly selected one
       const newValue = value === source ? VALUES_SOURCES_DEFAULTS[source] : undefined;
-      newField = editField(field, VALUES_SOURCES_PATHS[source], newValue);
+      newProperties[VALUES_SOURCES_PATHS[source]] = newValue;
     });
 
+    newField = editField(field, newProperties);
     return newField;
   };
 

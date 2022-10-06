@@ -631,9 +631,10 @@ describe('properties panel', function() {
           fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
 
           // then
-          expect(editFieldSpy).to.have.been.calledTwice;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            'values': undefined,
+            'valuesKey': '' });
         });
 
 
@@ -899,9 +900,10 @@ describe('properties panel', function() {
           fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
 
           // then
-          expect(editFieldSpy).to.have.been.calledTwice;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            'values': undefined,
+            'valuesKey': '' });
         });
 
 
@@ -1162,9 +1164,10 @@ describe('properties panel', function() {
           fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
 
           // then
-          expect(editFieldSpy).to.have.been.calledTwice;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            'values': undefined,
+            'valuesKey': '' });
         });
 
 
@@ -1488,9 +1491,10 @@ describe('properties panel', function() {
           fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
 
           // then
-          expect(editFieldSpy).to.have.been.calledTwice;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], undefined);
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], '');
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            'values': undefined,
+            'valuesKey': '' });
         });
 
 
