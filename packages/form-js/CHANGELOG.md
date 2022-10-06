@@ -6,6 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.9.6
+
+### Editor
+
+* `FIX`: ensure valueSource is undoable ([#349](https://github.com/bpmn-io/form-js/pull/349))
+* `FIX`: scroll only palette fields ([#347](https://github.com/bpmn-io/form-js/pull/347))
+
+### Playground
+
+* `FIX`: fix overflowing palette container ([#348](https://github.com/bpmn-io/form-js/pull/348))
+
 ## 0.9.5
 
 * `DEPS`: update to `didi@9`
