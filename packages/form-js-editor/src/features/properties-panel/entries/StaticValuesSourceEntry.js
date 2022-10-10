@@ -70,6 +70,7 @@ export default function StaticValuesSourceEntry(props) {
 
   return {
     items,
-    add: addEntry
+    add: addEntry,
+    shouldSort: false
   };
 }

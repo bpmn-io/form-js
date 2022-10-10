@@ -485,6 +485,33 @@ describe('properties panel', function() {
 
       describe('values', function() {
 
+        it('should NOT order alphanumerical', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'product');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const group = findGroup(result.container, 'Static options');
+
+          const list = group.querySelector('.bio-properties-panel-list');
+
+          // then
+          expect(getListOrdering(list)).to.eql([
+            'Camunda Platform',
+            'Camunda Cloud'
+          ]);
+
+        });
+
+
         it('should add value', function() {
 
           // given
@@ -1345,6 +1372,33 @@ describe('properties panel', function() {
 
       describe('values', function() {
 
+        it('should NOT order alphanumerical', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // when
+          const group = findGroup(result.container, 'Static options');
+
+          const list = group.querySelector('.bio-properties-panel-list');
+
+          // then
+          expect(getListOrdering(list)).to.eql([
+            'German',
+            'English'
+          ]);
+
+        });
+
+
         it('should add value', function() {
 
           // given
@@ -2088,4 +2142,22 @@ function findEntries(container, groupLabel, entryLabel) {
 
     return Array.from(entries).filter(entry => entry.textContent === entryLabel);
   }
+}
+
+function getListOrdering(list) {
+  let ordering = [];
+
+  const items = list.querySelectorAll('.bio-properties-panel-list-item', list);
+
+  items.forEach(item => {
+    const collapsible = item.querySelector('.bio-properties-panel-collapsible-entry', item);
+
+    ordering.push(
+      collapsible
+        .querySelector('.bio-properties-panel-collapsible-entry-header-title')
+        .textContent
+    );
+  });
+
+  return ordering;
 }
