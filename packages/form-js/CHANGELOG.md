@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.9.7
+
+### Editor
+
+* `FIX`: do not order values alphanumerical ([#350](https://github.com/bpmn-io/form-js/pull/350))
+
+### Viewer
+
+* `FIX`: inherit font family for inputs  ([#330](https://github.com/bpmn-io/form-js/pull/330))
+
 ## 0.9.6
 
 ### Editor
