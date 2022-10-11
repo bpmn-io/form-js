@@ -97,7 +97,9 @@
 .fjs-container .fjs-select {
   border-color: var(--color-borders);
   background-color: var(--color-background);
+  font-family: inherit;
 }
+
 .fjs-container .fjs-input::placeholder,
 .fjs-container .fjs-textarea::placeholder,
 .fjs-container .fjs-select > option:disabled,
