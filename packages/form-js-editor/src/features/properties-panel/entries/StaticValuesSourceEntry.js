@@ -20,10 +20,7 @@ export default function StaticValuesSourceEntry(props) {
 
     const index = values.length + 1;
 
-    const entry = {
-      label: `Value ${index}`,
-      value: `value${index}`
-    };
+    const entry = getIndexedEntry(index);
 
     editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], arrayAdd(values, values.length, entry));
   };
@@ -73,4 +70,21 @@ export default function StaticValuesSourceEntry(props) {
     add: addEntry,
     shouldSort: false
   };
+}
+
+
+// helper
+
+function getIndexedEntry(index) {
+  const entry = {
+    label: 'Value',
+    value: 'value'
+  };
+
+  if (index > 1) {
+    entry.label += ` ${index}`;
+    entry.value += `${index}`;
+  }
+
+  return entry;
 }
