@@ -42,7 +42,7 @@
     "classnames": "^2.3.1",
     "didi": "^9.0.0",
     "ids": "^1.0.0",
-    "min-dash": "^3.8.1",
+    "min-dash": "^4.0.0",
     "preact": "^10.5.14",
     "preact-markup": "^2.1.1"
   },
