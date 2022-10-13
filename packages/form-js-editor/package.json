@@ -47,7 +47,7 @@
     "dragula": "^3.7.3",
     "ids": "^1.0.0",
     "min-dash": "^3.8.1",
-    "min-dom": "^3.2.1",
+    "min-dom": "^4.0.0",
     "preact": "^10.5.14"
   },
   "sideEffects": [
