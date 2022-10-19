@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.9.8
+
+* `DEPS`: update to `diagram-js@9.0.0`
+* `DEPS`: update to `eslint-plugin-bpmn-io@0.16.0`
+* `DEPS`: update to `min-dom@4.0.0`
+
+### Editor
+
+* `FIX`: align default static values ([#355](https://github.com/bpmn-io/form-js/pull/355))
+
 ## 0.9.7
 
 ### Editor
