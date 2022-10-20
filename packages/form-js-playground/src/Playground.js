@@ -101,51 +101,29 @@ export default function Playground(options) {
     return state;
   };
 
-  this.getSchema = withRef(function() {
-    return ref.getSchema();
-  });
+  this.getSchema = withRef(() => ref.getSchema());
 
-  this.setSchema = withRef(function(schema) {
-    return ref.setSchema(schema);
-  });
+  this.setSchema = withRef((schema) => ref.setSchema(schema));
 
-  this.saveSchema = withRef(function() {
-    return ref.saveSchema();
-  });
+  this.saveSchema = withRef(() => ref.saveSchema());
 
-  this.get = withRef(function(name, strict) {
-    return ref.get(name, strict);
-  });
+  this.get = withRef((name, strict) => ref.get(name, strict));
 
-  this.getEditor = withRef(function() {
-    return ref.getEditor();
-  });
+  this.getEditor = withRef(() => ref.getEditor());
 
   this.destroy = function() {
     this.emit('destroy');
   };
 
-  this.attachEditorContainer = withRef(function(node) {
-    return ref.attachEditorContainer(node);
-  });
+  this.attachEditorContainer = withRef((node) => ref.attachEditorContainer(node));
 
-  this.attachPreviewContainer = withRef(function(node) {
-    return ref.attachFormContainer(node);
-  });
+  this.attachPreviewContainer = withRef((node) => ref.attachFormContainer(node));
 
-  this.attachDataContainer = withRef(function(node) {
-    return ref.attachDataContainer(node);
-  });
+  this.attachDataContainer = withRef((node) => ref.attachDataContainer(node));
 
-  this.attachResultContainer = withRef(function(node) {
-    return ref.attachResultContainer(node);
-  });
+  this.attachResultContainer = withRef((node) => ref.attachResultContainer(node));
 
-  this.attachPaletteContainer = withRef(function(node) {
-    return ref.attachPaletteContainer(node);
-  });
+  this.attachPaletteContainer = withRef((node) => ref.attachPaletteContainer(node));
 
-  this.attachPropertiesPanelContainer = withRef(function(node) {
-    return ref.attachPropertiesPanelContainer(node);
-  });
+  this.attachPropertiesPanelContainer = withRef((node) => ref.attachPropertiesPanelContainer(node));
 }
