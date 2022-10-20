@@ -167,26 +167,7 @@ export default class Form {
       throw new Error('form is read-only');
     }
 
-    const formFieldRegistry = this.get('formFieldRegistry');
-
-    const data = formFieldRegistry.getAll().reduce((data, field) => {
-      const {
-        disabled,
-        _path
-      } = field;
-
-      // do not submit disabled form fields
-      if (disabled || !_path) {
-        return data;
-      }
-
-      const value = get(this._getState().data, _path);
-
-      return {
-        ...data,
-        [ _path[ 0 ] ]: value
-      };
-    }, {});
+    const data = this._getSubmitData();
 
     const errors = this.validate();
 
@@ -396,6 +377,32 @@ export default class Form {
    */
   _onEvent(type, priority, handler) {
     this.get('eventBus').on(type, priority, handler);
+  }
+
+  /**
+   * @internal
+   */
+  _getSubmitData() {
+    const formFieldRegistry = this.get('formFieldRegistry');
+
+    return formFieldRegistry.getAll().reduce((data, field) => {
+      const {
+        disabled,
+        _path
+      } = field;
+
+      // do not submit disabled form fields
+      if (disabled || !_path) {
+        return data;
+      }
+
+      const value = get(this._getState().data, _path);
+
+      return {
+        ...data,
+        [ _path[ 0 ] ]: value
+      };
+    }, {});
   }
 
 }
