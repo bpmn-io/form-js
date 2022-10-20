@@ -192,6 +192,7 @@
 
 .fjs-pgl-text-container > .cm-editor > .cm-scroller {
   font-family: var(--font-family-monospace);
+  overflow: auto !important;
 }
 
 .fjs-pgl-form-container > .fjs-container {
