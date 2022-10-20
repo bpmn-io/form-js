@@ -109,7 +109,13 @@ export default function Playground(options) {
 
   this.get = withRef((name, strict) => ref.get(name, strict));
 
+  this.getDataEditor = withRef(() => ref.getDataEditor());
+
   this.getEditor = withRef(() => ref.getEditor());
+
+  this.getForm = withRef((name, strict) => ref.getForm(name, strict));
+
+  this.getResultView = withRef(() => ref.getResultView());
 
   this.destroy = function() {
     this.emit('destroy');

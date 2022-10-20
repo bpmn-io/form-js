@@ -348,6 +348,25 @@ describe('playground', function() {
   });
 
 
+  it('#getDataEditor', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // when
+    const dataEditor = playground.getDataEditor();
+
+    // then
+    expect(dataEditor).to.exist;
+    expect(dataEditor.getValue).to.exist;
+  });
+
+
   it('#getEditor', async function() {
 
     // given
@@ -365,6 +384,115 @@ describe('playground', function() {
     expect(editor).to.exist;
     expect(editor.on).to.exist;
     expect(editor.off).to.exist;
+  });
+
+
+  it('#getForm', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // when
+    const form = playground.getForm();
+
+    // then
+    expect(form).to.exist;
+    expect(form.submit).to.exist;
+  });
+
+
+  it('#getResultView', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // when
+    const resultView = playground.getResultView();
+
+    // then
+    expect(resultView).to.exist;
+    expect(resultView.getValue).to.exist;
+  });
+
+
+  describe('form data submit', function() {
+
+    it('should show submit data', async function() {
+
+      // given
+      const data = {
+        creditor: 'foo',
+        invoiceNumber: 'C-123'
+      };
+
+      await act(() => {
+        playground = new Playground({
+          container,
+          data,
+          schema
+        });
+      });
+
+      const form = playground.getForm();
+      const resultView = playground.getResultView();
+
+      const resultViewValue = JSON.parse(resultView.getValue());
+
+      // when
+      const { data: submitData } = form.submit();
+
+      // then
+      expect(resultViewValue).to.eql(submitData);
+    });
+
+
+    it('should update with submit data', async function() {
+
+      // given
+      const data = {
+        creditor: 'foo',
+        invoiceNumber: 'C-123'
+      };
+
+      await act(() => {
+        playground = new Playground({
+          container,
+          data,
+          schema
+        });
+      });
+
+      const form = playground.getForm();
+      const resultView = playground.getResultView();
+
+      const formField = getFormField(form, 'creditor');
+
+      // when
+      await act(() => {
+        form._update({
+          field: formField,
+          value: 'bar'
+        });
+      });
+
+      const resultViewValue = JSON.parse(resultView.getValue());
+
+      const { data: submitData } = form.submit();
+
+      // then
+      expect(resultViewValue).to.eql(submitData);
+    });
+
   });
 
 
@@ -577,3 +705,10 @@ describe('playground', function() {
   });
 
 });
+
+
+// helper //////////////
+
+function getFormField(form, key) {
+  return form.get('formFieldRegistry').getAll().find((formField) => formField.key === key);
+}
