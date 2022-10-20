@@ -60,7 +60,7 @@ export function PlaygroundRoot(props) {
   const [ data, setData ] = useState(props.data || {});
   const [ schema, setSchema ] = useState(props.schema);
 
-  const [ resultData, setResultData ] = useState(props.data || {});
+  const [ resultData, setResultData ] = useState({});
 
   // pipe to playground API
   useEffect(() => {
@@ -72,7 +72,10 @@ export function PlaygroundRoot(props) {
       attachPropertiesPanelContainer: (node) => propertiesPanelRef.current.attachTo(node),
       attachResultContainer: (node) => resultViewRef.current.attachTo(node),
       get: (name, strict) => formEditorRef.current.get(name, strict),
+      getDataEditor: () => dataEditorRef.current,
       getEditor: () => formEditorRef.current,
+      getForm: () => formRef.current,
+      getResultView: () => resultViewRef.current,
       getSchema: () => formEditorRef.current.getSchema(),
       setSchema: setInitialSchema,
       saveSchema: () => formEditorRef.current.saveSchema()
@@ -120,11 +123,12 @@ export function PlaygroundRoot(props) {
       emit('formPlayground.rendered');
     });
 
-    form.on('changed', event => {
-      setResultData(event.data);
+    form.on('changed', () => {
+      setResultData(form._getSubmitData());
     });
 
     dataEditor.on('changed', event => {
+
       try {
         setData(JSON.parse(event.value));
       } catch (err) {
