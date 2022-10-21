@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.9.9
+
+### Playground
+
+* `FIX`: make JSON editors scrollable ([`2c155c1d`](https://github.com/bpmn-io/form-js/commit/2c155c1d2558de3dfd3f6b9da037879598f7f145))
+* `FIX`: show submit data in output panel ([#273](https://github.com/bpmn-io/form-js/issues/273))
+
 ## 0.9.8
 
 * `DEPS`: update to `diagram-js@9.0.0`
