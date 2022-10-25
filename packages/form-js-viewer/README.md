@@ -38,8 +38,14 @@ const form = new Form({
 
 await form.importSchema(schema, data);
 
+// add event listeners
 form.on('submit', event => {
   console.log('Form <submit>', event);
+});
+
+// provide a priority to event listeners
+form.on('changed', 500, event => {
+  console.log('Form <changed>', event);
 });
 ```
 
