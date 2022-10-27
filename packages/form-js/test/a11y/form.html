@@ -1,0 +1,32 @@
+<html lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>achecker</title>
+
+  <!-- styles needed for rendering -->
+  <link rel="stylesheet" href="../packages/form-js/dist/assets/form-js.css">
+
+  <!-- container to render the form into -->
+  <div class="fjs-pgl-form-container"></div>
+
+  <!-- scripts needed for embedding -->
+  <script src="https://unpkg.com/@bpmn-io/form-js@0.9.9/dist/form-viewer.umd.js"></script>
+
+  <!-- actual script to instantiate the form and load form schema + data -->
+  <script>
+    const data = JSON.parse("{\"creditor\":\"John Doe Company\",\"amount\":456,\"invoiceNumber\":\"C-123\",\"approved\":true,\"approvedBy\":\"John Doe\",\"mailto\":[\"regional-manager\",\"approver\"],\"product\":\"camunda-cloud\",\"queriedDRIs\":[{\"label\":\"John Doe\",\"value\":\"johnDoe\"},{\"label\":\"Anna Bell\",\"value\":\"annaBell\"},{\"label\":\"Nico Togin\",\"value\":\"incognito\"}],\"tags\":[\"tag1\",\"tag2\",\"tag3\"],\"language\":\"english\"}");
+    const schema = JSON.parse("{\"components\":[{\"text\":\"# Invoice\\nLorem _ipsum_ __dolor__ `sit`.\\n  \\n  \\nA list of BPMN symbols:\\n* Start Event\\n* Task\\nLearn more about [forms](https://bpmn.io).\\n  \\n  \\nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__.\",\"type\":\"text\",\"id\":\"Field_0wnlqj1\"},{\"key\":\"creditor\",\"label\":\"Creditor\",\"type\":\"textfield\",\"validate\":{\"required\":true},\"id\":\"Field_1j8jrqy\"},{\"description\":\"An invoice number in the format: C-123.\",\"key\":\"invoiceNumber\",\"label\":\"Invoice Number\",\"type\":\"textfield\",\"validate\":{\"pattern\":\"^C-[0-9]+$\"},\"id\":\"Field_1t891mk\"},{\"key\":\"amount\",\"label\":\"Amount\",\"type\":\"number\",\"validate\":{\"min\":0,\"max\":1000},\"id\":\"Field_15qgpqg\"},{\"key\":\"approved\",\"label\":\"Approved\",\"type\":\"checkbox\",\"id\":\"Field_0a9skn9\"},{\"key\":\"approvedBy\",\"label\":\"Approved By\",\"type\":\"textfield\",\"id\":\"Field_0c4k23f\"},{\"values\":[{\"label\":\"Approver\",\"value\":\"approver\"},{\"label\":\"Manager\",\"value\":\"manager\"},{\"label\":\"Regional Manager\",\"value\":\"regional-manager\"}],\"key\":\"mailto\",\"label\":\"Email data to\",\"type\":\"checklist\",\"id\":\"Field_0jbgjn3\"},{\"values\":[{\"label\":\"Camunda Platform\",\"value\":\"camunda-platform\"},{\"label\":\"Camunda Cloud\",\"value\":\"camunda-cloud\"}],\"key\":\"product\",\"label\":\"Product\",\"type\":\"radio\",\"id\":\"Field_1e4c980\"},{\"key\":\"dri\",\"label\":\"Assign DRI\",\"type\":\"radio\",\"valuesKey\":\"queriedDRIs\",\"id\":\"Field_111oic4\"},{\"values\":[{\"label\":\"Tag1\",\"value\":\"tag1\"},{\"label\":\"Tag2\",\"value\":\"tag2\"},{\"label\":\"Tag3\",\"value\":\"tag3\"},{\"label\":\"Tag4\",\"value\":\"tag4\"},{\"label\":\"Tag5\",\"value\":\"tag5\"},{\"label\":\"Tag6\",\"value\":\"tag6\"},{\"label\":\"Tag7\",\"value\":\"tag7\"},{\"label\":\"Tag8\",\"value\":\"tag8\"},{\"label\":\"Tag9\",\"value\":\"tag9\"},{\"label\":\"Tag10\",\"value\":\"tag10\"},{\"label\":\"Tag11\",\"value\":\"tag11\"}],\"key\":\"tags\",\"label\":\"Taglist\",\"type\":\"taglist\",\"id\":\"Field_0bwbpbf\"},{\"values\":[{\"label\":\"German\",\"value\":\"german\"},{\"label\":\"English\",\"value\":\"english\"}],\"key\":\"language\",\"label\":\"Language\",\"type\":\"select\",\"id\":\"Field_1anx6ed\"},{\"action\":\"submit\",\"key\":\"submit\",\"label\":\"Submit\",\"type\":\"button\",\"id\":\"Field_003agmg\"},{\"action\":\"reset\",\"key\":\"reset\",\"label\":\"Reset\",\"type\":\"button\",\"id\":\"Field_0dx74dq\"}],\"type\":\"default\",\"id\":\"Form_0kvfqi9\",\"exporter\":{},\"schemaVersion\":5}");
+
+    const form = new FormViewer.Form({
+      container: document.querySelector(".fjs-pgl-form-container")
+    });
+
+    form.on("submit", (event) => {
+      console.log(event.data, event.errors);
+    });
+
+    form.importSchema(schema, data).catch(err => {
+      console.error("Failed to render form", err);
+    });
+  </script>
+</html>

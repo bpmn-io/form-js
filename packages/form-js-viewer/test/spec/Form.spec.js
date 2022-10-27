@@ -9,6 +9,8 @@ import {
   schemaVersion
 } from '../../src';
 
+import axe from 'axe-core';
+
 import { spy } from 'sinon';
 
 import customModule from './custom';
@@ -31,7 +33,8 @@ insertCSS('custom.css', customCSS);
 
 const singleStartBasic = isSingleStart('basic');
 const singleStartStress = isSingleStart('stress');
-const singleStart = singleStartBasic || singleStartStress;
+const singleStartA11y = isSingleStart('a11y');
+const singleStart = singleStartBasic || singleStartStress || singleStartA11y;
 
 
 describe('Form', function() {
@@ -983,6 +986,59 @@ describe('Form', function() {
       expect(screen.getByText('Field must match pattern ^C-[0-9]+$.')).to.exist;
     });
 
+  });
+
+
+  describe('a11y', function() {
+
+    (singleStartA11y ? it.only : it)('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        mailto: [ 'regional-manager', 'approver' ],
+        product: 'camunda-cloud',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
+
+      await createForm({
+        container,
+        data,
+        schema
+      });
+
+      // todo(pinussilvestrus): use helper here
+      const results = await axe.run(container, {
+        runOnly: [
+          'best-practice',
+          'wcag2a',
+          'wcag2aa',
+          'cat.semantics'
+        ]
+      });
+
+      console.log('# violations:', results.violations.length);
+      console.log('# checked rules:', results.inapplicable.length + results.passes.length + results.incomplete.length + results.violations.length);
+
+      expect(results.passes).to.be.not.empty;
+      expect(results.violations).to.be.empty;
+    });
   });
 
 });
