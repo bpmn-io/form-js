@@ -12,6 +12,7 @@
   --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
 
+  --color-blue-205-100-40: hsl(205, 100%, 40%);
   --color-blue-205-100-45: hsl(205, 100%, 45%);
   --color-blue-205-100-50: hsl(205, 100%, 50%);
   --color-blue-205-100-80: hsl(205, 100%, 80%);
@@ -36,8 +37,7 @@
   --color-borders: var(--color-grey-225-10-55);
   --color-borders-disabled: var(--color-grey-225-10-75);
   --color-warning: var(--color-red-360-100-45);
-  --color-accent: var(--color-blue-205-100-45);
-  --color-accent-dark: var(--color-blue-205-100-45);
+  --color-accent: var(--color-blue-205-100-40);
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -195,7 +195,7 @@
 }
 
 .fjs-container .fjs-button[type='submit']:focus {
-  border-color: var(--color-accent-dark);
+  border-color: var(--color-accent);
 }
 
 .fjs-container .fjs-input:disabled,
@@ -233,7 +233,7 @@
 }
 
 .fjs-container .fjs-form-field-text a {
-  color: var(--color-blue-205-100-45);
+  color: var(--color-accent);
 }
 
 .fjs-container .fjs-taglist-anchor {
