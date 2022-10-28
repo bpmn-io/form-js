@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add conditional rendering ([#374](https://github.com/bpmn-io/form-js/issues/374))
+
 ## 0.10.0-alpha.0
 
 ### General
@@ -20,8 +22,8 @@ ___Note:__ Yet to be released changes appear here._
 ### Editor
 
 * `FEAT`: improve properties panel header for `text` fields ([#388](https://github.com/bpmn-io/form-js/issues/388))
-* `FEAT`: add `email` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414)) 
-* `FEAT`: add `phone` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414)) 
+* `FEAT`: add `email` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414))
+* `FEAT`: add `phone` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414))
 
 ### Playground
 

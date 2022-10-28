@@ -72,6 +72,10 @@ export class FormEditor {
     };
   }
 
+  getSchema() {
+    return this._state.schema;
+  }
+
   _getState() {
     return this._state;
   }
@@ -179,6 +183,8 @@ export function WithPropertiesPanelContext(Component, services = {}) {
             }
           },
         };
+      } else if (type === 'formEditor') {
+        return new FormEditor();
       }
     }
   };
