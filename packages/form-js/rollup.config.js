@@ -5,6 +5,7 @@ import pkg from './package.json';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
+import { sep } from 'path';
 
 export default [
   {
@@ -34,7 +35,8 @@ export default [
           { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
         ]
       })
-    ]
+    ],
+    onwarn
   },
   {
     input: 'src/editor.js',
@@ -48,7 +50,8 @@ export default [
     plugins: [
       resolve(),
       commonjs()
-    ]
+    ],
+    onwarn
   },
   {
     input: 'src/viewer.js',
@@ -62,7 +65,8 @@ export default [
     plugins: [
       resolve(),
       commonjs()
-    ]
+    ],
+    onwarn
   },
   {
     input: 'src/playground.js',
@@ -76,6 +80,17 @@ export default [
     plugins: [
       resolve(),
       commonjs()
-    ]
+    ],
+    onwarn
   }
 ];
+
+// TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
+function onwarn(warning, warn) {
+  if (warning.code === 'CIRCULAR_DEPENDENCY') {
+    if (warning.message.includes(`${sep}luxon${sep}`)) {
+      return;
+    }
+  }
+  warn(warning);
+}

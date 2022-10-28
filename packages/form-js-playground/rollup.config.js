@@ -5,6 +5,8 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
+import { sep } from 'path';
+
 import pkg from './package.json';
 
 function pgl(plugins = []) {
@@ -57,7 +59,8 @@ export default [
       '@codemirror/view',
       'codemirror',
       'classnames'
-    ]
+    ],
+    onwarn
   },
   {
     input: 'src/index.js',
@@ -71,6 +74,17 @@ export default [
     plugins: pgl([
       resolve(),
       commonjs()
-    ])
+    ]),
+    onwarn
   }
 ];
+
+// TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
+function onwarn(warning, warn) {
+  if (warning.code === 'CIRCULAR_DEPENDENCY') {
+    if (warning.message.includes(`${sep}luxon${sep}`)) {
+      return;
+    }
+  }
+  warn(warning);
+}
