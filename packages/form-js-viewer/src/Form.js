@@ -171,15 +171,14 @@ export default class Form {
 
     const errors = this.validate();
 
-    this._emit('submit', {
+    const result = this._applyConditions({
       data,
       errors
     });
 
-    return {
-      data,
-      errors
-    };
+    this._emit('submit', result);
+
+    return result;
   }
 
   reset() {
@@ -318,7 +317,7 @@ export default class Form {
    * @private
    */
   _emit(type, data) {
-    this.get('eventBus').fire(type, data);
+    return this.get('eventBus').fire(type, data);
   }
 
   /**
@@ -405,4 +404,18 @@ export default class Form {
     }, {});
   }
 
+  /**
+   * @internal
+   */
+  _applyConditions({ data, errors }) {
+    const conditionChecker = this.get('conditionChecker');
+
+    const filteredErrors = conditionChecker.applyConditions(errors, data);
+    const filteredData = conditionChecker.applyConditions(data, data);
+
+    return {
+      data: filteredData,
+      errors: filteredErrors
+    };
+  }
 }
