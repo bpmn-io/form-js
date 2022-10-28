@@ -103,7 +103,25 @@ describe('Button', function() {
 
   describe('a11y', function() {
 
-    it('should have no violations', async function() {
+    it('should have no violations - submit', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createButton({
+        field: {
+          ...defaultField,
+          action: 'submit',
+          label: 'Submit'
+        }
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - reset', async function() {
 
       // given
       this.timeout(5000);

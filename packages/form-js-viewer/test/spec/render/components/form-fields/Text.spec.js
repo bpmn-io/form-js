@@ -161,6 +161,23 @@ Some _em_ **strong** [text](#text) \`code\`.
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations - links', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createText({
+        field: {
+          text: '# Text\n* Learn more about [forms](https://bpmn.io).',
+          type: 'text'
+        }
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });
