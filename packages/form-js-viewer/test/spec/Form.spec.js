@@ -13,6 +13,7 @@ import { spy } from 'sinon';
 
 import customModule from './custom';
 
+import conditionSchema from './condition.json';
 import disabledSchema from './disabled.json';
 import schema from './form.json';
 import schemaNoIds from './form.json';
@@ -987,6 +988,118 @@ describe('Form', function() {
 
       // then
       expect(screen.getByText('Field must match pattern ^C-[0-9]+$.')).to.exist;
+    });
+
+  });
+
+
+  describe('#submit', function() {
+
+    it('should submit fields for which condition is met (form variable)', async function() {
+
+      // given
+      const initialData = {
+        amount: 456,
+        text: 'value'
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema: conditionSchema
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).to.have.property('text', 'value');
+    });
+
+
+    it('should submit fields for which condition is met (external variable)', async function() {
+
+      // given
+      const schema = {
+        ...conditionSchema,
+        components: [
+          conditionSchema.components[0],
+          {
+            ...conditionSchema.components[1],
+            condition: '=external'
+          }
+        ]
+      };
+      const initialData = {
+        external: true,
+        text: 'value'
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).to.have.property('text', 'value');
+    });
+
+
+    it('should NOT submit fields for which condition is NOT met', async function() {
+
+      // given
+      const initialData = {
+        amount: 0,
+        text: 'value'
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema: conditionSchema
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).not.to.have.property('text', 'value');
+    });
+
+
+    it('should NOT submit fields for which condition is NOT met (external variable)', async function() {
+
+      // given
+      const schema = {
+        ...conditionSchema,
+        components: [
+          conditionSchema.components[0],
+          {
+            ...conditionSchema.components[1],
+            condition: '=external'
+          }
+        ]
+      };
+      const initialData = {
+        external: false,
+        text: 'value'
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).not.to.have.property('text');
     });
 
   });
