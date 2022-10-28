@@ -116,7 +116,7 @@ export default function Taglist(props) {
   return <div class={ formFieldClasses(type, errors) }>
     <Label
       label={ label }
-      id={ prefixId(id, formId) } />
+      id={ prefixId(`${id}-search`, formId) } />
     <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
       {!disabled && loadState === LOAD_STATES.LOADED &&
         values.map((v) => {
