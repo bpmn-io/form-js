@@ -135,7 +135,7 @@ export default class Form {
           data: importedData,
           errors: {},
           schema: importedSchema,
-          initialData: clone(importedData)
+          initialData: clone(data)
         });
 
         this._emit('import.done', { warnings });
@@ -170,23 +170,24 @@ export default class Form {
     const data = this._getSubmitData();
 
     const errors = this.validate();
+    const filteredErrors = this._applyConditions(errors, data);
 
-    this._emit('submit', {
+    const result = {
       data,
-      errors
-    });
-
-    return {
-      data,
-      errors
+      errors: filteredErrors
     };
+
+    this._emit('submit', result);
+
+    return result;
   }
 
   reset() {
     this._emit('reset');
+    const { initialData } = this._getState();
 
     this._setState({
-      data: clone(this._state.initialData),
+      data: this.get('importer').importData(clone(initialData)),
       errors: {}
     });
   }
@@ -318,7 +319,7 @@ export default class Form {
    * @private
    */
   _emit(type, data) {
-    this.get('eventBus').fire(type, data);
+    return this.get('eventBus').fire(type, data);
   }
 
   /**
@@ -383,9 +384,13 @@ export default class Form {
    * @internal
    */
   _getSubmitData() {
+    const {
+      data: formData,
+      initialData
+    } = this._getState();
     const formFieldRegistry = this.get('formFieldRegistry');
 
-    return formFieldRegistry.getAll().reduce((data, field) => {
+    const rawValues = formFieldRegistry.getAll().reduce((data, field) => {
       const {
         disabled,
         _path
@@ -396,13 +401,24 @@ export default class Form {
         return data;
       }
 
-      const value = get(this._getState().data, _path);
+      const value = get(formData, _path);
 
       return {
         ...data,
         [ _path[ 0 ] ]: value
       };
     }, {});
+
+    const filteredValues = this._applyConditions(rawValues, { ...initialData, ...rawValues });
+
+    return filteredValues;
   }
 
+  /**
+   * @internal
+   */
+  _applyConditions(toFilter, data) {
+    const conditionChecker = this.get('conditionChecker');
+    return conditionChecker.applyConditions(toFilter, data);
+  }
 }

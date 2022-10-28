@@ -14,6 +14,18 @@ import { createFormContainer } from '../../../TestHelper';
 let container;
 
 
+const defaultData = {
+  creditor: 'John Doe Company'
+};
+
+const defaultField = {
+  key: 'creditor',
+  label: 'Creditor',
+  _path: [ 'creditor' ],
+  type: 'textfield'
+};
+
+
 describe('FormField', function() {
 
   beforeEach(function() {
@@ -202,20 +214,95 @@ describe('FormField', function() {
 
   });
 
+
+  describe('condition', function() {
+
+
+    it('should display field for which condition is met', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: () => true
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+
+
+    it('should NOT display field if condition is NOT met', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: () => false
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).not.to.exist;
+    });
+
+
+    it('should use initial data to check condition', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: (_, data) => data.shouldShow || false,
+        initialData: {
+          shouldShow: true
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+
+
+    it('should use form data to check condition', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: (_, data) => data.shouldShow || false,
+        data: {
+          shouldShow: true
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+
+
+    it('should use give precedence to form data to check condition', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: (_, data) => data.shouldShow || false,
+        data: {
+          shouldShow: true
+        },
+        initialData: {
+          shouldShow: false
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+  });
+
 });
 
 // helpers //////////
-
-const defaultData = {
-  creditor: 'John Doe Company'
-};
-
-const defaultField = {
-  key: 'creditor',
-  label: 'Creditor',
-  _path: [ 'creditor' ],
-  type: 'textfield'
-};
 
 function createFormField(options = {}) {
   const {
@@ -223,8 +310,10 @@ function createFormField(options = {}) {
     data = defaultData,
     errors = {},
     field = defaultField,
+    initialData = {},
     onChange = () => {},
-    properties = {}
+    properties = {},
+    checkCondition = () => true
   } = options;
 
   const formContext = {
@@ -243,8 +332,15 @@ function createFormField(options = {}) {
             return {
               data,
               errors,
+              initialData,
               properties
             };
+          }
+        };
+      } else if (type === 'conditionChecker') {
+        return {
+          check(...args) {
+            return checkCondition(...args);
           }
         };
       }
