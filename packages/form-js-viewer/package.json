@@ -41,6 +41,7 @@
     "@bpmn-io/snarkdown": "^2.1.0",
     "classnames": "^2.3.1",
     "didi": "^9.0.0",
+    "feelin": "^0.41.0",
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",
