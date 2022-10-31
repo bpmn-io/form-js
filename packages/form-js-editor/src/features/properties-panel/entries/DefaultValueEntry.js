@@ -1,9 +1,7 @@
 import {
-  isNumberFieldEntryEdited,
   isSelectEntryEdited,
   isTextFieldEntryEdited,
   isTextAreaEntryEdited,
-  NumberFieldEntry,
   SelectEntry,
   TextFieldEntry,
   TextAreaEntry
@@ -11,10 +9,11 @@ import {
 
 import { get } from 'min-dash';
 
+import Big from 'big.js';
+
 import { useService } from '../hooks';
 
-import { INPUTS, VALUES_INPUTS } from '../Util';
-
+import { countDecimals, INPUTS, isValidNumber, VALUES_INPUTS } from '../Util';
 
 export default function DefaultOptionEntry(props) {
   const {
@@ -52,7 +51,7 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueNumber,
-      isEdited: isNumberFieldEntryEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -138,25 +137,41 @@ function DefaultValueNumber(props) {
     label
   } = props;
 
+  const {
+    decimalDigits,
+    serializeToString = false
+  } = field;
+
   const debounce = useService('debounce');
 
   const path = [ 'defaultValue' ];
 
-  const getValue = () => {
-    return get(field, path, '');
+  const getValue = (e) => {
+
+    let value = get(field, path);
+
+    if (!isValidNumber(value)) return null;
+
+    // Enforces decimal notation so that we do not submit defaults in exponent form
+    return serializeToString ? Big(value).toFixed() : value;
   };
 
-  const setValue = (value) => {
-    return editField(field, path, value);
-  };
+  const setValue = (value) => editField(field, path, serializeToString ? value : Number(value));
 
-  return NumberFieldEntry({
+  const decimalDigitsSet = decimalDigits || decimalDigits === 0;
+
+  return TextFieldEntry({
     debounce,
+    label,
     element: field,
     getValue,
     id,
-    label,
-    setValue
+    setValue,
+    validate: (value) => {
+      if (value === undefined || value === null) return;
+      if (!isValidNumber(value)) return 'Should be a valid number';
+      if (decimalDigitsSet && countDecimals(value) > decimalDigits) return `Should not contain more than ${decimalDigits} decimal digits`;
+    }
   });
 }
 
