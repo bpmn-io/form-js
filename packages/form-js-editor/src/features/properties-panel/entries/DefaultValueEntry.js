@@ -150,6 +150,10 @@ function DefaultValueNumber(props) {
     label
   } = props;
 
+  const {
+    decimalDigits
+  } = field;
+
   const debounce = useService('debounce');
 
   const path = [ 'defaultValue' ];
@@ -165,6 +169,7 @@ function DefaultValueNumber(props) {
   return NumberFieldEntry({
     debounce,
     element: field,
+    step: 1 / (10 ** (isNaN(parseInt(decimalDigits)) ? 15 : decimalDigits)),
     getValue,
     id,
     label,

@@ -100,6 +100,14 @@ export default function ValidationGroup(field, editField) {
         field,
         isEdited: isNumberFieldEntryEdited,
         onChange
+      },
+      {
+        id: 'enforceStep',
+        component: EnforceStep,
+        getValue,
+        field,
+        isEdited: isCheckboxEntryEdited,
+        onChange
       }
     );
   }
@@ -236,4 +244,23 @@ function Max(props) {
     min: 0,
     setValue: onChange('max')
   });
+}
+
+function EnforceStep(props) {
+
+  const {
+    field,
+    getValue,
+    id,
+    onChange
+  } = props;
+
+  return CheckboxEntry({
+    element: field,
+    getValue: getValue('enforceStep'),
+    id,
+    label: 'Enforce step',
+    setValue: onChange('enforceStep')
+  });
+
 }
