@@ -34,6 +34,7 @@ export default function FormComponent(props) {
       class="fjs-form"
       onSubmit={ handleSubmit }
       onReset={ handleReset }
+      noValidate
     >
       <FormField
         field={ schema }

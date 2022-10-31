@@ -9,6 +9,7 @@
   --color-grey-225-10-80: hsl(225, 10%, 80%);
   --color-grey-225-10-85: hsl(225, 10%, 85%);
   --color-grey-225-10-90: hsl(225, 10%, 90%);
+  --color-grey-225-10-93: hsl(225, 10%, 93%);
   --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
 
@@ -23,6 +24,7 @@
   --color-red-360-100-40: hsl(360, 100%, 40%);
   --color-red-360-100-45: hsl(360, 100%, 45%);
   --color-red-360-100-92: hsl(360, 100%, 92%);
+  --color-red-360-100-95: hsl(360, 100%, 95%);
   --color-red-360-100-97: hsl(360, 100%, 97%);
 
   --color-white: hsl(0, 0%, 100%);
@@ -30,16 +32,23 @@
 
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-grey-225-10-95);
+  --color-background-adornment: var(--color-grey-225-10-93);
   --color-text: var(--color-grey-225-10-15);
   --color-text-light: var(--color-grey-225-10-35);
   --color-text-lighter: var(--color-grey-225-10-55);
   --color-text-inverted: var(--color-white);
   --color-borders: var(--color-grey-225-10-55);
   --color-borders-disabled: var(--color-grey-225-10-75);
+  --color-borders-adornment: var(--color-grey-225-10-85);
   --color-warning: var(--color-red-360-100-45);
   --color-accent: var(--color-blue-205-100-40);
 
   --font-family: 'IBM Plex Sans', sans-serif;
+
+  --border-definition: 1px solid var(--color-borders);
+  --border-definition-adornment: 1px solid var(--color-borders-adornment);
+  --outline-definition: 1px solid var(--color-borders);
+  --border-definition-disabled: 1px solid var(--color-borders-disabled);
 
   height: 100%;
 }
@@ -151,12 +160,101 @@
   border-radius: 3px;
 }
 
+.fjs-container .fjs-input-group {
+  display: flex;
+  width: 100%;
+  margin-top: 8px;
+  border: var(--border-definition);
+  border-radius: 3px;
+}
+
+.fjs-container .fjs-input-group.disabled {
+  background-color: var(--color-background-disabled);
+}
+
+.fjs-container .fjs-input-group.disabled,
+.fjs-container .fjs-input-group.disabled .fjs-input,
+.fjs-container .fjs-input-group.disabled .fjs-input-adornment {
+  border-color: var(--color-borders-disabled);
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-input,
+.fjs-container .fjs-input-group .fjs-input {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  outline: 0;
+}
+
+.fjs-container .fjs-input-group .fjs-input-adornment {
+  border-width: 0;
+}
+
+.fjs-container .fjs-input-group .fjs-input-adornment.border-left {
+  border-left-width: 1px;
+}
+
+.fjs-container .fjs-input-group .fjs-input-adornment.border-right {
+  border-right-width: 1px;
+}
+
+.fjs-container .fjs-input-group .fjs-input-adornment.border-radius-right {
+  border-radius: 0 3px 3px 0;
+}
+
+.fjs-container .fjs-input-group .fjs-input-adornment.border-radius-left {
+  border-radius: 3px 0 0 3px;
+}
+
+.fjs-container .fjs-input-group .fjs-input,
+.fjs-container .fjs-input-group.disabled .fjs-input {
+  border-radius: 3px;
+}
+
+.fjs-container .fjs-vertical-group {
+  display: flex;
+  width: 100%;
+}
+
 .fjs-container .fjs-textarea {
   resize: none;
   overflow: hidden;
   height: 75px;
   font-size: 14px;
 }
+
+.fjs-container .fjs-number-arrow-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 2px 2px 0;
+  width: 23px;
+  overflow: clip;
+  border-left: var(--border-definition-adornment);
+}
+
+.fjs-container .fjs-number-arrow-separator {
+  height: 1px;
+  background-color: var(--color-borders-adornment);
+}
+
+.fjs-container .fjs-number-arrow-container button {
+  border: none;
+  flex: 1;
+  color: var(--color-text-light);
+  background-color: var(--color-grey-225-10-95);
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.fjs-container .fjs-number-arrow-container button:hover {
+  background-color: var(--color-grey-225-10-93);
+  color: var(--color-text);
+}
+
+.fjs-container .fjs-number-arrow-container.disabled button {
+  background-color: var(--color-grey-225-10-95);
+}
+
 
 .fjs-container .fjs-radio {
   display: flex;
@@ -190,6 +288,9 @@
   font-weight: 600;
 }
 
+.fjs-container .fjs-taglist:focus-within,
+.fjs-container .fjs-input-group:focus-within,
+.fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-input[type='text']:focus,
 .fjs-container .fjs-input[type='email']:focus,
 .fjs-container .fjs-input[type='tel']:focus,
@@ -199,6 +300,11 @@
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
   outline: var(--color-borders) solid 1px;
+}
+
+.fjs-container .fjs-input-group .fjs-input,
+.fjs-container .fjs-input-group .fjs-input:focus {
+  outline: none;
 }
 
 .fjs-container .fjs-button[type='submit']:focus {
@@ -221,8 +327,26 @@
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-select,
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea {
   border-color: var(--color-warning);
+  outline-color: var(--color-warning);
+}
+
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
+  border-color: var(--color-red-360-100-92); 
+}
+
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-separator {
+  background-color: var(--color-red-360-100-92);
+}
+
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button {
+  background-color: var(--color-red-360-100-97);
+}
+
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button:hover {
+  background-color: var(--color-red-360-100-95);
 }
 
 .fjs-container .fjs-form-field-error {
@@ -255,10 +379,6 @@
   border-radius: 3px;
   padding: 5px;
   background-color: var(--color-background);
-}
-
-.fjs-container .fjs-taglist:focus-within {
-  outline: var(--color-borders) solid 1px;
 }
 
 .fjs-container .fjs-taglist.disabled {

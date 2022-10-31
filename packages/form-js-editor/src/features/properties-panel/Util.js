@@ -1,3 +1,5 @@
+import Big from 'big.js';
+
 export function arrayAdd(array, index, item) {
   const copy = [ ...array ];
 
@@ -16,6 +18,17 @@ export function arrayRemove(array, index) {
 
 export function prefixId(id) {
   return `fjs-properties-panel-${ id }`;
+}
+
+
+export function countDecimals(number) {
+  const num = Big(number);
+  if (num.toString() === num.toFixed(0)) return 0;
+  return num.toFixed().split('.')[1].length || 0;
+}
+
+export function isValidNumber(value) {
+  return (typeof value === 'number' || typeof value === 'string') && value !== '' && !isNaN(Number(value));
 }
 
 export function stopPropagation(listener) {

@@ -39,7 +39,7 @@ describe('Number', function() {
     expect(formField).to.exist;
     expect(formField.classList.contains('fjs-form-field-number')).to.be.true;
 
-    const input = container.querySelector('input[type="number"]');
+    const input = container.querySelector('input[type="text"]');
 
     expect(input).to.exist;
     expect(input.value).to.equal('123');
@@ -57,7 +57,7 @@ describe('Number', function() {
     const { container } = createNumberField();
 
     // then
-    const input = container.querySelector('input[type="number"]');
+    const input = container.querySelector('input[type="text"]');
 
     expect(input).to.exist;
     expect(input.value).to.equal('');
@@ -72,7 +72,7 @@ describe('Number', function() {
     });
 
     // then
-    const input = container.querySelector('input[type="number"]');
+    const input = container.querySelector('input[type="text"]');
 
     expect(input).to.exist;
     expect(input.value).to.equal('');
@@ -98,7 +98,7 @@ describe('Number', function() {
     rerender(<Number { ...props } value={ null } />, options);
 
     // then
-    const input = container.querySelector('input[type="number"]');
+    const input = container.querySelector('input[type="text"]');
 
     expect(input).to.exist;
     expect(input.value).to.equal('');
@@ -113,7 +113,7 @@ describe('Number', function() {
     });
 
     // then
-    const input = container.querySelector('input[type="number"]');
+    const input = container.querySelector('input[type="text"]');
 
     expect(input).to.exist;
     expect(input.disabled).to.be.true;
@@ -151,7 +151,7 @@ describe('Number', function() {
       });
 
       // when
-      const input = container.querySelector('input[type="number"]');
+      const input = container.querySelector('input[type="text"]');
 
       fireEvent.input(input, { target: { value: '124' } });
 
@@ -174,7 +174,7 @@ describe('Number', function() {
       });
 
       // when
-      const input = container.querySelector('input[type="number"]');
+      const input = container.querySelector('input[type="text"]');
 
       fireEvent.input(input, { target: { value: '' } });
 

@@ -1,4 +1,6 @@
 import { isNil } from 'min-dash';
+import { countDecimals } from '../render/components/util/numberFieldUtil';
+import Big from 'big.js';
 
 const EMAIL_PATTERN = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 ;
@@ -8,9 +10,54 @@ export default class Validator {
 
   validateField(field, value) {
 
-    const { validate } = field;
+    const { type, validate } = field;
 
     let errors = [];
+
+    if (type === 'number') {
+
+      const { decimalDigits, step } = field;
+
+      if (value === 'NaN') {
+
+        errors = [
+          ...errors,
+          'Value is not a number.'
+        ];
+
+      }
+      else if (value) {
+
+        if (decimalDigits !== undefined && decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
+          errors = [
+            ...errors,
+            'Value is expected to ' +
+            (decimalDigits === 0
+              ? 'be an integer'
+              : `have at most ${decimalDigits} decimal digit${decimalDigits > 1 ? 's' : ''}`
+            ) + '.'
+          ];
+        }
+
+        if (step) {
+
+          const bigValue = Big(value);
+          const bigStep = Big(step);
+
+          const offset = bigValue.mod(bigStep);
+
+          if (offset.cmp(0) !== 0) {
+            const previousValue = bigValue.minus(offset);
+            const nextValue = previousValue.plus(bigStep);
+
+            errors = [
+              ...errors,
+              `Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`
+            ];
+          }
+        }
+      }
+    }
 
     if (!validate) {
       return errors;

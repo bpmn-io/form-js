@@ -3,7 +3,7 @@ import Checkbox from './form-fields/Checkbox';
 import Checklist from './form-fields/Checklist';
 import Default from './form-fields/Default';
 import FormComponent from './FormComponent';
-import Number from './form-fields/Number';
+import Numberfield from './form-fields/Number';
 import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
 import Taglist from './form-fields/Taglist';
@@ -17,7 +17,7 @@ export {
   Checklist,
   Default,
   FormComponent,
-  Number,
+  Numberfield,
   Radio,
   Select,
   Taglist,
@@ -31,7 +31,7 @@ export const formFields = [
   Checkbox,
   Checklist,
   Default,
-  Number,
+  Numberfield,
   Radio,
   Select,
   Taglist,

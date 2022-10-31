@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@bpmn-io/snarkdown": "^2.1.0",
+    "big.js": "^6.2.1",
     "classnames": "^2.3.1",
     "didi": "^9.0.0",
     "feelin": "^0.41.0",
