@@ -41,6 +41,11 @@
       "type": "textfield"
     },
     {
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
+    },
+    {
       "key": "mailto",
       "label": "Email data to",
       "type": "checklist",

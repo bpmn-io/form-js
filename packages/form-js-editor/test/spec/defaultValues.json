@@ -39,9 +39,16 @@
       "type": "checkbox"
     },
     {
+      "defaultValue": "Approver name",
       "key": "approvedBy",
       "label": "Approved By",
       "type": "textfield"
+    },
+    {
+      "defaultValue": "Sample comment provided by the approver",
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
     },
     {
       "defaultValue": "camunda-platform",

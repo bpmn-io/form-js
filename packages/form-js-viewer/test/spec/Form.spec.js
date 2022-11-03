@@ -94,7 +94,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
   });
 
 
@@ -173,7 +173,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -211,7 +211,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(13);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
     });
 
 
@@ -366,6 +366,7 @@ describe('Form', function() {
         amount: null,
         approved: false,
         approvedBy: '',
+        approverComments: '',
         mailto: [],
         product: null,
         tags: [],
@@ -714,6 +715,7 @@ describe('Form', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
+      approverComments: 'Please review by June',
       tags: [ 'tag1', 'tag2', 'tag3' ]
     };
 
@@ -742,6 +744,7 @@ describe('Form', function() {
       amount: 456,
       approved: true,
       approvedBy: 'John Doe',
+      approverComments: 'Please review by June',
       mailto: [],
       product: null,
       tags: [ 'tag1', 'tag2', 'tag3' ],
@@ -762,6 +765,7 @@ describe('Form', function() {
       amount: 456,
       approved: true,
       approvedBy: 'John Doe',
+      approverComments: 'Please review by June',
       mailto: [],
       product: null,
       tags: [ 'tag1', 'tag2', 'tag3' ],
@@ -808,6 +812,7 @@ describe('Form', function() {
       amount: null,
       approved: false,
       approvedBy: '',
+      approverComments: '',
       mailto: [],
       product: null,
       tags: [],
@@ -884,6 +889,7 @@ describe('Form', function() {
         amount: 456,
         approved: false,
         approvedBy: '',
+        approverComments: '',
         mailto: [],
         product: null,
         tags: [],

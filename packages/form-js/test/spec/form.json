@@ -50,6 +50,12 @@
     },
     {
       "id": "Field_7",
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
+    },
+    {
+      "id": "Field_8",
       "key": "mailto",
       "label": "Email data to",
       "type": "checklist",
@@ -69,7 +75,7 @@
       ]
     },
     {
-      "id": "Field_8",
+      "id": "Field_9",
       "key": "product",
       "label": "Product",
       "type": "radio",
@@ -85,7 +91,7 @@
       ]
     },
     {
-      "id": "Field_9",
+      "id": "Field_10",
       "key": "tags",
       "label": "Taglist",
       "type": "taglist",
@@ -137,7 +143,7 @@
       ]
     },
     {
-      "id": "Field_10",
+      "id": "Field_11",
       "key": "language",
       "label": "Language",
       "type": "select",
@@ -153,14 +159,14 @@
       ]
     },
     {
-      "id": "Field_11",
+      "id": "Field_12",
       "action": "submit",
       "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
-      "id": "Field_12",
+      "id": "Field_13",
       "action": "reset",
       "key": "reset",
       "label": "Reset",

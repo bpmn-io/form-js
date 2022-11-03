@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Textfield from '../../../../../src/render/components/form-fields/Textfield';
+import Textarea from '../../../../../src/render/components/form-fields/Textarea';
 
 import {
   createFormContainer,
@@ -17,7 +17,7 @@ const spy = sinon.spy;
 let container;
 
 
-describe('Textfield', function() {
+describe('Textarea', function() {
 
   beforeEach(function() {
     container = createFormContainer();
@@ -31,37 +31,37 @@ describe('Textfield', function() {
   it('should render', function() {
 
     // when
-    const { container } = createTextfield({
-      value: 'John Doe Company'
+    const { container } = createTextarea({
+      value: 'This is a sample comment in a text area /nIt includes a line break'
     });
 
     // then
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.classList.contains('fjs-form-field-textfield')).to.be.true;
+    expect(formField.classList.contains('fjs-form-field-textarea')).to.be.true;
 
-    const input = container.querySelector('input[type="text"]');
+    const textarea = container.querySelector('textarea');
 
-    expect(input).to.exist;
-    expect(input.value).to.equal('John Doe Company');
-    expect(input.id).to.equal('fjs-form-foo-Textfield_1');
+    expect(textarea).to.exist;
+    expect(textarea.value).to.equal('This is a sample comment in a text area /nIt includes a line break');
+    expect(textarea.id).to.equal('fjs-form-foo-Textarea_1');
 
     const label = container.querySelector('label');
 
     expect(label).to.exist;
-    expect(label.textContent).to.equal('Creditor');
-    expect(label.htmlFor).to.equal('fjs-form-foo-Textfield_1');
+    expect(label.textContent).to.equal('Approver Comments');
+    expect(label.htmlFor).to.equal('fjs-form-foo-Textarea_1');
   });
 
 
   it('should render default value (\'\')', function() {
 
     // when
-    const { container } = createTextfield();
+    const { container } = createTextarea();
 
     // then
-    const input = container.querySelector('input[type="text"]');
+    const input = container.querySelector('textarea');
 
     expect(input).to.exist;
     expect(input.value).to.equal('');
@@ -81,38 +81,38 @@ describe('Textfield', function() {
 
     const options = { container: container.querySelector('.fjs-form') };
 
-    const { rerender } = render(<Textfield { ...props } value={ 'John Doe Company' } />, options);
+    const { rerender } = render(<Textarea { ...props } value={ 'Sample text' } />, options);
 
     // when
-    rerender(<Textfield { ...props } value={ undefined } />, options);
+    rerender(<Textarea { ...props } value={ undefined } />, options);
 
     // then
-    const input = container.querySelector('input[type="text"]');
+    const textarea = container.querySelector('textarea');
 
-    expect(input).to.exist;
-    expect(input.value).to.equal('');
+    expect(textarea).to.exist;
+    expect(textarea.value).to.equal('');
   });
 
 
   it('should render disabled', function() {
 
     // when
-    const { container } = createTextfield({
+    const { container } = createTextarea({
       disabled: true
     });
 
     // then
-    const input = container.querySelector('input[type="text"]');
+    const textarea = container.querySelector('textarea');
 
-    expect(input).to.exist;
-    expect(input.disabled).to.be.true;
+    expect(textarea).to.exist;
+    expect(textarea.disabled).to.be.true;
   });
 
 
   it('should render description', function() {
 
     // when
-    const { container } = createTextfield({
+    const { container } = createTextarea({
       field: {
         ...defaultField,
         description: 'foo'
@@ -134,21 +134,47 @@ describe('Textfield', function() {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const { container } = createTextarea({
         onChange: onChangeSpy,
-        value: 'John Doe Company'
+        value: 'A text area value'
       });
 
       // when
-      const input = container.querySelector('input[type="text"]');
+      const textarea = container.querySelector('textarea');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      fireEvent.input(textarea, { target: { value: 'A different text area value' } });
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: 'Jane Doe Company'
+        value: 'A different text area value'
       });
+    });
+
+
+    it('should autosize', function() {
+
+      // given
+      const { container } = createTextarea({
+        value: '',
+        onChange: () => { }
+      });
+
+      // when
+      const textarea = container.querySelector('textarea');
+
+      // then
+      expect(textarea.style.height === '75px');
+
+      fireEvent.input(textarea, { target: { value: '\n'.repeat(5) } });
+      expect(textarea.style.height === '142px');
+
+      fireEvent.input(textarea, { target: { value: '\n'.repeat(20) } });
+      expect(textarea.style.height === '350px');
+
+      fireEvent.input(textarea, { target: { value: '\n'.repeat(200) } });
+      expect(textarea.style.height === '350px');
+
     });
 
 
@@ -157,15 +183,15 @@ describe('Textfield', function() {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const { container } = createTextarea({
         onChange: onChangeSpy,
-        value: 'John Doe Company'
+        value: 'A text area value'
       });
 
       // when
-      const input = container.querySelector('input[type="text"]');
+      const textarea = container.querySelector('textarea');
 
-      fireEvent.input(input, { target: { value: '' } });
+      fireEvent.input(textarea, { target: { value: '' } });
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
@@ -180,18 +206,18 @@ describe('Textfield', function() {
   it('#create', function() {
 
     // assume
-    expect(Textfield.type).to.eql('textfield');
-    expect(Textfield.label).to.eql('Text field');
-    expect(Textfield.keyed).to.be.true;
+    expect(Textarea.type).to.eql('textarea');
+    expect(Textarea.label).to.eql('Text area');
+    expect(Textarea.keyed).to.be.true;
 
     // when
-    const field = Textfield.create();
+    const field = Textarea.create();
 
     // then
     expect(field).to.eql({});
 
     // but when
-    const customField = Textfield.create({
+    const customField = Textarea.create({
       custom: true
     });
 
@@ -209,8 +235,8 @@ describe('Textfield', function() {
       // given
       this.timeout(5000);
 
-      const { container } = createTextfield({
-        value: 'John Doe Company'
+      const { container } = createTextarea({
+        value: 'This is a textarea value /nFollowed by a newline'
       });
 
       // then
@@ -224,14 +250,14 @@ describe('Textfield', function() {
 // helpers //////////
 
 const defaultField = {
-  id: 'Textfield_1',
-  key: 'creditor',
-  label: 'Creditor',
-  description: 'textfield',
-  type: 'textfield'
+  id: 'Textarea_1',
+  key: 'approverComments',
+  label: 'Approver Comments',
+  description: 'textarea',
+  type: 'textarea'
 };
 
-function createTextfield(options = {}) {
+function createTextarea(options = {}) {
   const {
     disabled,
     errors,
@@ -242,7 +268,7 @@ function createTextfield(options = {}) {
   } = options;
 
   return render(WithFormContext(
-    <Textfield
+    <Textarea
       disabled={ disabled }
       errors={ errors }
       field={ field }

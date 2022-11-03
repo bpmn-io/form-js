@@ -41,6 +41,11 @@
       "type": "textfield"
     },
     {
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
+    },
+    {
       "key": "product",
       "label": "Product",
       "type": "radio",

@@ -108,9 +108,9 @@ describe('core/FieldFactory', function() {
     }));
 
 
-    it('Text Field', testCreate({
+    it('Text field', testCreate({
       type: 'textfield',
-      label: 'Text Field',
+      label: 'Text field',
       keyed: true
     }));
 
