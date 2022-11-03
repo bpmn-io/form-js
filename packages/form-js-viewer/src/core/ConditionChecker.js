@@ -30,7 +30,7 @@ export class ConditionChecker {
    * Check if given condition is met.
    *
    * @param {{ expression: string }} condition
-   * @param {Object<string, any>} data
+   * @param {import('../types').Data} data
    *
    * @returns {boolean}
    */
