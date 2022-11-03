@@ -65,7 +65,7 @@ Textfield.create = function(options = {}) {
 };
 
 Textfield.type = type;
-Textfield.label = 'Text Field';
+Textfield.label = 'Text field';
 Textfield.keyed = true;
 Textfield.emptyValue = '';
-Textfield.sanitizeValue = ({ value }) => (isArray(value) || isObject(value)) ? null : String(value);
+Textfield.sanitizeValue = ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value);

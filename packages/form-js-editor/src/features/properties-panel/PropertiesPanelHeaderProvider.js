@@ -16,6 +16,7 @@ const labelsByType = {
   taglist: 'TAGLIST',
   text: 'TEXT',
   textfield: 'TEXT FIELD',
+  textarea: 'TEXT AREA',
 };
 
 export const PropertiesPanelHeaderProvider = {

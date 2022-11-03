@@ -2,9 +2,11 @@ import {
   isNumberFieldEntryEdited,
   isSelectEntryEdited,
   isTextFieldEntryEdited,
+  isTextAreaEntryEdited,
   NumberFieldEntry,
   SelectEntry,
-  TextFieldEntry
+  TextFieldEntry,
+  TextAreaEntry
 } from '@bpmn-io/properties-panel';
 
 import { get } from 'min-dash';
@@ -69,6 +71,14 @@ export default function DefaultOptionEntry(props) {
       ...defaultOptions,
       component: DefaultValueTextfield,
       isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  if (type === 'textarea') {
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueTextarea,
+      isEdited: isTextAreaEntryEdited
     });
   }
 
@@ -222,6 +232,35 @@ function DefaultValueTextfield(props) {
   });
 }
 
+function DefaultValueTextarea(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const path = [ 'defaultValue' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  return TextAreaEntry({
+    debounce,
+    element: field,
+    getValue,
+    id,
+    label,
+    setValue
+  });
+}
 
 // helpers /////////////////
 

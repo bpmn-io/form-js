@@ -27,7 +27,7 @@
 }
 
 .fjs-pgl-main {
-  width: 100%;
+  width: calc(100% - 111px);
   height: 100%;
 
   display: grid;
@@ -44,7 +44,7 @@
  */
 .fjs-pgl-palette-container {
   height: 100%;
-  width: auto;
+  width: 110px;
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
   overflow-y: scroll;

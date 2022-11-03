@@ -2,8 +2,12 @@ import { iconsByType } from '../../../render/components/icons';
 
 const types = [
   {
-    label: 'Text Field',
+    label: 'Text field',
     type: 'textfield'
+  },
+  {
+    label: 'Text area',
+    type: 'textarea'
   },
   {
     label: 'Number',

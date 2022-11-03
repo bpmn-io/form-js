@@ -41,7 +41,8 @@ export const INPUTS = [
   'radio',
   'select',
   'taglist',
-  'textfield'
+  'textfield',
+  'textarea'
 ];
 
 export const VALUES_INPUTS = [

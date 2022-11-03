@@ -9,6 +9,7 @@ import RadioIcon from './Radio.svg';
 import SelectIcon from './Select.svg';
 import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
+import TextareaIcon from './Textarea.svg';
 
 export const iconsByType = {
   button: ButtonIcon,
@@ -21,5 +22,6 @@ export const iconsByType = {
   taglist: TaglistIcon,
   text: TextIcon,
   textfield: TextfieldIcon,
+  textarea: TextareaIcon,
   default: FormIcon
 };
