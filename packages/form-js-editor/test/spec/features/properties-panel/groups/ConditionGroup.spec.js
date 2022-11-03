@@ -8,8 +8,6 @@ import { ConditionGroup } from '../../../../../src/features/properties-panel/gro
 
 import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
-import { set } from 'min-dash';
-
 import { INPUTS } from '../../../../../src/features/properties-panel/Util';
 
 
@@ -56,9 +54,7 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: {
-          expression: 'foobar'
-        }
+        condition: 'foobar'
       };
 
       // when
@@ -77,12 +73,10 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: {
-          expression: 'foobar'
-        }
+        condition: 'foobar'
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy();
 
       const { container } = renderConditionGroup({ field, editField: editFieldSpy });
 
@@ -93,7 +87,7 @@ describe('ConditionGroup', function() {
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
-      expect(field.condition.expression).to.equal('=newVal');
+      expect(editFieldSpy.args[0]).to.eql([ field, { condition: '=newVal' } ]);
     });
 
 
@@ -102,12 +96,10 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: {
-          expression: 'foobar'
-        }
+        condition: 'foobar'
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy();
 
       const { container } = renderConditionGroup({ field, editField: editFieldSpy });
 
@@ -118,7 +110,7 @@ describe('ConditionGroup', function() {
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
-      expect(field.condition.expression).not.to.exist;
+      expect(editFieldSpy.args[0]).to.eql([ field, { condition: undefined } ]);
     });
 
   });

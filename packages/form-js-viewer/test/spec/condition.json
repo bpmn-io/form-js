@@ -14,9 +14,7 @@
       "type": "textfield",
       "id": "Field",
       "key": "text",
-      "condition": {
-        "expression": "=amount > 2"
-      }
+      "condition": "=amount > 2"
     }
   ],
   "type": "default",

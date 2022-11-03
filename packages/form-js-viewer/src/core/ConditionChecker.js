@@ -1,4 +1,5 @@
 import { unaryTest } from 'feelin';
+import { isString } from 'min-dash';
 
 export class ConditionChecker {
   constructor(formFieldRegistry) {
@@ -29,23 +30,27 @@ export class ConditionChecker {
   /**
    * Check if given condition is met.
    *
-   * @param {{ expression: string }} condition
-   * @param {import('../types').Data} data
+   * @param {string} condition
+   * @param {import('../types').Data} [data]
    *
    * @returns {boolean}
    */
-  check(condition, data) {
-    if (!condition || !condition.expression) {
+  check(condition, data = {}) {
+    if (!condition) {
       return true;
     }
 
-    const { expression } = condition;
-
-    if (!expression.startsWith('=')) {
+    if (!isString(condition) || !condition.startsWith('=')) {
       return false;
     }
 
-    return unaryTest(expression.slice(1), data);
+    try {
+      const result = unaryTest(condition.slice(1), data);
+
+      return result;
+    } catch (error) {
+      return false;
+    }
   }
 
   _getConditions() {
