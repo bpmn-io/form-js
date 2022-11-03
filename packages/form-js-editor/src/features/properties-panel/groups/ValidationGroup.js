@@ -49,7 +49,7 @@ export default function ValidationGroup(field, editField) {
     }
   ];
 
-  if (type === 'textfield') {
+  if (type === 'textarea' || type === 'textfield') {
     entries.push(
       {
         id: 'minLength',
@@ -66,7 +66,12 @@ export default function ValidationGroup(field, editField) {
         field,
         isEdited: isNumberFieldEntryEdited,
         onChange
-      },
+      }
+    );
+  }
+
+  if (type === 'textfield') {
+    entries.push(
       {
         id: 'pattern',
         component: Pattern,

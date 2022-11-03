@@ -150,7 +150,10 @@
 }
 
 .fjs-container .fjs-textarea {
-  height: 90px;
+  resize: none;
+  overflow: hidden;
+  height: 75px;
+  font-size: 14px;
 }
 
 .fjs-container .fjs-radio {
