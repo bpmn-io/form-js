@@ -33,6 +33,11 @@
       "type": "checkbox"
     },
     {
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"

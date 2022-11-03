@@ -64,6 +64,12 @@
       "type": "textfield"
     },
     {
+      "defaultValue": "Sample comment provided by the approver",
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea"
+    },
+    {
       "defaultValue": "camunda-platform",
       "key": "product",
       "label": "Product",
@@ -80,7 +86,7 @@
       ]
     },
     {
-      "defaultValue": [ "tag1", "tag2", "tag3" ],
+      "defaultValue": ["tag1", "tag2", "tag3"],
       "key": "tags",
       "label": "Taglist",
       "type": "taglist",

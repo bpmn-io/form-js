@@ -45,7 +45,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(13);
+      expect(formFieldRegistry.getAll()).to.have.length(14);
     }));
 
 
@@ -70,7 +70,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(13);
+      expect(formFieldRegistry.getAll()).to.have.length(14);
 
       // when
       result = await form.importSchema(other, data);
@@ -241,6 +241,7 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
+        approverComments: 'Please review C-123',
         mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
@@ -257,6 +258,7 @@ describe('Importer', function() {
         amount: 456,
         approved: true,
         approvedBy: 'John Doe',
+        approverComments: 'Please review C-123',
         mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-cloud',
         tags: [ 'tag1', 'tag2', 'tag3' ],
@@ -280,6 +282,7 @@ describe('Importer', function() {
         amount: null,
         approved: false,
         approvedBy: '',
+        approverComments: '',
         mailto: [],
         product: null,
         tags: [],
@@ -303,6 +306,7 @@ describe('Importer', function() {
         amount: 0,
         approved: true,
         approvedBy: '',
+        approverComments: 'Sample comment provided by the approver',
         mailto: [ 'regional-manager', 'approver' ],
         product: 'camunda-platform',
         tags: [ 'tag1', 'tag2', 'tag3' ],
@@ -318,7 +322,9 @@ describe('Importer', function() {
         mailto: [ 'invalid1', 'invalid2', 'approver' ],
         product: 'invalid',
         tags: [ 'invalid1', 'invalid2', 'invalid3', 'tag1' ],
-        language: 'invalid'
+        language: 'invalid',
+        approvedBy: { someInvalidStructure: false },
+        approverComments: { someInvalidStructure: true },
       };
 
       // when
@@ -330,6 +336,7 @@ describe('Importer', function() {
         amount: 0,
         approved: true,
         approvedBy: '',
+        approverComments: '',
         mailto: [ 'approver' ],
         product: null,
         tags: [ 'tag1' ],
