@@ -14,6 +14,7 @@ import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholder
 import {
   CustomValuesGroup,
   GeneralGroup,
+  ImageGroup,
   ValidationGroup,
   ValuesGroups
 } from './groups';
@@ -28,6 +29,7 @@ function getGroups(field, editField) {
     GeneralGroup(field, editField),
     ...ValuesGroups(field, editField),
     ValidationGroup(field, editField),
+    ImageGroup(field, editField),
     CustomValuesGroup(field, editField)
   ];
 
