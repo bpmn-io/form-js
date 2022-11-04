@@ -53,6 +53,7 @@ export default [
       'preact/jsx-runtime',
       '@codemirror/state',
       '@codemirror/lang-json',
+      '@codemirror/lint',
       '@codemirror/view',
       'codemirror',
       'classnames'

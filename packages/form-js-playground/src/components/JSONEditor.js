@@ -3,7 +3,8 @@ import mitt from 'mitt';
 import { basicSetup } from 'codemirror';
 import { EditorView } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
-import { json } from '@codemirror/lang-json';
+import { linter } from '@codemirror/lint';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
 
 
 export function JSONEditor(options = {}) {
@@ -17,6 +18,8 @@ export function JSONEditor(options = {}) {
   let language = new Compartment().of(json());
   let tabSize = new Compartment().of(EditorState.tabSize.of(2));
 
+  const linterExtension = linter(jsonParseLinter());
+
   function createState(doc, extensions = []) {
     return EditorState.create({
       doc,
@@ -24,6 +27,7 @@ export function JSONEditor(options = {}) {
         basicSetup,
         language,
         tabSize,
+        linterExtension,
         ...extensions
       ]
     });
@@ -64,6 +68,7 @@ export function JSONEditor(options = {}) {
 
   this.on = emitter.on;
   this.off = emitter.off;
+  this.emit = emitter.emit;
 
   this.attachTo = function(container) {
     container.appendChild(view.dom);
