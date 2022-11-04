@@ -1,0 +1,10 @@
+{
+  "components": [
+    {
+      "source": "logo",
+      "alt": "The bpmn.io logo",
+      "type": "image"
+    }
+  ],
+  "type": "default"
+}

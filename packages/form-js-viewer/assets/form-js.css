@@ -342,3 +342,12 @@
   padding: 6px 8px;
   color: var(--color-text-lighter);
 }
+
+.fjs-container .fjs-image-container {
+  width: fit-content;
+  height: fit-content;
+}
+
+.fjs-container .fjs-image {
+  object-fit: contain;
+}

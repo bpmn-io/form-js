@@ -4,6 +4,7 @@ import {
 
 import schema from '../form.json';
 import dynamicSchema from '../dynamic.json';
+import imageSourceSchema from '../imageSource.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -21,6 +22,15 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(dynamicSchema);
 
     expect(variables).to.eql([ 'product', 'xyzData', 'mailto', 'language', 'tags' ]);
+
+  });
+
+
+  it('should include form field source keys', () => {
+
+    const variables = getSchemaVariables(imageSourceSchema);
+
+    expect(variables).to.eql([ 'logo' ]);
 
   });
 

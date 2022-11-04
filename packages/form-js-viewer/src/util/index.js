@@ -81,6 +81,7 @@ export function getSchemaVariables(schema) {
     const {
       key,
       valuesKey,
+      source,
       type
     } = component;
 
@@ -94,6 +95,10 @@ export function getSchemaVariables(schema) {
 
     if (valuesKey && !variables.includes(valuesKey)) {
       variables = [ ...variables, valuesKey ];
+    }
+
+    if (source && !variables.includes(source)) {
+      variables = [ ...variables, source ];
     }
 
     return variables;
