@@ -3,7 +3,7 @@ import mitt from 'mitt';
 import { basicSetup } from 'codemirror';
 import { EditorView } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
-import { linter } from '@codemirror/lint';
+import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 
 
@@ -28,6 +28,7 @@ export function JSONEditor(options = {}) {
         language,
         tabSize,
         linterExtension,
+        lintGutter(),
         ...extensions
       ]
     });
