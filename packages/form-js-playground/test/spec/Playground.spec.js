@@ -545,6 +545,32 @@ describe('playground', function() {
       expect(spy).to.have.been.called;
     });
 
+
+    it('should emit <formPlayground.inputDataError>', async function() {
+
+      // given
+      await act(() => {
+        playground = new Playground({
+          container,
+          schema
+        });
+      });
+
+      let trackedError;
+
+      playground.on('formPlayground.inputDataError', e => trackedError = e);
+
+      // when
+      await act(() => {
+        const dataEditor = playground.getDataEditor();
+        dataEditor.emit('changed', { value: 'foo' });
+      });
+
+      // then
+      expect(trackedError).to.exist;
+      expect(trackedError.name).to.eql('SyntaxError');
+    });
+
   });
 
 
