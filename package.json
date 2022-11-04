@@ -71,6 +71,7 @@
     "chai": "^4.3.5",
     "cross-env": "^7.0.3",
     "del-cli": "^4.0.0",
+    "didi": "^9.0.0",
     "diagram-js": "^10.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-bpmn-io": "^0.16.0",
