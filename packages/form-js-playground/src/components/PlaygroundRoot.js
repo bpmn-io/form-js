@@ -128,12 +128,12 @@ export function PlaygroundRoot(props) {
     });
 
     dataEditor.on('changed', event => {
-
       try {
         setData(JSON.parse(event.value));
-      } catch (err) {
+      } catch (error) {
 
-        // TODO(nikku): indicate JSON parse error
+        // notify interested about input data error
+        emit('formPlayground.inputDataError', error);
       }
     });
 
