@@ -17,6 +17,7 @@ import {
   DisplayGroup,
   FormatGroup,
   ConstraintsGroup,
+  ImageGroup,
   ValidationGroup,
   ValuesGroups
 } from './groups';
@@ -34,6 +35,7 @@ function getGroups(field, editField) {
     ...ValuesGroups(field, editField),
     ConstraintsGroup(field, editField),
     ValidationGroup(field, editField),
+    ImageGroup(field, editField),
     CustomValuesGroup(field, editField)
   ];
 

@@ -83,6 +83,12 @@
       ]
     },
     {
+      "defaultValue": "data:image/svg+xml",
+      "source": "logo",
+      "alt": "The bpmn.io logo",
+      "type": "image"
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"

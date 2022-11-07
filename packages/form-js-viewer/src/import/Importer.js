@@ -132,7 +132,8 @@ export default class Importer {
         defaultValue,
         _path,
         type,
-        valuesKey
+        valuesKey,
+        source
       } = formField;
 
       // get values defined via valuesKey
@@ -141,6 +142,14 @@ export default class Importer {
         importedData = {
           ...importedData,
           [ valuesKey ]: get(data, [ valuesKey ])
+        };
+      }
+
+      // get values defined via source
+      if (source) {
+        importedData = {
+          ...importedData,
+          [ source ]: get(data, [ source ])
         };
       }
 

@@ -1924,6 +1924,212 @@ describe('properties panel', function() {
 
     });
 
+
+    describe('image', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ source }) => source === 'logo');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Image',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Default value',
+        ]);
+
+        expectGroupEntries(result.container, 'Image', [
+          'Source',
+          'Alternative text',
+        ]);
+      });
+
+
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'data:image/svg+xml' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'data:image/svg+xml');
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default value');
+
+          expect(input.value).to.equal('data:image/svg+xml');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
+      });
+
+
+      describe('source', function() {
+
+        it('should update source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Source');
+
+          expect(input.value).to.equal('logo');
+
+          // when
+          fireEvent.input(input, { target: { value: 'foo' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], 'foo');
+        });
+
+
+        it('should remove source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Source');
+
+          expect(input.value).to.equal('logo');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], undefined);
+        });
+
+      });
+
+
+      describe('alt', function() {
+
+        it('should update alt text', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Alternative text');
+
+          expect(input.value).to.equal('The bpmn.io logo');
+
+          // when
+          fireEvent.input(input, { target: { value: 'An image' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], 'An image');
+        });
+
+
+        it('should remove alt text', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === 'logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Alternative text');
+
+          expect(input.value).to.equal('The bpmn.io logo');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], undefined);
+        });
+
+      });
+
+    });
+
   });
 
 

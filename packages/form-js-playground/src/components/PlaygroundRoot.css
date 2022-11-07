@@ -183,11 +183,17 @@
   box-sizing: border-box;
   border: none;
   border-radius: 0;
+  position: relative;
 }
 
 .fjs-pgl-text-container > .cm-editor {
   font-size: .9em;
   height: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .fjs-pgl-text-container > .cm-editor > .cm-scroller {

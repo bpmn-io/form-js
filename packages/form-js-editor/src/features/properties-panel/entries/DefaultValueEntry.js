@@ -29,7 +29,11 @@ export default function DefaultOptionEntry(props) {
   const entries = [];
 
   // Only make default values available when they are statically defined
-  if (!INPUTS.includes(type) || VALUES_INPUTS.includes(type) && !field.values) {
+  if (
+    !INPUTS.includes(type) &&
+    type !== 'image' ||
+    VALUES_INPUTS.includes(type) &&
+    !field.values) {
     return entries;
   }
 
@@ -78,6 +82,14 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueTextarea,
+      isEdited: isTextAreaEntryEdited
+    });
+  }
+
+  if (type === 'image') {
+    entries.push({
+      ...defaultOptions,
+      component: DefaultValueImage,
       isEdited: isTextAreaEntryEdited
     });
   }
@@ -254,6 +266,37 @@ function DefaultValueTextarea(props) {
 
   return TextAreaEntry({
     debounce,
+    element: field,
+    getValue,
+    id,
+    label,
+    setValue
+  });
+}
+
+function DefaultValueImage(props) {
+  const {
+    editField,
+    field,
+    id,
+    label
+  } = props;
+
+  const debounce = useService('debounce');
+
+  const path = [ 'defaultValue' ];
+
+  const getValue = () => {
+    return get(field, path, '');
+  };
+
+  const setValue = (value) => {
+    return editField(field, path, value);
+  };
+
+  return TextAreaEntry({
+    debounce,
+    description: 'Specify the image source via link or data URI',
     element: field,
     getValue,
     id,

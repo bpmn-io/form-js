@@ -94,7 +94,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
   });
 
 
@@ -173,7 +173,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -211,7 +211,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
     });
 
 
