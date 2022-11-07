@@ -215,6 +215,13 @@
   border-radius: 3px;
 }
 
+.fjs-container .fjs-select-display {
+  width: 100%;
+  padding: 8px;
+  background-color: var(--color-grey-225-10-97);
+  border-radius: 3px;
+}
+
 .fjs-container .fjs-datepicker,
 .fjs-container .fjs-timepicker,
 .fjs-container .fjs-datetime-subsection {

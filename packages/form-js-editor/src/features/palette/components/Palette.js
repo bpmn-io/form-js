@@ -38,6 +38,10 @@ const types = [
     type: 'select'
   },
   {
+    label: 'Searchable select',
+    type: 'searchableselect'
+  },
+  {
     label: 'Text view',
     type: 'text'
   },

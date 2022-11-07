@@ -9,15 +9,15 @@ export default function InputAdorner(props) {
     inputRef,
     children,
     disabled,
-    hasErrors
+    hasErrors,
+    onPreClick = () => inputRef?.current?.focus(),
+    onPostClick = () => inputRef?.current?.focus()
   } = props;
 
-  const onAdornmentClick = () => inputRef?.current?.focus();
-
   return <div class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': hasErrors }) } ref={ rootRef }>
-    { pre !== null && <span class="fjs-input-adornment border-right border-radius-left" onClick={ onAdornmentClick }> { pre } </span> }
+    { pre !== null && <span class="fjs-input-adornment border-right border-radius-left" onClick={ onPreClick }> { pre } </span> }
     { children }
-    { post !== null && <span class="fjs-input-adornment border-left border-radius-right" onClick={ onAdornmentClick }> { post } </span> }
+    { post !== null && <span class="fjs-input-adornment border-left border-radius-right" onClick={ onPostClick }> { post } </span> }
   </div>;
 
 }
