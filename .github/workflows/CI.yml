@@ -29,15 +29,18 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-20.04'
       env:
         COVERAGE: 1
         TEST_BROWSERS: Firefox,ChromeHeadless
       run: xvfb-run npm run all
     - name: Build
-      if: matrix.os != 'ubuntu-latest'
+      if: matrix.os != 'ubuntu-20.04'
       env:
         TEST_BROWSERS: ChromeHeadless
       run: npm run all
     - name: Upload coverage
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
+      if: matrix.os == 'ubuntu-20.04'
+      with:
+        fail_ci_if_error: true
