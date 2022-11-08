@@ -24,13 +24,14 @@ export default function Taglist(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value : values = []
   } = props;
 
   const {
     description,
     id,
-    label
   } = field;
 
   const { formId } = useContext(FormContext);
@@ -114,7 +115,7 @@ export default function Taglist(props) {
     <Label
       label={ label }
       id={ prefixId(`${id}-search`, formId) } />
-    <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
+    <div class={ classNames('fjs-taglist', { disabled, readonly }) }>
       {!disabled && loadState === LOAD_STATES.LOADED &&
         values.map((v) => {
           return (
@@ -137,13 +138,16 @@ export default function Taglist(props) {
         value={ filter }
         placeholder={ 'Search' }
         autoComplete="off"
+
+        // todo(pinussilvestrus): a11y concerns?
+        tabIndex={ readonly ? -1 : 0 }
         onKeyDown={ (e) => onInputKeyDown(e) }
         onMouseDown={ () => setIsEscapeClose(false) }
         onFocus={ () => setIsDropdownExpanded(true) }
         onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } } />
     </div>
     <div class="fjs-taglist-anchor">
-      {!disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
+      {!disabled && !readonly && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
         values={ filteredOptions }
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => selectValue(o.value) }

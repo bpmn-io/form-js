@@ -13,6 +13,7 @@ export default function Timepicker(props) {
     id,
     formId,
     disabled,
+    readonly,
     use24h = false,
     timeInterval,
     time,
@@ -121,6 +122,9 @@ export default function Timepicker(props) {
         type="text"
         id={ `${prefixId(id, formId)}--time` }
         class="fjs-input"
+
+        // todo(pinussilvestrus): a11y concerns?
+        tabIndex={ readonly ? -1 : 0 }
         value={ rawValue }
         disabled={ disabled }
         placeholder={ use24h ? 'HH:MM' : 'HH:MM ?M' }

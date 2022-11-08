@@ -19,3 +19,4 @@ export { default as ValuesSourceSelectEntry } from './ValuesSourceSelectEntry';
 export { default as InputKeyValuesSourceEntry } from './InputKeyValuesSourceEntry';
 export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { ConditionEntry } from './ConditionEntry';
+export { default as ReadonlyEntry } from './ReadonlyEntry';

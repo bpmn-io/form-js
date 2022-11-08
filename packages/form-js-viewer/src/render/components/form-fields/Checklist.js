@@ -1,6 +1,8 @@
 import { useContext } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -21,13 +23,14 @@ export default function Checklist(props) {
     disabled,
     errors = [],
     field,
-    value = [],
+    label,
+    readonly,
+    value = []
   } = props;
 
   const {
     description,
-    id,
-    label
+    id
   } = field;
 
   const toggleCheckbox = (v) => {
@@ -53,7 +56,7 @@ export default function Checklist(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ classNames(formFieldClasses(type, errors), { readonly }) }>
     <Label
       label={ label } />
     {
@@ -68,6 +71,9 @@ export default function Checklist(props) {
               checked={ value.includes(v.value) }
               class="fjs-input"
               disabled={ disabled }
+
+              // todo(pinussilvestrus): a11y concerns?
+              tabIndex={ readonly ? -1 : 0 }
               id={ prefixId(`${id}-${index}`, formId) }
               type="checkbox"
               onClick={ () => toggleCheckbox(v.value) } />

@@ -1,11 +1,11 @@
 import { useContext } from 'preact/hooks';
 
-import { get } from 'min-dash';
+import { get, isString } from 'min-dash';
 
 import { FormRenderContext } from '../context';
 
 import useService from '../hooks/useService';
-import { useCondition } from '../hooks/useCondition';
+import { useCondition, useConditionEvaluation } from '../hooks/useCondition';
 
 import { findErrors } from '../../util';
 
@@ -46,7 +46,14 @@ export default function FormField(props) {
 
   const disabled = properties.readOnly || field.disabled || false;
 
-  const visible = useCondition(field.condition, data);
+  // todo(pinussilvestrus): find a general approach to retrieve conditional expression properties
+  const readonly = useCondition(field.readonly, data, false);
+
+  // todo(pinussilvestrus): only demo purposes, remove me later
+  // eslint-disable-next-line
+  const label = isExpression(field.label) ? useConditionEvaluation(field.label, data, '') : field.label;
+
+  const visible = useCondition(field.condition, data, true);
   if (!visible) {
     return <Empty />;
   }
@@ -58,7 +65,16 @@ export default function FormField(props) {
         disabled={ disabled }
         errors={ fieldErrors }
         onChange={ disabled ? noop : onChange }
+        label={ label }
+        readonly={ readonly }
         value={ value } />
     </Element>
   );
+}
+
+
+// helper ///////////////
+
+function isExpression(value) {
+  return isString(value) && value.startsWith('=');
 }

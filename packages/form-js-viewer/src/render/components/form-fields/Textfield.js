@@ -1,4 +1,7 @@
 import { isArray, isObject } from 'min-dash';
+
+import classNames from 'classnames';
+
 import { useContext } from 'preact/hooks';
 
 import { FormContext } from '../../context';
@@ -20,13 +23,14 @@ export default function Textfield(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value = ''
   } = props;
 
   const {
     description,
     id,
-    label,
     validate = {}
   } = field;
 
@@ -47,8 +51,9 @@ export default function Textfield(props) {
       label={ label }
       required={ required } />
     <input
-      class="fjs-input"
+      class={ classNames('fjs-input', { readonly }) }
       disabled={ disabled }
+      readonly={ readonly }
       id={ prefixId(id, formId) }
       onInput={ onChange }
       type="text"

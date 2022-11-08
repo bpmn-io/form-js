@@ -3,7 +3,6 @@ import {
   ColumnsEntry,
   DescriptionEntry,
   DefaultValueEntry,
-  DisabledEntry,
   IdEntry,
   KeyEntry,
   LabelEntry,
@@ -23,8 +22,7 @@ export default function GeneralGroup(field, editField) {
     ...ActionEntry({ field, editField }),
     ...ColumnsEntry({ field, editField }),
     ...DateTimeEntry({ field, editField }),
-    ...TextEntry({ field, editField }),
-    ...DisabledEntry({ field, editField })
+    ...TextEntry({ field, editField })
   ];
 
   return {

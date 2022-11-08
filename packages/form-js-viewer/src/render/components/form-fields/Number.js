@@ -1,5 +1,7 @@
 import { useContext } from 'preact/hooks';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -19,13 +21,14 @@ export default function Number(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value
   } = props;
 
   const {
     description,
     id,
-    label,
     validate = {}
   } = field;
 
@@ -46,10 +49,11 @@ export default function Number(props) {
       label={ label }
       required={ required } />
     <input
-      class="fjs-input"
+      class={ classNames('fjs-input', { readonly }) }
       disabled={ disabled }
       id={ prefixId(id, formId) }
       onInput={ onChange }
+      readonly={ readonly }
       type="number"
       value={ value || '' } />
     <Description description={ description } />

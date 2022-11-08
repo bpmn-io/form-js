@@ -1,6 +1,8 @@
 import { useContext } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -21,13 +23,14 @@ export default function Radio(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value
   } = props;
 
   const {
     description,
     id,
-    label,
     validate = {}
   } = field;
 
@@ -61,9 +64,12 @@ export default function Radio(props) {
             required={ false }>
             <input
               checked={ option.value === value }
-              class="fjs-input"
+              class={ classNames('fjs-input', { readonly }) }
               disabled={ disabled }
               id={ prefixId(`${ id }-${ index }`, formId) }
+
+              // todo(pinussilvestrus): a11y concerns?
+              tabIndex={ readonly ? -1 : 0 }
               type="radio"
               onClick={ () => onChange(option.value) } />
           </Label>
