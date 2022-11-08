@@ -19,6 +19,7 @@ import {
   FormatGroup,
   ConstraintsGroup,
   ImageGroup,
+  InteractionGroup,
   ValidationGroup,
   ValuesGroups
 } from './groups';
@@ -33,6 +34,7 @@ function getGroups(field, editField) {
     GeneralGroup(field, editField),
     ConditionGroup(field, editField),
     DisplayGroup(field, editField),
+    InteractionGroup(field, editField),
     FormatGroup(field, editField),
     ...ValuesGroups(field, editField),
     ConstraintsGroup(field, editField),

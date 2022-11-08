@@ -1,5 +1,7 @@
 import { useContext, useMemo, useRef, useState } from 'preact/hooks';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -20,15 +22,15 @@ export default function Number(props) {
     disabled,
     errors = [],
     field,
-    value,
+    label,
+    readonly,
     onChange,
-
+    value
   } = props;
 
   const {
     description,
     id,
-    label,
     prefixAdorner,
     suffixAdorner,
     validate = {},
@@ -97,15 +99,16 @@ export default function Number(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+    <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
       <input
         ref={ numberInputRef }
-        class="fjs-input"
+        class={ classNames('fjs-input', { readonly }) }
         disabled={ disabled }
         id={ prefixId(id, formId) }
 
         // @ts-ignore
         onKeyPress={ onKeyPress }
+        readonly={ readonly }
         onInput={ onInput }
         type="number"
         step={ appliedStep }

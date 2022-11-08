@@ -1,6 +1,8 @@
 import { isArray, isObject } from 'min-dash';
 import { useCallback, useContext, useEffect, useRef } from 'preact/hooks';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -20,13 +22,14 @@ export default function Textarea(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value = ''
   } = props;
 
   const {
     description,
     id,
-    label,
     validate = {}
   } = field;
 
@@ -76,11 +79,12 @@ export default function Textarea(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <textarea class="fjs-textarea"
+    <textarea class={ classNames('fjs-textarea', { readonly }) }
       disabled={ disabled }
       id={ prefixId(id, formId) }
       onInput={ onInput }
       value={ value }
+      readonly={ readonly }
       ref={ textareaRef } />
     <Description description={ description } />
     <Errors errors={ errors } />

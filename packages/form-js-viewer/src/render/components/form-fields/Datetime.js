@@ -26,6 +26,7 @@ export default function Datetime(props) {
     errors = [],
     field,
     onChange,
+    readonly,
     value = ''
   } = props;
 
@@ -126,6 +127,7 @@ export default function Datetime(props) {
     disabled,
     disallowPassedDates,
     date,
+    readonly,
     setDate
   };
 
@@ -133,13 +135,14 @@ export default function Datetime(props) {
     id,
     formId,
     disabled,
+    readonly,
     use24h,
     timeInterval,
     time,
     setTime
   };
 
-  return <div class={ formFieldClasses(type, allErrors) }>
+  return <div class={ classNames(formFieldClasses(type, allErrors), { readonly }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }

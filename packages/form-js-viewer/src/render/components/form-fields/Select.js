@@ -1,6 +1,8 @@
 import { useContext } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -20,13 +22,14 @@ export default function Select(props) {
     disabled,
     errors = [],
     field,
-    value
+    label,
+    value,
+    readonly
   } = props;
 
   const {
     description,
     id,
-    label,
     validate = {}
   } = field;
 
@@ -52,10 +55,13 @@ export default function Select(props) {
       label={ label }
       required={ required } />
     <select
-      class="fjs-select"
+      class={ classNames('fjs-select', { readonly }) }
       disabled={ disabled }
       id={ prefixId(id, formId) }
       onChange={ onChange }
+
+      // todo(pinussilvestrus): a11y concerns?
+      tabIndex={ readonly ? -1 : 0 }
       value={ value || '' }>
       <option value=""></option>
       {

@@ -153,6 +153,25 @@ export default class Importer {
         };
       }
 
+      // get values defined via expression
+      // todo(pinussilvestrus): how to correctly get input variables from expressions
+      // in a general manner
+      [
+        'readonly',
+        'label'
+      ].forEach(property => {
+        if (formField[property]) {
+          Object.keys(data).forEach(key => {
+            if (formField[property].includes(key)) {
+              importedData = {
+                ...importedData,
+                [ key ]: get(data, [ key ])
+              };
+            }
+          });
+        }
+      });
+
       // try to get value from data
       // if unavailable - try to get default value from form field
       // if unavailable - get empty value from form field

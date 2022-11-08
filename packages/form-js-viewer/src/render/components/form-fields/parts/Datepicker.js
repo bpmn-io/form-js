@@ -13,6 +13,7 @@ export default function Datepicker(props) {
     disabled,
     disallowPassedDates,
     date,
+    readonly,
     setDate
   } = props;
 
@@ -169,7 +170,10 @@ export default function Datepicker(props) {
       <input ref={ dateInputRef }
         type="text"
         id={ `${prefixId(id, formId)}--date` }
-        class={ 'fjs-input' }
+        class="fjs-input"
+
+        // todo(pinussilvestrus): a11y concerns?
+        tabIndex={ readonly ? -1 : 0 }
         disabled={ disabled }
         placeholder="MM/DD/YYYY"
         autoComplete="false"

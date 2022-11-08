@@ -21,3 +21,4 @@ export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { default as NumberConstraintsEntry } from './NumberConstraintsEntry';
 export { default as AdornerEntry } from './AdornerEntry';
 export { ConditionEntry } from './ConditionEntry';
+export { default as ReadonlyEntry } from './ReadonlyEntry';

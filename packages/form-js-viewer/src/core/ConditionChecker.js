@@ -1,4 +1,4 @@
-import { unaryTest } from 'feelin';
+import { unaryTest, evaluate } from 'feelin';
 import { isString } from 'min-dash';
 
 export class ConditionChecker {
@@ -32,12 +32,13 @@ export class ConditionChecker {
    *
    * @param {string} condition
    * @param {import('../types').Data} [data]
+   * @param {boolean} [defaultValue]
    *
    * @returns {boolean}
    */
-  check(condition, data = {}) {
+  check(condition, data = {}, defaultValue) {
     if (!condition) {
-      return true;
+      return defaultValue;
     }
 
     if (!isString(condition) || !condition.startsWith('=')) {
@@ -46,6 +47,24 @@ export class ConditionChecker {
 
     try {
       const result = unaryTest(condition.slice(1), data);
+
+      return result;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  evaluate(condition, data = {}, defaultValue) {
+    if (!condition) {
+      return defaultValue;
+    }
+
+    if (!isString(condition) || !condition.startsWith('=')) {
+      return false;
+    }
+
+    try {
+      const result = evaluate(condition.slice(1), data);
 
       return result;
     } catch (error) {

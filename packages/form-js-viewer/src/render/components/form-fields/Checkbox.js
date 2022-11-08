@@ -1,5 +1,7 @@
 import { useContext } from 'preact/hooks';
 
+import classNames from 'classnames';
+
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -19,13 +21,14 @@ export default function Checkbox(props) {
     disabled,
     errors = [],
     field,
+    label,
+    readonly,
     value = false
   } = props;
 
   const {
     description,
-    id,
-    label
+    id
   } = field;
 
   const onChange = ({ target }) => {
@@ -35,9 +38,10 @@ export default function Checkbox(props) {
     });
   };
 
+
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ classNames(formFieldClasses(type, errors), { readonly }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
@@ -45,6 +49,9 @@ export default function Checkbox(props) {
       <input
         checked={ value }
         class="fjs-input"
+
+        // todo(pinussilvestrus): a11y concerns?
+        tabIndex={ readonly ? -1 : 0 }
         disabled={ disabled }
         id={ prefixId(id, formId) }
         type="checkbox"

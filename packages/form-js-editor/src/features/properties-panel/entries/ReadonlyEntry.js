@@ -1,43 +1,39 @@
-import { get } from 'min-dash';
-
 import { useRef } from 'preact/hooks';
-
-import { INPUTS } from '../Util';
+import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { get } from 'min-dash';
 
 import { getSchemaVariables } from '@bpmn-io/form-js-viewer';
 
 import { useService } from '../hooks';
 import { usePrevious } from '../../../render/hooks';
 
-import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { INPUTS } from '../Util';
 
 
-export default function LabelEntry(props) {
+
+export default function ReadonlyEntry(props) {
   const {
     editField,
     field
   } = props;
 
-  const {
-    type
-  } = field;
+  if (!INPUTS.includes(field.type)) {
+    return [];
+  }
 
-  const entries = [];
-
-  if (INPUTS.includes(type) || type === 'button') {
-    entries.push({
-      id: 'label',
-      component: Label,
+  return [
+    {
+      id: 'readonly',
+      component: Readonly,
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited
-    });
-  }
-
-  return entries;
+    }
+  ];
 }
 
-function Label(props) {
+
+function Readonly(props) {
   const {
     editField,
     field,
@@ -48,23 +44,24 @@ function Label(props) {
 
   const variables = useVariables();
 
-  const path = [ 'label' ];
+  const path = [ 'readonly' ];
 
   const getValue = () => {
     return get(field, path, '');
   };
 
   const setValue = (value) => {
-    return editField(field, path, value);
+    return editField(field, { readonly: value });
   };
 
   return FeelEntry({
     debounce,
+    description: 'Condition under which the field is readonly',
     element: field,
-    feel: 'optional',
+    feel: 'required',
     getValue,
     id,
-    label: 'Field label',
+    label: 'Read only',
     setValue,
     variables
   });

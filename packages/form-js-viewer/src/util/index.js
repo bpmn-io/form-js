@@ -102,6 +102,7 @@ export function getSchemaVariables(schema) {
       variables = [ ...variables, source ];
     }
 
+    // todo(pinussilvestrus): extract variables defined in FEEL expressions
     return variables;
 
   }, []);

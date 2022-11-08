@@ -32,12 +32,14 @@
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-grey-225-10-95);
   --color-background-adornment: var(--color-grey-225-10-93);
+  --color-background-readonly: transparent;
   --color-text: var(--color-grey-225-10-15);
   --color-text-light: var(--color-grey-225-10-35);
   --color-text-lighter: var(--color-grey-225-10-55);
   --color-text-inverted: var(--color-white);
   --color-borders: var(--color-grey-225-10-55);
   --color-borders-disabled: var(--color-grey-225-10-75);
+  --color-borders-readonly: transparent;
   --color-borders-adornment: var(--color-grey-225-10-85);
   --color-warning: var(--color-red-360-100-45);
   --color-accent: var(--color-blue-205-100-40);
@@ -46,6 +48,7 @@
 
   --border-definition: 1px solid var(--color-borders);
   --outline-definition: 1px solid var(--color-borders);
+  --outline-definition-readonly: 1px solid var(--color-borders-readonly);
   --border-definition-disabled: 1px solid var(--color-borders-disabled);
 
   height: 100%;
@@ -327,6 +330,36 @@
 .fjs-container .fjs-taglist.disabled {
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
+}
+
+.fjs-container .fjs-input-group.readonly, 
+.fjs-container .fjs-input.readonly,
+.fjs-container .fjs-textarea.readonly,
+.fjs-container .fjs-input-group .fjs-input.read-only {
+  background-color: var(--color-background-readonly);
+  border-color: var(--color-borders-readonly);
+}
+
+.fjs-container .fjs-select.readonly,
+.fjs-container .fjs-taglist.readonly,
+.fjs-container .fjs-form-field-checkbox.readonly,
+.fjs-container .fjs-form-field-checklist.readonly,
+.fjs-container .fjs-form-field-radio.readonly,
+.fjs-container .fjs-form-field-datetime.readonly {
+  pointer-events: none;
+}
+
+.fjs-container .fjs-taglist.readonly .fjs-taglist-tag-remove {
+  pointer-events: none;
+}
+
+.fjs-container .fjs-taglist.readonly:focus-within,
+.fjs-container .fjs-input-group.readonly:focus-within,
+.fjs-container .fjs-input[type='text'].readonly:focus,
+.fjs-container .fjs-input[type='number'].readonly:focus,
+.fjs-container .fjs-textarea.readonly:focus,
+.fjs-container .fjs-select.readonly:focus {
+  outline: var(--outline-definition-readonly);
 }
 
 .fjs-container .fjs-button[type='submit']:disabled,
