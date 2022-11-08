@@ -56,7 +56,7 @@ describe('properties panel', function() {
   it('should render (no field)', async function() {
 
     // given
-    const result = createPropertiesPanel({ container });
+    const result = createPropertiesPanel({ container, schema: null });
 
     // then
     const placeholder = result.container.querySelector('.bio-properties-panel-placeholder');
@@ -103,7 +103,7 @@ describe('properties panel', function() {
     expect(result.container.querySelector('.fjs-properties-panel-placeholder')).not.to.exist;
 
     expect(result.container.querySelector('.bio-properties-panel-header-type')).to.exist;
-    expect(result.container.querySelectorAll('.bio-properties-panel-group')).to.have.length(3);
+    expect(result.container.querySelector('.bio-properties-panel-group')).to.exist;
   });
 
 
@@ -2278,7 +2278,7 @@ function createPropertiesPanel(options = {}) {
 
   if (!formEditor) {
     formEditor = new formEditorMock({
-      state: { schema: (options.schema !== 'undefined' ? options.schema : schema) }
+      state: { schema: options.schema !== undefined ? options.schema : schema }
     });
   }
 

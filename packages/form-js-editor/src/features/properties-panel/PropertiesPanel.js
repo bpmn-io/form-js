@@ -12,6 +12,7 @@ import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
 
 import {
+  ConditionGroup,
   CustomValuesGroup,
   GeneralGroup,
   DisplayGroup,
@@ -30,6 +31,7 @@ function getGroups(field, editField) {
 
   const groups = [
     GeneralGroup(field, editField),
+    ConditionGroup(field, editField),
     DisplayGroup(field, editField),
     FormatGroup(field, editField),
     ...ValuesGroups(field, editField),

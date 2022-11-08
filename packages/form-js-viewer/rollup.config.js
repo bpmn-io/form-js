@@ -5,6 +5,8 @@ import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
+import { sep } from 'path';
+
 function pgl(plugins = []) {
 
   return [
@@ -65,6 +67,16 @@ export default [
           { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets' }
         ]
       })
-    ])
+    ]),
+
+    // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
+    onwarn(warning, warn) {
+      if (warning.code === 'CIRCULAR_DEPENDENCY') {
+        if (warning.message.includes(`${sep}luxon${sep}`)) {
+          return;
+        }
+      }
+      warn(warning);
+    }
   }
 ];
