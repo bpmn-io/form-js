@@ -212,6 +212,82 @@ describe('Validator', function() {
 
     });
 
+    describe('email pattern', function() {
+
+      it('should be valid', function() {
+
+        // given
+        const field = {
+          validate: {
+            validationType: 'email'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 'jon.doe@camunda.com');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+
+      it('should be invalid', function() {
+
+        // given
+        const field = {
+          validate: {
+            validationType: 'email'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 'jon doe');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field must be a valid email.');
+      });
+
+    });
+
+    describe('phone number pattern', function() {
+
+      it('should be valid', function() {
+
+        // given
+        const field = {
+          validate: {
+            validationType: 'phone'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, '+4930664040900');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+
+      it('should be invalid', function() {
+
+        // given
+        const field = {
+          validate: {
+            validationType: 'phone'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, '1234');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field must be a valid phone number.');
+      });
+
+    });
+
   });
 
 
