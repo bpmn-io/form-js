@@ -19,4 +19,5 @@ export { default as ValuesSourceSelectEntry } from './ValuesSourceSelectEntry';
 export { default as InputKeyValuesSourceEntry } from './InputKeyValuesSourceEntry';
 export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { default as NumberConstraintsEntry } from './NumberConstraintsEntry';
+export { default as AdornerEntry } from './AdornerEntry';
 export { ConditionEntry } from './ConditionEntry';

@@ -10,6 +10,7 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
+import InputAdorner from './parts/InputAdorner';
 
 const type = 'number';
 
@@ -20,13 +21,16 @@ export default function Number(props) {
     errors = [],
     field,
     value,
-    onChange
+    onChange,
+
   } = props;
 
   const {
     description,
     id,
     label,
+    prefixAdorner,
+    suffixAdorner,
     validate = {},
     decimalDigits,
     step
@@ -93,18 +97,20 @@ export default function Number(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <input
-      ref={ numberInputRef }
-      class="fjs-input"
-      disabled={ disabled }
-      id={ prefixId(id, formId) }
+    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+      <input
+        ref={ numberInputRef }
+        class="fjs-input"
+        disabled={ disabled }
+        id={ prefixId(id, formId) }
 
-      // @ts-ignore
-      onKeyPress={ onKeyPress }
-      onInput={ onInput }
-      type="number"
-      step={ appliedStep }
-      value={ displayValue } />
+        // @ts-ignore
+        onKeyPress={ onKeyPress }
+        onInput={ onInput }
+        type="number"
+        step={ appliedStep }
+        value={ displayValue } />
+    </InputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
