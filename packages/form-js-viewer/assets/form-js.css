@@ -4,6 +4,7 @@
 .fjs-container {
   --color-grey-225-10-15: hsl(225, 10%, 15%);
   --color-grey-225-10-35: hsl(225, 10%, 35%);
+  --color-grey-225-10-45: hsl(225, 10%, 45%);
   --color-grey-225-10-55: hsl(225, 10%, 55%);
   --color-grey-225-10-75: hsl(225, 10%, 75%);
   --color-grey-225-10-80: hsl(225, 10%, 80%);
@@ -32,10 +33,11 @@
 
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-grey-225-10-95);
-  --color-background-adornment: var(--color-grey-225-10-93);
+  --color-background-adornment: var(--color-grey-225-10-95);
   --color-text: var(--color-grey-225-10-15);
   --color-text-light: var(--color-grey-225-10-35);
-  --color-text-lighter: var(--color-grey-225-10-55);
+  --color-text-lighter: var(--color-grey-225-10-45);
+  --color-text-lightest: var(--color-grey-225-10-55);
   --color-text-inverted: var(--color-white);
   --color-borders: var(--color-grey-225-10-55);
   --color-borders-disabled: var(--color-grey-225-10-75);
@@ -69,6 +71,7 @@
 
 .fjs-container .fjs-vertical-group {
   display: flex;
+  flex: 1;
   width: 100%;
 }
 
@@ -128,7 +131,7 @@
 .fjs-container .fjs-select [disabled] {
   font-style: italic;
   letter-spacing: 0.25px;
-  color: var(--color-text-lighter);
+  color: var(--color-text-lightest);
 }
 
 .fjs-container .fjs-form-field-label {
@@ -170,8 +173,11 @@
   border-style: solid;
   border-color: var(--color-borders-adornment);
   background-color: var(--color-background-adornment);
+  color: var(--color-text-lighter);
   padding: 8px;
   width: auto !important;
+  min-width: 34px;
+  text-align: center;
 }
 
 .fjs-container .fjs-input-adornment svg {
@@ -190,7 +196,7 @@
 .fjs-container .fjs-select [disabled] {
   font-style: italic;
   letter-spacing: 0.25px;
-  color: var(--color-text-lighter);
+  color: var(--color-text-lightest);
 }
 
 .fjs-container .fjs-input[type='text'],
@@ -243,6 +249,8 @@
   border-radius: 0;
   margin: 0;
   outline: 0;
+  width: auto;
+  flex-grow: 1;
 }
 
 .fjs-container .fjs-input-group .fjs-input-adornment {
@@ -317,7 +325,6 @@
 .fjs-container .fjs-number-arrow-container.disabled button {
   background-color: var(--color-grey-225-10-95);
 }
-
 
 .fjs-container .fjs-radio {
   display: flex;
@@ -546,7 +553,7 @@
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-empty {
   padding: 6px 8px;
-  color: var(--color-text-lighter);
+  color: var(--color-text-lightest);
 }
 
 .fjs-container .fjs-image-container {
@@ -562,7 +569,6 @@
   height: 64px;
   margin: 2px 0;
 }
-
 
 /**
 * Flatpickr style adjustments

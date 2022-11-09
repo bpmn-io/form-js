@@ -7,6 +7,7 @@ import { FormContext } from '../../context';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
+import InputAdorner from './parts/InputAdorner';
 
 import {
   formFieldClasses,
@@ -35,11 +36,17 @@ export default function Numberfield(props) {
     description,
     id,
     label,
+    appearance = {},
     validate = {},
     decimalDigits,
     serializeToString = false,
     increment: incrementValue
   } = field;
+
+  const {
+    prefixAdorner,
+    suffixAdorner
+  } = appearance;
 
   const { required } = validate;
 
@@ -155,28 +162,30 @@ export default function Numberfield(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <div class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
-      <input
-        ref={ inputRef }
-        class="fjs-input"
-        disabled={ disabled }
-        id={ prefixId(id, formId) }
-        onKeyDown={ onKeyDown }
-        onKeyPress={ onKeyPress }
+    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+      <div class={ classNames('fjs-vertical-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
+        <input
+          ref={ inputRef }
+          class="fjs-input"
+          disabled={ disabled }
+          id={ prefixId(id, formId) }
+          onKeyDown={ onKeyDown }
+          onKeyPress={ onKeyPress }
 
-        // @ts-ignore
-        onInput={ (e) => setValue(e.target.value) }
-        type="text"
-        autoComplete="off"
-        step={ arrowIncrementValue }
-        value={ displayValue } />
-      <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
-        { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
-        <button class="fjs-number-arrow-up" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
-        <div class="fjs-number-arrow-separator" />
-        <button class="fjs-number-arrow-down" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
+          // @ts-ignore
+          onInput={ (e) => setValue(e.target.value) }
+          type="text"
+          autoComplete="off"
+          step={ arrowIncrementValue }
+          value={ displayValue } />
+        <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
+          { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
+          <button class="fjs-number-arrow-up" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
+          <div class="fjs-number-arrow-separator" />
+          <button class="fjs-number-arrow-down" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
+        </div>
       </div>
-    </div>
+    </InputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
