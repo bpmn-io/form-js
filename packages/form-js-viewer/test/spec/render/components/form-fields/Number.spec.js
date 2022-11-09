@@ -52,6 +52,29 @@ describe('Number', function() {
   });
 
 
+  it('should render adorners', function() {
+
+    // when
+    const { container } = createNumberField({
+      field: {
+        ...defaultField,
+        appearance: {
+          prefixAdorner: 'prefix',
+          suffixAdorner: 'suffix'
+        }
+      },
+      value: 123
+    });
+
+    // then
+    const adorners = container.querySelectorAll('.fjs-input-adornment');
+
+    expect(adorners.length).to.equal(2);
+    expect(adorners[0].innerText).to.equal('prefix');
+    expect(adorners[1].innerText).to.equal('suffix');
+  });
+
+
   it('should render default value (\'\')', function() {
 
     // when

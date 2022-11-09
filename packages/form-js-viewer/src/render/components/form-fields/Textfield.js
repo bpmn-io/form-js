@@ -6,6 +6,7 @@ import { FormContext } from '../../context';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
+import InputAdorner from './parts/InputAdorner';
 
 import {
   formFieldClasses,
@@ -27,8 +28,14 @@ export default function Textfield(props) {
     description,
     id,
     label,
+    appearance = {},
     validate = {}
   } = field;
+
+  const {
+    prefixAdorner,
+    suffixAdorner
+  } = appearance;
 
   const { required } = validate;
 
@@ -46,13 +53,15 @@ export default function Textfield(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <input
-      class="fjs-input"
-      disabled={ disabled }
-      id={ prefixId(id, formId) }
-      onInput={ onChange }
-      type="text"
-      value={ value } />
+    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+      <input
+        class="fjs-input"
+        disabled={ disabled }
+        id={ prefixId(id, formId) }
+        onInput={ onChange }
+        type="text"
+        value={ value } />
+    </InputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;

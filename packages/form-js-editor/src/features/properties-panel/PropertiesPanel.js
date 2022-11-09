@@ -13,6 +13,7 @@ import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholder
 
 import {
   ConditionGroup,
+  AppearanceGroup,
   CustomValuesGroup,
   GeneralGroup,
   SerializationGroup,
@@ -30,6 +31,7 @@ function getGroups(field, editField) {
   const groups = [
     GeneralGroup(field, editField),
     ConditionGroup(field, editField),
+    AppearanceGroup(field, editField),
     SerializationGroup(field, editField),
     ...ValuesGroups(field, editField),
     ConstraintsGroup(field, editField),
