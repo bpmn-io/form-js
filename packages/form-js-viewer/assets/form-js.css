@@ -178,6 +178,8 @@
 }
 
 .fjs-container .fjs-input[type='text'],
+.fjs-container .fjs-input[type='email'],
+.fjs-container .fjs-input[type='tel'],
 .fjs-container .fjs-input[type='number'],
 .fjs-container .fjs-button[type='submit'],
 .fjs-container .fjs-button[type='reset'],
@@ -294,6 +296,8 @@
 .fjs-container .fjs-taglist:focus-within,
 .fjs-container .fjs-input-group:focus-within,
 .fjs-container .fjs-input[type='text']:focus,
+.fjs-container .fjs-input[type='email']:focus,
+.fjs-container .fjs-input[type='tel']:focus,
 .fjs-container .fjs-input[type='number']:focus,
 .fjs-container .fjs-button[type='submit']:focus,
 .fjs-container .fjs-button[type='reset']:focus,
