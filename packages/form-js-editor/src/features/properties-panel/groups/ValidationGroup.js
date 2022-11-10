@@ -130,6 +130,14 @@ export default function ValidationGroup(field, editField) {
         field,
         isEdited: isNumberFieldEntryEdited,
         onChange
+      },
+      {
+        id: 'enforceStep',
+        component: EnforceStep,
+        getValue,
+        field,
+        isEdited: isCheckboxEntryEdited,
+        onChange
       }
     );
   }
@@ -289,4 +297,23 @@ function ValidationType(props) {
       return Object.values(VALIDATION_TYPE_OPTIONS);
     }
   });
+}
+
+function EnforceStep(props) {
+
+  const {
+    field,
+    getValue,
+    id,
+    onChange
+  } = props;
+
+  return CheckboxEntry({
+    element: field,
+    getValue: getValue('enforceStep'),
+    id,
+    label: 'Enforce step',
+    setValue: onChange('enforceStep')
+  });
+
 }

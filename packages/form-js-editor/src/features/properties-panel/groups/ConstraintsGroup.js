@@ -1,12 +1,14 @@
 import {
-  DateTimeConstraintsEntry
+  DateTimeConstraintsEntry,
+  NumberConstraintsEntry
 } from '../entries';
 
 
 export default function DisplayGroup(field, editField) {
 
   const entries = [
-    ...DateTimeConstraintsEntry({ field, editField })
+    ...DateTimeConstraintsEntry({ field, editField }),
+    ...NumberConstraintsEntry({ field, editField })
   ];
 
   if (!entries.length) {

@@ -11,6 +11,7 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
+import InputAdorner from './parts/InputAdorner';
 
 const type = 'textfield';
 
@@ -27,6 +28,8 @@ export default function Textfield(props) {
     description,
     id,
     label,
+    prefixAdorner,
+    suffixAdorner,
     validate = {}
   } = field;
 
@@ -46,13 +49,15 @@ export default function Textfield(props) {
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <input
-      class="fjs-input"
-      disabled={ disabled }
-      id={ prefixId(id, formId) }
-      onInput={ onChange }
-      type="text"
-      value={ value } />
+    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+      <input
+        class="fjs-input"
+        disabled={ disabled }
+        id={ prefixId(id, formId) }
+        onInput={ onChange }
+        type="text"
+        value={ value } />
+    </InputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;

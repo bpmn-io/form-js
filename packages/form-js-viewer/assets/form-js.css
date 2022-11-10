@@ -156,6 +156,10 @@
   background-color: var(--color-background-adornment);
   padding: 8px;
   width: auto !important;
+  min-width: 34px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-input-adornment svg {
@@ -213,6 +217,8 @@
   border-radius: 0;
   margin: 0;
   outline: 0;
+  width: auto;
+  flex-grow: 1;
 }
 
 .fjs-container .fjs-input-group .fjs-input-adornment {

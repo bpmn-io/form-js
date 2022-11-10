@@ -72,6 +72,26 @@ export default class Validator {
       ];
     }
 
+    if ('enforceStep' in validate && value && field.step) {
+
+      let inaccuracy = (value + field.step) % field.step;
+      inaccuracy = Math.min(inaccuracy, field.step - inaccuracy);
+
+      const decimalDigits = field.decimalDigits || 15;
+
+      if (2 * Number.EPSILON < inaccuracy) {
+
+        const previousValue = value - (value % field.step);
+        const followingValue = previousValue + field.step;
+
+        errors = [
+          ...errors,
+          `Please select a valid value, the two nearest valid values are ${parseFloat(previousValue.toFixed(decimalDigits))} and ${parseFloat(followingValue.toFixed(decimalDigits))}.`
+        ];
+
+      }
+    }
+
     return errors;
   }
 }
