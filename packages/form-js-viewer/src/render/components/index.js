@@ -8,6 +8,7 @@ import Image from './form-fields/Image';
 import Number from './form-fields/Number';
 import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
+import searchableselect from './form-fields/SearchableSelect';
 import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
 import Textfield from './form-fields/Textfield';
@@ -23,6 +24,7 @@ export {
   Image,
   Number,
   Radio,
+  searchableselect,
   Select,
   Taglist,
   Text,
@@ -39,6 +41,7 @@ export const formFields = [
   Image,
   Number,
   Radio,
+  searchableselect,
   Select,
   Taglist,
   Text,

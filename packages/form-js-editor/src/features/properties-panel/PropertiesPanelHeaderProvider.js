@@ -14,6 +14,7 @@ const labelsByType = {
   image: 'IMAGE',
   number: 'NUMBER',
   radio: 'RADIO',
+  searchableselect: 'SEARCHABLE SELECT',
   select: 'SELECT',
   taglist: 'TAGLIST',
   text: 'TEXT',

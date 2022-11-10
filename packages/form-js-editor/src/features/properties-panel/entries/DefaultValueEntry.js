@@ -60,7 +60,7 @@ export default function DefaultOptionEntry(props) {
     });
   }
 
-  if (type === 'radio' || type === 'select') {
+  if (type === 'radio' || type === 'select' || type === 'searchableselect') {
     entries.push({
       ...defaultOptions,
       component: DefaultValueSingleSelect,
