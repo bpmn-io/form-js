@@ -9,16 +9,33 @@ import {
   isNumberFieldEntryEdited,
   isTextFieldEntryEdited,
   NumberFieldEntry,
-  TextFieldEntry
+  TextFieldEntry,
+  SelectEntry
 } from '@bpmn-io/properties-panel';
 
 import { useService } from '../hooks';
 
 import { INPUTS } from '../Util';
 
+const VALIDATION_TYPE_OPTIONS = {
+  custom: {
+    value: 'custom',
+    label: 'Custom',
+  },
+  email: {
+    value: 'email',
+    label: 'Email',
+  },
+  phone: {
+    value: 'phone',
+    label: 'Phone',
+  },
+};
 
 export default function ValidationGroup(field, editField) {
   const { type } = field;
+  const validate = get(field, [ 'validate' ], {});
+  const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate?.validationType);
 
   if (!(INPUTS.includes(type) && type !== 'checkbox' && type !== 'checklist' && type !== 'taglist')) {
     return null;
@@ -49,7 +66,20 @@ export default function ValidationGroup(field, editField) {
     }
   ];
 
-  if (type === 'textarea' || type === 'textfield') {
+  if (type === 'textfield') {
+    entries.push(
+      {
+        id: 'validationType',
+        component: ValidationType,
+        getValue,
+        field,
+        isEdited: isTextFieldEntryEdited,
+        onChange
+      }
+    );
+  }
+
+  if (type === 'textarea' || (type === 'textfield' && isCustomValidation)) {
     entries.push(
       {
         id: 'minLength',
@@ -70,7 +100,7 @@ export default function ValidationGroup(field, editField) {
     );
   }
 
-  if (type === 'textfield') {
+  if (type === 'textfield' && isCustomValidation) {
     entries.push(
       {
         id: 'pattern',
@@ -235,5 +265,28 @@ function Max(props) {
     label: 'Maximum',
     min: 0,
     setValue: onChange('max')
+  });
+}
+
+function ValidationType(props) {
+  const {
+    field,
+    getValue,
+    id,
+    onChange
+  } = props;
+
+  const debounce = useService('debounce');
+
+  return SelectEntry({
+    debounce,
+    element: field,
+    getValue: getValue('validationType'),
+    id,
+    label: 'Regular expression validation',
+    setValue: onChange('validationType'),
+    getOptions() {
+      return Object.values(VALIDATION_TYPE_OPTIONS);
+    }
   });
 }
