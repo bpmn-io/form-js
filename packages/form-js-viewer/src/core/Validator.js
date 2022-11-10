@@ -61,7 +61,7 @@ export default class Validator {
     if ('validationType' in validate && value && validate.validationType === 'phone' && !PHONE_PATTERN.test(value)) {
       errors = [
         ...errors,
-        'Field must be a valid phone number.'
+        'Field must be a valid  international phone number. (e.g. +4930664040900)'
       ];
     }
 
