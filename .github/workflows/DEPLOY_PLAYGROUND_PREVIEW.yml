@@ -1,0 +1,49 @@
+name: DEPLOY_PLAYGROUND_PREVIEW
+on:
+  pull_request:
+    types: [ labeled, synchronize ]
+jobs:
+  deploy-preview:
+    # check whether the labeled event was deploy-preview || check whether on new commit of PR the label deploy-preview exists
+    if: github.event.label.name == 'deploy-preview' || contains( github.event.pull_request.labels.*.name, 'deploy-preview')
+    runs-on: ubuntu-20.04
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }} # head_ref = branch on PR, ref_name if master / stable/**
+      PREVIEW_BRANCH_NAME: demo-${{ github.head_ref || github.ref_name }}
+    steps:
+      - name: Check form-playground branch
+        run: echo "BRANCH_EXISTS=$(git ls-remote --heads https://${{ secrets.ADD_TO_HTO_PROJECT_PAT }}@github.com./camunda/form-playground ${{ env.PREVIEW_BRANCH_NAME }} | wc -l)" >> $GITHUB_ENV
+      - name: Create form-playground branch
+        if: env.BRANCH_EXISTS == 0
+        uses: GuillaumeFalourd/create-other-repo-branch-action@706963eca4b230707b1cfecee6760b519e2cbbf3
+        with:
+          repository_owner: camunda
+          repository_name: form-playground
+          new_branch_name: ${{ env.PREVIEW_BRANCH_NAME }}
+          access_token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
+      - name: Create GitHub deployment
+        uses: bobheadxi/deployments@88ce5600046c82542f8246ac287d0a53c461bca3
+        id: deployment
+        with:
+          step: start
+          env: ${{ env.PREVIEW_BRANCH_NAME }}
+          token: "${{ secrets.ADD_TO_HTO_PROJECT_PAT }}"
+          ref: ${{ env.BRANCH_NAME }}
+      - name: Trigger Netlify branch build
+        run: | 
+          curl --location --request POST '${{ secrets.NETLIFY_CUSTOM_BUILD_HOOK }}?trigger_branch=${{ env.PREVIEW_BRANCH_NAME }}' \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'FORM_JS_BRANCH=${{ env.BRANCH_NAME }}'
+      - name: Update branch deployment status
+        # `always()` ensures that the deployment status
+        # is updated regardless of previous steps failing.
+        if: always()
+        uses: bobheadxi/deployments@88ce5600046c82542f8246ac287d0a53c461bca3
+        with:
+          step: finish
+          token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
+          status: ${{ job.status }}
+          env: ${{ env.PREVIEW_BRANCH_NAME }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://${{ env.PREVIEW_BRANCH_NAME }}--camunda-form-playground.netlify.app
+          ref: ${{ env.BRANCH_NAME }}
