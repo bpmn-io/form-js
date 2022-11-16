@@ -319,7 +319,7 @@ export default class Form {
    * @private
    */
   _emit(type, data) {
-    return this.get('eventBus').fire(type, data);
+    this.get('eventBus').fire(type, data);
   }
 
   /**
