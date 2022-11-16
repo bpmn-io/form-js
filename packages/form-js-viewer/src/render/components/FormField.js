@@ -26,7 +26,6 @@ export default function FormField(props) {
   const {
     data,
     errors,
-    initialData,
     properties
   } = form._getState();
 
@@ -47,7 +46,7 @@ export default function FormField(props) {
 
   const disabled = properties.readOnly || field.disabled || false;
 
-  const visible = useCondition(field.condition, { ...initialData, ...data });
+  const visible = useCondition(field.condition, data);
   if (!visible) {
     return <Empty />;
   }

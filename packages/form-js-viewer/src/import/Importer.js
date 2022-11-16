@@ -38,12 +38,12 @@ export default class Importer {
 
     try {
       const importedSchema = this.importFormField(clone(schema)),
-            importedData = this.importData(clone(data));
+            initializedData = this.initializeFieldValues(clone(data));
 
       return {
         warnings,
         schema: importedSchema,
-        data: importedData
+        data: initializedData
       };
     } catch (err) {
       err.warnings = warnings;
@@ -124,25 +124,16 @@ export default class Importer {
   /**
    * @param {Object} data
    *
-   * @return {Object} importedData
+   * @return {Object} initializedData
    */
-  importData(data) {
-    return this._formFieldRegistry.getAll().reduce((importedData, formField) => {
+  initializeFieldValues(data) {
+    return this._formFieldRegistry.getAll().reduce((initializedData, formField) => {
       const {
         defaultValue,
         _path,
-        type,
-        valuesKey
+        type
       } = formField;
 
-      // get values defined via valuesKey
-
-      if (valuesKey) {
-        importedData = {
-          ...importedData,
-          [ valuesKey ]: get(data, [ valuesKey ])
-        };
-      }
 
       // try to get value from data
       // if unavailable - try to get default value from form field
@@ -157,17 +148,17 @@ export default class Importer {
           valueData = fieldImplementation.sanitizeValue({ formField, data, value: valueData });
         }
 
-        const initialFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldImplementation.emptyValue);
+        const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldImplementation.emptyValue);
 
-        importedData = {
-          ...importedData,
-          [_path[0]]: initialFieldValue,
+        initializedData = {
+          ...initializedData,
+          [_path[0]]: initializedFieldValue,
         };
       }
 
-      return importedData;
+      return initializedData;
 
-    }, {});
+    }, data);
   }
 }
 

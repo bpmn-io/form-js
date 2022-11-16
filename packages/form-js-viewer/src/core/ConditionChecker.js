@@ -13,9 +13,11 @@ export class ConditionChecker {
    * @param {Object<string, any>} data
    */
   applyConditions(properties, data = {}) {
+
     const conditions = this._getConditions();
 
     const newProperties = { ...properties };
+
     for (const { key, condition } of conditions) {
       const shouldRemove = !this.check(condition, data);
 
@@ -56,21 +58,16 @@ export class ConditionChecker {
   _getConditions() {
     const formFields = this._formFieldRegistry.getAll();
 
-    const conditions = [];
-    for (const field of formFields) {
-      const { key, condition } = field;
+    return formFields.reduce((conditions, formField) => {
+      const { key, condition } = formField;
 
-      if (!condition || !key) {
-        continue;
+      if (key && condition) {
+        return [ ...conditions, { key, condition } ];
       }
 
-      conditions.push({
-        key,
-        condition
-      });
-    }
+      return conditions;
 
-    return conditions;
+    }, []);
   }
 }
 
