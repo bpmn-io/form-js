@@ -315,6 +315,32 @@ describe('Importer', function() {
     }));
 
 
+    it('should import data not defined on the form', inject(async function(form) {
+
+      // given
+      const data = { randomExternalDataBool: true, randomExternalDataInt: 9 };
+
+      // when
+      await form.importSchema(defaultValues, data);
+
+      // then
+      expect(form._getState().data).to.eql({
+        randomExternalDataBool: true,
+        randomExternalDataInt: 9 ,
+        creditor: 'Max Mustermann GmbH',
+        invoiceNumber: '',
+        amount: 0,
+        approved: true,
+        approvedBy: '',
+        approverComments: 'Sample comment provided by the approver',
+        mailto: [ 'regional-manager', 'approver' ],
+        product: 'camunda-platform',
+        tags: [ 'tag1', 'tag2', 'tag3' ],
+        language: 'english'
+      });
+    }));
+
+
     it('should sanitize data (static)', inject(async function(form) {
 
       // given

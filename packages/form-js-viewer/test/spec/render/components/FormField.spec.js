@@ -246,23 +246,6 @@ describe('FormField', function() {
     });
 
 
-    it('should use initial data to check condition', function() {
-
-      // when
-      const { container } = createFormField({
-        checkCondition: (_, data) => data.shouldShow || false,
-        initialData: {
-          shouldShow: true
-        }
-      });
-
-      // then
-      const formField = container.querySelector('.fjs-form-field');
-
-      expect(formField).to.exist;
-    });
-
-
     it('should use form data to check condition', function() {
 
       // when
@@ -279,25 +262,6 @@ describe('FormField', function() {
       expect(formField).to.exist;
     });
 
-
-    it('should use give precedence to form data to check condition', function() {
-
-      // when
-      const { container } = createFormField({
-        checkCondition: (_, data) => data.shouldShow || false,
-        data: {
-          shouldShow: true
-        },
-        initialData: {
-          shouldShow: false
-        }
-      });
-
-      // then
-      const formField = container.querySelector('.fjs-form-field');
-
-      expect(formField).to.exist;
-    });
   });
 
 });
