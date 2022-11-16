@@ -127,15 +127,15 @@ export default class Form {
 
         const {
           schema: importedSchema,
-          data: importedData,
+          data: initializedData,
           warnings
         } = this.get('importer').importSchema(schema, data);
 
         this._setState({
-          data: importedData,
+          data: initializedData,
           errors: {},
           schema: importedSchema,
-          initialData: clone(data)
+          initialData: clone(initializedData)
         });
 
         this._emit('import.done', { warnings });
@@ -184,10 +184,9 @@ export default class Form {
 
   reset() {
     this._emit('reset');
-    const { initialData } = this._getState();
 
     this._setState({
-      data: this.get('importer').importData(clone(initialData)),
+      data: clone(this._state.initialData),
       errors: {}
     });
   }
@@ -384,13 +383,11 @@ export default class Form {
    * @internal
    */
   _getSubmitData() {
-    const {
-      data: formData,
-      initialData
-    } = this._getState();
-    const formFieldRegistry = this.get('formFieldRegistry');
 
-    const rawValues = formFieldRegistry.getAll().reduce((data, field) => {
+    const formFieldRegistry = this.get('formFieldRegistry');
+    const formData = this._getState().data;
+
+    const submitData = formFieldRegistry.getAll().reduce((previous, field) => {
       const {
         disabled,
         _path
@@ -398,20 +395,20 @@ export default class Form {
 
       // do not submit disabled form fields
       if (disabled || !_path) {
-        return data;
+        return previous;
       }
 
       const value = get(formData, _path);
 
       return {
-        ...data,
+        ...previous,
         [ _path[ 0 ] ]: value
       };
     }, {});
 
-    const filteredValues = this._applyConditions(rawValues, { ...initialData, ...rawValues });
+    const filteredSubmitData = this._applyConditions(submitData, formData);
 
-    return filteredValues;
+    return filteredSubmitData;
   }
 
   /**
