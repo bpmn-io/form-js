@@ -113,7 +113,7 @@ export default function Taglist(props) {
     }
   };
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
       id={ prefixId(`${id}-search`, formId) } />

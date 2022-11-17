@@ -10,6 +10,7 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
+import classNames from 'classnames';
 
 const type = 'checkbox';
 
@@ -37,22 +38,26 @@ export default function Checkbox(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
-    <Label
-      id={ prefixId(id, formId) }
-      label={ label }
-      required={ false }>
-      <input
-        checked={ value }
-        class="fjs-input"
-        disabled={ disabled }
-        id={ prefixId(id, formId) }
-        type="checkbox"
-        onChange={ onChange } />
-    </Label>
-    <Description description={ description } />
-    <Errors errors={ errors } />
-  </div>;
+  return (
+    <div
+      class={ classNames(formFieldClasses(type, { errors, disabled }), {
+        'fjs-checked': value,
+      }) }
+    >
+      <Label id={ prefixId(id, formId) } label={ label } required={ false }>
+        <input
+          checked={ value }
+          class="fjs-input"
+          disabled={ disabled }
+          id={ prefixId(id, formId) }
+          type="checkbox"
+          onChange={ onChange }
+        />
+      </Label>
+      <Description description={ description } />
+      <Errors errors={ errors } />
+    </div>
+  );
 }
 
 Checkbox.create = function(options = {}) {

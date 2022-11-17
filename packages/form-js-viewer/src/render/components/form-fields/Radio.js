@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
-
+import classNames from 'classnames';
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -47,7 +47,7 @@ export default function Radio(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
       required={ required } />
@@ -58,7 +58,8 @@ export default function Radio(props) {
             id={ prefixId(`${ id }-${ index }`, formId) }
             key={ `${ id }-${ index }` }
             label={ option.label }
-            required={ false }>
+            required={ false }
+            class={ classNames({ 'fjs-checked': option.value === value }) }>
             <input
               checked={ option.value === value }
               class="fjs-input"

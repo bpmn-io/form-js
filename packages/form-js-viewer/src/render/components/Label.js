@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 export default function Label(props) {
   const {
     id,
@@ -6,7 +8,7 @@ export default function Label(props) {
   } = props;
 
   return (
-    <label for={ id } class="fjs-form-field-label">
+    <label for={ id } class={ classNames('fjs-form-field-label', props['class']) }>
       { props.children }
       { label || '' }
       {

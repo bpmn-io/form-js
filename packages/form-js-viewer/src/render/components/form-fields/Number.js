@@ -40,7 +40,7 @@ export default function Number(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
