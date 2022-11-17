@@ -159,6 +159,12 @@
       ]
     },
     {
+      "id": "ConditionField_1",
+      "type": "text",
+      "text": "Displayed for German users only.",
+      "condition": "=language = \"german\""
+    },
+    {
       "id": "Field_12",
       "action": "submit",
       "key": "submit",
