@@ -2,8 +2,9 @@ import { unaryTest } from 'feelin';
 import { isString } from 'min-dash';
 
 export class ConditionChecker {
-  constructor(formFieldRegistry) {
+  constructor(formFieldRegistry, eventBus) {
     this._formFieldRegistry = formFieldRegistry;
+    this._eventBus = eventBus;
   }
 
   /**
@@ -53,6 +54,7 @@ export class ConditionChecker {
 
       return result;
     } catch (error) {
+      this._eventBus.fire('error', { error });
       return false;
     }
   }
@@ -74,5 +76,6 @@ export class ConditionChecker {
 }
 
 ConditionChecker.$inject = [
-  'formFieldRegistry'
+  'formFieldRegistry',
+  'eventBus'
 ];
