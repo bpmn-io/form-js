@@ -4,12 +4,14 @@ import { ConditionChecker } from '../../../src/core/ConditionChecker';
 describe('ConditionChecker', function() {
 
   let conditionChecker,
-      fields = [];
+      fields = [],
+      fireSpy;
 
   beforeEach(function() {
+    fireSpy = sinon.spy();
     conditionChecker = new ConditionChecker({
       getAll: () => fields
-    });
+    }, { fire: fireSpy });
   });
 
 
@@ -51,7 +53,7 @@ describe('ConditionChecker', function() {
     });
 
 
-    it('should return false if condition has syntax error', function() {
+    it('should return false and report error if condition has syntax error', function() {
 
       // given
       const condition = '=foo-';
@@ -61,6 +63,8 @@ describe('ConditionChecker', function() {
 
       // then
       expect(result).to.be.false;
+      expect(fireSpy).to.have.been.calledWith('error');
+      expect(fireSpy.args[0][1].error).to.be.instanceof(Error);
     });
 
 
