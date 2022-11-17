@@ -47,6 +47,8 @@ export class ConditionChecker {
     }
 
     try {
+
+      // cut off initial '='
       const result = unaryTest(condition.slice(1), data);
 
       return result;
