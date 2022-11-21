@@ -45,7 +45,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(14);
+      expect(formFieldRegistry.getAll()).to.have.length(15);
     }));
 
 
@@ -70,7 +70,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(14);
+      expect(formFieldRegistry.getAll()).to.have.length(15);
 
       // when
       result = await form.importSchema(other, data);

@@ -122,6 +122,10 @@
       ]
     },
     {
+      "alt": "The bpmn.io logo",
+      "type": "image"
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"
