@@ -1,4 +1,4 @@
-import { unaryTest } from 'feelin';
+import { unaryTest, evaluate } from 'feelin';
 import { isString } from 'min-dash';
 
 /**
@@ -79,6 +79,33 @@ export class ConditionChecker {
     const result = this.check(condition.hide, data);
 
     return result === true;
+  }
+
+  /**
+   * Evaluate an expression.
+   *
+   * @param {string} expression
+   * @param {import('../types').Data} [data]
+   *
+   * @returns {any}
+   */
+  evaluate(expression, data = {}) {
+    if (!expression) {
+      return null;
+    }
+
+    if (!isString(expression) || !expression.startsWith('=')) {
+      return null;
+    }
+
+    try {
+      const result = evaluate(expression.slice(1), data);
+
+      return result;
+    } catch (error) {
+      this._eventBus.fire('error', { error });
+      return null;
+    }
   }
 
   _getConditions() {
