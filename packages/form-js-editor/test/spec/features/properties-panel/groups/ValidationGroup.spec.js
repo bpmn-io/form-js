@@ -91,6 +91,71 @@ describe('ValidationGroup', function() {
 
   });
 
+  describe('validationType', function() {
+
+    it('should render for textfield', function() {
+
+      // given
+      const field = { type: 'textfield' };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      const requiredSelect = findSelect('validationType', container);
+
+      expect(requiredSelect).to.exist;
+    });
+
+
+    it('should read', function() {
+
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'email'
+        }
+      };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      const requiredSelect = findSelect('validationType', container);
+
+      // then
+      expect(requiredSelect).to.exist;
+      expect(requiredSelect.value).to.equal('email');
+    });
+
+
+    it('should write', function() {
+
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'email'
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const requiredSelect = findSelect('validationType', container);
+
+      // when
+      fireEvent.input(requiredSelect, { target: { value: 'phone' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.validate.validationType).to.equal('phone');
+    });
+
+  });
+
 
   describe('minLength', function() {
 
@@ -512,4 +577,8 @@ function renderValidationGroup(options) {
 
 function findInput(id, container) {
   return container.querySelector(`input[name="${id}"]`);
+}
+
+function findSelect(id, container) {
+  return container.querySelector(`select[name="${id}"]`);
 }
