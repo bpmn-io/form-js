@@ -126,7 +126,7 @@ describe('ValidationGroup', function() {
 
       // then
       expect(requiredSelect).to.exist;
-      expect(requiredSelect.value).to.be('email');
+      expect(requiredSelect.value).to.equal('email');
     });
 
 
@@ -151,7 +151,7 @@ describe('ValidationGroup', function() {
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
-      expect(field.validate.validationType).to.be('phone');
+      expect(field.validate.validationType).to.equal('phone');
     });
 
   });

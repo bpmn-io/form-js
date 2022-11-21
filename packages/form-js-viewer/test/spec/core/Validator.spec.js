@@ -285,7 +285,7 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must be a valid phone number.');
+        expect(errors[ 0 ]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
       });
 
     });
