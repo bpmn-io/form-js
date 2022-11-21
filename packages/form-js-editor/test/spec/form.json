@@ -164,6 +164,12 @@
       ]
     },
     {
+      "id": "Image_1",
+      "source": "=logo",
+      "alt": "The bpmn.io logo",
+      "type": "image"
+    },
+    {
       "id": "Button_1",
       "action": "submit",
       "key": "submit",

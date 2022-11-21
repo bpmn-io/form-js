@@ -4,6 +4,8 @@ import {
   merge
 } from 'min-dash';
 
+import { act } from 'preact/test-utils';
+
 import TestContainer from 'mocha-test-container-support';
 
 import FormEditor from '../../src/FormEditor';
@@ -165,4 +167,13 @@ export function insertCSS(name, css) {
   style.appendChild(document.createTextNode(css));
 
   head.appendChild(style);
+}
+
+export async function setEditorValue(editor, value) {
+  await act(() => {
+    editor.textContent = value;
+  });
+
+  // Requires 2 ticks to propagate the change to bpmn-js
+  await act(() => {});
 }
