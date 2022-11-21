@@ -4,6 +4,8 @@ import {
   screen
 } from '@testing-library/preact/pure';
 
+import { query as domQuery } from 'min-dom';
+
 import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
 import { VALUES_SOURCES } from '../../../../src/features/properties-panel/entries/ValuesSourceUtil';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomValuesGroup';
@@ -19,7 +21,7 @@ import {
 import schema from '../../form.json';
 import defaultValues from '../../defaultValues.json';
 
-import { insertStyles } from '../../../TestHelper';
+import { insertStyles, setEditorValue } from '../../../TestHelper';
 
 insertStyles();
 
@@ -2452,6 +2454,145 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
+        });
+
+      });
+
+    });
+
+
+    describe('image', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ source }) => source === '=logo');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Image source',
+          'Alternative text',
+        ]);
+      });
+
+
+      describe('source', function() {
+
+        it('should update source', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === '=logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = domQuery('[name=source] [role="textbox"]', container);
+          expect(input.textContent).to.equal('logo');
+
+          // when
+          await setEditorValue(input, 'foo');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], '=foo');
+        });
+
+
+        it('should remove source', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === '=logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = domQuery('[name=source] [role="textbox"]', container);
+          expect(input.textContent).to.equal('logo');
+
+          // when
+          await setEditorValue(input, '');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], undefined);
+        });
+
+      });
+
+
+      describe('alt', function() {
+
+        it('should update alt text', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === '=logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = domQuery('input[name=alt]', container);
+          expect(input.value).to.equal('The bpmn.io logo');
+
+          // when
+          fireEvent.input(input, { target: { value: 'An image' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], 'An image');
+        });
+
+
+        it('should remove alt text', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ source }) => source === '=logo');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = domQuery('input[name=alt]', container);
+          expect(input.value).to.equal('The bpmn.io logo');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], undefined);
         });
 
       });

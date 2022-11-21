@@ -10,12 +10,14 @@ import SelectIcon from './Select.svg';
 import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
+import ImageIcon from './Image.svg';
 
 export const iconsByType = {
   button: ButtonIcon,
   checkbox: CheckboxIcon,
   checklist: ChecklistIcon,
   columns: ColumnsIcon,
+  image: ImageIcon,
   number: NumberIcon,
   radio: RadioIcon,
   select: SelectIcon,

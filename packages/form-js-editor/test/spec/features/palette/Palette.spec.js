@@ -40,7 +40,7 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(10);
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(11);
 
     expectEntries(result.container, [
       'textfield',
@@ -52,6 +52,7 @@ describe('palette', function() {
       'taglist',
       'select',
       'text',
+      'image',
       'button'
     ]);
   });

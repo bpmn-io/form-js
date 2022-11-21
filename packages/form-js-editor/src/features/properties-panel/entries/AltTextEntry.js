@@ -1,28 +1,35 @@
-import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
 
 import { useService, useVariables } from '../hooks';
 
+import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export function ConditionEntry(props) {
+export default function AltTextEntry(props) {
   const {
     editField,
     field
   } = props;
 
-  return [
-    {
-      id: 'conditional-hide',
-      component: Condition,
+  const {
+    type
+  } = field;
+
+  const entries = [];
+
+  if (type === 'image') {
+    entries.push({
+      id: 'alt',
+      component: AltText,
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited
-    }
-  ];
+    });
+  }
+
+  return entries;
 }
 
-
-function Condition(props) {
+function AltText(props) {
   const {
     editField,
     field,
@@ -33,28 +40,23 @@ function Condition(props) {
 
   const variables = useVariables().map(name => ({ name }));
 
-  const path = [ 'conditional', 'hide' ];
+  const path = [ 'alt' ];
 
   const getValue = () => {
     return get(field, path, '');
   };
 
   const setValue = (value) => {
-    if (!value) {
-      return editField(field, 'conditional', undefined);
-    }
-
-    return editField(field, 'conditional', { hide: value });
+    return editField(field, path, value);
   };
 
   return FeelEntry({
     debounce,
-    description: 'Condition under which the field is hidden',
     element: field,
-    feel: 'required',
+    feel: 'optional',
     getValue,
     id,
-    label: 'Hide if',
+    label: 'Alternative text',
     setValue,
     variables
   });

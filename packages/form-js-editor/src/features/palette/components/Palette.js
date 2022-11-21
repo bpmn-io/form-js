@@ -38,6 +38,10 @@ const types = [
     type: 'text'
   },
   {
+    label: 'Image view',
+    type: 'image'
+  },
+  {
     label: 'Button',
     type: 'button'
   }

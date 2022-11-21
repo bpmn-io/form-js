@@ -10,6 +10,7 @@ const labelsByType = {
   checklist: 'CHECKLIST',
   columns: 'COLUMNS',
   default: 'FORM',
+  image: 'IMAGE',
   number: 'NUMBER',
   radio: 'RADIO',
   select: 'SELECT',
@@ -28,6 +29,10 @@ export const PropertiesPanelHeaderProvider = {
 
     if (type === 'text') {
       return textToLabel(field.text);
+    }
+
+    if (type === 'image') {
+      return field.alt;
     }
 
     if (type === 'default') {
