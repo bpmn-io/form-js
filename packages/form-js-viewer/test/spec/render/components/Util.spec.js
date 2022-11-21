@@ -28,6 +28,15 @@ describe('Util', function() {
       expect(classes).to.equal('fjs-form-field fjs-form-field-button fjs-has-errors');
     });
 
+    it('should contain disabled class', function() {
+
+      // when
+      const classes = formFieldClasses('button', { disabled: true });
+
+      // then
+      expect(classes).to.equal('fjs-form-field fjs-form-field-button fjs-disabled');
+    });
+
   });
 
 
