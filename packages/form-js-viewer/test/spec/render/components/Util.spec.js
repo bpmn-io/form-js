@@ -22,7 +22,7 @@ describe('Util', function() {
     it('should contain errors class', function() {
 
       // when
-      const classes = formFieldClasses('button', [ 'foo' ]);
+      const classes = formFieldClasses('button', { errors:[ 'foo' ] });
 
       // then
       expect(classes).to.equal('fjs-form-field fjs-form-field-button fjs-has-errors');
