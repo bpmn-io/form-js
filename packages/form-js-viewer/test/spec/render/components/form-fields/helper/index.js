@@ -7,6 +7,7 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
     const {
       data,
       errors,
+      evaluateExpression,
       properties,
       initialData
     } = options;
@@ -20,6 +21,12 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
             properties,
             initialData
           };
+        }
+      };
+    } else if (type === 'conditionChecker') {
+      return {
+        evaluate(...args) {
+          return evaluateExpression(...args);
         }
       };
     }
