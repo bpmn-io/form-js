@@ -212,6 +212,7 @@ describe('Validator', function() {
 
     });
 
+
     describe('email pattern', function() {
 
       it('should be valid', function() {
@@ -249,6 +250,7 @@ describe('Validator', function() {
       });
 
     });
+
 
     describe('phone number pattern', function() {
 
