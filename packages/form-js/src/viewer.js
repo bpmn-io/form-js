@@ -2,5 +2,5 @@ export {
   createForm,
   Form,
   schemaVersion,
-  getSchemaVariables
+  getSchemaVariables,
 } from '@bpmn-io/form-js-viewer';

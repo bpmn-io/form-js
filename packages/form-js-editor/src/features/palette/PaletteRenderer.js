@@ -1,14 +1,8 @@
 import Palette from './components/Palette';
 
-import {
-  render
-} from 'preact';
+import {render} from 'preact';
 
-import {
-  domify,
-  query as domQuery
-} from 'min-dom';
-
+import {domify, query as domQuery} from 'min-dom';
 
 /**
  * @typedef { { parent: Element } } PaletteConfig
@@ -20,11 +14,8 @@ import {
  * @param {EventBus} eventBus
  */
 export default class PaletteRenderer {
-
   constructor(paletteConfig, eventBus) {
-    const {
-      parent
-    } = paletteConfig || {};
+    const {parent} = paletteConfig || {};
 
     this._eventBus = eventBus;
 
@@ -38,7 +29,6 @@ export default class PaletteRenderer {
       this._render();
     });
   }
-
 
   /**
    * Attach the palette to a parent node.
@@ -78,10 +68,7 @@ export default class PaletteRenderer {
   }
 
   _render() {
-    render(
-      <Palette />,
-      this._container
-    );
+    render(<Palette />, this._container);
 
     this._eventBus.fire('palette.rendered');
   }
@@ -95,4 +82,4 @@ export default class PaletteRenderer {
   }
 }
 
-PaletteRenderer.$inject = [ 'config.palette', 'eventBus' ];
+PaletteRenderer.$inject = ['config.palette', 'eventBus'];

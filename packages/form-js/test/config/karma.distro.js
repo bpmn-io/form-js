@@ -11,16 +11,11 @@ if (!variant) {
 // use puppeteer provided Chrome for testing
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-module.exports = function(karma) {
-
+module.exports = function (karma) {
   const config = {
-
     basePath: '../../',
 
-    frameworks: [
-      'mocha',
-      'sinon-chai'
-    ],
+    frameworks: ['mocha', 'sinon-chai'],
 
     files: [
       `dist/${variant}.umd.js`,
@@ -29,15 +24,15 @@ module.exports = function(karma) {
       'dist/assets/form-js-editor.css',
       'dist/assets/properties-panel.css',
       'dist/assets/form-js-playground.css',
-      `test/distro/${variant}.js`
+      `test/distro/${variant}.js`,
     ],
 
-    reporters: [ 'progress' ],
+    reporters: ['progress'],
 
     browsers,
 
     singleRun: true,
-    autoWatch: false
+    autoWatch: false,
   };
 
   karma.set(config);

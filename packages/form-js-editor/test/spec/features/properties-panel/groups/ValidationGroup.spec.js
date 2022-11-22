@@ -1,23 +1,15 @@
-import {
-  cleanup,
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {cleanup, fireEvent, render} from '@testing-library/preact/pure';
 
-import { ValidationGroup } from '../../../../../src/features/properties-panel/groups';
+import {ValidationGroup} from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import {WithPropertiesPanelContext, WithPropertiesPanel} from '../helper';
 
-
-describe('ValidationGroup', function() {
-
+describe('ValidationGroup', function () {
   afterEach(() => cleanup());
 
-
-  it('should NOT render for checkbox', function() {
-
+  it('should NOT render for checkbox', function () {
     // given
-    const field = { type: 'checkbox' };
+    const field = {type: 'checkbox'};
 
     const group = ValidationGroup(field);
 
@@ -25,16 +17,13 @@ describe('ValidationGroup', function() {
     expect(group).to.not.exist;
   });
 
-
-  describe('required', function() {
-
-    it('should render for textfield', function() {
-
+  describe('required', function () {
+    it('should render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const requiredInput = findInput('required', container);
@@ -42,19 +31,17 @@ describe('ValidationGroup', function() {
       expect(requiredInput).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          required: true
-        }
+          required: true,
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const requiredInput = findInput('required', container);
@@ -64,20 +51,21 @@ describe('ValidationGroup', function() {
       expect(requiredInput.checked).to.be.true;
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          required: true
-        }
+          required: true,
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const requiredInput = findInput('required', container);
 
@@ -88,18 +76,15 @@ describe('ValidationGroup', function() {
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.required).to.be.false;
     });
-
   });
 
-  describe('validationType', function() {
-
-    it('should render for textfield', function() {
-
+  describe('validationType', function () {
+    it('should render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const requiredSelect = findSelect('validationType', container);
@@ -107,19 +92,17 @@ describe('ValidationGroup', function() {
       expect(requiredSelect).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          validationType: 'email'
-        }
+          validationType: 'email',
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const requiredSelect = findSelect('validationType', container);
@@ -129,43 +112,40 @@ describe('ValidationGroup', function() {
       expect(requiredSelect.value).to.equal('email');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          validationType: 'email'
-        }
+          validationType: 'email',
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const requiredSelect = findSelect('validationType', container);
 
       // when
-      fireEvent.input(requiredSelect, { target: { value: 'phone' } });
+      fireEvent.input(requiredSelect, {target: {value: 'phone'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.validationType).to.equal('phone');
     });
-
   });
 
-
-  describe('minLength', function() {
-
-    it('should render for textfield', function() {
-
+  describe('minLength', function () {
+    it('should render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const minLengthInput = findInput('minLength', container);
@@ -173,14 +153,12 @@ describe('ValidationGroup', function() {
       expect(minLengthInput).to.exist;
     });
 
-
-    it('should NOT render for number', function() {
-
+    it('should NOT render for number', function () {
       // given
-      const field = { type: 'number' };
+      const field = {type: 'number'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const minLengthInput = findInput('minLength', container);
@@ -188,19 +166,17 @@ describe('ValidationGroup', function() {
       expect(minLengthInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          minLength: 3
-        }
+          minLength: 3,
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       const minLengthInput = findInput('minLength', container);
 
@@ -209,43 +185,40 @@ describe('ValidationGroup', function() {
       expect(minLengthInput.value).to.equal('3');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          minLength: 3
-        }
+          minLength: 3,
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const minLengthInput = findInput('minLength', container);
 
       // when
-      fireEvent.input(minLengthInput, { target: { value: '2' } });
+      fireEvent.input(minLengthInput, {target: {value: '2'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.minLength).to.equal(2);
     });
-
   });
 
-
-  describe('maxLength', function() {
-
-    it('should render for textfield', function() {
-
+  describe('maxLength', function () {
+    it('should render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const maxLengthInput = findInput('maxLength', container);
@@ -253,14 +226,12 @@ describe('ValidationGroup', function() {
       expect(maxLengthInput).to.exist;
     });
 
-
-    it('should NOT render for number', function() {
-
+    it('should NOT render for number', function () {
       // given
-      const field = { type: 'number' };
+      const field = {type: 'number'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const maxLengthInput = findInput('maxLength', container);
@@ -268,19 +239,17 @@ describe('ValidationGroup', function() {
       expect(maxLengthInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          maxLength: 3
-        }
+          maxLength: 3,
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       const maxLengthInput = findInput('maxLength', container);
 
@@ -289,43 +258,40 @@ describe('ValidationGroup', function() {
       expect(maxLengthInput.value).to.equal('3');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          maxLength: 3
-        }
+          maxLength: 3,
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const maxLengthInput = findInput('maxLength', container);
 
       // when
-      fireEvent.input(maxLengthInput, { target: { value: '2' } });
+      fireEvent.input(maxLengthInput, {target: {value: '2'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.maxLength).to.equal(2);
     });
-
   });
 
-
-  describe('pattern', function() {
-
-    it('should render for textfield', function() {
-
+  describe('pattern', function () {
+    it('should render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const patternInput = findInput('pattern', container);
@@ -333,14 +299,12 @@ describe('ValidationGroup', function() {
       expect(patternInput).to.exist;
     });
 
-
-    it('should NOT render for number', function() {
-
+    it('should NOT render for number', function () {
       // given
-      const field = { type: 'number' };
+      const field = {type: 'number'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const patternInput = findInput('pattern', container);
@@ -348,19 +312,17 @@ describe('ValidationGroup', function() {
       expect(patternInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          pattern: 'myPattern'
-        }
+          pattern: 'myPattern',
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       const patternInput = findInput('pattern', container);
 
@@ -369,43 +331,40 @@ describe('ValidationGroup', function() {
       expect(patternInput.value).to.equal('myPattern');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         validate: {
-          pattern: 'myPattern'
-        }
+          pattern: 'myPattern',
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const patternInput = findInput('pattern', container);
 
       // when
-      fireEvent.input(patternInput, { target: { value: 'foo' } });
+      fireEvent.input(patternInput, {target: {value: 'foo'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.pattern).to.equal('foo');
     });
-
   });
 
-
-  describe('min', function() {
-
-    it('should render for number', function() {
-
+  describe('min', function () {
+    it('should render for number', function () {
       // given
-      const field = { type: 'number' };
+      const field = {type: 'number'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const minInput = findInput('min', container);
@@ -413,14 +372,12 @@ describe('ValidationGroup', function() {
       expect(minInput).to.exist;
     });
 
-
-    it('should NOT render for textfield', function() {
-
+    it('should NOT render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const minInput = findInput('min', container);
@@ -428,19 +385,17 @@ describe('ValidationGroup', function() {
       expect(minInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
         validate: {
-          min: 3
-        }
+          min: 3,
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       const minInput = findInput('min', container);
 
@@ -449,43 +404,40 @@ describe('ValidationGroup', function() {
       expect(minInput.value).to.equal('3');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
         validate: {
-          min: 3
-        }
+          min: 3,
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const minInput = findInput('min', container);
 
       // when
-      fireEvent.input(minInput, { target: { value: '2' } });
+      fireEvent.input(minInput, {target: {value: '2'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.min).to.equal(2);
     });
-
   });
 
-
-  describe('max', function() {
-
-    it('should render for number', function() {
-
+  describe('max', function () {
+    it('should render for number', function () {
       // given
-      const field = { type: 'number' };
+      const field = {type: 'number'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const maxInput = findInput('max', container);
@@ -493,14 +445,12 @@ describe('ValidationGroup', function() {
       expect(maxInput).to.exist;
     });
 
-
-    it('should NOT render for textfield', function() {
-
+    it('should NOT render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       // then
       const maxInput = findInput('max', container);
@@ -508,19 +458,17 @@ describe('ValidationGroup', function() {
       expect(maxInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
         validate: {
-          max: 3
-        }
+          max: 3,
+        },
       };
 
       // when
-      const { container } = renderValidationGroup({ field });
+      const {container} = renderValidationGroup({field});
 
       const maxInput = findInput('max', container);
 
@@ -529,50 +477,49 @@ describe('ValidationGroup', function() {
       expect(maxInput.value).to.equal('3');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
         validate: {
-          max: 3
-        }
+          max: 3,
+        },
       };
 
       const editFieldSpy = sinon.spy();
 
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+      const {container} = renderValidationGroup({
+        field,
+        editField: editFieldSpy,
+      });
 
       const maxInput = findInput('max', container);
 
       // when
-      fireEvent.input(maxInput, { target: { value: '2' } });
+      fireEvent.input(maxInput, {target: {value: '2'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.max).to.equal(2);
     });
-
   });
-
 });
-
 
 // helper ///////////////
 
 function renderValidationGroup(options) {
-  const {
-    editField,
-    field
-  } = options;
+  const {editField, field} = options;
 
-  const groups = [ ValidationGroup(field, editField) ];
+  const groups = [ValidationGroup(field, editField)];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    WithPropertiesPanelContext(
+      WithPropertiesPanel({
+        field,
+        groups,
+      }),
+    ),
+  );
 }
 
 function findInput(id, container) {

@@ -1,247 +1,256 @@
-import {
-  bootstrapFormEditor,
-  inject
-} from '../../TestHelper';
+import {bootstrapFormEditor, inject} from '../../TestHelper';
 
-
-describe('core/FieldFactory', function() {
-
+describe('core/FieldFactory', function () {
   const schema = {
-    type: 'default'
+    type: 'default',
   };
 
   beforeEach(bootstrapFormEditor(schema));
 
+  describe('#create', function () {
+    it(
+      'Button',
+      testCreate({
+        type: 'button',
+        label: 'Button',
+        keyed: true,
+        defaults: {
+          action: 'submit',
+        },
+      }),
+    );
 
-  describe('#create', function() {
+    it(
+      'Checkbox',
+      testCreate({
+        type: 'checkbox',
+        label: 'Checkbox',
+        keyed: true,
+      }),
+    );
 
-    it('Button', testCreate({
-      type: 'button',
-      label: 'Button',
-      keyed: true,
-      defaults: {
-        action: 'submit'
-      }
-    }));
+    it(
+      'Checklist',
+      testCreate({
+        type: 'checklist',
+        label: 'Checklist',
+        keyed: true,
+        defaults: {
+          values: [
+            {
+              label: 'Value',
+              value: 'value',
+            },
+          ],
+        },
+      }),
+    );
 
+    it(
+      'Default',
+      testCreate({
+        type: 'default',
+        keyed: false,
+        defaults: {
+          components: [],
+        },
+      }),
+    );
 
-    it('Checkbox', testCreate({
-      type: 'checkbox',
-      label: 'Checkbox',
-      keyed: true
-    }));
+    it(
+      'Number',
+      testCreate({
+        type: 'number',
+        label: 'Number',
+        keyed: true,
+      }),
+    );
 
+    it(
+      'Radio',
+      testCreate({
+        type: 'radio',
+        label: 'Radio',
+        keyed: true,
+        defaults: {
+          values: [
+            {
+              label: 'Value',
+              value: 'value',
+            },
+          ],
+        },
+      }),
+    );
 
-    it('Checklist', testCreate({
-      type: 'checklist',
-      label: 'Checklist',
-      keyed: true,
-      defaults: {
-        values: [
-          {
-            label: 'Value',
-            value: 'value'
-          }
-        ]
-      }
-    }));
+    it(
+      'Select',
+      testCreate({
+        type: 'select',
+        label: 'Select',
+        keyed: true,
+        defaults: {
+          values: [
+            {
+              label: 'Value',
+              value: 'value',
+            },
+          ],
+        },
+      }),
+    );
 
+    it(
+      'Taglist',
+      testCreate({
+        type: 'taglist',
+        label: 'Taglist',
+        keyed: true,
+        defaults: {
+          values: [
+            {
+              label: 'Value',
+              value: 'value',
+            },
+          ],
+        },
+      }),
+    );
 
-    it('Default', testCreate({
-      type: 'default',
-      keyed: false,
-      defaults: {
-        components: []
-      }
-    }));
-
-
-    it('Number', testCreate({
-      type: 'number',
-      label: 'Number',
-      keyed: true
-    }));
-
-
-    it('Radio', testCreate({
-      type: 'radio',
-      label: 'Radio',
-      keyed: true,
-      defaults: {
-        values: [
-          {
-            label: 'Value',
-            value: 'value'
-          }
-        ]
-      }
-    }));
-
-
-    it('Select', testCreate({
-      type: 'select',
-      label: 'Select',
-      keyed: true,
-      defaults: {
-        values: [
-          {
-            label: 'Value',
-            value: 'value'
-          }
-        ]
-      }
-    }));
-
-
-    it('Taglist', testCreate({
-      type: 'taglist',
-      label: 'Taglist',
-      keyed: true,
-      defaults: {
-        values: [
-          {
-            label: 'Value',
-            value: 'value'
-          }
-        ]
-      }
-    }));
-
-
-    it('Text field', testCreate({
-      type: 'textfield',
-      label: 'Text field',
-      keyed: true
-    }));
-
+    it(
+      'Text field',
+      testCreate({
+        type: 'textfield',
+        label: 'Text field',
+        keyed: true,
+      }),
+    );
   });
 
-
-  describe('#create (no defaults)', function() {
-
-    it('Button', testCreate({
-      type: 'button',
-      defaults: {
-        action: 'submit'
-      }
-    }, false));
-
+  describe('#create (no defaults)', function () {
+    it(
+      'Button',
+      testCreate(
+        {
+          type: 'button',
+          defaults: {
+            action: 'submit',
+          },
+        },
+        false,
+      ),
+    );
   });
 
-
-  describe('id', function() {
-
-    it('should assign ID', inject(function(fieldFactory) {
-
+  describe('id', function () {
+    it('should assign ID', inject(function (fieldFactory) {
       // when
       const field = fieldFactory.create({
-        type: 'textfield'
+        type: 'textfield',
       });
 
       // then
       expect(field.id).to.match(/Field_[a-z|0-9]{7}/);
     }));
 
-
-    it('should not assign ID', inject(function(fieldFactory) {
-
+    it('should not assign ID', inject(function (fieldFactory) {
       // when
-      const field = fieldFactory.create({
-        id: 'foo',
-        type: 'textfield'
-      }, false);
+      const field = fieldFactory.create(
+        {
+          id: 'foo',
+          type: 'textfield',
+        },
+        false,
+      );
 
       // then
       expect(field.id).to.equal('foo');
     }));
 
-
-    it('should throw if ID already assigned', inject(function(fieldFactory) {
-
+    it('should throw if ID already assigned', inject(function (fieldFactory) {
       // given
-      fieldFactory.create({
-        id: 'foo',
-        type: 'textfield'
-      }, false);
+      fieldFactory.create(
+        {
+          id: 'foo',
+          type: 'textfield',
+        },
+        false,
+      );
 
       // when
-      const create = () => fieldFactory.create({
-        id: 'foo',
-        type: 'textfield'
-      }, false);
+      const create = () =>
+        fieldFactory.create(
+          {
+            id: 'foo',
+            type: 'textfield',
+          },
+          false,
+        );
 
       // then
       expect(create).to.throw('ID <foo> already assigned');
     }));
-
   });
 
-
-  describe('key', function() {
-
-    it('should assign key', inject(function(fieldFactory) {
-
+  describe('key', function () {
+    it('should assign key', inject(function (fieldFactory) {
       // when
       const field = fieldFactory.create({
-        type: 'textfield'
+        type: 'textfield',
       });
 
       // then
       expect(field.key).to.match(/field_[a-z|0-9]{7}/);
     }));
 
-
-    it('should not assign key', inject(function(fieldFactory) {
-
+    it('should not assign key', inject(function (fieldFactory) {
       // when
-      const field = fieldFactory.create({
-        key: 'foo',
-        type: 'textfield'
-      }, false);
+      const field = fieldFactory.create(
+        {
+          key: 'foo',
+          type: 'textfield',
+        },
+        false,
+      );
 
       // then
       expect(field.key).to.equal('foo');
     }));
 
-
-    it('should throw if ID already assigned', inject(function(fieldFactory) {
-
+    it('should throw if ID already assigned', inject(function (fieldFactory) {
       // given
-      fieldFactory.create({
-        key: 'foo',
-        type: 'textfield'
-      }, false);
+      fieldFactory.create(
+        {
+          key: 'foo',
+          type: 'textfield',
+        },
+        false,
+      );
 
       // when
-      const create = () => fieldFactory.create({
-        key: 'foo',
-        type: 'textfield'
-      }, false);
+      const create = () =>
+        fieldFactory.create(
+          {
+            key: 'foo',
+            type: 'textfield',
+          },
+          false,
+        );
 
       // then
       expect(create).to.throw('key <foo> already assigned');
     }));
-
   });
-
 });
-
 
 // helpers //////////////
 
 function testCreate(options, applyDefaults = true) {
+  const {type, label, keyed = false, defaults = {}} = options;
 
-  const {
-    type,
-    label,
-    keyed = false,
-    defaults = {}
-  } = options;
-
-  return inject(function(fieldFactory) {
-
+  return inject(function (fieldFactory) {
     // when
-    const field = fieldFactory.create({ type }, applyDefaults);
+    const field = fieldFactory.create({type}, applyDefaults);
 
     // then
     expect(field.id).to.exist;
@@ -262,5 +271,4 @@ function testCreate(options, applyDefaults = true) {
 
     expect(field).to.deep.contain(defaults);
   });
-
 }

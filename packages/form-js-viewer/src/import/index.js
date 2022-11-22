@@ -1,5 +1,5 @@
 import Importer from './Importer';
 
 export default {
-  importer: [ 'type', Importer ]
+  importer: ['type', Importer],
 };

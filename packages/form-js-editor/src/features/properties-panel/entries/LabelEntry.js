@@ -1,22 +1,18 @@
-import { get } from 'min-dash';
+import {get} from 'min-dash';
 
-import { INPUTS } from '../Util';
+import {INPUTS} from '../Util';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+} from '@bpmn-io/properties-panel';
 
 export default function LabelEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
-  const {
-    type
-  } = field;
+  const {type} = field;
 
   const entries = [];
 
@@ -26,7 +22,7 @@ export default function LabelEntry(props) {
       component: Label,
       editField: editField,
       field: field,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isTextFieldEntryEdited,
     });
   }
 
@@ -34,15 +30,11 @@ export default function LabelEntry(props) {
 }
 
 function Label(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   const debounce = useService('debounce');
 
-  const path = [ 'label' ];
+  const path = ['label'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -58,6 +50,6 @@ function Label(props) {
     getValue,
     id,
     label: 'Field label',
-    setValue
+    setValue,
   });
 }

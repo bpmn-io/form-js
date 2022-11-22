@@ -1,17 +1,11 @@
-import { ListGroup } from '@bpmn-io/properties-panel';
+import {ListGroup} from '@bpmn-io/properties-panel';
 
-import {
-  has,
-  isUndefined
-} from 'min-dash';
+import {has, isUndefined} from 'min-dash';
 
-import { CustomValueEntry } from '../entries';
+import {CustomValueEntry} from '../entries';
 
 export default function CustomValuesGroup(field, editField) {
-  const {
-    properties = {},
-    type
-  } = field;
+  const {properties = {}, type} = field;
 
   if (type === 'default') {
     return null;
@@ -22,10 +16,10 @@ export default function CustomValuesGroup(field, editField) {
 
     const index = Object.keys(properties).length + 1;
 
-    const key = `key${ index }`,
-          value = 'value';
+    const key = `key${index}`,
+      value = 'value';
 
-    editField(field, [ 'properties' ], { ...properties, [ key ]: value });
+    editField(field, ['properties'], {...properties, [key]: value});
   };
 
   const validateFactory = (key) => {
@@ -48,10 +42,10 @@ export default function CustomValuesGroup(field, editField) {
     const removeEntry = (event) => {
       event.stopPropagation();
 
-      return editField(field, [ 'properties' ], removeKey(properties, key));
+      return editField(field, ['properties'], removeKey(properties, key));
     };
 
-    const id = `${ field.id }-property-${ index }`;
+    const id = `${field.id}-property-${index}`;
 
     return {
       autoFocusEntry: id + '-key',
@@ -60,11 +54,11 @@ export default function CustomValuesGroup(field, editField) {
         field,
         idPrefix: id,
         index,
-        validateFactory
+        validateFactory,
       }),
       id,
       label: key || '',
-      remove: removeEntry
+      remove: removeEntry,
     };
   });
 
@@ -74,10 +68,9 @@ export default function CustomValuesGroup(field, editField) {
     id: 'custom-values',
     items,
     label: 'Custom properties',
-    shouldSort: false
+    shouldSort: false,
   };
 }
-
 
 // helpers //////////
 
@@ -91,7 +84,7 @@ export default function CustomValuesGroup(field, editField) {
  */
 export function removeKey(properties, oldKey) {
   return Object.entries(properties).reduce((newProperties, entry) => {
-    const [ key, value ] = entry;
+    const [key, value] = entry;
 
     if (key === oldKey) {
       return newProperties;
@@ -99,7 +92,7 @@ export function removeKey(properties, oldKey) {
 
     return {
       ...newProperties,
-      [ key ]: value
+      [key]: value,
     };
   }, {});
 }

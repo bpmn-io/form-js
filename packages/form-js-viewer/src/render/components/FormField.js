@@ -1,36 +1,26 @@
-import { useContext } from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
-import { get } from 'min-dash';
+import {get} from 'min-dash';
 
-import { FormRenderContext } from '../context';
+import {FormRenderContext} from '../context';
 
 import useService from '../hooks/useService';
 
-import { findErrors } from '../../util';
+import {findErrors} from '../../util';
 
 const noop = () => false;
 
-
 export default function FormField(props) {
-  const {
-    field,
-    onChange
-  } = props;
+  const {field, onChange} = props;
 
-  const { _path } = field;
+  const {_path} = field;
 
   const formFields = useService('formFields'),
-        form = useService('form');
+    form = useService('form');
 
-  const {
-    data,
-    errors,
-    properties
-  } = form._getState();
+  const {data, errors, properties} = form._getState();
 
-  const {
-    Element
-  } = useContext(FormRenderContext);
+  const {Element} = useContext(FormRenderContext);
 
   const FormFieldComponent = formFields.get(field.type);
 
@@ -45,13 +35,14 @@ export default function FormField(props) {
   const disabled = properties.readOnly || field.disabled || false;
 
   return (
-    <Element field={ field }>
+    <Element field={field}>
       <FormFieldComponent
-        { ...props }
-        disabled={ disabled }
-        errors={ fieldErrors }
-        onChange={ disabled ? noop : onChange }
-        value={ value } />
+        {...props}
+        disabled={disabled}
+        errors={fieldErrors}
+        onChange={disabled ? noop : onChange}
+        value={value}
+      />
     </Element>
   );
 }

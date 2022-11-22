@@ -1,34 +1,27 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {fireEvent, render} from '@testing-library/preact/pure';
 
 import FormField from 'src/render/components/FormField';
 
 import Textfield from 'src/render/components/form-fields/Textfield';
 
-import { FormContext } from 'src/render/context';
+import {FormContext} from 'src/render/context';
 
-import { createFormContainer } from '../../../TestHelper';
+import {createFormContainer} from '../../../TestHelper';
 
 let container;
 
-
-describe('FormField', function() {
-
-  beforeEach(function() {
+describe('FormField', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createFormField();
+    const {container} = createFormField();
 
     // then
     const formField = container.querySelector('.fjs-form-field');
@@ -37,70 +30,56 @@ describe('FormField', function() {
     expect(formField.classList.contains('fjs-form-field-textfield')).to.be.true;
   });
 
-
-  it('should pass value to form field', function() {
-
+  it('should pass value to form field', function () {
     // given
     const componentSpy = sinon.spy(Textfield);
 
     // when
     createFormField({
-      FormFieldComponent: componentSpy
+      FormFieldComponent: componentSpy,
     });
 
     // then
     const props = componentSpy.firstCall.firstArg;
 
     expect(props).to.include({
-      value: 'John Doe Company'
+      value: 'John Doe Company',
     });
   });
 
-
-  it('should pass errors to form field', function() {
-
+  it('should pass errors to form field', function () {
     // given
     const componentSpy = sinon.spy(Textfield);
 
     // when
     createFormField({
       errors: {
-        creditor: [
-          'foo'
-        ]
+        creditor: ['foo'],
       },
-      FormFieldComponent: componentSpy
+      FormFieldComponent: componentSpy,
     });
 
     // then
     const props = componentSpy.firstCall.firstArg;
 
     expect(props).to.deep.include({
-      errors:  [
-        'foo'
-      ]
+      errors: ['foo'],
     });
   });
 
-
-  it('should should throw error if cannot render field', function() {
-
+  it('should should throw error if cannot render field', function () {
     expect(() => {
-
       // when
       createFormField({
         field: {
-          type: 'foo'
-        }
+          type: 'foo',
+        },
       });
     }).to.throw('cannot render field <foo>');
   });
 
-
-  describe('disabled form', function() {
-
-    it('should pass disabled', function() {
-
+  describe('disabled form', function () {
+    it('should pass disabled', function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -108,51 +87,45 @@ describe('FormField', function() {
       createFormField({
         FormFieldComponent: componentSpy,
         properties: {
-          readOnly: true
-        }
+          readOnly: true,
+        },
       });
 
       // then
       const props = componentSpy.firstCall.firstArg;
 
       expect(props).to.include({
-        disabled: true
+        disabled: true,
       });
     });
 
-
-    it('should not handle change', function() {
-
+    it('should not handle change', function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
       const onChangeSpy = sinon.spy();
 
       // when
-      const { container } = createFormField({
+      const {container} = createFormField({
         FormFieldComponent: componentSpy,
         onChange: onChangeSpy,
         properties: {
-          readOnly: true
-        }
+          readOnly: true,
+        },
       });
 
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      fireEvent.input(input, {target: {value: 'Jane Doe Company'}});
 
       // then
       expect(onChangeSpy).not.to.have.been.called;
     });
-
   });
 
-
-  describe('disabled form field', function() {
-
-    it('should pass disabled', function() {
-
+  describe('disabled form field', function () {
+    it('should pass disabled', function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -160,7 +133,7 @@ describe('FormField', function() {
       createFormField({
         field: {
           ...defaultField,
-          disabled: true
+          disabled: true,
         },
         FormFieldComponent: componentSpy,
       });
@@ -169,52 +142,48 @@ describe('FormField', function() {
       const props = componentSpy.firstCall.firstArg;
 
       expect(props).to.include({
-        disabled: true
+        disabled: true,
       });
     });
 
-
-    it('should not handle change', function() {
-
+    it('should not handle change', function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
       const onChangeSpy = sinon.spy();
 
       // when
-      const { container } = createFormField({
+      const {container} = createFormField({
         field: {
           ...defaultField,
-          disabled: true
+          disabled: true,
         },
         FormFieldComponent: componentSpy,
-        onChange: onChangeSpy
+        onChange: onChangeSpy,
       });
 
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      fireEvent.input(input, {target: {value: 'Jane Doe Company'}});
 
       // then
       expect(onChangeSpy).not.to.have.been.called;
     });
-
   });
-
 });
 
 // helpers //////////
 
 const defaultData = {
-  creditor: 'John Doe Company'
+  creditor: 'John Doe Company',
 };
 
 const defaultField = {
   key: 'creditor',
   label: 'Creditor',
-  _path: [ 'creditor' ],
-  type: 'textfield'
+  _path: ['creditor'],
+  type: 'textfield',
 };
 
 function createFormField(options = {}) {
@@ -224,7 +193,7 @@ function createFormField(options = {}) {
     errors = {},
     field = defaultField,
     onChange = () => {},
-    properties = {}
+    properties = {},
   } = options;
 
   const formContext = {
@@ -235,7 +204,7 @@ function createFormField(options = {}) {
             if (type === FormFieldComponent.type) {
               return FormFieldComponent;
             }
-          }
+          },
         };
       } else if (type === 'form') {
         return {
@@ -243,21 +212,20 @@ function createFormField(options = {}) {
             return {
               data,
               errors,
-              properties
+              properties,
             };
-          }
+          },
         };
       }
-    }
+    },
   };
 
   return render(
-    <FormContext.Provider value={ formContext }>
-      <FormField field={ field } onChange={ onChange } />
-    </FormContext.Provider>
-    ,
+    <FormContext.Provider value={formContext}>
+      <FormField field={field} onChange={onChange} />
+    </FormContext.Provider>,
     {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

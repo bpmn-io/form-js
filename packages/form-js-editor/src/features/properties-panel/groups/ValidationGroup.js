@@ -1,7 +1,4 @@
-import {
-  get,
-  set
-} from 'min-dash';
+import {get, set} from 'min-dash';
 
 import {
   CheckboxEntry,
@@ -10,12 +7,12 @@ import {
   isTextFieldEntryEdited,
   NumberFieldEntry,
   TextFieldEntry,
-  SelectEntry
+  SelectEntry,
 } from '@bpmn-io/properties-panel';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { INPUTS } from '../Util';
+import {INPUTS} from '../Util';
 
 const VALIDATION_TYPE_OPTIONS = {
   custom: {
@@ -33,25 +30,35 @@ const VALIDATION_TYPE_OPTIONS = {
 };
 
 export default function ValidationGroup(field, editField) {
-  const { type } = field;
-  const validate = get(field, [ 'validate' ], {});
-  const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate?.validationType);
+  const {type} = field;
+  const validate = get(field, ['validate'], {});
+  const isCustomValidation = [
+    undefined,
+    VALIDATION_TYPE_OPTIONS.custom.value,
+  ].includes(validate?.validationType);
 
-  if (!(INPUTS.includes(type) && type !== 'checkbox' && type !== 'checklist' && type !== 'taglist')) {
+  if (
+    !(
+      INPUTS.includes(type) &&
+      type !== 'checkbox' &&
+      type !== 'checklist' &&
+      type !== 'taglist'
+    )
+  ) {
     return null;
   }
 
   const onChange = (key) => {
     return (value) => {
-      const validate = get(field, [ 'validate' ], {});
+      const validate = get(field, ['validate'], {});
 
-      editField(field, [ 'validate' ], set(validate, [ key ], value));
+      editField(field, ['validate'], set(validate, [key], value));
     };
   };
 
   const getValue = (key) => {
     return () => {
-      return get(field, [ 'validate', key ]);
+      return get(field, ['validate', key]);
     };
   };
 
@@ -62,21 +69,19 @@ export default function ValidationGroup(field, editField) {
       getValue,
       field,
       isEdited: isCheckboxEntryEdited,
-      onChange
-    }
+      onChange,
+    },
   ];
 
   if (type === 'textfield') {
-    entries.push(
-      {
-        id: 'validationType',
-        component: ValidationType,
-        getValue,
-        field,
-        isEdited: isTextFieldEntryEdited,
-        onChange
-      }
-    );
+    entries.push({
+      id: 'validationType',
+      component: ValidationType,
+      getValue,
+      field,
+      isEdited: isTextFieldEntryEdited,
+      onChange,
+    });
   }
 
   if (type === 'textarea' || (type === 'textfield' && isCustomValidation)) {
@@ -87,7 +92,7 @@ export default function ValidationGroup(field, editField) {
         getValue,
         field,
         isEdited: isNumberFieldEntryEdited,
-        onChange
+        onChange,
       },
       {
         id: 'maxLength',
@@ -95,22 +100,20 @@ export default function ValidationGroup(field, editField) {
         getValue,
         field,
         isEdited: isNumberFieldEntryEdited,
-        onChange
-      }
+        onChange,
+      },
     );
   }
 
   if (type === 'textfield' && isCustomValidation) {
-    entries.push(
-      {
-        id: 'pattern',
-        component: Pattern,
-        getValue,
-        field,
-        isEdited: isTextFieldEntryEdited,
-        onChange
-      }
-    );
+    entries.push({
+      id: 'pattern',
+      component: Pattern,
+      getValue,
+      field,
+      isEdited: isTextFieldEntryEdited,
+      onChange,
+    });
   }
 
   if (type === 'number') {
@@ -121,7 +124,7 @@ export default function ValidationGroup(field, editField) {
         getValue,
         field,
         isEdited: isNumberFieldEntryEdited,
-        onChange
+        onChange,
       },
       {
         id: 'max',
@@ -129,42 +132,32 @@ export default function ValidationGroup(field, editField) {
         getValue,
         field,
         isEdited: isNumberFieldEntryEdited,
-        onChange
-      }
+        onChange,
+      },
     );
   }
 
   return {
     id: 'validation',
     label: 'Validation',
-    entries
+    entries,
   };
 }
 
 function Required(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   return CheckboxEntry({
     element: field,
     getValue: getValue('required'),
     id,
     label: 'Required',
-    setValue: onChange('required')
+    setValue: onChange('required'),
   });
 }
 
 function MinLength(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -175,17 +168,12 @@ function MinLength(props) {
     id,
     label: 'Minimum length',
     min: 0,
-    setValue: onChange('minLength')
+    setValue: onChange('minLength'),
   });
 }
 
 function MaxLength(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -196,17 +184,12 @@ function MaxLength(props) {
     id,
     label: 'Maximum length',
     min: 0,
-    setValue: onChange('maxLength')
+    setValue: onChange('maxLength'),
   });
 }
 
 function Pattern(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -216,17 +199,12 @@ function Pattern(props) {
     getValue: getValue('pattern'),
     id,
     label: 'Regular expression pattern',
-    setValue: onChange('pattern')
+    setValue: onChange('pattern'),
   });
 }
 
 function Min(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -237,17 +215,12 @@ function Min(props) {
     id,
     label: 'Minimum',
     min: 0,
-    setValue: onChange('min')
+    setValue: onChange('min'),
   });
 }
 
 function Max(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -258,17 +231,12 @@ function Max(props) {
     id,
     label: 'Maximum',
     min: 0,
-    setValue: onChange('max')
+    setValue: onChange('max'),
   });
 }
 
 function ValidationType(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const {field, getValue, id, onChange} = props;
 
   const debounce = useService('debounce');
 
@@ -281,6 +249,6 @@ function ValidationType(props) {
     setValue: onChange('validationType'),
     getOptions() {
       return Object.values(VALIDATION_TYPE_OPTIONS);
-    }
+    },
   });
 }

@@ -1,73 +1,77 @@
-import { iconsByType } from '../../../render/components/icons';
+import {iconsByType} from '../../../render/components/icons';
 
 const types = [
   {
     label: 'Text field',
-    type: 'textfield'
+    type: 'textfield',
   },
   {
     label: 'Text area',
-    type: 'textarea'
+    type: 'textarea',
   },
   {
     label: 'Number',
-    type: 'number'
+    type: 'number',
   },
   {
     label: 'Checkbox',
-    type: 'checkbox'
+    type: 'checkbox',
   },
   {
     label: 'Checklist',
-    type: 'checklist'
+    type: 'checklist',
   },
   {
     label: 'Taglist',
-    type: 'taglist'
+    type: 'taglist',
   },
   {
     label: 'Radio',
-    type: 'radio'
+    type: 'radio',
   },
   {
     label: 'Select',
-    type: 'select'
+    type: 'select',
   },
   {
     label: 'Text',
-    type: 'text'
+    type: 'text',
   },
   {
     label: 'Button',
-    type: 'button'
-  }
+    type: 'button',
+  },
 ];
 
-
 export default function Palette(props) {
-  return <div class="fjs-palette">
-    <div class="fjs-palette-header" title="Form elements library">
-      <span class="fjs-hide-compact">FORM ELEMENTS </span>LIBRARY
-    </div>
-    <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
-      {
-        types.map(({ label, type }) => {
-          const Icon = iconsByType[ type ];
+  return (
+    <div class="fjs-palette">
+      <div class="fjs-palette-header" title="Form elements library">
+        <span class="fjs-hide-compact">FORM ELEMENTS </span>LIBRARY
+      </div>
+      <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
+        {types.map(({label, type}) => {
+          const Icon = iconsByType[type];
 
           return (
             <div
               class="fjs-palette-field fjs-drag-copy fjs-no-drop"
-              data-field-type={ type }
-              title={ `Create a ${ label } element` }
+              data-field-type={type}
+              title={`Create a ${label} element`}
             >
-              {
-                Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
-              }
-              <span class="fjs-palette-field-text">{ label }</span>
+              {Icon ? (
+                <Icon
+                  class="fjs-palette-field-icon"
+                  width="36"
+                  height="36"
+                  viewBox="0 0 54 54"
+                />
+              ) : null}
+              <span class="fjs-palette-field-text">{label}</span>
             </div>
           );
-        })
-      }
+        })}
+      </div>
     </div>
-  </div>;
+  );
 }

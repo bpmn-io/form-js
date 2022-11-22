@@ -1,41 +1,30 @@
-import { useContext } from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
 import FormField from '../FormField';
 
-import { FormRenderContext } from '../../context';
-
+import {FormRenderContext} from '../../context';
 
 export default function Default(props) {
-  const {
-    Children,
-    Empty
-  } = useContext(FormRenderContext);
+  const {Children, Empty} = useContext(FormRenderContext);
 
-  const { field } = props;
+  const {field} = props;
 
-  const { components = [] } = field;
+  const {components = []} = field;
 
-  return <Children class="fjs-vertical-layout" field={ field }>
-    {
-      components.map(childField => {
-        return (
-          <FormField
-            { ...props }
-            key={ childField.id }
-            field={ childField } />
-        );
-      })
-    }
-    {
-      components.length ? null : <Empty />
-    }
-  </Children>;
+  return (
+    <Children class="fjs-vertical-layout" field={field}>
+      {components.map((childField) => {
+        return <FormField {...props} key={childField.id} field={childField} />;
+      })}
+      {components.length ? null : <Empty />}
+    </Children>
+  );
 }
 
-Default.create = function(options = {}) {
+Default.create = function (options = {}) {
   return {
     components: [],
-    ...options
+    ...options,
   };
 };
 

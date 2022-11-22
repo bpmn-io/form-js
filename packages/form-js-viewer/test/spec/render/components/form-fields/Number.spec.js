@@ -1,36 +1,26 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {fireEvent, render} from '@testing-library/preact/pure';
 
 import Number from '../../../../../src/render/components/form-fields/Number';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../../TestHelper';
 
 const spy = sinon.spy;
 
 let container;
 
-
-describe('Number', function() {
-
-  beforeEach(function() {
+describe('Number', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createNumberField({
-      value: 123
+    const {container} = createNumberField({
+      value: 123,
     });
 
     // then
@@ -50,11 +40,9 @@ describe('Number', function() {
     expect(label.textContent).to.equal('Amount');
   });
 
-
-  it('should render default value (\'\')', function() {
-
+  it("should render default value ('')", function () {
     // when
-    const { container } = createNumberField();
+    const {container} = createNumberField();
 
     // then
     const input = container.querySelector('input[type="number"]');
@@ -63,12 +51,10 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render <null> value', function() {
-
+  it('should render <null> value', function () {
     // when
-    const { container } = createNumberField({
-      value: null
+    const {container} = createNumberField({
+      value: null,
     });
 
     // then
@@ -78,24 +64,22 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render default value on value removed', function() {
-
+  it('should render default value on value removed', function () {
     // given
     const props = {
       disabled: false,
       errors: [],
       field: defaultField,
       onChange: () => {},
-      path: [ defaultField.key ]
+      path: [defaultField.key],
     };
 
-    const options = { container: container.querySelector('.fjs-form') };
+    const options = {container: container.querySelector('.fjs-form')};
 
-    const { rerender } = render(<Number { ...props } value={ 123 } />, options);
+    const {rerender} = render(<Number {...props} value={123} />, options);
 
     // when
-    rerender(<Number { ...props } value={ null } />, options);
+    rerender(<Number {...props} value={null} />, options);
 
     // then
     const input = container.querySelector('input[type="number"]');
@@ -104,12 +88,10 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
-    const { container } = createNumberField({
-      disabled: true
+    const {container} = createNumberField({
+      disabled: true,
     });
 
     // then
@@ -119,15 +101,13 @@ describe('Number', function() {
     expect(input.disabled).to.be.true;
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
-    const { container } = createNumberField({
+    const {container} = createNumberField({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -137,59 +117,51 @@ describe('Number', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  describe('change handling', function() {
-
-    it('should change number', function() {
-
+  describe('change handling', function () {
+    it('should change number', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createNumberField({
+      const {container} = createNumberField({
         onChange: onChangeSpy,
-        value: 123
+        value: 123,
       });
 
       // when
       const input = container.querySelector('input[type="number"]');
 
-      fireEvent.input(input, { target: { value: '124' } });
+      fireEvent.input(input, {target: {value: '124'}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: 124
+        value: 124,
       });
     });
 
-
-    it('should clear', function() {
-
+    it('should clear', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createNumberField({
+      const {container} = createNumberField({
         onChange: onChangeSpy,
-        value: 123
+        value: 123,
       });
 
       // when
       const input = container.querySelector('input[type="number"]');
 
-      fireEvent.input(input, { target: { value: '' } });
+      fireEvent.input(input, {target: {value: ''}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: null
+        value: null,
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     expect(Number.type).to.eql('number');
     expect(Number.label).to.eql('Number');
@@ -203,33 +175,28 @@ describe('Number', function() {
 
     // but when
     const customField = Number.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createNumberField({
-        value: 123
+      const {container} = createNumberField({
+        value: 123,
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
@@ -238,7 +205,7 @@ const defaultField = {
   key: 'amount',
   label: 'Amount',
   type: 'number',
-  description: 'number'
+  description: 'number',
 };
 
 function createNumberField(options = {}) {
@@ -247,20 +214,21 @@ function createNumberField(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [defaultField.key],
+    value,
   } = options;
 
   return render(
     <Number
-      disabled={ disabled }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      path={ path }
-      value={ value } />,
+      disabled={disabled}
+      errors={errors}
+      field={field}
+      onChange={onChange}
+      path={path}
+      value={value}
+    />,
     {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

@@ -1,8 +1,6 @@
-import { clone } from '@bpmn-io/form-js-viewer';
-
+import {clone} from '@bpmn-io/form-js-viewer';
 
 export default class Importer {
-
   /**
    * @constructor
    * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
@@ -30,7 +28,6 @@ export default class Importer {
    * @returns {ImportResult}
    */
   importSchema(schema) {
-
     // TODO: Add warnings
     const warnings = [];
 
@@ -39,7 +36,7 @@ export default class Importer {
 
       return {
         schema: importedSchema,
-        warnings
+        warnings,
       };
     } catch (err) {
       err.warnings = warnings;
@@ -56,11 +53,7 @@ export default class Importer {
    * @return {any} field
    */
   importFormField(fieldAttrs, parentId, index) {
-    const {
-      components,
-      id,
-      key
-    } = fieldAttrs;
+    const {components, id, key} = fieldAttrs;
 
     let parent, path;
 
@@ -70,22 +63,25 @@ export default class Importer {
 
     // validate <id> uniqueness
     if (id && this._formFieldRegistry._ids.assigned(id)) {
-      throw new Error(`form field with id <${ id }> already exists`);
+      throw new Error(`form field with id <${id}> already exists`);
     }
 
     // validate <key> uniqueness
     if (key && this._formFieldRegistry._keys.assigned(key)) {
-      throw new Error(`form field with key <${ key }> already exists`);
+      throw new Error(`form field with key <${key}> already exists`);
     }
 
     // set form field path
-    path = parent ? [ ...parent._path, 'components', index ] : [];
+    path = parent ? [...parent._path, 'components', index] : [];
 
-    const field = this._fieldFactory.create({
-      ...fieldAttrs,
-      _path: path,
-      _parent: parent && parent.id
-    }, false);
+    const field = this._fieldFactory.create(
+      {
+        ...fieldAttrs,
+        _path: path,
+        _parent: parent && parent.id,
+      },
+      false,
+    );
 
     this._formFieldRegistry.add(field);
 
@@ -107,7 +103,6 @@ export default class Importer {
       return this.importFormField(component, parentId, index);
     });
   }
-
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'fieldFactory' ];
+Importer.$inject = ['formFieldRegistry', 'fieldFactory'];

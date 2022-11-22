@@ -6,32 +6,32 @@ import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
 function pgl(plugins = []) {
-
   return [
     alias({
       entries: [
-        { find: 'react', replacement: 'preact/compat' },
-        { find: 'react-dom', replacement: 'preact/compat' }
-      ]
+        {find: 'react', replacement: 'preact/compat'},
+        {find: 'react-dom', replacement: 'preact/compat'},
+      ],
     }),
     resolve({
-      resolveOnly: [ 'diagram-js' ]
+      resolveOnly: ['diagram-js'],
     }),
     reactSvg(),
     babel({
       babelHelpers: 'bundled',
       plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': 'preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+        [
+          '@babel/plugin-transform-react-jsx',
+          {
+            importSource: 'preact',
+            runtime: 'automatic',
+          },
+        ],
+      ],
     }),
-    ...plugins
+    ...plugins,
   ];
-
 }
-
 
 export default [
   {
@@ -40,13 +40,13 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     external: [
       'min-dash',
@@ -55,14 +55,12 @@ export default [
       'preact/hooks',
       'preact/compat',
       'preact-markup',
-      '@bpmn-io/snarkdown'
+      '@bpmn-io/snarkdown',
     ],
     plugins: pgl([
       copy({
-        targets: [
-          { src: 'assets/form-js.css', dest: 'dist/assets' }
-        ]
-      })
-    ])
-  }
+        targets: [{src: 'assets/form-js.css', dest: 'dist/assets'}],
+      }),
+    ]),
+  },
 ];

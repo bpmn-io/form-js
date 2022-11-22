@@ -1,15 +1,14 @@
-import { get, isUndefined } from 'min-dash';
+import {get, isUndefined} from 'min-dash';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+} from '@bpmn-io/properties-panel';
 
 export default function IdEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
   const entries = [];
 
@@ -19,7 +18,7 @@ export default function IdEntry(props) {
       component: Id,
       editField: editField,
       field: field,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isTextFieldEntryEdited,
     });
   }
 
@@ -27,16 +26,12 @@ export default function IdEntry(props) {
 }
 
 function Id(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   const formFieldRegistry = useService('formFieldRegistry');
   const debounce = useService('debounce');
 
-  const path = [ 'id' ];
+  const path = ['id'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -82,13 +77,11 @@ const QNAME_REGEX = /^([a-z][\w-.]*:)?[a-z_][\w-.]*$/i;
 const ID_REGEX = /^[a-z_][\w-.]*$/i;
 
 function validateId(idValue) {
-
   if (containsSpace(idValue)) {
     return 'Must not contain spaces.';
   }
 
   if (!ID_REGEX.test(idValue)) {
-
     if (QNAME_REGEX.test(idValue)) {
       return 'Must not contain prefix.';
     }

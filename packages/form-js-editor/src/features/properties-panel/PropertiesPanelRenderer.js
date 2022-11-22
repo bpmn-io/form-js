@@ -1,13 +1,8 @@
 import PropertiesPanel from './PropertiesPanel';
 
-import {
-  render
-} from 'preact';
+import {render} from 'preact';
 
-import {
-  domify,
-  query as domQuery
-} from 'min-dom';
+import {domify, query as domQuery} from 'min-dom';
 
 /**
  * @typedef { { parent: Element } } PropertiesPanelConfig
@@ -21,16 +16,15 @@ import {
  * @param {EventBus} eventBus
  */
 export default class PropertiesPanelRenderer {
-
   constructor(propertiesPanelConfig, injector, eventBus) {
-    const {
-      parent
-    } = propertiesPanelConfig || {};
+    const {parent} = propertiesPanelConfig || {};
 
     this._eventBus = eventBus;
     this._injector = injector;
 
-    this._container = domify('<div class="fjs-properties-container" input-handle-modified-keys="y,z"></div>');
+    this._container = domify(
+      '<div class="fjs-properties-container" input-handle-modified-keys="y,z"></div>',
+    );
 
     if (parent) {
       this.attachTo(parent);
@@ -40,7 +34,6 @@ export default class PropertiesPanelRenderer {
       this._render();
     });
   }
-
 
   /**
    * Attach the properties panel to a parent node.
@@ -81,11 +74,8 @@ export default class PropertiesPanelRenderer {
 
   _render() {
     render(
-      <PropertiesPanel
-        eventBus={ this._eventBus }
-        injector={ this._injector }
-      />,
-      this._container
+      <PropertiesPanel eventBus={this._eventBus} injector={this._injector} />,
+      this._container,
     );
 
     this._eventBus.fire('propertiesPanel.rendered');
@@ -100,4 +90,8 @@ export default class PropertiesPanelRenderer {
   }
 }
 
-PropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'eventBus' ];
+PropertiesPanelRenderer.$inject = [
+  'config.propertiesPanel',
+  'injector',
+  'eventBus',
+];

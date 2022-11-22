@@ -1,32 +1,33 @@
-import { isUndefined, without } from 'min-dash';
-import { arrayAdd } from '../Util';
+import {isUndefined, without} from 'min-dash';
+import {arrayAdd} from '../Util';
 import ValueEntry from './ValueEntry';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
+import {VALUES_SOURCES, VALUES_SOURCES_PATHS} from './ValuesSourceUtil';
 
 export default function StaticValuesSourceEntry(props) {
-  const {
-    editField,
-    field,
-    id: idPrefix
-  } = props;
+  const {editField, field, id: idPrefix} = props;
 
-  const {
-    values
-  } = field;
+  const {values} = field;
 
   const addEntry = (e) => {
-
     e.stopPropagation();
 
     const index = values.length + 1;
 
     const entry = getIndexedEntry(index);
 
-    editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], arrayAdd(values, values.length, entry));
+    editField(
+      field,
+      VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC],
+      arrayAdd(values, values.length, entry),
+    );
   };
 
   const removeEntry = (entry) => {
-    editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], without(values, entry));
+    editField(
+      field,
+      VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC],
+      without(values, entry),
+    );
   };
 
   const validateFactory = (key) => {
@@ -39,7 +40,7 @@ export default function StaticValuesSourceEntry(props) {
         return 'Must not be empty.';
       }
 
-      const isValueAssigned = values.find(entry => entry.value === value);
+      const isValueAssigned = values.find((entry) => entry.value === value);
 
       if (isValueAssigned) {
         return 'Must be unique.';
@@ -58,27 +59,26 @@ export default function StaticValuesSourceEntry(props) {
         field,
         idPrefix: id,
         index,
-        validateFactory
+        validateFactory,
       }),
       autoFocusEntry: id + '-label',
-      remove: () => removeEntry(entry)
+      remove: () => removeEntry(entry),
     };
   });
 
   return {
     items,
     add: addEntry,
-    shouldSort: false
+    shouldSort: false,
   };
 }
-
 
 // helper
 
 function getIndexedEntry(index) {
   const entry = {
     label: 'Value',
-    value: 'value'
+    value: 'value',
   };
 
   if (index > 1) {

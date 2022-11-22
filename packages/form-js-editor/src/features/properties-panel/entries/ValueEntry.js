@@ -1,21 +1,11 @@
-import {
-  get,
-  set
-} from 'min-dash';
+import {get, set} from 'min-dash';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { TextFieldEntry } from '@bpmn-io/properties-panel';
-
+import {TextFieldEntry} from '@bpmn-io/properties-panel';
 
 export default function ValueEntry(props) {
-  const {
-    editField,
-    field,
-    idPrefix,
-    index,
-    validateFactory
-  } = props;
+  const {editField, field, idPrefix, index, validateFactory} = props;
 
   const entries = [
     {
@@ -25,7 +15,7 @@ export default function ValueEntry(props) {
       id: idPrefix + '-label',
       idPrefix,
       index,
-      validateFactory
+      validateFactory,
     },
     {
       component: Value,
@@ -34,31 +24,25 @@ export default function ValueEntry(props) {
       id: idPrefix + '-value',
       idPrefix,
       index,
-      validateFactory
-    }
+      validateFactory,
+    },
   ];
 
   return entries;
 }
 
 function Label(props) {
-  const {
-    editField,
-    field,
-    id,
-    index,
-    validateFactory
-  } = props;
+  const {editField, field, id, index, validateFactory} = props;
 
   const debounce = useService('debounce');
 
   const setValue = (value) => {
-    const values = get(field, [ 'values' ]);
-    return editField(field, 'values', set(values, [ index, 'label' ], value));
+    const values = get(field, ['values']);
+    return editField(field, 'values', set(values, [index, 'label'], value));
   };
 
   const getValue = () => {
-    return get(field, [ 'values', index, 'label' ]);
+    return get(field, ['values', index, 'label']);
   };
 
   return TextFieldEntry({
@@ -68,28 +52,22 @@ function Label(props) {
     id,
     label: 'Label',
     setValue,
-    validate: validateFactory(getValue())
+    validate: validateFactory(getValue()),
   });
 }
 
 function Value(props) {
-  const {
-    editField,
-    field,
-    id,
-    index,
-    validateFactory
-  } = props;
+  const {editField, field, id, index, validateFactory} = props;
 
   const debounce = useService('debounce');
 
   const setValue = (value) => {
-    const values = get(field, [ 'values' ]);
-    return editField(field, 'values', set(values, [ index, 'value' ], value));
+    const values = get(field, ['values']);
+    return editField(field, 'values', set(values, [index, 'value'], value));
   };
 
   const getValue = () => {
-    return get(field, [ 'values', index, 'value' ]);
+    return get(field, ['values', index, 'value']);
   };
 
   return TextFieldEntry({
@@ -99,6 +77,6 @@ function Value(props) {
     id,
     label: 'Value',
     setValue,
-    validate: validateFactory(getValue())
+    validate: validateFactory(getValue()),
   });
 }

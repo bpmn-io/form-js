@@ -1,30 +1,23 @@
-import { render } from '@testing-library/preact/pure';
+import {render} from '@testing-library/preact/pure';
 
 import Text from '../../../../../src/render/components/form-fields/Text';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../../TestHelper';
 
 let container;
 
-
-describe('Text', function() {
-
-  beforeEach(function() {
+describe('Text', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createText();
+    const {container} = createText();
 
     // then
     const formField = container.querySelector('.fjs-form-field');
@@ -37,9 +30,7 @@ describe('Text', function() {
     expect(container.querySelector('li')).to.exist;
   });
 
-
-  it('should render markdown', function() {
-
+  it('should render markdown', function () {
     // given
     const text = `
 # h1
@@ -67,18 +58,19 @@ Some _em_ **strong** [text](#text) \`code\`.
   `.trim();
 
     // when
-    const { container } = createText({
+    const {container} = createText({
       field: {
         text,
-        type: 'Text'
-      }
+        type: 'Text',
+      },
     });
 
     // then
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql(`<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>h1</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4>
+    expect(formField.innerHTML).to.eql(
+      `<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>h1</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4>
 
 <blockquote>Blockquote</blockquote>
 
@@ -93,19 +85,16 @@ Some _em_ **strong** [text](#text) \`code\`.
 <p>---</p>
 
 <p><img alt="Image" src="#"></p></div></div>
-      `.trim()
+      `.trim(),
     );
-
   });
 
-
-  it('should render (no text)', function() {
-
+  it('should render (no text)', function () {
     // when
-    const { container } = createText({
+    const {container} = createText({
       field: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -120,9 +109,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(paragraph.textContent).to.equal('');
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     expect(Text.type).to.eql('text');
     expect(Text.label).not.to.exist;
@@ -133,60 +120,53 @@ Some _em_ **strong** [text](#text) \`code\`.
 
     // then
     expect(field).to.eql({
-      text: '# Text'
+      text: '# Text',
     });
 
     // but when
     const customField = Text.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createText();
+      const {container} = createText();
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - links', async function() {
-
+    it('should have no violations - links', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createText({
+      const {container} = createText({
         field: {
           text: '# Text\n* Learn more about [forms](https://bpmn.io).',
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
 
 const defaultField = {
   text: '# Text\n* Hello World',
-  type: 'text'
+  type: 'text',
 };
 
 function createText(options = {}) {
@@ -195,20 +175,21 @@ function createText(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [defaultField.key],
+    value,
   } = options;
 
   return render(
     <Text
-      disabled={ disabled }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      path={ path }
-      value={ value } />,
+      disabled={disabled}
+      errors={errors}
+      field={field}
+      onChange={onChange}
+      path={path}
+      value={value}
+    />,
     {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

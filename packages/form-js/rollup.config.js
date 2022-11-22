@@ -5,7 +5,6 @@ import pkg from './package.json';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
-
 export default [
   {
     input: 'src/index.js',
@@ -13,28 +12,37 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     external: [
       '@bpmn-io/form-js-viewer',
       '@bpmn-io/form-js-editor',
-      '@bpmn-io/form-js-playground'
+      '@bpmn-io/form-js-playground',
     ],
     plugins: [
       copy({
         targets: [
-          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
-        ]
-      })
-    ]
+          {
+            src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css',
+            dest: 'dist/assets',
+          },
+          {
+            src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css',
+            dest: 'dist/assets',
+          },
+          {
+            src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css',
+            dest: 'dist/assets',
+          },
+        ],
+      }),
+    ],
   },
   {
     input: 'src/editor.js',
@@ -42,13 +50,10 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./editor'].umd,
-        name: 'FormEditor'
-      }
+        name: 'FormEditor',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ]
+    plugins: [resolve(), commonjs()],
   },
   {
     input: 'src/viewer.js',
@@ -56,13 +61,10 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./viewer'].umd,
-        name: 'FormViewer'
-      }
+        name: 'FormViewer',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ]
+    plugins: [resolve(), commonjs()],
   },
   {
     input: 'src/playground.js',
@@ -70,12 +72,9 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./playground'].umd,
-        name: 'FormPlayground'
-      }
+        name: 'FormPlayground',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ]
-  }
+    plugins: [resolve(), commonjs()],
+  },
 ];

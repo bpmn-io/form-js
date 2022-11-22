@@ -1,5 +1,5 @@
 export {
   createFormEditor,
   FormEditor,
-  schemaVersion
+  schemaVersion,
 } from '@bpmn-io/form-js-editor';

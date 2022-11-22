@@ -1,39 +1,29 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {fireEvent, render} from '@testing-library/preact/pure';
 
 import Taglist from '../../../../../src/render/components/form-fields/Taglist';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import {WithFormContext} from './helper';
 
 const spy = sinon.spy;
 
 let formContainer;
 
-
-describe('Taglist', function() {
-
-  beforeEach(function() {
+describe('Taglist', function () {
+  beforeEach(function () {
     formContainer = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     formContainer.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createTaglist({
+    const {container} = createTaglist({
       value: [],
-      onchange: () => {}
+      onchange: () => {},
     });
 
     // then
@@ -52,16 +42,13 @@ describe('Taglist', function() {
     const taglistAnchor = container.querySelector('.fjs-taglist-anchor');
     expect(taglistAnchor).to.exist;
     expect(taglistAnchor.children).to.be.empty;
-
   });
 
-
-  it('should render tags', function() {
-
+  it('should render tags', function () {
     // when
-    const { container } = createTaglist({
-      value: [ 'tag1', 'tag2', 'tag3' ],
-      onchange: () => {}
+    const {container} = createTaglist({
+      value: ['tag1', 'tag2', 'tag3'],
+      onchange: () => {},
     });
 
     // then
@@ -77,18 +64,15 @@ describe('Taglist', function() {
 
     const tagCross = tagDeleteArea.querySelector('svg');
     expect(tagCross).to.exist;
-
   });
 
-
-  it('should render tags dynamically', function() {
-
+  it('should render tags dynamically', function () {
     // when
-    const { container } = createTaglist({
-      value: [ 'dynamicValue1', 'dynamicValue2' ],
-      onchange: () => { },
+    const {container} = createTaglist({
+      value: ['dynamicValue1', 'dynamicValue2'],
+      onchange: () => {},
       field: dynamicField,
-      initialData: dynamicFieldInitialData
+      initialData: dynamicFieldInitialData,
     });
 
     // then
@@ -104,16 +88,13 @@ describe('Taglist', function() {
 
     const tagCross = tagDeleteArea.querySelector('svg');
     expect(tagCross).to.exist;
-
   });
 
-
-  it('should render dropdown when filter focused', function() {
-
+  it('should render dropdown when filter focused', function () {
     // when
-    const { container } = createTaglist({
-      value: [ 'tag1', 'tag2', 'tag3' ],
-      onChange: () => {}
+    const {container} = createTaglist({
+      value: ['tag1', 'tag2', 'tag3'],
+      onChange: () => {},
     });
 
     const filterInput = container.querySelector('input[type="text"]');
@@ -126,16 +107,13 @@ describe('Taglist', function() {
 
     const dropdownList = taglistAnchor.querySelector('.fjs-dropdownlist');
     expect(dropdownList).to.exist;
-
   });
 
-
-  it('should NOT render dropdown when filter unfocused', function() {
-
+  it('should NOT render dropdown when filter unfocused', function () {
     // when
-    const { container } = createTaglist({
-      value: [ 'tag1', 'tag2', 'tag3' ],
-      onChange: () => {}
+    const {container} = createTaglist({
+      value: ['tag1', 'tag2', 'tag3'],
+      onChange: () => {},
     });
 
     // then
@@ -144,16 +122,13 @@ describe('Taglist', function() {
 
     const dropdownList = taglistAnchor.querySelector('.fjs-dropdownlist');
     expect(dropdownList).to.not.exist;
-
   });
 
-
-  it('should render above other elements', function() {
-
+  it('should render above other elements', function () {
     // when
-    const { container } = createTaglist({
-      value: [ 'tag1', 'tag2', 'tag3' ],
-      onChange: () => { }
+    const {container} = createTaglist({
+      value: ['tag1', 'tag2', 'tag3'],
+      onChange: () => {},
     });
 
     const measuringDiv = document.createElement('div');
@@ -168,15 +143,12 @@ describe('Taglist', function() {
 
     // then
     expect(startY).to.equal(endY);
-
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
-    const { container } = createTaglist({
-      disabled: true
+    const {container} = createTaglist({
+      disabled: true,
     });
 
     // then
@@ -185,18 +157,15 @@ describe('Taglist', function() {
 
     const taglist = container.querySelector('.fjs-taglist');
     expect(taglist.classList.contains('disabled')).to.be.true;
-
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
-    const { container } = createTaglist({
+    const {container} = createTaglist({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -206,88 +175,80 @@ describe('Taglist', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  describe('interaction', function() {
-
-    describe('tag deletion', function() {
-
-      it('should work via mouse', function() {
-
+  describe('interaction', function () {
+    describe('tag deletion', function () {
+      it('should work via mouse', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
-        const removeButton = container.querySelectorAll('.fjs-taglist-tag-remove')[ 1 ];
+        const removeButton = container.querySelectorAll(
+          '.fjs-taglist-tag-remove',
+        )[1];
 
         fireEvent.mouseDown(removeButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: [ 'tag1', 'tag3' ]
+          value: ['tag1', 'tag3'],
         });
       });
 
-
-      it('should work via keyboard', function() {
-
+      it('should work via keyboard', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
+        fireEvent.keyDown(filterInput, {key: 'Backspace', code: 'Backspace'});
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: [ 'tag1', 'tag2' ]
+          value: ['tag1', 'tag2'],
         });
       });
 
-
-      it('should work with dynamic data', function() {
-
+      it('should work with dynamic data', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
-          value: [ 'dynamicValue1', 'dynamicValue2' ],
+        const {container} = createTaglist({
+          value: ['dynamicValue1', 'dynamicValue2'],
           onChange: onChangeSpy,
           field: dynamicField,
-          initialData: dynamicFieldInitialData
+          initialData: dynamicFieldInitialData,
         });
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
+        fireEvent.keyDown(filterInput, {key: 'Backspace', code: 'Backspace'});
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: dynamicField,
-          value: [ 'dynamicValue1' ]
+          value: ['dynamicValue1'],
         });
       });
     });
 
-    describe('filtering', function() {
-
-      it('should filter dropdown', function() {
-
+    describe('filtering', function () {
+      it('should filter dropdown', function () {
         // given
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: () => {},
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
@@ -299,20 +260,17 @@ describe('Taglist', function() {
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: '4' } });
+        fireEvent.input(filterInput, {target: {value: '4'}});
         expect(dropdownList.children.length).to.equal(1);
 
-        fireEvent.input(filterInput, { target: { value: 'Tag' } });
+        fireEvent.input(filterInput, {target: {value: 'Tag'}});
         expect(dropdownList.children.length).to.equal(8);
-
       });
 
-
-      it ('should filter dropdown case insensitively', function() {
-
-        const { container } = createTaglist({
+      it('should filter dropdown case insensitively', function () {
+        const {container} = createTaglist({
           onChange: () => {},
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
@@ -321,29 +279,26 @@ describe('Taglist', function() {
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
-        fireEvent.input(filterInput, { target: { value: 'Tag' } });
+        fireEvent.input(filterInput, {target: {value: 'Tag'}});
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: 'TAG' } });
+        fireEvent.input(filterInput, {target: {value: 'TAG'}});
         expect(dropdownList.children.length).to.equal(8);
 
-        fireEvent.input(filterInput, { target: { value: 'tAg' } });
+        fireEvent.input(filterInput, {target: {value: 'tAg'}});
         expect(dropdownList.children.length).to.equal(8);
-
       });
 
-
-      it('should filter dropdown for dynamic data', function() {
-
+      it('should filter dropdown for dynamic data', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
-          value: [ 'dynamicValue1', 'dynamicValue2' ],
+        const {container} = createTaglist({
+          value: ['dynamicValue1', 'dynamicValue2'],
           onChange: onChangeSpy,
           field: dynamicField,
-          initialData: dynamicFieldInitialData
+          initialData: dynamicFieldInitialData,
         });
 
         // when
@@ -355,36 +310,32 @@ describe('Taglist', function() {
         expect(dropdownList.children.length).to.equal(2);
 
         // then
-        fireEvent.input(filterInput, { target: { value: '4' } });
+        fireEvent.input(filterInput, {target: {value: '4'}});
         expect(dropdownList.children.length).to.equal(1);
 
-        fireEvent.input(filterInput, { target: { value: 'dyna' } });
+        fireEvent.input(filterInput, {target: {value: 'dyna'}});
         expect(dropdownList.children.length).to.equal(2);
-
       });
     });
-
   });
 
-  describe('dropdown', function() {
-
-    describe('items', function() {
-
-      it('should not render invalid items', function() {
-
+  describe('dropdown', function () {
+    describe('items', function () {
+      it('should not render invalid items', function () {
         // when
-        const { container } = createTaglist({
-          onchange: () => { },
+        const {container} = createTaglist({
+          onchange: () => {},
           field: dynamicField,
           initialData: {
             dynamicValues: [
               {
-                value: 'dynamicValue1'
+                value: 'dynamicValue1',
               },
               {
                 label: 'Dynamic Value 2',
-              }
-            ] }
+              },
+            ],
+          },
         });
 
         // then
@@ -399,24 +350,21 @@ describe('Taglist', function() {
         const dropdownList = taglistAnchor.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
 
-        const dropdownItems = dropdownList.querySelectorAll('.fjs-dropdownlist-item');
+        const dropdownItems = dropdownList.querySelectorAll(
+          '.fjs-dropdownlist-item',
+        );
         expect(dropdownItems).to.have.length(0);
-
       });
-
     });
 
-
-    describe('filtering', function() {
-
-      it ('should render no results state', function() {
-
+    describe('filtering', function () {
+      it('should render no results state', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
@@ -428,24 +376,33 @@ describe('Taglist', function() {
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: 'iahdisdisad' } });
+        fireEvent.input(filterInput, {target: {value: 'iahdisdisad'}});
         expect(dropdownList.children.length).to.equal(1);
 
         const noResults = dropdownList.querySelector('.fjs-dropdownlist-empty');
         expect(noResults).to.exist;
         expect(noResults.innerText).to.equal('No results');
-
       });
 
-
-      it('should render all selected state', function() {
-
+      it('should render all selected state', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag9', 'tag8', 'tag10', 'tag11' ]
+          value: [
+            'tag1',
+            'tag2',
+            'tag3',
+            'tag4',
+            'tag5',
+            'tag6',
+            'tag7',
+            'tag9',
+            'tag8',
+            'tag10',
+            'tag11',
+          ],
         });
 
         // when
@@ -458,24 +415,22 @@ describe('Taglist', function() {
         // then
         expect(dropdownList.children.length).to.equal(1);
 
-        const allSelected = dropdownList.querySelector('.fjs-dropdownlist-empty');
+        const allSelected = dropdownList.querySelector(
+          '.fjs-dropdownlist-empty',
+        );
         expect(allSelected).to.exist;
         expect(allSelected.innerText).to.equal('All values selected');
-
       });
-
     });
 
-    describe('navigation', function() {
-
-      it('should work via keyboard', function() {
-
+    describe('navigation', function () {
+      it('should work via keyboard', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
@@ -485,30 +440,33 @@ describe('Taglist', function() {
         const dropdownList = container.querySelector('.fjs-dropdownlist');
 
         // then
-        let focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
+        let focusedItem = dropdownList.querySelector(
+          '.fjs-dropdownlist-item.focused',
+        );
         expect(focusedItem.innerText).to.equal('Tag4');
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
-        fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
+        fireEvent.keyDown(filterInput, {key: 'ArrowDown', code: 'ArrowDown'});
+        fireEvent.keyDown(filterInput, {key: 'ArrowDown', code: 'ArrowDown'});
+        focusedItem = dropdownList.querySelector(
+          '.fjs-dropdownlist-item.focused',
+        );
 
         expect(focusedItem.innerText).to.equal('Tag6');
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
+        fireEvent.keyDown(filterInput, {key: 'ArrowUp', code: 'ArrowUp'});
+        focusedItem = dropdownList.querySelector(
+          '.fjs-dropdownlist-item.focused',
+        );
 
         expect(focusedItem.innerText).to.equal('Tag5');
-
       });
 
-
-      it ('should work via mouse', function() {
-
+      it('should work via mouse', function () {
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
@@ -518,78 +476,74 @@ describe('Taglist', function() {
         const dropdownList = container.querySelector('.fjs-dropdownlist');
 
         // then
-        const toFocus = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[2];
+        const toFocus = dropdownList.querySelectorAll(
+          '.fjs-dropdownlist-item',
+        )[2];
         expect(toFocus.innerText).to.equal('Tag6');
         expect(toFocus.classList.contains('focused')).to.be.false;
 
         fireEvent.mouseEnter(toFocus);
         expect(toFocus.classList.contains('focused')).to.be.true;
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
+        fireEvent.keyDown(filterInput, {key: 'ArrowUp', code: 'ArrowUp'});
         expect(toFocus.classList.contains('focused')).to.be.false;
 
         fireEvent.mouseMove(toFocus);
         expect(toFocus.classList.contains('focused')).to.be.true;
-
       });
-
     });
 
-    describe('selection', function() {
-
-      it('should work via mouse', function() {
-
+    describe('selection', function () {
+      it('should work via mouse', function () {
         // given
         const onChangeSpy = spy();
 
-        const { container } = createTaglist({
+        const {container} = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
         fireEvent.focus(filterInput);
 
-        const focusedItem = container.querySelector('.fjs-dropdownlist-item.focused');
+        const focusedItem = container.querySelector(
+          '.fjs-dropdownlist-item.focused',
+        );
         fireEvent.mouseDown(focusedItem);
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: [ 'tag1', 'tag2', 'tag3', 'tag4' ]
+          value: ['tag1', 'tag2', 'tag3', 'tag4'],
         });
       });
 
-
-      it('should work via keyboard', function() {
-
+      it('should work via keyboard', function () {
         // given
         const onChangeSpy = spy();
 
         const taglist = createTaglist({
           onChange: onChangeSpy,
-          value: [ 'tag1', 'tag2', 'tag3' ]
+          value: ['tag1', 'tag2', 'tag3'],
         });
 
         // when
-        const filterInput = taglist.container.querySelector('.fjs-taglist-input');
+        const filterInput =
+          taglist.container.querySelector('.fjs-taglist-input');
         fireEvent.focus(filterInput);
-        fireEvent.keyDown(filterInput, { key: 'Enter', code: 'Enter' });
+        fireEvent.keyDown(filterInput, {key: 'Enter', code: 'Enter'});
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: defaultField,
-          value: [ 'tag1', 'tag2', 'tag3', 'tag4' ]
+          value: ['tag1', 'tag2', 'tag3', 'tag4'],
         });
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     expect(Taglist.type).to.eql('taglist');
     expect(Taglist.label).to.eql('Taglist');
@@ -603,40 +557,35 @@ describe('Taglist', function() {
       values: [
         {
           label: 'Value',
-          value: 'value'
-        }
-      ]
+          value: 'value',
+        },
+      ],
     });
 
     // but when
     const customField = Taglist.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createTaglist({
-        value: [ 'tag1', 'tag2', 'tag3' ]
+      const {container} = createTaglist({
+        value: ['tag1', 'tag2', 'tag3'],
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
@@ -647,52 +596,52 @@ const defaultField = {
   label: 'Taglist',
   type: 'taglist',
   description: 'taglist',
-  'values': [
+  values: [
     {
-      'label': 'Tag1',
-      'value': 'tag1'
+      label: 'Tag1',
+      value: 'tag1',
     },
     {
-      'label': 'Tag2',
-      'value': 'tag2'
+      label: 'Tag2',
+      value: 'tag2',
     },
     {
-      'label': 'Tag3',
-      'value': 'tag3'
+      label: 'Tag3',
+      value: 'tag3',
     },
     {
-      'label': 'Tag4',
-      'value': 'tag4'
+      label: 'Tag4',
+      value: 'tag4',
     },
     {
-      'label': 'Tag5',
-      'value': 'tag5'
+      label: 'Tag5',
+      value: 'tag5',
     },
     {
-      'label': 'Tag6',
-      'value': 'tag6'
+      label: 'Tag6',
+      value: 'tag6',
     },
     {
-      'label': 'Tag7',
-      'value': 'tag7'
+      label: 'Tag7',
+      value: 'tag7',
     },
     {
-      'label': 'Tag8',
-      'value': 'tag8'
+      label: 'Tag8',
+      value: 'tag8',
     },
     {
-      'label': 'Tag9',
-      'value': 'tag9'
+      label: 'Tag9',
+      value: 'tag9',
     },
     {
-      'label': 'Tag10',
-      'value': 'tag10'
+      label: 'Tag10',
+      value: 'tag10',
     },
     {
-      'label': 'Tag11',
-      'value': 'tag11'
-    }
-  ]
+      label: 'Tag11',
+      value: 'tag11',
+    },
+  ],
 };
 
 const dynamicField = {
@@ -700,28 +649,28 @@ const dynamicField = {
   key: 'tags',
   label: 'Taglist',
   type: 'taglist',
-  valuesKey: 'dynamicValues'
+  valuesKey: 'dynamicValues',
 };
 
 const dynamicFieldInitialData = {
   dynamicValues: [
     {
       label: 'Dynamic Value 1',
-      value: 'dynamicValue1'
+      value: 'dynamicValue1',
     },
     {
       label: 'Dynamic Value 2',
-      value: 'dynamicValue2'
+      value: 'dynamicValue2',
     },
     {
       label: 'Dynamic Value 3',
-      value: 'dynamicValue3'
+      value: 'dynamicValue3',
     },
     {
       label: 'Dynamic Value 4',
-      value: 'dynamicValue4'
-    }
-  ]
+      value: 'dynamicValue4',
+    },
+  ],
 };
 
 function createTaglist(options = {}) {
@@ -730,20 +679,24 @@ function createTaglist(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [defaultField.key],
+    value,
   } = options;
 
-  return render(WithFormContext(
-    <Taglist
-      disabled={ disabled }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      path={ path }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || formContainer.querySelector('.fjs-form')
-  });
+  return render(
+    WithFormContext(
+      <Taglist
+        disabled={disabled}
+        errors={errors}
+        field={field}
+        onChange={onChange}
+        path={path}
+        value={value}
+      />,
+      options,
+    ),
+    {
+      container: options.container || formContainer.querySelector('.fjs-form'),
+    },
+  );
 }

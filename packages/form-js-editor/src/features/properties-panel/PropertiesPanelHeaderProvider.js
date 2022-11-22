@@ -1,8 +1,6 @@
-import {
-  textToLabel
-} from './Util';
+import {textToLabel} from './Util';
 
-import { iconsByType } from '../../render/components/icons';
+import {iconsByType} from '../../render/components/icons';
 
 const labelsByType = {
   button: 'BUTTON',
@@ -20,11 +18,8 @@ const labelsByType = {
 };
 
 export const PropertiesPanelHeaderProvider = {
-
   getElementLabel: (field) => {
-    const {
-      type
-    } = field;
+    const {type} = field;
 
     if (type === 'text') {
       return textToLabel(field.text);
@@ -38,9 +33,7 @@ export const PropertiesPanelHeaderProvider = {
   },
 
   getElementIcon: (field) => {
-    const {
-      type
-    } = field;
+    const {type} = field;
 
     const Icon = iconsByType[type];
 
@@ -50,10 +43,8 @@ export const PropertiesPanelHeaderProvider = {
   },
 
   getTypeLabel: (field) => {
-    const {
-      type
-    } = field;
+    const {type} = field;
 
     return labelsByType[type];
-  }
+  },
 };

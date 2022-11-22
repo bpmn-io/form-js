@@ -1,4 +1,4 @@
-import { createContext } from 'preact';
+import {createContext} from 'preact';
 
 /**
  * @param {string} type
@@ -9,7 +9,7 @@ import { createContext } from 'preact';
 function getService(type, strict) {}
 
 const PropertiesPanelContext = createContext({
-  getService
+  getService,
 });
 
 export default PropertiesPanelContext;

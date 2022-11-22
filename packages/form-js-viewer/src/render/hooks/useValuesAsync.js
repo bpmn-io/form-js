@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks';
+import {useEffect, useState} from 'preact/hooks';
 import useService from './useService';
 
 /**
@@ -7,7 +7,7 @@ import useService from './useService';
 export const LOAD_STATES = {
   LOADING: 'loading',
   LOADED: 'loaded',
-  ERROR: 'error'
+  ERROR: 'error',
 };
 
 /**
@@ -22,42 +22,48 @@ export const LOAD_STATES = {
  * @param {Object} field - The form field to handle values for
  * @return {ValuesGetter} valuesGetter - A values getter object providing loading state and values
  */
-export default function(field) {
-  const {
-    valuesKey,
-    values: staticValues
-  } = field;
+export default function (field) {
+  const {valuesKey, values: staticValues} = field;
 
-  const [ valuesGetter, setValuesGetter ] = useState({ values: [], error: undefined, state: LOAD_STATES.LOADING });
+  const [valuesGetter, setValuesGetter] = useState({
+    values: [],
+    error: undefined,
+    state: LOAD_STATES.LOADING,
+  });
   const initialData = useService('form')._getState().initialData;
 
   useEffect(() => {
-
     let values = [];
 
     if (valuesKey !== undefined) {
-
-      const keyedValues = (initialData || {})[ valuesKey ];
+      const keyedValues = (initialData || {})[valuesKey];
 
       if (keyedValues && Array.isArray(keyedValues)) {
         values = keyedValues;
       }
-    }
-    else if (staticValues !== undefined) {
+    } else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
-    }
-    else {
-      setValuesGetter(getErrorState('No values source defined in the form definition'));
+    } else {
+      setValuesGetter(
+        getErrorState('No values source defined in the form definition'),
+      );
       return;
     }
 
     setValuesGetter(buildLoadedState(values));
-
-  }, [ valuesKey, staticValues, initialData ]);
+  }, [valuesKey, staticValues, initialData]);
 
   return valuesGetter;
 }
 
-const getErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
+const getErrorState = (error) => ({
+  values: [],
+  error,
+  state: LOAD_STATES.ERROR,
+});
 
-const buildLoadedState = (values) => ({ values, error: undefined, state: LOAD_STATES.LOADED });
+const buildLoadedState = (values) => ({
+  values,
+  error: undefined,
+  state: LOAD_STATES.LOADED,
+});

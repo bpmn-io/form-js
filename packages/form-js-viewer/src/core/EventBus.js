@@ -1,1 +1,1 @@
-export { default } from 'diagram-js/lib/core/EventBus';
+export {default} from 'diagram-js/lib/core/EventBus';

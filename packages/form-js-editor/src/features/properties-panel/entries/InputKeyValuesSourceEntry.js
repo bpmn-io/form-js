@@ -1,14 +1,13 @@
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-import { get } from 'min-dash';
-import { useService } from '../hooks';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+} from '@bpmn-io/properties-panel';
+import {get} from 'min-dash';
+import {useService} from '../hooks';
+import {VALUES_SOURCES, VALUES_SOURCES_PATHS} from './ValuesSourceUtil';
 
 export default function InputKeyValuesSourceEntry(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   return [
     {
@@ -19,18 +18,12 @@ export default function InputKeyValuesSourceEntry(props) {
       isEdited: isTextFieldEntryEdited,
       editField,
       field,
-    }
+    },
   ];
 }
 
 function InputValuesKey(props) {
-  const {
-    editField,
-    field,
-    id,
-    label,
-    description
-  } = props;
+  const {editField, field, id, label, description} = props;
 
   const debounce = useService('debounce');
 
@@ -47,6 +40,6 @@ function InputValuesKey(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }

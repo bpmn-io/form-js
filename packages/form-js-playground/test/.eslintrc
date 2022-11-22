@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "plugin:bpmn-io/mocha"
-  ],
+  "extends": ["plugin:bpmn-io/mocha"],
   "globals": {
     "sinon": true
   }

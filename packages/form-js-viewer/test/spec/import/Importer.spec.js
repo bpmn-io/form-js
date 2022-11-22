@@ -1,30 +1,24 @@
-import {
-  bootstrapForm,
-  getForm,
-  inject
-} from 'test/TestHelper';
+import {bootstrapForm, getForm, inject} from 'test/TestHelper';
 
-import { clone } from 'src/util';
+import {clone} from 'src/util';
 
 import schema from '../form.json';
 import other from '../other.json';
 import dynamicSchema from '../dynamic.json';
 import defaultValues from '../defaultValues.json';
 
-
-describe('Importer', function() {
-
+describe('Importer', function () {
   beforeEach(bootstrapForm());
 
-  afterEach(function() {
+  afterEach(function () {
     getForm().destroy();
   });
 
-
-  describe('form fields', function() {
-
-    it('should import without errors', inject(async function(form, formFieldRegistry) {
-
+  describe('form fields', function () {
+    it('should import without errors', inject(async function (
+      form,
+      formFieldRegistry,
+    ) {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -32,14 +26,14 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english'
+        tags: ['tag1', 'tag2', 'tag3'],
+        language: 'english',
       };
 
       // when
-      const { err, warnings } = await form.importSchema(schema, data);
+      const {err, warnings} = await form.importSchema(schema, data);
 
       // then
       expect(err).not.to.exist;
@@ -48,9 +42,10 @@ describe('Importer', function() {
       expect(formFieldRegistry.getAll()).to.have.length(14);
     }));
 
-
-    it('should reimport without errors', inject(async function(form, formFieldRegistry) {
-
+    it('should reimport without errors', inject(async function (
+      form,
+      formFieldRegistry,
+    ) {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -58,10 +53,10 @@ describe('Importer', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english'
+        tags: ['tag1', 'tag2', 'tag3'],
+        language: 'english',
       };
 
       let result = await form.importSchema(schema, data);
@@ -82,14 +77,13 @@ describe('Importer', function() {
       expect(formFieldRegistry.getAll()).to.have.length(5);
     }));
 
-
-    describe('error handling', function() {
-
-      it('should indicate unsupported field type', inject(async function(form) {
-
+    describe('error handling', function () {
+      it('should indicate unsupported field type', inject(async function (
+        form,
+      ) {
         // given
         const errorSchema = {
-          type: 'unknown'
+          type: 'unknown',
         };
 
         let error;
@@ -103,28 +97,28 @@ describe('Importer', function() {
 
         // then
         expect(error).to.exist;
-        expect(error.message).to.eql('form field of type <unknown> not supported');
+        expect(error.message).to.eql(
+          'form field of type <unknown> not supported',
+        );
 
         expect(error.warnings).to.exist;
         expect(error.warnings).to.be.empty;
       }));
 
-
-      it('should indicate duplicate <key>', inject(async function(form) {
-
+      it('should indicate duplicate <key>', inject(async function (form) {
         // given
         const errorSchema = {
           type: 'default',
           components: [
             {
               key: 'creditor',
-              type: 'textfield'
+              type: 'textfield',
             },
             {
               key: 'creditor',
-              type: 'textfield'
-            }
-          ]
+              type: 'textfield',
+            },
+          ],
         };
 
         let error;
@@ -138,28 +132,28 @@ describe('Importer', function() {
 
         // then
         expect(error).to.exist;
-        expect(error.message).to.eql('form field with key <creditor> already exists');
+        expect(error.message).to.eql(
+          'form field with key <creditor> already exists',
+        );
 
         expect(error.warnings).to.exist;
         expect(error.warnings).to.be.empty;
       }));
 
-
-      it('should indicate duplicate <id>', inject(async function(form) {
-
+      it('should indicate duplicate <id>', inject(async function (form) {
         // given
         const errorSchema = {
           type: 'default',
           components: [
             {
               id: 'foo',
-              type: 'text'
+              type: 'text',
             },
             {
               id: 'foo',
-              type: 'text'
-            }
-          ]
+              type: 'text',
+            },
+          ],
         };
 
         let error;
@@ -179,34 +173,33 @@ describe('Importer', function() {
         expect(error.warnings).to.be.empty;
       }));
 
-
-      it('should handle broken JSON', inject(async function(form) {
-
+      it('should handle broken JSON', inject(async function (form) {
         // when
         try {
           await form.importSchema('foo');
         } catch (err) {
-
           // then
           expect(err).to.exist;
-          expect(err.message).to.equal('form field of type <undefined> not supported');
+          expect(err.message).to.equal(
+            'form field of type <undefined> not supported',
+          );
 
           expect(err.warnings).to.exist;
           expect(err.warnings).to.be.empty;
         }
       }));
 
-
       // TODO: Catch broken schema errors during import
-      it.skip('should error if broken schema is imported', inject(async function(form) {
-
+      it.skip('should error if broken schema is imported', inject(async function (
+        form,
+      ) {
         // given
         const errorSchema = clone(schema);
 
         errorSchema.components.push({
           type: 'select',
           key: 'foo',
-          values: 123
+          values: 123,
         });
 
         let error;
@@ -224,16 +217,11 @@ describe('Importer', function() {
         expect(error.warnings).to.exist;
         expect(error.warnings).to.be.empty;
       }));
-
     });
-
   });
 
-
-  describe('data', function() {
-
-    it('should import data', inject(async function(form, formFieldRegistry) {
-
+  describe('data', function () {
+    it('should import data', inject(async function (form, formFieldRegistry) {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -242,10 +230,10 @@ describe('Importer', function() {
         approved: true,
         approvedBy: 'John Doe',
         approverComments: 'Please review C-123',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english'
+        tags: ['tag1', 'tag2', 'tag3'],
+        language: 'english',
       };
 
       // when
@@ -259,16 +247,14 @@ describe('Importer', function() {
         approved: true,
         approvedBy: 'John Doe',
         approverComments: 'Please review C-123',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english'
+        tags: ['tag1', 'tag2', 'tag3'],
+        language: 'english',
       });
     }));
 
-
-    it('should import data (empty)', inject(async function(form) {
-
+    it('should import data (empty)', inject(async function (form) {
       // given
       const data = {};
 
@@ -286,13 +272,11 @@ describe('Importer', function() {
         mailto: [],
         product: null,
         tags: [],
-        language: null
+        language: null,
       });
     }));
 
-
-    it('should import data (default values)', inject(async function(form) {
-
+    it('should import data (default values)', inject(async function (form) {
       // given
       const data = {};
 
@@ -307,24 +291,22 @@ describe('Importer', function() {
         approved: true,
         approvedBy: '',
         approverComments: 'Sample comment provided by the approver',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-platform',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english'
+        tags: ['tag1', 'tag2', 'tag3'],
+        language: 'english',
       });
     }));
 
-
-    it('should sanitize data (static)', inject(async function(form) {
-
+    it('should sanitize data (static)', inject(async function (form) {
       // given
       const data = {
-        mailto: [ 'invalid1', 'invalid2', 'approver' ],
+        mailto: ['invalid1', 'invalid2', 'approver'],
         product: 'invalid',
-        tags: [ 'invalid1', 'invalid2', 'invalid3', 'tag1' ],
+        tags: ['invalid1', 'invalid2', 'invalid3', 'tag1'],
         language: 'invalid',
-        approvedBy: { someInvalidStructure: false },
-        approverComments: { someInvalidStructure: true },
+        approvedBy: {someInvalidStructure: false},
+        approverComments: {someInvalidStructure: true},
       };
 
       // when
@@ -337,52 +319,48 @@ describe('Importer', function() {
         approved: true,
         approvedBy: '',
         approverComments: '',
-        mailto: [ 'approver' ],
+        mailto: ['approver'],
         product: null,
-        tags: [ 'tag1' ],
-        language: null
+        tags: ['tag1'],
+        language: null,
       });
     }));
 
-
-    it('should sanitize data (dynamic)', inject(async function(form) {
-
+    it('should sanitize data (dynamic)', inject(async function (form) {
       // given
       const xyzData = [
         {
           label: 'x',
-          value: 'dataX'
+          value: 'dataX',
         },
         {
           label: 'y',
-          value: 'dataY'
+          value: 'dataY',
         },
         {
           label: 'x',
-          value: 'dataZ'
+          value: 'dataZ',
         },
       ];
 
       const data = {
-        mailto: [ 'invalidData1', 'invalidData2', 'invalidData3', 'dataX' ],
+        mailto: ['invalidData1', 'invalidData2', 'invalidData3', 'dataX'],
         product: 'invalidData',
-        tags: [ 'dataX', 'dataY', 'invalidData' ],
+        tags: ['dataX', 'dataY', 'invalidData'],
         language: 'invalidData',
-        xyzData
+        xyzData,
       };
 
       // when
       await form.importSchema(dynamicSchema, data);
 
       expect(form._getState().data).to.eql({
-        mailto: [ 'dataX' ],
+        mailto: ['dataX'],
         product: null,
-        tags: [ 'dataX', 'dataY' ],
+        tags: ['dataX', 'dataY'],
         language: null,
-        xyzData
+        xyzData,
       });
     }));
-
   });
-
 });

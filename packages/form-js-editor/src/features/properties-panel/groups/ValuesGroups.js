@@ -1,23 +1,22 @@
-import { ValuesSourceSelectEntry, StaticValuesSourceEntry, InputKeyValuesSourceEntry } from '../entries';
-import { getValuesSource, VALUES_SOURCES } from '../entries/ValuesSourceUtil';
-
-import { Group, ListGroup } from '@bpmn-io/properties-panel';
-
 import {
-  VALUES_INPUTS
-} from '../Util';
+  ValuesSourceSelectEntry,
+  StaticValuesSourceEntry,
+  InputKeyValuesSourceEntry,
+} from '../entries';
+import {getValuesSource, VALUES_SOURCES} from '../entries/ValuesSourceUtil';
+
+import {Group, ListGroup} from '@bpmn-io/properties-panel';
+
+import {VALUES_INPUTS} from '../Util';
 
 export default function ValuesGroups(field, editField) {
-  const {
-    type,
-    id: fieldId
-  } = field;
+  const {type, id: fieldId} = field;
 
   if (!VALUES_INPUTS.includes(type)) {
     return [];
   }
 
-  const context = { editField, field };
+  const context = {editField, field};
   const valuesSourceId = `${fieldId}-valuesSource`;
 
   /**
@@ -28,8 +27,8 @@ export default function ValuesGroups(field, editField) {
       id: valuesSourceId,
       label: 'Options source',
       component: Group,
-      entries: ValuesSourceSelectEntry({ ...context, id: valuesSourceId })
-    }
+      entries: ValuesSourceSelectEntry({...context, id: valuesSourceId}),
+    },
   ];
 
   const valuesSource = getValuesSource(field);
@@ -40,16 +39,15 @@ export default function ValuesGroups(field, editField) {
       id: dynamicValuesId,
       label: 'Dynamic options',
       component: Group,
-      entries: InputKeyValuesSourceEntry({ ...context, id: dynamicValuesId })
+      entries: InputKeyValuesSourceEntry({...context, id: dynamicValuesId}),
     });
-  }
-  else if (valuesSource === VALUES_SOURCES.STATIC) {
+  } else if (valuesSource === VALUES_SOURCES.STATIC) {
     const staticValuesId = `${fieldId}-staticValues`;
     groups.push({
       id: staticValuesId,
       label: 'Static options',
       component: ListGroup,
-      ...StaticValuesSourceEntry({ ...context, id: staticValuesId })
+      ...StaticValuesSourceEntry({...context, id: staticValuesId}),
     });
   }
 

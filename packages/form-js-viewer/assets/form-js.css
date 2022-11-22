@@ -295,7 +295,11 @@
   background-color: var(--color-grey-225-10-75);
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover > svg {
+.fjs-container
+  .fjs-taglist
+  .fjs-taglist-tag
+  .fjs-taglist-tag-remove:hover
+  > svg {
   opacity: 1;
 }
 

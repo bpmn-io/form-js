@@ -1,20 +1,18 @@
-import {
-  FormPropertiesPanelContext
-} from '../../../../../src/features/properties-panel/context';
+import {FormPropertiesPanelContext} from '../../../../../src/features/properties-panel/context';
 
-import { PropertiesPanel } from '@bpmn-io/properties-panel';
+import {PropertiesPanel} from '@bpmn-io/properties-panel';
 
 const noop = () => {};
 
 const noopField = {
   id: 'foobar',
-  type: 'default'
+  type: 'default',
 };
 
 const noopHeaderProvider = {
   getElementLabel: noop,
   getElementIcon: noop,
-  getTypeLabel: noop
+  getTypeLabel: noop,
 };
 
 export class Modeling {
@@ -38,18 +36,17 @@ export class Selection {
 }
 
 export class FormFieldRegistry {
-
   constructor() {
     this._ids = {
       assigned() {
         return false;
-      }
+      },
     };
 
     this._keys = {
       assigned() {
         return false;
-      }
+      },
     };
   }
 
@@ -64,11 +61,10 @@ export class FormFieldRegistry {
 }
 
 export class FormEditor {
-
   constructor(options = {}) {
     this._state = options.state || {
       schema: {},
-      properties: {}
+      properties: {},
     };
   }
 
@@ -87,30 +83,28 @@ export class EventBus {
       callback = priority;
     }
 
-    if (!this.listeners[ event ]) {
-      this.listeners[ event ] = [];
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
     }
 
-    this.listeners[ event ].push(callback);
+    this.listeners[event].push(callback);
   }
 
   off() {}
 
   fire(event, context) {
-    if (this.listeners[ event ]) {
-      this.listeners[ event ].forEach(callback => callback(context));
+    if (this.listeners[event]) {
+      this.listeners[event].forEach((callback) => callback(context));
     }
   }
 }
 
 export class Injector {
-
   constructor(options = {}) {
     this._options = options;
   }
 
   get(type) {
-
     if (type === 'formEditor') {
       return this._options.formEditor || new FormEditor();
     }
@@ -128,7 +122,7 @@ export class Injector {
     }
 
     if (type === 'debounce') {
-      return fn => fn;
+      return (fn) => fn;
     }
 
     if (type === 'formFieldRegistry') {
@@ -140,23 +134,23 @@ export class Injector {
 export function WithPropertiesPanelContext(Component, services = {}) {
   const propertiesPanelContext = {
     getService(type, strict) {
-      if (services[ type ]) {
-        return services[ type ];
+      if (services[type]) {
+        return services[type];
       }
 
       if (type === 'config') {
         return {
           propertiesPanel: {
-            debounce: false
-          }
+            debounce: false,
+          },
         };
       } else if (type === 'debounce') {
-        return fn => fn;
+        return (fn) => fn;
       } else if (type === 'eventBus') {
         return {
           fire() {},
           on() {},
-          off() {}
+          off() {},
         };
       } else if (type === 'formFieldRegistry') {
         return {
@@ -171,38 +165,37 @@ export function WithPropertiesPanelContext(Component, services = {}) {
           _ids: {
             assigned() {
               return false;
-            }
+            },
           },
           _keys: {
             assigned() {
               return false;
-            }
+            },
           },
         };
       }
-    }
+    },
   };
 
   return (
-    <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
-      { Component }
+    <FormPropertiesPanelContext.Provider value={propertiesPanelContext}>
+      {Component}
     </FormPropertiesPanelContext.Provider>
   );
 }
 
 export function WithPropertiesPanel(options = {}) {
-
   const {
     field = noopField,
     groups = [],
-    headerProvider = noopHeaderProvider
+    headerProvider = noopHeaderProvider,
   } = options;
 
   return (
     <PropertiesPanel
-      element={ field }
-      groups={ groups }
-      headerProvider={ headerProvider }
+      element={field}
+      groups={groups}
+      headerProvider={headerProvider}
     />
   );
 }

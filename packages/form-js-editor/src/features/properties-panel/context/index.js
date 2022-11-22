@@ -1,1 +1,1 @@
-export { default as FormPropertiesPanelContext } from './FormPropertiesPanelContext';
+export {default as FormPropertiesPanelContext} from './FormPropertiesPanelContext';

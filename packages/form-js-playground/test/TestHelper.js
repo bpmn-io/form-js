@@ -6,7 +6,6 @@ import '@bpmn-io/form-js-editor/dist/assets/properties-panel.css';
 import '@bpmn-io/form-js-editor/dist/assets/dragula.css';
 
 export function isSingleStart(topic) {
-
   // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;
 }

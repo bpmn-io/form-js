@@ -1,6 +1,6 @@
 import 'preact/debug';
 
-import { insertCSS } from './helper';
+import {insertCSS} from './helper';
 
 // @ts-ignore-next-line
 import formCSS from '../dist/assets/form-js.css';
@@ -9,7 +9,6 @@ import formCSS from '../dist/assets/form-js.css';
 import testCSS from './test.css';
 
 export function isSingleStart(topic) {
-
   // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;
 }

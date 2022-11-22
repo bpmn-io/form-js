@@ -1,8 +1,11 @@
-import { useEffect } from 'preact/hooks';
+import {useEffect} from 'preact/hooks';
 
-export default function useKeyDownAction(targetKey, action, listenerElement = window) {
-
-  function downHandler({ key }) {
+export default function useKeyDownAction(
+  targetKey,
+  action,
+  listenerElement = window,
+) {
+  function downHandler({key}) {
     if (key === targetKey) {
       action();
     }

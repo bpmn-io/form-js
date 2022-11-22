@@ -9,13 +9,9 @@ const noop = () => {};
 export default function FormComponent(props) {
   const form = useService('form');
 
-  const { schema } = form._getState();
+  const {schema} = form._getState();
 
-  const {
-    onSubmit = noop,
-    onReset = noop,
-    onChange = noop,
-  } = props;
+  const {onSubmit = noop, onReset = noop, onChange = noop} = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,15 +26,8 @@ export default function FormComponent(props) {
   };
 
   return (
-    <form
-      class="fjs-form"
-      onSubmit={ handleSubmit }
-      onReset={ handleReset }
-    >
-      <FormField
-        field={ schema }
-        onChange={ onChange }
-      />
+    <form class="fjs-form" onSubmit={handleSubmit} onReset={handleReset}>
+      <FormField field={schema} onChange={onChange} />
 
       <PoweredBy />
     </form>

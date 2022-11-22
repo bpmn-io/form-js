@@ -1,4 +1,4 @@
-import { createContext } from 'preact';
+import {createContext} from 'preact';
 
 const FormRenderContext = createContext({
   Empty: (props) => {
@@ -9,7 +9,7 @@ const FormRenderContext = createContext({
   },
   Element: (props) => {
     return props.children;
-  }
+  },
 });
 
 export default FormRenderContext;

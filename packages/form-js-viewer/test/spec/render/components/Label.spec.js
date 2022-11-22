@@ -1,34 +1,25 @@
-import {
-  render
-} from '@testing-library/preact/pure';
+import {render} from '@testing-library/preact/pure';
 
 import Label from '../../../../src/render/components/Label';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../TestHelper';
 
 let container;
 
-
-describe('Label', function() {
-
-  beforeEach(function() {
+describe('Label', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createLabel({
+    const {container} = createLabel({
       id: 'foo',
-      label: 'Foo'
+      label: 'Foo',
     });
 
     // then
@@ -38,14 +29,15 @@ describe('Label', function() {
     expect(label.textContent).to.eql('Foo');
   });
 
-
-  it('should render children', function() {
-
+  it('should render children', function () {
     // when
-    const { container } = createLabel({
-      id: 'foo',
-      label: 'Foo'
-    }, <span class="foo">Foo</span>);
+    const {container} = createLabel(
+      {
+        id: 'foo',
+        label: 'Foo',
+      },
+      <span class="foo">Foo</span>,
+    );
 
     // then
     const label = container.querySelector('.foo');
@@ -53,14 +45,12 @@ describe('Label', function() {
     expect(label).to.exist;
   });
 
-
-  it('should render asterisk if required', function() {
-
+  it('should render asterisk if required', function () {
     // when
-    const { container } = createLabel({
+    const {container} = createLabel({
       id: 'foo',
       label: 'Foo',
-      required: true
+      required: true,
     });
 
     // then
@@ -69,13 +59,11 @@ describe('Label', function() {
     expect(label).to.exist;
   });
 
-
-  it('should render empty also without text', function() {
-
+  it('should render empty also without text', function () {
     // when
-    const { container } = createLabel({
+    const {container} = createLabel({
       id: 'foo',
-      required: true
+      required: true,
     });
 
     // then
@@ -86,43 +74,33 @@ describe('Label', function() {
     expect(requiredIndicator).to.exist;
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createLabel({
+      const {container} = createLabel({
         id: 'foo',
-        label: 'Foo'
+        label: 'Foo',
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
 
 function createLabel(options = {}, children = null) {
-  const {
-    id,
-    label,
-    required
-  } = options;
+  const {id, label, required} = options;
 
   return render(
-    <Label
-      id={ id }
-      label={ label }
-      required={ required }>{ children }</Label>,
+    <Label id={id} label={label} required={required}>
+      {children}
+    </Label>,
     {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

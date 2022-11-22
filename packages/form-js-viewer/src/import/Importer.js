@@ -1,16 +1,8 @@
-import {
-  get,
-  isUndefined
-} from 'min-dash';
+import {get, isUndefined} from 'min-dash';
 
-import {
-  clone,
-  generateIdForType
-} from '../util';
-
+import {clone, generateIdForType} from '../util';
 
 export default class Importer {
-
   /**
    * @constructor
    * @param { import('../core').FormFieldRegistry } formFieldRegistry
@@ -32,18 +24,17 @@ export default class Importer {
    * @return { { warnings: Array<any>, schema: any, data: any } }
    */
   importSchema(schema, data = {}) {
-
     // TODO: Add warnings - https://github.com/bpmn-io/form-js/issues/289
     const warnings = [];
 
     try {
       const importedSchema = this.importFormField(clone(schema)),
-            importedData = this.importData(clone(data));
+        importedData = this.importData(clone(data));
 
       return {
         warnings,
         schema: importedSchema,
-        data: importedData
+        data: importedData,
       };
     } catch (err) {
       err.warnings = warnings;
@@ -59,45 +50,36 @@ export default class Importer {
    * @return {any} importedField
    */
   importFormField(formField, parentId) {
-    const {
-      components,
-      key,
-      type,
-      id = generateIdForType(type)
-    } = formField;
+    const {components, key, type, id = generateIdForType(type)} = formField;
 
     if (parentId) {
-
       // set form field parent
       formField._parent = parentId;
     }
 
     if (!this._formFields.get(type)) {
-      throw new Error(`form field of type <${ type }> not supported`);
+      throw new Error(`form field of type <${type}> not supported`);
     }
 
     if (key) {
-
       // validate <key> uniqueness
       if (this._formFieldRegistry._keys.assigned(key)) {
-        throw new Error(`form field with key <${ key }> already exists`);
+        throw new Error(`form field with key <${key}> already exists`);
       }
 
       this._formFieldRegistry._keys.claim(key, formField);
 
       // TODO: buttons should not have key
       if (type !== 'button') {
-
         // set form field path
-        formField._path = [ key ];
+        formField._path = [key];
       }
     }
 
     if (id) {
-
       // validate <id> uniqueness
       if (this._formFieldRegistry._ids.assigned(id)) {
-        throw new Error(`form field with id <${ id }> already exists`);
+        throw new Error(`form field with id <${id}> already exists`);
       }
 
       this._formFieldRegistry._ids.claim(id, formField);
@@ -127,48 +109,51 @@ export default class Importer {
    * @return {Object} importedData
    */
   importData(data) {
-    return this._formFieldRegistry.getAll().reduce((importedData, formField) => {
-      const {
-        defaultValue,
-        _path,
-        type,
-        valuesKey
-      } = formField;
+    return this._formFieldRegistry
+      .getAll()
+      .reduce((importedData, formField) => {
+        const {defaultValue, _path, type, valuesKey} = formField;
 
-      // get values defined via valuesKey
+        // get values defined via valuesKey
 
-      if (valuesKey) {
-        importedData = {
-          ...importedData,
-          [ valuesKey ]: get(data, [ valuesKey ])
-        };
-      }
-
-      // try to get value from data
-      // if unavailable - try to get default value from form field
-      // if unavailable - get empty value from form field
-
-      if (_path) {
-
-        const fieldImplementation = this._formFields.get(type);
-        let valueData = get(data, _path);
-
-        if (!isUndefined(valueData) && fieldImplementation.sanitizeValue) {
-          valueData = fieldImplementation.sanitizeValue({ formField, data, value: valueData });
+        if (valuesKey) {
+          importedData = {
+            ...importedData,
+            [valuesKey]: get(data, [valuesKey]),
+          };
         }
 
-        const initialFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldImplementation.emptyValue);
+        // try to get value from data
+        // if unavailable - try to get default value from form field
+        // if unavailable - get empty value from form field
 
-        importedData = {
-          ...importedData,
-          [_path[0]]: initialFieldValue,
-        };
-      }
+        if (_path) {
+          const fieldImplementation = this._formFields.get(type);
+          let valueData = get(data, _path);
 
-      return importedData;
+          if (!isUndefined(valueData) && fieldImplementation.sanitizeValue) {
+            valueData = fieldImplementation.sanitizeValue({
+              formField,
+              data,
+              value: valueData,
+            });
+          }
 
-    }, {});
+          const initialFieldValue = !isUndefined(valueData)
+            ? valueData
+            : !isUndefined(defaultValue)
+            ? defaultValue
+            : fieldImplementation.emptyValue;
+
+          importedData = {
+            ...importedData,
+            [_path[0]]: initialFieldValue,
+          };
+        }
+
+        return importedData;
+      }, {});
   }
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'formFields' ];
+Importer.$inject = ['formFieldRegistry', 'formFields'];

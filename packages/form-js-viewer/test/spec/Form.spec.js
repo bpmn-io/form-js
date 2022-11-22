@@ -1,15 +1,8 @@
-import {
-  fireEvent,
-  screen
-} from '@testing-library/preact/pure';
+import {fireEvent, screen} from '@testing-library/preact/pure';
 
-import {
-  createForm,
-  Form,
-  schemaVersion
-} from '../../src';
+import {createForm, Form, schemaVersion} from '../../src';
 
-import { spy } from 'sinon';
+import {spy} from 'sinon';
 
 import customModule from './custom';
 
@@ -19,10 +12,7 @@ import schemaNoIds from './form.json';
 import textSchema from './text.json';
 import stress from './stress.json';
 
-import {
-  insertCSS,
-  isSingleStart
-} from '../TestHelper';
+import {insertCSS, isSingleStart} from '../TestHelper';
 
 // @ts-ignore-next-line
 import customCSS from './custom/custom.css';
@@ -33,29 +23,25 @@ const singleStartBasic = isSingleStart('basic');
 const singleStartStress = isSingleStart('stress');
 const singleStart = singleStartBasic || singleStartStress;
 
-
-describe('Form', function() {
-
+describe('Form', function () {
   let container;
 
-  beforeEach(function() {
+  beforeEach(function () {
     container = document.createElement('div');
 
     document.body.appendChild(container);
   });
 
-  !singleStart && afterEach(function() {
-    document.body.removeChild(container);
-  });
+  !singleStart &&
+    afterEach(function () {
+      document.body.removeChild(container);
+    });
 
-
-  it('should expose schemaVersion', function() {
+  it('should expose schemaVersion', function () {
     expect(typeof schemaVersion).to.eql('number');
   });
 
-
-  (singleStartBasic ? it.only : it)('should render', async function() {
-
+  (singleStartBasic ? it.only : it)('should render', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -63,33 +49,33 @@ describe('Form', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
+      tags: ['tag1', 'tag2', 'tag3'],
       language: 'english',
       documents: [
         {
           title: 'invoice.pdf',
-          author: 'John Doe'
+          author: 'John Doe',
         },
         {
-          title: 'products.pdf'
-        }
-      ]
+          title: 'products.pdf',
+        },
+      ],
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema
+      schema,
     });
 
-    form.on('changed', event => {
+    form.on('changed', (event) => {
       console.log('Form <changed>', event);
     });
 
-    form.on('submit', event => {
+    form.on('submit', (event) => {
       console.log('Form <submit>', event);
     });
 
@@ -97,54 +83,53 @@ describe('Form', function() {
     expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
   });
 
-
-  (singleStartStress ? it.only : it)('should render stress test', async function() {
-
-    const array = [ ...Array(4000).keys() ];
-    const largeDataset = array.map(x => ({ value: `value:${x}`, label: `label:${x}` }));
-
-    // given
-    const data = {
-      largeDataset
-    };
-
-    // when
-    const form = await createForm({
-      container,
-      schema: stress,
-      data
-    });
-
-    // then
-    expect(form).to.exist;
-    expect(form.reset).to.exist;
-    expect(form.submit).to.exist;
-    expect(form._update).to.exist;
-  });
-
-
-  describe('#importSchema', function() {
-
-    it('should import empty schema', async function() {
+  (singleStartStress ? it.only : it)(
+    'should render stress test',
+    async function () {
+      const array = [...Array(4000).keys()];
+      const largeDataset = array.map((x) => ({
+        value: `value:${x}`,
+        label: `label:${x}`,
+      }));
 
       // given
-      const schema = {
-        type: 'default'
+      const data = {
+        largeDataset,
       };
 
       // when
       const form = await createForm({
         container,
-        schema
+        schema: stress,
+        data,
+      });
+
+      // then
+      expect(form).to.exist;
+      expect(form.reset).to.exist;
+      expect(form.submit).to.exist;
+      expect(form._update).to.exist;
+    },
+  );
+
+  describe('#importSchema', function () {
+    it('should import empty schema', async function () {
+      // given
+      const schema = {
+        type: 'default',
+      };
+
+      // when
+      const form = await createForm({
+        container,
+        schema,
       });
 
       // then
       expect(form.get('formFieldRegistry').getAll()).to.have.length(1);
     });
 
-
-    it('should generate IDs', async function() {
-
+    it('should generate IDs', async function () {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -152,19 +137,19 @@ describe('Form', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
+        tags: ['tag1', 'tag2', 'tag3'],
         language: 'english',
         documents: [
           {
             title: 'invoice.pdf',
-            author: 'John Doe'
+            author: 'John Doe',
           },
           {
-            title: 'products.pdf'
-          }
-        ]
+            title: 'products.pdf',
+          },
+        ],
       };
 
       // when
@@ -175,14 +160,12 @@ describe('Form', function() {
       // then
       expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
 
-      form.get('formFieldRegistry').forEach(field => {
+      form.get('formFieldRegistry').forEach((field) => {
         expect(field.id).to.exist;
       });
     });
 
-
-    it('should import without errors', async function() {
-
+    it('should import without errors', async function () {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -190,19 +173,19 @@ describe('Form', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1','tag2', 'tag3' ],
+        tags: ['tag1', 'tag2', 'tag3'],
         language: 'english',
         documents: [
           {
             title: 'invoice.pdf',
-            author: 'John Doe'
+            author: 'John Doe',
           },
           {
-            title: 'products.pdf'
-          }
-        ]
+            title: 'products.pdf',
+          },
+        ],
       };
 
       // when
@@ -214,21 +197,19 @@ describe('Form', function() {
       expect(form.get('formFieldRegistry').getAll()).to.have.length(14);
     });
 
-
-    it('should fail instantiation with import error', async function() {
-
+    it('should fail instantiation with import error', async function () {
       // given
       const data = {
-        amount: 456
+        amount: 456,
       };
 
       const schema = {
         type: 'default',
         components: [
           {
-            type: 'unknown-component'
-          }
-        ]
+            type: 'unknown-component',
+          },
+        ],
       };
 
       let error;
@@ -238,7 +219,7 @@ describe('Form', function() {
         await createForm({
           container,
           data,
-          schema
+          schema,
         });
       } catch (_error) {
         error = _error;
@@ -246,12 +227,12 @@ describe('Form', function() {
 
       // then
       expect(error).to.exist;
-      expect(error.message).to.eql('form field of type <unknown-component> not supported');
+      expect(error.message).to.eql(
+        'form field of type <unknown-component> not supported',
+      );
     });
 
-
-    it('should fire <*.clear> before import', async function() {
-
+    it('should fire <*.clear> before import', async function () {
       // given
       const form = new Form();
 
@@ -265,9 +246,7 @@ describe('Form', function() {
       expect(importDoneSpy).to.have.been.calledOnce;
     });
 
-
-    it('should fire <import.done> after import success', async function() {
-
+    it('should fire <import.done> after import success', async function () {
       // given
       const form = new Form();
 
@@ -281,17 +260,15 @@ describe('Form', function() {
       expect(importDoneSpy).to.have.been.calledOnce;
     });
 
-
-    it('should fire <import.done> after import error', async function() {
-
+    it('should fire <import.done> after import error', async function () {
       // given
       const schema = {
         type: 'default',
         components: [
           {
-            type: 'unknown-component'
-          }
-        ]
+            type: 'unknown-component',
+          },
+        ],
       };
 
       const form = new Form();
@@ -303,33 +280,29 @@ describe('Form', function() {
       try {
         await form.importSchema(schema);
       } catch (err) {
-
         // then
         expect(importDoneSpy).to.have.been.calledOnce;
-        expect(importDoneSpy).to.have.been.calledWithMatch({ error: err, warnings: err.warnings });
+        expect(importDoneSpy).to.have.been.calledWithMatch({
+          error: err,
+          warnings: err.warnings,
+        });
       }
     });
-
   });
 
-
-  it('should render complex text', async function() {
-
+  it('should render complex text', async function () {
     // when
     const form = await createForm({
       container,
-      schema: textSchema
+      schema: textSchema,
     });
 
     // then
     expect(form).to.exist;
   });
 
-
-  describe('empty', function() {
-
-    it('should render empty', async function() {
-
+  describe('empty', function () {
+    it('should render empty', async function () {
       // given
       const data = {};
 
@@ -337,23 +310,21 @@ describe('Form', function() {
       const form = await createForm({
         container,
         data,
-        schema
+        schema,
       });
 
       // then
       expect(form).to.exist;
     });
 
-
-    it('should submit empty', async function() {
-
+    it('should submit empty', async function () {
       // given
       const data = {};
 
       const form = await createForm({
         container,
         data,
-        schema
+        schema,
       });
 
       // when
@@ -370,27 +341,24 @@ describe('Form', function() {
         mailto: [],
         product: null,
         tags: [],
-        language: null
+        language: null,
       });
 
       expect(submission.errors).to.eql({
-        creditor: [ 'Field is required.' ]
+        creditor: ['Field is required.'],
       });
     });
-
   });
 
-
-  it('#clear', async function() {
-
+  it('#clear', async function () {
     // given
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     const diagramClearSpy = spy(),
-          formClearSpy = spy();
+      formClearSpy = spy();
 
     form.on('diagram.clear', diagramClearSpy);
     form.on('form.clear', formClearSpy);
@@ -407,17 +375,15 @@ describe('Form', function() {
     expect(form.get('formFieldRegistry').getAll()).to.be.empty;
   });
 
-
-  it('#destroy', async function() {
-
+  it('#destroy', async function () {
     // given
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     const diagramDestroySpy = spy(),
-          formDestroySpy = spy();
+      formDestroySpy = spy();
 
     form.on('diagram.destroy', diagramDestroySpy);
     form.on('form.destroy', formDestroySpy);
@@ -432,13 +398,11 @@ describe('Form', function() {
     expect(formDestroySpy).to.have.been.calledOnce;
   });
 
-
-  it('#validate', async function() {
-
+  it('#validate', async function () {
     // given
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     // when
@@ -446,19 +410,15 @@ describe('Form', function() {
 
     // then
     expect(errors).to.eql({
-      creditor: [
-        'Field is required.'
-      ]
+      creditor: ['Field is required.'],
     });
   });
 
-
-  it('#on', async function() {
-
+  it('#on', async function () {
     // given
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     const fooSpy = spy();
@@ -472,13 +432,11 @@ describe('Form', function() {
     expect(fooSpy).to.have.been.calledOnce;
   });
 
-
-  it('#off', async function() {
-
+  it('#off', async function () {
     // given
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     const fooSpy = spy();
@@ -496,16 +454,14 @@ describe('Form', function() {
     expect(fooSpy).to.have.been.calledOnce;
   });
 
-
-  it('should throw error on submit if disabled', async function() {
-
+  it('should throw error on submit if disabled', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
     };
 
     // when
@@ -514,8 +470,8 @@ describe('Form', function() {
       data,
       schema,
       properties: {
-        readOnly: true
-      }
+        readOnly: true,
+      },
     });
 
     // when
@@ -532,22 +488,20 @@ describe('Form', function() {
     expect(error.message).to.eql('form is read-only');
   });
 
-
-  it('should not submit disabled fields', async function() {
-
+  it('should not submit disabled fields', async function () {
     // given
     const data = {
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema: disabledSchema
+      schema: disabledSchema,
     });
 
     // when
@@ -558,23 +512,21 @@ describe('Form', function() {
     expect(submission.errors).not.to.have.property('creditor');
   });
 
-
-  it('should not submit data without corresponding field', async function() {
-
+  it('should not submit data without corresponding field', async function () {
     // given
     const data = {
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      foo: 'bar'
+      foo: 'bar',
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema: disabledSchema
+      schema: disabledSchema,
     });
 
     // when
@@ -585,22 +537,20 @@ describe('Form', function() {
     expect(submission.errors).not.to.have.property('foo');
   });
 
-
-  it('should not validate disabled fields', async function() {
-
+  it('should not validate disabled fields', async function () {
     // given
     const data = {
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema: disabledSchema
+      schema: disabledSchema,
     });
 
     // when
@@ -610,9 +560,7 @@ describe('Form', function() {
     expect(errors).not.to.have.property('creditor');
   });
 
-
-  it('should attach', async function() {
-
+  it('should attach', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -620,16 +568,16 @@ describe('Form', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'english'
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: 'english',
     };
 
     // when
     const form = await createForm({
       data,
-      schema
+      schema,
     });
 
     // assume
@@ -642,9 +590,7 @@ describe('Form', function() {
     expect(form._container.parentNode).to.exist;
   });
 
-
-  it('should detach', async function() {
-
+  it('should detach', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -652,17 +598,17 @@ describe('Form', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'english'
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: 'english',
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema
+      schema,
     });
 
     // assume
@@ -675,9 +621,7 @@ describe('Form', function() {
     expect(form._container.parentNode).not.to.exist;
   });
 
-
-  it('should be customizable', async function() {
-
+  it('should be customizable', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -685,10 +629,10 @@ describe('Form', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'english'
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: 'english',
     };
 
     // when
@@ -696,18 +640,14 @@ describe('Form', function() {
       container,
       data,
       schema,
-      additionalModules: [
-        customModule
-      ]
+      additionalModules: [customModule],
     });
 
     // then
     expect(document.querySelector('.custom-button')).to.exist;
   });
 
-
-  it('should update, reset and submit', async function() {
-
+  it('should update, reset and submit', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -716,14 +656,14 @@ describe('Form', function() {
       approved: true,
       approvedBy: 'John Doe',
       approverComments: 'Please review by June',
-      tags: [ 'tag1', 'tag2', 'tag3' ]
+      tags: ['tag1', 'tag2', 'tag3'],
     };
 
     // when
     const form = await createForm({
       container,
       data,
-      schema
+      schema,
     });
 
     const field = getFormField(form, 'creditor');
@@ -731,7 +671,7 @@ describe('Form', function() {
     // update programmatically
     form._update({
       field,
-      value: 'Jane Doe Company'
+      value: 'Jane Doe Company',
     });
 
     // when submit
@@ -747,8 +687,8 @@ describe('Form', function() {
       approverComments: 'Please review by June',
       mailto: [],
       product: null,
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: null
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: null,
     });
 
     expect(submission.errors).to.be.empty;
@@ -768,36 +708,34 @@ describe('Form', function() {
       approverComments: 'Please review by June',
       mailto: [],
       product: null,
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: null
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: null,
     });
 
     expect(state.errors).to.be.empty;
   });
 
-
-  it('should reset (no data)', async function() {
-
+  it('should reset (no data)', async function () {
     // when
     const form = await createForm({
       container,
-      schema
+      schema,
     });
 
     // update programmatically
     form._update({
       field: getFormField(form, 'creditor'),
-      value: 'Jane Doe Company'
+      value: 'Jane Doe Company',
     });
 
     form._update({
       field: getFormField(form, 'amount'),
-      value: '123'
+      value: '123',
     });
 
     form._update({
       field: getFormField(form, 'approved'),
-      value: true
+      value: true,
     });
 
     // when
@@ -816,32 +754,29 @@ describe('Form', function() {
       mailto: [],
       product: null,
       tags: [],
-      language: null
+      language: null,
     });
 
     expect(state.errors).to.be.empty;
   });
 
-
-  it('should emit <changed>', async function() {
-
+  it('should emit <changed>', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
       amount: 456,
       invoiceNumber: 'C-123',
       approved: true,
-      approvedBy: 'John Doe'
+      approvedBy: 'John Doe',
     };
 
     const form = await createForm({
       container,
       data,
-      schema
+      schema,
     });
 
-    const changedListener = spy(function(event) {
-
+    const changedListener = spy(function (event) {
       expect(event.data).to.exist;
       expect(event.errors).to.exist;
       expect(event.properties).to.exist;
@@ -857,29 +792,26 @@ describe('Form', function() {
 
     form._update({
       field,
-      value: 'Jane Doe Company'
+      value: 'Jane Doe Company',
     });
 
     // then
     expect(changedListener).to.have.been.calledOnce;
   });
 
-
-  it('should emit <submit>', async function() {
-
+  it('should emit <submit>', async function () {
     // given
     const data = {
-      amount: 456
+      amount: 456,
     };
 
     const form = await createForm({
       container,
       data,
-      schema
+      schema,
     });
 
-    const submitListener = spy(function(event) {
-
+    const submitListener = spy(function (event) {
       expect(event.data).to.exist;
       expect(event.errors).to.exist;
 
@@ -893,11 +825,11 @@ describe('Form', function() {
         mailto: [],
         product: null,
         tags: [],
-        language: null
+        language: null,
       });
 
       expect(event.errors).to.eql({
-        creditor: [ 'Field is required.' ]
+        creditor: ['Field is required.'],
       });
     });
 
@@ -907,11 +839,8 @@ describe('Form', function() {
     form.submit();
   });
 
-
-  describe('validation', function() {
-
-    it('should display error if required field empty', async function() {
-
+  describe('validation', function () {
+    it('should display error if required field empty', async function () {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -919,39 +848,37 @@ describe('Form', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
+        tags: ['tag1', 'tag2', 'tag3'],
         language: 'english',
         documents: [
           {
             title: 'invoice.pdf',
-            author: 'John Doe'
+            author: 'John Doe',
           },
           {
-            title: 'products.pdf'
-          }
-        ]
+            title: 'products.pdf',
+          },
+        ],
       };
 
       await createForm({
         container,
         data,
-        schema
+        schema,
       });
 
       // when
       const input = await screen.getByLabelText('Creditor*');
 
-      fireEvent.input(input, { target: { value: '' } });
+      fireEvent.input(input, {target: {value: ''}});
 
       // then
       expect(screen.getByText('Field is required.')).to.exist;
     });
 
-
-    it('should display error if required field does not match pattern', async function() {
-
+    it('should display error if required field does not match pattern', async function () {
       // given
       const data = {
         creditor: 'John Doe Company',
@@ -959,42 +886,43 @@ describe('Form', function() {
         invoiceNumber: 'C-123',
         approved: true,
         approvedBy: 'John Doe',
-        mailto: [ 'regional-manager', 'approver' ],
+        mailto: ['regional-manager', 'approver'],
         product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
+        tags: ['tag1', 'tag2', 'tag3'],
         language: 'english',
         documents: [
           {
             title: 'invoice.pdf',
-            author: 'John Doe'
+            author: 'John Doe',
           },
           {
-            title: 'products.pdf'
-          }
-        ]
+            title: 'products.pdf',
+          },
+        ],
       };
 
       await createForm({
         container,
         data,
-        schema
+        schema,
       });
 
       // when
       const input = await screen.getByLabelText('Invoice Number');
 
-      fireEvent.input(input, { target: { value: 'foo' } });
+      fireEvent.input(input, {target: {value: 'foo'}});
 
       // then
       expect(screen.getByText('Field must match pattern ^C-[0-9]+$.')).to.exist;
     });
-
   });
-
 });
 
 // helpers //////////
 
 function getFormField(form, key) {
-  return form.get('formFieldRegistry').getAll().find((formField) => formField.key === key);
+  return form
+    .get('formFieldRegistry')
+    .getAll()
+    .find((formField) => formField.key === key);
 }

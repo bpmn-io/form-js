@@ -7,12 +7,9 @@ import importModule from '../import';
 import renderModule from '../render';
 
 export default {
-  __depends__: [
-    importModule,
-    renderModule
-  ],
-  eventBus: [ 'type', EventBus ],
-  formFieldRegistry: [ 'type', FormFieldRegistry ],
-  fieldFactory: [ 'type', FieldFactory ],
-  debounce: [ 'factory', DebounceFactory ]
+  __depends__: [importModule, renderModule],
+  eventBus: ['type', EventBus],
+  formFieldRegistry: ['type', FormFieldRegistry],
+  fieldFactory: ['type', FieldFactory],
+  debounce: ['factory', DebounceFactory],
 };

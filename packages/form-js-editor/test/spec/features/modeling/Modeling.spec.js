@@ -1,10 +1,6 @@
-import { clone } from '@bpmn-io/form-js-viewer';
+import {clone} from '@bpmn-io/form-js-viewer';
 
-import {
-  bootstrapFormEditor,
-  insertStyles,
-  inject
-} from '../../../TestHelper';
+import {bootstrapFormEditor, insertStyles, inject} from '../../../TestHelper';
 
 import modelingModule from 'src/features/modeling';
 
@@ -12,48 +8,35 @@ import schema from '../../form.json';
 
 insertStyles();
 
+describe('features/modeling', function () {
+  beforeEach(
+    bootstrapFormEditor(schema, {
+      modules: [modelingModule],
+    }),
+  );
 
-describe('features/modeling', function() {
-
-  beforeEach(bootstrapFormEditor(schema, {
-    modules: [
-      modelingModule
-    ]
-  }));
-
-
-  describe('#addFormField', function() {
-
+  describe('#addFormField', function () {
     const targetIndex = 0;
 
     const formField = {
       id: 'foo',
-      type: 'button'
+      type: 'button',
     };
 
-    let parent,
-        formFieldIds,
-        formFieldsLength;
+    let parent, formFieldIds, formFieldsLength;
 
-    beforeEach(inject(function(formFieldRegistry) {
-
+    beforeEach(inject(function (formFieldRegistry) {
       // given
       formFieldsLength = formFieldRegistry.getAll().length;
 
       parent = formFieldRegistry.get('Form_1');
 
-      formFieldIds = parent.components.map(({ id }) => id);
+      formFieldIds = parent.components.map(({id}) => id);
     }));
 
-
-    it('<do>', inject(function(modeling, formFieldRegistry) {
-
+    it('<do>', inject(function (modeling, formFieldRegistry) {
       // when
-      const field = modeling.addFormField(
-        formField,
-        parent,
-        targetIndex
-      );
+      const field = modeling.addFormField(formField, parent, targetIndex);
 
       // then
       expect(field.id).to.exist;
@@ -61,21 +44,15 @@ describe('features/modeling', function() {
       expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
       expect(formFieldRegistry.get(field.id)).to.equal(field);
 
-      expect(parent.components.map(({ id }) => id)).to.eql([
+      expect(parent.components.map(({id}) => id)).to.eql([
         formField.id,
-        ...formFieldIds
+        ...formFieldIds,
       ]);
     }));
 
-
-    it('<undo>', inject(function(modeling, commandStack, formFieldRegistry) {
-
+    it('<undo>', inject(function (modeling, commandStack, formFieldRegistry) {
       // given
-      const field = modeling.addFormField(
-        formField,
-        parent,
-        targetIndex
-      );
+      const field = modeling.addFormField(formField, parent, targetIndex);
 
       // when
       commandStack.undo();
@@ -84,18 +61,12 @@ describe('features/modeling', function() {
       expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
       expect(formFieldRegistry.get(field.id)).not.to.exist;
 
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+      expect(parent.components.map(({id}) => id)).to.eql(formFieldIds);
     }));
 
-
-    it('<redo>', inject(function(modeling, commandStack, formFieldRegistry) {
-
+    it('<redo>', inject(function (modeling, commandStack, formFieldRegistry) {
       // given
-      const field = modeling.addFormField(
-        formField,
-        parent,
-        targetIndex
-      );
+      const field = modeling.addFormField(formField, parent, targetIndex);
 
       // when
       commandStack.undo();
@@ -105,61 +76,46 @@ describe('features/modeling', function() {
       expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength + 1);
       expect(formFieldRegistry.get(field.id)).to.equal(field);
 
-      expect(parent.components.map(({ id }) => id)).to.eql([
+      expect(parent.components.map(({id}) => id)).to.eql([
         formField.id,
-        ...formFieldIds
+        ...formFieldIds,
       ]);
     }));
-
   });
 
-
-  describe('#editFormField', function() {
-
-    describe('single property', function() {
-
+  describe('#editFormField', function () {
+    describe('single property', function () {
       let oldFormField;
 
-      beforeEach(inject(function(formFieldRegistry, modeling) {
-
+      beforeEach(inject(function (formFieldRegistry, modeling) {
         // given
         const formField = formFieldRegistry.get('Text_1');
 
         oldFormField = clone(formField);
 
         // when
-        modeling.editFormField(
-          formField,
-          'text',
-          'foo'
-        );
+        modeling.editFormField(formField, 'text', 'foo');
       }));
 
-
-      it('<do>', inject(function(formFieldRegistry) {
-
+      it('<do>', inject(function (formFieldRegistry) {
         // then
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
-          text: 'foo'
+          text: 'foo',
         });
       }));
 
-
-      it('<undo>', inject(function(commandStack, formFieldRegistry) {
-
+      it('<undo>', inject(function (commandStack, formFieldRegistry) {
         // when
         commandStack.undo();
 
         // then
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
-          ...oldFormField
+          ...oldFormField,
         });
       }));
 
-
-      it('<redo>', inject(function(commandStack, formFieldRegistry) {
-
+      it('<redo>', inject(function (commandStack, formFieldRegistry) {
         // when
         commandStack.undo();
         commandStack.redo();
@@ -167,60 +123,47 @@ describe('features/modeling', function() {
         // then
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
-          text: 'foo'
+          text: 'foo',
         });
       }));
-
     });
 
-
-    describe('multiple properties', function() {
-
+    describe('multiple properties', function () {
       let oldFormField;
 
-      beforeEach(inject(function(formFieldRegistry, modeling) {
-
+      beforeEach(inject(function (formFieldRegistry, modeling) {
         // given
         const formField = formFieldRegistry.get('Textfield_1');
 
         oldFormField = clone(formField);
 
         // when
-        modeling.editFormField(
-          formField,
-          {
-            key: 'foo',
-            label: 'Foo'
-          }
-        );
+        modeling.editFormField(formField, {
+          key: 'foo',
+          label: 'Foo',
+        });
       }));
 
-
-      it('<do>', inject(function(formFieldRegistry) {
-
+      it('<do>', inject(function (formFieldRegistry) {
         // then
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           key: 'foo',
-          label: 'Foo'
+          label: 'Foo',
         });
       }));
 
-
-      it('<undo>', inject(function(commandStack, formFieldRegistry) {
-
+      it('<undo>', inject(function (commandStack, formFieldRegistry) {
         // when
         commandStack.undo();
 
         // then
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
-          ...oldFormField
+          ...oldFormField,
         });
       }));
 
-
-      it('<redo>', inject(function(commandStack, formFieldRegistry) {
-
+      it('<redo>', inject(function (commandStack, formFieldRegistry) {
         // when
         commandStack.undo();
         commandStack.redo();
@@ -229,43 +172,29 @@ describe('features/modeling', function() {
         expect(formFieldRegistry.get(oldFormField.id)).to.eql({
           ...oldFormField,
           key: 'foo',
-          label: 'Foo'
+          label: 'Foo',
         });
       }));
-
     });
 
-
-    describe('id property', function() {
-
-      it('<do>', inject(function(modeling, formFieldRegistry) {
-
+    describe('id property', function () {
+      it('<do>', inject(function (modeling, formFieldRegistry) {
         // given
         const field = formFieldRegistry.get('Text_1');
 
         // when
-        modeling.editFormField(
-          field,
-          'id',
-          'OtherText'
-        );
+        modeling.editFormField(field, 'id', 'OtherText');
 
         // then
         expect(formFieldRegistry.get('Text_1')).not.to.exist;
         expect(formFieldRegistry.get('OtherText')).to.equal(field);
       }));
 
-
-      it('<undo>', inject(function(commandStack, modeling, formFieldRegistry) {
-
+      it('<undo>', inject(function (commandStack, modeling, formFieldRegistry) {
         // given
         const field = formFieldRegistry.get('Text_1');
 
-        modeling.editFormField(
-          field,
-          'id',
-          'OtherText'
-        );
+        modeling.editFormField(field, 'id', 'OtherText');
 
         // when
         commandStack.undo();
@@ -275,17 +204,11 @@ describe('features/modeling', function() {
         expect(formFieldRegistry.get('Text_1')).to.equal(field);
       }));
 
-
-      it('<redo>', inject(function(modeling, commandStack, formFieldRegistry) {
-
+      it('<redo>', inject(function (modeling, commandStack, formFieldRegistry) {
         // given
         const field = formFieldRegistry.get('Text_1');
 
-        modeling.editFormField(
-          field,
-          'id',
-          'OtherText'
-        );
+        modeling.editFormField(field, 'id', 'OtherText');
 
         // when
         commandStack.undo();
@@ -296,40 +219,34 @@ describe('features/modeling', function() {
         expect(formFieldRegistry.get('OtherText')).to.equal(field);
       }));
 
-
       // essentially an empty update; still emitted
       // by the form editor though, so it shall work
-      it('<do> - update with no change', inject(function(modeling, formFieldRegistry) {
-
+      it('<do> - update with no change', inject(function (
+        modeling,
+        formFieldRegistry,
+      ) {
         // given
         const field = formFieldRegistry.get('Text_1');
 
         // when
-        modeling.editFormField(
-          field,
-          'id',
-          'Text_1'
-        );
+        modeling.editFormField(field, 'id', 'Text_1');
 
         // then
         expect(formFieldRegistry.get('Text_1')).to.equal(field);
       }));
 
-
       // this is necessary due to the fact that _parent
       // is not an object reference but rather a plain
       // string *sad*
-      it('<do> - updating <_parent> references', inject(function(modeling, formFieldRegistry) {
-
+      it('<do> - updating <_parent> references', inject(function (
+        modeling,
+        formFieldRegistry,
+      ) {
         // given
         const field = formFieldRegistry.get('Form_1');
 
         // when
-        modeling.editFormField(
-          field,
-          'id',
-          'Form_AAA'
-        );
+        modeling.editFormField(field, 'id', 'Form_AAA');
 
         // then
         expect(formFieldRegistry.get('Form_AAA')).to.equal(field);
@@ -338,34 +255,26 @@ describe('features/modeling', function() {
           expect(component).to.have.property('_parent', 'Form_AAA');
         }
       }));
-
     });
-
   });
 
-
-  describe('#moveFormField', function() {
-
-    describe('same parent', function() {
-
-      describe('down', function() {
-
+  describe('#moveFormField', function () {
+    describe('same parent', function () {
+      describe('down', function () {
         const sourceIndex = 0,
-              targetIndex = 2;
+          targetIndex = 2;
 
-        let formFieldIds,
-            formFieldsLength;
+        let formFieldIds, formFieldsLength;
 
-        beforeEach(inject(function(formFieldRegistry, modeling) {
-
+        beforeEach(inject(function (formFieldRegistry, modeling) {
           // given
           formFieldsLength = formFieldRegistry.getAll().length;
 
           const parent = formFieldRegistry.get('Form_1');
 
-          const formField = parent.components[ sourceIndex ];
+          const formField = parent.components[sourceIndex];
 
-          formFieldIds = parent.components.map(({ id }) => id);
+          formFieldIds = parent.components.map(({id}) => id);
 
           // when
           modeling.moveFormField(
@@ -373,28 +282,24 @@ describe('features/modeling', function() {
             parent,
             parent,
             sourceIndex,
-            targetIndex
+            targetIndex,
           );
         }));
 
-
-        it('<do>', inject(function(formFieldRegistry) {
-
+        it('<do>', inject(function (formFieldRegistry) {
           // then
           expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql([
-            formFieldIds[ 1 ],
-            formFieldIds[ 0 ],
-            ...formFieldIds.slice(2)
+          expect(parent.components.map(({id}) => id)).to.eql([
+            formFieldIds[1],
+            formFieldIds[0],
+            ...formFieldIds.slice(2),
           ]);
         }));
 
-
-        it('<undo>', inject(function(commandStack, formFieldRegistry) {
-
+        it('<undo>', inject(function (commandStack, formFieldRegistry) {
           // when
           commandStack.undo();
 
@@ -403,12 +308,10 @@ describe('features/modeling', function() {
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+          expect(parent.components.map(({id}) => id)).to.eql(formFieldIds);
         }));
 
-
-        it('<redo>', inject(function(commandStack, formFieldRegistry) {
-
+        it('<redo>', inject(function (commandStack, formFieldRegistry) {
           // when
           commandStack.undo();
           commandStack.redo();
@@ -418,34 +321,29 @@ describe('features/modeling', function() {
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql([
-            formFieldIds[ 1 ],
-            formFieldIds[ 0 ],
-            ...formFieldIds.slice(2)
+          expect(parent.components.map(({id}) => id)).to.eql([
+            formFieldIds[1],
+            formFieldIds[0],
+            ...formFieldIds.slice(2),
           ]);
         }));
-
       });
 
-
-      describe('up', function() {
-
+      describe('up', function () {
         const sourceIndex = 1,
-              targetIndex = 0;
+          targetIndex = 0;
 
-        let formFieldIds,
-            formFieldsSize;
+        let formFieldIds, formFieldsSize;
 
-        beforeEach(inject(function(formFieldRegistry, modeling) {
-
+        beforeEach(inject(function (formFieldRegistry, modeling) {
           // given
           formFieldsSize = formFieldRegistry.getAll().length;
 
           const parent = formFieldRegistry.get('Form_1');
 
-          const formField = parent.components[ sourceIndex ];
+          const formField = parent.components[sourceIndex];
 
-          formFieldIds = parent.components.map(({ id }) => id);
+          formFieldIds = parent.components.map(({id}) => id);
 
           // when
           modeling.moveFormField(
@@ -453,28 +351,24 @@ describe('features/modeling', function() {
             parent,
             parent,
             sourceIndex,
-            targetIndex
+            targetIndex,
           );
         }));
 
-
-        it('<do>', inject(function(formFieldRegistry) {
-
+        it('<do>', inject(function (formFieldRegistry) {
           // then
           expect(formFieldRegistry.getAll()).to.have.length(formFieldsSize);
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql([
-            formFieldIds[ 1 ],
-            formFieldIds[ 0 ],
-            ...formFieldIds.slice(2)
+          expect(parent.components.map(({id}) => id)).to.eql([
+            formFieldIds[1],
+            formFieldIds[0],
+            ...formFieldIds.slice(2),
           ]);
         }));
 
-
-        it('<undo>', inject(function(commandStack, formFieldRegistry) {
-
+        it('<undo>', inject(function (commandStack, formFieldRegistry) {
           // when
           commandStack.undo();
 
@@ -483,12 +377,10 @@ describe('features/modeling', function() {
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+          expect(parent.components.map(({id}) => id)).to.eql(formFieldIds);
         }));
 
-
-        it('<redo>', inject(function(commandStack, formFieldRegistry) {
-
+        it('<redo>', inject(function (commandStack, formFieldRegistry) {
           // when
           commandStack.undo();
           commandStack.redo();
@@ -498,60 +390,45 @@ describe('features/modeling', function() {
 
           const parent = formFieldRegistry.get('Form_1');
 
-          expect(parent.components.map(({ id }) => id)).to.eql([
-            formFieldIds[ 1 ],
-            formFieldIds[ 0 ],
-            ...formFieldIds.slice(2)
+          expect(parent.components.map(({id}) => id)).to.eql([
+            formFieldIds[1],
+            formFieldIds[0],
+            ...formFieldIds.slice(2),
           ]);
         }));
-
       });
-
     });
-
   });
 
-
-  describe('#removeFormField', function() {
-
+  describe('#removeFormField', function () {
     const sourceIndex = 0;
 
-    let formFieldIds,
-        formFieldsLength;
+    let formFieldIds, formFieldsLength;
 
-    beforeEach(inject(function(formFieldRegistry, modeling) {
-
+    beforeEach(inject(function (formFieldRegistry, modeling) {
       // given
       formFieldsLength = formFieldRegistry.getAll().length;
 
       const parent = formFieldRegistry.get('Form_1');
 
-      const formField = parent.components[ sourceIndex ];
+      const formField = parent.components[sourceIndex];
 
-      formFieldIds = parent.components.map(({ id }) => id);
+      formFieldIds = parent.components.map(({id}) => id);
 
       // when
-      modeling.removeFormField(
-        formField,
-        parent,
-        sourceIndex
-      );
+      modeling.removeFormField(formField, parent, sourceIndex);
     }));
 
-
-    it('<do>', inject(function(formFieldRegistry) {
-
+    it('<do>', inject(function (formFieldRegistry) {
       // then
       expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
 
       const parent = formFieldRegistry.get('Form_1');
 
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
+      expect(parent.components.map(({id}) => id)).to.eql(formFieldIds.slice(1));
     }));
 
-
-    it('<undo>', inject(function(commandStack, formFieldRegistry) {
-
+    it('<undo>', inject(function (commandStack, formFieldRegistry) {
       // when
       commandStack.undo();
 
@@ -560,12 +437,10 @@ describe('features/modeling', function() {
 
       const parent = formFieldRegistry.get('Form_1');
 
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+      expect(parent.components.map(({id}) => id)).to.eql(formFieldIds);
     }));
 
-
-    it('<redo>', inject(function(commandStack, formFieldRegistry) {
-
+    it('<redo>', inject(function (commandStack, formFieldRegistry) {
       // when
       commandStack.undo();
       commandStack.redo();
@@ -575,23 +450,18 @@ describe('features/modeling', function() {
 
       const parent = formFieldRegistry.get('Form_1');
 
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
+      expect(parent.components.map(({id}) => id)).to.eql(formFieldIds.slice(1));
     }));
-
   });
 
-
-  describe('#claimId', function() {
-
+  describe('#claimId', function () {
     const formField = {
       id: 'foo',
       key: 'foo',
-      type: 'textfield'
+      type: 'textfield',
     };
 
-
-    it('<do>', inject(function(formFieldRegistry, modeling) {
-
+    it('<do>', inject(function (formFieldRegistry, modeling) {
       // when
       modeling.claimId(formField, formField.id);
 
@@ -599,9 +469,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
     }));
 
-
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<undo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.claimId(formField, formField.id);
 
@@ -612,9 +480,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
     }));
 
-
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<redo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.claimId(formField, formField.id);
 
@@ -626,25 +492,22 @@ describe('features/modeling', function() {
       // then
       expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
     }));
-
   });
 
-
-  describe('#unclaimId', function() {
-
+  describe('#unclaimId', function () {
     const formField = {
       id: 'foo',
       key: 'foo',
-      type: 'textfield'
+      type: 'textfield',
     };
 
-    this.beforeEach(inject(function(modeling) {
-      modeling.claimId(formField, formField.id);
-    }));
+    this.beforeEach(
+      inject(function (modeling) {
+        modeling.claimId(formField, formField.id);
+      }),
+    );
 
-
-    it('<do>', inject(function(formFieldRegistry, modeling) {
-
+    it('<do>', inject(function (formFieldRegistry, modeling) {
       // when
       modeling.unclaimId(formField, formField.id);
 
@@ -652,9 +515,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
     }));
 
-
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<undo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.unclaimId(formField, formField.id);
 
@@ -665,9 +526,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._ids.assigned(formField.id)).to.equal(formField);
     }));
 
-
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<redo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.unclaimId(formField, formField.id);
 
@@ -679,31 +538,26 @@ describe('features/modeling', function() {
       // then
       expect(formFieldRegistry._ids.assigned(formField.id)).to.be.false;
     }));
-
   });
 
-
-  describe('#claimKey', function() {
-
+  describe('#claimKey', function () {
     const formField = {
       id: 'foo',
       key: 'foo',
-      type: 'textfield'
+      type: 'textfield',
     };
 
-
-    it('<do>', inject(function(formFieldRegistry, modeling) {
-
+    it('<do>', inject(function (formFieldRegistry, modeling) {
       // when
       modeling.claimKey(formField, formField.key);
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(
+        formField,
+      );
     }));
 
-
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<undo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.claimKey(formField, formField.key);
 
@@ -714,9 +568,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
     }));
 
-
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<redo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.claimKey(formField, formField.key);
 
@@ -726,27 +578,26 @@ describe('features/modeling', function() {
       commandStack.redo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(
+        formField,
+      );
     }));
-
   });
 
-
-  describe('#unclaimId', function() {
-
+  describe('#unclaimId', function () {
     const formField = {
       id: 'foo',
       key: 'foo',
-      type: 'textfield'
+      type: 'textfield',
     };
 
-    this.beforeEach(inject(function(modeling) {
-      modeling.claimId(formField, formField.id);
-    }));
+    this.beforeEach(
+      inject(function (modeling) {
+        modeling.claimId(formField, formField.id);
+      }),
+    );
 
-
-    it('<do>', inject(function(formFieldRegistry, modeling) {
-
+    it('<do>', inject(function (formFieldRegistry, modeling) {
       // when
       modeling.unclaimKey(formField, formField.key);
 
@@ -754,9 +605,7 @@ describe('features/modeling', function() {
       expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
     }));
 
-
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<undo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.unclaimKey(formField, formField.key);
 
@@ -764,12 +613,12 @@ describe('features/modeling', function() {
       commandStack.undo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(
+        formField,
+      );
     }));
 
-
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
-
+    it('<redo>', inject(function (commandStack, formFieldRegistry, modeling) {
       // given
       modeling.unclaimKey(formField, formField.key);
 
@@ -781,7 +630,5 @@ describe('features/modeling', function() {
       // then
       expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
     }));
-
   });
-
 });

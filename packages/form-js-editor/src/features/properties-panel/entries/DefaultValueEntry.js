@@ -6,30 +6,27 @@ import {
   NumberFieldEntry,
   SelectEntry,
   TextFieldEntry,
-  TextAreaEntry
+  TextAreaEntry,
 } from '@bpmn-io/properties-panel';
 
-import { get } from 'min-dash';
+import {get} from 'min-dash';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { INPUTS, VALUES_INPUTS } from '../Util';
-
+import {INPUTS, VALUES_INPUTS} from '../Util';
 
 export default function DefaultOptionEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
-  const {
-    type
-  } = field;
+  const {type} = field;
 
   const entries = [];
 
   // Only make default values available when they are statically defined
-  if (!INPUTS.includes(type) || VALUES_INPUTS.includes(type) && !field.values) {
+  if (
+    !INPUTS.includes(type) ||
+    (VALUES_INPUTS.includes(type) && !field.values)
+  ) {
     return entries;
   }
 
@@ -37,14 +34,14 @@ export default function DefaultOptionEntry(props) {
     editField,
     field,
     id: 'defaultValue',
-    label: 'Default value'
+    label: 'Default value',
   };
 
   if (type === 'checkbox') {
     entries.push({
       ...defaultOptions,
       component: DefaultValueCheckbox,
-      isEdited: isSelectEntryEdited
+      isEdited: isSelectEntryEdited,
     });
   }
 
@@ -52,7 +49,7 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueNumber,
-      isEdited: isNumberFieldEntryEdited
+      isEdited: isNumberFieldEntryEdited,
     });
   }
 
@@ -60,7 +57,7 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueSingleSelect,
-      isEdited: isSelectEntryEdited
+      isEdited: isSelectEntryEdited,
     });
   }
 
@@ -70,7 +67,7 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueTextfield,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isTextFieldEntryEdited,
     });
   }
 
@@ -78,7 +75,7 @@ export default function DefaultOptionEntry(props) {
     entries.push({
       ...defaultOptions,
       component: DefaultValueTextarea,
-      isEdited: isTextAreaEntryEdited
+      isEdited: isTextAreaEntryEdited,
     });
   }
 
@@ -86,29 +83,22 @@ export default function DefaultOptionEntry(props) {
 }
 
 function DefaultValueCheckbox(props) {
-  const {
-    editField,
-    field,
-    id,
-    label
-  } = props;
+  const {editField, field, id, label} = props;
 
-  const {
-    defaultValue
-  } = field;
+  const {defaultValue} = field;
 
-  const path = [ 'defaultValue' ];
+  const path = ['defaultValue'];
 
   const getOptions = () => {
     return [
       {
         label: 'Checked',
-        value: 'true'
+        value: 'true',
       },
       {
         label: 'Not checked',
-        value: 'false'
-      }
+        value: 'false',
+      },
     ];
   };
 
@@ -126,21 +116,16 @@ function DefaultValueCheckbox(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }
 
 function DefaultValueNumber(props) {
-  const {
-    editField,
-    field,
-    id,
-    label
-  } = props;
+  const {editField, field, id, label} = props;
 
   const debounce = useService('debounce');
 
-  const path = [ 'defaultValue' ];
+  const path = ['defaultValue'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -156,31 +141,23 @@ function DefaultValueNumber(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }
 
 function DefaultValueSingleSelect(props) {
-  const {
-    editField,
-    field,
-    id,
-    label
-  } = props;
+  const {editField, field, id, label} = props;
 
-  const {
-    defaultValue,
-    values = []
-  } = field;
+  const {defaultValue, values = []} = field;
 
-  const path = [ 'defaultValue' ];
+  const path = ['defaultValue'];
 
   const getOptions = () => {
     return [
       {
-        label: '<none>'
+        label: '<none>',
       },
-      ...values
+      ...values,
     ];
   };
 
@@ -198,21 +175,16 @@ function DefaultValueSingleSelect(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }
 
 function DefaultValueTextfield(props) {
-  const {
-    editField,
-    field,
-    id,
-    label
-  } = props;
+  const {editField, field, id, label} = props;
 
   const debounce = useService('debounce');
 
-  const path = [ 'defaultValue' ];
+  const path = ['defaultValue'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -228,21 +200,16 @@ function DefaultValueTextfield(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }
 
 function DefaultValueTextarea(props) {
-  const {
-    editField,
-    field,
-    id,
-    label
-  } = props;
+  const {editField, field, id, label} = props;
 
   const debounce = useService('debounce');
 
-  const path = [ 'defaultValue' ];
+  const path = ['defaultValue'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -258,7 +225,7 @@ function DefaultValueTextarea(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 }
 

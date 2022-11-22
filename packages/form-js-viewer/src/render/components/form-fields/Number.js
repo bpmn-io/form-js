@@ -1,69 +1,55 @@
-import { useContext } from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
-import { FormContext } from '../../context';
+import {FormContext} from '../../context';
 
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
-import {
-  formFieldClasses,
-  prefixId
-} from '../Util';
+import {formFieldClasses, prefixId} from '../Util';
 
 const type = 'number';
 
-
 export default function Number(props) {
-  const {
-    disabled,
-    errors = [],
-    field,
-    value
-  } = props;
+  const {disabled, errors = [], field, value} = props;
 
-  const {
-    description,
-    id,
-    label,
-    validate = {}
-  } = field;
+  const {description, id, label, validate = {}} = field;
 
-  const { required } = validate;
+  const {required} = validate;
 
-  const onChange = ({ target }) => {
+  const onChange = ({target}) => {
     props.onChange({
       field,
-      value: Number.sanitizeValue({ value: target.value })
+      value: Number.sanitizeValue({value: target.value}),
     });
   };
 
-  const { formId } = useContext(FormContext);
+  const {formId} = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
-    <Label
-      id={ prefixId(id, formId) }
-      label={ label }
-      required={ required } />
-    <input
-      class="fjs-input"
-      disabled={ disabled }
-      id={ prefixId(id, formId) }
-      onInput={ onChange }
-      type="number"
-      value={ value || '' } />
-    <Description description={ description } />
-    <Errors errors={ errors } />
-  </div>;
+  return (
+    <div class={formFieldClasses(type, errors)}>
+      <Label id={prefixId(id, formId)} label={label} required={required} />
+      <input
+        class="fjs-input"
+        disabled={disabled}
+        id={prefixId(id, formId)}
+        onInput={onChange}
+        type="number"
+        value={value || ''}
+      />
+      <Description description={description} />
+      <Errors errors={errors} />
+    </div>
+  );
 }
 
-Number.create = function(options = {}) {
+Number.create = function (options = {}) {
   return {
-    ...options
+    ...options,
   };
 };
 
-Number.sanitizeValue = ({ value }) => {
+Number.sanitizeValue = ({value}) => {
   const parsedValue = parseInt(value, 10);
   return isNaN(parsedValue) ? null : parsedValue;
 };

@@ -1,18 +1,23 @@
-import { formFieldClasses } from '../../../src/render/components/Util';
+import {formFieldClasses} from '../../../src/render/components/Util';
 
 const type = 'button';
 
 function CustomButtonRenderer(props) {
-  const {
-    disabled,
-    field
-  } = props;
+  const {disabled, field} = props;
 
-  const { action = 'submit' } = field;
+  const {action = 'submit'} = field;
 
-  return <div class={ formFieldClasses(type) }>
-    <button class="fjs-button custom-button" type={ action } disabled={ disabled }>{ field.label }</button>
-  </div>;
+  return (
+    <div class={formFieldClasses(type)}>
+      <button
+        class="fjs-button custom-button"
+        type={action}
+        disabled={disabled}
+      >
+        {field.label}
+      </button>
+    </div>
+  );
 }
 
 CustomButtonRenderer.label = 'Custom Button';
@@ -26,6 +31,6 @@ class RegisterCustomButtonRenderer {
 }
 
 export default {
-  __init__: [ 'customButtonRenderer' ],
-  customButtonRenderer: [ 'type', RegisterCustomButtonRenderer ]
+  __init__: ['customButtonRenderer'],
+  customButtonRenderer: ['type', RegisterCustomButtonRenderer],
 };

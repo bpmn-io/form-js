@@ -1,15 +1,8 @@
-import { FormContext } from '../../../../../../src/render/context';
+import {FormContext} from '../../../../../../src/render/context';
 
 export function WithFormContext(Component, options = {}, formId = 'foo') {
-
   function getService(type, strict) {
-
-    const {
-      data,
-      errors,
-      properties,
-      initialData
-    } = options;
+    const {data, errors, properties, initialData} = options;
 
     if (type === 'form') {
       return {
@@ -18,21 +11,19 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
             data,
             errors,
             properties,
-            initialData
+            initialData,
           };
-        }
+        },
       };
     }
   }
 
   const formContext = {
     getService,
-    formId
+    formId,
   };
 
   return (
-    <FormContext.Provider value={ formContext }>
-      { Component }
-    </FormContext.Provider>
+    <FormContext.Provider value={formContext}>{Component}</FormContext.Provider>
   );
 }

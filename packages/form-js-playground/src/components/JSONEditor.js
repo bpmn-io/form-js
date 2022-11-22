@@ -1,19 +1,15 @@
 import mitt from 'mitt';
 
-import { basicSetup } from 'codemirror';
-import { EditorView } from '@codemirror/view';
-import { EditorState, Compartment } from '@codemirror/state';
-import { lintGutter, linter } from '@codemirror/lint';
-import { json, jsonParseLinter } from '@codemirror/lang-json';
-
+import {basicSetup} from 'codemirror';
+import {EditorView} from '@codemirror/view';
+import {EditorState, Compartment} from '@codemirror/state';
+import {lintGutter, linter} from '@codemirror/lint';
+import {json, jsonParseLinter} from '@codemirror/lang-json';
 
 export function JSONEditor(options = {}) {
-
   const emitter = mitt();
 
-  const {
-    readonly = false
-  } = options;
+  const {readonly = false} = options;
 
   let language = new Compartment().of(json());
   let tabSize = new Compartment().of(EditorState.tabSize.of(2));
@@ -29,17 +25,16 @@ export function JSONEditor(options = {}) {
         tabSize,
         linterExtension,
         lintGutter(),
-        ...extensions
-      ]
+        ...extensions,
+      ],
     });
   }
 
   function createView(readonly) {
-
-    const updateListener = EditorView.updateListener.of(update => {
+    const updateListener = EditorView.updateListener.of((update) => {
       if (update.docChanged) {
         emitter.emit('changed', {
-          value: update.view.state.doc.toString()
+          value: update.view.state.doc.toString(),
         });
       }
     });
@@ -47,11 +42,11 @@ export function JSONEditor(options = {}) {
     const editable = EditorView.editable.of(!readonly);
 
     const view = new EditorView({
-      state: createState('', [ updateListener, editable ])
+      state: createState('', [updateListener, editable]),
     });
 
-    view.setValue = function(value) {
-      this.setState(createState(value, [ updateListener, editable ]));
+    view.setValue = function (value) {
+      this.setState(createState(value, [updateListener, editable]));
     };
 
     return view;
@@ -59,11 +54,11 @@ export function JSONEditor(options = {}) {
 
   const view = createView(readonly);
 
-  this.setValue = function(value) {
+  this.setValue = function (value) {
     view.setValue(value);
   };
 
-  this.getValue = function() {
+  this.getValue = function () {
     return view.state.doc.toString();
   };
 
@@ -71,11 +66,11 @@ export function JSONEditor(options = {}) {
   this.off = emitter.off;
   this.emit = emitter.emit;
 
-  this.attachTo = function(container) {
+  this.attachTo = function (container) {
     container.appendChild(view.dom);
   };
 
-  this.destroy = function() {
+  this.destroy = function () {
     if (view.dom.parentNode) {
       view.dom.parentNode.removeChild(view.dom);
     }

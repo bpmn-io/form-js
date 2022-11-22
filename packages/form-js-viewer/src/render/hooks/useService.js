@@ -1,14 +1,9 @@
-import {
-  useContext
-} from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
-import { FormContext } from '../context';
+import {FormContext} from '../context';
 
-
-export default function(type, strict) {
-  const {
-    getService
-  } = useContext(FormContext);
+export default function (type, strict) {
+  const {getService} = useContext(FormContext);
 
   return getService(type, strict);
 }

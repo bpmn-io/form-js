@@ -1,5 +1,4 @@
 export default class FieldFactory {
-
   /**
    * @constructor
    *
@@ -12,34 +11,32 @@ export default class FieldFactory {
   }
 
   create(attrs, applyDefaults = true) {
-
-    const {
-      id,
-      key,
-      type
-    } = attrs;
+    const {id, key, type} = attrs;
 
     const fieldDefinition = this._formFields.get(type);
 
     if (!fieldDefinition) {
-      throw new Error(`form field of type <${ type }> not supported`);
+      throw new Error(`form field of type <${type}> not supported`);
     }
 
     if (id && this._formFieldRegistry._ids.assigned(id)) {
-      throw new Error(`ID <${ id }> already assigned`);
+      throw new Error(`ID <${id}> already assigned`);
     }
 
     if (key && this._formFieldRegistry._keys.assigned(key)) {
-      throw new Error(`key <${ key }> already assigned`);
+      throw new Error(`key <${key}> already assigned`);
     }
 
-    const labelAttrs = applyDefaults && fieldDefinition.label ? {
-      label: fieldDefinition.label
-    } : {};
+    const labelAttrs =
+      applyDefaults && fieldDefinition.label
+        ? {
+            label: fieldDefinition.label,
+          }
+        : {};
 
     const field = fieldDefinition.create({
       ...labelAttrs,
-      ...attrs
+      ...attrs,
     });
 
     this._ensureId(field);
@@ -52,7 +49,6 @@ export default class FieldFactory {
   }
 
   _ensureId(field) {
-
     if (field.id) {
       this._formFieldRegistry._ids.claim(field.id, field);
 
@@ -69,7 +65,6 @@ export default class FieldFactory {
   }
 
   _ensureKey(field, applyDefaults) {
-
     if (field.key) {
       this._formFieldRegistry._keys.claim(field.key, field);
 
@@ -79,13 +74,12 @@ export default class FieldFactory {
     if (applyDefaults) {
       let prefix = 'field';
 
-      field.key = this._formFieldRegistry._keys.nextPrefixed(`${prefix}_`, field);
+      field.key = this._formFieldRegistry._keys.nextPrefixed(
+        `${prefix}_`,
+        field,
+      );
     }
   }
 }
 
-
-FieldFactory.$inject = [
-  'formFieldRegistry',
-  'formFields'
-];
+FieldFactory.$inject = ['formFieldRegistry', 'formFields'];

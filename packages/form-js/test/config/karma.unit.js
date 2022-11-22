@@ -11,32 +11,22 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
-module.exports = function(karma) {
-
+module.exports = function (karma) {
   const config = {
-
     basePath: '../../',
 
-    frameworks: [
-      'webpack',
-      'mocha',
-      'sinon-chai'
-    ],
+    frameworks: ['webpack', 'mocha', 'sinon-chai'],
 
-    files: [
-      suite
-    ],
+    files: [suite],
 
     preprocessors: {
-      [ suite ]: [ 'webpack', 'env' ]
+      [suite]: ['webpack', 'env'],
     },
 
-    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+    reporters: ['progress'].concat(coverage ? 'coverage' : []),
 
     coverageReporter: {
-      reporters: [
-        { type: 'lcov', subdir: '.' }
-      ]
+      reporters: [{type: 'lcov', subdir: '.'}],
     },
 
     browsers,
@@ -51,45 +41,47 @@ module.exports = function(karma) {
           {
             test: /\.js$/,
             enforce: 'pre',
-            use: [ 'source-map-loader' ]
+            use: ['source-map-loader'],
           },
           {
             test: /\.css$/,
-            use: 'raw-loader'
-          }
+            use: 'raw-loader',
+          },
         ].concat(
-          coverage ? {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  [ 'istanbul', {
-                    include: [
-                      'src/**'
-                    ]
-                  } ]
-                ],
+          coverage
+            ? {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: 'babel-loader',
+                  options: {
+                    plugins: [
+                      [
+                        'istanbul',
+                        {
+                          include: ['src/**'],
+                        },
+                      ],
+                    ],
+                  },
+                },
               }
-            }
-          } : []
-        )
+            : [],
+        ),
       },
       resolve: {
-        mainFields: [
-          'browser',
-          'module',
-          'main'
-        ]
+        mainFields: ['browser', 'module', 'main'],
       },
-      devtool: 'eval-source-map'
-    }
+      devtool: 'eval-source-map',
+    },
   };
 
   if (singleStart) {
     config.browsers = [].concat(config.browsers, 'Debug');
-    config.envPreprocessor = [].concat(config.envPreprocessor || [], 'SINGLE_START');
+    config.envPreprocessor = [].concat(
+      config.envPreprocessor || [],
+      'SINGLE_START',
+    );
   }
 
   karma.set(config);

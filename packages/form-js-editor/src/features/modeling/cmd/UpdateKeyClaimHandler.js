@@ -1,5 +1,4 @@
 export default class UpdateKeyClaimHandler {
-
   /**
    * @constructor
    * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
@@ -9,11 +8,7 @@ export default class UpdateKeyClaimHandler {
   }
 
   execute(context) {
-    const {
-      claiming,
-      formField,
-      key
-    } = context;
+    const {claiming, formField, key} = context;
 
     if (claiming) {
       this._formFieldRegistry._keys.claim(key, formField);
@@ -23,11 +18,7 @@ export default class UpdateKeyClaimHandler {
   }
 
   revert(context) {
-    const {
-      claiming,
-      formField,
-      key
-    } = context;
+    const {claiming, formField, key} = context;
 
     if (claiming) {
       this._formFieldRegistry._keys.unclaim(key);
@@ -37,4 +28,4 @@ export default class UpdateKeyClaimHandler {
   }
 }
 
-UpdateKeyClaimHandler.$inject = [ 'formFieldRegistry' ];
+UpdateKeyClaimHandler.$inject = ['formFieldRegistry'];

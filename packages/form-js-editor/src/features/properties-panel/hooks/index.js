@@ -1,1 +1,1 @@
-export { default as useService } from './usePropertiesPanelService';
+export {default as useService} from './usePropertiesPanelService';

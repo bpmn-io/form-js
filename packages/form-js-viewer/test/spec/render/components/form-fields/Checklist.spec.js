@@ -1,74 +1,28 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {fireEvent, render} from '@testing-library/preact/pure';
 
 import Checklist from '../../../../../src/render/components/form-fields/Checklist';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import {WithFormContext} from './helper';
 
 const spy = sinon.spy;
 
 let container;
 
-
-describe('Checklist', function() {
-
-  beforeEach(function() {
+describe('Checklist', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createChecklist({
-      value: [ 'approver' ]
-    });
-
-    // then
-    const formField = container.querySelector('.fjs-form-field');
-
-    expect(formField).to.exist;
-    expect(formField.classList.contains('fjs-form-field-checklist')).to.be.true;
-
-    const inputs = container.querySelectorAll('input[type="checkbox"]');
-
-    expect(inputs).to.have.length(3);
-    expect(inputs[ 0 ].id).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(inputs[ 1 ].id).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(inputs[ 2 ].id).to.equal('fjs-form-foo-Checklist_1-2');
-
-    expect(inputs[ 0 ].checked).to.be.true;
-    expect(inputs[ 1 ].checked).to.be.false;
-    expect(inputs[ 2 ].checked).to.be.false;
-
-    const labels = container.querySelectorAll('label');
-
-    expect(labels).to.have.length(4);
-    expect(labels[ 0 ].textContent).to.equal('Email data to');
-    expect(labels[ 1 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(labels[ 2 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(labels[ 3 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
-  });
-
-
-  it('should render dynamically', function() {
-
-    // when
-    const { container } = createChecklist({
-      value: [ 'dynamicValue1' ],
-      field: dynamicField,
-      initialData: dynamicFieldInitialData
+    const {container} = createChecklist({
+      value: ['approver'],
     });
 
     // then
@@ -97,45 +51,73 @@ describe('Checklist', function() {
     expect(labels[3].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
   });
 
-
-  it('should render default value (undefined)', function() {
-
+  it('should render dynamically', function () {
     // when
-    const { container } = createChecklist();
+    const {container} = createChecklist({
+      value: ['dynamicValue1'],
+      field: dynamicField,
+      initialData: dynamicFieldInitialData,
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.classList.contains('fjs-form-field-checklist')).to.be.true;
+
+    const inputs = container.querySelectorAll('input[type="checkbox"]');
+
+    expect(inputs).to.have.length(3);
+    expect(inputs[0].id).to.equal('fjs-form-foo-Checklist_1-0');
+    expect(inputs[1].id).to.equal('fjs-form-foo-Checklist_1-1');
+    expect(inputs[2].id).to.equal('fjs-form-foo-Checklist_1-2');
+
+    expect(inputs[0].checked).to.be.true;
+    expect(inputs[1].checked).to.be.false;
+    expect(inputs[2].checked).to.be.false;
+
+    const labels = container.querySelectorAll('label');
+
+    expect(labels).to.have.length(4);
+    expect(labels[0].textContent).to.equal('Email data to');
+    expect(labels[1].htmlFor).to.equal('fjs-form-foo-Checklist_1-0');
+    expect(labels[2].htmlFor).to.equal('fjs-form-foo-Checklist_1-1');
+    expect(labels[3].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
+  });
+
+  it('should render default value (undefined)', function () {
+    // when
+    const {container} = createChecklist();
 
     // then
     const inputs = container.querySelectorAll('input[type="checkbox"]');
 
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       expect(input.checked).to.be.false;
     });
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
-    const { container } = createChecklist({
-      disabled: true
+    const {container} = createChecklist({
+      disabled: true,
     });
 
     // then
     const inputs = container.querySelectorAll('input[type="checkbox"]');
 
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       expect(input.disabled).to.be.true;
     });
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
-    const { container } = createChecklist({
+    const {container} = createChecklist({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -145,69 +127,60 @@ describe('Checklist', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  describe('handle change (static)', function() {
-
-    it('should handle change', function() {
-
+  describe('handle change (static)', function () {
+    it('should handle change', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createChecklist({
+      const {container} = createChecklist({
         onChange: onChangeSpy,
-        value: [ 'approver' ]
+        value: ['approver'],
       });
 
       // when
-      const input = container.querySelectorAll('input[type="checkbox"]')[ 1 ];
+      const input = container.querySelectorAll('input[type="checkbox"]')[1];
 
       fireEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: [ 'approver', 'manager' ]
+        value: ['approver', 'manager'],
       });
     });
 
-
-    it('should handle toggle', function() {
-
+    it('should handle toggle', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createChecklist({
+      const {container} = createChecklist({
         onChange: onChangeSpy,
-        value: [ 'approver' ]
+        value: ['approver'],
       });
 
       // when
-      const input = container.querySelectorAll('input[type="checkbox"]')[ 0 ];
+      const input = container.querySelectorAll('input[type="checkbox"]')[0];
 
-      fireEvent.click(input, { target: { checked: false } });
+      fireEvent.click(input, {target: {checked: false}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: []
+        value: [],
       });
     });
-
   });
 
-
-  describe('handle change (dynamic)', function() {
-
-    it('should handle change', function() {
-
+  describe('handle change (dynamic)', function () {
+    it('should handle change', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createChecklist({
+      const {container} = createChecklist({
         onChange: onChangeSpy,
-        value: [ 'dynamicValue1' ],
+        value: ['dynamicValue1'],
         field: dynamicField,
-        initialData: dynamicFieldInitialData
+        initialData: dynamicFieldInitialData,
       });
 
       // when
@@ -218,40 +191,35 @@ describe('Checklist', function() {
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: dynamicField,
-        value: [ 'dynamicValue1', 'dynamicValue2' ]
+        value: ['dynamicValue1', 'dynamicValue2'],
       });
     });
 
-
-    it('should handle toggle', function() {
-
+    it('should handle toggle', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createChecklist({
+      const {container} = createChecklist({
         onChange: onChangeSpy,
-        value: [ 'dynamicValue1' ],
+        value: ['dynamicValue1'],
         field: dynamicField,
-        initialData: dynamicFieldInitialData
+        initialData: dynamicFieldInitialData,
       });
 
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[0];
 
-      fireEvent.click(input, { target: { checked: false } });
+      fireEvent.click(input, {target: {checked: false}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: dynamicField,
-        value: []
+        value: [],
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     expect(Checklist.type).to.eql('checklist');
     expect(Checklist.label).to.eql('Checklist');
@@ -265,40 +233,35 @@ describe('Checklist', function() {
       values: [
         {
           label: 'Value',
-          value: 'value'
-        }
-      ]
+          value: 'value',
+        },
+      ],
     });
 
     // but when
     const customField = Checklist.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createChecklist({
-        value: [ 'approver' ]
+      const {container} = createChecklist({
+        value: ['approver'],
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
@@ -312,17 +275,17 @@ const defaultField = {
   values: [
     {
       label: 'Approver',
-      value: 'approver'
+      value: 'approver',
     },
     {
       label: 'Manager',
-      value: 'manager'
+      value: 'manager',
     },
     {
       label: 'Regional Manager',
-      value: 'regional-manager'
-    }
-  ]
+      value: 'regional-manager',
+    },
+  ],
 };
 
 const dynamicField = {
@@ -330,24 +293,24 @@ const dynamicField = {
   key: 'mailto',
   label: 'Email data to',
   type: 'checklist',
-  valuesKey: 'dynamicValues'
+  valuesKey: 'dynamicValues',
 };
 
 const dynamicFieldInitialData = {
   dynamicValues: [
     {
       label: 'Dynamic Value 1',
-      value: 'dynamicValue1'
+      value: 'dynamicValue1',
     },
     {
       label: 'Dynamic Value 2',
-      value: 'dynamicValue2'
+      value: 'dynamicValue2',
     },
     {
       label: 'Dynamic Value 3',
-      value: 'dynamicValue3'
-    }
-  ]
+      value: 'dynamicValue3',
+    },
+  ],
 };
 
 function createChecklist(options = {}) {
@@ -356,20 +319,24 @@ function createChecklist(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [defaultField.key],
+    value,
   } = options;
 
-  return render(WithFormContext(
-    <Checklist
-      disabled={ disabled }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      path={ path }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  return render(
+    WithFormContext(
+      <Checklist
+        disabled={disabled}
+        errors={errors}
+        field={field}
+        onChange={onChange}
+        path={path}
+        value={value}
+      />,
+      options,
+    ),
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
+  );
 }

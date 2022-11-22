@@ -1,38 +1,28 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import {fireEvent, render} from '@testing-library/preact/pure';
 
 import Textfield from '../../../../../src/render/components/form-fields/Textfield';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import {createFormContainer, expectNoViolations} from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import {WithFormContext} from './helper';
 
 const spy = sinon.spy;
 
 let container;
 
-
-describe('Textfield', function() {
-
-  beforeEach(function() {
+describe('Textfield', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
-    const { container } = createTextfield({
-      value: 'John Doe Company'
+    const {container} = createTextfield({
+      value: 'John Doe Company',
     });
 
     // then
@@ -54,11 +44,9 @@ describe('Textfield', function() {
     expect(label.htmlFor).to.equal('fjs-form-foo-Textfield_1');
   });
 
-
-  it('should render default value (\'\')', function() {
-
+  it("should render default value ('')", function () {
     // when
-    const { container } = createTextfield();
+    const {container} = createTextfield();
 
     // then
     const input = container.querySelector('input[type="text"]');
@@ -67,24 +55,25 @@ describe('Textfield', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render default value on value removed', function() {
-
+  it('should render default value on value removed', function () {
     // given
     const props = {
       disabled: false,
       errors: [],
       field: defaultField,
       onChange: () => {},
-      path: [ defaultField.key ]
+      path: [defaultField.key],
     };
 
-    const options = { container: container.querySelector('.fjs-form') };
+    const options = {container: container.querySelector('.fjs-form')};
 
-    const { rerender } = render(<Textfield { ...props } value={ 'John Doe Company' } />, options);
+    const {rerender} = render(
+      <Textfield {...props} value={'John Doe Company'} />,
+      options,
+    );
 
     // when
-    rerender(<Textfield { ...props } value={ undefined } />, options);
+    rerender(<Textfield {...props} value={undefined} />, options);
 
     // then
     const input = container.querySelector('input[type="text"]');
@@ -93,12 +82,10 @@ describe('Textfield', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
-    const { container } = createTextfield({
-      disabled: true
+    const {container} = createTextfield({
+      disabled: true,
     });
 
     // then
@@ -108,15 +95,13 @@ describe('Textfield', function() {
     expect(input.disabled).to.be.true;
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
-    const { container } = createTextfield({
+    const {container} = createTextfield({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -126,59 +111,51 @@ describe('Textfield', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  describe('change handling', function() {
-
-    it('should change text', function() {
-
+  describe('change handling', function () {
+    it('should change text', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const {container} = createTextfield({
         onChange: onChangeSpy,
-        value: 'John Doe Company'
+        value: 'John Doe Company',
       });
 
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      fireEvent.input(input, {target: {value: 'Jane Doe Company'}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: 'Jane Doe Company'
+        value: 'Jane Doe Company',
       });
     });
 
-
-    it('should clear', function() {
-
+    it('should clear', function () {
       // given
       const onChangeSpy = spy();
 
-      const { container } = createTextfield({
+      const {container} = createTextfield({
         onChange: onChangeSpy,
-        value: 'John Doe Company'
+        value: 'John Doe Company',
       });
 
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '' } });
+      fireEvent.input(input, {target: {value: ''}});
 
       // then
       expect(onChangeSpy).to.have.been.calledWith({
         field: defaultField,
-        value: ''
+        value: '',
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     expect(Textfield.type).to.eql('textfield');
     expect(Textfield.label).to.eql('Text field');
@@ -192,33 +169,28 @@ describe('Textfield', function() {
 
     // but when
     const customField = Textfield.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(5000);
 
-      const { container } = createTextfield({
-        value: 'John Doe Company'
+      const {container} = createTextfield({
+        value: 'John Doe Company',
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
@@ -228,7 +200,7 @@ const defaultField = {
   key: 'creditor',
   label: 'Creditor',
   description: 'textfield',
-  type: 'textfield'
+  type: 'textfield',
 };
 
 function createTextfield(options = {}) {
@@ -237,19 +209,23 @@ function createTextfield(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [defaultField.key],
+    value,
   } = options;
 
-  return render(WithFormContext(
-    <Textfield
-      disabled={ disabled }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      path={ path }
-      value={ value } />
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  return render(
+    WithFormContext(
+      <Textfield
+        disabled={disabled}
+        errors={errors}
+        field={field}
+        onChange={onChange}
+        path={path}
+        value={value}
+      />,
+    ),
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
+  );
 }

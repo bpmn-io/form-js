@@ -1,24 +1,10 @@
-import {
-  createFormEditor,
-  FormEditor,
-  schemaVersion
-} from '../../src';
+import {createFormEditor, FormEditor, schemaVersion} from '../../src';
 
-import {
-  act,
-  fireEvent,
-  screen,
-  waitFor
-} from '@testing-library/preact/pure';
+import {act, fireEvent, screen, waitFor} from '@testing-library/preact/pure';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import {query as domQuery} from 'min-dom';
 
-import {
-  insertStyles,
-  isSingleStart
-} from '../TestHelper';
+import {insertStyles, isSingleStart} from '../TestHelper';
 
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
@@ -31,13 +17,10 @@ const spy = sinon.spy;
 
 const singleStart = isSingleStart('basic');
 
+describe('FormEditor', function () {
+  let container, formEditor;
 
-describe('FormEditor', function() {
-
-  let container,
-      formEditor;
-
-  beforeEach(function() {
+  beforeEach(function () {
     container = document.createElement('div');
 
     container.style.height = '100%';
@@ -45,24 +28,24 @@ describe('FormEditor', function() {
     document.body.appendChild(container);
   });
 
-  !singleStart && afterEach(function() {
-    document.body.removeChild(container);
+  !singleStart &&
+    afterEach(function () {
+      document.body.removeChild(container);
 
-    formEditor && formEditor.destroy();
-  });
+      formEditor && formEditor.destroy();
+    });
 
-  (singleStart ? it.only : it)('should render', async function() {
-
+  (singleStart ? it.only : it)('should render', async function () {
     // when
     formEditor = await createFormEditor({
       container,
       schema,
       keyboard: {
-        bindTo: document
-      }
+        bindTo: document,
+      },
     });
 
-    formEditor.on('changed', event => {
+    formEditor.on('changed', (event) => {
       console.log('Form Editor <changed>', event, formEditor.getSchema());
     });
 
@@ -70,20 +53,18 @@ describe('FormEditor', function() {
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(14);
   });
 
-
-  it('should render compact', async function() {
-
+  it('should render compact', async function () {
     // when
     formEditor = await createFormEditor({
       container,
       schema,
       debounce: true,
       renderer: {
-        compact: true
+        compact: true,
       },
       keyboard: {
-        bindTo: document
-      }
+        bindTo: document,
+      },
     });
 
     // then
@@ -93,14 +74,11 @@ describe('FormEditor', function() {
     expect(editorContainer.matches('.fjs-editor-compact')).to.be.true;
   });
 
-
-  describe('#importSchema', function() {
-
-    it('should import empty schema', async function() {
-
+  describe('#importSchema', function () {
+    it('should import empty schema', async function () {
       // given
       const schema = {
-        type: 'default'
+        type: 'default',
       };
 
       // when
@@ -112,9 +90,7 @@ describe('FormEditor', function() {
       expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(1);
     });
 
-
-    it('should import without errors', async function() {
-
+    it('should import without errors', async function () {
       // given
       formEditor = new FormEditor();
 
@@ -124,17 +100,15 @@ describe('FormEditor', function() {
       expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(14);
     });
 
-
-    it('should fail instantiation with import error', async function() {
-
+    it('should fail instantiation with import error', async function () {
       // given
       const schema = {
         type: 'default',
         components: [
           {
-            type: 'unknown-component'
-          }
-        ]
+            type: 'unknown-component',
+          },
+        ],
       };
 
       let error;
@@ -143,7 +117,7 @@ describe('FormEditor', function() {
       try {
         formEditor = await createFormEditor({
           container,
-          schema
+          schema,
         });
       } catch (_error) {
         error = _error;
@@ -151,12 +125,12 @@ describe('FormEditor', function() {
 
       // then
       expect(error).to.exist;
-      expect(error.message).to.eql('form field of type <unknown-component> not supported');
+      expect(error.message).to.eql(
+        'form field of type <unknown-component> not supported',
+      );
     });
 
-
-    it('should fire <*.clear> before import', async function() {
-
+    it('should fire <*.clear> before import', async function () {
       // given
       formEditor = new FormEditor();
 
@@ -170,9 +144,7 @@ describe('FormEditor', function() {
       expect(importDoneSpy).to.have.been.calledOnce;
     });
 
-
-    it('should fire <import.done> after import success', async function() {
-
+    it('should fire <import.done> after import success', async function () {
       // given
       formEditor = new FormEditor();
 
@@ -186,17 +158,15 @@ describe('FormEditor', function() {
       expect(importDoneSpy).to.have.been.calledOnce;
     });
 
-
-    it('should fire <import.done> after import error', async function() {
-
+    it('should fire <import.done> after import error', async function () {
       // given
       const schema = {
         type: 'default',
         components: [
           {
-            type: 'unknown-component'
-          }
-        ]
+            type: 'unknown-component',
+          },
+        ],
       };
 
       formEditor = new FormEditor();
@@ -208,21 +178,20 @@ describe('FormEditor', function() {
       try {
         await formEditor.importSchema(schema);
       } catch (err) {
-
         // then
         expect(importDoneSpy).to.have.been.calledOnce;
-        expect(importDoneSpy).to.have.been.calledWithMatch({ error: err, warnings: err.warnings });
+        expect(importDoneSpy).to.have.been.calledWithMatch({
+          error: err,
+          warnings: err.warnings,
+        });
       }
     });
-
   });
 
-
-  it('should attach', async function() {
-
+  it('should attach', async function () {
     // when
     formEditor = await createFormEditor({
-      schema
+      schema,
     });
 
     // assume
@@ -235,13 +204,11 @@ describe('FormEditor', function() {
     expect(formEditor._container.parentNode).to.exist;
   });
 
-
-  it('should detach', async function() {
-
+  it('should detach', async function () {
     // when
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     // assume
@@ -254,13 +221,11 @@ describe('FormEditor', function() {
     expect(formEditor._container.parentNode).not.to.exist;
   });
 
-
-  it('#saveSchema', async function() {
-
+  it('#saveSchema', async function () {
     // given
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     // when
@@ -275,17 +240,15 @@ describe('FormEditor', function() {
     expect(exportedString).not.to.contain('"_parent"');
   });
 
-
-  it('#clear', async function() {
-
+  it('#clear', async function () {
     // given
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     const diagramClearSpy = spy(),
-          formClearSpy = spy();
+      formClearSpy = spy();
 
     formEditor.on('diagram.clear', diagramClearSpy);
     formEditor.on('form.clear', formClearSpy);
@@ -302,17 +265,15 @@ describe('FormEditor', function() {
     expect(formEditor.get('formFieldRegistry').getAll()).to.be.empty;
   });
 
-
-  it('#destroy', async function() {
-
+  it('#destroy', async function () {
     // given
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     const diagramDestroySpy = spy(),
-          formDestroySpy = spy();
+      formDestroySpy = spy();
 
     formEditor.on('diagram.destroy', diagramDestroySpy);
     formEditor.on('form.destroy', formDestroySpy);
@@ -327,13 +288,11 @@ describe('FormEditor', function() {
     expect(formDestroySpy).to.have.been.calledOnce;
   });
 
-
-  it('#on', async function() {
-
+  it('#on', async function () {
     // given
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     const fooSpy = spy();
@@ -347,13 +306,11 @@ describe('FormEditor', function() {
     expect(fooSpy).to.have.been.calledOnce;
   });
 
-
-  it('#off', async function() {
-
+  it('#off', async function () {
     // given
     formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     const fooSpy = spy();
@@ -371,11 +328,8 @@ describe('FormEditor', function() {
     expect(fooSpy).to.have.been.calledOnce;
   });
 
-
-  describe('event emitting', function() {
-
-    it('should emit <formEditor.rendered>', async function() {
-
+  describe('event emitting', function () {
+    it('should emit <formEditor.rendered>', async function () {
       // given
       const spy = sinon.spy();
 
@@ -391,18 +345,14 @@ describe('FormEditor', function() {
       // then
       expect(spy).to.have.been.called;
     });
-
   });
 
-
-  describe('export', function() {
-
-    it('should expose schema', async function() {
-
+  describe('export', function () {
+    it('should expose schema', async function () {
       // given
       formEditor = await createFormEditor({
         container,
-        schema
+        schema,
       });
 
       // when
@@ -417,19 +367,17 @@ describe('FormEditor', function() {
       expect(exportedString).not.to.contain('"_parent"');
     });
 
-
-    it('should expose custom exporter', async function() {
-
+    it('should expose custom exporter', async function () {
       // given
       const exporter = {
         name: 'Foo',
-        version: 'bar'
+        version: 'bar',
       };
 
       formEditor = await createFormEditor({
         container,
         schema,
-        exporter
+        exporter,
       });
 
       // when
@@ -439,18 +387,16 @@ describe('FormEditor', function() {
       expect(exportedSchema).to.eql(exportTagged(schema, exporter));
     });
 
-
-    it('should override custom exporter', async function() {
-
+    it('should override custom exporter', async function () {
       // given
       const oldExporter = {
         name: 'Foo',
-        version: 'bar'
+        version: 'bar',
       };
 
       const newExporter = {
         name: 'Baz',
-        version: 'qux'
+        version: 'qux',
       };
 
       const taggedSchema = exportTagged(schema, oldExporter);
@@ -458,7 +404,7 @@ describe('FormEditor', function() {
       formEditor = await createFormEditor({
         container,
         schema: taggedSchema,
-        exporter: newExporter
+        exporter: newExporter,
       });
 
       // when
@@ -469,16 +415,14 @@ describe('FormEditor', function() {
       expect(exportedSchema).to.eql(exportTagged(schema, newExporter));
     });
 
-
-    it('should generate ids', async function() {
-
+    it('should generate ids', async function () {
       // assume
       expect(schemaNoIds.id).not.to.exist;
 
       // given
       formEditor = await createFormEditor({
         container,
-        schema: schemaNoIds
+        schema: schemaNoIds,
       });
 
       // when
@@ -491,80 +435,72 @@ describe('FormEditor', function() {
         expect(component.id).to.exist;
       }
     });
-
   });
 
-
-  it('should generate unique ID for every instance', async function() {
-
+  it('should generate unique ID for every instance', async function () {
     // given
     const schema = {
       components: [
         {
           id: 'Text_1',
-          type: 'textfield'
-        }
+          type: 'textfield',
+        },
       ],
       id: 'Form_1',
-      type: 'default'
+      type: 'default',
     };
 
     // when
     const formEditor = await createFormEditor({
       container,
-      schema
+      schema,
     });
 
     // then
     expect(formEditor._id).to.exist;
   });
 
-
-  describe('palette', function() {
-
+  describe('palette', function () {
     const schema = {
       components: [
         {
           id: 'Text_1',
           text: 'Foo',
-          type: 'text'
-        }
+          type: 'text',
+        },
       ],
       id: 'Form_1',
-      type: 'default'
+      type: 'default',
     };
 
-
-    it('should provide palette module', async function() {
-
+    it('should provide palette module', async function () {
       // when
       formEditor = await createFormEditor({
         container,
-        schema
+        schema,
       });
 
       expect(formEditor.get('palette')).to.exist;
     });
 
-
-    it('should render palette per default', async function() {
-
+    it('should render palette per default', async function () {
       // given
       formEditor = await createFormEditor({
         container,
-        schema
+        schema,
       });
 
       // when
-      const paletteContainer = domQuery('.fjs-editor-palette-container', container);
+      const paletteContainer = domQuery(
+        '.fjs-editor-palette-container',
+        container,
+      );
 
       // then
       expect(paletteContainer).to.exist;
     });
 
-
-    it('should render palette on given container', async function() {
-
+    it('should render palette on given container', async function () {
       // given
       const paletteParent = document.createElement('div');
       document.body.appendChild(paletteParent);
@@ -573,12 +509,15 @@ describe('FormEditor', function() {
         container,
         schema,
         palette: {
-          parent: paletteParent
-        }
+          parent: paletteParent,
+        },
       });
 
       // when
-      const paletteContainer = domQuery('.fjs-palette-container', paletteParent);
+      const paletteContainer = domQuery(
+        '.fjs-palette-container',
+        paletteParent,
+      );
 
       // then
       expect(domQuery('.fjs-editor-palette-container', container)).to.not.exist;
@@ -586,42 +525,37 @@ describe('FormEditor', function() {
 
       document.body.removeChild(paletteParent);
     });
-
   });
 
-
-  describe('properties panel', function() {
-
-    it('should provide propertiesPanel module', async function() {
-
+  describe('properties panel', function () {
+    it('should provide propertiesPanel module', async function () {
       // when
       formEditor = await createFormEditor({
         container,
-        schema
+        schema,
       });
 
       expect(formEditor.get('propertiesPanel')).to.exist;
     });
 
-
-    it('should render propertiesPanel per default', async function() {
-
+    it('should render propertiesPanel per default', async function () {
       // given
       formEditor = await createFormEditor({
         container,
-        schema
+        schema,
       });
 
       // when
-      const propertiesContainer = domQuery('.fjs-editor-properties-container', container);
+      const propertiesContainer = domQuery(
+        '.fjs-editor-properties-container',
+        container,
+      );
 
       // then
       expect(propertiesContainer).to.exist;
     });
 
-
-    it('should render propertiesPanel on given container', async function() {
-
+    it('should render propertiesPanel on given container', async function () {
       // given
       const propertiesParent = document.createElement('div');
       document.body.appendChild(propertiesParent);
@@ -630,42 +564,42 @@ describe('FormEditor', function() {
         container,
         schema,
         propertiesPanel: {
-          parent: propertiesParent
-        }
+          parent: propertiesParent,
+        },
       });
 
       // when
-      const propertiesContainer = domQuery('.fjs-properties-container', propertiesParent);
+      const propertiesContainer = domQuery(
+        '.fjs-properties-container',
+        propertiesParent,
+      );
 
       // then
-      expect(domQuery('.fjs-editor-properties-container', container)).to.not.exist;
+      expect(domQuery('.fjs-editor-properties-container', container)).to.not
+        .exist;
       expect(propertiesContainer).to.exist;
 
       document.body.removeChild(propertiesParent);
     });
 
-
-    describe('selection behavior', function() {
-
+    describe('selection behavior', function () {
       const schema = {
         components: [
           {
             id: 'Text_1',
             text: 'Foo',
-            type: 'text'
-          }
+            type: 'text',
+          },
         ],
         id: 'Form_1',
-        type: 'default'
+        type: 'default',
       };
 
-
-      it('should show schema per default', async function() {
-
+      it('should show schema per default', async function () {
         // when
         formEditor = await createFormEditor({
           container,
-          schema
+          schema,
         });
 
         // assume
@@ -675,13 +609,11 @@ describe('FormEditor', function() {
         await expectSelected('Form_1');
       });
 
-
-      it('should update on selection changed', async function() {
-
+      it('should update on selection changed', async function () {
         // given
         formEditor = await createFormEditor({
           container,
-          schema
+          schema,
         });
 
         await expectSelected('Form_1');
@@ -696,31 +628,26 @@ describe('FormEditor', function() {
         // then
         expectSelected('Text_1');
       });
-
     });
 
-
-    describe('focus / blur events', function() {
-
+    describe('focus / blur events', function () {
       const schema = {
         components: [
           {
             id: 'Text_1',
             text: 'Foo',
-            type: 'text'
-          }
+            type: 'text',
+          },
         ],
         id: 'Form_1',
-        type: 'default'
+        type: 'default',
       };
 
-
-      it('should emit event on properties panel focus', async function() {
-
+      it('should emit event on properties panel focus', async function () {
         // given
         formEditor = await createFormEditor({
           schema,
-          container
+          container,
         });
 
         const focusinSpy = sinon.spy();
@@ -748,13 +675,11 @@ describe('FormEditor', function() {
         expect(focusinSpy).to.have.been.called;
       });
 
-
-      it('should emit event on properties panel blur', async function() {
-
+      it('should emit event on properties panel blur', async function () {
         // given
         formEditor = await createFormEditor({
           schema,
-          container
+          container,
         });
 
         const focusoutSpy = sinon.spy();
@@ -783,24 +708,19 @@ describe('FormEditor', function() {
         // then
         expect(focusoutSpy).to.have.been.called;
       });
-
     });
-
   });
 
-
-  describe('drag & drop', function() {
-
-    it('should enable drag and drop on mount', async function() {
-
+  describe('drag & drop', function () {
+    it('should enable drag and drop on mount', async function () {
       // given
       formEditor = await createFormEditor({
         schema,
-        container
+        container,
       });
 
       const dragulaCreatedSpy = spy(),
-            dragulaDestroyedSpy = spy();
+        dragulaDestroyedSpy = spy();
 
       formEditor.on('dragula.created', dragulaCreatedSpy);
       formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
@@ -812,16 +732,14 @@ describe('FormEditor', function() {
       expect(dragulaDestroyedSpy).not.to.have.been.called;
     });
 
-
-    it('should enable drag and drop on attach', async function() {
-
+    it('should enable drag and drop on attach', async function () {
       // given
       formEditor = await createFormEditor({
-        schema
+        schema,
       });
 
       const dragulaCreatedSpy = spy(),
-            dragulaDestroyedSpy = spy();
+        dragulaDestroyedSpy = spy();
 
       formEditor.on('dragula.created', dragulaCreatedSpy);
       formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
@@ -836,17 +754,15 @@ describe('FormEditor', function() {
       expect(dragulaDestroyedSpy).to.have.been.calledOnce;
     });
 
-
-    it('should disable drag and drop on detach', async function() {
-
+    it('should disable drag and drop on detach', async function () {
       // given
       formEditor = await createFormEditor({
         schema,
-        container
+        container,
       });
 
       const dragulaCreatedSpy = spy(),
-            dragulaDestroyedSpy = spy();
+        dragulaDestroyedSpy = spy();
 
       formEditor.on('dragula.created', dragulaCreatedSpy);
       formEditor.on('dragula.destroyed', dragulaDestroyedSpy);
@@ -861,13 +777,11 @@ describe('FormEditor', function() {
       expect(dragulaDestroyedSpy).to.have.been.calledOnce;
     });
 
-
-    it('should create and select new form field', async function() {
-
+    it('should create and select new form field', async function () {
       // given
       formEditor = await createFormEditor({
         schema,
-        container
+        container,
       });
 
       await expectDragulaCreated(formEditor);
@@ -878,15 +792,19 @@ describe('FormEditor', function() {
       expect(formFieldRegistry.getAll()).to.have.length(14);
 
       // when
-      const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
+      const formField = container.querySelector(
+        '.fjs-palette-field[data-field-type="textfield"]',
+      );
 
-      const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+      const form = container.querySelector(
+        '.fjs-drag-container[data-id="Form_1"]',
+      );
 
       const bounds = form.getBoundingClientRect();
 
-      dispatchEvent(formField, 'mousedown', { which: 1 });
+      dispatchEvent(formField, 'mousedown', {which: 1});
 
-      dispatchEvent(form, 'mousemove', { clientX: bounds.x, clientY: bounds.y });
+      dispatchEvent(form, 'mousemove', {clientX: bounds.x, clientY: bounds.y});
 
       dispatchEvent(form, 'mouseup');
 
@@ -895,25 +813,24 @@ describe('FormEditor', function() {
 
       const selection = formEditor.get('selection');
 
-      expect(selection.get()).to.include({ type: 'textfield' });
+      expect(selection.get()).to.include({type: 'textfield'});
     });
-
   });
-
 });
 
 // helpers //////////
 
 function exportTagged(schema, exporter) {
-
-  const exportDetails = exporter ? {
-    exporter
-  } : {};
+  const exportDetails = exporter
+    ? {
+        exporter,
+      }
+    : {};
 
   return {
     ...schema,
     ...exportDetails,
-    schemaVersion
+    schemaVersion,
   };
 }
 
@@ -944,7 +861,7 @@ function dispatchEvent(element, type, options = {}) {
 
   event.initEvent(type, true, true);
 
-  Object.keys(options).forEach(key => event[ key ] = options[ key ]);
+  Object.keys(options).forEach((key) => (event[key] = options[key]));
 
   element.dispatchEvent(event);
 }

@@ -1,9 +1,14 @@
 import Ids from 'ids';
-import { get, isString, set } from 'min-dash';
+import {get, isString, set} from 'min-dash';
 
 import core from './core';
 
-import { clone, createFormContainer, createInjector, pathStringify } from './util';
+import {
+  clone,
+  createFormContainer,
+  createInjector,
+  pathStringify,
+} from './util';
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -28,19 +33,17 @@ import { clone, createFormContainer, createInjector, pathStringify } from './uti
  * @typedef { OnEventWithPriority & OnEventWithOutPriority } OnEventType
  */
 
-const ids = new Ids([ 32, 36, 1 ]);
+const ids = new Ids([32, 36, 1]);
 
 /**
  * The form.
  */
 export default class Form {
-
   /**
    * @constructor
    * @param {FormOptions} options
    */
   constructor(options = {}) {
-
     /**
      * @public
      * @type {OnEventType}
@@ -62,7 +65,7 @@ export default class Form {
     const {
       container,
       injector = this._createInjector(options, this._container),
-      properties = {}
+      properties = {},
     } = options;
 
     /**
@@ -74,7 +77,7 @@ export default class Form {
       data: null,
       properties,
       errors: {},
-      schema: null
+      schema: null,
     };
 
     this.get = injector.get;
@@ -89,7 +92,6 @@ export default class Form {
   }
 
   clear() {
-
     // clear form services
     this._emit('diagram.clear');
 
@@ -102,7 +104,6 @@ export default class Form {
    * if attached.
    */
   destroy() {
-
     // destroy form services
     this.get('eventBus').fire('form.destroy');
 
@@ -128,23 +129,23 @@ export default class Form {
         const {
           schema: importedSchema,
           data: importedData,
-          warnings
+          warnings,
         } = this.get('importer').importSchema(schema, data);
 
         this._setState({
           data: importedData,
           errors: {},
           schema: importedSchema,
-          initialData: clone(importedData)
+          initialData: clone(importedData),
         });
 
-        this._emit('import.done', { warnings });
+        this._emit('import.done', {warnings});
 
-        return resolve({ warnings });
+        return resolve({warnings});
       } catch (error) {
         this._emit('import.done', {
           error,
-          warnings: error.warnings || []
+          warnings: error.warnings || [],
         });
 
         return reject(error);
@@ -158,10 +159,7 @@ export default class Form {
    * @returns { { data: Data, errors: Errors } }
    */
   submit() {
-
-    const {
-      properties
-    } = this._getState();
+    const {properties} = this._getState();
 
     if (properties.readOnly) {
       throw new Error('form is read-only');
@@ -173,12 +171,12 @@ export default class Form {
 
     this._emit('submit', {
       data,
-      errors
+      errors,
     });
 
     return {
       data,
-      errors
+      errors,
     };
   }
 
@@ -187,7 +185,7 @@ export default class Form {
 
     this._setState({
       data: clone(this._state.initialData),
-      errors: {}
+      errors: {},
     });
   }
 
@@ -196,15 +194,12 @@ export default class Form {
    */
   validate() {
     const formFieldRegistry = this.get('formFieldRegistry'),
-          validator = this.get('validator');
+      validator = this.get('validator');
 
-    const { data } = this._getState();
+    const {data} = this._getState();
 
     const errors = formFieldRegistry.getAll().reduce((errors, field) => {
-      const {
-        disabled,
-        _path
-      } = field;
+      const {disabled, _path} = field;
 
       if (disabled) {
         return errors;
@@ -214,10 +209,14 @@ export default class Form {
 
       const fieldErrors = validator.validateField(field, value);
 
-      return set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
+      return set(
+        errors,
+        [pathStringify(_path)],
+        fieldErrors.length ? fieldErrors : undefined,
+      );
     }, /** @type {Errors} */ ({}));
 
-    this._setState({ errors });
+    this._setState({errors});
 
     return errors;
   }
@@ -254,7 +253,7 @@ export default class Form {
    */
   _detach(emit = true) {
     const container = this._container,
-          parentNode = container.parentNode;
+      parentNode = container.parentNode;
 
     if (!parentNode) {
       return;
@@ -272,9 +271,9 @@ export default class Form {
    * @param {any} value
    */
   setProperty(property, value) {
-    const properties = set(this._getState().properties, [ property ], value);
+    const properties = set(this._getState().properties, [property], value);
 
-    this._setState({ properties });
+    this._setState({properties});
   }
 
   /**
@@ -294,23 +293,20 @@ export default class Form {
    * @returns {Injector}
    */
   _createInjector(options, container) {
-    const {
-      additionalModules = [],
-      modules = []
-    } = options;
+    const {additionalModules = [], modules = []} = options;
 
     const config = {
       renderer: {
-        container
-      }
+        container,
+      },
     };
 
     return createInjector([
-      { config: [ 'value', config ] },
-      { form: [ 'value', this ] },
+      {config: ['value', config]},
+      {form: ['value', this]},
       core,
       ...modules,
-      ...additionalModules
+      ...additionalModules,
     ]);
   }
 
@@ -327,17 +323,11 @@ export default class Form {
    * @param { { add?: boolean, field: any, remove?: number, value?: any } } update
    */
   _update(update) {
-    const {
-      field,
-      value
-    } = update;
+    const {field, value} = update;
 
-    const { _path } = field;
+    const {_path} = field;
 
-    let {
-      data,
-      errors
-    } = this._getState();
+    let {data, errors} = this._getState();
 
     const validator = this.get('validator');
 
@@ -345,11 +335,15 @@ export default class Form {
 
     set(data, _path, value);
 
-    set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
+    set(
+      errors,
+      [pathStringify(_path)],
+      fieldErrors.length ? fieldErrors : undefined,
+    );
 
     this._setState({
       data: clone(data),
-      errors: clone(errors)
+      errors: clone(errors),
     });
   }
 
@@ -366,7 +360,7 @@ export default class Form {
   _setState(state) {
     this._state = {
       ...this._state,
-      ...state
+      ...state,
     };
 
     this._emit('changed', this._getState());
@@ -386,10 +380,7 @@ export default class Form {
     const formFieldRegistry = this.get('formFieldRegistry');
 
     return formFieldRegistry.getAll().reduce((data, field) => {
-      const {
-        disabled,
-        _path
-      } = field;
+      const {disabled, _path} = field;
 
       // do not submit disabled form fields
       if (disabled || !_path) {
@@ -400,9 +391,8 @@ export default class Form {
 
       return {
         ...data,
-        [ _path[ 0 ] ]: value
+        [_path[0]]: value,
       };
     }, {});
   }
-
 }

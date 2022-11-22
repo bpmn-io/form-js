@@ -3,34 +3,32 @@ import {
   createFormEditor,
   Form,
   FormEditor,
-  schemaVersion
+  schemaVersion,
 } from '@bpmn-io/form-js';
-
 
 /**
  * A TypeScript application that verifies our type
  * definitions are stable (enough).
  */
 export async function createApp() {
-
   const container = document.querySelector('#app');
 
   await createForm({
     schema: {},
     data: {},
-    container
+    container,
   });
 
   await createFormEditor({
     schema: {},
-    container
+    container,
   });
 
   if (schemaVersion > 1) {
     console.log('schemaVersion > 1');
   }
 
-  const form = new Form({ container });
+  const form = new Form({container});
 
   await form.importSchema({});
   await form.importSchema({}, {});
@@ -40,7 +38,7 @@ export async function createApp() {
   // eslint-disable-next-line
   const detachedForm = new Form();
 
-  const formEditor = new FormEditor({ container });
+  const formEditor = new FormEditor({container});
 
   await formEditor.importSchema({});
 
@@ -48,8 +46,8 @@ export async function createApp() {
   const formEditorExtraOpts = new FormEditor({
     container: '#app',
     foo: {
-      bar: true
-    }
+      bar: true,
+    },
   });
 
   // eslint-disable-next-line

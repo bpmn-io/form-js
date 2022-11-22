@@ -1,10 +1,6 @@
-import {
-  FormFieldRegistry as BaseFieldRegistry
-} from '@bpmn-io/form-js-viewer';
-
+import {FormFieldRegistry as BaseFieldRegistry} from '@bpmn-io/form-js-viewer';
 
 export default class FormFieldRegistry extends BaseFieldRegistry {
-
   /**
    * Updates a form fields id.
    *
@@ -12,12 +8,11 @@ export default class FormFieldRegistry extends BaseFieldRegistry {
    * @param {string} newId
    */
   updateId(formField, newId) {
-
     this._validateId(newId);
 
     this._eventBus.fire('formField.updateId', {
       formField,
-      newId: newId
+      newId: newId,
     });
 
     this.remove(formField);
@@ -33,9 +28,7 @@ export default class FormFieldRegistry extends BaseFieldRegistry {
         component._parent = newId;
       }
     }
-
   }
-
 
   /**
    * Validate the suitability of the given id and signals a problem
@@ -54,5 +47,4 @@ export default class FormFieldRegistry extends BaseFieldRegistry {
       throw new Error('formField with id ' + id + ' already added');
     }
   }
-
 }

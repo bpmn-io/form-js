@@ -1,10 +1,10 @@
-import { render } from 'preact';
+import {render} from 'preact';
 
 import fileDrop from 'file-drops';
 
 import mitt from 'mitt';
 
-import { PlaygroundRoot } from './components/PlaygroundRoot';
+import {PlaygroundRoot} from './components/PlaygroundRoot';
 
 /**
  * @typedef { {
@@ -21,17 +21,11 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
  * @param {FormPlaygroundOptions} options
  */
 export default function Playground(options) {
-
-  const {
-    container: parent,
-    schema,
-    data,
-    ...rest
-  } = options;
+  const {container: parent, schema, data, ...rest} = options;
 
   const emitter = mitt();
 
-  let state = { data, schema };
+  let state = {data, schema};
   let ref;
 
   const container = document.createElement('div');
@@ -42,21 +36,20 @@ export default function Playground(options) {
     parent.appendChild(container);
   }
 
-  const handleDrop = fileDrop('Drop a form file', function(files) {
+  const handleDrop = fileDrop('Drop a form file', function (files) {
     const file = files[0];
 
     if (file) {
       try {
         ref.setSchema(JSON.parse(file.contents));
       } catch (err) {
-
         // TODO(nikku): indicate JSON parse error
       }
     }
   });
 
-  const withRef = function(fn) {
-    return function(...args) {
+  const withRef = function (fn) {
+    return function (...args) {
       if (!ref) {
         throw new Error('Playground is not initialized.');
       }
@@ -65,7 +58,7 @@ export default function Playground(options) {
     };
   };
 
-  const onInit = function(_ref) {
+  const onInit = function (_ref) {
     ref = _ref;
     emitter.emit('formPlayground.init');
   };
@@ -74,14 +67,14 @@ export default function Playground(options) {
 
   render(
     <PlaygroundRoot
-      data={ data }
-      emit={ emitter.emit }
-      onInit={ onInit }
-      onStateChanged={ (_state) => state = _state }
-      schema={ schema }
-      { ...rest }
+      data={data}
+      emit={emitter.emit}
+      onInit={onInit}
+      onStateChanged={(_state) => (state = _state)}
+      schema={schema}
+      {...rest}
     />,
-    container
+    container,
   );
 
   this.on = emitter.on;
@@ -89,15 +82,15 @@ export default function Playground(options) {
 
   this.emit = emitter.emit;
 
-  this.on('destroy', function() {
+  this.on('destroy', function () {
     render(null, container);
   });
 
-  this.on('destroy', function() {
+  this.on('destroy', function () {
     parent.removeChild(container);
   });
 
-  this.getState = function() {
+  this.getState = function () {
     return state;
   };
 
@@ -117,19 +110,29 @@ export default function Playground(options) {
 
   this.getResultView = withRef(() => ref.getResultView());
 
-  this.destroy = function() {
+  this.destroy = function () {
     this.emit('destroy');
   };
 
-  this.attachEditorContainer = withRef((node) => ref.attachEditorContainer(node));
+  this.attachEditorContainer = withRef((node) =>
+    ref.attachEditorContainer(node),
+  );
 
-  this.attachPreviewContainer = withRef((node) => ref.attachFormContainer(node));
+  this.attachPreviewContainer = withRef((node) =>
+    ref.attachFormContainer(node),
+  );
 
   this.attachDataContainer = withRef((node) => ref.attachDataContainer(node));
 
-  this.attachResultContainer = withRef((node) => ref.attachResultContainer(node));
+  this.attachResultContainer = withRef((node) =>
+    ref.attachResultContainer(node),
+  );
 
-  this.attachPaletteContainer = withRef((node) => ref.attachPaletteContainer(node));
+  this.attachPaletteContainer = withRef((node) =>
+    ref.attachPaletteContainer(node),
+  );
 
-  this.attachPropertiesPanelContainer = withRef((node) => ref.attachPropertiesPanelContainer(node));
+  this.attachPropertiesPanelContainer = withRef((node) =>
+    ref.attachPropertiesPanelContainer(node),
+  );
 }

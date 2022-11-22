@@ -1,5 +1,5 @@
 export function arrayAdd(array, index, item) {
-  const copy = [ ...array ];
+  const copy = [...array];
 
   copy.splice(index, 0, item);
 
@@ -7,7 +7,7 @@ export function arrayAdd(array, index, item) {
 }
 
 export function arrayRemove(array, index) {
-  const copy = [ ...array ];
+  const copy = [...array];
 
   copy.splice(index, 1);
 
@@ -15,7 +15,7 @@ export function arrayRemove(array, index) {
 }
 
 export function prefixId(id) {
-  return `fjs-properties-panel-${ id }`;
+  return `fjs-properties-panel-${id}`;
 }
 
 export function stopPropagation(listener) {
@@ -27,11 +27,9 @@ export function stopPropagation(listener) {
 }
 
 export function textToLabel(text) {
-
   if (typeof text != 'string') return null;
 
   for (const line of text.split('\n')) {
-
     const displayLine = line.trim();
 
     // we use the first non-whitespace line in the text as label
@@ -51,12 +49,7 @@ export const INPUTS = [
   'select',
   'taglist',
   'textfield',
-  'textarea'
+  'textarea',
 ];
 
-export const VALUES_INPUTS = [
-  'checklist',
-  'radio',
-  'select',
-  'taglist'
-];
+export const VALUES_INPUTS = ['checklist', 'radio', 'select', 'taglist'];

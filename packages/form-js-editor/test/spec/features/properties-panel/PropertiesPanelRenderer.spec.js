@@ -1,18 +1,12 @@
 import TestContainer from 'mocha-test-container-support';
 
-import { act } from '@testing-library/preact/pure';
+import {act} from '@testing-library/preact/pure';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import {query as domQuery} from 'min-dom';
 
-import {
-  insertStyles
-} from '../../../TestHelper';
+import {insertStyles} from '../../../TestHelper';
 
-import {
-  createFormEditor
-} from '../../../../src';
+import {createFormEditor} from '../../../../src';
 
 import propertiesPanelModule from '../../../../src/features/properties-panel';
 
@@ -20,12 +14,10 @@ import schema from '../../form.json';
 
 insertStyles();
 
-
-describe('features/propertiesPanel', function() {
-
+describe('features/propertiesPanel', function () {
   let formEditor, formContainer, propertiesPanelContainer;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const container = TestContainer.get(this);
 
     propertiesPanelContainer = document.createElement('div');
@@ -35,7 +27,7 @@ describe('features/propertiesPanel', function() {
     container.appendChild(formContainer);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     const container = TestContainer.get(this);
 
     container.removeChild(propertiesPanelContainer);
@@ -45,30 +37,24 @@ describe('features/propertiesPanel', function() {
   });
 
   async function createEditor(schema, options = {}) {
-    const {
-      additionalModules = [
-        propertiesPanelModule
-      ]
-    } = options;
+    const {additionalModules = [propertiesPanelModule]} = options;
 
     formEditor = await createFormEditor({
       schema,
       renderer: {
-        container: formContainer
+        container: formContainer,
       },
       additionalModules,
       propertiesPanel: {
-        parent: propertiesPanelContainer
+        parent: propertiesPanelContainer,
       },
-      ...options
+      ...options,
     });
 
-    return { formEditor };
+    return {formEditor};
   }
 
-
-  it('should render on <formEditor.rendered>', async function() {
-
+  it('should render on <formEditor.rendered>', async function () {
     // given
     await act(async () => {
       const result = await createEditor(schema);
@@ -81,12 +67,11 @@ describe('features/propertiesPanel', function() {
     eventBus.fire('formEditor.rendered');
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to
+      .exist;
   });
 
-
-  it('should attach', async function() {
-
+  it('should attach', async function () {
     // given
     const node = document.createElement('div');
     document.body.appendChild(node);
@@ -104,16 +89,15 @@ describe('features/propertiesPanel', function() {
     propertiesPanel.attachTo(node);
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not
+      .exist;
     expect(domQuery('.fjs-properties-panel', node)).to.exist;
 
     // cleanup
     document.body.removeChild(node);
   });
 
-
-  it('should detach', async function() {
-
+  it('should detach', async function () {
     // given
     let formEditor;
 
@@ -123,7 +107,8 @@ describe('features/propertiesPanel', function() {
     });
 
     // assume
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to
+      .exist;
 
     const propertiesPanel = formEditor.get('propertiesPanel');
 
@@ -131,16 +116,14 @@ describe('features/propertiesPanel', function() {
     propertiesPanel.detach();
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not
+      .exist;
   });
 
-
-  describe('event emitting', function() {
-
-    it('should fire <propertiesPanel.rendered>', async function() {
-
+  describe('event emitting', function () {
+    it('should fire <propertiesPanel.rendered>', async function () {
       // given
-      const { formEditor } = await createEditor(schema);
+      const {formEditor} = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
 
@@ -155,11 +138,9 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.attach>', async function() {
-
+    it('should fire <propertiesPanel.attach>', async function () {
       // given
-      const { formEditor } = await createEditor(schema);
+      const {formEditor} = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
       const propertiesPanel = formEditor.get('propertiesPanel');
@@ -175,11 +156,9 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.detach>', async function() {
-
+    it('should fire <propertiesPanel.detach>', async function () {
       // given
-      const { formEditor } = await createEditor(schema);
+      const {formEditor} = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
       const propertiesPanel = formEditor.get('propertiesPanel');
@@ -195,11 +174,9 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.destroyed>', async function() {
-
+    it('should fire <propertiesPanel.destroyed>', async function () {
       // given
-      const { formEditor } = await createEditor(schema);
+      const {formEditor} = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
       const propertiesPanel = formEditor.get('propertiesPanel');
@@ -214,7 +191,5 @@ describe('features/propertiesPanel', function() {
       // then
       expect(spy).to.have.been.called;
     });
-
   });
-
 });

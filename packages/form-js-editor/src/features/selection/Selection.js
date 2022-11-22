@@ -16,7 +16,7 @@ export default class Selection {
     this._selection = selection;
 
     this._eventBus.fire('selection.changed', {
-      selection: this._selection
+      selection: this._selection,
     });
   }
 
@@ -35,4 +35,4 @@ export default class Selection {
   }
 }
 
-Selection.$inject = [ 'eventBus' ];
+Selection.$inject = ['eventBus'];

@@ -1,6 +1,11 @@
-import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
+import {
+  clone,
+  createFormContainer,
+  createInjector,
+  schemaVersion,
+} from '@bpmn-io/form-js-viewer';
 import Ids from 'ids';
-import { isString, set } from 'min-dash';
+import {isString, set} from 'min-dash';
 
 import core from './core';
 
@@ -11,7 +16,7 @@ import SelectionModule from './features/selection';
 import PaletteModule from './features/palette';
 import PropertiesPanelModule from './features/properties-panel';
 
-const ids = new Ids([ 32, 36, 1 ]);
+const ids = new Ids([32, 36, 1]);
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -35,13 +40,11 @@ const ids = new Ids([ 32, 36, 1 ]);
  * The form editor.
  */
 export default class FormEditor {
-
   /**
    * @constructor
    * @param {FormEditorOptions} options
    */
   constructor(options = {}) {
-
     /**
      * @public
      * @type {OnEventType}
@@ -66,7 +69,7 @@ export default class FormEditor {
       container,
       exporter,
       injector = this._createInjector(options, this._container),
-      properties = {}
+      properties = {},
     } = options;
 
     /**
@@ -81,7 +84,7 @@ export default class FormEditor {
      */
     this._state = {
       properties,
-      schema: null
+      schema: null,
     };
 
     this.get = injector.get;
@@ -96,7 +99,6 @@ export default class FormEditor {
   }
 
   clear() {
-
     // clear form services
     this._emit('diagram.clear');
 
@@ -105,7 +107,6 @@ export default class FormEditor {
   }
 
   destroy() {
-
     // destroy form services
     this.get('eventBus').fire('form.destroy');
 
@@ -125,22 +126,20 @@ export default class FormEditor {
       try {
         this.clear();
 
-        const {
-          schema: importedSchema,
-          warnings
-        } = this.get('importer').importSchema(schema);
+        const {schema: importedSchema, warnings} =
+          this.get('importer').importSchema(schema);
 
         this._setState({
-          schema: importedSchema
+          schema: importedSchema,
         });
 
-        this._emit('import.done', { warnings });
+        this._emit('import.done', {warnings});
 
-        return resolve({ warnings });
+        return resolve({warnings});
       } catch (error) {
         this._emit('import.done', {
           error: error,
-          warnings: error.warnings || []
+          warnings: error.warnings || [],
         });
 
         return reject(error);
@@ -159,13 +158,9 @@ export default class FormEditor {
    * @returns {Schema}
    */
   getSchema() {
-    const { schema } = this._getState();
+    const {schema} = this._getState();
 
-    return exportSchema(
-      schema,
-      this.exporter,
-      schemaVersion
-    );
+    return exportSchema(schema, this.exporter, schemaVersion);
   }
 
   /**
@@ -200,7 +195,7 @@ export default class FormEditor {
    */
   _detach(emit = true) {
     const container = this._container,
-          parentNode = container.parentNode;
+      parentNode = container.parentNode;
 
     if (!parentNode) {
       return;
@@ -218,11 +213,10 @@ export default class FormEditor {
    * @param {any} value
    */
   setProperty(property, value) {
-    const properties = set(this._getState().properties, [ property ], value);
+    const properties = set(this._getState().properties, [property], value);
 
-    this._setState({ properties });
+    this._setState({properties});
   }
-
 
   /**
    * @param {string} type
@@ -244,23 +238,23 @@ export default class FormEditor {
     const {
       additionalModules = [],
       modules = this._getModules(),
-      renderer = {}
+      renderer = {},
     } = options;
 
     const config = {
       ...options,
       renderer: {
         ...renderer,
-        container
-      }
+        container,
+      },
     };
 
     return createInjector([
-      { config: [ 'value', config ] },
-      { formEditor: [ 'value', this ] },
+      {config: ['value', config]},
+      {formEditor: ['value', this]},
       core,
       ...modules,
-      ...additionalModules
+      ...additionalModules,
     ]);
   }
 
@@ -284,7 +278,7 @@ export default class FormEditor {
   _setState(state) {
     this._state = {
       ...this._state,
-      ...state
+      ...state,
     };
 
     this._emit('changed', this._getState());
@@ -300,7 +294,7 @@ export default class FormEditor {
       KeyboardModule,
       SelectionModule,
       PaletteModule,
-      PropertiesPanelModule
+      PropertiesPanelModule,
     ];
   }
 
@@ -310,19 +304,19 @@ export default class FormEditor {
   _onEvent(type, priority, handler) {
     this.get('eventBus').on(type, priority, handler);
   }
-
 }
 
 // helpers //////////
 
 export function exportSchema(schema, exporter, schemaVersion) {
-
-  const exportDetails = exporter ? {
-    exporter
-  } : {};
+  const exportDetails = exporter
+    ? {
+        exporter,
+      }
+    : {};
 
   const cleanedSchema = clone(schema, (name, value) => {
-    if ([ '_parent', '_path' ].includes(name)) {
+    if (['_parent', '_path'].includes(name)) {
       return undefined;
     }
 
@@ -332,6 +326,6 @@ export function exportSchema(schema, exporter, schemaVersion) {
   return {
     ...cleanedSchema,
     ...exportDetails,
-    schemaVersion
+    schemaVersion,
   };
 }

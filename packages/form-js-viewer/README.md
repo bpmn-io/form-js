@@ -2,18 +2,16 @@
 
 This library exports a form viewer for viewing and submitting forms. Use [our editor](../form-js-editor) to create and edit forms.
 
-
 ## Installation
 
 ```
 npm install @bpmn-io/form-js-viewer
 ```
 
-
 ## Usage
 
 ```javascript
-import { Form } from '@bpmn-io/form-js-viewer';
+import {Form} from '@bpmn-io/form-js-viewer';
 
 const schema = {
   components: [
@@ -22,46 +20,50 @@ const schema = {
       label: 'Creditor',
       type: 'textfield',
       validate: {
-        required: true
-      }
-    }
-  ]
+        required: true,
+      },
+    },
+  ],
 };
 
 const data = {
-  creditor: 'John Doe Company'
+  creditor: 'John Doe Company',
 };
 
 const form = new Form({
-  container: document.querySelector('#form')
+  container: document.querySelector('#form'),
 });
 
 await form.importSchema(schema, data);
 
 // add event listeners
-form.on('submit', event => {
+form.on('submit', (event) => {
   console.log('Form <submit>', event);
 });
 
 // provide a priority to event listeners
-form.on('changed', 500, event => {
+form.on('changed', 500, (event) => {
   console.log('Form <changed>', event);
 });
 ```
 
 Check out [a full example](https://github.com/bpmn-io/form-js-examples).
 
-
 ## Styling
 
 For proper styling include the `form-js.css` stylesheet and font used:
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+  rel="stylesheet"
+/>
 
-<link href="https://unpkg.com/@bpmn-io/form-js/dist/assets/form-js.css" rel="stylesheet">
+<link
+  href="https://unpkg.com/@bpmn-io/form-js/dist/assets/form-js.css"
+  rel="stylesheet"
+/>
 ```
-
 
 ## API
 
@@ -70,13 +72,12 @@ For proper styling include the `form-js.css` stylesheet and font used:
 Create a new form with options `{ container?: HTMLElement }`.
 
 ```javascript
-import { Form } from '@bpmn-io/form-js-viewer';
+import {Form} from '@bpmn-io/form-js-viewer';
 
 const form = new Form({
-  container: document.querySelector('#form')
+  container: document.querySelector('#form'),
 });
 ```
-
 
 ### `Form#importSchema(schema: Schema, data?: Data) => Promise<Result, Error>`
 
@@ -90,22 +91,17 @@ try {
 }
 ```
 
-
 ### `Form#submit() => { data: Data, errors: Errors }`
 
 Submit a form programatically.
 
 ```javascript
-const {
-  data,
-  errors
-} = form.submit();
+const {data, errors} = form.submit();
 
 if (Object.keys(errors).length) {
   console.error('Form submitted with errors', errors);
 }
 ```
-
 
 ### `Form#validate() => Errors`
 
@@ -119,45 +115,35 @@ if (Object.keys(errors).length) {
 }
 ```
 
-
 ### `Form#reset() => void`
 
 Reset a form programatically.
-
 
 ### `Form#setProperty(key, value) => void`
 
 Set a form property such as `readOnly`.
 
-
 ### `Form#attachTo(parentNode: HTMLElement) => void`
-
 
 Attach the form to a parent node.
 
-
 ### `Form#detach() => void`
 
-
 Detach the form from its parent node.
-
 
 ### `Form#on(event, fn) => void`
 
 Subscribe to an [event](#events).
 
-
 ### `Form#destroy() => void`
 
 Remove form from the document.
-
 
 ## Events
 
 The form emits the `changed` and `submit` events you may hook into.
 
 Both events receive `{ data, errors }` as a payload.
-
 
 ## License
 

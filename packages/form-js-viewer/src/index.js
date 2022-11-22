@@ -1,15 +1,12 @@
 import Form from './Form';
 
-export { FormFieldRegistry } from './core';
+export {FormFieldRegistry} from './core';
 export * from './render';
 export * from './util';
 
 const schemaVersion = 6;
 
-export {
-  Form,
-  schemaVersion
-};
+export {Form, schemaVersion};
 
 /**
  * @typedef { import('./types').CreateFormOptions } CreateFormOptions
@@ -23,15 +20,11 @@ export {
  * @return {Promise<Form>}
  */
 export function createForm(options) {
-  const {
-    data,
-    schema,
-    ...rest
-  } = options;
+  const {data, schema, ...rest} = options;
 
   const form = new Form(rest);
 
-  return form.importSchema(schema, data).then(function() {
+  return form.importSchema(schema, data).then(function () {
     return form;
   });
 }

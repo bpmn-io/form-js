@@ -1,19 +1,13 @@
-import { get } from 'min-dash';
+import {get} from 'min-dash';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { TextAreaEntry, isTextAreaEntryEdited } from '@bpmn-io/properties-panel';
-
+import {TextAreaEntry, isTextAreaEntryEdited} from '@bpmn-io/properties-panel';
 
 export default function TextEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
-  const {
-    type
-  } = field;
+  const {type} = field;
 
   const entries = [];
 
@@ -23,7 +17,7 @@ export default function TextEntry(props) {
       component: Text,
       editField: editField,
       field: field,
-      isEdited: isTextAreaEntryEdited
+      isEdited: isTextAreaEntryEdited,
     });
   }
 
@@ -31,15 +25,11 @@ export default function TextEntry(props) {
 }
 
 function Text(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   const debounce = useService('debounce');
 
-  const path = [ 'text' ];
+  const path = ['text'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -57,6 +47,6 @@ function Text(props) {
     id,
     label: 'Text',
     rows: 10,
-    setValue
+    setValue,
   });
 }

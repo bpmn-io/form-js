@@ -1,11 +1,8 @@
 import FormEditor from './FormEditor';
 
-import { schemaVersion } from '@bpmn-io/form-js-viewer';
+import {schemaVersion} from '@bpmn-io/form-js-viewer';
 
-export {
-  FormEditor,
-  schemaVersion
-};
+export {FormEditor, schemaVersion};
 
 /**
  * @typedef { import('./types').CreateFormEditorOptions } CreateFormEditorOptions
@@ -19,10 +16,7 @@ export {
  * @return {Promise<FormEditor>}
  */
 export function createFormEditor(options) {
-  const {
-    schema,
-    ...rest
-  } = options;
+  const {schema, ...rest} = options;
 
   const formEditor = new FormEditor(rest);
 

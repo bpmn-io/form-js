@@ -23,5 +23,5 @@ export const iconsByType = {
   text: TextIcon,
   textfield: TextfieldIcon,
   textarea: TextareaIcon,
-  default: FormIcon
+  default: FormIcon,
 };

@@ -1,23 +1,20 @@
-import { isUndefined } from 'min-dash';
+import {isUndefined} from 'min-dash';
 
-import { get } from 'min-dash';
+import {get} from 'min-dash';
 
-import { INPUTS } from '../Util';
+import {INPUTS} from '../Util';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+} from '@bpmn-io/properties-panel';
 
 export default function KeyEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
-  const {
-    type
-  } = field;
+  const {type} = field;
 
   const entries = [];
 
@@ -27,7 +24,7 @@ export default function KeyEntry(props) {
       component: Key,
       editField: editField,
       field: field,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isTextFieldEntryEdited,
     });
   }
 
@@ -35,17 +32,13 @@ export default function KeyEntry(props) {
 }
 
 function Key(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   const formFieldRegistry = useService('formFieldRegistry');
 
   const debounce = useService('debounce');
 
-  const path = [ 'key' ];
+  const path = ['key'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -81,6 +74,6 @@ function Key(props) {
     id,
     label: 'Key',
     setValue,
-    validate
+    validate,
   });
 }

@@ -23,7 +23,7 @@ export {
   Taglist,
   Text,
   Textfield,
-  Textarea
+  Textarea,
 };
 
 export const formFields = [
@@ -37,5 +37,5 @@ export const formFields = [
   Taglist,
   Text,
   Textfield,
-  Textarea
+  Textarea,
 ];

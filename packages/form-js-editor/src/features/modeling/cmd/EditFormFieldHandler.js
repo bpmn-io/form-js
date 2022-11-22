@@ -1,5 +1,4 @@
 export default class EditFormFieldHandler {
-
   /**
    * @constructor
    * @param { import('../../../FormEditor').default } formEditor
@@ -11,67 +10,56 @@ export default class EditFormFieldHandler {
   }
 
   execute(context) {
-    const {
-      formField,
-      properties
-    } = context;
+    const {formField, properties} = context;
 
-    let { schema } = this._formEditor._getState();
+    let {schema} = this._formEditor._getState();
 
     const oldProperties = {};
 
     for (let key in properties) {
-      oldProperties[ key ] = formField[ key ];
+      oldProperties[key] = formField[key];
 
-      const property = properties[ key ];
+      const property = properties[key];
 
       if (key === 'id') {
         if (property !== formField.id) {
           this._formFieldRegistry.updateId(formField, property);
         }
       } else {
-        formField[ key ] = property;
+        formField[key] = property;
       }
     }
 
     context.oldProperties = oldProperties;
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
-    this._formEditor._setState({ schema });
+    this._formEditor._setState({schema});
 
     return formField;
   }
 
   revert(context) {
-    const {
-      formField,
-      oldProperties
-    } = context;
+    const {formField, oldProperties} = context;
 
-    let { schema } = this._formEditor._getState();
+    let {schema} = this._formEditor._getState();
 
     for (let key in oldProperties) {
-
-      const property = oldProperties[ key ];
+      const property = oldProperties[key];
 
       if (key === 'id') {
         if (property !== formField.id) {
           this._formFieldRegistry.updateId(formField, property);
         }
       } else {
-        formField[ key ] = property;
+        formField[key] = property;
       }
     }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
-    this._formEditor._setState({ schema });
+    this._formEditor._setState({schema});
 
     return formField;
   }
-
 }
 
-EditFormFieldHandler.$inject = [
-  'formEditor',
-  'formFieldRegistry'
-];
+EditFormFieldHandler.$inject = ['formEditor', 'formFieldRegistry'];

@@ -1,14 +1,9 @@
-import {
-  useContext
-} from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
-import { FormPropertiesPanelContext } from '../context';
+import {FormPropertiesPanelContext} from '../context';
 
-
-export default function(type, strict) {
-  const {
-    getService
-  } = useContext(FormPropertiesPanelContext);
+export default function (type, strict) {
+  const {getService} = useContext(FormPropertiesPanelContext);
 
   return getService(type, strict);
 }

@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'preact/hooks';
+import {useEffect, useRef} from 'preact/hooks';
 
-import { Modal } from './Modal';
-
+import {Modal} from './Modal';
 
 export function EmbedModal(props) {
-
   const schema = serializeValue(props.schema);
   const data = serializeValue(props.data || {});
 
@@ -43,17 +41,23 @@ export function EmbedModal(props) {
   });
 
   return (
-    <Modal name="Embed form" onClose={ props.onClose }>
-      <p>Use the following HTML snippet to embed your form with <a href="https://github.com/bpmn-io/form-js">form-js</a>:</p>
+    <Modal name="Embed form" onClose={props.onClose}>
+      <p>
+        Use the following HTML snippet to embed your form with{' '}
+        <a href="https://github.com/bpmn-io/form-js">form-js</a>:
+      </p>
 
-      <textarea spellCheck="false" ref={ fieldRef }>{snippet}</textarea>
+      <textarea spellCheck="false" ref={fieldRef}>
+        {snippet}
+      </textarea>
     </Modal>
   );
 }
 
-
 // helpers ///////////
 
 function serializeValue(obj) {
-  return JSON.stringify(JSON.stringify(obj)).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return JSON.stringify(JSON.stringify(obj))
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }

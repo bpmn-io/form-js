@@ -1,32 +1,26 @@
+import {cleanup, fireEvent, render} from '@testing-library/preact/pure';
+
+import {GeneralGroup} from '../../../../../src/features/properties-panel/groups';
+
+import {WithPropertiesPanelContext, WithPropertiesPanel} from '../helper';
+
+import {set} from 'min-dash';
+
 import {
-  cleanup,
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+  INPUTS,
+  VALUES_INPUTS,
+} from '../../../../../src/features/properties-panel/Util';
 
-import { GeneralGroup } from '../../../../../src/features/properties-panel/groups';
-
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
-
-import { set } from 'min-dash';
-
-import { INPUTS, VALUES_INPUTS } from '../../../../../src/features/properties-panel/Util';
-
-
-describe('GeneralGroup', function() {
-
+describe('GeneralGroup', function () {
   afterEach(() => cleanup());
 
-
-  describe('id', function() {
-
-    it('should render for default', function() {
-
+  describe('id', function () {
+    it('should render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const idInput = findInput('id', container);
@@ -34,14 +28,12 @@ describe('GeneralGroup', function() {
       expect(idInput).to.exist;
     });
 
-
-    it('should NOT render for textfield', function() {
-
+    it('should NOT render for textfield', function () {
       // given
-      const field = { type: 'textfield' };
+      const field = {type: 'textfield'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const idInput = findInput('id', container);
@@ -49,17 +41,15 @@ describe('GeneralGroup', function() {
       expect(idInput).to.not.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'default',
-        id: 'foobar'
+        id: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // when
       const idInput = findInput('id', container);
@@ -69,41 +59,37 @@ describe('GeneralGroup', function() {
       expect(idInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'default',
-        id: 'foobar'
+        id: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const idInput = findInput('id', container);
 
       // when
-      fireEvent.input(idInput, { target: { value: 'newVal' } });
+      fireEvent.input(idInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.id).to.equal('newVal');
     });
-
   });
 
-
-  describe('label', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('label', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const labelInput = findInput('label', container);
@@ -111,14 +97,12 @@ describe('GeneralGroup', function() {
       expect(labelInput).to.not.exist;
     });
 
-
-    it('should render for button', function() {
-
+    it('should render for button', function () {
       // given
-      const field = { type: 'button' };
+      const field = {type: 'button'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const labelInput = findInput('label', container);
@@ -126,16 +110,13 @@ describe('GeneralGroup', function() {
       expect(labelInput).to.exist;
     });
 
-
-    it('should render for INPUTS', function() {
-
+    it('should render for INPUTS', function () {
       // given
       for (const type of INPUTS) {
-
-        const field = { type };
+        const field = {type};
 
         // when
-        const { container } = renderGeneralGroup({ field });
+        const {container} = renderGeneralGroup({field});
 
         // then
         const labelInput = findInput('label', container);
@@ -144,17 +125,15 @@ describe('GeneralGroup', function() {
       }
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'button',
-        label: 'foobar'
+        label: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       const labelInput = findInput('label', container);
 
@@ -163,41 +142,37 @@ describe('GeneralGroup', function() {
       expect(labelInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'button',
-        label: 'foobar'
+        label: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const labelInput = findInput('label', container);
 
       // when
-      fireEvent.input(labelInput, { target: { value: 'newVal' } });
+      fireEvent.input(labelInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.label).to.equal('newVal');
     });
-
   });
 
-
-  describe('description', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('description', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const descriptionInput = findInput('description', container);
@@ -205,16 +180,13 @@ describe('GeneralGroup', function() {
       expect(descriptionInput).to.not.exist;
     });
 
-
-    it('should render for INPUTS', function() {
-
+    it('should render for INPUTS', function () {
       // given
       for (const type of INPUTS) {
-
-        const field = { type };
+        const field = {type};
 
         // when
-        const { container } = renderGeneralGroup({ field });
+        const {container} = renderGeneralGroup({field});
 
         // then
         const descriptionInput = findInput('description', container);
@@ -223,17 +195,15 @@ describe('GeneralGroup', function() {
       }
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
-        description: 'foobar'
+        description: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const descriptionInput = findInput('description', container);
@@ -243,42 +213,38 @@ describe('GeneralGroup', function() {
       expect(descriptionInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
-        description: 'foobar'
+        description: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
       // when
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const descriptionInput = findInput('description', container);
 
       // when
-      fireEvent.input(descriptionInput, { target: { value: 'newVal' } });
+      fireEvent.input(descriptionInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.description).to.equal('newVal');
     });
-
   });
 
-
-  describe('key', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('key', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const keyInput = findInput('key', container);
@@ -286,16 +252,13 @@ describe('GeneralGroup', function() {
       expect(keyInput).to.not.exist;
     });
 
-
-    it('should render for INPUTS', function() {
-
+    it('should render for INPUTS', function () {
       // given
       for (const type of INPUTS) {
-
-        const field = { type };
+        const field = {type};
 
         // when
-        const { container } = renderGeneralGroup({ field });
+        const {container} = renderGeneralGroup({field});
 
         // then
         const keyInput = findInput('key', container);
@@ -304,17 +267,15 @@ describe('GeneralGroup', function() {
       }
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
-        key: 'foobar'
+        key: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const keyInput = findInput('key', container);
@@ -324,41 +285,37 @@ describe('GeneralGroup', function() {
       expect(keyInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
-        key: 'foobar'
+        key: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const keyInput = findInput('key', container);
 
       // when
-      fireEvent.input(keyInput, { target: { value: 'newVal' } });
+      fireEvent.input(keyInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.key).to.equal('newVal');
     });
-
   });
 
-
-  describe('defaultValue', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('defaultValue', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const defaultValueInput = findInput('defaultValue', container);
@@ -366,108 +323,84 @@ describe('GeneralGroup', function() {
       expect(defaultValueInput).to.not.exist;
     });
 
-
     describe('for singleSelect-like INPUTS', () => {
-
-      const singleSelectInputTypes = [ 'radio', 'select' ];
+      const singleSelectInputTypes = ['radio', 'select'];
 
       it('should NOT render by default', () => {
-
         // given
         for (const type of singleSelectInputTypes) {
-
-          const field = { type };
+          const field = {type};
 
           // when
-          const { container } = renderGeneralGroup({ field });
+          const {container} = renderGeneralGroup({field});
 
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
           expect(defaultValueEntry).to.not.exist;
         }
-
       });
-
 
       it('should render when static values are defined', () => {
-
         // given
         for (const type of singleSelectInputTypes) {
-
-          const field = { type, values: [ { value: 'value1', label: 'Value 1' } ] };
+          const field = {type, values: [{value: 'value1', label: 'Value 1'}]};
 
           // when
-          const { container } = renderGeneralGroup({ field });
+          const {container} = renderGeneralGroup({field});
 
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
           expect(defaultValueEntry).to.exist;
         }
-
       });
-
     });
-
 
     describe('for multiSelect-like INPUTS', () => {
-
-      const multiSelectInputTypes = [ 'taglist', 'checklist' ];
+      const multiSelectInputTypes = ['taglist', 'checklist'];
 
       it('should NOT render by default', () => {
-
         // given
         for (const type of multiSelectInputTypes) {
-
-          const field = { type };
+          const field = {type};
 
           // when
-          const { container } = renderGeneralGroup({ field });
+          const {container} = renderGeneralGroup({field});
 
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
           expect(defaultValueEntry).to.not.exist;
         }
-
       });
-
 
       it('should NOT render when static values are defined', () => {
-
         // given
         for (const type of multiSelectInputTypes) {
-
-          const field = { type, values: [ { value: 'value1', label: 'Value 1' } ] };
+          const field = {type, values: [{value: 'value1', label: 'Value 1'}]};
 
           // when
-          const { container } = renderGeneralGroup({ field });
+          const {container} = renderGeneralGroup({field});
 
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
           expect(defaultValueEntry).to.not.exist;
         }
-
       });
-
     });
 
-
     describe('for all other INPUTS', () => {
+      const otherInputTypes = INPUTS.filter((i) => !VALUES_INPUTS.includes(i));
 
-      const otherInputTypes = INPUTS.filter(i => !VALUES_INPUTS.includes(i));
-
-      it('should render', function() {
-
+      it('should render', function () {
         // given
         for (const type of otherInputTypes) {
-
-          const field = { type };
+          const field = {type};
 
           // when
-          const { container } = renderGeneralGroup({ field });
+          const {container} = renderGeneralGroup({field});
 
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
@@ -475,20 +408,17 @@ describe('GeneralGroup', function() {
           expect(defaultValueEntry).to.exist;
         }
       });
-
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
-        defaultValue: 'foobar'
+        defaultValue: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const defaultValueInput = findInput('defaultValue', container);
@@ -498,41 +428,37 @@ describe('GeneralGroup', function() {
       expect(defaultValueInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
-        defaultValue: 'foobar'
+        defaultValue: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const defaultValueInput = findInput('defaultValue', container);
 
       // when
-      fireEvent.input(defaultValueInput, { target: { value: 'newVal' } });
+      fireEvent.input(defaultValueInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.defaultValue).to.equal('newVal');
     });
-
   });
 
-
-  describe('action', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('action', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const actionInput = findSelect('action', container);
@@ -540,14 +466,12 @@ describe('GeneralGroup', function() {
       expect(actionInput).to.not.exist;
     });
 
-
-    it('should render for button', function() {
-
+    it('should render for button', function () {
       // given
-      const field = { type: 'button' };
+      const field = {type: 'button'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const actionInput = findSelect('action', container);
@@ -555,17 +479,15 @@ describe('GeneralGroup', function() {
       expect(actionInput).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'button',
-        action: 'submit'
+        action: 'submit',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const actionInput = findSelect('action', container);
@@ -574,41 +496,37 @@ describe('GeneralGroup', function() {
       expect(actionInput.value).to.equal('submit');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'button',
-        action: 'submit'
+        action: 'submit',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const actionInput = findSelect('action', container);
 
       // when
-      fireEvent.input(actionInput, { target: { value: 'reset' } });
+      fireEvent.input(actionInput, {target: {value: 'reset'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.action).to.equal('reset');
     });
-
   });
 
-
-  describe('text', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('text', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const textInput = findTextarea('text', container);
@@ -616,14 +534,12 @@ describe('GeneralGroup', function() {
       expect(textInput).to.not.exist;
     });
 
-
-    it('should render for text', function() {
-
+    it('should render for text', function () {
       // given
-      const field = { type: 'text' };
+      const field = {type: 'text'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const textInput = findTextarea('text', container);
@@ -631,17 +547,15 @@ describe('GeneralGroup', function() {
       expect(textInput).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'text',
-        text: 'foobar'
+        text: 'foobar',
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const textInput = findTextarea('text', container);
@@ -650,41 +564,37 @@ describe('GeneralGroup', function() {
       expect(textInput.value).to.equal('foobar');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'text',
-        text: 'foobar'
+        text: 'foobar',
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const textInput = findTextarea('text', container);
 
       // when
-      fireEvent.input(textInput, { target: { value: 'newVal' } });
+      fireEvent.input(textInput, {target: {value: 'newVal'}});
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.text).to.equal('newVal');
     });
-
   });
 
-
-  describe('disabled', function() {
-
-    it('should NOT render for default', function() {
-
+  describe('disabled', function () {
+    it('should NOT render for default', function () {
       // given
-      const field = { type: 'default' };
+      const field = {type: 'default'};
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       // then
       const disabledInput = findInput('disabled', container);
@@ -692,16 +602,13 @@ describe('GeneralGroup', function() {
       expect(disabledInput).to.not.exist;
     });
 
-
-    it('should render for INPUTS', function() {
-
+    it('should render for INPUTS', function () {
       // given
       for (const type of INPUTS) {
-
-        const field = { type };
+        const field = {type};
 
         // when
-        const { container } = renderGeneralGroup({ field });
+        const {container} = renderGeneralGroup({field});
 
         // then
         const disabledInput = findInput('disabled', container);
@@ -710,17 +617,15 @@ describe('GeneralGroup', function() {
       }
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
-        disabled: true
+        disabled: true,
       };
 
       // when
-      const { container } = renderGeneralGroup({ field });
+      const {container} = renderGeneralGroup({field});
 
       const disabledInput = findInput('disabled', container);
 
@@ -729,18 +634,18 @@ describe('GeneralGroup', function() {
       expect(disabledInput.checked).to.equal(true);
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
-        disabled: true
+        disabled: true,
       };
 
-      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+      const editFieldSpy = sinon.spy((field, path, value) =>
+        set(field, path, value),
+      );
 
-      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+      const {container} = renderGeneralGroup({field, editField: editFieldSpy});
 
       const disabledInput = findInput('disabled', container);
 
@@ -751,26 +656,24 @@ describe('GeneralGroup', function() {
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.disabled).to.equal(false);
     });
-
   });
-
 });
-
 
 // helper ///////////////
 
 function renderGeneralGroup(options) {
-  const {
-    editField,
-    field
-  } = options;
+  const {editField, field} = options;
 
-  const groups = [ GeneralGroup(field, editField) ];
+  const groups = [GeneralGroup(field, editField)];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    WithPropertiesPanelContext(
+      WithPropertiesPanel({
+        field,
+        groups,
+      }),
+    ),
+  );
 }
 
 function findEntry(id, container) {

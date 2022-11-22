@@ -1,10 +1,7 @@
 import Default from '../../../../../src/render/components/form-fields/Default';
 
-
-describe('Default', function() {
-
-  it('#create', function() {
-
+describe('Default', function () {
+  it('#create', function () {
     // assume
     expect(Default.type).to.eql('default');
     expect(Default.label).not.to.exist;
@@ -15,18 +12,17 @@ describe('Default', function() {
 
     // then
     expect(field).to.eql({
-      components: []
+      components: [],
     });
 
     // but when
     const customField = Default.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
-
 });

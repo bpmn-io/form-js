@@ -28,7 +28,8 @@
     "start:viewer": "npm run start:pkg -- @bpmn-io/form-js-viewer",
     "start:viewer:stress": "cross-env SINGLE_START=stress npm run dev -- @bpmn-io/form-js-viewer",
     "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor",
-    "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground"
+    "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -71,12 +72,13 @@
     "chai": "^4.3.5",
     "cross-env": "^7.0.3",
     "del-cli": "^4.0.0",
-    "didi": "^9.0.0",
     "diagram-js": "^10.0.0",
+    "didi": "^9.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-bpmn-io": "^0.16.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "8.0.2",
     "karma": "^6.3.20",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.3",
@@ -87,10 +89,12 @@
     "karma-sinon-chai": "^2.0.2",
     "karma-webpack": "^5.0.0",
     "lerna": "^5.5.0",
+    "lint-staged": "13.0.3",
     "mocha": "^9.0.1",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
     "preact": "^10.5.14",
+    "prettier": "2.7.1",
     "puppeteer": "^10.0.0",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
@@ -102,5 +106,8 @@
     "source-map-loader": "^3.0.0",
     "typescript": "^4.3.4",
     "webpack": "^5.40.0"
+  },
+  "lint-staged": {
+    "*": "prettier --write"
   }
 }

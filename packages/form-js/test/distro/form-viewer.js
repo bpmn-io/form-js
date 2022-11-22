@@ -1,5 +1,4 @@
-describe('form-viewer', function() {
-
+describe('form-viewer', function () {
   let container;
 
   beforeEach(() => {
@@ -8,9 +7,7 @@ describe('form-viewer', function() {
     document.body.appendChild(container);
   });
 
-
-  it('should expose <FormViewer> global', function() {
-
+  it('should expose <FormViewer> global', function () {
     // when
     const FormViewer = window.FormViewer;
 
@@ -21,38 +18,36 @@ describe('form-viewer', function() {
     expect(FormViewer.schemaVersion).to.exist;
   });
 
-
-  it('should display form', async function() {
-
-    const { createForm } = window.FormViewer;
+  it('should display form', async function () {
+    const {createForm} = window.FormViewer;
 
     const schema = {
       type: 'default',
       components: [
         {
           type: 'text',
-          text: 'Apply for a loan'
+          text: 'Apply for a loan',
         },
         {
           key: 'creditor',
           label: 'Creditor',
           type: 'textfield',
           validate: {
-            required: true
-          }
-        }
-      ]
+            required: true,
+          },
+        },
+      ],
     };
 
     const data = {
-      creditor: 'John Doe Company'
+      creditor: 'John Doe Company',
     };
 
     // when
     const form = await createForm({
       container,
       schema,
-      data
+      data,
     });
 
     // then
@@ -61,5 +56,4 @@ describe('form-viewer', function() {
     expect(form.submit).to.exist;
     expect(form._update).to.exist;
   });
-
 });

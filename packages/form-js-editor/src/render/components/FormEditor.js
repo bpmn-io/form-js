@@ -1,40 +1,34 @@
-import { render } from 'preact';
+import {render} from 'preact';
 import {
   useCallback,
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from 'preact/hooks';
 
 import {
   FormComponent,
   FormContext,
-  FormRenderContext
+  FormRenderContext,
 } from '@bpmn-io/form-js-viewer';
 
 import useService from '../hooks/useService';
 
-import { DragAndDropContext } from '../context';
+import {DragAndDropContext} from '../context';
 
 import dragula from 'dragula';
 
-import { ListDeleteIcon } from '../../features/properties-panel/icons';
+import {ListDeleteIcon} from '../../features/properties-panel/icons';
 
-import { iconsByType } from './icons';
+import {iconsByType} from './icons';
 
 function ContextPad(props) {
   if (!props.children) {
     return null;
   }
 
-  return (
-    <div class="fjs-context-pad">
-      {
-        props.children
-      }
-    </div>
-  );
+  return <div class="fjs-context-pad">{props.children}</div>;
 }
 
 function Empty(props) {
@@ -43,27 +37,24 @@ function Empty(props) {
 
 function Element(props) {
   const eventBus = useService('eventBus'),
-        formEditor = useService('formEditor'),
-        formFieldRegistry = useService('formFieldRegistry'),
-        modeling = useService('modeling'),
-        selection = useService('selection');
+    formEditor = useService('formEditor'),
+    formFieldRegistry = useService('formFieldRegistry'),
+    modeling = useService('modeling'),
+    selection = useService('selection');
 
-  const { field } = props;
+  const {field} = props;
 
-  const {
-    id,
-    type
-  } = field;
+  const {id, type} = field;
 
   const ref = useRef();
 
-  function scrollIntoView({ selection }) {
+  function scrollIntoView({selection}) {
     if (!selection || selection.id !== id || !ref.current) {
       return;
     }
 
     const elementBounds = ref.current.getBoundingClientRect(),
-          containerBounds = formEditor._container.getBoundingClientRect();
+      containerBounds = formEditor._container.getBoundingClientRect();
 
     if (elementBounds.top < 0 || elementBounds.top > containerBounds.bottom) {
       ref.current.scrollIntoView();
@@ -74,7 +65,7 @@ function Element(props) {
     eventBus.on('selection.changed', scrollIntoView);
 
     return () => eventBus.off('selection.changed', scrollIntoView);
-  }, [ id ]);
+  }, [id]);
 
   function onClick(event) {
     event.stopPropagation();
@@ -82,7 +73,7 @@ function Element(props) {
     selection.toggle(field);
   }
 
-  const classes = [ 'fjs-element' ];
+  const classes = ['fjs-element'];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
@@ -104,61 +95,60 @@ function Element(props) {
 
   return (
     <div
-      class={ classes.join(' ') }
-      data-id={ id }
-      data-field-type={ type }
-      onClick={ onClick }
-      ref={ ref }>
+      class={classes.join(' ')}
+      data-id={id}
+      data-field-type={type}
+      onClick={onClick}
+      ref={ref}
+    >
       <ContextPad>
-        {
-          selection.isSelected(field) && field.type !== 'default'
-            ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button>
-            : null
-        }
+        {selection.isSelected(field) && field.type !== 'default' ? (
+          <button class="fjs-context-pad-item" onClick={onRemove}>
+            <ListDeleteIcon />
+          </button>
+        ) : null}
       </ContextPad>
-      { props.children }
+      {props.children}
     </div>
   );
 }
 
 function Children(props) {
-  const { field } = props;
+  const {field} = props;
 
-  const { id } = field;
+  const {id} = field;
 
-  const classes = [ 'fjs-children', 'fjs-drag-container' ];
+  const classes = ['fjs-children', 'fjs-drag-container'];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
   }
 
   return (
-    <div
-      class={ classes.join(' ') }
-      data-id={ id }>
-      { props.children }
+    <div class={classes.join(' ')} data-id={id}>
+      {props.children}
     </div>
   );
 }
 
 export default function FormEditor(props) {
   const eventBus = useService('eventBus'),
-        formEditor = useService('formEditor'),
-        formFieldRegistry = useService('formFieldRegistry'),
-        injector = useService('injector'),
-        modeling = useService('modeling'),
-        selection = useService('selection'),
-        palette = useService('palette'),
-        paletteConfig = useService('config.palette'),
-        propertiesPanel = useService('propertiesPanel'),
-        propertiesPanelConfig = useService('config.propertiesPanel');
+    formEditor = useService('formEditor'),
+    formFieldRegistry = useService('formFieldRegistry'),
+    injector = useService('injector'),
+    modeling = useService('modeling'),
+    selection = useService('selection'),
+    palette = useService('palette'),
+    paletteConfig = useService('config.palette'),
+    propertiesPanel = useService('propertiesPanel'),
+    propertiesPanelConfig = useService('config.propertiesPanel');
 
-  const { schema } = formEditor._getState();
+  const {schema} = formEditor._getState();
 
   const paletteRef = useRef(null);
   const propertiesPanelRef = useRef(null);
 
-  const [ , setSelection ] = useState(schema);
+  const [, setSelection] = useState(schema);
 
   useEffect(() => {
     function handleSelectionChanged(event) {
@@ -172,12 +162,12 @@ export default function FormEditor(props) {
     return () => {
       eventBus.off('selection.changed', handleSelectionChanged);
     };
-  }, [ schema, selection ]);
+  }, [schema, selection]);
 
-  const [ drake, setDrake ] = useState(null);
+  const [drake, setDrake] = useState(null);
 
   const dragAndDropContext = {
-    drake
+    drake,
   };
 
   useEffect(() => {
@@ -193,7 +183,7 @@ export default function FormEditor(props) {
           return !target.classList.contains('fjs-no-drop');
         },
         slideFactorX: 10,
-        slideFactorY: 5
+        slideFactorY: 5,
       });
 
       dragulaInstance.on('drop', (el, target, source, sibling) => {
@@ -205,19 +195,28 @@ export default function FormEditor(props) {
 
         const targetFormField = formFieldRegistry.get(target.dataset.id);
 
-        const siblingFormField = sibling && formFieldRegistry.get(sibling.dataset.id),
-              targetIndex = siblingFormField ? getFormFieldIndex(targetFormField, siblingFormField) : targetFormField.components.length;
+        const siblingFormField =
+            sibling && formFieldRegistry.get(sibling.dataset.id),
+          targetIndex = siblingFormField
+            ? getFormFieldIndex(targetFormField, siblingFormField)
+            : targetFormField.components.length;
 
         if (source.classList.contains('fjs-palette-fields')) {
           const type = el.dataset.fieldType;
 
-          modeling.addFormField({ type }, targetFormField, targetIndex);
+          modeling.addFormField({type}, targetFormField, targetIndex);
         } else {
           const formField = formFieldRegistry.get(el.dataset.id),
-                sourceFormField = formFieldRegistry.get(source.dataset.id),
-                sourceIndex = getFormFieldIndex(sourceFormField, formField);
+            sourceFormField = formFieldRegistry.get(source.dataset.id),
+            sourceIndex = getFormFieldIndex(sourceFormField, formField);
 
-          modeling.moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex);
+          modeling.moveFormField(
+            formField,
+            sourceFormField,
+            targetFormField,
+            sourceIndex,
+            targetIndex,
+          );
         }
       });
 
@@ -263,12 +262,11 @@ export default function FormEditor(props) {
   const formRenderContext = {
     Children,
     Element,
-    Empty
+    Empty,
   };
 
   const formContext = {
     getService(type, strict = true) {
-
       // TODO(philippfromme): clean up
       if (type === 'formFieldRegistry') {
         return new Map();
@@ -279,17 +277,17 @@ export default function FormEditor(props) {
               data: {},
               errors: {},
               properties: {
-                readOnly: true
+                readOnly: true,
               },
-              schema
+              schema,
             };
-          }
+          },
         };
       }
 
       return injector.get(type, strict);
     },
-    formId: formEditor._id
+    formId: formEditor._id,
   };
 
   const onSubmit = useCallback(() => {}, []);
@@ -303,35 +301,38 @@ export default function FormEditor(props) {
     if (hasDefaultPalette) {
       palette.attachTo(paletteRef.current);
     }
-  }, [ palette, paletteRef, hasDefaultPalette ]);
+  }, [palette, paletteRef, hasDefaultPalette]);
 
   // attach default properties panel
-  const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
+  const hasDefaultPropertiesPanel = defaultPropertiesPanel(
+    propertiesPanelConfig,
+  );
 
   useEffect(() => {
     if (hasDefaultPropertiesPanel) {
       propertiesPanel.attachTo(propertiesPanelRef.current);
     }
-  }, [ propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel ]);
+  }, [propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel]);
 
   return (
     <div class="fjs-form-editor">
-
-      <DragAndDropContext.Provider value={ dragAndDropContext }>
-        { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
+      <DragAndDropContext.Provider value={dragAndDropContext}>
+        {hasDefaultPalette && (
+          <div class="fjs-editor-palette-container" ref={paletteRef} />
+        )}
         <div class="fjs-form-container">
-
-          <FormContext.Provider value={ formContext }>
-            <FormRenderContext.Provider value={ formRenderContext }>
-              <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
+          <FormContext.Provider value={formContext}>
+            <FormRenderContext.Provider value={formRenderContext}>
+              <FormComponent onSubmit={onSubmit} onReset={onReset} />
             </FormRenderContext.Provider>
           </FormContext.Provider>
-
         </div>
         <CreatePreview />
       </DragAndDropContext.Provider>
 
-      { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
+      {hasDefaultPropertiesPanel && (
+        <div class="fjs-editor-properties-container" ref={propertiesPanelRef} />
+      )}
     </div>
   );
 }
@@ -339,7 +340,7 @@ export default function FormEditor(props) {
 function getFormFieldIndex(parent, formField) {
   let fieldFormIndex = parent.components.length;
 
-  parent.components.forEach(({ id }, index) => {
+  parent.components.forEach(({id}, index) => {
     if (id === formField.id) {
       fieldFormIndex = index;
     }
@@ -349,14 +350,12 @@ function getFormFieldIndex(parent, formField) {
 }
 
 function CreatePreview(props) {
-
-  const { drake } = useContext(DragAndDropContext);
+  const {drake} = useContext(DragAndDropContext);
 
   function handleCloned(clone, original, type) {
-
     const fieldType = clone.dataset.fieldType;
 
-    const Icon = iconsByType[ fieldType ];
+    const Icon = iconsByType[fieldType];
 
     if (fieldType) {
       clone.innerHTML = '';
@@ -375,11 +374,10 @@ function CreatePreview(props) {
     drake.on('cloned', handleCloned);
 
     return () => drake.off('cloned', handleCloned);
-  }, [ drake ]);
+  }, [drake]);
 
   return null;
 }
-
 
 // helper //////
 

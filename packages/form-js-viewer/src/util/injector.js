@@ -1,7 +1,6 @@
-import { Injector } from 'didi';
+import {Injector} from 'didi';
 
 export function createInjector(bootstrapModules) {
-
   const injector = new Injector(bootstrapModules);
 
   injector.init();

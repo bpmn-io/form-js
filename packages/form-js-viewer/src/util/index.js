@@ -2,7 +2,7 @@ export * from './injector';
 export * from './form';
 
 export function findErrors(errors, path) {
-  return errors[ pathStringify(path) ];
+  return errors[pathStringify(path)];
 }
 
 export function isRequired(field) {
@@ -14,7 +14,7 @@ export function pathParse(path) {
     return [];
   }
 
-  return path.split('.').map(key => {
+  return path.split('.').map((key) => {
     return isNaN(parseInt(key)) ? key : parseInt(key);
   });
 }
@@ -24,7 +24,7 @@ export function pathsEqual(a, b) {
     a &&
     b &&
     a.length === b.length &&
-    a.every((value, index) => value === b[ index ])
+    a.every((value, index) => value === b[index])
   );
 }
 
@@ -40,16 +40,16 @@ const indices = {};
 
 export function generateIndexForType(type) {
   if (type in indices) {
-    indices[ type ]++;
+    indices[type]++;
   } else {
-    indices[ type ] = 1;
+    indices[type] = 1;
   }
 
-  return indices[ type ];
+  return indices[type];
 }
 
 export function generateIdForType(type) {
-  return `${ type }${ generateIndexForType(type) }`;
+  return `${type}${generateIndexForType(type)}`;
 }
 
 /**
@@ -71,32 +71,25 @@ export function clone(data, replacer) {
  */
 
 export function getSchemaVariables(schema) {
-
   if (!schema.components) {
     return [];
   }
 
   return schema.components.reduce((variables, component) => {
+    const {key, valuesKey, type} = component;
 
-    const {
-      key,
-      valuesKey,
-      type
-    } = component;
-
-    if ([ 'text', 'button' ].includes(type)) {
+    if (['text', 'button'].includes(type)) {
       return variables;
     }
 
     if (key) {
-      variables = [ ...variables, key ];
+      variables = [...variables, key];
     }
 
     if (valuesKey && !variables.includes(valuesKey)) {
-      variables = [ ...variables, valuesKey ];
+      variables = [...variables, valuesKey];
     }
 
     return variables;
-
   }, []);
 }

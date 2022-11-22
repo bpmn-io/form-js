@@ -1,19 +1,16 @@
-import { Default } from '@bpmn-io/form-js-viewer';
+import {Default} from '@bpmn-io/form-js-viewer';
 
-import { useService } from '../hooks';
+import {useService} from '../hooks';
 
-import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
-
+import {
+  NumberFieldEntry,
+  isNumberFieldEntryEdited,
+} from '@bpmn-io/properties-panel';
 
 export default function ColumnsEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const {editField, field} = props;
 
-  const {
-    type
-  } = field;
+  const {type} = field;
 
   const entries = [];
 
@@ -23,7 +20,7 @@ export default function ColumnsEntry(props) {
       component: Columns,
       editField: editField,
       field: field,
-      isEdited: isNumberFieldEntryEdited
+      isEdited: isNumberFieldEntryEdited,
     });
   }
 
@@ -31,11 +28,7 @@ export default function ColumnsEntry(props) {
 }
 
 function Columns(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const {editField, field, id} = props;
 
   const debounce = useService('debounce');
 
@@ -48,7 +41,7 @@ function Columns(props) {
 
     if (value > components.length) {
       while (value > components.length) {
-        components.push(Default.create({ _parent: field.id }));
+        components.push(Default.create({_parent: field.id}));
       }
     } else {
       components = components.slice(0, value);
@@ -63,6 +56,6 @@ function Columns(props) {
     getValue,
     id,
     label: 'Columns',
-    setValue
+    setValue,
   });
 }

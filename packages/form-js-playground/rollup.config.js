@@ -12,18 +12,20 @@ function pgl(plugins = []) {
     babel({
       babelHelpers: 'bundled',
       plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': 'preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+        [
+          '@babel/plugin-transform-react-jsx',
+          {
+            importSource: 'preact',
+            runtime: 'automatic',
+          },
+        ],
+      ],
     }),
     css({
-      output: 'assets/form-js-playground.css'
+      output: 'assets/form-js-playground.css',
     }),
-    ...plugins
+    ...plugins,
   ];
-
 }
 
 export default [
@@ -33,13 +35,13 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     plugins: pgl(),
     external: [
@@ -56,8 +58,8 @@ export default [
       '@codemirror/lint',
       '@codemirror/view',
       'codemirror',
-      'classnames'
-    ]
+      'classnames',
+    ],
   },
   {
     input: 'src/index.js',
@@ -65,12 +67,9 @@ export default [
       {
         format: 'umd',
         file: pkg['umd:main'],
-        name: 'FormPlayground'
-      }
+        name: 'FormPlayground',
+      },
     ],
-    plugins: pgl([
-      resolve(),
-      commonjs()
-    ])
-  }
+    plugins: pgl([resolve(), commonjs()]),
+  },
 ];

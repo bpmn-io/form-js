@@ -10,32 +10,34 @@ function pgl(plugins = []) {
   return [
     alias({
       entries: [
-        { find: 'react', replacement: 'preact/compat' },
-        { find: 'react-dom', replacement: 'preact/compat' },
+        {find: 'react', replacement: 'preact/compat'},
+        {find: 'react-dom', replacement: 'preact/compat'},
 
         // we need this to make sure we use the same
         // preact version for the properties panel
-        { find: '../preact', replacement: 'preact' },
-        { find: '../preact/hooks', replacement: 'preact/hooks' },
-        { find: '../preact/jsx-runtime', replacement: 'preact/jsx-runtime' }
-      ]
+        {find: '../preact', replacement: 'preact'},
+        {find: '../preact/hooks', replacement: 'preact/hooks'},
+        {find: '../preact/jsx-runtime', replacement: 'preact/jsx-runtime'},
+      ],
     }),
     resolve({
-      resolveOnly: [ 'diagram-js', '@bpmn-io/properties-panel' ]
+      resolveOnly: ['diagram-js', '@bpmn-io/properties-panel'],
     }),
     reactSvg(),
     babel({
       babelHelpers: 'bundled',
       plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': 'preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+        [
+          '@babel/plugin-transform-react-jsx',
+          {
+            importSource: 'preact',
+            runtime: 'automatic',
+          },
+        ],
+      ],
     }),
-    ...plugins
+    ...plugins,
   ];
-
 }
 
 export default [
@@ -45,13 +47,13 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     external: [
       'ids',
@@ -62,16 +64,22 @@ export default [
       'preact/hooks',
       'preact/compat',
       'dragula',
-      '@bpmn-io/form-js-viewer'
+      '@bpmn-io/form-js-viewer',
     ],
     plugins: pgl([
       copy({
         targets: [
-          { src: 'assets/form-js-editor.css', dest: 'dist/assets' },
-          { src: '../../node_modules/dragula/dist/dragula.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/properties-panel/assets/properties-panel.css', dest: 'dist/assets' }
-        ]
-      })
-    ])
-  }
+          {src: 'assets/form-js-editor.css', dest: 'dist/assets'},
+          {
+            src: '../../node_modules/dragula/dist/dragula.css',
+            dest: 'dist/assets',
+          },
+          {
+            src: '../../node_modules/@bpmn-io/properties-panel/assets/properties-panel.css',
+            dest: 'dist/assets',
+          },
+        ],
+      }),
+    ]),
+  },
 ];
