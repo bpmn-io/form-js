@@ -1,6 +1,7 @@
 import {
   fireEvent,
-  render
+  render,
+  screen
 } from '@testing-library/preact/pure';
 
 import Taglist from '../../../../../src/render/components/form-fields/Taglist';
@@ -224,7 +225,7 @@ describe('Taglist', function() {
         // when
         const removeButton = container.querySelectorAll('.fjs-taglist-tag-remove')[ 1 ];
 
-        fireEvent.mouseDown(removeButton);
+        fireEvent.click(removeButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -234,7 +235,7 @@ describe('Taglist', function() {
       });
 
 
-      it('should work via keyboard', function() {
+      it('should work via backspace keyboard', function() {
 
         // given
         const onChangeSpy = spy();
@@ -278,6 +279,27 @@ describe('Taglist', function() {
           value: [ 'dynamicValue1' ]
         });
       });
+
+
+      it('restore focus if last tag got removed', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createTaglist({
+          onChange: onChangeSpy,
+          value: [ 'tag1', 'tag2', 'tag3' ]
+        });
+
+        // when
+        const removeButton = container.querySelectorAll('.fjs-taglist-tag-remove')[ 2 ];
+
+        fireEvent.click(removeButton);
+
+        // then
+        expect(document.activeElement).to.equal(container.querySelector('.fjs-taglist-input'));
+      });
+
     });
 
     describe('filtering', function() {
@@ -633,6 +655,32 @@ describe('Taglist', function() {
 
       // then
       await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - focus on', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTaglist({
+        value: [ 'tag1', 'tag2', 'tag3' ]
+      });
+
+
+      const input = screen.getByLabelText('Taglist');
+      fireEvent.focus(input);
+
+      // then
+      // @Note: we ignore the dropdownlist is not focussable,
+      // as it is keyboard navigatible via up/down keys
+      await expectNoViolations(container, {
+        rules: {
+          'scrollable-region-focusable': {
+            enabled: false
+          }
+        }
+      });
     });
 
   });

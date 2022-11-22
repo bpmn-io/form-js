@@ -44,6 +44,7 @@ describe('DropdownList', function() {
 
   });
 
+
   it('should render custom label mappings', function() {
 
     // given

@@ -267,6 +267,12 @@
   background-color: var(--color-grey-225-10-90);
 }
 
+.fjs-container .fjs-taglist .fjs-taglist-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-label {
   padding: 2px 6px 2px 8px;
 }
@@ -278,18 +284,26 @@
   text-align: center;
   line-height: 28px;
   background-color: var(--color-grey-225-10-80);
+  border: none;
+  padding: 1px 0;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove svg {
   opacity: 0.6;
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover {
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover,
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:focus-visible {
   background-color: var(--color-grey-225-10-75);
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover > svg {
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover > svg,
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:focus-visible > svg {
   opacity: 1;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:focus-visible {
+  outline: none;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-input {
@@ -311,7 +325,8 @@
 .fjs-container .fjs-dropdownlist {
   position: absolute;
   user-select: none;
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 120px;
   scroll-behavior: smooth;
   width: 100%;
   border-radius: 3px;

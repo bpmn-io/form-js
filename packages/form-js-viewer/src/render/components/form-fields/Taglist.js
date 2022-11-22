@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
@@ -113,22 +114,44 @@ export default function Taglist(props) {
     }
   };
 
+  const onTagRemoveClick = (event, value) => {
+    const { target } = event;
+
+    deselectValue(value);
+
+    // restore focus if there is no next sibling to focus
+    const nextTag = target.closest('.fjs-taglist-tag').nextSibling;
+    if (!nextTag) {
+      searchbarRef.current.focus();
+    }
+  };
+
   return <div class={ formFieldClasses(type, errors) }>
     <Label
       label={ label }
       id={ prefixId(`${id}-search`, formId) } />
     <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
       {!disabled && loadState === LOAD_STATES.LOADED &&
-        values.map((v) => {
-          return (
-            <div class="fjs-taglist-tag" onMouseDown={ (e) => e.preventDefault() }>
-              <span class="fjs-taglist-tag-label">
-                {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
-              </span>
-              <span class="fjs-taglist-tag-remove" onMouseDown={ () => deselectValue(v) }><CloseIcon /></span>
-            </div>
-          );
-        })
+        <div class="fjs-taglist-tags">
+          {
+            values.map((v) => {
+              return (
+                <div class="fjs-taglist-tag" onMouseDown={ (e) => e.preventDefault() }>
+                  <span class="fjs-taglist-tag-label">
+                    {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
+                  </span>
+                  <button
+                    type="button"
+                    title="Remove tag"
+                    class="fjs-taglist-tag-remove"
+                    onClick={ (event) => onTagRemoveClick(event, v) }>
+                    <CloseIcon />
+                  </button>
+                </div>
+              );
+            })
+          }
+        </div>
       }
       <input
         disabled={ disabled }
