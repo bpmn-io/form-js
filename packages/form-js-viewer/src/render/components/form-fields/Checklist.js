@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
-
+import classNames from 'classnames';
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -12,7 +12,6 @@ import {
   prefixId,
   sanitizeMultiSelectValue
 } from '../Util';
-import classNames from 'classnames';
 
 const type = 'checklist';
 
@@ -54,38 +53,34 @@ export default function Checklist(props) {
 
   const { formId } = useContext(FormContext);
 
-  return (
-    <div
-      class={ classNames(formFieldClasses(type, { errors, disabled })) }
-    >
-      <Label label={ label } />
-      {loadState == LOAD_STATES.LOADED &&
-        options.map((v, index) => {
-          return (
-            <Label
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
+    <Label
+      label={ label } />
+    {
+      loadState == LOAD_STATES.LOADED && options.map((v, index) => {
+        return (
+          <Label
+            id={ prefixId(`${id}-${index}`, formId) }
+            key={ `${id}-${index}` }
+            label={ v.label }
+            class={ classNames({
+              'fjs-checked': value.includes(v.value)
+            }) }
+            required={ false }>
+            <input
+              checked={ value.includes(v.value) }
+              class="fjs-input"
+              disabled={ disabled }
               id={ prefixId(`${id}-${index}`, formId) }
-              key={ `${id}-${index}` }
-              label={ v.label }
-              required={ false }
-              class={ classNames({
-                'fjs-checked': value.includes(v.value),
-              }) }
-            >
-              <input
-                checked={ value.includes(v.value) }
-                class="fjs-input"
-                disabled={ disabled }
-                id={ prefixId(`${id}-${index}`, formId) }
-                type="checkbox"
-                onClick={ () => toggleCheckbox(v.value) }
-              />
-            </Label>
-          );
-        })}
-      <Description description={ description } />
-      <Errors errors={ errors } />
-    </div>
-  );
+              type="checkbox"
+              onClick={ () => toggleCheckbox(v.value) } />
+          </Label>
+        );
+      })
+    }
+    <Description description={ description } />
+    <Errors errors={ errors } />
+  </div>;
 }
 
 Checklist.create = function(options = {}) {

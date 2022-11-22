@@ -11,7 +11,7 @@ export function formFieldClasses(type, { errors = [], disabled = false } = {}) {
 
   return classNames('fjs-form-field', `fjs-form-field-${type}`, {
     'fjs-has-errors': errors.length > 0,
-    'fjs-disabled': disabled,
+    'fjs-disabled': disabled
   });
 }
 

@@ -58,8 +58,8 @@ export default function Radio(props) {
             id={ prefixId(`${ id }-${ index }`, formId) }
             key={ `${ id }-${ index }` }
             label={ option.label }
-            required={ false }
-            class={ classNames({ 'fjs-checked': option.value === value }) }>
+            class={ classNames({ 'fjs-checked': option.value === value }) }
+            required={ false }>
             <input
               checked={ option.value === value }
               class="fjs-input"

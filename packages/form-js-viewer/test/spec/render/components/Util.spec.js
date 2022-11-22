@@ -28,6 +28,7 @@ describe('Util', function() {
       expect(classes).to.equal('fjs-form-field fjs-form-field-button fjs-has-errors');
     });
 
+
     it('should contain disabled class', function() {
 
       // when
