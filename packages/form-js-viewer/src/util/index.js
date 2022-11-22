@@ -1,3 +1,5 @@
+import { getVariableNames } from './feel';
+
 export * from './injector';
 export * from './form';
 
@@ -69,19 +71,19 @@ export function clone(data, replacer) {
  *
  * @return {string[]}
  */
-
 export function getSchemaVariables(schema) {
 
   if (!schema.components) {
     return [];
   }
 
-  return schema.components.reduce((variables, component) => {
+  const variables = schema.components.reduce((variables, component) => {
 
     const {
       key,
       valuesKey,
-      type
+      type,
+      condition
     } = component;
 
     if ([ 'text', 'button' ].includes(type)) {
@@ -92,11 +94,21 @@ export function getSchemaVariables(schema) {
       variables = [ ...variables, key ];
     }
 
-    if (valuesKey && !variables.includes(valuesKey)) {
+    if (valuesKey) {
       variables = [ ...variables, valuesKey ];
     }
 
-    return variables;
+    if (condition) {
 
+      // cut off initial '='
+      const conditionVariables = getVariableNames(condition.slice(1));
+
+      variables = [ ...variables, ...conditionVariables ];
+    }
+
+    return variables;
   }, []);
+
+  // remove duplicates
+  return Array.from(new Set(variables));
 }
