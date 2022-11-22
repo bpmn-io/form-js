@@ -4,6 +4,7 @@ import {
 
 import schema from '../form.json';
 import dynamicSchema from '../dynamic.json';
+import conditionalSchema from '../condition-external-variable.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -22,6 +23,14 @@ describe('util/getSchemaVariables', () => {
 
     expect(variables).to.eql([ 'product', 'xyzData', 'mailto', 'language', 'tags' ]);
 
+  });
+
+
+  it('should include variables in the conditions', () => {
+
+    const variables = getSchemaVariables(conditionalSchema);
+
+    expect(variables).to.eql([ 'amount', 'externalVariable' ]);
   });
 
 });
