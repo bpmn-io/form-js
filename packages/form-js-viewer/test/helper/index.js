@@ -178,12 +178,12 @@ export function insertCSS(name, css) {
 
 export async function expectNoViolations(node, options = {}) {
   const {
-    rules,
+    runOnly,
     ...rest
   } = options;
 
   const results = await axe.run(node, {
-    runOnly: rules || DEFAULT_AXE_RULES,
+    runOnly: runOnly || DEFAULT_AXE_RULES,
     ...rest
   });
 
