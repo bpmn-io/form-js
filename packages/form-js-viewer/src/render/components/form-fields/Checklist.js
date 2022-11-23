@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
-
+import classNames from 'classnames';
 import { FormContext } from '../../context';
 
 import Description from '../Description';
@@ -53,7 +53,7 @@ export default function Checklist(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
     <Label
       label={ label } />
     {
@@ -63,6 +63,9 @@ export default function Checklist(props) {
             id={ prefixId(`${id}-${index}`, formId) }
             key={ `${id}-${index}` }
             label={ v.label }
+            class={ classNames({
+              'fjs-checked': value.includes(v.value)
+            }) }
             required={ false }>
             <input
               checked={ value.includes(v.value) }

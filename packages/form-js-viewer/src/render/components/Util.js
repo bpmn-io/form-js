@@ -1,24 +1,20 @@
 import snarkdown from '@bpmn-io/snarkdown';
 import { get } from 'min-dash';
+import classNames from 'classnames';
 
 import { sanitizeHTML } from './Sanitizer';
 
-export function formFieldClasses(type, errors = []) {
+export function formFieldClasses(type, { errors = [], disabled = false } = {}) {
   if (!type) {
     throw new Error('type required');
   }
 
-  const classes = [
-    'fjs-form-field',
-    `fjs-form-field-${ type }`
-  ];
-
-  if (errors.length) {
-    classes.push('fjs-has-errors');
-  }
-
-  return classes.join(' ');
+  return classNames('fjs-form-field', `fjs-form-field-${type}`, {
+    'fjs-has-errors': errors.length > 0,
+    'fjs-disabled': disabled
+  });
 }
+
 
 export function prefixId(id, formId) {
   if (formId) {

@@ -285,6 +285,7 @@
   text-align: center;
   line-height: 28px;
   background-color: var(--color-grey-225-10-80);
+  color: var(--color-black);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove svg {

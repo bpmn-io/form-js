@@ -10,6 +10,7 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
+import classNames from 'classnames';
 
 const type = 'checkbox';
 
@@ -37,7 +38,7 @@ export default function Checkbox(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, errors) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled }), { 'fjs-checked': value }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
