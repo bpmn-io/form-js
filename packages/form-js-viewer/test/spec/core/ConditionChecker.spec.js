@@ -17,17 +17,17 @@ describe('ConditionChecker', function() {
 
   describe('#check', function() {
 
-    it('should return true if there is no condition', function() {
+    it('should return null if there is no condition', function() {
 
       // when
       const result = conditionChecker.check();
 
       // then
-      expect(result).to.be.true;
+      expect(result).to.be.null;
     });
 
 
-    it('should return false for non-string condition', function() {
+    it('should return null for non-string condition', function() {
 
       // given
       const condition = 1;
@@ -36,11 +36,11 @@ describe('ConditionChecker', function() {
       const result = conditionChecker.check(condition);
 
       // then
-      expect(result).to.be.false;
+      expect(result).to.be.null;
     });
 
 
-    it('should return false if condition does not start with =', function() {
+    it('should return null if condition does not start with =', function() {
 
       // given
       const condition = 'foo';
@@ -49,11 +49,11 @@ describe('ConditionChecker', function() {
       const result = conditionChecker.check(condition);
 
       // then
-      expect(result).to.be.false;
+      expect(result).to.be.null;
     });
 
 
-    it('should return false and report error if condition has syntax error', function() {
+    it('should return null and report error if condition has syntax error', function() {
 
       // given
       const condition = '=foo-';
@@ -62,7 +62,7 @@ describe('ConditionChecker', function() {
       const result = conditionChecker.check(condition);
 
       // then
-      expect(result).to.be.false;
+      expect(result).to.be.null;
       expect(fireSpy).to.have.been.calledWith('error');
       expect(fireSpy.args[0][1].error).to.be.instanceof(Error);
     });
@@ -130,11 +130,15 @@ describe('ConditionChecker', function() {
       fields = [
         {
           key: 'foo',
-          condition: '=2 + 2 = 5'
+          conditional: {
+            hide: '=2 + 2 = 4'
+          }
         },
         {
           key: 'bar',
-          condition: '=2 + 2 = 4'
+          conditional: {
+            hide: '=2 + 2 = 5'
+          }
         }
       ];
 
@@ -159,11 +163,15 @@ describe('ConditionChecker', function() {
       fields = [
         {
           key: 'foo',
-          condition: '=2 + 2 = five'
+          conditional: {
+            hide: '=2 + 2 = four'
+          }
         },
         {
           key: 'bar',
-          condition: '=2 + 2 = four'
+          conditional: {
+            hide: '=2 + 2 = five'
+          }
         }
       ];
 

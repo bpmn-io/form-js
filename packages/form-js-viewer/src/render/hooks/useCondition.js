@@ -12,7 +12,7 @@ export function useCondition(condition, data) {
   const conditionChecker = useService('conditionChecker', false);
 
   if (!conditionChecker) {
-    return true;
+    return null;
   }
 
   return conditionChecker.check(condition, data);

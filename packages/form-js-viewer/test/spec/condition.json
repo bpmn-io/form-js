@@ -14,7 +14,9 @@
       "type": "textfield",
       "id": "Field",
       "key": "text",
-      "condition": "=amount > 2"
+      "conditional": {
+        "hide": "=amount <= 2"
+      }
     }
   ],
   "type": "default",
