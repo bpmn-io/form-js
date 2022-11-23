@@ -46,8 +46,8 @@ export default function FormField(props) {
 
   const disabled = properties.readOnly || field.disabled || false;
 
-  const visible = useCondition(field.condition, data);
-  if (!visible) {
+  const hidden = useHideCondition(field, data);
+  if (hidden) {
     return <Empty />;
   }
 
@@ -61,4 +61,10 @@ export default function FormField(props) {
         value={ value } />
     </Element>
   );
+}
+
+function useHideCondition(field, data) {
+  const hideCondition = field.conditional && field.conditional.hide;
+
+  return useCondition(hideCondition, data) === true;
 }
