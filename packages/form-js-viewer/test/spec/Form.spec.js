@@ -1026,12 +1026,14 @@ describe('Form', function() {
           conditionSchema.components[0],
           {
             ...conditionSchema.components[1],
-            condition: '=external'
+            conditional: {
+              hide: '=externalVariable'
+            }
           }
         ]
       };
       const initialData = {
-        external: true,
+        externalVariable: false,
         text: 'value'
       };
 
@@ -1080,12 +1082,14 @@ describe('Form', function() {
           conditionSchema.components[0],
           {
             ...conditionSchema.components[1],
-            condition: '=external'
+            conditional: {
+              hide: '=externalVariable'
+            }
           }
         ]
       };
       const initialData = {
-        external: false,
+        externalVariable: true,
         text: 'value'
       };
 

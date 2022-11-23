@@ -22,7 +22,10 @@ const defaultField = {
   key: 'creditor',
   label: 'Creditor',
   _path: [ 'creditor' ],
-  type: 'textfield'
+  type: 'textfield',
+  conditional: {
+    hide: '=someCondition'
+  }
 };
 
 
@@ -218,11 +221,11 @@ describe('FormField', function() {
   describe('condition', function() {
 
 
-    it('should display field for which condition is met', function() {
+    it('should display field when condition checker is unavailable', function() {
 
       // when
       const { container } = createFormField({
-        checkCondition: () => true
+        checkCondition: false
       });
 
       // then
@@ -232,11 +235,25 @@ describe('FormField', function() {
     });
 
 
-    it('should NOT display field if condition is NOT met', function() {
+    it('should display field for which hide condition is NOT met', function() {
 
       // when
       const { container } = createFormField({
         checkCondition: () => false
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+
+
+    it('should NOT display field if hide condition is met', function() {
+
+      // when
+      const { container } = createFormField({
+        checkCondition: () => true
       });
 
       // then
@@ -250,16 +267,16 @@ describe('FormField', function() {
 
       // when
       const { container } = createFormField({
-        checkCondition: (_, data) => data.shouldShow || false,
+        checkCondition: (_, data) => data.shouldHide || false,
         data: {
-          shouldShow: true
+          shouldHide: true
         }
       });
 
       // then
       const formField = container.querySelector('.fjs-form-field');
 
-      expect(formField).to.exist;
+      expect(formField).not.to.exist;
     });
 
   });
@@ -277,7 +294,7 @@ function createFormField(options = {}) {
     initialData = {},
     onChange = () => {},
     properties = {},
-    checkCondition = () => true
+    checkCondition = () => false
   } = options;
 
   const formContext = {
@@ -302,11 +319,11 @@ function createFormField(options = {}) {
           }
         };
       } else if (type === 'conditionChecker') {
-        return {
+        return checkCondition !== false ? {
           check(...args) {
             return checkCondition(...args);
           }
-        };
+        } : undefined;
       }
     }
   };
