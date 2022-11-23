@@ -21,6 +21,117 @@ describe('Validator', function() {
     });
 
 
+    describe('<number>', function() {
+
+      it('should disallow NaN', function() {
+
+        // given
+        const field = {
+          type: 'number',
+        };
+
+        // when
+        const errors = validator.validateField(field, 'NaN');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Value is not a number.');
+
+      });
+
+
+      it('should restrict decimals', function() {
+
+        // given
+        const field = {
+          type: 'number',
+          decimalDigits: 3
+        };
+
+        // when
+        const errors = validator.validateField(field, 3.1256);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Value is expected to have at most 3 decimal digits.');
+
+      });
+
+
+      it('should restrict decimals (0)', function() {
+
+        // given
+        const field = {
+          type: 'number',
+          decimalDigits: 0
+        };
+
+        // when
+        const errors = validator.validateField(field, 3.1256);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Value is expected to be an integer.');
+
+      });
+
+
+      it('should restrict decimals', function() {
+
+        // given
+        const field = {
+          type: 'number',
+          decimalDigits: 3
+        };
+
+        // when
+        const errors = validator.validateField(field, '3.1415');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Value is expected to have at most 3 decimal digits.');
+
+      });
+
+
+      it('should restrict step', function() {
+
+        // given
+        const field = {
+          type: 'number',
+          step: 0.05
+        };
+
+        // when
+        const errors = validator.validateField(field, 3.1689);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Please select a valid value, the two nearest valid values are 3.15 and 3.2.');
+
+      });
+
+
+      it('should restrict step (string)', function() {
+
+        // given
+        const field = {
+          type: 'number',
+          step: 0.005
+        };
+
+        // when
+        const errors = validator.validateField(field, '3.1689');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Please select a valid value, the two nearest valid values are 3.165 and 3.17.');
+
+      });
+
+    });
+
+
     describe('pattern', function() {
 
       it('should be valid', function() {

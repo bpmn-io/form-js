@@ -1,5 +1,6 @@
 import {
   fireEvent,
+  createEvent,
   render
 } from '@testing-library/preact/pure';
 
@@ -162,7 +163,6 @@ describe('Number', function() {
       });
     });
 
-
     it('should clear', function() {
 
       // given
@@ -183,6 +183,231 @@ describe('Number', function() {
         field: defaultField,
         value: null
       });
+    });
+
+  });
+
+
+  describe('formatting', function() {
+
+    it('should handle string inputs as numbers by default', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 123,
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: '124' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: 124
+      });
+
+    });
+
+
+    it('should handle number inputs as strings if configured', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 123,
+        field: stringField
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 124 } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: stringField,
+        value: '124'
+      });
+
+    });
+
+
+    it('should handle string inputs as strings if configured', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 123,
+        field: stringField
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: '125' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: stringField,
+        value: '125'
+      });
+
+    });
+
+
+    it('should handle high precision string numbers without trimming', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 123,
+        field: stringField
+      });
+
+      const highPrecisionStringNumber = '125.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: highPrecisionStringNumber } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: stringField,
+        value: highPrecisionStringNumber
+      });
+
+    });
+
+
+    it('should treat invalid string numbers as "NaN"', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 123,
+        field: stringField
+      });
+
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: '12.25a' } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: stringField,
+        value: 'NaN'
+      });
+
+    });
+
+  });
+
+
+  describe('decimals', function() {
+  });
+
+  describe('user input', function() {
+
+    it('should prevent key presses generating non-number characters', function() {
+
+      // given
+      const { container } = createNumberField({
+        value: 123
+      });
+
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('123');
+
+      const periodKeyPress = createEvent.keyPress(input, { key: '.', code: 'Period' });
+      const commaKeyPress = createEvent.keyPress(input, { key: '.', code: 'Comma' });
+      const letterKeyPress = createEvent.keyPress(input, { key: 'a', code: 'KeyA' });
+      const digitKeyPress = createEvent.keyPress(input, { key: '2', code: 'Digit2' });
+      const minusKeyPress = createEvent.keyPress(input, { key: 'a', code: 'KeyA' });
+
+      // when
+      fireEvent.focus(input);
+      fireEvent(input, periodKeyPress);
+      fireEvent(input, commaKeyPress);
+      fireEvent(input, letterKeyPress);
+      fireEvent(input, digitKeyPress);
+      fireEvent(input, minusKeyPress);
+
+      // then
+      expect(periodKeyPress.defaultPrevented).to.be.false;
+      expect(commaKeyPress.defaultPrevented).to.be.false;
+      expect(letterKeyPress.defaultPrevented).to.be.true;
+      expect(digitKeyPress.defaultPrevented).to.be.false;
+      expect(minusKeyPress.defaultPrevented).to.be.true;
+
+    });
+
+
+    it('should prevent second comma or period', function() {
+
+      // given
+      const { container } = createNumberField({
+        value: 123.5
+      });
+
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('123.5');
+
+      const periodKeyPress = createEvent.keyPress(input, { key: '.', code: 'Period' });
+      const commaKeyPress = createEvent.keyPress(input, { key: '.', code: 'Comma' });
+
+      // when
+      fireEvent.focus(input);
+      fireEvent(input, periodKeyPress);
+      fireEvent(input, commaKeyPress);
+
+      // then
+      expect(periodKeyPress.defaultPrevented).to.be.true;
+      expect(commaKeyPress.defaultPrevented).to.be.true;
+
+    });
+
+
+    it('should allow a minus at the start', function() {
+
+      // given
+      const { container } = createNumberField({
+        value: null
+      });
+
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('');
+
+      const minusKeyPress = createEvent.keyPress(input, { key: '-', code: 'Minus' });
+
+      // when
+      fireEvent.focus(input);
+      fireEvent(input, minusKeyPress);
+
+      // then
+      expect(minusKeyPress.defaultPrevented).to.be.false;
+
     });
 
   });
@@ -239,6 +464,11 @@ const defaultField = {
   label: 'Amount',
   type: 'number',
   description: 'number'
+};
+
+const stringField = {
+  ...defaultField,
+  serializeToString: true
 };
 
 function createNumberField(options = {}) {
