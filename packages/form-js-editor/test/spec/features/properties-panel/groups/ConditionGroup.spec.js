@@ -10,6 +10,8 @@ import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
 import { INPUTS } from '../../../../../src/features/properties-panel/Util';
 
+const HIDE_CONDITION = 'conditional-hide';
+
 
 describe('ConditionGroup', function() {
 
@@ -42,7 +44,7 @@ describe('ConditionGroup', function() {
         const { container } = renderConditionGroup({ field });
 
         // then
-        const conditionInput = findInput('condition', container);
+        const conditionInput = findInput(HIDE_CONDITION, container);
 
         expect(conditionInput).to.exist;
       }
@@ -54,13 +56,15 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: 'foobar'
+        conditional: {
+          hide: 'foobar'
+        }
       };
 
       // when
       const { container } = renderConditionGroup({ field });
 
-      const conditionInput = findInput('condition', container);
+      const conditionInput = findInput(HIDE_CONDITION, container);
 
       // then
       expect(conditionInput).to.exist;
@@ -73,21 +77,23 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: 'foobar'
+        conditional: {
+          hide: 'foobar'
+        }
       };
 
       const editFieldSpy = sinon.spy();
 
       const { container } = renderConditionGroup({ field, editField: editFieldSpy });
 
-      const conditionInput = findInput('condition', container);
+      const conditionInput = findInput(HIDE_CONDITION, container);
 
       // when
       await changeInput(conditionInput, 'newVal');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
-      expect(editFieldSpy.args[0]).to.eql([ field, { condition: '=newVal' } ]);
+      expect(editFieldSpy.args[0]).to.eql([ field, 'conditional', { hide: '=newVal' } ]);
     });
 
 
@@ -96,21 +102,23 @@ describe('ConditionGroup', function() {
       // given
       const field = {
         type: 'button',
-        condition: 'foobar'
+        conditional: {
+          hide: 'foobar'
+        }
       };
 
       const editFieldSpy = sinon.spy();
 
       const { container } = renderConditionGroup({ field, editField: editFieldSpy });
 
-      const conditionInput = findInput('condition', container);
+      const conditionInput = findInput(HIDE_CONDITION, container);
 
       // when
       await changeInput(conditionInput, '');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
-      expect(editFieldSpy.args[0]).to.eql([ field, { condition: undefined } ]);
+      expect(editFieldSpy.args[0]).to.eql([ field, 'conditional', undefined ]);
     });
 
   });
