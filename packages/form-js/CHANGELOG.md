@@ -6,6 +6,29 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.10.0-alpha.0
+
+### General
+
+* `FEAT`: add `textarea` component ([#283](https://github.com/bpmn-io/form-js/issues/283))
+* `CHORE`: update to `schemaVersion@6` ([`5dd3f16c`](https://github.com/bpmn-io/form-js/commit/5dd3f16ca712eaa83b10d4f8059b8eac9bf81bc0))
+
+### Viewer
+
+* `CHORE`: add additional `.fjs-disabled` and `.fjs-checked` selectors ([#419](https://github.com/bpmn-io/form-js/pull/419))
+
+### Editor
+
+* `FEAT`: improve properties panel header for `text` fields ([#388](https://github.com/bpmn-io/form-js/issues/388))
+* `FEAT`: add `email` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414)) 
+* `FEAT`: add `phone` validation type for `textfield` ([#414](https://github.com/bpmn-io/form-js/pull/414)) 
+
+### Playground
+
+* `FEAT`: enable JSON validation ([#386](https://github.com/bpmn-io/form-js/pull/386))
+* `FEAT`: emit `formPlayground.inputDataError` ([`7341834b`](https://github.com/bpmn-io/form-js/commit/7341834bae4635970138f962583445867a89654e))
+
+
 ## 0.9.9
 
 ### Playground
