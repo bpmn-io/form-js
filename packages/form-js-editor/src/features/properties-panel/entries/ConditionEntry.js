@@ -16,7 +16,7 @@ export function ConditionEntry(props) {
 
   return [
     {
-      id: 'condition',
+      id: 'conditional-hide',
       component: Condition,
       editField: editField,
       field: field,
@@ -41,14 +41,18 @@ function Condition(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const variables = useMemo(() => variablesList.map(name => ({ name })), variablesList);
 
-  const path = [ 'condition' ];
+  const path = [ 'conditional', 'hide' ];
 
   const getValue = () => {
     return get(field, path, '');
   };
 
   const setValue = (value) => {
-    return editField(field, { condition: value });
+    if (!value) {
+      return editField(field, 'conditional', undefined);
+    }
+
+    return editField(field, 'conditional', { hide: value });
   };
 
   return FeelEntry({
@@ -58,7 +62,7 @@ function Condition(props) {
     feel: 'required',
     getValue,
     id,
-    label: 'Show if',
+    label: 'Hide if',
     setValue,
     variables
   });
