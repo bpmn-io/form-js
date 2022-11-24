@@ -6,6 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.10.0-alpha.1
+
+### Editor
+
+* `DEPS`: add `@bpmn-io/properties-panel` dependency ([#429](https://github.com/bpmn-io/form-js/pull/429))
+
+### Viewer
+
+* `FIX`: make `taglist` component accessible ([#413](https://github.com/bpmn-io/form-js/pull/429))
+
+
 ## 0.10.0-alpha.0
 
 ### General
