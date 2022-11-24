@@ -11,36 +11,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Use Node.js
-      uses: actions/setup-node@v3
+    - name: Notify failure on Slack
+      uses: slackapi/slack-github-action@v1.15.0
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: Cache Node.js modules
-      uses: actions/cache@v3
-      with:
-        # npm cache files are stored in `~/.npm` on Linux/macOS
-        path: ~/.npm
-        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.OS }}-node-
-          ${{ runner.OS }}-
-    - name: Install dependencies
-      run: npm ci
-    - name: Build
-      if: runner.os == 'Linux'
+        channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+        slack-message: "Hello world"
       env:
-        COVERAGE: 1
-        TEST_BROWSERS: Firefox,ChromeHeadless
-      run: xvfb-run npm run all
-    - name: Build
-      if: runner.os != 'Linux'
-      env:
-        TEST_BROWSERS: ChromeHeadless
-      run: npm run all
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      if: runner.os == 'Linux'
-      with:
-        fail_ci_if_error: true
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
