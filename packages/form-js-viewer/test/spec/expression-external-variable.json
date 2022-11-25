@@ -1,0 +1,22 @@
+{
+  "components": [
+    {
+      "label": "An image",
+      "source": "=logo",
+      "type": "image"
+    },
+    {
+      "label": "An image with alt text",
+      "alt": "=alt",
+      "type": "image"
+    },
+    {
+      "label": "Another image",
+      "alt": "This is just an image",
+      "type": "image"
+    }
+  ],
+  "type": "default",
+  "id": "Form",
+  "schemaVersion": 6
+}

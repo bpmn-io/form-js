@@ -5,6 +5,7 @@ import {
 import schema from '../form.json';
 import dynamicSchema from '../dynamic.json';
 import conditionalSchema from '../condition-external-variable.json';
+import expressionSchema from '../expression-external-variable.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -31,6 +32,22 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(conditionalSchema);
 
     expect(variables).to.eql([ 'amount', 'externalVariable' ]);
+  });
+
+
+  it('should include variables in expressions', () => {
+
+    const variables = getSchemaVariables(expressionSchema);
+
+    expect(variables).to.eql([ 'logo', 'alt' ]);
+  });
+
+
+  it('should NOT include variables - no expression', () => {
+
+    const variables = getSchemaVariables(expressionSchema);
+
+    expect(variables).to.not.have.members([ 'This', 'is', 'just', 'an', 'image' ]);
   });
 
 });

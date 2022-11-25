@@ -1,7 +1,14 @@
-import { getVariableNames } from './feel';
+import { isString } from 'min-dash';
+
+import { getExpressionVariableNames, getVariableNames } from './feel';
 
 export * from './injector';
 export * from './form';
+
+const EXPRESSION_PROPERTIES = [
+  'alt',
+  'source'
+];
 
 export function findErrors(errors, path) {
   return errors[ pathStringify(path) ];
@@ -106,9 +113,28 @@ export function getSchemaVariables(schema) {
       variables = [ ...variables, ...conditionVariables ];
     }
 
+    EXPRESSION_PROPERTIES.forEach((prop) => {
+      const property = component[prop];
+
+      if (property && isExpression(property)) {
+
+        // cut off initial '='
+        const expressionVariables = getExpressionVariableNames(property.slice(1));
+
+        variables = [ ...variables, ...expressionVariables ];
+      }
+    });
+
     return variables;
   }, []);
 
   // remove duplicates
   return Array.from(new Set(variables));
+}
+
+
+// helper ///////////////
+
+function isExpression(value) {
+  return isString(value) && value.startsWith('=');
 }
