@@ -1,4 +1,3 @@
-import { useMemo } from 'preact/hooks';
 import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
 
@@ -35,11 +34,7 @@ function Condition(props) {
 
   const debounce = useService('debounce');
 
-  const variablesList = useVariables();
-
-  // keep stable reference until https://github.com/bpmn-io/properties-panel/issues/196 is fixed
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const variables = useMemo(() => variablesList.map(name => ({ name })), variablesList);
+  const variables = useVariables().map(name => ({ name }));
 
   const path = [ 'conditional', 'hide' ];
 
