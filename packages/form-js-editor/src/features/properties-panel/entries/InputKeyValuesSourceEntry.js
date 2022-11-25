@@ -1,5 +1,5 @@
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-import { get } from 'min-dash';
+import { get, isUndefined } from 'min-dash';
 import { useService } from '../hooks';
 import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
 
@@ -40,6 +40,18 @@ function InputValuesKey(props) {
 
   const setValue = (value) => editField(field, path, value || '');
 
+  const validate = (value) => {
+    if (isUndefined(value) || !value.length) {
+      return 'Must not be empty.';
+    }
+
+    if (/\s/.test(value)) {
+      return 'Must not contain spaces.';
+    }
+
+    return null;
+  };
+
   return TextFieldEntry({
     debounce,
     description,
@@ -47,6 +59,7 @@ function InputValuesKey(props) {
     getValue,
     id,
     label,
-    setValue
+    setValue,
+    validate
   });
 }

@@ -694,6 +694,68 @@ describe('properties panel', function() {
         });
 
 
+        it('should not be empty', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'product');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).not.to.have.been.called;
+
+          const error = screen.getByText('Must not be empty.');
+
+          expect(error).to.exist;
+        });
+
+
+        it('should not contain spaces', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'product');
+          field = { ...field, values: undefined, valuesKey: '' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Input values key');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 'credi tor' } });
+
+          // then
+          expect(editFieldSpy).not.to.have.been.called;
+
+          const error = screen.getByText('Must not contain spaces.');
+
+          expect(error).to.exist;
+        });
+
+
         it('entries should change', function() {
 
           // given
