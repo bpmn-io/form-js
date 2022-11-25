@@ -57,7 +57,7 @@ function Condition(props) {
 
   return FeelEntry({
     debounce,
-    description: 'Condition under which the field is displayed',
+    description: 'Condition under which the field is hidden',
     element: field,
     feel: 'required',
     getValue,
