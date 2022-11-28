@@ -57,6 +57,7 @@ export default [
       'ids',
       'min-dash',
       'array-move',
+      'big.js',
       'preact',
       'preact/jsx-runtime',
       'preact/hooks',
