@@ -69,10 +69,15 @@ See [playground documentation](./packages/form-js-playground) for further detail
 * [Demo](https://demo.bpmn.io/form)
 * [Issues](https://github.com/bpmn-io/form-js/issues)
 * [Changelog](./packages/form-js/CHANGELOG.md)
+* [Contributing guide](https://github.com/bpmn-io/.github/blob/master/.github/CONTRIBUTING.md#create-a-pull-request)
 * [Form schema](./docs/FORM_SCHEMA.md)
 
 
 ## Build and run
+
+Build the project in a Posix environment. On Windows, that is [Git Bash](https://gitforwindows.org/) or WSL. 
+
+Note we currently support development environments with Node.js version 16 (and npm version 8). We encourage you to use a Node.js version manager (e.g., [`nvm`](https://github.com/nvm-sh/nvm) or [`n`](https://github.com/tj/n)) to set up the needed versions.
 
 Prepare the project by installing all dependencies:
 
