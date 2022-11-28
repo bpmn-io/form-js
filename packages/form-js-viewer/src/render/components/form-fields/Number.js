@@ -38,7 +38,7 @@ export default function Numberfield(props) {
     validate = {},
     decimalDigits,
     serializeToString = false,
-    increment
+    increment: incrementValue
   } = field;
 
   const { required } = validate;
@@ -47,22 +47,24 @@ export default function Numberfield(props) {
 
   const [ stringValueCache, setStringValueCache ] = useState('');
 
-  const valueCacheMismatch = useMemo(() => Numberfield.sanitizeValue({ value, formField: field }) !== Numberfield.sanitizeValue({ value: stringValueCache, formField: field }), [ stringValueCache, value, field ]);
+  // checks whether the value currently in the form data is practically different from the one in the input field cache
+  // this allows us to guarantee the field always displays valid form data, but without auto-simplifying values like 1.000 to 1
+  const cacheValueMatchesState = useMemo(() => Numberfield.sanitizeValue({ value, formField: field }) === Numberfield.sanitizeValue({ value: stringValueCache, formField: field }), [ stringValueCache, value, field ]);
 
   const displayValue = useMemo(() => {
 
     if (value === 'NaN') return 'NaN';
-    return valueCacheMismatch ? ((value || value === 0) ? Big(value).toFixed() : '') : stringValueCache;
+    return cacheValueMatchesState ? stringValueCache : ((value || value === 0) ? Big(value).toFixed() : '');
 
-  }, [ stringValueCache, value, valueCacheMismatch ]);
+  }, [ stringValueCache, value, cacheValueMatchesState ]);
 
-  const arrowIncrement = useMemo(() => {
+  const arrowIncrementValue = useMemo(() => {
 
-    if (increment) return Big(increment);
+    if (incrementValue) return Big(incrementValue);
     if (decimalDigits) return Big(`1e-${decimalDigits}`);
     return Big('1');
 
-  }, [ decimalDigits, increment ]);
+  }, [ decimalDigits, incrementValue ]);
 
 
   const setValue = useCallback((stringValue) => {
@@ -87,27 +89,27 @@ export default function Numberfield(props) {
 
   }, [ field, onChange, serializeToString ]);
 
-  const addIncrement = () => {
+  const increment = () => {
     const base = isValidNumber(value) ? Big(value) : Big(0);
-    const stepFlooredValue = base.minus(base.mod(arrowIncrement));
+    const stepFlooredValue = base.minus(base.mod(arrowIncrementValue));
 
     // note: toFixed() behaves differently in big.js
-    setValue(stepFlooredValue.plus(arrowIncrement).toFixed());
+    setValue(stepFlooredValue.plus(arrowIncrementValue).toFixed());
   };
 
   const decrement = () => {
     const base = isValidNumber(value) ? Big(value) : Big(0);
-    const offset = base.mod(arrowIncrement);
+    const offset = base.mod(arrowIncrementValue);
 
     if (offset.cmp(0) === 0) {
 
       // if we're already on a valid step, decrement
-      setValue(base.minus(arrowIncrement).toFixed());
+      setValue(base.minus(arrowIncrementValue).toFixed());
     }
     else {
 
       // otherwise floor to the step
-      const stepFlooredValue = base.minus(base.mod(arrowIncrement));
+      const stepFlooredValue = base.minus(base.mod(arrowIncrementValue));
       setValue(stepFlooredValue.toFixed());
     }
   };
@@ -122,7 +124,7 @@ export default function Numberfield(props) {
     }
 
     if (e.code === 'ArrowUp') {
-      addIncrement();
+      increment();
       e.preventDefault();
       return;
     }
@@ -166,12 +168,13 @@ export default function Numberfield(props) {
         onInput={ (e) => setValue(e.target.value) }
         type="text"
         autoComplete="off"
-        step={ arrowIncrement }
+        step={ arrowIncrementValue }
         value={ displayValue } />
       <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
-        <button class="fjs-number-arrowUp" onClick={ () => addIncrement() } tabIndex={ -1 }>˄</button>
+        { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
+        <button class="fjs-number-arrow-up" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
         <div class="fjs-number-arrow-separator" />
-        <button class="fjs-number-arrowDown" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
+        <button class="fjs-number-arrow-down" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
       </div>
     </div>
     <Description description={ description } />

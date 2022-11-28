@@ -7,7 +7,7 @@ export { default as IdEntry } from './IdEntry';
 export { default as KeyEntry } from './KeyEntry';
 export { default as LabelEntry } from './LabelEntry';
 export { default as TextEntry } from './TextEntry';
-export { default as NumberEntry } from './NumberEntry';
+export { default as NumberEntries } from './NumberEntries';
 export { default as NumberSerializationEntry } from './NumberSerializationEntry';
 export { default as ValueEntry } from './ValueEntry';
 export { default as CustomValueEntry } from './CustomValueEntry';

@@ -319,9 +319,6 @@ describe('Number', function() {
   });
 
 
-  describe('decimals', function() {
-  });
-
   describe('user input', function() {
 
     it('should prevent key presses generating non-number characters', function() {
