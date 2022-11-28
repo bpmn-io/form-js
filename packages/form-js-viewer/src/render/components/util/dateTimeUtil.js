@@ -134,6 +134,7 @@ export function serializeDate(date) {
   return [ year, month, day ].join('-');
 }
 
+// this method is used to make the `new Date(value)` parsing behavior stricter
 export function isDateTimeInputInformationSufficient(value) {
 
   if (!value || typeof value !== 'string') return false;
@@ -168,7 +169,7 @@ export function serializeDateTime(date, time, timeSerializingFormat) {
 }
 
 export function formatTimezoneOffset(minutes) {
-  return _getSignedPaddedHours(minutes) + ':' + _getZeroPaddedString(minutes % 60);
+  return _getSignedPaddedHours(minutes) + ':' + _getZeroPaddedString(Math.abs(minutes % 60));
 }
 
 export function isInvalidDateString(value) {
@@ -176,7 +177,7 @@ export function isInvalidDateString(value) {
 }
 
 function _getSignedPaddedHours(minutes) {
-  if (minutes >= 0) {
+  if (minutes > 0) {
     return '-' + _getZeroPaddedString(Math.floor(minutes / 60));
   }
   else {

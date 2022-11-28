@@ -114,9 +114,11 @@ export default function Datetime(props) {
 
   const allErrors = useMemo(() => {
 
-    // If only one of the two fields is set
-    const shouldCompleteSecondField = !required && (subtype === DATETIME_SUBTYPES.DATETIME) && ((isValidDate(dateCache) && timeCache === null) || (!isValidDate(dateCache) && timeCache !== null));
-    return shouldCompleteSecondField ? [ 'Date and time must both be entered.', ...errors ] : errors;
+    if (required || subtype !== DATETIME_SUBTYPES.DATETIME) return errors;
+
+    const isOnlyOneFieldSet = (isValidDate(dateCache) && !isValidTime(timeCache)) || (isValidDate(dateCache) && !isValidTime(timeCache));
+
+    return isOnlyOneFieldSet ? [ 'Date and time must both be entered.', ...errors ] : errors;
 
   }, [ required, subtype, dateCache, timeCache, errors ]);
 

@@ -134,12 +134,6 @@ export default function ValidationGroup(field, editField) {
     );
   }
 
-  // if (type === 'datetime') {
-  //   if ()
-
-
-  // }
-
   return {
     id: 'validation',
     label: 'Validation',

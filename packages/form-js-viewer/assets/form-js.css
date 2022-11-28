@@ -42,6 +42,7 @@
   --color-borders-adornment: var(--color-grey-225-10-85);
   --color-warning: var(--color-red-360-100-45);
   --color-accent: var(--color-blue-205-100-40);
+  --color-datepicker-focused-day: var(--color-grey-225-10-55);
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -254,11 +255,6 @@
 
 .fjs-container .flatpickr-wrapper {
   width: 100%;
-}
-
-.fjs-container .flatpickr-calendar.hasTime.noCalendar {
-  width: auto !important;
-  max-width: 250px !important;
 }
 
 .fjs-container .fjs-textarea {
@@ -500,6 +496,7 @@
 }
 
 .fjs-container .fjs-dropdownlist {
+  z-index: 1;
   position: absolute;
   user-select: none;
   overflow-y: auto;
@@ -557,8 +554,8 @@
 
 .flatpickr-day.today:hover,
 .flatpickr-day.today:focus {
-  border-color: var(--color-grey-225-10-55) !important;
-  background-color: var(--color-grey-225-10-55) !important;
+  border-color: var(--color-borders) !important;
+  background-color: var(--color-datepicker-focused-day) !important;
   color: var(--color-text-inverted) !important;
 }
 
@@ -583,6 +580,11 @@
 .flatpickr-days, .flatpickr-weekdays {
   padding: 10px !important;
   width: 100% !important;
+}
+
+.fjs-container .flatpickr-calendar.hasTime.noCalendar {
+  width: auto !important;
+  max-width: 250px !important;
 }
 
 .flatpickr-calendar {

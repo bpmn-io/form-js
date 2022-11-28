@@ -21,7 +21,7 @@ export default function DateTimeEntry(props) {
 
   const entries = [
     {
-      id: id + '-subtype-select',
+      id: id + '-subtype',
       component: DateTimeSubtypeSelect,
       isEdited: isSelectEntryEdited,
       editField,
