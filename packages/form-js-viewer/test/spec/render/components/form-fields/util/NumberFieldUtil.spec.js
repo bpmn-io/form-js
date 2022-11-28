@@ -25,6 +25,7 @@ describe('numberFieldUtil', function() {
 
   });
 
+
   it('#willKeyProduceValidNumber', function() {
 
     // given
