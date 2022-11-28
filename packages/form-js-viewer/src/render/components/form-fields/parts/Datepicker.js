@@ -71,14 +71,15 @@ export default function Datepicker(props) {
       }
     };
 
-    // Remove dirty tag to have mouse day selection prioritize input blur
+    // remove dirty tag to have mouse day selection prioritize input blur
     const onCalendarMouseDown = (e) => {
       if (e.target.classList.contains('flatpickr-day')) {
         setIsInputDirty(false);
       }
     };
 
-    // TODO: MORE DETAIL FOR COMMENTS
+    // when the dropdown of the datepickr opens, we register a few event handlers to re-implement some of the
+    // flatpicker logic that was lost when setting allowInput to true
     instance.config.onOpen = [
       () => instance.calendarContainer.addEventListener('focusout', onCalendarFocusOut),
       () => instance.calendarContainer.addEventListener('mousedown', onCalendarMouseDown),
@@ -121,7 +122,6 @@ export default function Datepicker(props) {
         container.querySelector('.flatpickr-day.today') ||
         container.querySelector('.flatpickr-day');
 
-      // @ts-ignore
       dayToFocus && dayToFocus.focus();
     },
     [ flatpickrInstance ]
@@ -150,7 +150,7 @@ export default function Datepicker(props) {
     }, [ flatpickrInstance ]
   );
 
-  // Simulate an enter press on blur to make sure the date value is submitted in all scenarios
+  // simulate an enter press on blur to make sure the date value is submitted in all scenarios
   const onInputBlur = useCallback(
     (e) => {
 
@@ -165,7 +165,7 @@ export default function Datepicker(props) {
     disabled={ disabled }
     rootRef={ focusScopeRef }
     inputRef={ dateInputRef }>
-    <div style={ { width: '100%' } }>
+    <div class="fjs-datepicker" style={ { width: '100%' } }>
       <input ref={ dateInputRef }
         type="text"
         id={ `${prefixId(id, formId)}--date` }

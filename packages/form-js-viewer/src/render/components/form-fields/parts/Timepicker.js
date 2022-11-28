@@ -116,7 +116,7 @@ export default function Timepicker(props) {
     pre={ <ClockIcon /> }
     inputRef={ timeInputRef }
     disabled={ disabled }>
-    <div style={ { width: '100%' } } class="fjs-timepicker-anchor">
+    <div class="fjs-timepicker fjs-timepicker-anchor">
       <input ref={ timeInputRef }
         type="text"
         id={ `${prefixId(id, formId)}--time` }

@@ -196,6 +196,15 @@
   border-radius: 3px;
 }
 
+.fjs-container .fjs-datepicker,
+.fjs-container .fjs-timepicker {
+  width: 100%;
+}
+
+.fjs-container .fjs-datetime-separator {
+  width: 10px;
+}
+
 .fjs-container .fjs-input-group {
   display: flex;
   width: 100%;

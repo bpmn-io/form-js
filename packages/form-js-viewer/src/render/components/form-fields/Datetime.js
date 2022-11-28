@@ -147,9 +147,9 @@ export default function Datetime(props) {
       label={ label }
       required={ required } />
     <div class={ classNames('fjs-vertical-group') }>
-      { useDatePicker && <Datepicker { ...{ ...datePickerProps } } /> }
-      { useTimePicker && useDatePicker && <div style={ { width: '10px' } } /> }
-      { useTimePicker && <Timepicker { ...{ ...timePickerProps } } /> }
+      { useDatePicker && <Datepicker { ...datePickerProps } /> }
+      { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
+      { useTimePicker && <Timepicker { ...timePickerProps } /> }
     </div>
 
     <Description description={ description } />
