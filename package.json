@@ -69,6 +69,7 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.3.5",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "del-cli": "^4.0.0",
     "didi": "^9.0.0",
