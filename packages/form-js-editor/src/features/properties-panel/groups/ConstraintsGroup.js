@@ -3,7 +3,7 @@ import {
 } from '../entries';
 
 
-export default function DisplayGroup(field, editField) {
+export default function ConstraintsGroup(field, editField) {
 
   const entries = [
     ...DateTimeConstraintsEntry({ field, editField })
