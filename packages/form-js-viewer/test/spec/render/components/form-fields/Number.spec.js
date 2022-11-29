@@ -185,6 +185,245 @@ describe('Number', function() {
       });
     });
 
+
+  });
+
+
+  describe('interaction', function() {
+
+    describe('increment button', function() {
+
+      it('should increment', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: defaultField,
+          value: 124
+        });
+      });
+
+
+      it('should increment according to `decimalDigits`', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: decimalField,
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: decimalField,
+          value: 123.001
+        });
+      });
+
+
+      it('should increment according to `step`', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: 123.25
+        });
+      });
+
+
+      it('should increment to exact step when not aligned', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: 122.99
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: 123
+        });
+      });
+
+
+      it('should increment properly when negative', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: -1
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: -0.75
+        });
+      });
+    });
+
+
+    describe('decrement button', function() {
+
+      it('should decrement', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-down');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: defaultField,
+          value: 122
+        });
+      });
+
+
+      it('should decrement according to `decimalDigits`', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: decimalField,
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-down');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: decimalField,
+          value: 122.999
+        });
+      });
+
+
+      it('should decrement according to `step`', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: 123
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-down');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: 122.75
+        });
+      });
+
+
+      it('should decrement to exact step when not aligned', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: 122.76
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-down');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: 122.75
+        });
+      });
+
+
+      it('should decrement properly when negative', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: stepField,
+          onChange: onChangeSpy,
+          value: -1
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-down');
+        fireEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: stepField,
+          value: -1.25
+        });
+      });
+    });
+
   });
 
 
@@ -466,6 +705,17 @@ const defaultField = {
 const stringField = {
   ...defaultField,
   serializeToString: true
+};
+
+const decimalField = {
+  ...defaultField,
+  decimalDigits: 3
+};
+
+const stepField = {
+  ...defaultField,
+  decimalDigits: 3,
+  increment: 0.25
 };
 
 function createNumberField(options = {}) {
