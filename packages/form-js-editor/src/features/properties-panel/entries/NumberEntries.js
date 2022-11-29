@@ -108,7 +108,7 @@ function NumberArrowStep(props) {
 
       if (!isValidNumber(value)) return 'Should be a valid number.';
 
-      if (!decimalDigitsSet && Big(value).cmp(0) <= 0) return 'Should be greater than zero.';
+      if (Big(value).cmp(0) <= 0) return 'Should be greater than zero.';
 
       if (decimalDigitsSet) {
         const minimumValue = Big(`1e-${decimalDigits}`);
