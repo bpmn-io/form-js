@@ -689,6 +689,52 @@ describe('Number', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations (decimal field)', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createNumberField({
+        field: decimalField,
+        value: 123.23
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations (string parsed field)', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createNumberField({
+        field: stringField,
+        value: '123.233333333333333333333'
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations (step field)', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createNumberField({
+        field: stringField,
+        value: 123.25
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
   });
 
 });
