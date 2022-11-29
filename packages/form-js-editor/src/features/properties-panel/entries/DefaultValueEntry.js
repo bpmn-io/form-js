@@ -150,13 +150,22 @@ function DefaultValueNumber(props) {
 
     let value = get(field, path);
 
-    if (!isValidNumber(value)) return null;
+    if (!isValidNumber(value)) return;
 
     // Enforces decimal notation so that we do not submit defaults in exponent form
     return serializeToString ? Big(value).toFixed() : value;
   };
 
-  const setValue = (value) => editField(field, path, serializeToString ? value : Number(value));
+  const setValue = (value) => {
+
+    let newValue;
+
+    if (isValidNumber(value)) {
+      newValue = serializeToString ? value : Number(value);
+    }
+
+    return editField(field, path, newValue);
+  };
 
   const decimalDigitsSet = decimalDigits || decimalDigits === 0;
 
