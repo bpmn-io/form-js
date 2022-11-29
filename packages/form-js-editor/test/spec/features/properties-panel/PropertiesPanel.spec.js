@@ -1986,6 +1986,478 @@ describe('properties panel', function() {
 
     });
 
+
+    describe('number', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ key }) => key === 'amount');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Serialization',
+          'Validation'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Field label',
+          'Field description',
+          'Key',
+          'Default value',
+          'Decimal digits',
+          'Increment',
+          'Disabled'
+        ]);
+
+        expectGroupEntries(result.container, 'Serialization', [
+          'Serialize to string'
+        ]);
+
+        expectGroupEntries(result.container, 'Validation', [
+          'Required',
+          'Minimum',
+          'Maximum'
+        ]);
+      });
+
+
+      describe('default value', function() {
+
+        it('should add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 250 } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 250);
+        });
+
+
+        it('should remove default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field: {
+              ...field,
+              defaultValue: 0
+            }
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default value');
+
+          expect(input.value).to.equal('0');
+
+          // when
+          fireEvent.input(input, { target: { value: '' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+
+        });
+
+      });
+
+      describe('decimal digits', function() {
+
+        it('should add positive integer values', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Decimal digits');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 100 } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'decimalDigits' ], 100);
+        });
+
+
+        it('should add zero', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Decimal digits');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: 0 } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'decimalDigits' ], 0);
+        });
+
+
+        it('should reject negative values', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Decimal digits');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: -1 } });
+
+          // then
+          expect(editFieldSpy).to.not.have.been.called;
+        });
+
+
+        it('should reject decimal values', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'amount');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Decimal digits');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: -1 } });
+
+          // then
+          expect(editFieldSpy).to.not.have.been.called;
+        });
+
+      });
+
+
+      describe('validation', function() {
+
+        describe('default value', function() {
+
+          it('should refuse non numeric values', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Default value');
+
+            // when
+            fireEvent.input(input, { target: { value: 'Joe' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be a valid number');
+            expect(error).to.exist;
+
+          });
+
+
+          it('should refuse values not conforming to decimal digits', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: {
+                ...field,
+                decimalDigits: 4,
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Default value');
+
+            // when
+            fireEvent.input(input, { target: { value: '0.00001' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should not contain more than 4 decimal digits');
+            expect(error).to.exist;
+
+          });
+
+
+        });
+
+        describe('increment', function() {
+
+          it('should reject non-numeric values', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: 'Joe' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be a valid number.');
+            expect(error).to.exist;
+
+          });
+
+
+          it('should reject values smaller than the unit of the smallest digit', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: {
+                ...field,
+                decimalDigits: 4,
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '0.00001' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be at least 0.0001.');
+            expect(error).to.exist;
+
+          });
+
+
+          it('should be greater than zero', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '-0.00001' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be greater than zero.');
+            expect(error).to.exist;
+
+          });
+
+        });
+
+        describe('key', function() {
+
+          it('should not be empty', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-key' });
+
+            expect(input.value).to.equal('amount');
+
+            // when
+            fireEvent.input(input, { target: { value: '' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not be empty.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should not contain spaces', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-key' });
+
+            expect(input.value).to.equal('amount');
+
+            // when
+            fireEvent.input(input, { target: { value: 'amou nt' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not contain spaces.');
+
+            expect(error).to.exist;
+          });
+
+
+          it('should be unique', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field,
+              formFieldRegistry: {
+                _keys: {
+                  assigned(key) {
+                    return schema.components.find((component) => component.key === key);
+                  }
+                }
+              }
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-key' });
+
+            expect(input.value).to.equal('amount');
+
+            // when
+            fireEvent.input(input, { target: { value: 'creditor' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must be unique.');
+
+            expect(error).to.exist;
+          });
+
+        });
+
+      });
+
+    });
+
   });
 
 
