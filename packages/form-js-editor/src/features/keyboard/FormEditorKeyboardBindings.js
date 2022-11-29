@@ -53,6 +53,19 @@ export default class FormEditorKeyboardBindings {
       }
     });
 
+    // delete selected field
+    // DEL
+    addListener('removeSelection', (context) => {
+
+      const { keyEvent } = context;
+
+      if (isKey([ 'Backspace', 'Delete', 'Del' ], keyEvent)) {
+
+        editorActions.trigger('removeSelection');
+
+        return true;
+      }
+    });
   }
 }
 
