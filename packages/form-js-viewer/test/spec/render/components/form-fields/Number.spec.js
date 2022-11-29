@@ -646,6 +646,110 @@ describe('Number', function() {
 
     });
 
+
+    it('should clear NaN state on backspace', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 'NaN'
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('NaN');
+
+      fireEvent.keyDown(input, { key: 'Backspace', code: 'Backspace' });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: null
+      });
+    });
+
+
+    it('should clear NaN state on delete', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 'NaN'
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('NaN');
+
+      fireEvent.keyDown(input, { key: 'Delete', code: 'Delete' });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: null
+      });
+    });
+
+
+    it('should increment on arrow up', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 0
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('0');
+
+      fireEvent.keyDown(input, { key: 'ArrowUp', code: 'ArrowUp' });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: 1
+      });
+    });
+
+
+    it('should decrement on arrow down', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: 0
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('0');
+
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: defaultField,
+        value: -1
+      });
+    });
+
   });
 
 
