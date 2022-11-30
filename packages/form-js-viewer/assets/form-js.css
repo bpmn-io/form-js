@@ -208,7 +208,6 @@
 .fjs-container .fjs-input-group {
   display: flex;
   width: 100%;
-  margin-top: 8px;
   margin: 4px, 0;
   border: var(--border-definition);
   border-radius: 3px;
