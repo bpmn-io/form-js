@@ -71,17 +71,16 @@ export default function DropdownList(props) {
     setSmoothScrolling(true);
   }, []);
 
-  const mouseMove = (e, i) => {
-    const userMoved = !mouseScreenPos.current || mouseScreenPos.current.x !== e.screenX && mouseScreenPos.current.y !== e.screenY;
+  const onMouseMovedInKeyboardMode = (event, valueIndex) => {
 
-    if (userMoved) {
-      mouseScreenPos.current = { x: e.screenX, y: e.screenY };
+    const userMovedCursor = !mouseScreenPos.current || mouseScreenPos.current.x !== event.screenX && mouseScreenPos.current.y !== event.screenY;
 
-      if (!mouseControl) {
-        setMouseControl(true);
-        setFocusedValueIndex(i);
-      }
+    if (userMovedCursor) {
+      mouseScreenPos.current = { x: event.screenX, y: event.screenY };
+      setMouseControl(true);
+      setFocusedValueIndex(valueIndex);
     }
+
   };
 
   return <div
@@ -94,8 +93,8 @@ export default function DropdownList(props) {
         return (
           <div
             class={ classNames('fjs-dropdownlist-item', { 'focused': focusedValueIndex === i }) }
-            onMouseMove={ (e) => mouseMove(e, i) }
-            onMouseEnter={ (e) => mouseControl && setFocusedValueIndex(i) }
+            onMouseMove={ mouseControl ? undefined : (e) => onMouseMovedInKeyboardMode(e, i) }
+            onMouseEnter={ mouseControl ? () => setFocusedValueIndex(i) : undefined }
             onMouseDown={ (e) => { e.preventDefault(); onValueSelected(v); } }>
             {getLabel(v)}
           </div>
