@@ -6,7 +6,24 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 0.10.0-alpha.2
+
+### General
+
+* `FEAT`: support decimal numbers ([#285](https://github.com/bpmn-io/form-js/issues/285))
 * `FEAT`: add conditional rendering ([#374](https://github.com/bpmn-io/form-js/issues/374))
+* `FEAT`: support `image` fields ([#383](https://github.com/bpmn-io/form-js/issues/383))
+* `FEAT`: retrieve variables mentioned in conditions ([#401](https://github.com/bpmn-io/form-js/issues/401))
+* `FEAT`: retrieve variables mentioned in expressions ([`32532aa7`](https://github.com/bpmn-io/form-js/commit/32532aa7d13b99ff621839300ba82282491fb9a8))
+* `DEPS`: update to `diagram-js@11` ([`6e2d5a1d`](https://github.com/bpmn-io/form-js/commit/6e2d5a1d15fcd8a3c8c2b9787adcc637e46c552b))
+* `DEPS`: update to `@bpmn-io/properties-panel@1` ([`fdda226f`](https://github.com/bpmn-io/form-js/commit/fdda226ff986532f6058a37dc647ac296ff3e8f4))
+
+
+### Editor
+
+* `FEAT`: validate `valuesKey` in properties panel ([#428](https://github.com/bpmn-io/form-js/issues/428))
+
 
 ## 0.10.0-alpha.1
 
