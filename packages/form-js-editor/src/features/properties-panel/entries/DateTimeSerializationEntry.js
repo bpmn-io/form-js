@@ -1,6 +1,6 @@
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
-import { DATETIME_SUBTYPES, TIME_SERIALISING_FORMATS, TIME_SERIALISINGFORMAT_LABELS, TIME_SERIALISINGFORMAT_PATH } from '@bpmn-io/form-js-viewer';
+import { DATETIME_SUBTYPES, TIME_SERIALISING_FORMATS, TIME_SERIALISINGFORMAT_LABELS, TIME_SERIALISING_FORMAT_PATH } from '@bpmn-io/form-js-viewer';
 
 import { get } from 'min-dash';
 
@@ -43,9 +43,9 @@ function TimeFormatSelect(props) {
     id
   } = props;
 
-  const getValue = (e) => get(field, TIME_SERIALISINGFORMAT_PATH);
+  const getValue = (e) => get(field, TIME_SERIALISING_FORMAT_PATH);
 
-  const setValue = (value) => editField(field, TIME_SERIALISINGFORMAT_PATH, value);
+  const setValue = (value) => editField(field, TIME_SERIALISING_FORMAT_PATH, value);
 
   const getTimeSerialisingFormats = () => {
 

@@ -6,12 +6,15 @@ import DropdownList from './DropdownList';
 import { isNumber } from 'min-dash';
 import InputAdorner from './InputAdorner';
 import { formatTime, parseInputTime } from '../../util/dateTimeUtil';
+import Label from '../../Label';
 
 export default function Timepicker(props) {
 
   const {
     id,
+    label,
     formId,
+    required,
     disabled,
     use24h = false,
     timeInterval,
@@ -112,35 +115,43 @@ export default function Timepicker(props) {
     propagateRawToMinute(o);
   };
 
-  return <InputAdorner
-    pre={ <ClockIcon /> }
-    inputRef={ timeInputRef }
-    disabled={ disabled }>
-    <div class="fjs-timepicker fjs-timepicker-anchor">
-      <input ref={ timeInputRef }
-        type="text"
-        id={ `${prefixId(id, formId)}--time` }
-        class="fjs-input"
-        value={ rawValue }
-        disabled={ disabled }
-        placeholder={ use24h ? 'HH:MM' : 'HH:MM ?M' }
-        autoComplete="false"
-        onFocus={ () => useDropdown && setDropdownIsOpen(true) }
-        onClick={ () => useDropdown && setDropdownIsOpen(true) }
+  const fullId = `${prefixId(id, formId)}--time`;
 
-        // @ts-ignore
-        onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }
-        onBlur={ onInputBlur }
-        onKeyDown={ onInputKeyDown }
-        data-input />
+  return <div class="fjs-datetime-subsection">
+    <Label
+      id={ fullId }
+      label={ label }
+      required={ required } />
+    <InputAdorner
+      pre={ <ClockIcon /> }
+      inputRef={ timeInputRef }
+      disabled={ disabled }>
+      <div class="fjs-timepicker fjs-timepicker-anchor">
+        <input ref={ timeInputRef }
+          type="text"
+          id={ fullId }
+          class="fjs-input"
+          value={ rawValue }
+          disabled={ disabled }
+          placeholder={ use24h ? 'HH:MM' : 'HH:MM ?M' }
+          autoComplete="false"
+          onFocus={ () => useDropdown && setDropdownIsOpen(true) }
+          onClick={ () => useDropdown && setDropdownIsOpen(true) }
 
-      { dropdownIsOpen && <DropdownList
-        values={ timeOptions }
-        height={ 150 }
-        onValueSelected={ onDropdownValueSelected }
-        listenerElement={ timeInputRef.current }
-        initialFocusIndex={ initialFocusIndex } /> }
+          // @ts-ignore
+          onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }
+          onBlur={ onInputBlur }
+          onKeyDown={ onInputKeyDown }
+          data-input />
 
-    </div>
-  </InputAdorner>;
+        { dropdownIsOpen && <DropdownList
+          values={ timeOptions }
+          height={ 150 }
+          onValueSelected={ onDropdownValueSelected }
+          listenerElement={ timeInputRef.current }
+          initialFocusIndex={ initialFocusIndex } /> }
+
+      </div>
+    </InputAdorner>
+  </div>;
 }

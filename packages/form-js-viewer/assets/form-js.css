@@ -197,7 +197,8 @@
 }
 
 .fjs-container .fjs-datepicker,
-.fjs-container .fjs-timepicker {
+.fjs-container .fjs-timepicker,
+.fjs-container .fjs-datetime-subsection {
   width: 100%;
 }
 

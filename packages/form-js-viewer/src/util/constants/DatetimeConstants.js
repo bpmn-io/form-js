@@ -27,7 +27,9 @@ export const TIME_SERIALISINGFORMAT_LABELS = {
 };
 
 export const DATETIME_SUBTYPE_PATH = [ 'subtype' ];
-export const DATETIME_DISALLOWPASTDATES_PATH = [ 'disallowPassedDates' ];
+export const DATE_LABEL_PATH = [ 'dateLabel' ];
+export const DATE_DISALLOW_PAST_PATH = [ 'disallowPassedDates' ];
+export const TIME_LABEL_PATH = [ 'timeLabel' ];
 export const TIME_USE24H_PATH = [ 'use24h' ];
 export const TIME_INTERVAL_PATH = [ 'timeInterval' ];
-export const TIME_SERIALISINGFORMAT_PATH = [ 'timeSerializingFormat' ];
+export const TIME_SERIALISING_FORMAT_PATH = [ 'timeSerializingFormat' ];

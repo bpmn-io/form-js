@@ -1,6 +1,6 @@
 import { CheckboxEntry, isCheckboxEntryEdited, SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
-import { DATETIME_SUBTYPES, DATETIME_DISALLOWPASTDATES_PATH, TIME_INTERVAL_PATH } from '@bpmn-io/form-js-viewer';
+import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '@bpmn-io/form-js-viewer';
 
 import { get } from 'min-dash';
 
@@ -52,7 +52,7 @@ function DisallowPassedDates(props) {
     id
   } = props;
 
-  const path = DATETIME_DISALLOWPASTDATES_PATH;
+  const path = DATE_DISALLOW_PAST_PATH;
 
   const getValue = () => {
     return get(field, path, '');

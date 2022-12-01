@@ -4,12 +4,15 @@ import flatpickr from 'flatpickr';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { prefixId } from '../../Util';
 import InputAdorner from './InputAdorner';
+import Label from '../../Label';
 
 export default function Datepicker(props) {
 
   const {
     id,
+    label,
     formId,
+    required,
     disabled,
     disallowPassedDates,
     date,
@@ -160,24 +163,33 @@ export default function Datepicker(props) {
     }, [ isInputDirty ]
   );
 
-  return <InputAdorner
-    pre={ <CalendarIcon /> }
-    disabled={ disabled }
-    rootRef={ focusScopeRef }
-    inputRef={ dateInputRef }>
-    <div class="fjs-datepicker" style={ { width: '100%' } }>
-      <input ref={ dateInputRef }
-        type="text"
-        id={ `${prefixId(id, formId)}--date` }
-        class={ 'fjs-input' }
-        disabled={ disabled }
-        placeholder="MM/DD/YYYY"
-        autoComplete="false"
-        onFocus={ onInputFocus }
-        onKeyDown={ onInputKeyDown }
-        onBlur={ onInputBlur }
-        onInput={ (e) => setIsInputDirty(true) }
-        data-input />
-    </div>
-  </InputAdorner>;
+  const fullId = `${prefixId(id, formId)}--date`;
+
+  return <div class="fjs-datetime-subsection">
+    <Label
+      id={ fullId }
+      label={ label }
+      required={ required } />
+    <InputAdorner
+      pre={ <CalendarIcon /> }
+      disabled={ disabled }
+      rootRef={ focusScopeRef }
+      inputRef={ dateInputRef }>
+      <div class="fjs-datepicker" style={ { width: '100%' } }>
+        <input ref={ dateInputRef }
+          type="text"
+          id={ fullId }
+          class={ 'fjs-input' }
+          disabled={ disabled }
+          placeholder="MM/DD/YYYY"
+          autoComplete="false"
+          onFocus={ onInputFocus }
+          onKeyDown={ onInputKeyDown }
+          onBlur={ onInputBlur }
+          onInput={ (e) => setIsInputDirty(true) }
+          data-input />
+      </div>
+    </InputAdorner>
+  </div>
+  ;
 }

@@ -6,7 +6,7 @@ import { set } from 'min-dash';
 
 import { FormContext } from '../../context';
 
-import { DATETIME_SUBTYPES, DATETIME_SUBTYPE_PATH, TIME_SERIALISING_FORMATS, TIME_SERIALISINGFORMAT_PATH, TIME_INTERVAL_PATH } from '../../../util/constants/DatetimeConstants';
+import { DATETIME_SUBTYPES, DATETIME_SUBTYPE_PATH, DATE_LABEL_PATH } from '../../../util/constants/DatetimeConstants';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -32,7 +32,8 @@ export default function Datetime(props) {
   const {
     description,
     id,
-    label,
+    dateLabel,
+    timeLabel,
     validate = {},
     subtype,
     use24h,
@@ -124,7 +125,9 @@ export default function Datetime(props) {
 
   const datePickerProps = {
     id,
+    label: dateLabel,
     formId,
+    required,
     disabled,
     disallowPassedDates,
     date,
@@ -133,7 +136,9 @@ export default function Datetime(props) {
 
   const timePickerProps = {
     id,
+    label: timeLabel,
     formId,
+    required,
     disabled,
     use24h,
     timeInterval,
@@ -142,16 +147,11 @@ export default function Datetime(props) {
   };
 
   return <div class={ formFieldClasses(type, allErrors) }>
-    <Label
-      id={ prefixId(id, formId) }
-      label={ label }
-      required={ required } />
     <div class={ classNames('fjs-vertical-group') }>
       { useDatePicker && <Datepicker { ...datePickerProps } /> }
       { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
       { useTimePicker && <Timepicker { ...timePickerProps } /> }
     </div>
-
     <Description description={ description } />
     <Errors errors={ allErrors } />
   </div>;
@@ -160,13 +160,11 @@ export default function Datetime(props) {
 Datetime.create = function(options = {}) {
   const newOptions = { ...options };
   set(newOptions, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
-  set(newOptions, TIME_SERIALISINGFORMAT_PATH, TIME_SERIALISING_FORMATS.UTC_OFFSET);
-  set(newOptions, TIME_INTERVAL_PATH, 15);
+  set(newOptions, DATE_LABEL_PATH, 'Date');
   return newOptions;
 };
 
 Datetime.type = type;
-Datetime.label = 'Datetime';
 Datetime.keyed = true;
 Datetime.emptyValue = null;
 Datetime.sanitizeValue = sanitizeDateTimePickerValue;
