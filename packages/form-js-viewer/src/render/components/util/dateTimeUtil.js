@@ -1,6 +1,30 @@
 import { isNumber } from 'min-dash';
 import { MINUTES_IN_DAY, TIME_SERIALISING_FORMATS } from '../../../util/constants/DatetimeConstants';
 
+export const ENTER_KEYDOWN_EVENT = new KeyboardEvent('keydown', {
+  code: 'Enter',
+  key: 'Enter',
+  charCode: 13,
+  keyCode: 13,
+  view: window,
+  bubbles: true
+});
+
+export function focusRelevantFlatpickerDay(flatpickrInstance) {
+
+  if (!flatpickrInstance) return;
+
+  !flatpickrInstance.isOpen && flatpickrInstance.open();
+
+  const container = flatpickrInstance.calendarContainer;
+  const dayToFocus =
+    container.querySelector('.flatpickr-day.selected') ||
+    container.querySelector('.flatpickr-day.today') ||
+    container.querySelector('.flatpickr-day');
+
+  dayToFocus && dayToFocus.focus();
+}
+
 export function formatTime(use24h, minutes) {
 
   if (minutes === null) return null;

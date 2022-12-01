@@ -1,7 +1,8 @@
 import CalendarIcon from '../icons/Calendar.svg';
 import flatpickr from 'flatpickr';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { ENTER_KEYDOWN_EVENT, focusRelevantFlatpickerDay } from '../../util/dateTimeUtil';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import { prefixId } from '../../Util';
 import InputAdorner from './InputAdorner';
 import Label from '../../Label';
@@ -23,29 +24,29 @@ export default function Datepicker(props) {
   const focusScopeRef = useRef();
   const [ flatpickrInstance, setFlatpickrInstance ] = useState(null);
   const [ isInputDirty, setIsInputDirty ] = useState(false);
-  const [ forceRefreshValue, setForceRefreshValue ] = useState(false);
 
-  const enterKeyboardEvent = useMemo(() => new KeyboardEvent('keydown', {
-    code: 'Enter',
-    key: 'Enter',
-    charCode: 13,
-    keyCode: 13,
-    view: window,
-    bubbles: true
-  }), []);
+  const [ forceFocusCalendar, setForceFocusCalendar ] = useState(false);
 
-  // Generate an enter press to submit the data on all blurs
+  // shorts the date value back to the source
   useEffect(() => {
 
-    if (!forceRefreshValue) return;
+    if (!flatpickrInstance || !flatpickrInstance.config) return;
 
-    dateInputRef.current.dispatchEvent(enterKeyboardEvent);
+    flatpickrInstance.setDate(date, true);
     setIsInputDirty(false);
-    setForceRefreshValue(false);
 
-  }, [ enterKeyboardEvent, forceRefreshValue ]);
+  }, [ flatpickrInstance, date.toString() ]);
 
+  useEffect(() => {
 
+    if (!forceFocusCalendar) return;
+
+    focusRelevantFlatpickerDay(flatpickrInstance);
+    setForceFocusCalendar(false);
+
+  }, [ flatpickrInstance, forceFocusCalendar ]);
+
+  // setup flatpickr instance
   useEffect(() => {
 
     if (disabled) {
@@ -69,7 +70,7 @@ export default function Datepicker(props) {
     setFlatpickrInstance(instance);
 
     const onCalendarFocusOut = (e) => {
-      if (!instance.calendarContainer.contains(e.relatedTarget)) {
+      if (!instance.calendarContainer.contains(e.relatedTarget) && e.relatedTarget != dateInputRef.current) {
         instance.close();
       }
     };
@@ -91,21 +92,11 @@ export default function Datepicker(props) {
     instance.config.onClose = [
       () => instance.calendarContainer.removeEventListener('focusout', onCalendarFocusOut),
       () => instance.calendarContainer.removeEventListener('mousedown', onCalendarMouseDown),
-      () => { setForceRefreshValue(true); }
     ];
 
-  }, [ disabled, disallowPassedDates, enterKeyboardEvent ]);
+  }, [ disabled, disallowPassedDates ]);
 
-  // Shorts the date value back to the source
-  useEffect(() => {
-
-    if (!flatpickrInstance || !flatpickrInstance.config) return;
-
-    flatpickrInstance.setDate(date, true);
-
-  }, [ flatpickrInstance, date.toString() ]);
-
-  // OnChange is updated dynamically, so not to re-render the flatpicker every time it changes
+  // onChange is updated dynamically, so not to re-render the flatpicker every time it changes
   useEffect(() => {
 
     if (!flatpickrInstance || !flatpickrInstance.config) return;
@@ -114,34 +105,29 @@ export default function Datepicker(props) {
 
   }, [ flatpickrInstance, setDate ]);
 
-  const focusRelevantCalendarDay = useCallback(
-    (e) => {
-
-      if (!flatpickrInstance) return;
-
-      const container = flatpickrInstance.calendarContainer;
-      const dayToFocus =
-        container.querySelector('.flatpickr-day.selected') ||
-        container.querySelector('.flatpickr-day.today') ||
-        container.querySelector('.flatpickr-day');
-
-      dayToFocus && dayToFocus.focus();
-    },
-    [ flatpickrInstance ]
-  );
-
   const onInputKeyDown = useCallback(
     (e) => {
 
       if (!flatpickrInstance) return;
 
       if (e.code === 'ArrowDown') {
-        !flatpickrInstance.isOpen && flatpickrInstance.open();
-        focusRelevantCalendarDay();
+
+        if (isInputDirty) {
+
+          // trigger an enter keypress to submit the new input, then focus calendar day on the next render cycle
+          dateInputRef.current.dispatchEvent(ENTER_KEYDOWN_EVENT);
+          setForceFocusCalendar(true);
+        }
+        else {
+
+          // focus calendar day immediately
+          focusRelevantFlatpickerDay(flatpickrInstance);
+        }
+
         e.preventDefault();
       }
     },
-    [ flatpickrInstance, focusRelevantCalendarDay ],
+    [ flatpickrInstance, isInputDirty ],
   );
 
   const onInputFocus = useCallback(
@@ -157,8 +143,8 @@ export default function Datepicker(props) {
   const onInputBlur = useCallback(
     (e) => {
 
-      if (!isInputDirty || !e.relatedTarget || e.relatedTarget.classList.contains('flatpickr-day')) return;
-      setForceRefreshValue(true);
+      if (!isInputDirty || e.relatedTarget && e.relatedTarget.classList.contains('flatpickr-day')) return;
+      dateInputRef.current.dispatchEvent(ENTER_KEYDOWN_EVENT);
 
     }, [ isInputDirty ]
   );
@@ -185,6 +171,7 @@ export default function Datepicker(props) {
           autoComplete="false"
           onFocus={ onInputFocus }
           onKeyDown={ onInputKeyDown }
+          onMouseDown={ (e) => !flatpickrInstance.isOpen && flatpickrInstance.open() }
           onBlur={ onInputBlur }
           onInput={ (e) => setIsInputDirty(true) }
           data-input />
