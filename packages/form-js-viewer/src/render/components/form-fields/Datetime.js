@@ -10,11 +10,10 @@ import { DATETIME_SUBTYPES, DATETIME_SUBTYPE_PATH, DATE_LABEL_PATH } from '../..
 
 import Description from '../Description';
 import Errors from '../Errors';
-import Label from '../Label';
 import Datepicker from './parts/Datepicker';
 import Timepicker from './parts/Timepicker';
 
-import { formFieldClasses, prefixId } from '../Util';
+import { formFieldClasses } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
 import { isDateTimeInputInformationSufficient, parseIsoTime, serializeDate, serializeDateTime, serializeTime } from '../util/dateTimeUtil';
 
@@ -146,7 +145,7 @@ export default function Datetime(props) {
     setTime
   };
 
-  return <div class={ formFieldClasses(type, allErrors) }>
+  return <div class={ formFieldClasses(type, { errors: allErrors, disabled }) }>
     <div class={ classNames('fjs-vertical-group') }>
       { useDatePicker && <Datepicker { ...datePickerProps } /> }
       { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
