@@ -7,7 +7,7 @@ import {
 import { query as domQuery } from 'min-dom';
 
 import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
-import { VALUES_SOURCES } from '../../../../src/features/properties-panel/entries/ValuesSourceUtil';
+import { VALUES_SOURCES } from '@bpmn-io/form-js-viewer';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomValuesGroup';
 
 import {
