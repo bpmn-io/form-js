@@ -126,11 +126,54 @@ describe('GeneralGroup', function() {
       expect(labelInput).to.exist;
     });
 
+    describe('for datetime', function() {
 
-    it('should render for INPUTS', function() {
+      it('should render a date label in date subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'date' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.not.exist;
+      });
+
+
+      it('should render a time label in time subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'time' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.not.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.exist;
+      });
+
+
+      it('should render both date and time labels datetime subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'datetime' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.exist;
+      });
+    });
+
+
+    it('should render for other INPUTS', function() {
 
       // given
       for (const type of INPUTS) {
+
+        if (type === 'datetime') continue;
 
         const field = { type };
 
@@ -139,10 +182,10 @@ describe('GeneralGroup', function() {
 
         // then
         const labelInput = findInput('label', container);
-
         expect(labelInput).to.exist;
       }
     });
+
 
 
     it('should read', function() {
@@ -472,7 +515,8 @@ describe('GeneralGroup', function() {
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
-          expect(defaultValueEntry).to.exist;
+          if (type === 'datetime') expect(defaultValueEntry).to.not.exist;
+          else expect(defaultValueEntry).to.exist;
         }
       });
 

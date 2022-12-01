@@ -46,6 +46,7 @@ describe('palette', function() {
       'textfield',
       'textarea',
       'number',
+      'datetime',
       'checkbox',
       'checklist',
       'radio',
