@@ -18,7 +18,7 @@ export function willKeyProduceValidNumber(key, previousValue, caretIndex, select
   const isFirstMinus = !previousValue.includes('-') && key === '-' && caretIndex === 0;
 
   const keypressIsNumeric = /^[0-9]$/i.test(key);
-  const dotIndex = previousValue?.indexOf('.') === undefined ? -1 : previousValue?.indexOf('.');
+  const dotIndex = previousValue === undefined ? -1 : previousValue.indexOf('.');
 
   // If the caret is positioned after a dot, and the current decimal digits count is equal or greater to the maximum, disallow the key press
   const overflowsDecimalSpace = typeof(decimalDigits) === 'number'
