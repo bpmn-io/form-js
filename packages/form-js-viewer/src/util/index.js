@@ -7,7 +7,8 @@ export * from './form';
 
 const EXPRESSION_PROPERTIES = [
   'alt',
-  'source'
+  'source',
+  'text'
 ];
 
 export function findErrors(errors, path) {

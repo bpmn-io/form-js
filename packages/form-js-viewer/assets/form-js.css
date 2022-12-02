@@ -99,6 +99,15 @@
 
 .fjs-container .fjs-form-field-placeholder {
   color: var(--color-text-light);
+  font-style: italic;
+}
+
+.fjs-container .fjs-form-field-placeholder svg {
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 2px;
 }
 
 .fjs-container .fjs-input,
