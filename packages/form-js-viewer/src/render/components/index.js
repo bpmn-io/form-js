@@ -42,3 +42,5 @@ export const formFields = [
   Textfield,
   Textarea
 ];
+
+export * from './icons';
