@@ -1,0 +1,31 @@
+{
+  "components": [
+    {
+      "label": "a",
+      "type": "checkbox",
+      "key": "a"
+    },
+    {
+      "label": "b",
+      "type": "textfield",
+      "key": "b"
+    },
+    {
+      "label": "c",
+      "type": "textfield",
+      "key": "c",
+      "conditional": {
+        "hide": "=a"
+      }
+    },
+    {
+      "type": "image",
+      "alt": "=b + c",
+      "source": "https://"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0z44jiv",
+  "exporter": {},
+  "schemaVersion": 6
+}

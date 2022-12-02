@@ -25,6 +25,7 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
       };
     } else if (type === 'conditionChecker') {
       return {
+        applyConditions() {},
         evaluate(...args) {
           return evaluateExpression(...args);
         }
