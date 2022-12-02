@@ -1,8 +1,8 @@
 import { get } from 'min-dash';
 
-import { useService } from '../hooks';
+import { useService, useVariables } from '../hooks';
 
-import { TextAreaEntry, isTextAreaEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelTextAreaEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export default function TextEntry(props) {
@@ -23,7 +23,7 @@ export default function TextEntry(props) {
       component: Text,
       editField: editField,
       field: field,
-      isEdited: isTextAreaEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -39,6 +39,8 @@ function Text(props) {
 
   const debounce = useService('debounce');
 
+  const variables = useVariables().map(name => ({ name }));
+
   const path = [ 'text' ];
 
   const getValue = () => {
@@ -49,14 +51,16 @@ function Text(props) {
     return editField(field, path, value);
   };
 
-  return TextAreaEntry({
+  return FeelTextAreaEntry({
     debounce,
-    description: 'Use Markdown or basic HTML to format.',
+    description: 'Use an Expression, Markdown or basic HTML to format.',
     element: field,
+    feel: 'optional',
     getValue,
     id,
     label: 'Text',
     rows: 10,
-    setValue
+    setValue,
+    variables
   });
 }

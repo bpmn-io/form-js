@@ -1,4 +1,5 @@
 import {
+  act,
   cleanup,
   fireEvent,
   render
@@ -673,6 +674,32 @@ describe('GeneralGroup', function() {
       expect(field.text).to.equal('newVal');
     });
 
+
+    it('should write (expression)', async function() {
+
+      // given
+      const field = {
+        type: 'text',
+        text: 'foobar'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const textInput = findTextarea('text', container);
+
+      // when
+      await act(() => fireEvent.input(textInput, { target: { value: '=foo' } }));
+
+      const textBox = findTextbox('text', container);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.text).to.equal('=foo');
+      expect(textBox.textContent).to.equal('foo');
+    });
+
   });
 
 
@@ -787,4 +814,8 @@ function findSelect(id, container) {
 
 function findTextarea(id, container) {
   return container.querySelector(`textarea[name="${id}"]`);
+}
+
+function findTextbox(id, container) {
+  return container.querySelector(`[name=${id}] [role="textbox"]`);
 }

@@ -705,9 +705,9 @@ describe('FormEditor', function() {
       const schema = {
         components: [
           {
-            id: 'Text_1',
-            text: 'Foo',
-            type: 'text'
+            id: 'Textfield_1',
+            label: 'Foo',
+            type: 'textfield'
           }
         ],
         id: 'Form_1',
@@ -729,17 +729,17 @@ describe('FormEditor', function() {
 
         await expectSelected('Form_1');
 
-        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
+        const textfield = formEditor.get('formFieldRegistry').get('Textfield_1');
 
-        formEditor.get('selection').set(text1);
+        formEditor.get('selection').set(textfield);
 
-        await expectSelected('Text_1');
+        await expectSelected('Textfield_1');
 
         // open group to make entry focusable
         const group = await screen.getByText('General');
         fireEvent.click(group);
 
-        const input = await screen.getByLabelText('Text');
+        const input = await screen.getByLabelText('Field label');
 
         // when
         input.focus();
@@ -763,17 +763,17 @@ describe('FormEditor', function() {
 
         await expectSelected('Form_1');
 
-        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
+        const textfield = formEditor.get('formFieldRegistry').get('Textfield_1');
 
-        formEditor.get('selection').set(text1);
+        formEditor.get('selection').set(textfield);
 
-        await expectSelected('Text_1');
+        await expectSelected('Textfield_1');
 
         // open group to make entry focusable
         const group = await screen.getByText('General');
         fireEvent.click(group);
 
-        const input = await screen.getByLabelText('Text');
+        const input = await screen.getByLabelText('Field label');
 
         input.focus();
 
