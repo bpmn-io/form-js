@@ -34,7 +34,7 @@ const types = [
     type: 'select'
   },
   {
-    label: 'Text',
+    label: 'Text view',
     type: 'text'
   },
   {
