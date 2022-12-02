@@ -14,6 +14,8 @@ import { spy } from 'sinon';
 import customModule from './custom';
 
 import conditionSchema from './condition.json';
+import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
+import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
 import schema from './form.json';
 import schemaNoIds from './form.json';
@@ -1108,10 +1110,153 @@ describe('Form', function() {
 
   });
 
+
+  describe('integration - hidden fields', function() {
+
+    it('should not affect other fields (conditional)', async function() {
+
+      // given
+      await createForm({
+        container,
+        schema: hiddenFieldsConditionalSchema
+      });
+
+      // assume
+      expect(getText(container)).to.exist;
+
+      // when
+      const inputB = screen.getByLabelText('b');
+      fireEvent.change(inputB, { target: { checked: true } });
+
+      const inputC = screen.getByLabelText('c');
+      fireEvent.change(inputC, { target: { checked: true } });
+
+      // then
+      expect(getText(container)).to.not.exist;
+
+      // but when
+      const inputA = screen.getByLabelText('a');
+      fireEvent.change(inputA, { target: { checked: true } });
+
+      // then
+      expect(getText(container)).to.exist;
+    });
+
+
+    it('should not affect other fields (conditional, external)', async function() {
+
+      // given
+      const initialData = {
+        c: true
+      };
+
+      await createForm({
+        container,
+        data: initialData,
+        schema: hiddenFieldsConditionalSchema
+      });
+
+      // assume
+      expect(getText(container)).to.exist;
+
+      // when
+      const inputB = screen.getByLabelText('b');
+      fireEvent.change(inputB, { target: { checked: true } });
+
+      const inputC = screen.getByLabelText('c');
+      fireEvent.change(inputC, { target: { checked: true } });
+
+      // then
+      expect(getText(container)).to.not.exist;
+
+      // but when
+      const inputA = screen.getByLabelText('a');
+      fireEvent.change(inputA, { target: { checked: true } });
+
+      // then
+      // text is still not visible because of initial data
+      expect(getText(container)).to.not.exist;
+    });
+
+
+    it('should not affect other fields (expression)', async function() {
+
+      // given
+      await createForm({
+        container,
+        schema: hiddenFieldsExpressionSchema
+      });
+
+      // assume
+      expect(getImage(container).alt).to.eql('');
+
+      // when
+      const inputB = screen.getByLabelText('b');
+      fireEvent.input(inputB, { target: { value: 'foo' } });
+
+      const inputC = screen.getByLabelText('c');
+      fireEvent.input(inputC, { target: { value: 'bar' } });
+
+      // then
+      expect(getImage(container).alt).to.eql('foobar');
+
+      // but when
+      const inputA = screen.getByLabelText('a');
+      fireEvent.change(inputA, { target: { checked: true } });
+
+      // then
+      expect(getImage(container).alt).to.eql('foo');
+    });
+
+
+    it('should not affect other fields (expression, external)', async function() {
+
+      // given
+      const initialData = {
+        c: 'external'
+      };
+
+      await createForm({
+        container,
+        data: initialData,
+        schema: hiddenFieldsExpressionSchema
+      });
+
+      // assume
+      expect(getImage(container).alt).to.eql('external');
+
+      // when
+      const inputB = screen.getByLabelText('b');
+      fireEvent.input(inputB, { target: { value: 'foo' } });
+
+      const inputC = screen.getByLabelText('c');
+      fireEvent.input(inputC, { target: { value: 'bar' } });
+
+      // then
+      expect(getImage(container).alt).to.eql('foobar');
+
+      // but when
+      const inputA = screen.getByLabelText('a');
+      fireEvent.change(inputA, { target: { checked: true } });
+
+      // then
+      expect(getImage(container).alt).to.eql('fooexternal');
+    });
+
+  });
+
 });
 
 // helpers //////////
 
 function getFormField(form, key) {
   return form.get('formFieldRegistry').getAll().find((formField) => formField.key === key);
+}
+
+function getText(container) {
+  return container.querySelector('.fjs-form-field-text');
+}
+
+function getImage(container) {
+  return container.querySelector('.fjs-image');
 }

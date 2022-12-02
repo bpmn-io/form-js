@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "label": "a",
+      "type": "checkbox",
+      "key": "a"
+    },
+    {
+      "label": "b",
+      "type": "checkbox",
+      "key": "b"
+    },
+    {
+      "label": "c",
+      "type": "checkbox",
+      "key": "c",
+      "conditional": {
+        "hide": "=a"
+      }
+    },
+    {
+      "text": "# Text",
+      "type": "text",
+      "conditional": {
+        "hide": "=b and c"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0jn1poe",
+  "exporter": {},
+  "schemaVersion": 6
+}

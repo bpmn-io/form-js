@@ -320,6 +320,9 @@ function createFormField(options = {}) {
         };
       } else if (type === 'conditionChecker') {
         return checkCondition !== false ? {
+          applyConditions(data) {
+            return data;
+          },
           check(...args) {
             return checkCondition(...args);
           }

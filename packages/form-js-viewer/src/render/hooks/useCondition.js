@@ -9,11 +9,18 @@ import useService from './useService.js';
  * @returns {boolean} true if condition is met or no condition or condition checker exists
  */
 export function useCondition(condition, data) {
+  const initialData = useService('form')._getState().initialData;
   const conditionChecker = useService('conditionChecker', false);
 
   if (!conditionChecker) {
     return null;
   }
 
-  return conditionChecker.check(condition, data);
+  // make sure we do not use data from hidden fields
+  const filteredData = {
+    ...initialData,
+    ...conditionChecker.applyConditions(data, data)
+  };
+
+  return conditionChecker.check(condition, filteredData);
 }
