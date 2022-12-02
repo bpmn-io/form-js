@@ -10,23 +10,23 @@ export function isValidNumber(value) {
   return (typeof value === 'number' || typeof value === 'string') && value !== '' && !isNaN(Number(value));
 }
 
-export function willKeyProduceValidNumber(key, previousValue, carretIndex, selectionWidth, decimalDigits) {
+export function willKeyProduceValidNumber(key, previousValue, caretIndex, selectionWidth, decimalDigits) {
 
   // Dot and comma are both treated as dot
   previousValue = previousValue.replace(',', '.');
   const isFirstDot = !previousValue.includes('.') && (key === '.' || key === ',');
-  const isFirstMinus = !previousValue.includes('-') && key === '-' && carretIndex === 0;
+  const isFirstMinus = !previousValue.includes('-') && key === '-' && caretIndex === 0;
 
   const keypressIsNumeric = /^[0-9]$/i.test(key);
   const dotIndex = previousValue?.indexOf('.') === undefined ? -1 : previousValue?.indexOf('.');
 
-  // If the carret is positioned after a dot, and the current decimal digits count is equal or greater to the maximum, disallow the key press
+  // If the caret is positioned after a dot, and the current decimal digits count is equal or greater to the maximum, disallow the key press
   const overflowsDecimalSpace = typeof(decimalDigits) === 'number'
     && selectionWidth === 0
     && dotIndex !== -1
     && previousValue.includes('.')
     && previousValue.split('.')[1].length >= decimalDigits
-    && carretIndex > dotIndex;
+    && caretIndex > dotIndex;
 
   const keypressIsAllowedChar = keypressIsNumeric || ((decimalDigits !== 0) && isFirstDot) || isFirstMinus;
 

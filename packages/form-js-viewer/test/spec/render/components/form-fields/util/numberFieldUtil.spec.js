@@ -67,8 +67,8 @@ describe('numberFieldUtil', function() {
     ];
 
     // then
-    for (const [ key, previousValue, carretIndex, selectionWidth, decimalDigits, expectedValue ] of scenarios) {
-      expect(willKeyProduceValidNumber(key, previousValue, carretIndex, selectionWidth, decimalDigits)).to.equal(expectedValue);
+    for (const [ key, previousValue, caretIndex, selectionWidth, decimalDigits, expectedValue ] of scenarios) {
+      expect(willKeyProduceValidNumber(key, previousValue, caretIndex, selectionWidth, decimalDigits)).to.equal(expectedValue);
     }
 
   });

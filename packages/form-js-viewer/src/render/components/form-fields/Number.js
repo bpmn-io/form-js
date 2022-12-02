@@ -139,11 +139,11 @@ export default function Numberfield(props) {
 
   // intercept key presses which would lead to an invalid number
   const onKeyPress = (e) => {
-    const carretIndex = inputRef.current.selectionStart;
+    const caretIndex = inputRef.current.selectionStart;
     const selectionWidth = inputRef.current.selectionStart - inputRef.current.selectionEnd;
     const previousValue = inputRef.current.value;
 
-    if (!willKeyProduceValidNumber(e.key, previousValue, carretIndex, selectionWidth, decimalDigits)) {
+    if (!willKeyProduceValidNumber(e.key, previousValue, caretIndex, selectionWidth, decimalDigits)) {
       e.preventDefault();
     }
   };
