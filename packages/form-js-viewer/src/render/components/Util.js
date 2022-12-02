@@ -26,6 +26,7 @@ export function prefixId(id, formId) {
 
 export function markdownToHTML(markdown) {
   const htmls = markdown
+    .toString()
     .split(/(?:\r?\n){2,}/)
     .map(line =>
       /^((\d+.)|[><\s#-*])/.test(line)

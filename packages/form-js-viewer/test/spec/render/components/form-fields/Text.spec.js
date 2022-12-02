@@ -7,6 +7,8 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
+import { WithFormContext } from './helper';
+
 let container;
 
 
@@ -123,6 +125,104 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
+  it('should render markdown (expression)', function() {
+
+    // given
+    const content = '#foo';
+
+    const { container } = createText({
+      data: {
+        content
+      },
+      field: {
+        text: '=foo',
+        type: 'text'
+      },
+      evaluateExpression: () => content
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.innerHTML).to.eql('<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>foo</h1></div></div>');
+  });
+
+
+  it('should render markdown (complex expression)', function() {
+
+    // given
+    const content = [ '#foo', '###bar' ];
+
+    const { container } = createText({
+      data: {
+        content
+      },
+      field: {
+        text: '=foo',
+        type: 'text'
+      },
+      evaluateExpression: () => content
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.innerHTML).to.eql('<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><h1>foo,###bar</h1></div></div>');
+  });
+
+
+  describe('disabled', function() {
+
+    it('should render expression placeholder', function() {
+
+      // given
+      const content = '#text';
+
+      const { container } = createText({
+        data: {
+          content
+        },
+        disabled: true,
+        field: {
+          text: '=foo',
+          type: 'text'
+        },
+        evaluateExpression: () => content
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
+
+      expect(placeholder).to.exist;
+      expect(placeholder.textContent).to.eql('Text view is populated by an expression');
+    });
+
+
+    it('should empty placeholder', function() {
+
+      // given
+      const { container } = createText({
+        disabled: true,
+        field: {
+          text: '',
+          type: 'text'
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
+
+      expect(placeholder).to.exist;
+      expect(placeholder.textContent).to.eql('Text view is empty');
+    });
+
+  });
+
+
   it('#create', function() {
 
     // assume
@@ -180,6 +280,29 @@ Some _em_ **strong** [text](#text) \`code\`.
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations - expression', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const content = '#foo';
+
+      const { container } = createText({
+        data: {
+          content
+        },
+        field: {
+          text: '=content',
+          type: 'text'
+        },
+        evaluateExpression: () => content
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });
@@ -201,7 +324,7 @@ function createText(options = {}) {
     value
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Text
       disabled={ disabled }
       errors={ errors }
@@ -209,8 +332,9 @@ function createText(options = {}) {
       onChange={ onChange }
       path={ path }
       value={ value } />,
-    {
-      container: options.container || container.querySelector('.fjs-form')
-    }
-  );
+    options
+  ),
+  {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }

@@ -1,3 +1,5 @@
+import { isString } from 'min-dash';
+
 import { parseExpressions, parseUnaryTests } from 'feelin';
 
 /**
@@ -44,4 +46,8 @@ export function getExpressionVariableNames(expression) {
   } while (cursor.next());
 
   return Array.from(variables);
+}
+
+export function isExpression(value) {
+  return isString(value) && value.startsWith('=');
 }
