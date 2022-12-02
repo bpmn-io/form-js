@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.10.0-alpha.3
+
+### General
+
+* `FIX`: remove ES2020 syntax ([#448](https://github.com/bpmn-io/form-js/pull/448))
+
 
 ## 0.10.0-alpha.2
 
