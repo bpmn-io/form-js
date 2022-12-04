@@ -110,6 +110,10 @@ export default function Datepicker(props) {
 
       if (!flatpickrInstance) return;
 
+      if (e.code === 'Escape') {
+        flatpickrInstance.close();
+      }
+
       if (e.code === 'ArrowDown') {
 
         if (isInputDirty) {

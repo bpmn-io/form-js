@@ -76,16 +76,24 @@ export default function Timepicker(props) {
 
   const initialFocusIndex = useMemo(() => {
 
-    // If there are no options, there will not be any focusing
-    if (!timeOptions) return null;
+    // if there are no options, there will not be any focusing
+    if (!timeOptions || !timeInterval) return null;
 
-    // If there is a set minute value, we focus it in the dropdown
+    // if there is a set minute value, we focus it in the dropdown
     if (time) return time / timeInterval;
+
+    const cacheTime = parseInputTime(rawValue);
+
+    // if there is a valid value in the input cache, we try and focus close to it
+    if (!isNaN(cacheTime)) {
+      const flooredCacheTime = cacheTime - cacheTime % timeInterval;
+      return flooredCacheTime / timeInterval;
+    }
 
     // If there is no set value, simply focus the middle of the dropdown (12:00)
     return Math.floor(timeOptions.length / 2);
 
-  }, [ time, timeInterval, timeOptions ]);
+  }, [ rawValue, time, timeInterval, timeOptions ]);
 
   const onInputKeyDown = (e) => {
     switch (e.key) {
@@ -139,7 +147,7 @@ export default function Timepicker(props) {
           onClick={ () => useDropdown && setDropdownIsOpen(true) }
 
           // @ts-ignore
-          onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }
+          onInput={ (e) => { setRawValue(e.target.value); } }
           onBlur={ onInputBlur }
           onKeyDown={ onInputKeyDown }
           data-input />
