@@ -65,7 +65,7 @@ export default [
       copy({
         targets: [
           { src: 'assets/form-js.css', dest: 'dist/assets' },
-          { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets' }
+          { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets/flatpickr' }
         ]
       })
     ]),
