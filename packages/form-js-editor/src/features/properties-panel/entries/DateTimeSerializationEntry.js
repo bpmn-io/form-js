@@ -7,8 +7,7 @@ import { get } from 'min-dash';
 export default function DateTimeFormatEntry(props) {
   const {
     editField,
-    field,
-    id
+    field
   } = props;
 
   const {
@@ -24,7 +23,7 @@ export default function DateTimeFormatEntry(props) {
 
   if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
     entries.push({
-      id: id + '-time-format',
+      id: 'time-format',
       component: TimeFormatSelect,
       isEdited: isSelectEntryEdited,
       editField,

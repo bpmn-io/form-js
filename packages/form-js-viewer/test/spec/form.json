@@ -95,6 +95,16 @@
       ]
     },
     {
+      "key": "conversation",
+      "type": "datetime",
+      "subtype": "datetime",
+      "dateLabel": "Date of conversation",
+      "timeLabel": "Time of conversation",
+      "timeSerializingFormat": "utc_normalized",
+      "timeInterval": 15,
+      "use24h": false
+    },
+    {
       "key": "tags",
       "label": "Taglist",
       "type": "taglist",

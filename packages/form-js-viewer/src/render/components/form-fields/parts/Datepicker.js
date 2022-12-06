@@ -58,7 +58,8 @@ export default function Datepicker(props) {
       allowInput: true,
       dateFormat: 'm/d/Y',
       static: true,
-      clickOpens: false
+      clickOpens: false,
+      errorHandler: () => { /* do nothing, we expect the values to sometimes be erronous and we don't want warnings polluting the console */ }
     };
 
     if (disallowPassedDates) {

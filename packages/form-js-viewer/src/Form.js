@@ -357,6 +357,7 @@ export default class Form {
    * @internal
    */
   _getState() {
+
     return this._state;
   }
 

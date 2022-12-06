@@ -13,7 +13,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(schema);
 
-    expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'tags' ]);
+    expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
 
   });
 

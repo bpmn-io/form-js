@@ -279,6 +279,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Custom properties'
         ]);
 
@@ -337,6 +338,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Custom properties'
         ]);
 
@@ -398,6 +400,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Options source',
           'Static options',
           'Validation',
@@ -772,6 +775,7 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
+            'Condition',
             'Options source',
             'Dynamic options',
             'Validation',
@@ -818,6 +822,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Options source',
           'Static options',
           'Custom properties'
@@ -1041,6 +1046,7 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
+            'Condition',
             'Options source',
             'Dynamic options',
             'Custom properties'
@@ -1082,6 +1088,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Options source',
           'Static options',
           'Custom properties'
@@ -1305,6 +1312,7 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
+            'Condition',
             'Options source',
             'Dynamic options',
             'Custom properties'
@@ -1332,6 +1340,55 @@ describe('properties panel', function() {
     });
 
 
+    describe('datetime', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ key }) => key === 'conversation');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Condition',
+          'Serialization',
+          'Constraints',
+          'Validation',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Date label',
+          'Time label',
+          'Field description',
+          'Key',
+          'Subtype',
+          'Use 24h',
+          'Disabled'
+        ]);
+
+        expectGroupEntries(result.container, 'Serialization', [
+          'Time format'
+        ]);
+
+        expectGroupEntries(result.container, 'Constraints', [
+          'Time interval',
+          'Disallow past dates'
+        ]);
+
+        expectGroupEntries(result.container, 'Validation', [
+          'Required'
+        ]);
+
+      });
+    });
+
+
     describe('select', function() {
 
       it('entries', function() {
@@ -1347,6 +1404,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Options source',
           'Static options',
           'Validation',
@@ -1659,6 +1717,7 @@ describe('properties panel', function() {
           // then
           expectGroups(result.container, [
             'General',
+            'Condition',
             'Options source',
             'Dynamic options',
             'Validation',
@@ -1705,6 +1764,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Custom properties'
         ]);
 
@@ -1731,7 +1791,9 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
-          'Validation'
+          'Condition',
+          'Validation',
+          'Custom properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -2004,8 +2066,10 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Serialization',
-          'Validation'
+          'Validation',
+          'Custom properties'
         ]);
 
         expectGroupEntries(result.container, 'General', [
@@ -2476,6 +2540,7 @@ describe('properties panel', function() {
         // then
         expectGroups(result.container, [
           'General',
+          'Condition',
           'Custom properties'
         ]);
 

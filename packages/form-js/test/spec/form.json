@@ -159,20 +159,31 @@
       ]
     },
     {
+      "id": "Field_12",
+      "key": "conversation",
+      "type": "datetime",
+      "subtype": "datetime",
+      "dateLabel": "Date of conversation",
+      "timeLabel": "Time of conversation",
+      "timeSerializingFormat": "utc_normalized",
+      "timeInterval": 15,
+      "use24h": false
+    },
+    {
       "id": "ConditionField_1",
       "type": "text",
       "text": "Displayed for German users only.",
       "condition": "=language = \"german\""
     },
     {
-      "id": "Field_12",
+      "id": "Field_13",
       "action": "submit",
       "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
-      "id": "Field_13",
+      "id": "Field_14",
       "action": "reset",
       "key": "reset",
       "label": "Reset",

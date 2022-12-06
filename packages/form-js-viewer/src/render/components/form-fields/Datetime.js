@@ -157,10 +157,10 @@ export default function Datetime(props) {
 }
 
 Datetime.create = function(options = {}) {
-  const newOptions = { ...options };
+  const newOptions = {};
   set(newOptions, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
   set(newOptions, DATE_LABEL_PATH, 'Date');
-  return newOptions;
+  return { ...newOptions, ...options };
 };
 
 Datetime.type = type;

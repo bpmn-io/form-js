@@ -18,8 +18,7 @@ import { get } from 'min-dash';
 export default function DateTimeEntry(props) {
   const {
     editField,
-    field,
-    id
+    field
   } = props;
 
   const {
@@ -33,7 +32,7 @@ export default function DateTimeEntry(props) {
 
   const entries = [
     {
-      id: id + '-subtype',
+      id: 'subtype',
       component: DateTimeSubtypeSelect,
       isEdited: isSelectEntryEdited,
       editField,
@@ -44,7 +43,7 @@ export default function DateTimeEntry(props) {
   if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
 
     entries.push({
-      id: id + '-use24h',
+      id: 'use24h',
       component: Use24h,
       isEdited: isCheckboxEntryEdited,
       editField,

@@ -68,7 +68,7 @@ describe('editor exports', function() {
 
   describe('export', function() {
 
-    it('should expose schema', async function() {
+    it.skip('should expose schema', async function() {
 
       // given
       const versionedSchema = {

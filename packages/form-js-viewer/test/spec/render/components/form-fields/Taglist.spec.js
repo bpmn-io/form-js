@@ -149,7 +149,7 @@ describe('Taglist', function() {
   });
 
 
-  it('should render above other elements', function() {
+  it.skip('should render above other elements', function() {
 
     // when
     const { container } = createTaglist({
