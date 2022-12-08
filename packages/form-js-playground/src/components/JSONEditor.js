@@ -1,10 +1,11 @@
 import mitt from 'mitt';
 
 import { basicSetup } from 'codemirror';
-import { EditorView } from '@codemirror/view';
+import { EditorView, keymap } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { indentWithTab } from '@codemirror/commands';
 
 
 export function JSONEditor(options = {}) {
@@ -29,6 +30,7 @@ export function JSONEditor(options = {}) {
         tabSize,
         linterExtension,
         lintGutter(),
+        keymap.of([ indentWithTab ]),
         ...extensions
       ]
     });

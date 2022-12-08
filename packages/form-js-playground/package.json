@@ -46,6 +46,7 @@
   "dependencies": {
     "@bpmn-io/form-js-editor": "^0.10.1",
     "@bpmn-io/form-js-viewer": "^0.10.1",
+    "@codemirror/commands": "^6.1.2",
     "@codemirror/lang-json": "^6.0.0",
     "@codemirror/lint": "^6.0.0",
     "@codemirror/state": "^6.1.1",
