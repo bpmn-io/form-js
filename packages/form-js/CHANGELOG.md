@@ -6,6 +6,20 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.10.0
+
+### General
+
+* `FEAT`: support prefix and suffix for `textfield` and `number` ([#420](https://github.com/bpmn-io/form-js/issues/420))
+* `FEAT`: support `datetime` component ([#340](https://github.com/bpmn-io/form-js/issues/340))
++ `FEAT`: support expressions for `text` content ([#436](https://github.com/bpmn-io/form-js/issues/436)) 
+
+### Viewer
+
+* `FEAT`: allow `h6` elements in text view ([#412](https://github.com/bpmn-io/form-js/issues/412))
+* `FIX`: hidden fields do not affect other fields ([#431](https://github.com/bpmn-io/form-js/issues/431))
+
+
 ## 0.10.0-alpha.3
 
 ### General
