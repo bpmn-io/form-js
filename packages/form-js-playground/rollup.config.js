@@ -57,6 +57,7 @@ export default [
       '@codemirror/lang-json',
       '@codemirror/lint',
       '@codemirror/view',
+      '@codemirror/commands',
       'codemirror',
       'classnames'
     ],
