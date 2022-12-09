@@ -58,8 +58,10 @@ describe('playground', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
+      approverComments: 'This invoice looks good.\nOr so I think anyways.',
       mailto: [ 'regional-manager', 'approver' ],
       product: 'camunda-cloud',
+      dri: 'johnDoe',
       queriedDRIs: [
         {
           'label': 'John Doe',
@@ -75,6 +77,7 @@ describe('playground', function() {
         }
       ],
       tags: [ 'tag1', 'tag2', 'tag3' ],
+      conversation: '2010-06-06T12:00Z',
       language: 'english'
     };
 
