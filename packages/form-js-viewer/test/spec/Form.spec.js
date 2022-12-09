@@ -97,7 +97,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
   });
 
 
@@ -176,7 +176,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -214,7 +214,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(15);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
     });
 
 
@@ -373,7 +373,8 @@ describe('Form', function() {
         mailto: [],
         product: null,
         tags: [],
-        language: null
+        language: null,
+        conversation: null
       });
 
       expect(submission.errors).to.eql({
@@ -719,7 +720,10 @@ describe('Form', function() {
       approved: true,
       approvedBy: 'John Doe',
       approverComments: 'Please review by June',
-      tags: [ 'tag1', 'tag2', 'tag3' ]
+      product: 'camunda-platform',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
+      language: 'german',
+      conversation: '2010-06-15T12:00Z'
     };
 
     // when
@@ -749,9 +753,10 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       approverComments: 'Please review by June',
       mailto: [],
-      product: null,
+      product: 'camunda-platform',
       tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: null
+      language: 'german',
+      conversation: '2010-06-15T12:00Z'
     });
 
     expect(submission.errors).to.be.empty;
@@ -770,9 +775,10 @@ describe('Form', function() {
       approvedBy: 'John Doe',
       approverComments: 'Please review by June',
       mailto: [],
-      product: null,
+      product: 'camunda-platform',
       tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: null
+      language: 'german',
+      conversation: '2010-06-15T12:00Z'
     });
 
     expect(state.errors).to.be.empty;
@@ -819,7 +825,8 @@ describe('Form', function() {
       mailto: [],
       product: null,
       tags: [],
-      language: null
+      language: null,
+      conversation: null
     });
 
     expect(state.errors).to.be.empty;
@@ -896,7 +903,8 @@ describe('Form', function() {
         mailto: [],
         product: null,
         tags: [],
-        language: null
+        language: null,
+        conversation: null
       });
 
       expect(event.errors).to.eql({

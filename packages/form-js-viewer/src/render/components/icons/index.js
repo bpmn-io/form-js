@@ -1,6 +1,7 @@
 import ButtonIcon from './Button.svg';
 import CheckboxIcon from './Checkbox.svg';
 import ChecklistIcon from './Checklist.svg';
+import DatetimeIcon from './Datetime.svg';
 import TaglistIcon from './Taglist.svg';
 import FormIcon from './Form.svg';
 import ColumnsIcon from './Group.svg';
@@ -17,6 +18,7 @@ export const iconsByType = {
   checkbox: CheckboxIcon,
   checklist: ChecklistIcon,
   columns: ColumnsIcon,
+  datetime: DatetimeIcon,
   image: ImageIcon,
   number: NumberIcon,
   radio: RadioIcon,

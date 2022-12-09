@@ -127,7 +127,7 @@ describe('DropdownList', function() {
     });
 
 
-    it ('should work via mouse', function() {
+    it('should work via mouse', function() {
 
       // given
       const { container } = createDropdownList({
@@ -138,19 +138,36 @@ describe('DropdownList', function() {
       const dropdownList = container.querySelector('.fjs-dropdownlist');
 
       // then
-      const toFocus = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[2];
-      expect(toFocus.innerText).to.equal('value3');
-      expect(toFocus.classList.contains('focused')).to.be.false;
+      const value2 = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[1];
+      const value3 = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[2];
 
-      fireEvent.mouseEnter(toFocus);
-      expect(toFocus.classList.contains('focused')).to.be.true;
+      expect(value2.innerText).to.equal('value2');
+      expect(value3.innerText).to.equal('value3');
 
-      fireEvent.keyDown(container, { key: 'ArrowUp', code: 'ArrowUp' });
-      expect(toFocus.classList.contains('focused')).to.be.false;
+      const isFocused = (node) => node.classList.contains('focused');
 
-      fireEvent.mouseMove(toFocus);
-      expect(toFocus.classList.contains('focused')).to.be.true;
+      expect(isFocused(value2)).to.be.false;
+      expect(isFocused(value3)).to.be.false;
 
+      // first focus detection in `keyboard` mode is captured by mouseMove, so mouseEnter will not work to change the state
+      fireEvent.mouseEnter(value3);
+      expect(isFocused(value2)).to.be.false;
+      expect(isFocused(value3)).to.be.false;
+
+      // mouseMove should work
+      fireEvent.mouseMove(value3);
+      expect(isFocused(value2)).to.be.false;
+      expect(isFocused(value3)).to.be.true;
+
+      // second detection is captured via mouseEnter, hence mouseMove will not work to change the state
+      fireEvent.mouseMove(value2);
+      expect(isFocused(value2)).to.be.false;
+      expect(isFocused(value3)).to.be.true;
+
+      // mouseEnter should work
+      fireEvent.mouseEnter(value2);
+      expect(isFocused(value2)).to.be.true;
+      expect(isFocused(value3)).to.be.false;
     });
 
   });

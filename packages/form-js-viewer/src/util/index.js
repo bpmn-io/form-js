@@ -2,6 +2,7 @@ import { isString } from 'min-dash';
 
 import { getExpressionVariableNames, getVariableNames } from './feel';
 
+export * from './constants';
 export * from './injector';
 export * from './form';
 
