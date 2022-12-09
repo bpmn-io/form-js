@@ -152,6 +152,16 @@
       ]
     },
     {
+      "key": "conversation",
+      "type": "datetime",
+      "subtype": "datetime",
+      "dateLabel": "Date of conversation",
+      "timeLabel": "Time of conversation",
+      "timeSerializingFormat": "utc_normalized",
+      "timeInterval": 15,
+      "use24h": false
+    },
+    {
       "source": "=logo",
       "alt": "The bpmn.io logo",
       "type": "image"
