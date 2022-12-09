@@ -7,10 +7,10 @@ import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
+import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import {
   formFieldClasses,
-  prefixId,
-  sanitizeSingleSelectValue
+  prefixId
 } from '../Util';
 
 const type = 'select';
