@@ -30,7 +30,8 @@ export default [
     plugins: [
       copy({
         targets: [
-          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*[!light].css', dest: 'dist/assets', },
+          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/flatpickr/*.css', dest: 'dist/assets/flatpickr', },
           { src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
           { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
         ]
@@ -85,12 +86,20 @@ export default [
   }
 ];
 
-// TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
 function onwarn(warning, warn) {
+
+  // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
   if (warning.code === 'CIRCULAR_DEPENDENCY') {
     if (warning.message.includes(`${sep}luxon${sep}`)) {
       return;
     }
   }
+
+  if (warning.code === 'THIS_IS_UNDEFINED') {
+    if (warning.id.includes('flatpickr')) {
+      return;
+    }
+  }
+
   warn(warning);
 }

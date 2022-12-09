@@ -134,7 +134,6 @@ export default class Importer {
         type
       } = formField;
 
-
       // try to get value from data
       // if unavailable - try to get default value from form field
       // if unavailable - get empty value from form field
@@ -154,6 +153,7 @@ export default class Importer {
           ...initializedData,
           [_path[0]]: initializedFieldValue,
         };
+
       }
 
       return initializedData;

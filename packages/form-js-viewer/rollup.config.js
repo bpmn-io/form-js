@@ -58,23 +58,33 @@ export default [
       'preact/hooks',
       'preact/compat',
       'preact-markup',
+      'flatpickr',
       '@bpmn-io/snarkdown'
     ],
     plugins: pgl([
       copy({
         targets: [
-          { src: 'assets/form-js.css', dest: 'dist/assets' }
+          { src: 'assets/form-js.css', dest: 'dist/assets' },
+          { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets/flatpickr' }
         ]
       })
     ]),
 
-    // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
     onwarn(warning, warn) {
+
+      // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
       if (warning.code === 'CIRCULAR_DEPENDENCY') {
         if (warning.message.includes(`${sep}luxon${sep}`)) {
           return;
         }
       }
+
+      if (warning.code === 'THIS_IS_UNDEFINED') {
+        if (warning.id.includes('flatpickr')) {
+          return;
+        }
+      }
+
       warn(warning);
     }
   }

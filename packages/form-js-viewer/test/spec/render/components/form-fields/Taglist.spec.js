@@ -149,30 +149,6 @@ describe('Taglist', function() {
   });
 
 
-  it('should render above other elements', function() {
-
-    // when
-    const { container } = createTaglist({
-      value: [ 'tag1', 'tag2', 'tag3' ],
-      onChange: () => { }
-    });
-
-    const measuringDiv = document.createElement('div');
-    container.appendChild(measuringDiv);
-
-    const startY = measuringDiv.getBoundingClientRect().top;
-
-    const filterInput = container.querySelector('input[type="text"]');
-    fireEvent.focus(filterInput);
-
-    const endY = measuringDiv.getBoundingClientRect().top;
-
-    // then
-    expect(startY).to.equal(endY);
-
-  });
-
-
   it('should render disabled', function() {
 
     // when
@@ -524,7 +500,7 @@ describe('Taglist', function() {
       });
 
 
-      it ('should work via mouse', function() {
+      it('should work via mouse', function() {
 
         const onChangeSpy = spy();
 
@@ -540,19 +516,36 @@ describe('Taglist', function() {
         const dropdownList = container.querySelector('.fjs-dropdownlist');
 
         // then
-        const toFocus = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[2];
-        expect(toFocus.innerText).to.equal('Tag6');
-        expect(toFocus.classList.contains('focused')).to.be.false;
+        const tag5 = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[1];
+        const tag6 = dropdownList.querySelectorAll('.fjs-dropdownlist-item')[2];
 
-        fireEvent.mouseEnter(toFocus);
-        expect(toFocus.classList.contains('focused')).to.be.true;
+        expect(tag5.innerText).to.equal('Tag5');
+        expect(tag6.innerText).to.equal('Tag6');
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
-        expect(toFocus.classList.contains('focused')).to.be.false;
+        const isFocused = (node) => node.classList.contains('focused');
 
-        fireEvent.mouseMove(toFocus);
-        expect(toFocus.classList.contains('focused')).to.be.true;
+        expect(isFocused(tag5)).to.be.false;
+        expect(isFocused(tag6)).to.be.false;
 
+        // first focus detection in `keyboard` mode is captured by mouseMove, so mouseEnter will not work to change the state
+        fireEvent.mouseEnter(tag6);
+        expect(isFocused(tag5)).to.be.false;
+        expect(isFocused(tag6)).to.be.false;
+
+        // mouseMove should work
+        fireEvent.mouseMove(tag6);
+        expect(isFocused(tag5)).to.be.false;
+        expect(isFocused(tag6)).to.be.true;
+
+        // second detection is captured via mouseEnter, hence mouseMove will not work to change the state
+        fireEvent.mouseMove(tag5);
+        expect(isFocused(tag5)).to.be.false;
+        expect(isFocused(tag6)).to.be.true;
+
+        // mouseEnter should work
+        fireEvent.mouseEnter(tag5);
+        expect(isFocused(tag5)).to.be.true;
+        expect(isFocused(tag6)).to.be.false;
       });
 
     });

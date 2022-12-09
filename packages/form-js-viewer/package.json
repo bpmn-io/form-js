@@ -8,6 +8,7 @@
       "require": "./dist/index.cjs"
     },
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
+    "./dist/assets/flatpickr/light.css": "./dist/assets/flatpickr/light.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -43,6 +44,7 @@
     "classnames": "^2.3.1",
     "didi": "^9.0.0",
     "feelin": "^0.41.0",
+    "flatpickr": "^4.6.13",
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",
