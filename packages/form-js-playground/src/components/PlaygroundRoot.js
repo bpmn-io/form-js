@@ -5,7 +5,8 @@ import download from 'downloadjs';
 import classNames from 'classnames';
 
 import {
-  Form
+  Form,
+  getSchemaVariables
 } from '@bpmn-io/form-js-viewer';
 
 import {
@@ -83,12 +84,12 @@ export function PlaygroundRoot(props) {
 
   useEffect(() => {
     const dataEditor = dataEditorRef.current = new JSONEditor({
-      value: toJSON(data)
+      value: toString(data)
     });
 
     const resultView = resultViewRef.current = new JSONEditor({
       readonly: true,
-      value: toJSON(resultData)
+      value: toString(resultData)
     });
 
     const form = formRef.current = new Form();
@@ -151,19 +152,29 @@ export function PlaygroundRoot(props) {
   }, []);
 
   useEffect(() => {
-    dataEditorRef.current.setValue(toJSON(initialData));
+    dataEditorRef.current.setValue(toString(initialData));
   }, [ initialData ]);
 
   useEffect(() => {
-    initialSchema && formEditorRef.current.importSchema(initialSchema);
+    if (initialSchema) {
+      formEditorRef.current.importSchema(initialSchema);
+      dataEditorRef.current.setVariables(getSchemaVariables(initialSchema));
+    }
   }, [ initialSchema ]);
+
+  useEffect(() => {
+    if (schema && dataContainerRef.current) {
+      const variables = getSchemaVariables(schema);
+      dataEditorRef.current.setVariables(variables);
+    }
+  }, [ schema ]);
 
   useEffect(() => {
     schema && formRef.current.importSchema(schema, data);
   }, [ schema, data ]);
 
   useEffect(() => {
-    resultViewRef.current.setValue(toJSON(resultData));
+    resultViewRef.current.setValue(toString(resultData));
   }, [ resultData ]);
 
   useEffect(() => {
@@ -238,6 +249,6 @@ export function PlaygroundRoot(props) {
 
 // helpers ///////////////
 
-function toJSON(obj) {
+function toString(obj) {
   return JSON.stringify(obj, null, '  ');
 }
