@@ -39,7 +39,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(expressionSchema);
 
-    expect(variables).to.eql([ 'logo', 'alt' ]);
+    expect(variables).to.eql([ 'logo', 'alt', 'myText' ]);
   });
 
 
