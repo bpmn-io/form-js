@@ -7,21 +7,30 @@ import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { indentWithTab } from '@codemirror/commands';
 
+import autocompletion from './autocompletion/index';
+import { variablesFacet } from './autocompletion/VariablesFacet';
+
 
 export function JSONEditor(options = {}) {
-
-  const emitter = mitt();
-
   const {
     readonly = false
   } = options;
 
+  const emitter = mitt();
+
   let language = new Compartment().of(json());
   let tabSize = new Compartment().of(EditorState.tabSize.of(2));
 
+
+  /**
+   * @typedef {Array<string>} Variables
+   */
+
+  const autocompletionConf = new Compartment();
+
   const linterExtension = linter(jsonParseLinter());
 
-  function createState(doc, extensions = []) {
+  function createState(doc, extensions = [], variables = []) {
     return EditorState.create({
       doc,
       extensions: [
@@ -30,6 +39,8 @@ export function JSONEditor(options = {}) {
         tabSize,
         linterExtension,
         lintGutter(),
+        autocompletionConf.of(variablesFacet.of(variables)),
+        autocompletion(),
         keymap.of([ indentWithTab ]),
         ...extensions
       ]
@@ -56,10 +67,18 @@ export function JSONEditor(options = {}) {
       this.setState(createState(value, [ updateListener, editable ]));
     };
 
+    view.setVariables = function(variables) {
+      this.setState(createState(
+        view.state.doc.toString(),
+        [ updateListener, editable ],
+        variables
+      ));
+    };
+
     return view;
   }
 
-  const view = createView(readonly);
+  const view = this._view = createView(readonly);
 
   this.setValue = function(value) {
     view.setValue(value);
@@ -67,6 +86,13 @@ export function JSONEditor(options = {}) {
 
   this.getValue = function() {
     return view.state.doc.toString();
+  };
+
+  /**
+   * @param {Variables} variables
+   */
+  this.setVariables = function(variables) {
+    view.setVariables(variables);
   };
 
   this.on = emitter.on;

@@ -58,6 +58,7 @@ export default [
       '@codemirror/lint',
       '@codemirror/view',
       '@codemirror/commands',
+      '@codemirror/autocomplete',
       'codemirror',
       'classnames'
     ],
