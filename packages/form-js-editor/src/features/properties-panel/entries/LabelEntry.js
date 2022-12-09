@@ -1,63 +1,51 @@
-import { get } from 'min-dash';
-
 import { INPUTS } from '../Util';
-
-import { useService } from '../hooks';
-
-
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-
+import { DATETIME_SUBTYPES, DATE_LABEL_PATH, TIME_LABEL_PATH } from '@bpmn-io/form-js-viewer';
+import { simpleStringEntryFactory } from './factories';
 
 export default function LabelEntry(props) {
   const {
-    editField,
     field
   } = props;
 
   const {
-    type
+    type,
+    subtype
   } = field;
 
   const entries = [];
 
-  if (INPUTS.includes(type) || type === 'button') {
-    entries.push({
-      id: 'label',
-      component: Label,
-      editField: editField,
-      field: field,
-      isEdited: isTextFieldEntryEdited
-    });
+  if (type === 'datetime') {
+    if (subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME) {
+      entries.push(
+        simpleStringEntryFactory({
+          id: 'date-label',
+          path: DATE_LABEL_PATH,
+          label: 'Date label',
+          props
+        })
+      );
+    }
+    if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
+      entries.push(
+        simpleStringEntryFactory({
+          id: 'time-label',
+          path: TIME_LABEL_PATH,
+          label: 'Time label',
+          props
+        })
+      );
+    }
+  }
+  else if (INPUTS.includes(type) || type === 'button') {
+    entries.push(
+      simpleStringEntryFactory({
+        id: 'label',
+        path: [ 'label' ],
+        label: 'Field label',
+        props
+      })
+    );
   }
 
   return entries;
-}
-
-function Label(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
-
-  const debounce = useService('debounce');
-
-  const path = [ 'label' ];
-
-  const getValue = () => {
-    return get(field, path, '');
-  };
-
-  const setValue = (value) => {
-    return editField(field, path, value);
-  };
-
-  return TextFieldEntry({
-    debounce,
-    element: field,
-    getValue,
-    id,
-    label: 'Field label',
-    setValue
-  });
 }

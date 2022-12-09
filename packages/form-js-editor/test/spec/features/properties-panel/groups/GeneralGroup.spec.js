@@ -127,11 +127,54 @@ describe('GeneralGroup', function() {
       expect(labelInput).to.exist;
     });
 
+    describe('for datetime', function() {
 
-    it('should render for INPUTS', function() {
+      it('should render a date label in date subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'date' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.not.exist;
+      });
+
+
+      it('should render a time label in time subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'time' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.not.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.exist;
+      });
+
+
+      it('should render both date and time labels datetime subtype', function() {
+
+        // when
+        const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'datetime' } });
+
+        // then
+        const dateLabelInput = findInput('date-label', container);
+        expect(dateLabelInput).to.exist;
+        const timeLabelInput = findInput('time-label', container);
+        expect(timeLabelInput).to.exist;
+      });
+    });
+
+
+    it('should render for other INPUTS', function() {
 
       // given
       for (const type of INPUTS) {
+
+        if (type === 'datetime') continue;
 
         const field = { type };
 
@@ -140,10 +183,10 @@ describe('GeneralGroup', function() {
 
         // then
         const labelInput = findInput('label', container);
-
         expect(labelInput).to.exist;
       }
     });
+
 
 
     it('should read', function() {
@@ -473,7 +516,8 @@ describe('GeneralGroup', function() {
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
-          expect(defaultValueEntry).to.exist;
+          if (type === 'datetime') expect(defaultValueEntry).to.not.exist;
+          else expect(defaultValueEntry).to.exist;
         }
       });
 
@@ -777,6 +821,218 @@ describe('GeneralGroup', function() {
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.disabled).to.equal(false);
+    });
+
+  });
+
+
+  describe('subtype', function() {
+
+    it('should render for datetime', function() {
+
+      // given
+      const field = { type: 'datetime' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const subtypeSelect = findSelect('subtype', container);
+      expect(subtypeSelect).to.exist;
+    });
+
+
+    it('should NOT render for default', function() {
+
+      // given
+      const field = { type: 'default' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const subtypeSelect = findSelect('subtype', container);
+      expect(subtypeSelect).to.not.exist;
+    });
+
+
+    it('should read', function() {
+
+      // given
+      const field = {
+        type: 'datetime',
+        subtype: 'time'
+      };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const subtypeSelect = findSelect('subtype', container);
+
+      expect(subtypeSelect).to.exist;
+      expect(subtypeSelect.value).to.equal('time');
+    });
+
+
+    it('should write and initialize (time => date)', function() {
+
+      // given
+      const field = {
+        type: 'datetime',
+        subtype: 'time',
+        timeLabel: 'Time'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const subtypeSelect = findSelect('subtype', container);
+
+      // when
+      fireEvent.input(subtypeSelect, { target: { value: 'date' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'timeLabel' ], undefined);
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'dateLabel' ], 'Date');
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'subtype' ], 'date');
+      expect(field.subtype).to.equal('date');
+    });
+
+
+    it('should write and initialize (time => date)', function() {
+
+      // given
+      const field = {
+        type: 'datetime',
+        subtype: 'date',
+        timeLabel: 'Date'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const subtypeSelect = findSelect('subtype', container);
+
+      // when
+      fireEvent.input(subtypeSelect, { target: { value: 'time' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'timeLabel' ], 'Time');
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'timeSerializingFormat' ], 'utc_offset');
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'timeInterval' ], 15);
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'dateLabel' ], undefined);
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'subtype' ], 'time');
+      expect(field.subtype).to.equal('time');
+    });
+  });
+
+
+  describe('use24h', function() {
+
+    it('should NOT render for default', function() {
+
+      // given
+      const field = { type: 'default' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const disabledInput = findInput('disabled', container);
+
+      expect(disabledInput).to.not.exist;
+    });
+
+
+    it('should not render for datetime (date)', function() {
+
+      // given
+      const field = { type: 'datetime', subtype: 'date' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const use24hInput = findInput('use24h', container);
+
+      expect(use24hInput).to.not.exist;
+    });
+
+
+    it('should render for datetime (time)', function() {
+
+      // given
+      const field = { type: 'datetime', subtype: 'time' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const use24hInput = findInput('use24h', container);
+
+      expect(use24hInput).to.exist;
+    });
+
+
+    it('should render for datetime (datetime)', function() {
+
+      // given
+      const field = { type: 'datetime', subtype: 'datetime' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const use24hInput = findInput('use24h', container);
+
+      expect(use24hInput).to.exist;
+    });
+
+
+    it('should read', function() {
+
+      // given
+      const field = {
+        type: 'datetime',
+        subtype: 'time',
+        use24h: true
+      };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      const disabledInput = findInput('use24h', container);
+
+      // then
+      expect(disabledInput).to.exist;
+      expect(disabledInput.checked).to.equal(true);
+    });
+
+
+    it('should write', function() {
+
+      // given
+      const field = {
+        type: 'datetime',
+        subtype: 'time',
+        use24h: true
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const use24hInput = findInput('use24h', container);
+
+      // when
+      fireEvent.click(use24hInput);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.use24h).to.equal(false);
     });
 
   });

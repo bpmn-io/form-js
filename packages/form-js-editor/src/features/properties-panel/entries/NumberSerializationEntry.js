@@ -7,8 +7,7 @@ import Big from 'big.js';
 export default function NumberSerializationEntry(props) {
   const {
     editField,
-    field,
-    id
+    field
   } = props;
 
   const {
@@ -22,7 +21,7 @@ export default function NumberSerializationEntry(props) {
   const entries = [];
 
   entries.push({
-    id: id + '-serialize-to-string',
+    id: 'serialize-to-string',
     component: SerializeToString,
     isEdited: isCheckboxEntryEdited,
     editField,

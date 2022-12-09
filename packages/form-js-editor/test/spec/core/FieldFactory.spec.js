@@ -108,6 +108,16 @@ describe('core/FieldFactory', function() {
     }));
 
 
+    it('Datetime', testCreate({
+      type: 'datetime',
+      keyed: true,
+      defaults: {
+        subtype: 'date',
+        dateLabel: 'Date'
+      }
+    }));
+
+
     it('Text field', testCreate({
       type: 'textfield',
       label: 'Text field',

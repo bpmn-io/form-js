@@ -14,6 +14,10 @@ const types = [
     type: 'number'
   },
   {
+    label: 'Datetime',
+    type: 'datetime'
+  },
+  {
     label: 'Checkbox',
     type: 'checkbox'
   },

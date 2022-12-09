@@ -1,7 +1,7 @@
 import { isUndefined, without } from 'min-dash';
 import { arrayAdd } from '../Util';
 import ValueEntry from './ValueEntry';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
+import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 export default function StaticValuesSourceEntry(props) {
   const {

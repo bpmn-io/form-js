@@ -16,6 +16,7 @@ import {
   CustomValuesGroup,
   GeneralGroup,
   SerializationGroup,
+  ConstraintsGroup,
   ValidationGroup,
   ValuesGroups
 } from './groups';
@@ -31,6 +32,7 @@ function getGroups(field, editField) {
     ConditionGroup(field, editField),
     SerializationGroup(field, editField),
     ...ValuesGroups(field, editField),
+    ConstraintsGroup(field, editField),
     ValidationGroup(field, editField),
     CustomValuesGroup(field, editField)
   ];
