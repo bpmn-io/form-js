@@ -10,6 +10,7 @@ const labelsByType = {
   checklist: 'CHECKLIST',
   columns: 'COLUMNS',
   default: 'FORM',
+  datetime: 'DATETIME',
   image: 'IMAGE VIEW',
   number: 'NUMBER',
   radio: 'RADIO',

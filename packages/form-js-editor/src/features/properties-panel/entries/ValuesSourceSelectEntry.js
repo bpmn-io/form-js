@@ -1,5 +1,5 @@
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
-import { getValuesSource, VALUES_SOURCES, VALUES_SOURCES_DEFAULTS, VALUES_SOURCES_LABELS, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
+import { getValuesSource, VALUES_SOURCES, VALUES_SOURCES_DEFAULTS, VALUES_SOURCES_LABELS, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 export default function ValuesSourceSelectEntry(props) {
   const {

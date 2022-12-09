@@ -1,7 +1,8 @@
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 import { get, isUndefined } from 'min-dash';
 import { useService } from '../hooks';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from './ValuesSourceUtil';
+import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
+
 
 export default function InputKeyValuesSourceEntry(props) {
   const {

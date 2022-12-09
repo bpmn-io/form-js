@@ -1,5 +1,5 @@
 import { ValuesSourceSelectEntry, StaticValuesSourceEntry, InputKeyValuesSourceEntry } from '../entries';
-import { getValuesSource, VALUES_SOURCES } from '../entries/ValuesSourceUtil';
+import { getValuesSource, VALUES_SOURCES } from '@bpmn-io/form-js-viewer';
 
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 

@@ -15,19 +15,19 @@ export default function TextEntry(props) {
     type
   } = field;
 
-  const entries = [];
+  if (type !== 'text') {
+    return [];
+  }
 
-  if (type === 'text') {
-    entries.push({
+  return [
+    {
       id: 'text',
       component: Text,
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited
-    });
-  }
-
-  return entries;
+    }
+  ];
 }
 
 function Text(props) {
