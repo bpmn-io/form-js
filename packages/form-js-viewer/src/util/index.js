@@ -94,7 +94,7 @@ export function getSchemaVariables(schema) {
       conditional
     } = component;
 
-    if ([ 'text', 'button' ].includes(type)) {
+    if ([ 'button' ].includes(type)) {
       return variables;
     }
 

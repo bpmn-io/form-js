@@ -14,6 +14,10 @@
       "label": "Another image",
       "alt": "This is just an image",
       "type": "image"
+    },
+    {
+      "text": "=myText",
+      "type": "text"
     }
   ],
   "type": "default",
