@@ -133,6 +133,7 @@ export default function Datetime(props) {
   const datePickerProps = {
     id,
     label: dateLabel,
+    collapseLabelOnEmpty: !timeLabel,
     formId,
     required,
     disabled,
@@ -144,6 +145,7 @@ export default function Datetime(props) {
   const timePickerProps = {
     id,
     label: timeLabel,
+    collapseLabelOnEmpty: !dateLabel,
     formId,
     required,
     disabled,

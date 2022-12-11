@@ -136,6 +136,10 @@
   align-items: center;
 }
 
+.fjs-container .fjs-incollapsible-label {
+  min-height: 18.2px;
+}
+
 .fjs-container .fjs-form-field-description {
   display: block;
   color: var(--color-text-light);

@@ -619,6 +619,56 @@ describe('Datetime', function() {
 
     });
 
+    it('should render date label with height when time label is not empty', () => {
+
+      // when
+      const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined } });
+
+      // then
+      const dateTimeLabels = container.querySelectorAll('label');
+      expect(dateTimeLabels.length).to.equal(2);
+
+      const dateLabel = dateTimeLabels[0];
+      const timeLabel = dateTimeLabels[1];
+
+      expect(dateLabel.offsetHeight).to.equal(timeLabel.offsetHeight);
+      expect(dateLabel.offsetHeight).to.equal(18);
+    });
+
+
+    it('should render time label with height when date label is not empty', () => {
+
+      // when
+      const { container } = createDatetime({ field: { ...datetimeField, timeLabel: undefined } });
+
+      // then
+      const dateTimeLabels = container.querySelectorAll('label');
+      expect(dateTimeLabels.length).to.equal(2);
+
+      const dateLabel = dateTimeLabels[0];
+      const timeLabel = dateTimeLabels[1];
+
+      expect(dateLabel.offsetHeight).to.equal(timeLabel.offsetHeight);
+      expect(timeLabel.offsetHeight).to.equal(18);
+    });
+
+
+    it('should render labels without height when both are empty', () => {
+
+      // when
+      const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined, timeLabel: undefined } });
+
+      // then
+      const dateTimeLabels = container.querySelectorAll('label');
+      expect(dateTimeLabels.length).to.equal(2);
+
+      const dateLabel = dateTimeLabels[0];
+      const timeLabel = dateTimeLabels[1];
+
+      expect(dateLabel.offsetHeight).to.equal(timeLabel.offsetHeight);
+      expect(timeLabel.offsetHeight).to.equal(0);
+    });
+
 
     it('should render value', function() {
 

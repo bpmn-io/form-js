@@ -12,6 +12,7 @@ export default function Datepicker(props) {
   const {
     id,
     label,
+    collapseLabelOnEmpty,
     formId,
     required,
     disabled,
@@ -166,6 +167,7 @@ export default function Datepicker(props) {
     <Label
       id={ fullId }
       label={ label }
+      collapseOnEmpty={ collapseLabelOnEmpty }
       required={ required } />
     <InputAdorner
       pre={ <CalendarIcon /> }
