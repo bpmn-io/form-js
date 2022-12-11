@@ -40,7 +40,7 @@ describe('Datetime', function() {
       const dateInput = formField.querySelector('input[type="text"]');
       expect(dateInput).to.exist;
       expect(dateInput.value).to.be.empty;
-      expect(dateInput.placeholder).to.equal('MM/DD/YYYY');
+      expect(dateInput.placeholder).to.equal('mm/dd/yyyy');
 
 
       const adornment = formField.querySelector('.fjs-input-adornment');
@@ -312,7 +312,7 @@ describe('Datetime', function() {
       const timeInput = formField.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
-      expect(timeInput.placeholder).to.equal('HH:MM ?M');
+      expect(timeInput.placeholder).to.equal('hh:mm ?m');
 
 
       const adornment = formField.querySelector('.fjs-input-adornment');
@@ -330,7 +330,7 @@ describe('Datetime', function() {
       const timeInput = container.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
-      expect(timeInput.placeholder).to.equal('HH:MM');
+      expect(timeInput.placeholder).to.equal('hh:mm');
 
     });
 
@@ -610,9 +610,9 @@ describe('Datetime', function() {
       const dateTimeInputs = formField.querySelectorAll('input[type="text"]');
       expect(dateTimeInputs.length).to.equal(2);
       expect(dateTimeInputs[0].value).to.be.empty;
-      expect(dateTimeInputs[0].placeholder).to.equal('MM/DD/YYYY');
+      expect(dateTimeInputs[0].placeholder).to.equal('mm/dd/yyyy');
       expect(dateTimeInputs[1].value).to.be.empty;
-      expect(dateTimeInputs[1].placeholder).to.equal('HH:MM ?M');
+      expect(dateTimeInputs[1].placeholder).to.equal('hh:mm ?m');
 
       const adornments = formField.querySelectorAll('.fjs-input-adornment');
       expect(adornments.length).to.equal(2);

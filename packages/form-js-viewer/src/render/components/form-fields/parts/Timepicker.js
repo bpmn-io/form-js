@@ -147,7 +147,7 @@ export default function Timepicker(props) {
           class="fjs-input"
           value={ rawValue }
           disabled={ disabled }
-          placeholder={ use24h ? 'HH:MM' : 'HH:MM ?M' }
+          placeholder={ use24h ? 'hh:mm' : 'hh:mm ?m' }
           autoComplete="false"
           onFocus={ () => useDropdown && setDropdownIsOpen(true) }
           onClick={ () => useDropdown && setDropdownIsOpen(true) }

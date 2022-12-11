@@ -178,7 +178,7 @@ export default function Datepicker(props) {
           id={ fullId }
           class={ 'fjs-input' }
           disabled={ disabled }
-          placeholder="MM/DD/YYYY"
+          placeholder="mm/dd/yyyy"
           autoComplete="false"
           onFocus={ onInputFocus }
           onKeyDown={ onInputKeyDown }
