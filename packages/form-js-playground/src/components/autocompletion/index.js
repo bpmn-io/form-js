@@ -1,5 +1,7 @@
 import { autocompletion } from '@codemirror/autocomplete';
 
+import { syntaxTree } from '@codemirror/language';
+
 import { variablesFacet } from './VariablesFacet';
 
 export default function() {
@@ -20,6 +22,13 @@ function completions(context) {
     label: v,
     type: 'variable'
   }));
+
+  let nodeBefore = syntaxTree(context.state).resolve(context.pos, -1);
+
+  // handle inside property name as explicit call
+  if (nodeBefore.type.name === 'PropertyName') {
+    context.explicit = true;
+  }
 
   let word = context.matchBefore(/\w*/);
 

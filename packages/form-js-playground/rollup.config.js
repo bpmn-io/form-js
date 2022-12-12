@@ -59,6 +59,7 @@ export default [
       '@codemirror/view',
       '@codemirror/commands',
       '@codemirror/autocomplete',
+      '@codemirror/language',
       'codemirror',
       'classnames'
     ],
