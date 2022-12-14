@@ -228,19 +228,9 @@
 .fjs-container .fjs-input-group {
   display: flex;
   width: 100%;
-  margin: 4px, 0;
+  margin: 4px 0;
   border: var(--border-definition);
   border-radius: 3px;
-}
-
-.fjs-container .fjs-input-group.disabled {
-  background-color: var(--color-background-disabled);
-}
-
-.fjs-container .fjs-input-group.disabled,
-.fjs-container .fjs-input-group.disabled .fjs-input,
-.fjs-container .fjs-input-group.disabled .fjs-input-adornment {
-  border-color: var(--color-borders-disabled);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-input,
@@ -322,9 +312,7 @@
   color: var(--color-text);
 }
 
-.fjs-container .fjs-number-arrow-container.disabled button {
-  background-color: var(--color-grey-225-10-95);
-}
+
 
 .fjs-container .fjs-radio {
   display: flex;
@@ -388,6 +376,8 @@
 .fjs-container .fjs-input:disabled,
 .fjs-container .fjs-textarea:disabled,
 .fjs-container .fjs-select:disabled,
+.fjs-container .fjs-number-arrow-container.disabled button,
+.fjs-container .fjs-input-group.disabled,
 .fjs-container .fjs-taglist.disabled {
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
@@ -397,6 +387,11 @@
 .fjs-container .fjs-button[type='reset']:disabled {
   color: var(--text-light);
   background-color: var(--color-background-disabled);
+  border-color: var(--color-borders-disabled);
+}
+
+.fjs-container .fjs-input-group.disabled .fjs-input,
+.fjs-container .fjs-input-group.disabled .fjs-input-adornment {
   border-color: var(--color-borders-disabled);
 }
 
@@ -459,13 +454,9 @@
   gap: 5px;
   border: var(--color-borders) solid 1px;
   border-radius: 3px;
+  margin: 4px 0;
   padding: 5px;
   background-color: var(--color-background);
-}
-
-.fjs-container .fjs-taglist.disabled {
-  border: var(--color-borders-disabled) solid 1px;
-  background-color: var(--color-background-disabled);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag {
@@ -567,7 +558,7 @@
 
 .fjs-container .fjs-image-placeholder {
   height: 64px;
-  margin: 2px 0;
+  margin: 4px 0;
 }
 
 /**

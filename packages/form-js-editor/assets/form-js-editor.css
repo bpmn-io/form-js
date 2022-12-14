@@ -79,12 +79,20 @@
   margin: 0 5px;
 }
 
-.fjs-editor-container .fjs-element + .fjs-element {
-  margin-top: 2px;
+.fjs-editor-container .fjs-element {
+  margin-top: 4px;
+}
+
+.fjs-editor-container .fjs-element:first-of-type {
+  margin-top: 8px;
 }
 
 .fjs-editor-container .fjs-form-field:not(.fjs-powered-by) {
-  margin: 1px 16px;
+  margin: 1px 12px;
+}
+
+.fjs-editor-container .fjs-powered-by {
+  margin-top: 4px;
 }
 
 .fjs-editor-container .fjs-form > .fjs-element {
