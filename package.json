@@ -71,7 +71,7 @@
     "chai": "^4.3.5",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "del-cli": "^4.0.0",
+    "del-cli": "^5.0.0",
     "diagram-js": "^11.0.0",
     "didi": "^9.0.0",
     "eslint": "^8.22.0",
