@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
+import { useRef, useEffect, useState, useCallback, useMemo } from 'preact/hooks';
+import useScrollSync from '../hooks/useScrollSync';
 
 import download from 'downloadjs';
 
@@ -51,6 +52,9 @@ export function PlaygroundRoot(props) {
   const dataEditorRef = useRef();
   const resultViewRef = useRef();
   const propertiesPanelRef = useRef();
+
+  const [ editorScrollArea, setEditorScrollArea ] = useState(null);
+  const [ viewerScrollArea, setViewerScrollArea ] = useState(null);
 
   const [ showEmbed, setShowEmbed ] = useState(false);
 
@@ -121,6 +125,7 @@ export function PlaygroundRoot(props) {
 
       // notifiy interested parties after render
       emit('formPlayground.rendered');
+      setEditorScrollArea(editorContainer.querySelector('.fjs-form-container'));
     });
 
     form.on('changed', () => {
@@ -146,6 +151,8 @@ export function PlaygroundRoot(props) {
     resultView.attachTo(resultContainer);
     form.attachTo(formContainer);
     formEditor.attachTo(editorContainer);
+
+    setViewerScrollArea(formContainer.querySelector('.fjs-container'));
 
     return () => {
       dataEditor.destroy();
@@ -177,6 +184,24 @@ export function PlaygroundRoot(props) {
       data
     });
   }, [ schema, data ]);
+
+  const syncInfo = useMemo(() =>
+    ({
+      correlationFunction: null,
+      members: [
+        {
+          scrollableElement: editorScrollArea,
+          childrenQuery: '.fjs-element > .fjs-children > .fjs-element'
+        },
+        {
+          scrollableElement: viewerScrollArea,
+          childrenQuery: '.fjs-form > .fjs-form-field'
+        }
+      ]
+    })
+  , [ editorScrollArea, viewerScrollArea ]);
+
+  useScrollSync(syncInfo);
 
   const handleDownload = useCallback(() => {
 
