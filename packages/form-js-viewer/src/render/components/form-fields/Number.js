@@ -180,9 +180,9 @@ export default function Numberfield(props) {
           value={ displayValue } />
         <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
-          <button class="fjs-number-arrow-up" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
+          <button class="fjs-number-arrow-up" type="button" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
           <div class="fjs-number-arrow-separator" />
-          <button class="fjs-number-arrow-down" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
+          <button class="fjs-number-arrow-down" type="button" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
         </div>
       </div>
     </InputAdorner>
