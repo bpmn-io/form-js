@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.10.1
+
+### General
+
+* `FIX`: aligned viewer, editor and control margins ([#424](https://github.com/bpmn-io/form-js/issues/424)) 
+* `FIX`: set number field increment buttons to type 'button' ([#467](https://github.com/bpmn-io/form-js/issues/467)) 
+
+
 ## 0.10.0
 
 ### General
