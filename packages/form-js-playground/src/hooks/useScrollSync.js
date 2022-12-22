@@ -53,12 +53,13 @@ export default function(syncInfo) {
 
       for (const child of primaryChildren) {
 
-        const childTopMargin = (child.currentStyle || window.getComputedStyle(child)).marginTop;
-        const marginAdjustedOffsetTop = child.offsetTop - parseInt(childTopMargin);
+        const childTopMargin = parseInt((child.currentStyle || window.getComputedStyle(child)).marginTop);
+        const marginAdjustedOffsetTop = child.offsetTop - childTopMargin;
+        const marginAdjustedOffsetHeight = child.offsetHeight + childTopMargin;
 
         // if the new scroll target is between
-        if (child.offsetTop <= primaryScrollMidPoint && (primaryScrollMidPoint - child.offsetTop <= child.offsetHeight)) {
-          return [ currentIndex, (primaryScrollMidPoint - child.offsetTop) / child.offsetHeight ];
+        if (marginAdjustedOffsetTop <= primaryScrollMidPoint && (primaryScrollMidPoint - marginAdjustedOffsetTop <= marginAdjustedOffsetHeight)) {
+          return [ currentIndex, (primaryScrollMidPoint - marginAdjustedOffsetTop) / marginAdjustedOffsetHeight ];
         }
 
         if ((child.offsetTop + child.offsetHeight) >= primaryScrollMidPoint) {
@@ -79,9 +80,10 @@ export default function(syncInfo) {
 
       const children = scrollableElement.querySelectorAll(childrenQuery);
       const scrollTarget = children[primaryScrollIndex];
+      const marginTop = parseInt((scrollTarget.currentStyle || window.getComputedStyle(scrollTarget)).marginTop);
 
-      const targetHeight = scrollTarget.offsetTop + scrollTarget.offsetHeight * primaryScrollPartial;
-      const newScrollTop = targetHeight - scrollableElement.offsetHeight / 2;
+      const targetHeight = scrollTarget.offsetTop - marginTop + (scrollTarget.offsetHeight + marginTop) * primaryScrollPartial;
+      const newScrollTop = targetHeight - scrollableElement.offsetHeight / 2 + marginTop;
 
       // scrollableElement.scrollTop = primaryScrollableElement.scrollTop;
 
@@ -102,8 +104,3 @@ export default function(syncInfo) {
 
   return primaryScrollAreaInfo;
 }
-
-
-const _getSyncedScrollTop = (leaderMidpointHeight, leaderChildren, targetScrollArea, targetQuery) => {
-
-};
