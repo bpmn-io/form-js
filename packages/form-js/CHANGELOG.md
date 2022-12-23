@@ -20,7 +20,7 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: support prefix and suffix for `textfield` and `number` ([#420](https://github.com/bpmn-io/form-js/issues/420))
 * `FEAT`: support `datetime` component ([#340](https://github.com/bpmn-io/form-js/issues/340))
-+ `FEAT`: support expressions for `text` content ([#436](https://github.com/bpmn-io/form-js/issues/436)) 
+* `FEAT`: support expressions for `text` content ([#436](https://github.com/bpmn-io/form-js/issues/436)) 
 
 ### Viewer
 
