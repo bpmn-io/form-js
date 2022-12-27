@@ -85,7 +85,10 @@ describe('playground', function() {
     playground = new Playground({
       container,
       schema,
-      data
+      data,
+      editor: {
+        keyboard: { bindTo: document }
+      }
     });
 
     // then

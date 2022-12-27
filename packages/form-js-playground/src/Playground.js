@@ -11,7 +11,7 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
  *  actions?: { display: Boolean }
  *  container?: Element
  *  data: any
- *  editor?: { inlinePropertiesPanel: Boolean }
+ *  editor?: { inlinePropertiesPanel: Boolean, keyboard?: { bindTo: Element } }
  *  exporter?: { name: String, version: String }
  *  schema: any
  * } } FormPlaygroundOptions

@@ -35,7 +35,8 @@ export function PlaygroundRoot(props) {
   } = actionsConfig;
 
   const {
-    inlinePropertiesPanel = true
+    inlinePropertiesPanel = true,
+    keyboard = {}
   } = editorConfig;
 
   const paletteContainerRef = useRef();
@@ -107,7 +108,8 @@ export function PlaygroundRoot(props) {
       propertiesPanel: {
         parent: !inlinePropertiesPanel && propertiesPanelContainerRef.current
       },
-      exporter: exporterConfig
+      exporter: exporterConfig,
+      keyboard
     });
 
     paletteRef.current = formEditor.get('palette');
