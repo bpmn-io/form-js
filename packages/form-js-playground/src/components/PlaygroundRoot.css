@@ -14,6 +14,8 @@
 
   --font-family: 'IBM Plex Sans', sans-serif;
   --font-family-monospace: 'IBM Plex Mono', monospace;
+
+  --modal-zindex: 100;
 }
 
 .fjs-pgl-root {
@@ -128,7 +130,7 @@
 }
 
 .fjs-pgl-modal {
-  z-index: 5;
+  z-index: var(--modal-zindex);
 }
 
 .fjs-pgl-modal .fjs-pgl-modal-backdrop {
@@ -138,7 +140,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 5;
+  z-index: var(--modal-zindex);
 }
 
 .fjs-pgl-modal-content {
@@ -150,7 +152,7 @@
   overflow-y: auto;
   max-height: 80%;
   transform: translate(-40%, -50%);
-  z-index: 5;
+  z-index: var(--modal-zindex);
 
   font-size: 14px;
 
