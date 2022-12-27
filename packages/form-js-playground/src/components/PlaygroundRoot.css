@@ -37,10 +37,6 @@
   grid-template-rows: 70% 30%;
 }
 
-.fjs-pgl-inline-editor-panel .fjs-pgl-main {
-  grid-template-columns: 65% 35%;
-}
-
 /**
  * Palette
  */

@@ -25,7 +25,6 @@ export function PlaygroundRoot(props) {
 
   const {
     actions: actionsConfig = {},
-    editor: editorConfig = {},
     emit,
     exporter: exporterConfig = {}
   } = props;
@@ -33,10 +32,6 @@ export function PlaygroundRoot(props) {
   const {
     display: displayActions = true
   } = actionsConfig;
-
-  const {
-    inlinePropertiesPanel = true
-  } = editorConfig;
 
   const paletteContainerRef = useRef();
   const editorContainerRef = useRef();
@@ -105,7 +100,7 @@ export function PlaygroundRoot(props) {
         parent: paletteContainerRef.current
       },
       propertiesPanel: {
-        parent: !inlinePropertiesPanel && propertiesPanelContainerRef.current
+        parent: propertiesPanelContainerRef.current
       },
       exporter: exporterConfig
     });
@@ -194,8 +189,8 @@ export function PlaygroundRoot(props) {
   return (
     <div class={ classNames(
       'fjs-container',
-      'fjs-pgl-root',
-      { 'fjs-pgl-inline-editor-panel': inlinePropertiesPanel }) }>
+      'fjs-pgl-root'
+    ) }>
       <div class="fjs-pgl-modals">
         { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
       </div>
