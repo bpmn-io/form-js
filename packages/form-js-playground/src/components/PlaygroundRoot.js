@@ -223,10 +223,10 @@ export function PlaygroundRoot(props) {
         <Section name="Form Preview">
           <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
-        <Section name="Form Data (Input)">
+        <Section name="Form Input">
           <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
-        <Section name="Form Data (Submit)">
+        <Section name="Form Output">
           <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
       </div>
