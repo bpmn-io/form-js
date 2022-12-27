@@ -47,7 +47,7 @@
   width: 110px;
   background-color: var(--color-palette-container-background);
   border-right: solid 1px var(--color-palette-container-border);
-  overflow-y: scroll;
+  overflow-y: auto;
   flex-shrink: 0;
 }
 
