@@ -168,7 +168,7 @@ describe('playground', function() {
   });
 
 
-  it('should render properties panel (inline)', async function() {
+  it('should render properties panel', async function() {
 
     // given
     const data = {
@@ -181,32 +181,6 @@ describe('playground', function() {
         container,
         schema,
         data
-      });
-    });
-
-    const editorContainer = domQuery('.fjs-form-editor', container);
-    const propertiesContainer = domQuery('.fjs-pgl-properties-container', container);
-
-    // then
-    expect(domQuery('.fjs-properties-panel', editorContainer)).to.exist;
-    expect(domQuery('.fjs-properties-panel', propertiesContainer)).to.not.exist;
-  });
-
-
-  it('should render own properties panel', async function() {
-
-    // given
-    const data = {
-      creditor: 'foo'
-    };
-
-    // when
-    await act(() => {
-      playground = new Playground({
-        container,
-        schema,
-        data,
-        editor: { inlinePropertiesPanel: false }
       });
     });
 
