@@ -31,7 +31,7 @@ export default function Image(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type) }>
+  return <div class={ formFieldClasses(type) } data-id={ id }>
     <div class="fjs-image-container">
       {
         safeSource &&

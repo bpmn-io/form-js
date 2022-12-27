@@ -53,7 +53,7 @@ export default function Checklist(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled })) } data-id={ id }>
     <Label
       label={ label } />
     {

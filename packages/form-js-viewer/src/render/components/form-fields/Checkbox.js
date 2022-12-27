@@ -38,7 +38,7 @@ export default function Checkbox(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ classNames(formFieldClasses(type, { errors, disabled }), { 'fjs-checked': value }) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled }), { 'fjs-checked': value }) } data-id={ id }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }

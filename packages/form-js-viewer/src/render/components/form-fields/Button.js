@@ -9,9 +9,9 @@ export default function Button(props) {
     field
   } = props;
 
-  const { action = 'submit' } = field;
+  const { action = 'submit', id } = field;
 
-  return <div class={ formFieldClasses(type) }>
+  return <div class={ formFieldClasses(type) } data-id={ id }>
     <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
   </div>;
 }

@@ -47,7 +47,7 @@ export default function Radio(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled }) } data-id={ id }>
     <Label
       label={ label }
       required={ required } />

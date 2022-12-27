@@ -48,7 +48,7 @@ export default function Textfield(props) {
 
   const { formId } = useContext(FormContext);
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled }) } data-id={ id }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }

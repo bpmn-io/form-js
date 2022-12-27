@@ -17,11 +17,11 @@ const type = 'text';
 export default function Text(props) {
   const { field, disabled } = props;
 
-  const { text = '' } = field;
+  const { text = '', id } = field;
 
   const textValue = useExpressionValue(text) || '';
 
-  return <div class={ formFieldClasses(type) }>
+  return <div class={ formFieldClasses(type) } data-id={ id }>
     { renderText(field, textValue, disabled) }
   </div>;
 }

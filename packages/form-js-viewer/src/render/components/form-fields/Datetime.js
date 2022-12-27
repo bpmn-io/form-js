@@ -155,7 +155,7 @@ export default function Datetime(props) {
     setTime
   };
 
-  return <div class={ formFieldClasses(type, { errors: allErrors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors: allErrors, disabled }) } data-id={ id }>
     <div class={ classNames('fjs-vertical-group') }>
       { useDatePicker && <Datepicker { ...datePickerProps } /> }
       { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
