@@ -135,7 +135,7 @@ export default function Searchableselect(props) {
           onBlur={ () => { setIsDropdownExpanded(false); setFilter(valueLabel); } } />
       </InputAdorner>
     </div>
-    <div class="fjs-taglist-anchor">
+    <div class="fjs-select-anchor">
       { displayState.displayDropdown && <DropdownList
         values={ filteredOptions }
         getLabel={ (o) => o.label }

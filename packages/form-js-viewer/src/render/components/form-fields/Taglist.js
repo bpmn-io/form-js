@@ -123,6 +123,8 @@ export default function Taglist(props) {
     }
   };
 
+  const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
+
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
@@ -166,12 +168,12 @@ export default function Taglist(props) {
         onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } } />
     </div>
     <div class="fjs-taglist-anchor">
-      {!disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
+      { shouldDisplayDropdown && <DropdownList
         values={ filteredOptions }
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => selectValue(o.value) }
         emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
-        listenerElement={ searchbarRef.current } />}
+        listenerElement={ searchbarRef.current } /> }
     </div>
     <Description description={ description } />
     <Errors errors={ errors } />
