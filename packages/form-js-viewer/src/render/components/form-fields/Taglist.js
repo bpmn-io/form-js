@@ -5,7 +5,7 @@ import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 import { FormContext } from '../../context';
 import classNames from 'classnames';
 
-import CloseIcon from './icons/Close.svg';
+import XMarkIcon from './icons/XMark.svg';
 
 import DropdownList from './parts/DropdownList';
 import Description from '../Description';
@@ -144,7 +144,7 @@ export default function Taglist(props) {
                     title="Remove tag"
                     class="fjs-taglist-tag-remove"
                     onClick={ (event) => onTagRemoveClick(event, v) }>
-                    <CloseIcon />
+                    <XMarkIcon />
                   </button>
                 </div>
               );

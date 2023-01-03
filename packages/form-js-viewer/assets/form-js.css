@@ -291,6 +291,11 @@
   font-size: 14px;
 }
 
+.fjs-container .fjs-select-cross,
+.fjs-container .fjs-select-arrow {
+  padding: 6px 10px;
+}
+
 .fjs-container .fjs-number-arrow-container {
   display: flex;
   flex-direction: column;
@@ -501,6 +506,10 @@
   border: none;
   padding: 1px 0;
   color: var(--color-black);
+}
+
+.fjs-container .fjs-taglist-tag-remove svg {
+  margin-bottom: 4px;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove svg {

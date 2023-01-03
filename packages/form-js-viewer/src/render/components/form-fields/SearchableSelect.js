@@ -3,7 +3,9 @@ import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 
 import { FormContext } from '../../context';
 
-import CloseIcon from './icons/Close.svg';
+import XMarkIcon from './icons/XMark.svg';
+import AngelDownIcon from './icons/AngelDown.svg';
+import AngelUpIcon from './icons/AngelUp.svg';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -21,7 +23,9 @@ import {
 import classNames from 'classnames';
 
 import DropdownList from './parts/DropdownList';
-import InputAdorner from './parts/InputAdorner';
+
+// TODO: Implement adorners
+// import InputAdorner from './parts/InputAdorner';
 
 const type = 'searchableselect';
 
@@ -36,6 +40,7 @@ export default function Searchableselect(props) {
 
   const {
     description,
+    searchable = true,
     id,
     label
   } = field;
@@ -110,15 +115,23 @@ export default function Searchableselect(props) {
     return ds;
   }, [ disabled, isDropdownExpanded, isEscapeClosed, loadState, value ]);
 
+  const onAngelMouseDown = useCallback((e) => {
+    setIsEscapeClose(false);
+    setIsDropdownExpanded(!isDropdownExpanded);
+
+    const searchbar = searchbarRef.current;
+    isDropdownExpanded ? searchbar.blur() : searchbar.focus();
+
+    e.preventDefault();
+
+  }, [ isDropdownExpanded ]);
+
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
       id={ prefixId(`${ id }-search`, formId) } />
     <div class={ classNames('fjs-searchable-select', { 'disabled': disabled }) }>
-      <InputAdorner
-        disabled={ disabled }
-        post={ displayState.displayCross ? <CloseIcon /> : null }
-        onPostClick={ () => setValue(null) }>
+      <div class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
         <input
           disabled={ disabled }
           class="fjs-input"
@@ -133,7 +146,9 @@ export default function Searchableselect(props) {
           onMouseDown={ () => { setIsEscapeClose(false); setIsDropdownExpanded(true); } }
           onFocus={ () => setIsDropdownExpanded(true) }
           onBlur={ () => { setIsDropdownExpanded(false); setFilter(valueLabel); } } />
-      </InputAdorner>
+        { displayState.displayCross && <span class="fjs-select-cross" onClick={ () => setValue(null) }><XMarkIcon /> </span> }
+        <span class="fjs-select-arrow" onMouseDown={ (e) => onAngelMouseDown(e) }>{ displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon /> }</span>
+      </div>
     </div>
     <div class="fjs-select-anchor">
       { displayState.displayDropdown && <DropdownList

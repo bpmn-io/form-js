@@ -9,6 +9,9 @@ import Errors from '../Errors';
 import Label from '../Label';
 import InputAdorner from './parts/InputAdorner';
 
+import AngelDownIcon from './icons/AngelDown.svg';
+import AngelUpIcon from './icons/AngelUp.svg';
+
 import {
   formFieldClasses,
   prefixId
@@ -180,9 +183,9 @@ export default function Numberfield(props) {
           value={ displayValue } />
         <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
-          <button class="fjs-number-arrow-up" type="button" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
+          <button class="fjs-number-arrow-up" type="button" onClick={ () => increment() } tabIndex={ -1 }><AngelUpIcon /></button>
           <div class="fjs-number-arrow-separator" />
-          <button class="fjs-number-arrow-down" type="button" onClick={ () => decrement() } tabIndex={ -1 }>˅</button>
+          <button class="fjs-number-arrow-down" type="button" onClick={ () => decrement() } tabIndex={ -1 }><AngelDownIcon /></button>
         </div>
       </div>
     </InputAdorner>
