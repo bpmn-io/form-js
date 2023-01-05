@@ -1,49 +1,28 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import useValuesAsync, { LOAD_STATES } from '../../../hooks/useValuesAsync';
 
-import { FormContext } from '../../context';
+import { FormContext } from '../../../context';
 
 import XMarkIcon from './icons/XMark.svg';
 import AngelDownIcon from './icons/AngelDown.svg';
 import AngelUpIcon from './icons/AngelUp.svg';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
-
 import {
-  formFieldClasses,
   prefixId,
-} from '../Util';
-
-import {
-  sanitizeSingleSelectValue
-} from '../util/sanitizerUtil';
+} from '../../Util';
 
 import classNames from 'classnames';
 
-import DropdownList from './parts/DropdownList';
+import DropdownList from './DropdownList';
 
-// TODO: Implement adorners
-// import InputAdorner from './parts/InputAdorner';
-
-const type = 'searchableselect';
-
-
-export default function Searchableselect(props) {
+export default function SearchableSelect(props) {
   const {
+    id,
     disabled,
     errors = [],
     field,
     value
   } = props;
-
-  const {
-    description,
-    searchable = true,
-    id,
-    label
-  } = field;
 
   const { formId } = useContext(FormContext);
   const [ filter, setFilter ] = useState('');
@@ -126,11 +105,8 @@ export default function Searchableselect(props) {
 
   }, [ isDropdownExpanded ]);
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
-    <Label
-      label={ label }
-      id={ prefixId(`${ id }-search`, formId) } />
-    <div class={ classNames('fjs-searchable-select', { 'disabled': disabled }) }>
+  return <>
+    <div class={ classNames('fjs-select', { 'disabled': disabled }) }>
       <div class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
         <input
           disabled={ disabled }
@@ -157,28 +133,5 @@ export default function Searchableselect(props) {
         onValueSelected={ (o) => { setValue(o); setIsDropdownExpanded(false); } }
         listenerElement={ searchbarRef.current } />}
     </div>
-    <Description description={ description } />
-    <Errors errors={ errors } />
-  </div>;
+  </>;
 }
-
-Searchableselect.create = function(options = {}) {
-
-  if (options.valuesKey) return options;
-
-  return {
-    values: [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ],
-    ...options
-  };
-};
-
-Searchableselect.type = type;
-Searchableselect.label = 'Search select';
-Searchableselect.keyed = true;
-Searchableselect.emptyValue = null;
-Searchableselect.sanitizeValue = sanitizeSingleSelectValue;
