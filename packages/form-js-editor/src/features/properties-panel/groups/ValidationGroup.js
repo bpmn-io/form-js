@@ -73,6 +73,7 @@ export default function ValidationGroup(field, editField) {
         component: ValidationType,
         getValue,
         field,
+        editField,
         isEdited: isTextFieldEntryEdited,
         onChange
       }
@@ -272,17 +273,7 @@ function ValidationType(props) {
 
   const debounce = useService('debounce');
 
-  const clearCustomValidation = () => {
-    onChange('minLength')(undefined);
-    onChange('maxLength')(undefined);
-    onChange('pattern')(undefined);
-  };
-
   const setValue = (validationType) => {
-    if (validationType) {
-      clearCustomValidation();
-    }
-
     onChange('validationType')(validationType || undefined);
   };
 
