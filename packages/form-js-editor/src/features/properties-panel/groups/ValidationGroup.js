@@ -19,7 +19,7 @@ import { INPUTS } from '../Util';
 
 const VALIDATION_TYPE_OPTIONS = {
   custom: {
-    value: 'custom',
+    value: undefined,
     label: 'Custom',
   },
   email: {
@@ -272,15 +272,27 @@ function ValidationType(props) {
 
   const debounce = useService('debounce');
 
+  const clearCustomValidation = () => {
+    onChange('minLength')(undefined);
+    onChange('maxLength')(undefined);
+    onChange('pattern')(undefined);
+  };
+
+  const setValue = (validationType) => {
+    if (validationType) {
+      clearCustomValidation();
+    }
+
+    onChange('validationType')(validationType || undefined);
+  };
+
   return SelectEntry({
     debounce,
     element: field,
     getValue: getValue('validationType'),
     id,
     label: 'Regular expression validation',
-    setValue: onChange('validationType'),
-    getOptions() {
-      return Object.values(VALIDATION_TYPE_OPTIONS);
-    }
+    setValue,
+    getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS)
   });
 }
