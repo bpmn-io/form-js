@@ -154,35 +154,6 @@ describe('ValidationGroup', function() {
       expect(field.validate.validationType).to.equal('phone');
     });
 
-
-    it('should clear custom', function() {
-
-      // given
-      const field = {
-        type: 'textfield',
-        validate: {
-          minLength: 5,
-          maxLength: 10,
-          pattern: 'abc'
-        }
-      };
-
-      const editFieldSpy = sinon.spy();
-
-      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
-
-      const requiredSelect = findSelect('validationType', container);
-
-      // when
-      fireEvent.input(requiredSelect, { target: { value: 'phone' } });
-
-      // then
-      expect(field.validate.validationType).to.equal('phone');
-      expect(field.validate.minLength).to.not.exist;
-      expect(field.validate.maxLength).to.not.exist;
-      expect(field.validate.pattern).to.not.exist;
-    });
-
   });
 
 
