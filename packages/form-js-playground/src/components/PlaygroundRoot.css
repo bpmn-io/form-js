@@ -29,7 +29,7 @@
 }
 
 .fjs-pgl-main {
-  width: calc(100% - 111px);
+  width: calc(100% - 361px);
   height: 100%;
 
   display: grid;
@@ -79,9 +79,13 @@
   position: relative;
   display: flex;
   height: 100%;
+  width: 250px;
   overflow-y: auto;
   background-color: var(--color-properties-container-background);
-  --properties-panel-width: 200px;
+}
+
+.fjs-pgl-properties-container .fjs-properties-container {
+  --properties-panel-width: 250px;
 }
 
 .fjs-pgl-properties-container .bio-properties-panel {
