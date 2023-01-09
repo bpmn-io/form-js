@@ -178,6 +178,8 @@
   width: auto !important;
   min-width: 34px;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .fjs-container .fjs-input-adornment svg {
