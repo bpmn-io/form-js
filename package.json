@@ -75,7 +75,7 @@
     "diagram-js": "^11.0.0",
     "didi": "^9.0.0",
     "eslint": "^8.22.0",
-    "eslint-plugin-bpmn-io": "^0.16.0",
+    "eslint-plugin-bpmn-io": "^1.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "karma": "^6.3.20",
