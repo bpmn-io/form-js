@@ -94,12 +94,12 @@ describe('Validator', function() {
       });
 
 
-      it('should restrict step', function() {
+      it('should restrict increment', function() {
 
         // given
         const field = {
           type: 'number',
-          step: 0.05
+          increment: 0.05
         };
 
         // when
@@ -112,12 +112,12 @@ describe('Validator', function() {
       });
 
 
-      it('should restrict step (string)', function() {
+      it('should restrict increment (string)', function() {
 
         // given
         const field = {
           type: 'number',
-          step: 0.005
+          increment: 0.005
         };
 
         // when
