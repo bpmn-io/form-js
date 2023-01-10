@@ -15,7 +15,7 @@ export default class Validator {
 
     if (type === 'number') {
 
-      const { decimalDigits, step } = field;
+      const { decimalDigits, increment } = field;
 
       if (value === 'NaN') {
 
@@ -38,16 +38,16 @@ export default class Validator {
           ];
         }
 
-        if (step) {
+        if (increment) {
 
           const bigValue = Big(value);
-          const bigStep = Big(step);
+          const bigIncrement = Big(increment);
 
-          const offset = bigValue.mod(bigStep);
+          const offset = bigValue.mod(bigIncrement);
 
           if (offset.cmp(0) !== 0) {
             const previousValue = bigValue.minus(offset);
-            const nextValue = previousValue.plus(bigStep);
+            const nextValue = previousValue.plus(bigIncrement);
 
             errors = [
               ...errors,
