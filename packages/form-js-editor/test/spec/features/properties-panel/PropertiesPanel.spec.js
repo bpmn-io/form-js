@@ -2360,6 +2360,106 @@ describe('properties panel', function() {
           });
 
 
+          it('should clear', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '' } });
+
+            // then
+            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], undefined);
+
+          });
+
+
+          it('should trim leading zeroes', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '0005.1000' } });
+
+            // then
+            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '5.1000');
+
+          });
+
+
+          it('should not trim zero if needed', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '0.1000' } });
+
+            // then
+            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '0.1000');
+
+          });
+
+
+          it('should not trim decimal point', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Increment');
+
+            // when
+            fireEvent.input(input, { target: { value: '5.' } });
+
+            // then
+            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '5.');
+
+          });
+
+
           it('should reject values smaller than the unit of the smallest digit', function() {
 
             // given
