@@ -91,7 +91,13 @@ function NumberArrowStep(props) {
     return value;
   };
 
-  const setValue = (value) => editField(field, [ 'increment' ], value);
+  const clearLeadingZeroes = (value) => {
+    if (!value) return value;
+    const trimmed = value.replace(/^0+/g, '');
+    return (trimmed.startsWith('.') ? '0' : '') + trimmed;
+  };
+
+  const setValue = (value) => editField(field, [ 'increment' ], clearLeadingZeroes(value));
 
   const decimalDigitsSet = decimalDigits || decimalDigits === 0;
 
