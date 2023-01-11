@@ -61,6 +61,7 @@ export default function Numberfield(props) {
   const displayValue = useMemo(() => {
 
     if (value === 'NaN') return 'NaN';
+    if (stringValueCache === '-') return '-';
     return cacheValueMatchesState ? stringValueCache : ((value || value === 0) ? Big(value).toFixed() : '');
 
   }, [ stringValueCache, value, cacheValueMatchesState ]);
@@ -84,6 +85,11 @@ export default function Numberfield(props) {
 
     // treat commas as dots
     stringValue = stringValue.replaceAll(',', '.');
+
+    if (stringValue === '-') {
+      setStringValueCache('-');
+      return;
+    }
 
     if (isNaN(Number(stringValue))) {
       setStringValueCache('NaN');
