@@ -282,6 +282,42 @@ describe('Validator', function() {
         expect(errors[ 0 ]).to.equal('Field must have minimum value of 200.');
       });
 
+
+      it('should be invalid (zero)', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: 200
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 0);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 200.');
+      });
+
+
+      it('should be invalid (negative)', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: -200
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field,-300);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of -200.');
+      });
+
     });
 
 
@@ -319,6 +355,42 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[ 0 ]).to.equal('Field must have maximum value of 100.');
+      });
+
+
+      it('should be invalid (zero)', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: -200
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 0);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of -200.');
+      });
+
+
+      it('should be invalid (negative)', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: -200
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, -100);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
 
     });

@@ -76,14 +76,14 @@ export default class Validator {
       ];
     }
 
-    if ('min' in validate && value && value < validate.min) {
+    if ('min' in validate && (value || value === 0) && value < validate.min) {
       errors = [
         ...errors,
         `Field must have minimum value of ${ validate.min }.`
       ];
     }
 
-    if ('max' in validate && value && value > validate.max) {
+    if ('max' in validate && (value || value === 0) && value > validate.max) {
       errors = [
         ...errors,
         `Field must have maximum value of ${ validate.max }.`
