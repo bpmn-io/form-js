@@ -175,8 +175,12 @@
 
 .fjs-pgl-form-container {
   height: 100%;
-  height: 100%;
+  width: 100%;
   overflow: hidden;
+}
+
+.fjs-pgl-form-container .fjs-form-editor {
+  width: 100%;
 }
 
 .fjs-pgl-text-container {
