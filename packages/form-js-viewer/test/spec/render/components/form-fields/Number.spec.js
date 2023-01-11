@@ -186,6 +186,27 @@ describe('Number', function() {
       });
     });
 
+
+    it('should not serialize standalone minus', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createNumberField({
+        onChange: onChangeSpy,
+        value: null
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: '-' } });
+
+      // then
+      expect(onChangeSpy).to.not.have.been.called;
+    });
+
+
     it('should clear', function() {
 
       // given
