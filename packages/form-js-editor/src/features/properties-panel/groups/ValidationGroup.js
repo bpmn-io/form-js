@@ -233,10 +233,9 @@ function Min(props) {
   return NumberFieldEntry({
     debounce,
     element: field,
-    getValue: getValue('min'),
     id,
     label: 'Minimum',
-    min: 0,
+    getValue: getValue('min'),
     setValue: onChange('min')
   });
 }
@@ -254,10 +253,9 @@ function Max(props) {
   return NumberFieldEntry({
     debounce,
     element: field,
-    getValue: getValue('max'),
     id,
     label: 'Maximum',
-    min: 0,
+    getValue: getValue('max'),
     setValue: onChange('max')
   });
 }
