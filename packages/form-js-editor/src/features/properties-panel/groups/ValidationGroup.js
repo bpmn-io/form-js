@@ -235,6 +235,7 @@ function Min(props) {
     element: field,
     id,
     label: 'Minimum',
+    step: 'any',
     getValue: getValue('min'),
     setValue: onChange('min')
   });
@@ -255,6 +256,7 @@ function Max(props) {
     element: field,
     id,
     label: 'Maximum',
+    step: 'any',
     getValue: getValue('max'),
     setValue: onChange('max')
   });
