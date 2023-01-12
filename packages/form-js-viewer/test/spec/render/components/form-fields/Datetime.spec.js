@@ -65,12 +65,12 @@ describe('Datetime', function() {
     it('should render disabled', function() {
 
       // when
-      const { container } = createDatetime({ disabled: true });
+      const { container } = createDatetime({ disabled: true, value: '1996-11-13' });
 
       // then
       const dateInput = container.querySelector('input[type="text"]');
       expect(dateInput).to.exist;
-      expect(dateInput.value).to.be.empty;
+      expect(dateInput.value).to.be.equal('11/13/1996');
       expect(dateInput.disabled).to.be.true;
 
     });
@@ -363,12 +363,12 @@ describe('Datetime', function() {
     it('should render disabled', function() {
 
       // when
-      const { container } = createDatetime({ disabled: true });
+      const { container } = createDatetime({ field: { ...timeField, use24h: true }, disabled: true, value: '13:00' });
 
       // then
       const timeInput = container.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
-      expect(timeInput.value).to.be.empty;
+      expect(timeInput.value).to.equal('13:00');
       expect(timeInput.disabled).to.be.true;
 
     });
