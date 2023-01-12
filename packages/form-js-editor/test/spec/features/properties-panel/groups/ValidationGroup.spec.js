@@ -503,6 +503,31 @@ describe('ValidationGroup', function() {
       expect(field.validate.min).to.equal(2);
     });
 
+
+    it('should write decimal', function() {
+
+      // given
+      const field = {
+        type: 'number',
+        validate: {
+          min: 3
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const minInput = findInput('min', container);
+
+      // when
+      fireEvent.input(minInput, { target: { value: '2.25' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.validate.min).to.equal(2.25);
+    });
+
   });
 
 
@@ -581,6 +606,31 @@ describe('ValidationGroup', function() {
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.max).to.equal(2);
+    });
+
+
+    it('should write decimal', function() {
+
+      // given
+      const field = {
+        type: 'number',
+        validate: {
+          max: 3
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const maxInput = findInput('max', container);
+
+      // when
+      fireEvent.input(maxInput, { target: { value: '2.25' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.validate.max).to.equal(2.25);
     });
 
   });
