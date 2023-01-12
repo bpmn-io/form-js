@@ -59,26 +59,24 @@ export default function Datetime(props) {
 
     let { date, time } = getNullDateTime();
 
-    if (!disabled) {
-      switch (subtype) {
-      case DATETIME_SUBTYPES.DATE: {
-        date = new Date(Date.parse(value));
-        break;
-      }
-      case DATETIME_SUBTYPES.TIME: {
-        time = parseIsoTime(value);
-        break;
-      }
-      case DATETIME_SUBTYPES.DATETIME: {
-        date = new Date(Date.parse(value));
-        time = isValidDate(date) ? 60 * date.getHours() + date.getMinutes() : null;
-        break;
-      }}
+    switch (subtype) {
+    case DATETIME_SUBTYPES.DATE: {
+      date = new Date(Date.parse(value));
+      break;
     }
+    case DATETIME_SUBTYPES.TIME: {
+      time = parseIsoTime(value);
+      break;
+    }
+    case DATETIME_SUBTYPES.DATETIME: {
+      date = new Date(Date.parse(value));
+      time = isValidDate(date) ? 60 * date.getHours() + date.getMinutes() : null;
+      break;
+    }}
 
     setDateTime({ date, time });
 
-  }, [ subtype, value, disabled ]);
+  }, [ subtype, value ]);
 
   const computeAndSetState = useCallback(({ date, time }) => {
 

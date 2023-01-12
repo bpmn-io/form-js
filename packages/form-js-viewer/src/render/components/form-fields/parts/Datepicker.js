@@ -50,11 +50,6 @@ export default function Datepicker(props) {
   // setup flatpickr instance
   useEffect(() => {
 
-    if (disabled) {
-      setFlatpickrInstance(null);
-      return;
-    }
-
     let config = {
       allowInput: true,
       dateFormat: 'm/d/Y',
@@ -96,7 +91,7 @@ export default function Datepicker(props) {
       () => instance.calendarContainer.removeEventListener('mousedown', onCalendarMouseDown),
     ];
 
-  }, [ disabled, disallowPassedDates ]);
+  }, [ disallowPassedDates ]);
 
   // onChange is updated dynamically, so not to re-render the flatpicker every time it changes
   useEffect(() => {
