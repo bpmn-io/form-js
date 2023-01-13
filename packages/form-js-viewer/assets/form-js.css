@@ -571,47 +571,48 @@
 * Flatpickr style adjustments
 */
 
-.flatpickr-day.today {
-  border-color: transparent !important;
-  background-color: transparent !important;
-  font-weight: bold !important;
+.fjs-container .flatpickr-day.today {
+  border-color: transparent;
+  background-color: transparent;
+  font-weight: bold;
 }
 
-.flatpickr-day.today:hover,
-.flatpickr-day.today:focus {
-  border-color: var(--color-borders) !important;
-  background-color: var(--color-datepicker-focused-day) !important;
-  color: var(--color-text-inverted) !important;
+.fjs-container .flatpickr-day.today:hover,
+.fjs-container .flatpickr-day.today:focus {
+  border-color: var(--color-borders);
+  background-color: var(--color-datepicker-focused-day);
+  color: var(--color-text-inverted);
 }
 
-.flatpickr-day.selected {
-  border-color: var(--color-accent) !important;
-  background-color: inherit !important;
-  color: inherit !important;
-  font-weight: normal !important;
+.fjs-container .flatpickr-day.selected {
+  border-color: var(--color-accent);
+  background-color: inherit;
+  color: inherit;
+  font-weight: normal;
 }
 
-.flatpickr-day.selected.today {
-  font-weight: bold !important;
+.fjs-container .flatpickr-day.selected.today {
+  font-weight: bold;
 }
 
-.flatpickr-day.selected:hover,
-.flatpickr-day.selected:focus {
-  background-color: var(--color-accent) !important;
-  font-weight: bold !important; 
-  color: var(--color-text-inverted) !important;
+.fjs-container .flatpickr-day.selected:hover,
+.fjs-container .flatpickr-day.selected:focus {
+  background-color: var(--color-accent);
+  font-weight: bold; 
+  color: var(--color-text-inverted);
+  border-color: var(--color-accent);
 }
 
-.flatpickr-days, .flatpickr-weekdays {
-  padding: 10px !important;
-  width: 100% !important;
+.fjs-container .flatpickr-days, .flatpickr-weekdays {
+  padding: 10px;
+  width: 100%;
 }
 
 .fjs-container .flatpickr-calendar.hasTime.noCalendar {
-  width: auto !important;
-  max-width: 250px !important;
+  width: auto;
+  max-width: 250px;
 }
 
-.flatpickr-calendar {
-  width: 326px !important;
+.fjs-container .flatpickr-calendar {
+  width: 326px;
 }
