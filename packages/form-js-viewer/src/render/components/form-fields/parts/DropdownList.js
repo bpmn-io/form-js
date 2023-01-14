@@ -87,6 +87,7 @@ export default function DropdownList(props) {
     ref={ dropdownContainer }
     tabIndex={ -1 }
     class="fjs-dropdownlist"
+    onMouseDown={ (e) => e.preventDefault() }
     style={ { maxHeight: height, scrollBehavior: smoothScrolling ? 'smooth' : 'auto' } }>
     {
       values.length > 0 && values.map((v, i) => {
@@ -95,7 +96,7 @@ export default function DropdownList(props) {
             class={ classNames('fjs-dropdownlist-item', { 'focused': focusedValueIndex === i }) }
             onMouseMove={ mouseControl ? undefined : (e) => onMouseMovedInKeyboardMode(e, i) }
             onMouseEnter={ mouseControl ? () => setFocusedValueIndex(i) : undefined }
-            onMouseDown={ (e) => { e.preventDefault(); onValueSelected(v); } }>
+            onMouseDown={ (e) => onValueSelected(v) }>
             {getLabel(v)}
           </div>
         );
