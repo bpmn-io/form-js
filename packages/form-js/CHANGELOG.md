@@ -6,6 +6,38 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.11.0
+
+### General
+
+* `FEAT`: simplify `checklist` icon ([`45c9b9ee`](https://github.com/bpmn-io/form-js/commit/45c9b9ee9a66e5622c84bb3e4d761e8f76834db2))
+* `FEAT`: make `datetime` icon color customizable ([`1aa334bb`](https://github.com/bpmn-io/form-js/commit/1aa334bbab90bd719f12f1f12f46f80e6c159e68))
+* `FIX`: truncate adorner texts ([`136a3234`](https://github.com/bpmn-io/form-js/commit/136a32346feecc9a6d0e10bd8f0f9a02bf8842cd))
+* `FIX` allow `min` and `max` validation for all numbers ([#486](https://github.com/bpmn-io/form-js/issues/486))
+
+### Viewer
+
+* `FIX`: do not serialize standalone minus ([#492](https://github.com/bpmn-io/form-js/issues/492))
+* `FIX`: properly use `increment` in validation ([`9b339dc2`](https://github.com/bpmn-io/form-js/commit/9b339dc275752b3f560199faf4159608b2d669b0))
+* `FIX`: display `datetime` value when disabled ([`d775dc26`](https://github.com/bpmn-io/form-js/commit/d775dc268cde2aadf6923945737e691474467bb5))
+* `FIX`: trim increment `number` value ([`b78667e2`](https://github.com/bpmn-io/form-js/commit/b78667e244c7d5760f38ecf2aa267bac1eb64fbd))
+* `FIX`: do not collapse dropdown list on click scroll ([#367](https://github.com/bpmn-io/form-js/issues/367))
+
+### Editor
+
+* `FIX`: clear custom validation when using presets ([`13712915`](https://github.com/bpmn-io/form-js/commit/13712915beabb180a969d593ab19cc88bd012cdf))
+* `FIX`: properly handle decimal values in `min` and `max` validation ([#497](https://github.com/bpmn-io/form-js/issues/497))
+
+### Playground
+
+* `FEAT`: add auto complete for variable names ([#295](https://github.com/bpmn-io/form-js/issues/295))
+* `FIX`: do not force palette scrolling ([`1c81d837`](https://github.com/bpmn-io/form-js/commit/1c81d837dedf5c7a2d4285cd461336b26219ee17))
+* `FIX`: render properties panel to the right ([`8289216f`](https://github.com/bpmn-io/form-js/commit/8289216fb5cc5ccc24241a84f1a57ca35098a622))
+* `FIX`: handle tabbing in JSON editor ([`7bb44611`](https://github.com/bpmn-io/form-js/commit/7bb4461102a5535b1b3b60a8a5b9ac0e876bf92b))
+* `FIX`: properly layout properties panel ([#487](https://github.com/bpmn-io/form-js/issues/487))
+* `FIX`: restrict editor width to viewport ([`f345d111`](https://github.com/bpmn-io/form-js/commit/f345d111322384dd831ef6771a8b875e5ce6e66d))
+
+
 ## 0.10.1
 
 ### General
