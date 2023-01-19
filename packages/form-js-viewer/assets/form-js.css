@@ -215,13 +215,6 @@
   border-radius: 3px;
 }
 
-.fjs-container .fjs-select-display {
-  width: 100%;
-  padding: 8px;
-  background-color: var(--color-grey-225-10-97);
-  border-radius: 3px;
-}
-
 .fjs-container .fjs-datepicker,
 .fjs-container .fjs-timepicker,
 .fjs-container .fjs-datetime-subsection {
@@ -248,6 +241,16 @@
   outline: 0;
   width: auto;
   flex-grow: 1;
+}
+
+.fjs-container .fjs-input-group .fjs-select-display {
+  flex: 1;
+  padding: 8px;
+  user-select: none; 
+}
+
+.fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder {
+  color: var(--color-text-lightest);
 }
 
 .fjs-container .fjs-input-group .fjs-input-adornment {
@@ -463,8 +466,8 @@
 
 .fjs-container .fjs-taglist-anchor .fjs-dropdownlist,
 .fjs-container .fjs-select-anchor .fjs-dropdownlist {
-  position: relative;
-  top: -2px;
+  position: absolute;
+  top: -5px;
 }
 
 .fjs-container .fjs-taglist {

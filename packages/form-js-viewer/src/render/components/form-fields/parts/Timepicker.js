@@ -164,7 +164,7 @@ export default function Timepicker(props) {
           values={ timeOptions }
           height={ 150 }
           onValueSelected={ onDropdownValueSelected }
-          listenerElement={ timeInputRef.current }
+          keyEventsListener={ timeInputRef.current }
           initialFocusIndex={ initialFocusIndex } /> }
 
       </div>

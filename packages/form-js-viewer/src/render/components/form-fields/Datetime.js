@@ -166,11 +166,13 @@ export default function Datetime(props) {
   </div>;
 }
 
-Datetime.create = function(options = {}) {
-  const newOptions = {};
-  set(newOptions, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
-  set(newOptions, DATE_LABEL_PATH, 'Date');
-  return { ...newOptions, ...options };
+Datetime.create = (options = {}) => {
+
+  const defaults = {};
+  set(defaults, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
+  set(defaults, DATE_LABEL_PATH, 'Date');
+
+  return { ...defaults, ...options };
 };
 
 Datetime.type = type;

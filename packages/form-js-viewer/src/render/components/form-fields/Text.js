@@ -26,12 +26,10 @@ export default function Text(props) {
   </div>;
 }
 
-Text.create = function(options = {}) {
-  return {
-    text: '# Text',
-    ...options
-  };
-};
+Text.create = (options = {}) => ({
+  text: '# Text',
+  ...options
+});
 
 Text.type = type;
 Text.keyed = false;

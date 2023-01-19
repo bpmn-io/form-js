@@ -194,7 +194,10 @@ export default function Numberfield(props) {
   </div>;
 }
 
-Numberfield.create = (options = {}) => options;
+Numberfield.create = (options = {}) => ({
+  ...options
+});
+
 Numberfield.sanitizeValue = ({ value, formField }) => {
 
   // null state is allowed

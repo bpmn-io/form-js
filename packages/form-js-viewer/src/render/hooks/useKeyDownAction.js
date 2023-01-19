@@ -1,6 +1,6 @@
 import { useEffect } from 'preact/hooks';
 
-export default function useKeyDownAction(targetKey, action, listenerElement = window) {
+export default function useKeyDownAction(targetKey, action, keyEventsListener = window) {
 
   function downHandler({ key }) {
     if (key === targetKey) {
@@ -9,10 +9,10 @@ export default function useKeyDownAction(targetKey, action, listenerElement = wi
   }
 
   useEffect(() => {
-    listenerElement.addEventListener('keydown', downHandler);
+    keyEventsListener.addEventListener('keydown', downHandler);
 
     return () => {
-      listenerElement.removeEventListener('keydown', downHandler);
+      keyEventsListener.removeEventListener('keydown', downHandler);
     };
   });
 }

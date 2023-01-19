@@ -56,11 +56,9 @@ export default function Checkbox(props) {
   </div>;
 }
 
-Checkbox.create = function(options = {}) {
-  return {
-    ...options
-  };
-};
+Checkbox.create = (options = {}) => ({
+  ...options
+});
 
 Checkbox.type = type;
 Checkbox.label = 'Checkbox';

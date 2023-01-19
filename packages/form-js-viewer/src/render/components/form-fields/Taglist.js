@@ -173,24 +173,29 @@ export default function Taglist(props) {
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => selectValue(o.value) }
         emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
-        listenerElement={ searchbarRef.current } /> }
+        keyEventsListener={ searchbarRef.current } /> }
     </div>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }
 
-Taglist.create = function(options = {}) {
+Taglist.create = (options = {}) => {
 
-  if (options.valuesKey) return options;
+  const defaults = {};
 
-  return {
-    values: [
+  // provide default values if valuesKey isn't set
+  if (!options.valuesKey) {
+    defaults.values = [
       {
         label: 'Value',
         value: 'value'
       }
-    ],
+    ];
+  }
+
+  return {
+    ...defaults,
     ...options
   };
 };
