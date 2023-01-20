@@ -17,6 +17,8 @@ import propertiesPanelCSS from '@bpmn-io/properties-panel/assets/properties-pane
 // @ts-ignore-next-line
 import testCSS from './test.css';
 
+export { expectNoViolations } from '../../form-js-viewer/test/helper';
+
 export function isSingleStart(topic) {
 
   // @ts-ignore-next-line
