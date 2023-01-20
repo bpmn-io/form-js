@@ -96,3 +96,4 @@ Textarea.label = 'Text area';
 Textarea.keyed = true;
 Textarea.emptyValue = '';
 Textarea.sanitizeValue = ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value);
+Textarea.group = 'basic-input';

@@ -616,7 +616,8 @@ describe('Taglist', function() {
 
     // assume
     expect(Taglist.type).to.eql('taglist');
-    expect(Taglist.label).to.eql('Taglist');
+    expect(Taglist.label).to.eql('Tag list');
+    expect(Taglist.group).to.eql('selection');
     expect(Taglist.keyed).to.be.true;
 
     // when

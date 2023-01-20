@@ -197,7 +197,8 @@ describe('Image', function() {
 
     // assume
     expect(Image.type).to.eql('image');
-    expect(Image.label).not.to.exist;
+    expect(Image.label).to.eql('Image view');
+    expect(Image.group).to.eql('presentation');
     expect(Image.keyed).to.be.false;
 
     // when

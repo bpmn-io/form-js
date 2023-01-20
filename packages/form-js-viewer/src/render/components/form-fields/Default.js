@@ -39,3 +39,5 @@ Default.create = (options = {}) => ({
 
 Default.type = 'default';
 Default.keyed = false;
+Default.label = null;
+Default.group = null;

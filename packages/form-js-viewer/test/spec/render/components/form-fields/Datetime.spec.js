@@ -852,7 +852,8 @@ describe('Datetime', function() {
 
     // assume
     expect(Datetime.type).to.eql('datetime');
-    expect(Datetime.label).to.not.exist;
+    expect(Datetime.label).to.eql('Date time');
+    expect(Datetime.group).to.eql('basic-input');
     expect(Datetime.keyed).to.be.true;
 
     // when
