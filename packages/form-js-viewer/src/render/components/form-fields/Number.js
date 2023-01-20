@@ -230,3 +230,4 @@ Numberfield.type = type;
 Numberfield.keyed = true;
 Numberfield.label = 'Number';
 Numberfield.emptyValue = null;
+Numberfield.group = 'basic-input';

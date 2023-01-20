@@ -82,3 +82,4 @@ Select.label = 'Select';
 Select.keyed = true;
 Select.emptyValue = null;
 Select.sanitizeValue = sanitizeSingleSelectValue;
+Select.group = 'selection';

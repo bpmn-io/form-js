@@ -177,7 +177,8 @@ Some _em_ **strong** [text](#text) \`code\`.
 
     // assume
     expect(Text.type).to.eql('text');
-    expect(Text.label).not.to.exist;
+    expect(Text.label).to.eql('Text view');
+    expect(Text.group).to.eql('presentation');
     expect(Text.keyed).to.be.false;
 
     // when

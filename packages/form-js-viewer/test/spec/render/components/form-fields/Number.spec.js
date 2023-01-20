@@ -801,6 +801,7 @@ describe('Number', function() {
     // assume
     expect(Number.type).to.eql('number');
     expect(Number.label).to.eql('Number');
+    expect(Number.group).to.eql('basic-input');
     expect(Number.keyed).to.be.true;
 
     // when

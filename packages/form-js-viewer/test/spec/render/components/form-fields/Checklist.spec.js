@@ -255,6 +255,7 @@ describe('Checklist', function() {
     // assume
     expect(Checklist.type).to.eql('checklist');
     expect(Checklist.label).to.eql('Checklist');
+    expect(Checklist.group).to.eql('selection');
     expect(Checklist.keyed).to.be.true;
 
     // when

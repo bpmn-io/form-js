@@ -177,3 +177,5 @@ Datetime.type = type;
 Datetime.keyed = true;
 Datetime.emptyValue = null;
 Datetime.sanitizeValue = sanitizeDateTimePickerValue;
+Datetime.label = 'Date time';
+Datetime.group = 'basic-input';

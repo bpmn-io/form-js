@@ -65,3 +65,4 @@ Checkbox.label = 'Checkbox';
 Checkbox.keyed = true;
 Checkbox.emptyValue = false;
 Checkbox.sanitizeValue = ({ value }) => value === true;
+Checkbox.group = 'selection';

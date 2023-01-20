@@ -56,3 +56,5 @@ Image.create = (options = {}) => ({
 
 Image.type = type;
 Image.keyed = false;
+Image.label = 'Image view';
+Image.group = 'presentation';

@@ -79,6 +79,7 @@ describe('Button', function() {
     // assume
     expect(Button.type).to.eql('button');
     expect(Button.label).to.eql('Button');
+    expect(Button.group).to.eql('action');
     expect(Button.keyed).to.be.true;
 
     // when

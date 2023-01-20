@@ -142,6 +142,7 @@ describe('Checkbox', function() {
     // assume
     expect(Checkbox.type).to.eql('checkbox');
     expect(Checkbox.label).to.eql('Checkbox');
+    expect(Checkbox.group).to.eql('selection');
     expect(Checkbox.keyed).to.be.true;
 
     // when

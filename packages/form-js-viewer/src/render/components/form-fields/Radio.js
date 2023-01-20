@@ -101,3 +101,4 @@ Radio.label = 'Radio';
 Radio.keyed = true;
 Radio.emptyValue = null;
 Radio.sanitizeValue = sanitizeSingleSelectValue;
+Radio.group = 'selection';

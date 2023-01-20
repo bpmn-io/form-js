@@ -575,6 +575,7 @@ describe('Select', function() {
     // assume
     expect(Select.type).to.eql('select');
     expect(Select.label).to.eql('Select');
+    expect(Select.group).to.eql('selection');
     expect(Select.keyed).to.be.true;
 
     // when

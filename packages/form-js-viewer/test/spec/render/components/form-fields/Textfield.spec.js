@@ -204,6 +204,7 @@ describe('Textfield', function() {
     // assume
     expect(Textfield.type).to.eql('textfield');
     expect(Textfield.label).to.eql('Text field');
+    expect(Textfield.group).to.eql('basic-input');
     expect(Textfield.keyed).to.be.true;
 
     // when

@@ -76,3 +76,4 @@ Textfield.label = 'Text field';
 Textfield.keyed = true;
 Textfield.emptyValue = '';
 Textfield.sanitizeValue = ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value);
+Textfield.group = 'basic-input';

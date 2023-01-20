@@ -202,7 +202,8 @@ Taglist.create = (options = {}) => {
 };
 
 Taglist.type = type;
-Taglist.label = 'Taglist';
+Taglist.label = 'Tag list';
 Taglist.keyed = true;
 Taglist.emptyValue = [];
 Taglist.sanitizeValue = sanitizeMultiSelectValue;
+Taglist.group = 'selection';

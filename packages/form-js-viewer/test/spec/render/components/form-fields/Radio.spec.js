@@ -259,6 +259,7 @@ describe('Radio', function() {
     // assume
     expect(Radio.type).to.eql('radio');
     expect(Radio.label).to.eql('Radio');
+    expect(Radio.group).to.eql('selection');
     expect(Radio.keyed).to.be.true;
 
     // when

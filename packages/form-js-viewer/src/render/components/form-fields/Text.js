@@ -31,5 +31,7 @@ Text.create = (options = {}) => ({
 
 Text.type = type;
 Text.keyed = false;
+Text.group = 'presentation';
+Text.label = 'Text view';
 
 function DisabledLink({ href, children }) { return <a class="fjs-disabled-link" href={ href } tabIndex={ -1 }>{ children }</a>; }
