@@ -93,9 +93,9 @@ describe('core/FieldFactory', function() {
     }));
 
 
-    it('Taglist', testCreate({
+    it('Tag list', testCreate({
       type: 'taglist',
-      label: 'Taglist',
+      label: 'Tag list',
       keyed: true,
       defaults: {
         values: [
@@ -108,8 +108,9 @@ describe('core/FieldFactory', function() {
     }));
 
 
-    it('Datetime', testCreate({
+    it('Date time', testCreate({
       type: 'datetime',
+      label: 'Date time',
       keyed: true,
       defaults: {
         subtype: 'date',
@@ -122,6 +123,12 @@ describe('core/FieldFactory', function() {
       type: 'textfield',
       label: 'Text field',
       keyed: true
+    }));
+
+
+    it('Image view', testCreate({
+      type: 'image',
+      label: 'Image view'
     }));
 
   });
