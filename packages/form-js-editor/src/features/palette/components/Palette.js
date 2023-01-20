@@ -1,81 +1,161 @@
-import { iconsByType } from '../../../render/components/icons';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'preact/hooks';
 
-const types = [
+import {
+  CloseIcon,
+  iconsByType,
+  SearchIcon
+} from '../../../render/components/icons';
+
+import { formFields } from '@bpmn-io/form-js-viewer';
+
+export const PALETTE_ENTRIES = formFields.filter(f => f.type !== 'default').map(f => {
+  return {
+    label: f.label,
+    type: f.type,
+    group: f.group
+  };
+});
+
+export const PALETTE_GROUPS = [
   {
-    label: 'Text field',
-    type: 'textfield'
+    label: 'Basic input',
+    id: 'basic-input'
   },
   {
-    label: 'Text area',
-    type: 'textarea'
+    label: 'Selection',
+    id: 'selection'
   },
   {
-    label: 'Number',
-    type: 'number'
+    label: 'Presentation',
+    id: 'presentation'
   },
   {
-    label: 'Datetime',
-    type: 'datetime'
-  },
-  {
-    label: 'Checkbox',
-    type: 'checkbox'
-  },
-  {
-    label: 'Checklist',
-    type: 'checklist'
-  },
-  {
-    label: 'Taglist',
-    type: 'taglist'
-  },
-  {
-    label: 'Radio',
-    type: 'radio'
-  },
-  {
-    label: 'Select',
-    type: 'select'
-  },
-  {
-    label: 'Text view',
-    type: 'text'
-  },
-  {
-    label: 'Image view',
-    type: 'image'
-  },
-  {
-    label: 'Button',
-    type: 'button'
+    label: 'Action',
+    id: 'action'
   }
 ];
 
-
 export default function Palette(props) {
-  return <div class="fjs-palette">
-    <div class="fjs-palette-header" title="Form elements library">
-      <span class="fjs-hide-compact">FORM ELEMENTS </span>LIBRARY
-    </div>
-    <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
-      {
-        types.map(({ label, type }) => {
-          const Icon = iconsByType[ type ];
 
-          return (
-            <div
-              class="fjs-palette-field fjs-drag-copy fjs-no-drop"
-              data-field-type={ type }
-              title={ `Create a ${ label } element` }
-            >
+  const [ entries, setEntries ] = useState(PALETTE_ENTRIES);
+
+  const [ searchTerm, setSearchTerm ] = useState('');
+
+  const inputRef = useRef();
+
+  const groups = groupEntries(entries);
+
+  // filter entries on search change
+  useEffect(() => {
+
+    const filter = entry => {
+      if (!searchTerm) {
+        return true;
+      }
+
+      const search = entry.label.toLowerCase();
+
+      return searchTerm
+        .toLowerCase()
+        .split(/\s/g)
+        .every(term => search.includes(term));
+    };
+
+    const entries = PALETTE_ENTRIES.filter(filter);
+
+    setEntries(entries);
+  }, [ searchTerm ]);
+
+  const handleInput = useCallback(event => {
+    setSearchTerm(() => event.target.value);
+  }, [ setSearchTerm ]);
+
+  const handleClear = useCallback(event => {
+    setSearchTerm('');
+    inputRef.current.focus();
+  }, [ inputRef, setSearchTerm ]);
+
+  return <div class="fjs-palette">
+    <div class="fjs-palette-header" title="Components">
+      Components
+    </div>
+    <div class="fjs-palette-search-container">
+      <span class="fjs-palette-search-icon">
+        <SearchIcon></SearchIcon>
+      </span>
+      <input class="fjs-palette-search"
+        ref={ inputRef }
+        type="text"
+        placeholder="Search components"
+        value={ searchTerm }
+        onInput={ handleInput } />
+      {
+        searchTerm && (
+          <button title="Clear content" class="fjs-palette-search-clear" onClick={ handleClear }>
+            <CloseIcon></CloseIcon>
+          </button>
+        )
+      }
+    </div>
+    <div class="fjs-palette-entries">
+      {
+        groups.map(({ label, entries, id }) =>
+          <div class="fjs-palette-group" data-group-id={ id }>
+            <span class="fjs-palette-group-title">{ label }</span>
+            <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
               {
-                Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
+                entries.map(({ label, type }) => {
+                  const Icon = iconsByType[type];
+
+                  return (
+                    <div
+                      class="fjs-palette-field fjs-drag-copy fjs-no-drop"
+                      data-field-type={ type }
+                      title={ `Create a ${label} element` }
+                    >
+                      {
+                        Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
+                      }
+                      <span class="fjs-palette-field-text">{ label }</span>
+                    </div>
+                  );
+                })
               }
-              <span class="fjs-palette-field-text">{ label }</span>
             </div>
-          );
-        })
+          </div>
+        )
+      }
+      {
+        groups.length == 0 && (
+          <div class="fjs-palette-no-entries">No components found.</div>
+        )
       }
     </div>
   </div>;
+}
+
+
+// helpers ///////
+
+function groupEntries(entries) {
+  const groups = PALETTE_GROUPS.map(group => {
+    return {
+      ...group,
+      entries: []
+    };
+  });
+
+  const getGroup = id => groups.find(group => id === group.id);
+
+  entries.forEach(entry => {
+    const { group } = entry;
+    getGroup(group).entries.push(entry);
+  });
+
+  return groups.filter(g => g.entries.length);
 }
