@@ -9,6 +9,7 @@ import {
   ImageSourceEntry,
   KeyEntry,
   LabelEntry,
+  SelectEntries,
   TextEntry,
   NumberEntries,
   DateTimeEntry
@@ -30,6 +31,7 @@ export default function GeneralGroup(field, editField) {
     ...NumberEntries({ field, editField }),
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),
+    ...SelectEntries({ field, editField }),
     ...DisabledEntry({ field, editField })
   ];
 
