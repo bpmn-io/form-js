@@ -1450,6 +1450,7 @@ describe('properties panel', function() {
           'Field description',
           'Key',
           'Default value',
+          'Searchable',
           'Disabled'
         ]);
 

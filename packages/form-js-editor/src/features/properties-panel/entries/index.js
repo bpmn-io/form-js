@@ -14,6 +14,7 @@ export { default as NumberSerializationEntry } from './NumberSerializationEntry'
 export { default as DateTimeEntry } from './DateTimeEntry';
 export { default as DateTimeConstraintsEntry } from './DateTimeConstraintsEntry';
 export { default as DateTimeSerializationEntry } from './DateTimeSerializationEntry';
+export { default as SelectEntries } from './SelectEntries';
 export { default as ValueEntry } from './ValueEntry';
 export { default as CustomValueEntry } from './CustomValueEntry';
 export { default as ValuesSourceSelectEntry } from './ValuesSourceSelectEntry';
