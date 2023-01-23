@@ -21,8 +21,8 @@
   "scripts": {
     "all": "run-s lint test build",
     "build": "run-p bundle generate-types",
-    "bundle": "rollup -c --failAfterWarnings",
-    "bundle:watch": "rollup -c -w",
+    "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
+    "bundle:watch": "rollup -c -w --bundleConfigAsCjs",
     "dev": "npm test -- --auto-watch --no-single-run",
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
