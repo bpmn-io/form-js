@@ -473,6 +473,10 @@
   background-color: var(--color-grey-225-10-90);
 }
 
+.fjs-container .fjs-taglist .fjs-taglist-tag.disabled { 
+  background-color: var(--color-grey-225-10-85);
+}
+
 .fjs-container .fjs-taglist .fjs-taglist-tags {
   display: flex;
   flex-wrap: wrap;
@@ -481,6 +485,10 @@
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-label {
   padding: 2px 6px 2px 8px;
+}
+
+.fjs-container .fjs-taglist .fjs-taglist-tag.disabled .fjs-taglist-tag-label {
+  padding: 2px 8px;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove {

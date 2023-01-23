@@ -153,7 +153,8 @@ describe('Taglist', function() {
 
     // when
     const { container } = createTaglist({
-      disabled: true
+      disabled: true,
+      value: [ 'tag1' ]
     });
 
     // then
@@ -162,6 +163,14 @@ describe('Taglist', function() {
 
     const taglist = container.querySelector('.fjs-taglist');
     expect(taglist.classList.contains('disabled')).to.be.true;
+
+    const tag = taglist.querySelector('.fjs-taglist-tag');
+    expect(tag).to.exist;
+    expect(tag.innerText).to.equal('Tag1');
+    expect(tag.classList.contains('disabled')).to.be.true;
+
+    const cross = tag.querySelector('fjs-taglist-tag-remove');
+    expect(cross).to.not.exist;
 
   });
 
