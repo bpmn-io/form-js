@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.11.1
+
+### Editor
+
+* `FIX`: properly clean up custom validate ([#485](https://github.com/bpmn-io/form-js/pull/485))
+
 ## 0.11.0
 
 ### General
