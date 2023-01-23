@@ -1,3 +1,3 @@
 export * from './viewer';
-export * from './editor';
+export { createFormEditor, FormEditor } from './editor';
 export * from './playground';
