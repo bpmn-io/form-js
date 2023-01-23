@@ -449,6 +449,15 @@
   color: var(--color-accent);
 }
 
+.fjs-container .fjs-form-field-text a {
+  color: var(--color-accent);
+}
+
+.fjs-container .fjs-form-field-text .fjs-disabled-link {
+  pointer-events: none;
+  cursor: default;
+}
+
 .fjs-container .fjs-taglist-anchor,
 .fjs-container .fjs-timepicker-anchor {
   position: relative;
