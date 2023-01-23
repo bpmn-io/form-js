@@ -20,7 +20,12 @@ export const VALUES_SOURCES_PATHS = {
 };
 
 export const VALUES_SOURCES_DEFAULTS = {
-  [VALUES_SOURCES.STATIC]: [],
+  [VALUES_SOURCES.STATIC]: [
+    {
+      label: 'Value',
+      value: 'value'
+    }
+  ],
   [VALUES_SOURCES.INPUT]: '',
 };
 

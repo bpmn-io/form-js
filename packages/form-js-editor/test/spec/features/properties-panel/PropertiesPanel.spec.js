@@ -7,7 +7,7 @@ import {
 import { query as domQuery } from 'min-dom';
 
 import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
-import { VALUES_SOURCES } from '@bpmn-io/form-js-viewer';
+import { VALUES_SOURCES, VALUES_SOURCES_DEFAULTS } from '@bpmn-io/form-js-viewer';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomValuesGroup';
 
 import {
@@ -636,6 +636,40 @@ describe('properties panel', function() {
 
         });
 
+      });
+
+
+      describe('static options', function() {
+
+        it('should re-configure static source defaults', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'product');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.INPUT } });
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.STATIC } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledTwice;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            'values': VALUES_SOURCES_DEFAULTS[VALUES_SOURCES.STATIC],
+            'valuesKey': undefined
+          });
+        });
       });
 
 
