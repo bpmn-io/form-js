@@ -181,6 +181,11 @@ export default function FormEditor(props) {
   };
 
   useEffect(() => {
+
+    const handleDragEvent = (type, context) => {
+      return eventBus.fire(type, context);
+    };
+
     const createDragulaInstance = () => {
       const dragulaInstance = dragula({
         isContainer(el) {
@@ -194,6 +199,31 @@ export default function FormEditor(props) {
         },
         slideFactorX: 10,
         slideFactorY: 5
+      });
+
+      // bind life cycle events
+      dragulaInstance.on('drag', (element, source) => {
+        handleDragEvent('drag.start', { element, source });
+      });
+
+      dragulaInstance.on('dragend', (element) => {
+        handleDragEvent('drag.end', { element });
+      });
+
+      dragulaInstance.on('drop', (element, target, source, sibling) => {
+        handleDragEvent('drag.drop', { element, target, source, sibling });
+      });
+
+      dragulaInstance.on('over', (element, container, source) => {
+        handleDragEvent('drag.hover', { element, container, source });
+      });
+
+      dragulaInstance.on('out', (element, container, source) => {
+        handleDragEvent('drag.out', { element, container, source });
+      });
+
+      dragulaInstance.on('cancel', (element, container, source) => {
+        handleDragEvent('drag.cancel', { element, container, source });
       });
 
       dragulaInstance.on('drop', (el, target, source, sibling) => {
