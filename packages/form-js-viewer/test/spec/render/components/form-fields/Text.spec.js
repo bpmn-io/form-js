@@ -220,6 +220,26 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(placeholder.textContent).to.eql('Text view is empty');
     });
 
+
+    it('should disable links', function() {
+
+      // given
+      const { container } = createText({
+        disabled: true,
+        field: {
+          text: '# Text\n* Learn more about [forms](https://bpmn.io).',
+          type: 'text'
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const link = formField.querySelector('a');
+
+      expect(link).to.exist;
+      expect(link.classList.contains('fjs-disabled-link')).to.be.true;
+    });
+
   });
 
 

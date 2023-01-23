@@ -52,7 +52,11 @@ function renderText(field, content, disabled) {
     if (isExpression(text)) {
       return <div class="fjs-form-field-placeholder"><Icon viewBox="0 0 54 54" />Text view is populated by an expression</div>;
     }
+
+    return <Markup markup={ safeMarkdown(content) } components={ { 'a': DisabledLink } } trim={ false } />;
   }
 
   return <Markup markup={ safeMarkdown(content) } trim={ false } />;
 }
+
+function DisabledLink({ href, children }) { return <a class="fjs-disabled-link" href={ href } tabIndex={ -1 }>{ children }</a>; }
