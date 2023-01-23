@@ -1842,7 +1842,8 @@ describe('properties panel', function() {
           'Required',
           'Minimum length',
           'Maximum length',
-          'Regular expression pattern'
+          'Validation pattern',
+          'Custom regular expression'
         ]);
       });
 
@@ -2117,7 +2118,7 @@ describe('properties panel', function() {
         ]);
 
         expectGroupEntries(result.container, 'Serialization', [
-          'Serialize to string'
+          'Output as string'
         ]);
 
         expectGroupEntries(result.container, 'Validation', [
