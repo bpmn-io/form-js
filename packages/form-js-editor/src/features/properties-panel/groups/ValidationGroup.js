@@ -216,7 +216,7 @@ function Pattern(props) {
     element: field,
     getValue: getValue('pattern'),
     id,
-    label: 'Regular expression pattern',
+    label: 'Custom regular expression',
     setValue: onChange('pattern')
   });
 }
@@ -282,7 +282,7 @@ function ValidationType(props) {
     element: field,
     getValue: getValue('validationType'),
     id,
-    label: 'Regular expression validation',
+    label: 'Validation pattern',
     setValue,
     getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS)
   });

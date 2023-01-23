@@ -62,7 +62,7 @@ function SerializeToString(props) {
     element: field,
     getValue,
     id,
-    label: 'Serialize to string',
+    label: 'Output as string',
     description: 'Allows arbitrary precision values',
     setValue
   });
