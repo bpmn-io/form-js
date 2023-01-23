@@ -23,8 +23,6 @@ import {
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
 
-// import schema from './complex.json';
-
 insertStyles();
 
 const spy = sinon.spy;
@@ -878,17 +876,9 @@ describe('FormEditor', function() {
       expect(formFieldRegistry.getAll()).to.have.length(16);
 
       // when
-      const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
-
-      const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
-
-      const bounds = form.getBoundingClientRect();
-
-      dispatchEvent(formField, 'mousedown', { which: 1 });
-
-      dispatchEvent(form, 'mousemove', { clientX: bounds.x, clientY: bounds.y });
-
-      dispatchEvent(form, 'mouseup');
+      startDragging(container);
+      moveDragging(container);
+      endDragging(container);
 
       // then
       expect(formFieldRegistry.getAll()).to.have.length(17);
@@ -896,6 +886,208 @@ describe('FormEditor', function() {
       const selection = formEditor.get('selection');
 
       expect(selection.get()).to.include({ type: 'textfield' });
+    });
+
+
+    describe('emit', function() {
+
+      it('should emit <drag.start>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.start', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.source).to.exist;
+      });
+
+
+      it('should emit <drag.end>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.end', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+        endDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+      });
+
+      it('should emit <drag.drop>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.drop', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+        endDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.source).to.exist;
+        expect(context.target).to.exist;
+        expect(context.sibling).to.exist;
+      });
+
+
+      it('should emit <drag.hover>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.hover', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.container).to.exist;
+        expect(context.source).to.exist;
+      });
+
+
+      it('should emit <drag.hover>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.hover', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+        endDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.container).to.exist;
+        expect(context.source).to.exist;
+      });
+
+
+      it('should emit <drag.out>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.out', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+        endDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.container).to.exist;
+        expect(context.source).to.exist;
+      });
+
+
+      it('should emit <drag.cancel>', async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema,
+          container
+        });
+
+        const draggerSpy = spy();
+
+        formEditor.on('drag.cancel', draggerSpy);
+
+        await expectDragulaCreated(formEditor);
+
+        // when
+        startDragging(container);
+        moveDragging(container);
+        endDragging(container);
+
+        // then
+        expect(draggerSpy).to.have.been.called;
+
+        const context = draggerSpy.args[0][1];
+        expect(context.element).to.exist;
+        expect(context.container).to.exist;
+        expect(context.source).to.exist;
+      });
+
     });
 
   });
@@ -949,4 +1141,28 @@ function dispatchEvent(element, type, options = {}) {
   Object.keys(options).forEach(key => event[ key ] = options[ key ]);
 
   element.dispatchEvent(event);
+}
+
+function startDragging(container) {
+  const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
+  dispatchEvent(formField, 'mousedown', { which: 1 });
+}
+
+function moveDragging(container, position) {
+  const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+
+  if (!position) {
+    const bounds = form.getBoundingClientRect();
+    position = {
+      clientX: bounds.x,
+      clientY: bounds.y
+    };
+  }
+
+  dispatchEvent(form, 'mousemove', position);
+}
+
+function endDragging(container) {
+  const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+  dispatchEvent(form, 'mouseup');
 }
