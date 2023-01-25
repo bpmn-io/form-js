@@ -169,7 +169,7 @@ export default function Numberfield(props) {
       label={ label }
       required={ required } />
     <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
-      <div class={ classNames('fjs-vertical-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
+      <div class={ classNames('fjs-vertical-group', { 'fjs-disabled': disabled }, { 'hasErrors': errors.length }) }>
         <input
           ref={ inputRef }
           class="fjs-input"
@@ -184,7 +184,7 @@ export default function Numberfield(props) {
           autoComplete="off"
           step={ arrowIncrementValue }
           value={ displayValue } />
-        <div class={ classNames('fjs-number-arrow-container', { 'disabled': disabled }) }>
+        <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
           <button class="fjs-number-arrow-up" type="button" onClick={ () => increment() } tabIndex={ -1 }>˄</button>
           <div class="fjs-number-arrow-separator" />
