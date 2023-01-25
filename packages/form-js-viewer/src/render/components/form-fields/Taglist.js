@@ -127,23 +127,23 @@ export default function Taglist(props) {
     <Label
       label={ label }
       id={ prefixId(`${id}-search`, formId) } />
-    <div class={ classNames('fjs-taglist', { 'disabled': disabled }) }>
-      {!disabled && loadState === LOAD_STATES.LOADED &&
+    <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled }) }>
+      { loadState === LOAD_STATES.LOADED &&
         <div class="fjs-taglist-tags">
           {
             values.map((v) => {
               return (
-                <div class="fjs-taglist-tag" onMouseDown={ (e) => e.preventDefault() }>
+                <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled }) } onMouseDown={ (e) => e.preventDefault() }>
                   <span class="fjs-taglist-tag-label">
                     {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
                   </span>
-                  <button
+                  { !disabled && <button
                     type="button"
                     title="Remove tag"
                     class="fjs-taglist-tag-remove"
                     onClick={ (event) => onTagRemoveClick(event, v) }>
                     <CloseIcon />
-                  </button>
+                  </button> }
                 </div>
               );
             })
@@ -158,7 +158,7 @@ export default function Taglist(props) {
         onChange={ onFilterChange }
         type="text"
         value={ filter }
-        placeholder={ 'Search' }
+        placeholder={ disabled ? '' : 'Search' }
         autoComplete="off"
         onKeyDown={ (e) => onInputKeyDown(e) }
         onMouseDown={ () => setIsEscapeClose(false) }
