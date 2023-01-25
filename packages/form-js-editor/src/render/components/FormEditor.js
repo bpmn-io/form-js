@@ -300,9 +300,7 @@ export default function FormEditor(props) {
     getService(type, strict = true) {
 
       // TODO(philippfromme): clean up
-      if (type === 'formFieldRegistry') {
-        return new Map();
-      } else if (type === 'form') {
+      if (type === 'form') {
         return {
           _getState() {
             return {
