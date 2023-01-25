@@ -126,6 +126,10 @@
   pointer-events: none;
 }
 
+.fjs-editor-container .fjs-drag-container {
+  user-select: none;
+}
+
 /**
  * Context Pad
  */
