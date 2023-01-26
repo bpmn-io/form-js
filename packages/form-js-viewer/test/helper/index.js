@@ -27,7 +27,8 @@ const DEFAULT_AXE_RULES = [
   'best-practice',
   'wcag2a',
   'wcag2aa',
-  'cat.semantics'
+  'cat.semantics',
+  'cat.forms'
 ];
 
 /**

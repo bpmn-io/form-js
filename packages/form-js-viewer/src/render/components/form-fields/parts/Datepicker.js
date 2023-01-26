@@ -176,7 +176,7 @@ export default function Datepicker(props) {
           class={ 'fjs-input' }
           disabled={ disabled }
           placeholder="mm/dd/yyyy"
-          autoComplete="false"
+          autoComplete="off"
           onFocus={ onInputFocus }
           onKeyDown={ onInputKeyDown }
           onMouseDown={ (e) => !flatpickrInstance.isOpen && flatpickrInstance.open() }
