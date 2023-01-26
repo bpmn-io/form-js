@@ -6,6 +6,9 @@ import { insertCSS } from './helper';
 import formCSS from '../dist/assets/form-js.css';
 
 // @ts-ignore-next-line
+import flatpickrCSS from '@bpmn-io/form-js-viewer/dist/assets/flatpickr/light.css';
+
+// @ts-ignore-next-line
 import testCSS from './test.css';
 
 export function isSingleStart(topic) {
@@ -16,6 +19,7 @@ export function isSingleStart(topic) {
 
 function insertStyles() {
   insertCSS('form-js.css', formCSS);
+  insertCSS('flatpickr.css', flatpickrCSS);
   insertCSS('test.css', testCSS);
 }
 
