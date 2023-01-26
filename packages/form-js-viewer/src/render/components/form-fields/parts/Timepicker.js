@@ -150,7 +150,7 @@ export default function Timepicker(props) {
           value={ rawValue }
           disabled={ disabled }
           placeholder={ use24h ? 'hh:mm' : 'hh:mm ?m' }
-          autoComplete="false"
+          autoComplete="off"
           onFocus={ () => useDropdown && setDropdownIsOpen(true) }
           onClick={ () => useDropdown && setDropdownIsOpen(true) }
 
