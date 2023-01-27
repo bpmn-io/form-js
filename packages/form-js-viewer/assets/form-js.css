@@ -48,6 +48,20 @@
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
+  --font-size-base: 14px;
+  --font-size-input: 14px;
+  --font-size-label: 12px;
+
+  --line-height-base: 20px;
+  --line-height-input: 18px;
+  --line-height-label: 16px;
+
+  --letter-spacing-base: .16px;
+  --letter-spacing-input: .16px;
+  --letter-spacing-label: .32px;
+
+  --form-field-height: 36px;
+
   --border-definition: 1px solid var(--color-borders);
   --border-definition-adornment: 1px solid var(--color-borders-adornment);
   --outline-definition: 1px solid var(--color-borders);
@@ -88,8 +102,9 @@
  */
 .fjs-container .fjs-form {
   font-family: var(--font-family);
-  font-size: 14px;
-  line-height: 1.3;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  letter-spacing: var(--letter-spacing-base);
   font-weight: 400;
   color: var(--color-text);
   background-color: var(--color-background);
@@ -118,20 +133,31 @@
 }
 
 .fjs-container .fjs-input,
+.fjs-container .fjs-taglist-input,
 .fjs-container .fjs-textarea,
 .fjs-container .fjs-select {
   border-color: var(--color-borders);
   background-color: var(--color-background);
   font-family: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.fjs-container .fjs-button {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
 }
 
 .fjs-container .fjs-input::placeholder,
+.fjs-container .fjs-taglist-input::placeholder,
 .fjs-container .fjs-textarea::placeholder,
 .fjs-container .fjs-select > option:disabled,
 .fjs-container .fjs-select [disabled] {
-  font-style: italic;
-  letter-spacing: 0.25px;
   color: var(--color-text-lightest);
+  font-size: var(--font-size-input);
+  line-height: var(--line-height-input);
+  letter-spacing: var(--letter-spacing-input);
 }
 
 .fjs-container .fjs-form-field-label {
@@ -140,17 +166,37 @@
 }
 
 .fjs-container .fjs-incollapsible-label {
-  min-height: 18.2px;
-}
-
-.fjs-container .fjs-form-field-description {
-  display: block;
-  color: var(--color-text-light);
+  min-height: var(--line-height-label);
 }
 
 .fjs-container .fjs-form-field-label,
+.fjs-container .fjs-form-field-description,
+.fjs-container .fjs-form-field-error {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--letter-spacing-label);
+}
+
+.fjs-container .fjs-form-field-label {
+  color: var(--color-text-light);
+}
+
 .fjs-container .fjs-form-field-description {
-  margin: 4px 0;
+  color: var(--color-text-lighter);
+}
+
+.fjs-container .fjs-form-field-checkbox .fjs-form-field-label,
+.fjs-container .fjs-form-field-checklist .fjs-form-field-label:not(:first-child),
+.fjs-container .fjs-form-field-radio .fjs-form-field-label:not(:first-child) {
+  font-size: var(--font-size-input);
+  line-height: var(--line-height-input);
+  letter-spacing: var(--letter-spacing-input);
+  color: var(--color-text);
+}
+
+.fjs-container .fjs-form-field-checklist .fjs-form-field-label:first-child,
+.fjs-container .fjs-form-field-radio .fjs-form-field-label:first-child {
+  margin-bottom: 4px;
 }
 
 .fjs-container .fjs-form-field.required label::after,
@@ -167,6 +213,9 @@
 .fjs-container .fjs-textarea,
 .fjs-container .fjs-select {
   background-color: var(--color-background);
+  font-size: var(--font-size-input);
+  line-height: var(--line-height-input);
+  letter-spacing: var(--letter-spacing-input);
 }
 
 .fjs-container .fjs-input-adornment {
@@ -192,14 +241,6 @@
   color: var(--color-background-adornment);
 }
 
-.fjs-container .fjs-input::placeholder,
-.fjs-container .fjs-textarea::placeholder,
-.fjs-container .fjs-select > option:disabled,
-.fjs-container .fjs-select [disabled] {
-  font-style: italic;
-  letter-spacing: 0.25px;
-  color: var(--color-text-lightest);
-}
 
 .fjs-container .fjs-input[type='text'],
 .fjs-container .fjs-input[type='email'],
@@ -216,6 +257,19 @@
   border: var(--border-definition);
   border-radius: 3px;
 }
+
+.fjs-container .fjs-input-group .fjs-input[type='text'],
+.fjs-container .fjs-input-group .fjs-input[type='email'],
+.fjs-container .fjs-input-group .fjs-input[type='tel'],
+.fjs-container .fjs-input-group .fjs-input[type='number'],
+.fjs-container .fjs-select {
+  height: var(--form-field-height);
+}
+
+.fjs-container .fjs-taglist {
+  min-height: var(--form-field-height);
+}
+
 
 .fjs-container .fjs-datepicker,
 .fjs-container .fjs-timepicker,
@@ -234,9 +288,20 @@
 .fjs-container .fjs-input-group {
   display: flex;
   width: 100%;
+  height: var(--form-field-height);
   margin: 4px 0;
   border: var(--border-definition);
   border-radius: 3px;
+}
+
+
+.fjs-container .fjs-input-group .fjs-input[type='text'],
+.fjs-container .fjs-input-group .fjs-input[type='email'],
+.fjs-container .fjs-input-group .fjs-input[type='tel'],
+.fjs-container .fjs-input-group .fjs-input[type='number'],
+.fjs-container .fjs-input-group .fjs-taglist,
+.fjs-container .fjs-input-group .fjs-select {
+  height: unset;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-input,
@@ -287,7 +352,6 @@
   resize: none;
   overflow: hidden;
   height: 75px;
-  font-size: 14px;
 }
 
 .fjs-container .fjs-number-arrow-container {
@@ -311,6 +375,7 @@
   background-color: var(--color-grey-225-10-95);
   font-weight: bold;
   font-size: 10px;
+  line-height: 15px;
 }
 
 .fjs-container .fjs-number-arrow-container button:hover {
@@ -478,8 +543,8 @@
   display: flex;
   overflow: hidden;
   user-select: none;
-  border-radius: 2px;
   background-color: var(--color-grey-225-10-90);
+  border-radius: 2px;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag.fjs-disabled { 
@@ -502,8 +567,8 @@
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove {
   overflow: clip;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   text-align: center;
   line-height: 28px;
   background-color: var(--color-grey-225-10-80);
@@ -535,6 +600,7 @@
   background-color: transparent;
   min-width: 100px;
   height: 22px;
+  margin: 1px 0;
   flex-grow: 1;
 }
 
