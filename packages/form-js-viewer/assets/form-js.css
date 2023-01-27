@@ -222,6 +222,7 @@
   border-style: solid;
   border-color: var(--color-borders-adornment);
   background-color: var(--color-background-adornment);
+  line-height: var(--line-height-input);
   color: var(--color-text-lighter);
   padding: 8px;
   width: auto !important;
@@ -229,6 +230,7 @@
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
 }
 
 .fjs-container .fjs-input-adornment svg {
