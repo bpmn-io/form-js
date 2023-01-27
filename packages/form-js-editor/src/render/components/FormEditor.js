@@ -21,6 +21,10 @@ import dragula from 'dragula';
 
 import { ListDeleteIcon } from '../../features/properties-panel/icons';
 
+import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
+
+import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
+
 import { iconsByType } from './icons';
 
 function ContextPad(props) {
@@ -226,6 +230,15 @@ export default function FormEditor(props) {
         handleDragEvent('drag.cancel', { element, container, source });
       });
 
+      // set custom styling
+      dragulaInstance.on('drag', () => {
+        setCursor('grabbing');
+      });
+
+      dragulaInstance.on('dragend', () => {
+        unsetCursor();
+      });
+
       dragulaInstance.on('drop', (el, target, source, sibling) => {
         dragulaInstance.remove();
 
@@ -386,12 +399,24 @@ function CreatePreview(props) {
 
     const Icon = iconsByType[ fieldType ];
 
+    const { label } = findPaletteEntry(fieldType);
+
     if (fieldType) {
       clone.innerHTML = '';
 
       clone.class = 'gu-mirror';
 
-      render(<Icon />, clone);
+      if (original.classList.contains('fjs-palette-field')) {
+        render(
+          <div class="fjs-palette-field">
+            <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" />
+            <span class="fjs-palette-field-text">{ label }</span>
+          </div>,
+          clone
+        );
+      } else {
+        render(<Icon />, clone);
+      }
     }
   }
 
@@ -417,4 +442,8 @@ function defaultPalette(paletteConfig) {
 
 function defaultPropertiesPanel(propertiesPanelConfig) {
   return !(propertiesPanelConfig && propertiesPanelConfig.parent);
+}
+
+function findPaletteEntry(type) {
+  return PALETTE_ENTRIES.find(entry => entry.type === type);
 }
