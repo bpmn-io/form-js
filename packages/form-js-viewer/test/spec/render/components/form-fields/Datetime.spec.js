@@ -632,7 +632,7 @@ describe('Datetime', function() {
       const timeLabel = dateTimeLabels[1];
 
       expect(dateLabel.offsetHeight).to.equal(timeLabel.offsetHeight);
-      expect(dateLabel.offsetHeight).to.equal(18);
+      expect(dateLabel.offsetHeight).to.equal(16);
     });
 
 
@@ -649,7 +649,7 @@ describe('Datetime', function() {
       const timeLabel = dateTimeLabels[1];
 
       expect(dateLabel.offsetHeight).to.equal(timeLabel.offsetHeight);
-      expect(timeLabel.offsetHeight).to.equal(18);
+      expect(timeLabel.offsetHeight).to.equal(16);
     });
 
 

@@ -76,11 +76,8 @@
 .fjs-editor-container .fjs-element {
   display: flex;
   flex-direction: column;
-  margin: 0 5px;
-}
-
-.fjs-editor-container .fjs-element {
-  margin-top: 4px;
+  margin: 0 4px 5px 4px;
+  padding: 2px 0px;
 }
 
 .fjs-editor-container .fjs-element:first-of-type {
