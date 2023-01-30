@@ -219,6 +219,7 @@
   padding: 10px 15px;
   border-bottom: solid 1px var(--color-palette-header-border);
   background: var(--color-palette-header-background);
+  user-select: none;
 }
 
 .fjs-palette-container .fjs-palette-search-container {
@@ -294,35 +295,30 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--color-palette-group-title);
+  user-select: none;
 }
 
 .fjs-palette-container .fjs-palette-fields {
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  gap: 3%;
 }
 
 .fjs-palette-field {
   height: 68px;
-  margin: 5px 4px;
+  margin: 5px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-size: 11px;
+  user-select: none;
   color: var( --color-palette-field);
   background: var(--color-palette-field-background);
 }
 
 .fjs-palette-container .fjs-palette-field {
   width: 68px;
-}
-
-.fjs-palette-container .fjs-palette-field:nth-of-type(3n) {
-  margin-right: 0;	
-}
-
-.fjs-palette-container .fjs-palette-field:nth-of-type(3n+1) {
-  margin-left: 0;	
 }
 
 .fjs-palette-field .fjs-palette-field-icon {
