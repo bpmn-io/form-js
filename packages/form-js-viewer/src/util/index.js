@@ -1,10 +1,9 @@
-import { isString } from 'min-dash';
-
-import { getExpressionVariableNames, getVariableNames } from './feel';
+import { isExpression, getExpressionVariableNames, getVariableNames } from './feel';
 
 export * from './constants';
 export * from './injector';
 export * from './form';
+export * from './feel';
 
 const EXPRESSION_PROPERTIES = [
   'alt',
@@ -132,11 +131,4 @@ export function getSchemaVariables(schema) {
 
   // remove duplicates
   return Array.from(new Set(variables));
-}
-
-
-// helper ///////////////
-
-function isExpression(value) {
-  return isString(value) && value.startsWith('=');
 }
