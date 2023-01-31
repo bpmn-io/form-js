@@ -173,76 +173,6 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
-  describe('disabled', function() {
-
-    it('should render expression placeholder', function() {
-
-      // given
-      const content = '#text';
-
-      const { container } = createText({
-        data: {
-          content
-        },
-        disabled: true,
-        field: {
-          text: '=foo',
-          type: 'text'
-        },
-        evaluateExpression: () => content
-      });
-
-      // then
-      const formField = container.querySelector('.fjs-form-field');
-      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
-
-      expect(placeholder).to.exist;
-      expect(placeholder.textContent).to.eql('Text view is populated by an expression');
-    });
-
-
-    it('should empty placeholder', function() {
-
-      // given
-      const { container } = createText({
-        disabled: true,
-        field: {
-          text: '',
-          type: 'text'
-        }
-      });
-
-      // then
-      const formField = container.querySelector('.fjs-form-field');
-      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
-
-      expect(placeholder).to.exist;
-      expect(placeholder.textContent).to.eql('Text view is empty');
-    });
-
-
-    it('should disable links', function() {
-
-      // given
-      const { container } = createText({
-        disabled: true,
-        field: {
-          text: '# Text\n* Learn more about [forms](https://bpmn.io).',
-          type: 'text'
-        }
-      });
-
-      // then
-      const formField = container.querySelector('.fjs-form-field');
-      const link = formField.querySelector('a');
-
-      expect(link).to.exist;
-      expect(link.classList.contains('fjs-disabled-link')).to.be.true;
-    });
-
-  });
-
-
   it('#create', function() {
 
     // assume
@@ -336,22 +266,18 @@ const defaultField = {
 
 function createText(options = {}) {
   const {
-    disabled,
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
-    value
+    path = [ defaultField.key ]
   } = options;
 
   return render(WithFormContext(
     <Text
-      disabled={ disabled }
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      path={ path }
-      value={ value } />,
+      path={ path } />,
     options
   ),
   {
