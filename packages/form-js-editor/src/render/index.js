@@ -1,9 +1,8 @@
-import { FormFields } from '@bpmn-io/form-js-viewer';
-
+import EditorFormFields from './EditorFormFields';
 import Renderer from './Renderer';
 
 export default {
   __init__: [ 'formFields', 'renderer' ],
-  formFields: [ 'type', FormFields ],
+  formFields: [ 'type', EditorFormFields ],
   renderer: [ 'type', Renderer ]
 };
