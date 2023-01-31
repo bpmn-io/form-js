@@ -3,6 +3,7 @@ import {
   createFormEditor,
   Form,
   FormEditor,
+  FormPlayground,
   schemaVersion
 } from '@bpmn-io/form-js';
 
@@ -54,4 +55,10 @@ export async function createApp() {
 
   // eslint-disable-next-line
   const detachedFormEditor = new FormEditor();
+
+  // eslint-disable-next-line
+   const detachedPlayground = new FormPlayground({
+    schema: {},
+    data: {}
+  });
 }

@@ -3,6 +3,10 @@
   "version": "0.12.0",
   "description": "A set of form-js integration testing resources",
   "private": true,
+  "scripts": {
+    "test": "run-s test:types",
+    "test:types": "tsc src/application.ts --outDir dist"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bpmn-io/form-js.git",
