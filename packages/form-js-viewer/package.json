@@ -24,7 +24,7 @@
     "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
     "bundle:watch": "rollup -c -w --bundleConfigAsCjs",
     "dev": "npm test -- --auto-watch --no-single-run",
-    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && copyfiles src/*.d.ts dist/types",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && copyfiles --flat src/*.d.ts dist/types",
     "test": "karma start",
     "prepublishOnly": "npm run build"
   },
