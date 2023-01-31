@@ -177,3 +177,5 @@ export async function setEditorValue(editor, value) {
   // Requires 2 ticks to propagate the change to bpmn-js
   await act(() => {});
 }
+
+export { expectNoViolations } from '../../../form-js-viewer/test/helper';

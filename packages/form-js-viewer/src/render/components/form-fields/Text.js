@@ -1,10 +1,6 @@
 import Markup from 'preact-markup';
 
-import { isExpression } from '../../../util/feel';
-
 import { useExpressionValue } from '../../hooks/useExpressionValue';
-
-import { iconsByType } from '../icons';
 
 import {
   formFieldClasses,
@@ -15,14 +11,16 @@ const type = 'text';
 
 
 export default function Text(props) {
-  const { field, disabled } = props;
+  const { field, disableLinks } = props;
 
   const { text = '' } = field;
 
   const textValue = useExpressionValue(text) || '';
 
+  const componentOverrides = disableLinks ? { 'a': DisabledLink } : {};
+
   return <div class={ formFieldClasses(type) }>
-    { renderText(field, textValue, disabled) }
+    <Markup markup={ safeMarkdown(textValue) } components={ componentOverrides } trim={ false } />
   </div>;
 }
 
@@ -35,28 +33,5 @@ Text.create = function(options = {}) {
 
 Text.type = type;
 Text.keyed = false;
-
-
-// helper //////////////
-
-function renderText(field, content, disabled) {
-  const { text } = field;
-
-  const Icon = iconsByType[ 'text' ];
-
-  if (disabled) {
-    if (!text) {
-      return <div class="fjs-form-field-placeholder"><Icon viewBox="0 0 54 54" />Text view is empty</div>;
-    }
-
-    if (isExpression(text)) {
-      return <div class="fjs-form-field-placeholder"><Icon viewBox="0 0 54 54" />Text view is populated by an expression</div>;
-    }
-
-    return <Markup markup={ safeMarkdown(content) } components={ { 'a': DisabledLink } } trim={ false } />;
-  }
-
-  return <Markup markup={ safeMarkdown(content) } trim={ false } />;
-}
 
 function DisabledLink({ href, children }) { return <a class="fjs-disabled-link" href={ href } tabIndex={ -1 }>{ children }</a>; }

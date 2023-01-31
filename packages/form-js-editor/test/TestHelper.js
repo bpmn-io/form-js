@@ -33,4 +33,6 @@ export function insertStyles() {
 
 insertStyles();
 
+export { createFormContainer } from '../../form-js-viewer/test/TestHelper';
+
 export * from './helper';
