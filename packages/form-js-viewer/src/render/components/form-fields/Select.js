@@ -1,5 +1,4 @@
-import { useContext } from 'preact/hooks';
-import useOptionsAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import { useContext, useMemo } from 'preact/hooks';
 
 import { FormContext } from '../../context';
 
@@ -12,6 +11,8 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
+import SearchableSelect from './parts/SearchableSelect';
+import SimpleSelect from './parts/SimpleSelect';
 
 const type = 'select';
 
@@ -20,6 +21,7 @@ export default function Select(props) {
     disabled,
     errors = [],
     field,
+    onChange,
     value
   } = props;
 
@@ -27,65 +29,50 @@ export default function Select(props) {
     description,
     id,
     label,
+    searchable = false,
     validate = {}
   } = field;
 
   const { required } = validate;
 
-  const onChange = ({ target }) => {
-    props.onChange({
-      field,
-      value: target.value === '' ? null : target.value
-    });
-  };
-
-  const {
-    state: loadState,
-    values: options
-  } = useOptionsAsync(field);
-
   const { formId } = useContext(FormContext);
+
+  const selectProps = useMemo(() => ({
+    id,
+    disabled,
+    errors,
+    field,
+    value,
+    onChange
+  }), [ disabled, errors, field, id, value, onChange ]);
 
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <select
-      class="fjs-select"
-      disabled={ disabled }
-      id={ prefixId(id, formId) }
-      onChange={ onChange }
-      value={ value || '' }>
-      <option value=""></option>
-      {
-        loadState == LOAD_STATES.LOADED && options.map((option, index) => {
-          return (
-            <option
-              key={ `${ id }-${ index }` }
-              value={ option.value }>
-              { option.label }
-            </option>
-          );
-        })
-      }
-    </select>
+    { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }
 
-Select.create = function(options = {}) {
+Select.create = (options = {}) => {
 
-  if (options.valuesKey) return options;
+  const defaults = { };
 
-  return {
-    values: [
+  // provide default values if valuesKey isn't set
+  if (!options.valuesKey) {
+    defaults.values = [
       {
         label: 'Value',
         value: 'value'
       }
-    ],
+    ];
+  }
+
+  return {
+    ...defaults,
     ...options
   };
 };
