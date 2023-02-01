@@ -2366,6 +2366,7 @@ describe('properties panel', function() {
 
         });
 
+
         describe('increment', function() {
 
           it('should reject non-numeric values', function() {
@@ -2550,6 +2551,66 @@ describe('properties panel', function() {
             expect(editFieldSpy).to.not.have.been.called;
 
             const error = screen.getByText('Should be greater than zero.');
+            expect(error).to.exist;
+
+          });
+
+        });
+
+
+        describe('decimalDigits', function() {
+
+          it('should reject negative values', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Decimal digits');
+
+            // when
+            fireEvent.input(input, { target: { value: -1 } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be greater than or equal to zero.');
+            expect(error).to.exist;
+
+          });
+
+
+          it('should reject non-integer values', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValues.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Decimal digits');
+
+            // when
+            fireEvent.input(input, { target: { value: 1.5 } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should be an integer.');
             expect(error).to.exist;
 
           });
