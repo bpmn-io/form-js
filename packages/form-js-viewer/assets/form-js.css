@@ -303,6 +303,17 @@
   flex-grow: 1;
 }
 
+.fjs-container .fjs-input-group .fjs-select-display {
+  flex: 1;
+  padding: 8px;
+  user-select: none; 
+}
+
+.fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder,
+.fjs-container .fjs-input-group.disabled .fjs-select-display {
+  color: var(--color-text-lightest);
+}
+
 .fjs-container .fjs-input-group .fjs-input-adornment {
   border-width: 0;
 }
@@ -341,6 +352,11 @@
   resize: none;
   overflow: hidden;
   height: 75px;
+}
+
+.fjs-container .fjs-select-cross,
+.fjs-container .fjs-select-arrow {
+  padding: 6px 10px;
 }
 
 .fjs-container .fjs-number-arrow-container {
@@ -513,6 +529,7 @@
 }
 
 .fjs-container .fjs-taglist-anchor,
+.fjs-container .fjs-select-anchor,
 .fjs-container .fjs-timepicker-anchor {
   position: relative;
 }
