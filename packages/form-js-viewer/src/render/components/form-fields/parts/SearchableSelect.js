@@ -136,7 +136,7 @@ export default function SearchableSelect(props) {
         values={ filteredOptions }
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => { setValue(o); setIsDropdownExpanded(false); } }
-        keyEventsListener={ searchbarRef.current } />}
+        listenerElement={ searchbarRef.current } />}
     </div>
   </>;
 }

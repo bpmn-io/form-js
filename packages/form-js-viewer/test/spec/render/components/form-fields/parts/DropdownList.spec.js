@@ -205,7 +205,7 @@ function createDropdownList(options = {}) {
 
   return render(
     <DropdownList
-      keyEventsListener={ container }
+      listenerElement={ container }
       values={ values }
       getLabel={ getLabel }
       onValueSelected={ onValueSelected }

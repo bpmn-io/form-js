@@ -352,7 +352,6 @@ function createRadio(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
     value
   } = options;
 
@@ -362,7 +361,6 @@ function createRadio(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      path={ path }
       value={ value } />,
     options
   ), {

@@ -5,7 +5,7 @@ import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 import { FormContext } from '../../context';
 import classNames from 'classnames';
 
-import CloseIcon from './icons/Close.svg';
+import XMarkIcon from './icons/XMark.svg';
 
 import DropdownList from './parts/DropdownList';
 import Description from '../Description';
@@ -123,6 +123,8 @@ export default function Taglist(props) {
     }
   };
 
+  const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
+
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
@@ -142,7 +144,8 @@ export default function Taglist(props) {
                     title="Remove tag"
                     class="fjs-taglist-tag-remove"
                     onClick={ (event) => onTagRemoveClick(event, v) }>
-                    <CloseIcon />
+
+                    <XMarkIcon />
                   </button> }
                 </div>
               );
@@ -166,29 +169,34 @@ export default function Taglist(props) {
         onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } } />
     </div>
     <div class="fjs-taglist-anchor">
-      {!disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed && <DropdownList
+      { shouldDisplayDropdown && <DropdownList
         values={ filteredOptions }
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => selectValue(o.value) }
         emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
-        listenerElement={ searchbarRef.current } />}
+        listenerElement={ searchbarRef.current } /> }
     </div>
     <Description description={ description } />
     <Errors errors={ errors } />
   </div>;
 }
 
-Taglist.create = function(options = {}) {
+Taglist.create = (options = {}) => {
 
-  if (options.valuesKey) return options;
+  const defaults = {};
 
-  return {
-    values: [
+  // provide default values if valuesKey isn't set
+  if (!options.valuesKey) {
+    defaults.values = [
       {
         label: 'Value',
         value: 'value'
       }
-    ],
+    ];
+  }
+
+  return {
+    ...defaults,
     ...options
   };
 };

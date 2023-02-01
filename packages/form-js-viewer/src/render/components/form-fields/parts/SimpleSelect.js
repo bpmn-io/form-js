@@ -85,7 +85,7 @@ export default function SimpleSelect(props) {
         getLabel={ (o) => o.label }
         initialFocusIndex={ initialFocusIndex }
         onValueSelected={ (o) => { setValue(o); setIsDropdownExpanded(false); } }
-        keyEventsListener={ selectRef.current } />}
+        listenerElement={ selectRef.current } />}
     </div>
   </>;
 }

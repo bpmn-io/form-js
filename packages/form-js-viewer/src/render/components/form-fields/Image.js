@@ -50,11 +50,9 @@ export default function Image(props) {
   </div>;
 }
 
-Image.create = function(options = {}) {
-  return {
-    ...options
-  };
-};
+Image.create = (options = {}) => ({
+  ...options
+});
 
 Image.type = type;
 Image.keyed = false;

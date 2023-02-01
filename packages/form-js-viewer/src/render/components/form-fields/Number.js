@@ -189,9 +189,19 @@ export default function Numberfield(props) {
           value={ displayValue } />
         <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
-          <button class="fjs-number-arrow-up" type="button" onClick={ () => increment() } tabIndex={ -1 }><AngelUpIcon /></button>
+          <button
+            class="fjs-number-arrow-up"
+            type="button"
+            aria-label="Increment"
+            onClick={ () => increment() }
+            tabIndex={ -1 }><AngelUpIcon /></button>
           <div class="fjs-number-arrow-separator" />
-          <button class="fjs-number-arrow-down" type="button" onClick={ () => decrement() } tabIndex={ -1 }><AngelDownIcon /></button>
+          <button
+            class="fjs-number-arrow-down"
+            type="button"
+            aria-label="Decrement"
+            onClick={ () => decrement() }
+            tabIndex={ -1 }><AngelDownIcon /></button>
         </div>
       </div>
     </InputAdorner>
@@ -200,7 +210,10 @@ export default function Numberfield(props) {
   </div>;
 }
 
-Numberfield.create = (options = {}) => options;
+Numberfield.create = (options = {}) => ({
+  ...options
+});
+
 Numberfield.sanitizeValue = ({ value, formField }) => {
 
   // null state is allowed

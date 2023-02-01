@@ -83,17 +83,22 @@ export default function Checklist(props) {
   </div>;
 }
 
-Checklist.create = function(options = {}) {
+Checklist.create = (options = {}) => {
 
-  if (options.valuesKey) return options;
+  const defaults = {};
 
-  return {
-    values: [
+  // provide default values if valuesKey isn't set
+  if (!options.valuesKey) {
+    defaults.values = [
       {
         label: 'Value',
         value: 'value'
       }
-    ],
+    ];
+  }
+
+  return {
+    ...defaults,
     ...options
   };
 };

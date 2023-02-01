@@ -16,13 +16,10 @@ export default function Button(props) {
   </div>;
 }
 
-Button.create = function(options = {}) {
-
-  return {
-    action: 'submit',
-    ...options
-  };
-};
+Button.create = (options = {}) => ({
+  action: 'submit',
+  ...options
+});
 
 Button.type = type;
 Button.label = 'Button';
