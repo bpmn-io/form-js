@@ -12,7 +12,7 @@ export default function InputAdorner(props) {
     hasErrors
   } = props;
 
-  const onAdornmentClick = () => inputRef?.current?.focus();
+  const onAdornmentClick = () => inputRef && inputRef.current && inputRef.current.focus();
 
   return <div class={ classNames('fjs-input-group', { 'fjs-disabled': disabled }, { 'hasErrors': hasErrors }) } ref={ rootRef }>
     { pre !== null && <span class="fjs-input-adornment border-right border-radius-left" onClick={ onAdornmentClick }> { pre } </span> }

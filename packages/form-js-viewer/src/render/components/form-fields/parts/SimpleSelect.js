@@ -37,10 +37,10 @@ export default function SimpleSelect(props) {
   // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
   const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]: options[x] }))), [ options ]);
 
-  const valueLabel = useMemo(() => value && valueToOptionMap[ value ]?.label || '', [ value, valueToOptionMap ]);
+  const valueLabel = useMemo(() => value && valueToOptionMap[value] && valueToOptionMap[value].label || '', [ value, valueToOptionMap ]);
 
   const setValue = useCallback((option) => {
-    props.onChange({ value: option?.value || null, field });
+    props.onChange({ value: option && option.value || null, field });
   }, [ field, props ]);
 
   const displayState = useMemo(() => {
