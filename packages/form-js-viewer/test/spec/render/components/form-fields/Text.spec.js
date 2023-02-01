@@ -268,16 +268,14 @@ function createText(options = {}) {
   const {
     errors,
     field = defaultField,
-    onChange,
-    path = [ defaultField.key ]
+    onChange
   } = options;
 
   return render(WithFormContext(
     <Text
       errors={ errors }
       field={ field }
-      onChange={ onChange }
-      path={ path } />,
+      onChange={ onChange } />,
     options
   ),
   {

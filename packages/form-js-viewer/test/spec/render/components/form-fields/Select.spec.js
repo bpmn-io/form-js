@@ -209,7 +209,7 @@ describe('Select', function() {
         // when
         fireEvent.focus(select);
 
-        const germanSelector = select.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+        const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
         fireEvent.mouseDown(germanSelector);
 
         // then
@@ -255,7 +255,7 @@ describe('Select', function() {
 
         const { container } = createSelect({
           onChange: onChangeSpy,
-          value: 'dynamicValue1',
+          value: 'dynamicValue2',
           field: dynamicField,
           initialData: dynamicFieldInitialData
         });
@@ -265,13 +265,14 @@ describe('Select', function() {
         // when
         fireEvent.focus(select);
 
-        const germanSelector = select.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+        const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+
         fireEvent.mouseDown(germanSelector);
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: dynamicField,
-          value: 'german'
+          value: 'dynamicValue1'
         });
       });
 
@@ -509,7 +510,7 @@ describe('Select', function() {
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+          field: { ...defaultField, searchable: true },
           value: 'german'
         });
       });
@@ -557,7 +558,7 @@ describe('Select', function() {
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+          field: { ...defaultField, searchable: true },
           value: null
         });
 

@@ -87,11 +87,9 @@ export default function Textarea(props) {
   </div>;
 }
 
-Textarea.create = function(options = {}) {
-  return {
-    ...options
-  };
-};
+Textarea.create = (options = {}) => ({
+  ...options
+});
 
 Textarea.type = type;
 Textarea.label = 'Text area';

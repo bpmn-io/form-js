@@ -20,8 +20,8 @@ const defaultData = {
 
 const defaultField = {
   key: 'creditor',
-  label: 'Creditor',
   _path: [ 'creditor' ],
+  label: 'Creditor',
   type: 'textfield',
   conditional: {
     hide: '=someCondition'

@@ -75,8 +75,7 @@ describe('Textarea', function() {
       disabled: false,
       errors: [],
       field: defaultField,
-      onChange: () => {},
-      path: [ defaultField.key ]
+      onChange: () => {}
     };
 
     const options = { container: container.querySelector('.fjs-form') };
@@ -263,7 +262,6 @@ function createTextarea(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
     value
   } = options;
 
@@ -273,7 +271,6 @@ function createTextarea(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      path={ path }
       value={ value } />
   ), {
     container: options.container || container.querySelector('.fjs-form')

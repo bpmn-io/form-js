@@ -32,12 +32,10 @@ export default function Default(props) {
   </Children>;
 }
 
-Default.create = function(options = {}) {
-  return {
-    components: [],
-    ...options
-  };
-};
+Default.create = (options = {}) => ({
+  components: [],
+  ...options
+});
 
 Default.type = 'default';
 Default.keyed = false;

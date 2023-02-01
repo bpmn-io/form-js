@@ -67,11 +67,9 @@ export default function Textfield(props) {
   </div>;
 }
 
-Textfield.create = function(options = {}) {
-  return {
-    ...options
-  };
-};
+Textfield.create = (options = {}) => ({
+  ...options
+});
 
 Textfield.type = type;
 Textfield.label = 'Text field';

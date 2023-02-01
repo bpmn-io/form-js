@@ -196,7 +196,6 @@ function createCheckbox(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
     value
   } = options;
 
@@ -206,7 +205,6 @@ function createCheckbox(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      path={ path }
       value={ value } />,
     {
       container: options.container || container.querySelector('.fjs-form')

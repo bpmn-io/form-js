@@ -8,7 +8,7 @@ const NOOP = () => {};
 export default function DropdownList(props) {
 
   const {
-    keyEventsListener = window,
+    listenerElement = window,
     values = [],
     getLabel = DEFAULT_LABEL_GETTER,
     onValueSelected = NOOP,
@@ -45,20 +45,20 @@ export default function DropdownList(props) {
       changeFocusedValueIndex(-1);
       setMouseControl(false);
     }
-  }, keyEventsListener);
+  }, listenerElement);
 
   useKeyDownAction('ArrowDown', () => {
     if (values.length) {
       changeFocusedValueIndex(1);
       setMouseControl(false);
     }
-  }, keyEventsListener);
+  }, listenerElement);
 
   useKeyDownAction('Enter', () => {
     if (focusedItem) {
       onValueSelected(focusedItem);
     }
-  }, keyEventsListener);
+  }, listenerElement);
 
   useEffect(() => {
     const individualEntries = dropdownContainer.current.children;

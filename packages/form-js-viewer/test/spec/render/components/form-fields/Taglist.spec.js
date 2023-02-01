@@ -780,7 +780,6 @@ function createTaglist(options = {}) {
     errors,
     field = defaultField,
     onChange,
-    path = [ defaultField.key ],
     value
   } = options;
 
@@ -790,7 +789,6 @@ function createTaglist(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      path={ path }
       value={ value } />,
     options
   ), {

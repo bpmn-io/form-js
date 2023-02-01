@@ -34,6 +34,7 @@
   --color-background: var(--color-white);
   --color-background-disabled: var(--color-grey-225-10-95);
   --color-background-adornment: var(--color-grey-225-10-95);
+  --color-icon-base: var(--color-black);
   --color-text: var(--color-grey-225-10-15);
   --color-text-light: var(--color-grey-225-10-35);
   --color-text-lighter: var(--color-grey-225-10-45);
@@ -267,7 +268,7 @@
 }
 
 .fjs-container .fjs-form-field-datetime .fjs-input-adornment svg {
-  color: var(--color-black);
+  color: var(--color-icon-base);
 }
 
 .fjs-container .fjs-datetime-separator {
@@ -534,6 +535,12 @@
   position: relative;
 }
 
+.fjs-container .fjs-taglist-anchor .fjs-dropdownlist,
+.fjs-container .fjs-select-anchor .fjs-dropdownlist {
+  position: absolute;
+  top: -5px;
+}
+
 .fjs-container .fjs-taglist {
   display: flex;
   flex-wrap: wrap;
@@ -580,11 +587,12 @@
   background-color: var(--color-grey-225-10-80);
   border: none;
   padding: 1px 0;
-  color: var(--color-black);
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove svg {
+.fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove > svg {
+  margin-bottom: 4px;
   opacity: 0.6;
+  color: var(--color-icon-base);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover,
