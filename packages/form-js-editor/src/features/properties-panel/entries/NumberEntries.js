@@ -59,11 +59,15 @@ function NumberDecimalDigits(props) {
     debounce,
     label: 'Decimal digits',
     element: field,
-    min: 0,
-    step: 1,
+    step: 'any',
     getValue,
     id,
-    setValue
+    setValue,
+    validate: (value) => {
+      if (value === undefined || value === null) return;
+      if (value < 0) return 'Should be greater than or equal to zero.';
+      if (!Number.isInteger(value)) return 'Should be an integer.';
+    }
   });
 
 }
