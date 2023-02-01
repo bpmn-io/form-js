@@ -53,8 +53,8 @@ export function parseInputTime(stringTime) {
   if (is12h) {
     const isPM = workingString.includes('pm');
     const digits = workingString.match(/\d+/g);
-    const displayHour = parseInt(digits?.[0]);
-    const minute = parseInt(digits?.[1]) || 0;
+    const displayHour = parseInt(digits && digits[0]);
+    const minute = parseInt(digits && digits[1]) || 0;
 
     const isValidDisplayHour = isNumber(displayHour) && (displayHour >= 1) && (displayHour <= 12);
     const isValidMinute = (minute >= 0) && (minute <= 59);
@@ -67,8 +67,8 @@ export function parseInputTime(stringTime) {
   }
   else {
     const digits = workingString.match(/\d+/g);
-    const hour = parseInt(digits?.[0]);
-    const minute = parseInt(digits?.[1]);
+    const hour = parseInt(digits && digits[0]);
+    const minute = parseInt(digits && digits[1]);
 
     const isValidHour = isNumber(hour) && (hour >= 0) && (hour <= 23);
     const isValidMinute = isNumber(minute) && (minute >= 0) && (minute <= 59);

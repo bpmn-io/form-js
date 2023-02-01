@@ -1,4 +1,7 @@
 {
+  "parserOptions": { 
+    "ecmaVersion": 2019 
+  },
   "extends": [
     "plugin:bpmn-io/browser",
     "plugin:bpmn-io/jsx",
