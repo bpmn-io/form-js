@@ -6,6 +6,26 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.12.0
+
+### General
+
+* `FEAT`: normalized font and form field styling ([#506](https://github.com/bpmn-io/form-js/issues/506))
+* `FEAT`: support searchable selects ([#381](https://github.com/bpmn-io/form-js/issues/381))
+* `FIX`: only export `schemaVersion` once ([`a93b664d`](https://github.com/bpmn-io/form-js/commit/a93b664d62c17439144fe6b092f8c91598b4f571))
+* `FIX`: prevent `date` values prior to 1900 ([#534](https://github.com/bpmn-io/form-js/pull/534)) 
+* `CHORE`: change labels of `serializeToString`, `pattern` and `validationType` properties ([#454](https://github.com/bpmn-io/form-js/issues/454))
+* `CHORE`: update to `schemaVersion@7` ([`293f918d`](https://github.com/bpmn-io/form-js/commit/293f918d6910b8434be5e79184ffd154989d4c55))
+
+### Editor
+
+* `FEAT`: emit `drag.*` events ([#462](https://github.com/bpmn-io/form-js/issues/462))
+* `FEAT`: disable text links ([#439](https://github.com/bpmn-io/form-js/issues/439))
+* `FEAT`: provide editor specific `text` component ([#521](https://github.com/bpmn-io/form-js/pull/521))
+* `FEAT`: implement scalable palette component ([#503](https://github.com/bpmn-io/form-js/issues/503))
+* `FEAT`: validate decimal properties ([#531](https://github.com/bpmn-io/form-js/pull/531))
+
+
 ## 0.11.1
 
 ### Editor
