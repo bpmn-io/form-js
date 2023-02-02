@@ -281,13 +281,35 @@ describe('Datetime', function() {
         const dateInput = container.querySelector('input[type="text"]');
         fireEvent.focus(dateInput);
 
-        const nextMonthButton = container.querySelector('.flatpickr-prev-month');
+        const previousMonthButton = container.querySelector('.flatpickr-prev-month');
 
         // then
         expect(dateInput.value).to.be.empty;
-        expect([ ...nextMonthButton.classList ]).to.include('flatpickr-disabled');
+        expect([ ...previousMonthButton.classList ]).to.include('flatpickr-disabled');
       });
 
+    });
+
+
+    it('should disable dates prior to 1900', function() {
+
+      // given
+      const { container } = createDatetime({
+        value: '1900-01-01',
+        field: {
+          ...dateField,
+          disallowPassedDates: false
+        }
+      });
+
+      // when
+      const dateInput = container.querySelector('input[type="text"]');
+      fireEvent.focus(dateInput);
+
+      const previousMonthButton = container.querySelector('.flatpickr-prev-month');
+
+      // then
+      expect([ ...previousMonthButton.classList ]).to.include('flatpickr-disabled');
     });
 
   });

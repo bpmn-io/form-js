@@ -55,12 +55,11 @@ export default function Datepicker(props) {
       dateFormat: 'm/d/Y',
       static: true,
       clickOpens: false,
+
+      // TODO: support dates prior to 1900 (https://github.com/bpmn-io/form-js/issues/533)
+      minDate: disallowPassedDates ? 'today' : '01/01/1900',
       errorHandler: () => { /* do nothing, we expect the values to sometimes be erronous and we don't want warnings polluting the console */ }
     };
-
-    if (disallowPassedDates) {
-      config = { ...config, minDate: 'today' };
-    }
 
     const instance = flatpickr(dateInputRef.current, config);
 
