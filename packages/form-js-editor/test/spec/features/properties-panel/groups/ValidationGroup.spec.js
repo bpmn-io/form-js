@@ -154,6 +154,31 @@ describe('ValidationGroup', function() {
       expect(field.validate.validationType).to.equal('phone');
     });
 
+
+    it('should write - empty', function() {
+
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'email'
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const requiredSelect = findSelect('validationType', container);
+
+      // when
+      fireEvent.input(requiredSelect, { target: { value: '' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'validate' ], {});
+      expect(field.validate.validationType).to.not.exist;
+    });
+
   });
 
 

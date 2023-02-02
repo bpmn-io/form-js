@@ -19,7 +19,7 @@ import { INPUTS } from '../Util';
 
 const VALIDATION_TYPE_OPTIONS = {
   custom: {
-    value: undefined,
+    value: '',
     label: 'Custom',
   },
   email: {
@@ -35,7 +35,7 @@ const VALIDATION_TYPE_OPTIONS = {
 export default function ValidationGroup(field, editField) {
   const { type } = field;
   const validate = get(field, [ 'validate' ], {});
-  const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate && validate.validationType);
+  const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate.validationType);
 
   if (!(INPUTS.includes(type) && type !== 'checkbox' && type !== 'checklist' && type !== 'taglist')) {
     return null;
