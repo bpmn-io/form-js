@@ -48,7 +48,7 @@ export const PropertiesPanelHeaderProvider = {
       type
     } = field;
 
-    const Icon = iconsByType[type];
+    const Icon = iconsByType(type);
 
     if (Icon) {
       return () => <Icon width="36" height="36" viewBox="0 0 54 54" />;

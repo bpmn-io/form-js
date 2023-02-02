@@ -110,7 +110,7 @@ export default function Palette(props) {
             <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
               {
                 entries.map(({ label, type }) => {
-                  const Icon = iconsByType[type];
+                  const Icon = iconsByType(type);
 
                   return (
                     <div

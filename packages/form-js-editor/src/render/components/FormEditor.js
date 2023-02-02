@@ -397,7 +397,7 @@ function CreatePreview(props) {
 
     const fieldType = clone.dataset.fieldType;
 
-    const Icon = iconsByType[ fieldType ];
+    const Icon = iconsByType(fieldType);
 
     const { label } = findPaletteEntry(fieldType);
 
