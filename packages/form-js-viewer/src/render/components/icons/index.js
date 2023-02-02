@@ -13,19 +13,21 @@ import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
 import ImageIcon from './Image.svg';
 
-export const iconsByType = {
-  button: ButtonIcon,
-  checkbox: CheckboxIcon,
-  checklist: ChecklistIcon,
-  columns: ColumnsIcon,
-  datetime: DatetimeIcon,
-  image: ImageIcon,
-  number: NumberIcon,
-  radio: RadioIcon,
-  select: SelectIcon,
-  taglist: TaglistIcon,
-  text: TextIcon,
-  textfield: TextfieldIcon,
-  textarea: TextareaIcon,
-  default: FormIcon
+export const iconsByType = (type) => {
+  return {
+    button: ButtonIcon,
+    checkbox: CheckboxIcon,
+    checklist: ChecklistIcon,
+    columns: ColumnsIcon,
+    datetime: DatetimeIcon,
+    image: ImageIcon,
+    number: NumberIcon,
+    radio: RadioIcon,
+    select: SelectIcon,
+    taglist: TaglistIcon,
+    text: TextIcon,
+    textfield: TextfieldIcon,
+    textarea: TextareaIcon,
+    default: FormIcon
+  }[type];
 };

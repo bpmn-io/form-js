@@ -7,7 +7,7 @@ export default function EditorText(props) {
 
   const { type, text = '' } = props.field;
 
-  const Icon = iconsByType['text'];
+  const Icon = iconsByType('text');
 
   if (!text) {
     return <div class={ editorFormFieldClasses(type) }>
