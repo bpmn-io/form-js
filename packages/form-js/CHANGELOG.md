@@ -6,6 +6,21 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.12.1
+
+### General
+
+* `FIX`: correct type generation ([#529](https://github.com/bpmn-io/form-js/issues/529))
+
+### Viewer
+
+* `FIX`: use ellipsis for text adorners ([#538](https://github.com/bpmn-io/form-js/pull/538))
+
+### Editor
+
+* `FIX`: use defined `validationType` for custom `validate` ([#537](https://github.com/bpmn-io/form-js/pull/537))
+
+
 ## 0.12.0
 
 ### General
