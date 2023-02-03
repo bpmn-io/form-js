@@ -240,6 +240,27 @@ describe('Textfield', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations - appearance', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTextfield({
+        value: 'John Doe Company',
+        field: {
+          ...defaultField,
+          appearance: {
+            prefixAdorner: 'foo',
+            suffixAdorner: 'bar'
+          }
+        }
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });
@@ -256,6 +277,7 @@ const defaultField = {
 
 function createTextfield(options = {}) {
   const {
+    appearance = {},
     disabled,
     errors,
     field = defaultField,
@@ -265,6 +287,7 @@ function createTextfield(options = {}) {
 
   return render(WithFormContext(
     <Textfield
+      appearance={ appearance }
       disabled={ disabled }
       errors={ errors }
       field={ field }
