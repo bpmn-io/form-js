@@ -215,22 +215,21 @@
   padding: 8px;
   width: auto !important;
   min-width: 34px;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: flex;
-}
-
-.fjs-container .fjs-input-adornment svg {
-  display: block;
-  margin: auto;
-  width: 15px;
+  overflow: hidden;
 }
 
 .fjs-container .fjs-input-adornment span {
-  color: var(--color-background-adornment);
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+.fjs-container .fjs-input-adornment svg {
+  margin: auto;
+}
 
 .fjs-container .fjs-input[type='text'],
 .fjs-container .fjs-input[type='email'],
