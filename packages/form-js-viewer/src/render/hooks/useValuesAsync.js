@@ -35,14 +35,15 @@ export default function(field) {
 
     let values = [];
 
+    // dynamic values
     if (valuesKey !== undefined) {
-
       const keyedValues = (initialData || {})[ valuesKey ];
 
       if (keyedValues && Array.isArray(keyedValues)) {
         values = keyedValues;
       }
     }
+    // static values
     else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
     }
@@ -50,6 +51,24 @@ export default function(field) {
       setValuesGetter(getErrorState('No values source defined in the form definition'));
       return;
     }
+
+    // map values in case they are provided as primitives
+    values = values.map(option => {
+      if (['string', 'number'].includes(typeof option)) {
+        return {
+          value: option,
+          label: option
+        };
+      }
+
+      if (!option?.value) return null;
+
+      if (!option?.label) option.label = option.value;
+
+      return option;
+    })
+    // remove option from list if not valid
+    .filter(value => !!value);
 
     setValuesGetter(buildLoadedState(values));
 

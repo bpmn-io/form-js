@@ -19,6 +19,22 @@ export function sanitizeDateTimePickerValue(options) {
   return value;
 }
 
+/**
+ * Retrieves the actual value optimistically of a provided select option/value.
+ * If the provided option is a supported primitive, it returns it directly,
+ * otherwise it looks for the value inside it.
+ * (For future iterations, it might be better to wrap the "value"/"option" object 
+ * into a dedicated class/functional, to make it easier to retrieve label and value
+ * or instantiate them easily and safely from the form context)
+ */
+function _getValueOptimistically(potentialValue) {
+  if (['string', 'number'].includes(typeof potentialValue)) {
+    return potentialValue;
+  }
+
+  return potentialValue?.value || null;
+}
+
 export function sanitizeSingleSelectValue(options) {
   const {
     formField,
@@ -32,7 +48,7 @@ export function sanitizeSingleSelectValue(options) {
   } = formField;
 
   try {
-    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => v.value) || [];
+    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => _getValueOptimistically(v)) || [];
     return validValues.includes(value) ? value : null;
   } catch (error) {
 
@@ -55,7 +71,7 @@ export function sanitizeMultiSelectValue(options) {
   } = formField;
 
   try {
-    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => v.value) || [];
+    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => _getValueOptimistically(v)) || [];
     return value.filter(v => validValues.includes(v));
   } catch (error) {
 
