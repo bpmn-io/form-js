@@ -386,7 +386,7 @@ describe('Taglist', function() {
           initialData: {
             dynamicValues: [
               {
-                value: 'dynamicValue1'
+                value: { foo: 'bar' }
               },
               {
                 label: 'Dynamic Value 2',

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { normalizeValuesData } from '../components/util/valuesUtil';
 import useService from './useService';
 
 /**
@@ -35,21 +36,26 @@ export default function(field) {
 
     let values = [];
 
+    // dynamic values
     if (valuesKey !== undefined) {
-
       const keyedValues = (initialData || {})[ valuesKey ];
 
       if (keyedValues && Array.isArray(keyedValues)) {
         values = keyedValues;
       }
     }
+
+    // static values
     else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
     }
     else {
-      setValuesGetter(getErrorState('No values source defined in the form definition'));
+      setValuesGetter(buildErrorState('No values source defined in the form definition'));
       return;
     }
+
+    // normalize data to support primitives and partially defined objects
+    values = normalizeValuesData(values);
 
     setValuesGetter(buildLoadedState(values));
 
@@ -58,6 +64,6 @@ export default function(field) {
   return valuesGetter;
 }
 
-const getErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
+const buildErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
 
 const buildLoadedState = (values) => ({ values, error: undefined, state: LOAD_STATES.LOADED });
