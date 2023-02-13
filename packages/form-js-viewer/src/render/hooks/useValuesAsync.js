@@ -57,13 +57,13 @@ export default function(field) {
       if (['string', 'number'].includes(typeof option)) {
         return {
           value: option,
-          label: option
+          label: `${option}`
         };
       }
 
       if (!option?.value) return null;
 
-      if (!option?.label) option.label = option.value;
+      if (!option?.label) option.label = `${option.value}`;
 
       return option;
     })
