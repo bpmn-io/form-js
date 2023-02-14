@@ -116,7 +116,7 @@ export default function Palette(props) {
                     <div
                       class="fjs-palette-field fjs-drag-copy fjs-no-drop"
                       data-field-type={ type }
-                      title={ `Create a ${label} element` }
+                      title={ `Create ${getIndefiniteArticle(type)} ${label} element` }
                     >
                       {
                         Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
@@ -158,4 +158,14 @@ function groupEntries(entries) {
   });
 
   return groups.filter(g => g.entries.length);
+}
+
+function getIndefiniteArticle(type) {
+  if ([
+    'image'
+  ].includes(type)) {
+    return 'an';
+  }
+
+  return 'a';
 }
