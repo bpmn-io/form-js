@@ -168,6 +168,7 @@
  * Context Pad
  */
 .fjs-editor-container .fjs-context-pad {
+  z-index: 2;
   position: absolute;
   top: 3px;
   right: 3px;

@@ -266,6 +266,11 @@
   width: 100%;
 }
 
+.fjs-container .fjs-timepicker-anchor {
+  height: 100%;
+  display: flex;
+}
+
 .fjs-container .fjs-form-field-datetime .fjs-input-adornment svg {
   color: var(--color-icon-base);
 }
@@ -346,6 +351,8 @@
 
 .fjs-container .flatpickr-wrapper {
   width: 100%;
+  height: 100%;
+  display: flex;
 }
 
 .fjs-container .fjs-textarea {
