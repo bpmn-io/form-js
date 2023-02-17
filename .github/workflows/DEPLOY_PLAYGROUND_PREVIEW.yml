@@ -6,7 +6,7 @@ jobs:
   deploy-preview:
     # check whether the labeled event was deploy-preview || check whether on new commit of PR the label deploy-preview exists
     if: github.event.label.name == 'deploy-preview' || contains( github.event.pull_request.labels.*.name, 'deploy-preview')
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }} # head_ref = branch on PR, ref_name if master / stable/**
       PREVIEW_BRANCH_NAME: demo-${{ github.head_ref || github.ref_name }}
