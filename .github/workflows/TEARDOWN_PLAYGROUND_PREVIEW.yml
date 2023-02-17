@@ -26,5 +26,5 @@ jobs:
         with:
           step: deactivate-env
           env: ${{ env.PREVIEW_BRANCH_NAME }}
-          token: "${{ secrets.ADD_TO_HTO_PROJECT_PAT }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ env.BRANCH_NAME }}
