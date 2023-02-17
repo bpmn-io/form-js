@@ -27,7 +27,7 @@ jobs:
         with:
           step: start
           env: ${{ env.PREVIEW_BRANCH_NAME }}
-          token: "${{ secrets.ADD_TO_HTO_PROJECT_PAT }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ env.BRANCH_NAME }}
       - name: Trigger Netlify branch build
         run: | 
@@ -41,7 +41,7 @@ jobs:
         uses: bobheadxi/deployments@88ce5600046c82542f8246ac287d0a53c461bca3
         with:
           step: finish
-          token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           env: ${{ env.PREVIEW_BRANCH_NAME }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
