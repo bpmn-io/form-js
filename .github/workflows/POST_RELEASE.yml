@@ -1,4 +1,4 @@
-name: POST_RELEASE
+name: Post release
 on:
   push:
     tags:

@@ -1,4 +1,4 @@
-name: TEARDOWN_PLAYGROUND_PREVIEW
+name: Teardown playground preview
 on:
   pull_request:
     types: [ unlabeled, closed ]

@@ -1,4 +1,4 @@
-name: ADD_TO_HTO_PROJECT
+name: Add to HTO project
 
 on:
   issues:

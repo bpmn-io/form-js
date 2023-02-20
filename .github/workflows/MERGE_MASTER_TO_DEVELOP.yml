@@ -1,4 +1,4 @@
-name: MERGE_MASTER_TO_DEVELOP
+name: Merge master to develop
 on:
   push:
     branches:
