@@ -9,8 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }} # head_ref = branch on PR, ref_name if master / stable/**
-      PREVIEW_BRANCH_NAME: demo-${{ github.head_ref || github.ref_name }}
     steps:
+      - id: sanitize
+        name: Sanitize form-playground branch name
+        uses: camunda/infra-global-github-actions/sanitize-branch-name@main
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+          max_length: '25'
+      - name: Save form-playground branch name
+        run: echo "PREVIEW_BRANCH_NAME=demo-${{ steps.sanitize.outputs.branch_name }}" >> $GITHUB_ENV
       - name: Check form-playground branch
         run: echo "BRANCH_EXISTS=$(git ls-remote --heads https://${{ secrets.ADD_TO_HTO_PROJECT_PAT }}@github.com./camunda/form-playground ${{ env.PREVIEW_BRANCH_NAME }} | wc -l)" >> $GITHUB_ENV
       - name: Create form-playground branch

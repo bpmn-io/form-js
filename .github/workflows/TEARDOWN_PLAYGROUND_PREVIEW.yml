@@ -11,8 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BRANCH_NAME: ${{ github.head_ref || github.event.ref }} # head_ref = branch on PR, event.ref stable/**
-      PREVIEW_BRANCH_NAME: demo-${{ github.head_ref || github.ref_name }}
     steps:
+      - id: sanitize
+        name: Sanitize form-playground branch name
+        uses: camunda/infra-global-github-actions/sanitize-branch-name@main
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+          max_length: '25'
+      - name: Save form-playground branch name
+        run: echo "PREVIEW_BRANCH_NAME=demo-${{ steps.sanitize.outputs.branch_name }}" >> $GITHUB_ENV
       - name: Remove form-playground branch
         uses: dawidd6/action-delete-branch@145cd9febe29b6d83e19682d4b95849b851f544c
         with:
