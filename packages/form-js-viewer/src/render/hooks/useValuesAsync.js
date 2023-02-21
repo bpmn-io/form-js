@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { normalizeValuesData } from '../components/util/valuesUtil';
 import useService from './useService';
 
 /**
@@ -43,32 +44,18 @@ export default function(field) {
         values = keyedValues;
       }
     }
+
     // static values
     else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
     }
     else {
-      setValuesGetter(getErrorState('No values source defined in the form definition'));
+      setValuesGetter(buildErrorState('No values source defined in the form definition'));
       return;
     }
 
-    // map values in case they are provided as primitives
-    values = values.map(option => {
-      if (['string', 'number'].includes(typeof option)) {
-        return {
-          value: option,
-          label: `${option}`
-        };
-      }
-
-      if (!option?.value) return null;
-
-      if (!option?.label) option.label = `${option.value}`;
-
-      return option;
-    })
-    // remove option from list if not valid
-    .filter(value => !!value);
+    // normalize data to support primitives and partially defined objects
+    values = normalizeValuesData(values);
 
     setValuesGetter(buildLoadedState(values));
 
@@ -77,6 +64,6 @@ export default function(field) {
   return valuesGetter;
 }
 
-const getErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
+const buildErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
 
 const buildLoadedState = (values) => ({ values, error: undefined, state: LOAD_STATES.LOADED });

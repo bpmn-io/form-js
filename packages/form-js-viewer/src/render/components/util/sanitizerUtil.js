@@ -1,6 +1,6 @@
-import { get } from 'min-dash';
 import { DATETIME_SUBTYPES } from '../../../util/constants/DatetimeConstants';
 import { isDateInputInformationMatching, isDateTimeInputInformationSufficient, isInvalidDateString, parseIsoTime } from './dateTimeUtil';
+import { getValuesData, normalizeValuesData } from './valuesUtil';
 
 export function sanitizeDateTimePickerValue(options) {
   const {
@@ -19,22 +19,6 @@ export function sanitizeDateTimePickerValue(options) {
   return value;
 }
 
-/**
- * Retrieves the actual value optimistically of a provided select option/value.
- * If the provided option is a supported primitive, it returns it directly,
- * otherwise it looks for the value inside it.
- * (For future iterations, it might be better to wrap the "value"/"option" object 
- * into a dedicated class/functional, to make it easier to retrieve label and value
- * or instantiate them easily and safely from the form context)
- */
-function _getValueOptimistically(potentialValue) {
-  if (['string', 'number'].includes(typeof potentialValue)) {
-    return potentialValue;
-  }
-
-  return potentialValue?.value || null;
-}
-
 export function sanitizeSingleSelectValue(options) {
   const {
     formField,
@@ -42,13 +26,8 @@ export function sanitizeSingleSelectValue(options) {
     value
   } = options;
 
-  const {
-    valuesKey,
-    values
-  } = formField;
-
   try {
-    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => _getValueOptimistically(v)) || [];
+    const validValues = normalizeValuesData(getValuesData(formField, data)).map(v => v.value);
     return validValues.includes(value) ? value : null;
   } catch (error) {
 
@@ -65,13 +44,8 @@ export function sanitizeMultiSelectValue(options) {
     value
   } = options;
 
-  const {
-    valuesKey,
-    values
-  } = formField;
-
   try {
-    const validValues = (valuesKey ? get(data, [ valuesKey ]) : values).map(v => _getValueOptimistically(v)) || [];
+    const validValues = normalizeValuesData(getValuesData(formField, data)).map(v => v.value);
     return value.filter(v => validValues.includes(v));
   } catch (error) {
 
