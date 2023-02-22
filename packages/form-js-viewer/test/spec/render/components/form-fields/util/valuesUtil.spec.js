@@ -82,7 +82,7 @@ describe('valuesUtil', function() {
     });
 
 
-    it('should filter out random objects', function() {
+    it('should filter out invalid objects', function() {
 
       // given
       const valuesData = [ { foo: 'bar' }, { value: 'john', label: 'John' } ];
