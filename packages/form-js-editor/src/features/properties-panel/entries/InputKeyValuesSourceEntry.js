@@ -15,7 +15,7 @@ export default function InputKeyValuesSourceEntry(props) {
 
   const description = <div>
     Define which input property to populate the values from.
-    <br /><br />The input property must follow this schema:
+    <br /><br />The input property may be an array of simple values or alternatively follow this schema:
     <pre><code>{schema}</code></pre>
   </div>;
 
