@@ -16,19 +16,19 @@ function _normalizeValueData(valueData) {
   if (_isAllowedValue(valueData)) {
 
     // if a primitive is provided, use it as label and value
-    return { value: valueData, label: valueData };
+    return { value: valueData, label: `${ valueData }` };
   }
 
   if (typeof (valueData) === 'object') {
     if (!valueData.label && _isAllowedValue(valueData.value)) {
 
       // if no label is provided, use the value as label
-      return { value: valueData.value, label: valueData.value };
+      return { value: valueData.value, label: `${ valueData.value }` };
     }
 
     if (_isValueSomething(valueData.value) && _isAllowedValue(valueData.label)) {
 
-      // if both value and label are provided, use them as is
+      // if both value and label are provided, use them as is, in this scenario, the value may also be an object
       return valueData;
     }
   }
@@ -37,13 +37,13 @@ function _normalizeValueData(valueData) {
 }
 
 function _isAllowedValue(value) {
-  return _isAllowedValueType(value) && _isValueSomething(value);
+  return _isReadableType(value) && _isValueSomething(value);
 }
 
-function _isAllowedValueType(value) {
-  return [ 'number', 'string' ].includes(typeof(value));
+function _isReadableType(value) {
+  return [ 'number', 'string', 'boolean' ].includes(typeof(value));
 }
 
 function _isValueSomething(value) {
-  return value || value === 0;
+  return value || value === 0 || value === false;
 }

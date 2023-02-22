@@ -82,7 +82,7 @@ describe('valuesUtil', function() {
     });
 
 
-    it('should filter out invalid objects', function() {
+    it('should filter out incorrectly structured objects', function() {
 
       // given
       const valuesData = [ { foo: 'bar' }, { value: 'john', label: 'John' } ];
@@ -96,7 +96,7 @@ describe('valuesUtil', function() {
     });
 
 
-    it('should allow random objects as values if a proper label is defined', function() {
+    it('should allow any structured objects as values if a proper label is defined', function() {
 
       // given
       const valuesData = [ { value: { foo: 'bar', bar: 'foo' }, label: 'myObject' }, { value: 'john', label: 'John' } ];
@@ -110,7 +110,7 @@ describe('valuesUtil', function() {
     });
 
 
-    it('should filter out random objects as values if no label is defined', function() {
+    it('should filter out any structured objects as values if no label is defined', function() {
 
       // given
       const valuesData = [ { value: { foo: 'bar', bar: 'foo' } }, { value: 'john', label: 'John' } ];
@@ -133,7 +133,7 @@ describe('valuesUtil', function() {
       const result = normalizeValuesData(valuesData);
 
       // then
-      expect(result).to.eql([ { value: 1, label: 1 }, { value: 2, label: 2 } ]);
+      expect(result).to.eql([ { value: 1, label: '1' }, { value: 2, label: '2' } ]);
     });
 
 
@@ -146,7 +146,7 @@ describe('valuesUtil', function() {
       const result = normalizeValuesData(valuesData);
 
       // then
-      expect(result).to.eql([ { value: 0, label: 0 } ]);
+      expect(result).to.eql([ { value: 0, label: '0' } ]);
     });
 
 
@@ -159,7 +159,7 @@ describe('valuesUtil', function() {
       const result = normalizeValuesData(valuesData);
 
       // then
-      expect(result).to.eql([]);
+      expect(result).to.eql([ { value: true, label: 'true' }, { value: false, label: 'false' } ]);
     });
 
 
@@ -172,7 +172,7 @@ describe('valuesUtil', function() {
       const result = normalizeValuesData(valuesData);
 
       // then
-      expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'jessica' }, { value: 1, label: 1 } ]);
+      expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'jessica' }, { value: 1, label: '1' }, { value: true, label: 'true' }, { value: false, label: 'false' } ]);
     });
 
   });
