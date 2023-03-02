@@ -62,8 +62,7 @@ export default [
     plugins: pgl([
       copy({
         targets: [
-          { src: 'assets/form-js.css', dest: 'dist/assets' },
-          { src: '../../node_modules/flatpickr/dist/themes/light.css', dest: 'dist/assets/flatpickr' }
+          { src: 'assets/form-js-base.css', dest: 'dist/assets' }
         ]
       })
     ]),

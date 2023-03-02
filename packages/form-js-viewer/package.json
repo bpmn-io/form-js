@@ -8,7 +8,7 @@
       "require": "./dist/index.cjs"
     },
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
-    "./dist/assets/flatpickr/light.css": "./dist/assets/flatpickr/light.css",
+    "./dist/assets/form-js-base.css": "./dist/assets/form-js-base.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -19,10 +19,13 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "all": "run-s test build",
-    "build": "run-p bundle generate-types",
+    "build": "run-p bundle bundle:scss generate-types",
     "start": "SINGLE_START=basic npm run dev",
     "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
-    "bundle:watch": "rollup -c -w --bundleConfigAsCjs",
+    "bundle:scss": "sass --no-source-map --load-path=\"../../node_modules\" assets/index.scss dist/assets/form-js.css",
+    "bundle:watch": "run-p bundle:watch-js bundle:watch-scss",
+    "bundle:watch-js": "rollup -c -w --bundleConfigAsCjs",
+    "bundle:watch-scss": "npm run bundle:scss -- --watch",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && copyfiles --flat src/*.d.ts dist/types",
     "test": "karma start",
