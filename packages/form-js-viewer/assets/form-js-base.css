@@ -33,21 +33,53 @@
   --color-white: hsl(0, 0%, 100%);
   --color-black: hsl(0, 0%, 0%);
 
-  --color-background: var(--color-white);
-  --color-background-disabled: var(--color-grey-225-10-95);
-  --color-background-adornment: var(--color-grey-225-10-95);
-  --color-icon-base: var(--color-black);
-  --color-text: var(--color-grey-225-10-15);
-  --color-text-light: var(--color-grey-225-10-35);
-  --color-text-lighter: var(--color-grey-225-10-45);
-  --color-text-lightest: var(--color-grey-225-10-55);
-  --color-text-inverted: var(--color-white);
-  --color-borders: var(--color-grey-225-10-55);
-  --color-borders-disabled: var(--color-grey-225-10-75);
-  --color-borders-adornment: var(--color-grey-225-10-85);
-  --color-warning: var(--color-red-360-100-45);
-  --color-accent: var(--color-blue-205-100-40);
-  --color-datepicker-focused-day: var(--color-grey-225-10-55);
+  /**
+   * Specify color variables in the following schema:
+   * 1 - use specified layer
+   * 2 - use layer one
+   * 3 - use fallback 
+   */
+  --color-background: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-white))
+  );
+  --color-background-disabled: var(--cds-background, var(--color-grey-225-10-95));
+  --color-background-adornment: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-grey-225-10-95))
+  );
+  --color-background-inverted: var(--cds-background-inverse, var(--color-grey-225-10-90));
+  --color-background-inverted-hover: var(--cds-background-inverse-hover, var(--color-grey-225-10-93));
+  --color-background-active: var(--cds-background-active, var(--color-grey-225-10-75));
+  --color-layer: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-white)) 
+  );
+
+  --color-icon-base: var(--cds-icon-primary, var(--color-black));
+  --color-icon-inverted: var(--cds-icon-inverse, var(--color-black));
+  --color-text: var(--cds-text-primary, var(--color-grey-225-10-15));
+  --color-text-light: var(--cds-text-secondary, var(--color-grey-225-10-35));
+  --color-text-lighter: var(--cds-text-secondary, var(--color-grey-225-10-45));
+  --color-text-lightest: var(--cds-text-placeholder, var(--color-grey-225-10-55));
+  --color-text-inverted: var(--cds-text-inverse, var(--color-text));
+
+  --color-borders: var(
+    --cds-border-strong, 
+    var(--cds-border-strong-01, var(--color-grey-225-10-55))
+  );
+  --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
+  --color-borders-adornment: var(
+    --cds-border-subtle, 
+    var(--cds-border-subtle-01, var(--color-grey-225-10-85))
+  );
+  --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
+
+  --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
+  --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
+  --color-accent: var(--cds-link-primary, var(--color-blue-205-100-40));
+  --color-datepicker-focused-day: var(--cds-button-primary, var(--color-grey-225-10-55));
+  --color-shadow: var(--cds-shadow, var(--color-grey-225-10-85));
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -67,7 +99,7 @@
 
   --border-definition: 1px solid var(--color-borders);
   --border-definition-adornment: 1px solid var(--color-borders-adornment);
-  --outline-definition: 1px solid var(--color-borders);
+  --outline-definition: 1px solid var(--cds-focus, var(--color-borders));
   --border-definition-disabled: 1px solid var(--color-borders-disabled);
 
   height: 100%;
@@ -133,7 +165,7 @@
   letter-spacing: var(--letter-spacing-base);
   font-weight: 400;
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: var(--cds-background, var(--color-white));
   position: relative;
   padding: 0 4px;
 }
@@ -180,6 +212,7 @@
 .fjs-container .fjs-taglist-input,
 .fjs-container .fjs-textarea,
 .fjs-container .fjs-select {
+  color: var(--color-text);
   border-color: var(--color-borders);
   background-color: var(--color-background);
   font-family: inherit;
@@ -413,6 +446,7 @@
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
 }
 
 .fjs-container .fjs-textarea {
@@ -443,19 +477,17 @@
 .fjs-container .fjs-number-arrow-container button {
   border: none;
   flex: 1;
-  color: var(--color-text-light);
-  background-color: var(--color-grey-225-10-95);
+  color: var(--color-text);
+  background-color: var(--color-background);
   font-weight: bold;
   font-size: 10px;
   line-height: 15px;
 }
 
 .fjs-container .fjs-number-arrow-container button:hover {
-  background-color: var(--color-grey-225-10-93);
-  color: var(--color-text);
+  background-color: var(--color-background-inverted-hover);
+  color: var(--cds-text-inverse, var(--color-text));
 }
-
-
 
 .fjs-container .fjs-radio {
   display: flex;
@@ -468,7 +500,7 @@
 }
 
 .fjs-container .fjs-button[type='submit'] {
-  color: var(--color-text-inverted);
+  color: var(--cds-text-inverse, var(--color-white));
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
@@ -522,20 +554,23 @@
 .fjs-container .fjs-number-arrow-container.fjs-disabled button,
 .fjs-container .fjs-taglist.fjs-disabled,
 .fjs-container .fjs-disabled .fjs-input-group {
-  background-color: var(--color-background-disabled);
+  background-color: var(--cds-field, var(--color-background-disabled));
   border-color: var(--color-borders-disabled);
+}
+
+.fjs-container .fjs-number-arrow-container.fjs-disabled button {
+  background-color: var(--cds-toggle-off, var(--color-background-disabled));
 }
 
 .fjs-container .fjs-button[type='submit']:disabled,
 .fjs-container .fjs-button[type='reset']:disabled {
-  color: var(--text-light);
+  color: var(--cds-text-on-color-disabled, var(--color-text-light));
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
 .fjs-container .fjs-disabled .fjs-input-group .fjs-input-adornment,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container,
-.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-separator
-{
+.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-separator {
   border-color: var(--color-borders-disabled);
 }
 
@@ -549,6 +584,7 @@
   outline-color: var(--color-warning);
 }
 
+/* todo(pinussilvestrus): theme number arrows (errors) */
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
   border-color: var(--color-red-360-100-92); 
 }
@@ -566,8 +602,7 @@
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-adornment {
-  border-color: var(--color-red-360-100-92);
-  background: var(--color-red-360-100-97);
+  border-color: var(--color-warning-light);
 }
 
 .fjs-container .fjs-form-field-error {
@@ -632,12 +667,13 @@
   display: flex;
   overflow: hidden;
   user-select: none;
-  background-color: var(--color-grey-225-10-90);
+  color: var(--color-text-inverted);
+  background-color: var(--color-background-inverted);
   border-radius: 2px;
 }
 
 .fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag { 
-  background-color: var(--color-grey-225-10-85);
+  background-color: var(--color-background-inverted);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tags {
@@ -660,7 +696,7 @@
   height: 24px;
   text-align: center;
   line-height: 28px;
-  background-color: var(--color-grey-225-10-80);
+  background-color: var(--cds-background-inverse, var(--color-grey-225-10-80));
   border: none;
   padding: 1px 0;
 }
@@ -668,12 +704,12 @@
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove > svg {
   margin-bottom: 4px;
   opacity: 0.6;
-  color: var(--color-icon-base);
+  color: var(--color-icon-inverted);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover,
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:focus-visible {
-  background-color: var(--color-grey-225-10-75);
+  background-color: var(--color-background-active);
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove:hover > svg,
@@ -702,14 +738,14 @@
   width: 100%;
   border-radius: 3px;
   margin-top: 3px;
-  box-shadow: 0px 0px 5px var(--color-grey-225-10-85);
-  background-color: var(--color-white);
+  box-shadow: 0px 0px 5px var(--color-shadow);
+  background-color: var(--color-layer);
 }
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-item {
   padding: 6px 8px;
-  border-bottom: 1px solid var(--color-grey-225-10-90);
-  color: var(--color-grey-225-10-35);
+  border-bottom: 1px solid var(--color-borders-inverted);
+  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-item:last-child {
@@ -717,8 +753,8 @@
 }
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-item.focused {
-  background-color: var(--color-grey-225-10-90);
-  color: var(--color-black);
+  background-color: var(--color-background-inverted);
+  color: var(--color-text-inverted);
 }
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-empty {
