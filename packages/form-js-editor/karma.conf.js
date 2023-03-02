@@ -62,6 +62,13 @@ module.exports = function(karma) {
             use: [ 'source-map-loader' ]
           },
           {
+            test: /\.s[ac]ss$/i,
+            use: [
+              'css-loader',
+              'sass-loader'
+            ],
+          },
+          {
             test: /\.css$/,
             use: 'raw-loader'
           },

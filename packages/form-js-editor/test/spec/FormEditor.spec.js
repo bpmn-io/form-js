@@ -17,6 +17,7 @@ import {
 
 import {
   insertStyles,
+  insertTheme,
   isSingleStart
 } from '../TestHelper';
 
@@ -30,7 +31,9 @@ const spy = sinon.spy;
 
 const singleStartBasic = isSingleStart('basic');
 const singleStartRows = isSingleStart('rows');
-const singleStart = singleStartBasic || singleStartRows;
+const singleStartTheme = isSingleStart('theme');
+
+const singleStart = singleStartBasic || singleStartRows || singleStartTheme;
 
 
 describe('FormEditor', function() {
@@ -91,6 +94,27 @@ describe('FormEditor', function() {
     // then
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(8);
   });
+
+
+  (singleStartTheme ? it.only : it)('should render theme', async function() {
+
+    // given
+    document.body.classList.add('cds--g100');
+    insertTheme();
+
+    // when
+    formEditor = await createFormEditor({
+      container,
+      schema,
+      keyboard: {
+        bindTo: document
+      }
+    });
+
+    // then
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(16);
+  });
+
 
 
   it('should render compact', async function() {
