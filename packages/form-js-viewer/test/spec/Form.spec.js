@@ -26,7 +26,8 @@ import rowsSchema from './rows.json';
 
 import {
   insertCSS,
-  isSingleStart
+  insertTheme,
+  isSingleStart,
 } from '../TestHelper';
 
 // @ts-ignore-next-line
@@ -37,7 +38,8 @@ insertCSS('custom.css', customCSS);
 const singleStartBasic = isSingleStart('basic');
 const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
-const singleStart = singleStartBasic || singleStartStress || singleStartRows;
+const singleStartTheme = isSingleStart('theme');
+const singleStart = singleStartBasic || singleStartStress || singleStartRows || singleStartTheme;
 
 
 describe('Form', function() {
@@ -126,6 +128,45 @@ describe('Form', function() {
     expect(form.reset).to.exist;
     expect(form.submit).to.exist;
     expect(form._update).to.exist;
+  });
+
+
+  (singleStartTheme ? it.only : it)('should render theme', async function() {
+
+    // given
+    document.body.classList.add('cds--g100');
+    insertTheme();
+
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      mailto: [ 'regional-manager', 'approver' ],
+      product: 'camunda-cloud',
+      tags: [ 'tag1', 'tag2', 'tag3' ],
+      language: 'english',
+      documents: [
+        {
+          title: 'invoice.pdf',
+          author: 'John Doe'
+        },
+        {
+          title: 'products.pdf'
+        }
+      ]
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema
+    });
+
+    // then
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
   });
 
 

@@ -1,0 +1,14 @@
+@use '@carbon/styles/scss/themes';
+@use '@carbon/styles/scss/theme';
+
+.cds--g10 {
+  @include theme.theme(themes.$g10);
+}
+
+.cds--g100 {
+  @include theme.theme(themes.$g100);
+}
+
+body {
+  margin: 0;
+}
