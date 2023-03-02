@@ -24,11 +24,8 @@ module.exports = function(karma) {
 
     files: [
       `dist/${variant}.umd.js`,
-      'dist/assets/dragula.css',
-      'dist/assets/flatpickr/light.css',
       'dist/assets/form-js.css',
       'dist/assets/form-js-editor.css',
-      'dist/assets/properties-panel.css',
       'dist/assets/form-js-playground.css',
       `test/distro/${variant}.js`
     ],
