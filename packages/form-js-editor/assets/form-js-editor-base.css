@@ -1,52 +1,202 @@
 .fjs-editor-container {
-  --color-children-border: var(--color-grey-225-10-75);
-  --color-children-selected-border: var(--color-blue-219-100-53);
+  --color-children-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-75))
+  );
+  --color-children-selected-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
   --color-children-selected-background: transparent;
-  --color-children-hover-border: var(--color-blue-219-100-53-05);
+  --color-children-hover-border: var(--cds-border-interactive, var(--color-blue-219-100-53-05));
   
   --color-context-pad-item-background: transparent;
-  --color-context-pad-item-fill: var(--color-grey-225-10-15);
+  --color-context-pad-item-fill: var(--cds-icon-secondary, var(--color-grey-225-10-15));
   --color-context-pad-item-hover-fill: var(--color-red-360-100-45);
 
-  --color-resize-handle-background: var(--color-blue-219-100-53);
-  --color-resize-handle-border: var(--color-blue-219-100-53);
+  --color-resize-handle-background: var(--cds-border-interactive, var(--color-blue-219-100-53));
+  --color-resize-handle-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
 
-  --color-dragula-background: var(--color-blue-205-100-95);
-  --color-dragula-border: var(--color-blue-205-100-45);
-  --color-dragula-mirror-background: var(--color-white);
-  --color-dragula-mirror-border: var(--color-grey-225-10-90);
+  --color-dragula-background: var(--cds-border-interactive, var(--color-blue-205-100-95));
+  --color-dragula-border: var(--cds-border-interactive, var(--color-blue-205-100-45));
+  --color-dragula-mirror-background: var(--cds-background, var(--color-white));
+  --color-dragula-mirror-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-90))
+  );
   --color-dragula-error-background: var(--color-red-360-100-92);
-  --color-dragula-error-border: var(--color-red-360-100-45);
+  --color-dragula-error-border: var(--cds-text-error, var(--color-red-360-100-45));
 }
 
 .fjs-palette-container {
-  --color-palette-text: var(--color-grey-225-10-15);
-  --color-palette-container-background: var(--color-grey-225-10-95);
-  --color-palette-container-border: var(--color-grey-225-10-80);
-  --color-palette-header: var(--color-text);
-  --color-palette-header-background: var(--color-grey-225-10-95);
-  --color-palette-header-border: var(--color-grey-225-10-85);
+  --color-palette-text: var(--cds-text-primary, var(--color-grey-225-10-15));
+  --color-palette-container-background: var(--cds-background, var(--color-grey-225-10-95));
+  --color-palette-container-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-80))
+  );
+  --color-palette-header: var(--cds-text-primary, var(--color-text));
+  --color-palette-header-background: var(--cds-background, var(--color-grey-225-10-95));
+  --color-palette-header-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-85))
+  );
   --color-palette-search: var(--color-palette-text);
-  --color-palette-search-icon: var(--color-grey-225-10-35);
-  --color-palette-search-icon-hover: var(--color-grey-225-10-15);
-  --color-palette-search-background: var(--color-white);
-  --color-palette-search-border: var(--color-grey-225-10-75);
-  --color-palette-search-focus-background: var(--color-blue-205-100-95);
-  --color-palette-search-focus-border: var(--color-blue-205-100-50);
-  --color-palette-search-clear-focus-border: var(--color-grey-225-10-50);
+  --color-palette-search-icon: var(--cds-icon-secondary, var(--color-grey-225-10-35));
+  --color-palette-search-icon-hover: var(--cds-icon-primary, var(--color-grey-225-10-15));
+  --color-palette-search-background: var(
+    --cds-field,
+    var(--cds-field-01, var(--color-white))
+  );
+  --color-palette-search-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-75))
+  );
+  --color-palette-search-focus-background: var(
+    --cds-field,
+    var(--cds-field-01, var(--color-blue-205-100-95))
+  );
+  --color-palette-search-focus-border: var(--cds-focus, var(--color-blue-205-100-50));
+  --color-palette-search-clear-focus-border: var(--cds-focus, var(--color-grey-225-10-50));
   --color-palette-group-title: var(--color-palette-text);
   --color-palette-field: var(--color-palette-text);
-  --color-palette-field-background: var(--color-white);
-  --color-palette-field-border: var(--color-grey-225-10-80);
-  --color-palette-field-hover-background: var(--color-grey-225-10-90);
+  --color-palette-field-background: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-white))
+  );
+  --color-palette-field-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-80))
+  );
+  --color-palette-field-hover-background: var(--cds-background-hover, var(--color-grey-225-10-90));
   --cursor-palette-field: grab;
   --palette-width: 250px;
 }
 
 .fjs-properties-container {
-  --color-properties-container-background: var(--color-white);
-  --color-properties-container-border: var(--color-grey-225-10-80);
+  --color-properties-container-background: var(--cds-background, var(--color-white));
+  --color-properties-container-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-80))
+  );
   --properties-panel-width: 300px;
+}
+
+/**
+ * Theming overrides
+ */
+.fjs-properties-container .bio-properties-panel {
+  --text-base-color: var(--cds-text-primary, var(--color-grey-225-10-15));
+  --text-error-color: var(--cds-text-color, var(--color-red-360-100-45));
+  --link-color: var(--cds-text-primary, var(--color-blue-205-100-50));
+
+  --description-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+  --description-code-background-color: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-grey-225-10-97))
+  );
+  --description-code-border-color: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-85))
+  );
+  --description-list-item-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+
+  --placeholder-color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
+  --placeholder-background-color: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-grey-225-10-95))
+  );
+
+  --header-background-color: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-grey-225-10-95))
+  );
+  --header-icon-fill-color: var(--cds-icon-primary, var(--color-grey-225-10-15));
+  --header-bottom-border-color: var(--color-grey-225-10-75);
+
+  --group-background-color: var(--cds-background, var(--color-white));
+  --group-bottom-border-color: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-75))
+  );
+
+  --sticky-group-background-color: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-grey-225-10-95))
+  );
+  --sticky-group-bottom-border-color: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-75))
+  );
+
+  --add-entry-fill-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
+  --add-entry-hover-fill-color: var(--cds-icon-inverse, var(--color-white));
+  --add-entry-hover-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
+  --add-entry-label-color: var(--cds-text-inverse, var(--color-white));
+
+  --remove-entry-fill-color: var(--color-red-360-100-45);
+  --remove-entry-hover-background-color: var(--color-red-360-100-92);
+
+  --arrow-fill-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
+  --arrow-hover-background-color: var(
+    --cds-layer, 
+    var(--cds-layer-01, var(--color-grey-225-10-95))
+  );
+
+  --dot-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+
+  --list-badge-color: var(--cds-text-inverse, var(--color-white));
+  --list-badge-background-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
+
+  --input-background-color: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-grey-225-10-97))
+  );
+  --input-border-color: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-75))
+  );
+
+  --input-focus-background-color: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-blue-205-100-95))
+  );
+  --input-focus-border-color: var(--cds-focus, var(--color-blue-205-100-50));
+
+  --input-error-background-color: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-red-360-100-97))
+  );
+  --input-error-border-color: var(--cds-text-error, var(--color-red-360-100-45));
+  --input-error-focus-border-color:  var(--cds-text-error, var(--color-red-360-100-45));
+
+  --input-disabled-color: var(--cds-text-disabled, var(--color-grey-225-10-55));
+  --input-disabled-background-color: var(
+    --cds-field, 
+    var(--cds-field-01, var(--color-grey-225-10-97))
+  );
+  --input-disabled-border-color: var(--cds-border-disabled, var(--color-grey-225-10-90));
+
+  --toggle-switch-on-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
+  --toggle-switch-off-background-color: var(--cds-toggle-off, var(--color-grey-225-10-75));
+  --toggle-switch-switcher-background-color: var(--cds-background, var(--color-white));
+
+  --side-line-background-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+  --side-line-extension-background-color: var(--cds-text-secondary, (--color-grey-225-10-35));
+
+  --list-entry-dot-background-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
+  --list-entry-header-button-fill-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
+  --list-entry-add-entry-empty-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
+  --list-entry-add-entry-empty-hover-background-color: var(--cds-interactive, var(--color-blue-205-100-45));
+  --list-entry-add-entry-label-color: var(--cds-text-inverse, var(--color-white));
+  --list-entry-add-entry-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
+  --list-entry-add-entry-fill-color: var(--cds-icon-inverse, var(--color-white));
+
+  --feel-active-color: var(--cds-interactive, var(--color-blue-205-100-35));
+  --feel-inactive-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+
+  --feel-indicator-background-color: var(--cds-background-hover, var(--color-grey-225-10-90));
+}
+
+.fjs-properties-container .bio-properties-panel-input {
+  color: var(--color-text);
 }
 
 .fjs-editor-container {
@@ -329,6 +479,7 @@
   margin: 0;
   border: none;
   padding: 0;
+  color: var(--color-palette-text);
 }
 
 .fjs-palette-container .fjs-palette-search:focus {
