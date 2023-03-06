@@ -23,14 +23,16 @@ export default [
     external: [
       '@bpmn-io/form-js-viewer',
       '@bpmn-io/form-js-editor',
-      '@bpmn-io/form-js-playground'
+      '@bpmn-io/form-js-playground',
+      '@bpmn-io/form-js-carbon-styles'
     ],
     plugins: [
       copy({
         targets: [
           { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*.css', dest: 'dist/assets', },
           { src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' }
+          { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/form-js-carbon-styles/src/carbon-styles.js', dest: 'dist' }
         ]
       })
     ],
