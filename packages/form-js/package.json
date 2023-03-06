@@ -21,6 +21,7 @@
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/form-js-editor-base.css": "./dist/assets/form-js-editor-base.css",
     "./dist/assets/form-js-playground.css": "./dist/assets/form-js-playground.css",
+    "./dist/carbon-styles": "./dist/carbon-styles.js",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -58,7 +59,8 @@
   "dependencies": {
     "@bpmn-io/form-js-editor": "^0.14.1",
     "@bpmn-io/form-js-playground": "^0.14.1",
-    "@bpmn-io/form-js-viewer": "^0.14.1"
+    "@bpmn-io/form-js-viewer": "^0.14.1",
+    "@bpmn-io/form-js-carbon-styles": "^0.14.1"
   },
   "sideEffects": [
     "*.css"

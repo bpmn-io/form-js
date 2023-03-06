@@ -14,7 +14,7 @@
   --color-resize-handle-background: var(--cds-border-interactive, var(--color-blue-219-100-53));
   --color-resize-handle-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
 
-  --color-dragula-background: var(--cds-border-interactive, var(--color-blue-205-100-95));
+  --color-dragula-background: var(--cds-highlight, var(--color-blue-205-100-95));
   --color-dragula-border: var(--cds-border-interactive, var(--color-blue-205-100-45));
   --color-dragula-mirror-background: var(--cds-background, var(--color-white));
   --color-dragula-mirror-border: var(

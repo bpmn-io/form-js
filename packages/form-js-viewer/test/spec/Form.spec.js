@@ -134,7 +134,7 @@ describe('Form', function() {
   (singleStartTheme ? it.only : it)('should render theme', async function() {
 
     // given
-    document.body.classList.add('cds--g100');
+    container.classList.add('cds--g100');
     insertTheme();
 
     const data = {

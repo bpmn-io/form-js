@@ -63,6 +63,7 @@
   --color-text-lighter: var(--cds-text-secondary, var(--color-grey-225-10-45));
   --color-text-lightest: var(--cds-text-placeholder, var(--color-grey-225-10-55));
   --color-text-inverted: var(--cds-text-inverse, var(--color-text));
+  --color-text-disabled: var(--cds-text-disabled, var(--color-text-light));
 
   --color-borders: var(
     --cds-border-strong, 
@@ -165,7 +166,6 @@
   letter-spacing: var(--letter-spacing-base);
   font-weight: 400;
   color: var(--color-text);
-  background-color: var(--cds-background, var(--color-white));
   position: relative;
   padding: 0 4px;
 }
@@ -554,6 +554,7 @@
 .fjs-container .fjs-number-arrow-container.fjs-disabled button,
 .fjs-container .fjs-taglist.fjs-disabled,
 .fjs-container .fjs-disabled .fjs-input-group {
+  color: var(--color-text-disabled);
   background-color: var(--cds-field, var(--color-background-disabled));
   border-color: var(--color-borders-disabled);
 }
@@ -574,6 +575,11 @@
   border-color: var(--color-borders-disabled);
 }
 
+.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container .fjs-number-arrow-up,
+.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container .fjs-number-arrow-down {
+  pointer-events: none;
+}
+
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-select,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea,
@@ -584,7 +590,6 @@
   outline-color: var(--color-warning);
 }
 
-/* todo(pinussilvestrus): theme number arrows (errors) */
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
   border-color: var(--color-red-360-100-92); 
 }
