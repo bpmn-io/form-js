@@ -6,16 +6,7 @@ import { insertCSS } from './helper';
 import formCSS from '@bpmn-io/form-js-viewer/dist/assets/form-js.css';
 
 // @ts-ignore-next-line
-import flatpickrCSS from '@bpmn-io/form-js-viewer/dist/assets/flatpickr/light.css';
-
-// @ts-ignore-next-line
-import formEditorCSS from '../assets/form-js-editor.css';
-
-// @ts-ignore-next-line
-import dragulaCSS from '../dist/assets/dragula.css';
-
-// @ts-ignore-next-line
-import propertiesPanelCSS from '@bpmn-io/properties-panel/assets/properties-panel.css';
+import formEditorCSS from '../dist/assets/form-js-editor.css';
 
 // @ts-ignore-next-line
 import testCSS from './test.css';
@@ -30,11 +21,8 @@ export function isSingleStart(topic) {
 
 export function insertStyles() {
   insertCSS('form-js.css', formCSS);
-  insertCSS('flatpickr.css', flatpickrCSS);
   insertCSS('form-js-editor.css', formEditorCSS);
-  insertCSS('dragula.css', dragulaCSS);
-  insertCSS('properties-panel.css', propertiesPanelCSS);
-  insertCSS('test.css', testCSS);
+  insertCSS('test-editor.css', testCSS);
 }
 
 insertStyles();
