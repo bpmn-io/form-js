@@ -8,8 +8,7 @@
       "require": "./dist/index.cjs"
     },
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
-    "./dist/assets/dragula.css": "./dist/assets/dragula.css",
-    "./dist/assets/properties-panel.css": "./dist/assets/properties-panel.css",
+    "./dist/assets/form-js-editor-base.css": "./dist/assets/form-js-editor-base.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -20,9 +19,12 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "all": "run-s lint test build",
-    "build": "run-p bundle generate-types",
+    "build": "run-p bundle bundle:scss generate-types",
     "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
-    "bundle:watch": "rollup -c -w --bundleConfigAsCjs",
+    "bundle:scss": "sass --no-source-map --load-path=\"../../node_modules\" assets/index.scss dist/assets/form-js-editor.css",
+    "bundle:watch": "run-p bundle:watch-js bundle:watch-scss",
+    "bundle:watch-js": "rollup -c -w --bundleConfigAsCjs",
+    "bundle:watch-scss": "npm run bundle:scss -- --watch",
     "dev": "npm test -- --auto-watch --no-single-run",
     "example:dev": "cd example && npm start",
     "lint": "run-s lint:*",
