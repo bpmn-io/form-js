@@ -23,6 +23,8 @@ import defaultValues from '../../defaultValues.json';
 
 import { insertStyles, setEditorValue } from '../../../TestHelper';
 
+import { EMPTY_OPTION } from '../../../../src/features/properties-panel/entries/DefaultValueEntry';
+
 insertStyles();
 
 const spy = sinon.spy;
@@ -1470,6 +1472,33 @@ describe('properties panel', function() {
 
 
       describe('default value', function() {
+
+        it('should not add default value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Default value');
+
+          expect(input.value).to.equal('');
+
+          // when
+          fireEvent.input(input, { target: { value: EMPTY_OPTION } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+        });
+
 
         it('should add default value', function() {
 

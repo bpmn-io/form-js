@@ -6,6 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.12.2
+
+### General
+
+* `FIX`: use correct height for `datetime` inputs ([#548](https://github.com/bpmn-io/form-js/pull/548))
+
+### Editor
+
+* `FIX`: use correct articles in palette titles ([#545](https://github.com/bpmn-io/form-js/pull/545))
+* `FIX`: use correct empty default value for `select` ([#562](https://github.com/bpmn-io/form-js/pull/562))
+
 ## 0.12.1
 
 ### General
