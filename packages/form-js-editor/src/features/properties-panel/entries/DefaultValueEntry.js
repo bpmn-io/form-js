@@ -15,6 +15,8 @@ import { useService } from '../hooks';
 
 import { countDecimals, INPUTS, isValidNumber, VALUES_INPUTS } from '../Util';
 
+export const EMPTY_OPTION = null;
+
 export default function DefaultOptionEntry(props) {
   const {
     editField,
@@ -193,7 +195,7 @@ function DefaultValueSingleSelect(props) {
   } = props;
 
   const {
-    defaultValue,
+    defaultValue = EMPTY_OPTION,
     values = []
   } = field;
 
@@ -202,7 +204,8 @@ function DefaultValueSingleSelect(props) {
   const getOptions = () => {
     return [
       {
-        label: '<none>'
+        label: '<none>',
+        value: EMPTY_OPTION
       },
       ...values
     ];
