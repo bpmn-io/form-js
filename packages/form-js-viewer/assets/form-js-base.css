@@ -310,14 +310,16 @@
 }
 
 .fjs-container .fjs-input-group .fjs-select-display {
-  flex: 1;
-  padding: 8px;
+  line-height: var(--line-height-base);
   user-select: none; 
+  padding: 8px;
+  flex: 1;
 }
 
 .fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder,
-.fjs-container .fjs-input-group.disabled .fjs-select-display {
+.fjs-container .fjs-disabled .fjs-input-group .fjs-select-display {
   color: var(--color-text-lightest);
+  line-height: var(--line-height-input);
 }
 
 .fjs-container .fjs-input-group .fjs-input-adornment {
@@ -340,8 +342,7 @@
   border-radius: 3px 0 0 3px;
 }
 
-.fjs-container .fjs-input-group .fjs-input,
-.fjs-container .fjs-input-group.fjs-disabled .fjs-input {
+.fjs-container .fjs-input-group .fjs-input {
   border-radius: 3px;
 }
 
@@ -461,8 +462,8 @@
 .fjs-container .fjs-textarea:disabled,
 .fjs-container .fjs-select:disabled,
 .fjs-container .fjs-number-arrow-container.fjs-disabled button,
-.fjs-container .fjs-input-group.fjs-disabled,
-.fjs-container .fjs-taglist.fjs-disabled {
+.fjs-container .fjs-taglist.fjs-disabled,
+.fjs-container .fjs-disabled .fjs-input-group {
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
@@ -473,9 +474,10 @@
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
-
-.fjs-container .fjs-input-group.fjs-disabled .fjs-input,
-.fjs-container .fjs-input-group.fjs-disabled .fjs-input-adornment {
+.fjs-container .fjs-disabled .fjs-input-group .fjs-input-adornment,
+.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container,
+.fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-separator
+{
   border-color: var(--color-borders-disabled);
 }
 
@@ -567,7 +569,7 @@
   border-radius: 2px;
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag.fjs-disabled { 
+.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag { 
   background-color: var(--color-grey-225-10-85);
 }
 
@@ -581,7 +583,7 @@
   padding: 2px 6px 2px 8px;
 }
 
-.fjs-container .fjs-taglist .fjs-taglist-tag.fjs-disabled .fjs-taglist-tag-label {
+.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag .fjs-taglist-tag-label {
   padding: 2px 8px;
 }
 
