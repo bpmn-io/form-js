@@ -146,6 +146,7 @@
   font-size: var(--font-size-input);
   line-height: var(--line-height-input);
   letter-spacing: var(--letter-spacing-input);
+  opacity: 1;
 }
 
 .fjs-container .fjs-form-field-label {
