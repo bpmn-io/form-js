@@ -15,10 +15,12 @@ export default class Importer {
    * @constructor
    * @param { import('../core').FormFieldRegistry } formFieldRegistry
    * @param { import('../render/FormFields').default } formFields
+   * @param { import('../core').FormLayouter } formLayouter
    */
-  constructor(formFieldRegistry, formFields) {
+  constructor(formFieldRegistry, formFields, formLayouter) {
     this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;
+    this._formLayouter = formLayouter;
   }
 
   /**
@@ -37,8 +39,13 @@ export default class Importer {
     const warnings = [];
 
     try {
+
+      this._formLayouter.clear();
+
       const importedSchema = this.importFormField(clone(schema)),
             initializedData = this.initializeFieldValues(clone(data));
+
+      this._formLayouter.calculateLayout(clone(importedSchema));
 
       return {
         warnings,
@@ -162,4 +169,4 @@ export default class Importer {
   }
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'formFields' ];
+Importer.$inject = [ 'formFieldRegistry', 'formFields', 'formLayouter' ];

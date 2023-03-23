@@ -3,6 +3,10 @@ import {
   render
 } from '@testing-library/preact/pure';
 
+import {
+  classes
+} from 'min-dom';
+
 import FormField from 'src/render/components/FormField';
 
 import Textfield from 'src/render/components/form-fields/Textfield';
@@ -25,6 +29,9 @@ const defaultField = {
   type: 'textfield',
   conditional: {
     hide: '=someCondition'
+  },
+  layout: {
+    columns: 8
   }
 };
 
@@ -277,6 +284,23 @@ describe('FormField', function() {
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).not.to.exist;
+    });
+
+  });
+
+
+  describe('layout', function() {
+
+    it('should render columns', function() {
+
+      // when
+      const { container } = createFormField();
+
+      // then
+      const layout = container.querySelector('.fjs-layout-column');
+
+      expect(classes(layout).has('cds--col-lg-8')).to.be.true;
+      expect(classes(layout).has('cds--col-sm-16')).to.be.true;
     });
 
   });

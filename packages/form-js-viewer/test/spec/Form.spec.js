@@ -21,6 +21,7 @@ import schema from './form.json';
 import schemaNoIds from './form.json';
 import textSchema from './text.json';
 import stress from './stress.json';
+import rowsSchema from './rows.json';
 
 import {
   insertCSS,
@@ -34,7 +35,8 @@ insertCSS('custom.css', customCSS);
 
 const singleStartBasic = isSingleStart('basic');
 const singleStartStress = isSingleStart('stress');
-const singleStart = singleStartBasic || singleStartStress;
+const singleStartRows = isSingleStart('rows');
+const singleStart = singleStartBasic || singleStartStress || singleStartRows;
 
 
 describe('Form', function() {
@@ -1253,6 +1255,67 @@ describe('Form', function() {
 
   });
 
+
+  describe('integration - layout', function() {
+
+    (singleStartRows ? it.only : it)('should render grid', async function() {
+
+      // given
+      const data = {};
+
+      await createForm({
+        container,
+        data,
+        schema: rowsSchema
+      });
+
+      const order = getLayoutOrder(container);
+
+      // then
+      expect(order).to.eql([
+        'Invoice Number',
+        'Amount',
+        'Approved by',
+        'Approved',
+        'Approver comments'
+      ]);
+    });
+
+
+    it('should import rows', async function() {
+
+      // given
+      const data = {};
+
+      const form = await createForm({
+        container,
+        data,
+        schema: rowsSchema
+      });
+
+      const importedSchema = form._getState().schema;
+
+      const rows = form.get('formLayouter').getRows(importedSchema.id);
+
+      // then
+      expect(rows).to.eql([
+        {
+          id: 'Row_1',
+          components: [ 'Textfield_1', 'Number_1' ]
+        },
+        {
+          id: 'Row_2',
+          components: [ 'Textfield_2', 'Checkbox_1' ]
+        },
+        {
+          id: 'Row_3',
+          components: [ 'Textarea_1' ]
+        }
+      ]);
+    });
+
+  });
+
 });
 
 // helpers //////////
@@ -1267,4 +1330,21 @@ function getText(container) {
 
 function getImage(container) {
   return container.querySelector('.fjs-image');
+}
+
+function getLayoutOrder(container) {
+  const grid = container.querySelector('.fjs-vertical-layout');
+  const rows = grid.querySelectorAll('.fjs-layout-row');
+
+  let layoutOrder = [];
+
+  rows.forEach(rowNode => {
+    const columns = rowNode.querySelectorAll('.fjs-layout-column');
+
+    columns.forEach(columnNode => {
+      layoutOrder.push(columnNode.querySelector('.fjs-form-field-label').innerText);
+    });
+  });
+
+  return layoutOrder;
 }
