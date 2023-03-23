@@ -9,6 +9,8 @@ import { useCondition } from '../hooks/useCondition';
 
 import { findErrors } from '../../util';
 
+import { gridColumnClasses } from './Util';
+
 const noop = () => false;
 
 
@@ -31,7 +33,8 @@ export default function FormField(props) {
 
   const {
     Element,
-    Empty
+    Empty,
+    Column
   } = useContext(FormRenderContext);
 
   const FormFieldComponent = formFields.get(field.type);
@@ -52,14 +55,16 @@ export default function FormField(props) {
   }
 
   return (
-    <Element field={ field }>
-      <FormFieldComponent
-        { ...props }
-        disabled={ disabled }
-        errors={ fieldErrors }
-        onChange={ disabled ? noop : onChange }
-        value={ value } />
-    </Element>
+    <Column field={ field } class={ gridColumnClasses(field) }>
+      <Element field={ field }>
+        <FormFieldComponent
+          { ...props }
+          disabled={ disabled }
+          errors={ fieldErrors }
+          onChange={ disabled ? noop : onChange }
+          value={ value } />
+      </Element>
+    </Column>
   );
 }
 

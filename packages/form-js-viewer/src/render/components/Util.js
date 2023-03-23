@@ -14,6 +14,24 @@ export function formFieldClasses(type, { errors = [], disabled = false } = {}) {
   });
 }
 
+export function gridColumnClasses(formField) {
+  const {
+    layout = {}
+  } = formField;
+
+  const {
+    columns
+  } = layout;
+
+  return classNames(
+    'fjs-layout-column',
+    `cds--col${columns ? '-lg-' + columns : ''}`,
+
+    // always fall back to top-down on smallest screens
+    'cds--col-sm-16'
+  );
+}
+
 
 export function prefixId(id, formId) {
   if (formId) {
