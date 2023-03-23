@@ -98,6 +98,15 @@
   max-width: 100%;
 }
 
+.fjs-container .cds--grid {
+  margin-left: initial;
+  margin-right: initial;
+}
+
+.fjs-container .cds--grid .cds--row {
+  align-items: center;
+}
+
 /**
  * Visual styles
  */
@@ -297,6 +306,7 @@
 .fjs-container .fjs-input-group .fjs-taglist,
 .fjs-container .fjs-input-group .fjs-select {
   height: unset;
+  width: 100%;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-input,
