@@ -13,19 +13,35 @@ import {
   FormRenderContext
 } from '@bpmn-io/form-js-viewer';
 
+import classNames from 'classnames';
+
 import useService from '../hooks/useService';
 
 import { DragAndDropContext } from '../context';
 
-import dragula from 'dragula';
+import { DraggableIcon } from './icons';
 
 import { ListDeleteIcon } from '../../features/properties-panel/icons';
 
 import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
 
+import {
+  DRAG_CONTAINER_CLS,
+  DROP_CONTAINER_HORIZONTAL_CLS,
+  DROP_CONTAINER_VERTICAL_CLS,
+  DRAG_MOVE_CLS,
+  DRAG_ROW_MOVE_CLS
+} from '../../features/dragging/Dragging';
+
+import {
+  FieldDragPreview
+} from './FieldDragPreview';
+
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
 
 import { iconsByType } from './icons';
+
+
 
 function ContextPad(props) {
   if (!props.children) {
@@ -113,6 +129,7 @@ function Element(props) {
       data-field-type={ type }
       onClick={ onClick }
       ref={ ref }>
+      <DebugColumns field={ field } />
       <ContextPad>
         {
           selection.isSelected(field) && field.type !== 'default'
@@ -125,12 +142,42 @@ function Element(props) {
   );
 }
 
+function DebugColumns(props) {
+
+  const { field } = props;
+
+  const debugColumnsConfig = useService('config.debugColumns');
+
+  if (!debugColumnsConfig || field.type == 'default') {
+    return null;
+  }
+
+  return (
+    <div
+      style="width: fit-content;
+        padding: 2px 6px;
+        height: 16px;
+        background: var(--color-blue-205-100-95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: -2px;
+        z-index: 2;
+        font-size: 10px;
+        right: 3px;"
+      class="fjs-debug-columns">
+      { (field.layout || {}).columns || 'auto' }
+    </div>
+  );
+}
+
 function Children(props) {
   const { field } = props;
 
   const { id } = field;
 
-  const classes = [ 'fjs-children', 'fjs-drag-container' ];
+  const classes = [ 'fjs-children', DROP_CONTAINER_VERTICAL_CLS ];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
@@ -145,12 +192,58 @@ function Children(props) {
   );
 }
 
+function Row(props) {
+  const { row } = props;
+
+  const { id } = row;
+
+  const classes = [ DROP_CONTAINER_HORIZONTAL_CLS ];
+
+  if (props.class) {
+    classes.push(...props.class.split(' '));
+  }
+
+  return (
+    <div class={ classNames(DRAG_ROW_MOVE_CLS) }>
+      <span class="fjs-row-dragger">
+        <DraggableIcon></DraggableIcon>
+      </span>
+      <div
+        class={ classes.join(' ') }
+        data-row-id={ id }>
+        { props.children }
+      </div>
+    </div>
+  );
+}
+
+function Column(props) {
+  const { field } = props;
+
+  const classes = [ DRAG_MOVE_CLS ];
+
+  if (field.type === 'default') {
+    return props.children;
+  }
+
+  if (props.class) {
+    classes.push(...props.class.split(' '));
+  }
+
+  return (
+    <div
+      data-field-type={ field.type }
+      class={ classes.join(' ') }>
+      { props.children }
+    </div>
+  );
+}
+
 export default function FormEditor(props) {
-  const eventBus = useService('eventBus'),
+  const dragging = useService('dragging'),
+        eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
-        formFieldRegistry = useService('formFieldRegistry'),
         injector = useService('injector'),
-        modeling = useService('modeling'),
         selection = useService('selection'),
         palette = useService('palette'),
         paletteConfig = useService('config.palette'),
@@ -159,6 +252,7 @@ export default function FormEditor(props) {
 
   const { schema } = formEditor._getState();
 
+  const formContainerRef = useRef(null);
   const paletteRef = useRef(null);
   const propertiesPanelRef = useRef(null);
 
@@ -186,92 +280,17 @@ export default function FormEditor(props) {
 
   useEffect(() => {
 
-    const handleDragEvent = (type, context) => {
-      return eventBus.fire(type, context);
-    };
+    let dragulaInstance = dragging.createDragulaInstance({
+      container: [
+        DRAG_CONTAINER_CLS,
+        DROP_CONTAINER_VERTICAL_CLS,
+        DROP_CONTAINER_HORIZONTAL_CLS
+      ],
+      direction: 'vertical',
+      mirrorContainer: formContainerRef.current
+    });
 
-    const createDragulaInstance = () => {
-      const dragulaInstance = dragula({
-        isContainer(el) {
-          return el.classList.contains('fjs-drag-container');
-        },
-        copy(el) {
-          return el.classList.contains('fjs-drag-copy');
-        },
-        accepts(el, target) {
-          return !target.classList.contains('fjs-no-drop');
-        },
-        slideFactorX: 10,
-        slideFactorY: 5
-      });
-
-      // bind life cycle events
-      dragulaInstance.on('drag', (element, source) => {
-        handleDragEvent('drag.start', { element, source });
-      });
-
-      dragulaInstance.on('dragend', (element) => {
-        handleDragEvent('drag.end', { element });
-      });
-
-      dragulaInstance.on('drop', (element, target, source, sibling) => {
-        handleDragEvent('drag.drop', { element, target, source, sibling });
-      });
-
-      dragulaInstance.on('over', (element, container, source) => {
-        handleDragEvent('drag.hover', { element, container, source });
-      });
-
-      dragulaInstance.on('out', (element, container, source) => {
-        handleDragEvent('drag.out', { element, container, source });
-      });
-
-      dragulaInstance.on('cancel', (element, container, source) => {
-        handleDragEvent('drag.cancel', { element, container, source });
-      });
-
-      // set custom styling
-      dragulaInstance.on('drag', () => {
-        setCursor('grabbing');
-      });
-
-      dragulaInstance.on('dragend', () => {
-        unsetCursor();
-      });
-
-      dragulaInstance.on('drop', (el, target, source, sibling) => {
-        dragulaInstance.remove();
-
-        if (!target) {
-          return;
-        }
-
-        const targetFormField = formFieldRegistry.get(target.dataset.id);
-
-        const siblingFormField = sibling && formFieldRegistry.get(sibling.dataset.id),
-              targetIndex = siblingFormField ? getFormFieldIndex(targetFormField, siblingFormField) : targetFormField.components.length;
-
-        if (source.classList.contains('fjs-palette-fields')) {
-          const type = el.dataset.fieldType;
-
-          modeling.addFormField({ type }, targetFormField, targetIndex);
-        } else {
-          const formField = formFieldRegistry.get(el.dataset.id),
-                sourceFormField = formFieldRegistry.get(source.dataset.id),
-                sourceIndex = getFormFieldIndex(sourceFormField, formField);
-
-          modeling.moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex);
-        }
-      });
-
-      eventBus.fire('dragula.created');
-
-      setDrake(dragulaInstance);
-
-      return dragulaInstance;
-    };
-
-    let dragulaInstance = createDragulaInstance();
+    setDrake(dragulaInstance);
 
     const onDetach = () => {
       if (dragulaInstance) {
@@ -284,17 +303,44 @@ export default function FormEditor(props) {
     const onAttach = () => {
       onDetach();
 
-      dragulaInstance = createDragulaInstance();
+      dragulaInstance = dragging.createDragulaInstance({
+        container: [
+          DRAG_CONTAINER_CLS,
+          DROP_CONTAINER_VERTICAL_CLS,
+          DROP_CONTAINER_HORIZONTAL_CLS
+        ],
+        direction: 'vertical',
+        mirrorContainer: formContainerRef.current
+      });
+      setDrake(dragulaInstance);
+    };
+
+    const onCreate = (drake) => {
+      setDrake(drake);
+    };
+
+    const onDragStart = () => {
+      setCursor('grabbing');
+    };
+
+    const onDragEnd = () => {
+      unsetCursor();
     };
 
     eventBus.on('attach', onAttach);
     eventBus.on('detach', onDetach);
+    eventBus.on('dragula.created', onCreate);
+    eventBus.on('drag.start', onDragStart);
+    eventBus.on('drag.end', onDragEnd);
 
     return () => {
       onDetach();
 
       eventBus.off('attach', onAttach);
       eventBus.off('detach', onDetach);
+      eventBus.off('dragula.created', onCreate);
+      eventBus.off('drag.start', onDragStart);
+      eventBus.off('drag.end', onDragEnd);
     };
   }, []);
 
@@ -305,8 +351,10 @@ export default function FormEditor(props) {
 
   const formRenderContext = {
     Children,
+    Column,
     Element,
-    Empty
+    Empty,
+    Row
   };
 
   const formContext = {
@@ -360,7 +408,7 @@ export default function FormEditor(props) {
 
       <DragAndDropContext.Provider value={ dragAndDropContext }>
         { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
-        <div class="fjs-form-container">
+        <div ref={ formContainerRef } class="fjs-form-container">
 
           <FormContext.Provider value={ formContext }>
             <FormRenderContext.Provider value={ formRenderContext }>
@@ -397,26 +445,47 @@ function CreatePreview(props) {
 
     const fieldType = clone.dataset.fieldType;
 
-    const Icon = iconsByType(fieldType);
-
-    const { label } = findPaletteEntry(fieldType);
-
+    // (1) field preview
     if (fieldType) {
+
+      const { label } = findPaletteEntry(fieldType);
+
+      const Icon = iconsByType(fieldType);
+
       clone.innerHTML = '';
 
       clone.class = 'gu-mirror';
+      clone.classList.add('fjs-field-preview-container');
 
       if (original.classList.contains('fjs-palette-field')) {
-        render(
-          <div class="fjs-palette-field">
-            <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" />
-            <span class="fjs-palette-field-text">{ label }</span>
-          </div>,
-          clone
-        );
-      } else {
-        render(<Icon />, clone);
+
+        // default to auto columns when creating from palette
+        clone.classList.add('cds--col');
       }
+
+      // todo(pinussilvestrus): dragula, how to mitigate cursor position
+      // https://github.com/bevacqua/dragula/issues/285
+      render(
+        <FieldDragPreview label={ label } Icon={ Icon } />,
+        clone
+      );
+    } else {
+
+      // (2) row preview
+
+      // remove elements from copy (context pad, row dragger, ...)
+      [
+        'fjs-context-pad',
+        'fjs-row-dragger',
+        'fjs-debug-columns'
+      ].forEach(cls => {
+        const cloneNode = clone.querySelectorAll('.' + cls);
+        cloneNode.length && cloneNode.forEach(e => e.remove());
+      });
+
+      // mirror grid
+      clone.classList.add('cds--grid');
+      clone.classList.add('cds--grid--condensed');
     }
   }
 

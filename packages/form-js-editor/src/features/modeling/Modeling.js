@@ -67,13 +67,15 @@ export default class Modeling {
     this._commandStack.execute('formField.edit', context);
   }
 
-  moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex) {
+  moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex, sourceRow, targetRow) {
     const context = {
       formField,
       sourceFormField,
       targetFormField,
       sourceIndex,
-      targetIndex
+      targetIndex,
+      sourceRow,
+      targetRow
     };
 
     this._commandStack.execute('formField.move', context);

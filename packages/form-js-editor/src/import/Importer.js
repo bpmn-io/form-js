@@ -7,14 +7,16 @@ export default class Importer {
    * @constructor
    * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
    * @param { import('../core/FieldFactory').default } fieldFactory
+   * @param { import('../core/FormLayouter').default } formLayouter
    */
-  constructor(formFieldRegistry, fieldFactory) {
+  constructor(formFieldRegistry, fieldFactory, formLayouter) {
     this._formFieldRegistry = formFieldRegistry;
     this._fieldFactory = fieldFactory;
+    this._formLayouter = formLayouter;
   }
 
   /**
-   * Import schema creating fields, attaching additional
+   * Import schema creating rows, fields, attaching additional
    * information to each field and adding fields to the
    * field registry.
    *
@@ -35,7 +37,10 @@ export default class Importer {
     const warnings = [];
 
     try {
+
       const importedSchema = this.importFormField(clone(schema));
+
+      this._formLayouter.calculateLayout(clone(importedSchema));
 
       return {
         schema: importedSchema,
@@ -110,4 +115,4 @@ export default class Importer {
 
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'fieldFactory' ];
+Importer.$inject = [ 'formFieldRegistry', 'fieldFactory', 'formLayouter' ];

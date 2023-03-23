@@ -1,5 +1,7 @@
 import Modeling from './Modeling';
 
+import FormLayoutUpdater from './FormLayoutUpdater';
+
 import behaviorModule from './behavior';
 import commandModule from 'diagram-js/lib/command';
 
@@ -8,6 +10,7 @@ export default {
     behaviorModule,
     commandModule
   ],
-  __init__: [ 'modeling' ],
+  __init__: [ 'formLayoutUpdater', 'modeling' ],
+  formLayoutUpdater: [ 'type', FormLayoutUpdater ],
   modeling: [ 'type', Modeling ]
 };
