@@ -13,6 +13,7 @@ import { removeKey } from '../../../../src/features/properties-panel/groups/Cust
 import {
   EventBus as eventBusMock,
   FormEditor as formEditorMock,
+  FormLayoutValidator as formLayoutValidatorMock,
   Injector as injectorMock,
   Selection as selectionMock,
   Modeling as modelingMock
@@ -3028,6 +3029,7 @@ function createPropertiesPanel(options = {}) {
   let {
     eventBus,
     formEditor,
+    formLayoutValidator,
     modeling,
     selection
   } = options;
@@ -3040,6 +3042,10 @@ function createPropertiesPanel(options = {}) {
     formEditor = new formEditorMock({
       state: { schema: options.schema !== undefined ? options.schema : schema }
     });
+  }
+
+  if (!formLayoutValidator) {
+    formLayoutValidator = new formLayoutValidatorMock();
   }
 
   if (!modeling) {
@@ -3058,6 +3064,7 @@ function createPropertiesPanel(options = {}) {
     ...options,
     eventBus,
     formEditor,
+    formLayoutValidator,
     modeling,
     selection
   });

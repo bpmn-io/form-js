@@ -1,9 +1,14 @@
-import { Default } from '@bpmn-io/form-js-viewer';
+import { get, set } from 'min-dash';
 
 import { useService } from '../hooks';
 
-import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
+import {
+  isSelectEntryEdited,
+  SelectEntry
+} from '@bpmn-io/properties-panel';
 
+
+export const AUTO_OPTION_VALUE = '';
 
 export default function ColumnsEntry(props) {
   const {
@@ -11,58 +16,75 @@ export default function ColumnsEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
-  const entries = [];
-
-  if (type === 'columns') {
-    entries.push({
+  const entries = [
+    {
       id: 'columns',
       component: Columns,
-      editField: editField,
-      field: field,
-      isEdited: isNumberFieldEntryEdited
-    });
-  }
+      field,
+      editField,
+      isEdited: isSelectEntryEdited
+    },
+  ];
 
   return entries;
 }
 
 function Columns(props) {
   const {
-    editField,
     field,
+    editField,
     id
   } = props;
 
   const debounce = useService('debounce');
+  const formLayoutValidator = useService('formLayoutValidator');
 
-  const getValue = () => {
-    return field.components.length;
+  const validate = (value) => {
+    return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
   };
 
   const setValue = (value) => {
-    let components = field.components.slice();
+    const layout = get(field, [ 'layout' ], {});
 
-    if (value > components.length) {
-      while (value > components.length) {
-        components.push(Default.create({ _parent: field.id }));
-      }
-    } else {
-      components = components.slice(0, value);
-    }
+    const newValue = value ? parseInt(value) : null;
 
-    editField(field, 'components', components);
+    editField(field, [ 'layout' ], set(layout, [ 'columns' ], newValue));
   };
 
-  return NumberFieldEntry({
+  const getValue = () => {
+    return get(field, [ 'layout', 'columns' ]);
+  };
+
+  const getOptions = () => {
+    return [
+      {
+        label: 'Auto',
+        value: AUTO_OPTION_VALUE
+      },
+
+      // todo(pinussilvestrus): make options dependant on field type
+      ...[ 2, 4, 6, 8, 10, 12, 14, 16 ].map(asOption)
+    ];
+  };
+
+  return SelectEntry({
     debounce,
     element: field,
-    getValue,
     id,
     label: 'Columns',
-    setValue
+    getOptions,
+    getValue,
+    setValue,
+    validate
   });
+}
+
+
+// helper /////////
+
+function asOption(number) {
+  return {
+    value: number,
+    label: number.toString()
+  };
 }

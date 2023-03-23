@@ -119,6 +119,10 @@ export class Injector {
       return this._options.formEditor || new FormEditor();
     }
 
+    if (type === 'formLayoutValidator') {
+      return this._options.formLayoutValidator || new FormLayoutValidator();
+    }
+
     if (type === 'eventBus') {
       return this._options.eventBus || new EventBus();
     }
@@ -139,6 +143,10 @@ export class Injector {
       return this._options.formFieldRegistry || new FormFieldRegistry();
     }
   }
+}
+
+export class FormLayoutValidator {
+  validateField() {}
 }
 
 export function WithPropertiesPanelContext(Component, services = {}) {
@@ -185,6 +193,10 @@ export function WithPropertiesPanelContext(Component, services = {}) {
         };
       } else if (type === 'formEditor') {
         return new FormEditor();
+      } else if (type === 'formLayoutValidator') {
+        return {
+          validateField() {}
+        };
       }
     }
   };
