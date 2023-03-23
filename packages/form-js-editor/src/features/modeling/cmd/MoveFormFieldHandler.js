@@ -4,7 +4,8 @@ import {
   arrayAdd,
   arrayMove,
   arrayRemove,
-  updatePath
+  updatePath,
+  updateRow
 } from './Util';
 
 export default class MoveFormFieldHandler {
@@ -28,14 +29,18 @@ export default class MoveFormFieldHandler {
       sourceFormField,
       targetFormField,
       sourceIndex,
-      targetIndex
+      targetIndex,
+      sourceRow,
+      targetRow
     } = context;
 
     this.moveFormField({
       sourceFormField: targetFormField,
       targetFormField: sourceFormField,
       sourceIndex: targetIndex,
-      targetIndex: sourceIndex
+      targetIndex: sourceIndex,
+      sourceRow: targetRow,
+      targetRow: sourceRow
     }, true);
   }
 
@@ -44,7 +49,8 @@ export default class MoveFormFieldHandler {
       sourceFormField,
       targetFormField,
       sourceIndex,
-      targetIndex
+      targetIndex,
+      targetRow
     } = context;
 
     let { schema } = this._formEditor._getState();
@@ -63,10 +69,15 @@ export default class MoveFormFieldHandler {
         }
       }
 
-      // (1) Move form field
+      const formField = get(schema, [ ...sourcePath, sourceIndex ]);
+
+      // (1) Add to row
+      updateRow(formField, targetRow ? targetRow.id : null);
+
+      // (2) Move form field
       arrayMove(get(schema, sourcePath), sourceIndex, targetIndex);
 
-      // (2) Update paths of new form field and its siblings
+      // (3) Update paths of new form field and its siblings
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     } else {
@@ -82,10 +93,13 @@ export default class MoveFormFieldHandler {
 
       const targetPath = [ ...targetFormField._path, 'components' ];
 
-      // (3) Add form field
+      // (3) Add to row
+      updateRow(formField, targetRow ? targetRow.id : null);
+
+      // (4) Add form field
       arrayAdd(get(schema, targetPath), targetIndex, formField);
 
-      // (4) Update paths of siblings
+      // (5) Update paths of siblings
       get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
     }
 

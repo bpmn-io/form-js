@@ -19,3 +19,12 @@ export function updatePath(formFieldRegistry, formField, index) {
 
   return formField;
 }
+
+export function updateRow(formField, rowId) {
+  formField.layout = {
+    ...formField.layout || {},
+    row: rowId
+  };
+
+  return formField;
+}

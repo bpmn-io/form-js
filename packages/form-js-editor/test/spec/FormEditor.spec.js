@@ -22,12 +22,15 @@ import {
 
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
+import schemaRows from './form-rows.json';
 
 insertStyles();
 
 const spy = sinon.spy;
 
-const singleStart = isSingleStart('basic');
+const singleStartBasic = isSingleStart('basic');
+const singleStartRows = isSingleStart('rows');
+const singleStart = singleStartBasic || singleStartRows;
 
 
 describe('FormEditor', function() {
@@ -49,7 +52,7 @@ describe('FormEditor', function() {
     formEditor && formEditor.destroy();
   });
 
-  (singleStart ? it.only : it)('should render', async function() {
+  (singleStartBasic ? it.only : it)('should render', async function() {
 
     // when
     formEditor = await createFormEditor({
@@ -66,6 +69,27 @@ describe('FormEditor', function() {
 
     // then
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(16);
+  });
+
+
+  (singleStartRows ? it.only : it)('should render rows layout', async function() {
+
+    // when
+    formEditor = await createFormEditor({
+      container,
+      schema: schemaRows,
+      keyboard: {
+        bindTo: document
+      },
+      debugColumns: true
+    });
+
+    formEditor.on('changed', event => {
+      console.log('Form Editor <changed>', event, formEditor.getSchema());
+    });
+
+    // then
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(7);
   });
 
 
@@ -377,7 +401,7 @@ describe('FormEditor', function() {
       // given
       const spy = sinon.spy();
 
-      const formEditor = new FormEditor();
+      formEditor = new FormEditor();
 
       const eventBus = formEditor.get('eventBus');
 
@@ -508,7 +532,7 @@ describe('FormEditor', function() {
     };
 
     // when
-    const formEditor = await createFormEditor({
+    formEditor = await createFormEditor({
       container,
       schema
     });
@@ -889,6 +913,127 @@ describe('FormEditor', function() {
     });
 
 
+    it('should move form field', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema: schemaRows,
+        container
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      await expectDragulaCreated(formEditor);
+
+      // assume
+      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+        columns: 8,
+        row: 'Row_1'
+      });
+
+      const formField = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      const row = container.querySelector('[data-row-id=Row_4]');
+      const bounds = row.getBoundingClientRect();
+
+      // when
+      startDragging(container, formField);
+      moveDragging(container, {
+        clientX: bounds.x + 10,
+        clientY: bounds.y + 10
+      });
+
+      endDragging(container);
+
+      // then
+      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+        columns: 8,
+        row: 'Row_4'
+      });
+    });
+
+
+    it('should NOT move form field - invalid', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema: schemaRows,
+        container
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      await expectDragulaCreated(formEditor);
+
+      // assume
+      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+        columns: 8,
+        row: 'Row_1'
+      });
+
+      const formField = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      const row = container.querySelector('[data-row-id=Row_2]');
+      const bounds = row.getBoundingClientRect();
+
+      // when
+      startDragging(container, formField);
+      moveDragging(container, {
+        clientX: bounds.x + 10,
+        clientY: bounds.y + 10
+      });
+      endDragging(container);
+
+      // then
+      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+        columns: 8,
+        row: 'Row_1'
+      });
+    });
+
+
+    it('should move row', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema: schemaRows,
+        container
+      });
+
+      await expectDragulaCreated(formEditor);
+
+      // assume
+      expect(getRowOrder(container)).to.eql([
+        'Row_1',
+        'Row_2',
+        'Row_3',
+        'Row_4'
+      ]);
+
+      const row = container.querySelector('[data-row-id="Row_1"]');
+      const rowDragger = row.parentNode.querySelector('.fjs-row-dragger');
+
+      const otherRow = container.querySelector('[data-row-id="Row_2"]');
+      const bounds = otherRow.getBoundingClientRect();
+
+      // when
+      startDragging(container, rowDragger);
+      moveDragging(container, {
+        clientX: bounds.x,
+        clientY: bounds.y
+      });
+      endDragging(container);
+
+      // then
+      expect(getRowOrder(container)).to.eql([
+        'Row_2',
+        'Row_1',
+        'Row_3',
+        'Row_4'
+      ]);
+    });
+
+
     describe('emit', function() {
 
       it('should emit <drag.start>', async function() {
@@ -943,6 +1088,7 @@ describe('FormEditor', function() {
         const context = draggerSpy.args[0][1];
         expect(context.element).to.exist;
       });
+
 
       it('should emit <drag.drop>', async function() {
 
@@ -1143,13 +1289,16 @@ function dispatchEvent(element, type, options = {}) {
   element.dispatchEvent(event);
 }
 
-function startDragging(container) {
-  const formField = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
-  dispatchEvent(formField, 'mousedown', { which: 1 });
+function startDragging(container, node) {
+  if (!node) {
+    node = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
+  }
+
+  dispatchEvent(node, 'mousedown', { which: 1 });
 }
 
 function moveDragging(container, position) {
-  const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+  const form = container.querySelector('.fjs-drop-container-vertical[data-id="Form_1"]');
 
   if (!position) {
     const bounds = form.getBoundingClientRect();
@@ -1163,6 +1312,15 @@ function moveDragging(container, position) {
 }
 
 function endDragging(container) {
-  const form = container.querySelector('.fjs-drag-container[data-id="Form_1"]');
+  const form = container.querySelector('.fjs-drop-container-vertical[data-id="Form_1"]');
   dispatchEvent(form, 'mouseup');
+}
+
+function getRowOrder(container) {
+  const order = [];
+
+  const rows = container.querySelectorAll('.fjs-layout-row');
+  rows.forEach(r => order.push(r.dataset.rowId));
+
+  return order;
 }

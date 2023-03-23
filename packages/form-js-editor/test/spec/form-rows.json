@@ -1,0 +1,66 @@
+{
+  "components": [
+    {
+      "id": "Textfield_1",
+      "key": "invoiceNumber",
+      "label": "Invoice Number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1",
+        "columns": 8
+      }
+    },
+    {
+      "id": "Number_1",
+      "key": "amount",
+      "label": "Amount",
+      "type": "number",
+      "layout": {
+        "row": "Row_1",
+        "columns": 8
+      }
+    },
+    {
+      "id": "Checkbox_1",
+      "key": "approved",
+      "label": "Approved",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_2",
+        "columns": 16
+      }
+    },
+    {
+      "id": "Textfield_2",
+      "key": "approvedBy",
+      "label": "Approved By",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_3",
+        "columns": 6
+      }
+    },
+    {
+      "id": "Textarea_1",
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_3",
+        "columns": 10
+      }
+    },
+    {
+      "id": "Datetime_1",
+      "key": "approvalDate",
+      "label": "Approval date",
+      "type": "datetime",
+      "dateLabel": "Approval date",
+      "layout": {
+        "row": "Row_4"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_1"
+}

@@ -5,6 +5,7 @@ import { isString, set } from 'min-dash';
 import core from './core';
 
 import EditorActionsModule from './features/editor-actions';
+import DraggingModule from './features/dragging';
 import KeyboardModule from './features/keyboard';
 import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
@@ -297,6 +298,7 @@ export default class FormEditor {
     return [
       ModelingModule,
       EditorActionsModule,
+      DraggingModule,
       KeyboardModule,
       SelectionModule,
       PaletteModule,
