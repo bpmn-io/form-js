@@ -16,6 +16,7 @@ import {
 
 import schema from './form.json';
 import otherSchema from './other-form.json';
+import rowsSchema from './rows-form.json';
 
 import {
   insertCSS,
@@ -31,7 +32,9 @@ insertCSS('Test.css', `
   }
 `);
 
-const singleStart = isSingleStart('basic');
+const singleStartBasic = isSingleStart('basic');
+const singleStartRows = isSingleStart('rows');
+const singleStart = singleStartBasic || singleStartRows;
 
 
 describe('playground', function() {
@@ -48,7 +51,7 @@ describe('playground', function() {
   });
 
 
-  (singleStart ? it.only : it)('should render', async function() {
+  (singleStartBasic ? it.only : it)('should render', async function() {
 
     // given
     const data = {
@@ -93,6 +96,29 @@ describe('playground', function() {
       schema,
       data
     });
+
+  });
+
+
+  (singleStartRows ? it.only : it)('should render', async function() {
+
+    // given
+    const data = {
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      approverComments: 'This invoice looks good.\nOr so I think anyways.'
+    };
+
+    // when
+    playground = new Playground({
+      container,
+      schema: rowsSchema,
+      data
+    });
+
+    // then
+    expect(playground).to.exist;
 
   });
 
