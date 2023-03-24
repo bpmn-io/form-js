@@ -56,7 +56,7 @@ export default function FormField(props) {
 
   return (
     <Column field={ field } class={ gridColumnClasses(field) }>
-      <Element field={ field }>
+      <Element class="fjs-element" field={ field }>
         <FormFieldComponent
           { ...props }
           disabled={ disabled }

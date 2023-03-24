@@ -102,7 +102,7 @@ function Element(props) {
     selection.toggle(field);
   }
 
-  const classes = [ 'fjs-element' ];
+  const classes = [];
 
   if (props.class) {
     classes.push(...props.class.split(' '));

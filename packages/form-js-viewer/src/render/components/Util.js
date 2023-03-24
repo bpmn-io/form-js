@@ -28,7 +28,8 @@ export function gridColumnClasses(formField) {
     `cds--col${columns ? '-lg-' + columns : ''}`,
 
     // always fall back to top-down on smallest screens
-    'cds--col-sm-16'
+    'cds--col-sm-16',
+    'cds--col-md-16'
   );
 }
 

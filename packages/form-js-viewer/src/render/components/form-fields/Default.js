@@ -21,7 +21,7 @@ export default function Default(props) {
   const formFieldRegistry = useService('formFieldRegistry');
   const rows = formLayouter.getRows(id);
 
-  return <Children class="fjs-vertical-layout cds--grid cds--grid--condensed" field={ field }>
+  return <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
     {
 
       rows.map(row => {
