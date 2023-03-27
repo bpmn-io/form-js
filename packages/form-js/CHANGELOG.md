@@ -6,6 +6,37 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.13.0
+
+### General
+
+* `FEAT`: allow primitives for multi select values ([#542](https://github.com/bpmn-io/form-js/issues/542))
+* `FEAT`: bundle style exports ([#561](https://github.com/bpmn-io/form-js/pull/561))
+* `FEAT`: support more flexible rows layout with columns ([#560](https://github.com/bpmn-io/form-js/issues/560))
+* `FEAT`: support FEEL templating in `text` components ([#567](https://github.com/bpmn-io/form-js/pull/567))
+* `CHORE`: update to `schemaVersion@8` ([`0779d6`](https://github.com/bpmn-io/form-js/pull/578/commits/0779d6b5d55206a0045ab21185f81137189aeb76))
+
+### Viewer
+
+* `FIX`: correct background for disabled `select` and `taglist` inputs ([#568](https://github.com/bpmn-io/form-js/issues/568))
+* `CHORE`: replace `snarkdown` markdown parser with `showdown` ([#567](https://github.com/bpmn-io/form-js/pull/567))
+
+### Editor
+
+* `FEAT`: improve input values key description ([#303](https://github.com/bpmn-io/form-js/issues/303))
+* `FEAT`: allow editing `columns` ([#560](https://github.com/bpmn-io/form-js/issues/560))
+* `FEAT`: toggle between FEEL template and expression in `text` component ([#567](https://github.com/bpmn-io/form-js/pull/567))
+* `CHORE`: rework dragging and selection visuals ([#560](https://github.com/bpmn-io/form-js/issues/560))
+
+### Breaking Changes
+
+* `@bpmn-io/form-js/dist/assets/dragula.css` got removed
+* `@bpmn-io/form-js/dist/assets/flatpickr/light.css` got removed
+* `@bpmn-io/form-js/dist/assets/properties-panel.css` got removed
+
+The missing styles are included in the general style exports (`form-js.css`, `form-js-editor.css`, `form-js-playground.css`). If you need the base styles on their own, please find them in the additional `*-base.css` exports in the `dist/assets` directory.
+
+
 ## 0.12.2
 
 ### General
