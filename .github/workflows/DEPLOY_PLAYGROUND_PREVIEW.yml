@@ -38,7 +38,7 @@ jobs:
           ref: ${{ env.BRANCH_NAME }}
       - name: Trigger Netlify branch build
         run: | 
-          curl --location --request POST '${{ secrets.NETLIFY_CUSTOM_BUILD_HOOK }}?trigger_branch=${{ env.PREVIEW_BRANCH_NAME }}' \
+          curl --location --request POST '${{ secrets.NETLIFY_CUSTOM_BUILD_HOOK }}?trigger_branch=${{ env.PREVIEW_BRANCH_NAME }}&clear_cache=true' \
             --header 'Content-Type: application/x-www-form-urlencoded' \
             --data-urlencode 'FORM_JS_BRANCH=${{ env.BRANCH_NAME }}'
       - name: Update branch deployment status
