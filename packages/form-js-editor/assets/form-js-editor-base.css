@@ -399,13 +399,17 @@
   margin: 0 -4px 0 0 !important;
 }
 
+/* row drop preview */
 .fjs-children > .gu-transit {
   height: 28px !important;
+  margin-left: 28px !important;
+  margin-right: -8px !important;
   flex: unset !important;
-  width: 100% !important;
+  width: unset !important;
   max-width: unset !important;
 }
 
+/* error drop preview */
 .fjs-error-drop > .gu-transit {
   height: 100% !important;
   background: var(--color-dragula-error-background) !important;
