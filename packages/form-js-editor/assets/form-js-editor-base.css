@@ -396,7 +396,9 @@
   filter: none !important;
   height: 70px !important;
   opacity: 1 !important;
-  margin: 0 -4px 0 0 !important;
+  /* mitigate for additional border in row */
+  flex-grow: 0.98 !important;
+  margin: 0 !important;
 }
 
 /* row drop preview */
