@@ -7,7 +7,11 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
     const {
       data,
       errors,
+      isExpression,
       evaluateExpression,
+      isTemplate,
+      evaluateTemplate,
+      markdownRenderer,
       properties,
       initialData
     } = options;
@@ -26,6 +30,20 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
     } else if (type === 'conditionChecker') {
       return {
         applyConditions() {},
+        check() {}
+      };
+    } else if (type === 'templating') {
+      return {
+        isTemplate,
+        evaluate(...args) {
+          return evaluateTemplate(...args);
+        }
+      };
+    } else if (type === 'markdownRenderer') {
+      return markdownRenderer;
+    } else if (type === 'expressionLanguage') {
+      return {
+        isExpression,
         evaluate(...args) {
           return evaluateExpression(...args);
         }

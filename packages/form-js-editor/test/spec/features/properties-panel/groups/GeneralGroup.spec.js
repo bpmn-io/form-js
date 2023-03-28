@@ -1,5 +1,4 @@
 import {
-  act,
   cleanup,
   fireEvent,
   render
@@ -8,6 +7,8 @@ import {
 import { GeneralGroup } from '../../../../../src/features/properties-panel/groups';
 
 import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+
+import { setEditorValue } from '../../../../helper';
 
 import { set } from 'min-dash';
 
@@ -671,7 +672,7 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const textInput = findTextarea('text', container);
+      const textInput = findFeelers('text', container);
 
       expect(textInput).to.exist;
     });
@@ -689,14 +690,14 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const textInput = findTextarea('text', container);
+      const feelers = findFeelers('text', container);
 
-      expect(textInput).to.exist;
-      expect(textInput.value).to.equal('foobar');
+      expect(feelers).to.exist;
+      expect(feelers.innerText).to.equal('foobar');
     });
 
 
-    it('should write', function() {
+    it('should write', async function() {
 
       // given
       const field = {
@@ -708,10 +709,11 @@ describe('GeneralGroup', function() {
 
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const textInput = findTextarea('text', container);
+      const feelers = findFeelers('text', container);
+      const input = feelers.querySelector('div[contenteditable="true"]');
 
       // when
-      fireEvent.input(textInput, { target: { value: 'newVal' } });
+      await setEditorValue(input, 'newVal');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
@@ -731,17 +733,15 @@ describe('GeneralGroup', function() {
 
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const textInput = findTextarea('text', container);
+      const textBox = findTextbox('text', container);
 
       // when
-      await act(() => fireEvent.input(textInput, { target: { value: '=foo' } }));
-
-      const textBox = findTextbox('text', container);
+      await setEditorValue(textBox, '=foo');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.text).to.equal('=foo');
-      expect(textBox.textContent).to.equal('foo');
+      expect(textBox.textContent).to.equal('=foo');
     });
 
   });
@@ -1042,13 +1042,22 @@ describe('GeneralGroup', function() {
 
 // helper ///////////////
 
+function _getService(type, options) {
+  if (type === 'templating') {
+    return {
+      isTemplate: options.isTemplate || (() => false)
+    };
+  }
+}
+
 function renderGeneralGroup(options) {
   const {
     editField,
-    field
+    field,
+    getService = (type) => _getService(type, options),
   } = options;
 
-  const groups = [ GeneralGroup(field, editField) ];
+  const groups = [ GeneralGroup(field, editField, getService) ];
 
   return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
@@ -1070,6 +1079,10 @@ function findSelect(id, container) {
 
 function findTextarea(id, container) {
   return container.querySelector(`textarea[name="${id}"]`);
+}
+
+function findFeelers(id, container) {
+  return container.querySelector(`.bio-properties-panel-feelers-editor[name="${id}"]`);
 }
 
 function findTextbox(id, container) {

@@ -135,6 +135,10 @@ export class Injector {
       return this._options.selection || new Selection();
     }
 
+    if (type === 'templating') {
+      return this._options.templating || new Templating();
+    }
+
     if (type === 'debounce') {
       return fn => fn;
     }
@@ -147,6 +151,13 @@ export class Injector {
 
 export class FormLayoutValidator {
   validateField() {}
+}
+export class Templating {
+
+  constructor(options = {}) {
+    this.isTemplate = options.isTemplate || (() => false);
+    this.evaluate = options.evaluate || ((value) => `Evaluation of "${value}"`);
+  }
 }
 
 export function WithPropertiesPanelContext(Component, services = {}) {
@@ -196,6 +207,10 @@ export function WithPropertiesPanelContext(Component, services = {}) {
       } else if (type === 'formLayoutValidator') {
         return {
           validateField() {}
+        };
+      } else if (type === 'expressionLanguage') {
+        return {
+          isExpression: () => false
         };
       }
     }

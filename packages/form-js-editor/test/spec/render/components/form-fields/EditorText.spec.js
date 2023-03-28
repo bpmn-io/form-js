@@ -6,6 +6,8 @@ import { expectNoViolations, createFormContainer } from '../../../../TestHelper'
 
 import { WithEditorFormContext } from './helper';
 
+import { FeelersTemplating } from '@bpmn-io/form-js-viewer';
+
 let container;
 
 
@@ -164,14 +166,22 @@ const defaultField = {
   type: 'text'
 };
 
+const defaultTemplateEvaluator = new FeelersTemplating();
+
 function createEditorText(options = {}) {
   const {
-    field = defaultField
+    field = defaultField,
+    isTemplate = defaultTemplateEvaluator.isTemplate,
+    isExpression = (text) => text.startsWith('=')
   } = options;
 
   return render(WithEditorFormContext(
     <EditorText field={ field } />,
-    options
+    {
+      ...options,
+      isTemplate,
+      isExpression
+    }
   ),
   {
     container: options.container || container.querySelector('.fjs-form')

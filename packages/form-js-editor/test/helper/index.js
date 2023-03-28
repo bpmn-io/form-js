@@ -174,7 +174,7 @@ export async function setEditorValue(editor, value) {
     editor.textContent = value;
   });
 
-  // Requires 2 ticks to propagate the change to bpmn-js
+  // Requires 2 ticks to propagate the change to form editor
   await act(() => {});
 }
 
