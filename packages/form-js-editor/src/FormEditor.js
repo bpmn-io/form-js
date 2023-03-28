@@ -11,6 +11,9 @@ import ModelingModule from './features/modeling';
 import SelectionModule from './features/selection';
 import PaletteModule from './features/palette';
 import PropertiesPanelModule from './features/properties-panel';
+import ExpressionLanguageModule from './features/expression-language';
+
+import { MarkdownModule } from '@bpmn-io/form-js-viewer';
 
 const ids = new Ids([ 32, 36, 1 ]);
 
@@ -302,6 +305,8 @@ export default class FormEditor {
       KeyboardModule,
       SelectionModule,
       PaletteModule,
+      ExpressionLanguageModule,
+      MarkdownModule,
       PropertiesPanelModule
     ];
   }
