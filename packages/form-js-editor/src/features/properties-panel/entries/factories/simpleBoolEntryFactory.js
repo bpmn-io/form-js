@@ -5,6 +5,7 @@ export default function simpleBoolEntryFactory(options) {
   const {
     id,
     label,
+    description,
     path,
     props
   } = options;
@@ -20,6 +21,7 @@ export default function simpleBoolEntryFactory(options) {
     path,
     field,
     editField,
+    description,
     component: SimpleBoolComponent,
     isEdited: isCheckboxEntryEdited
   };
@@ -31,7 +33,8 @@ const SimpleBoolComponent = (props) => {
     label,
     path,
     field,
-    editField
+    editField,
+    description
   } = props;
 
   const getValue = () => get(field, path, '');
@@ -43,6 +46,7 @@ const SimpleBoolComponent = (props) => {
     getValue,
     id,
     label,
-    setValue
+    setValue,
+    description
   });
 };
