@@ -21,6 +21,10 @@ Find a complete component reference in the [Camunda Platform documentation](http
       "type": "textfield",
       "validate": {
         "required": true
+      },
+      "layout": {
+        "columns": 8,
+        "row": "Row_1"
       }
     },
     {
@@ -30,6 +34,10 @@ Find a complete component reference in the [Camunda Platform documentation](http
       "type": "textfield",
       "validate": {
         "pattern": "^C-[0-9]+$"
+      },
+       "layout": {
+        "columns": 8,
+        "row": "Row_1"
       }
     },
     {
