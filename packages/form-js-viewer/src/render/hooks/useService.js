@@ -4,8 +4,7 @@ import {
 
 import { FormContext } from '../context';
 
-
-export default function(type, strict) {
+export default function useService(type, strict) {
   const {
     getService
   } = useContext(FormContext);

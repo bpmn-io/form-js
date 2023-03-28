@@ -1,26 +1,19 @@
 import useService from './useService.js';
+import useFilteredFormData from './useFilteredFormData.js';
+import { useMemo } from 'preact/hooks';
 
 /**
- * Check if condition is met with given variables.
+ * Evaluate if condition is met reactively based on the conditionChecker and form data.
  *
  * @param {string | undefined} condition
- * @param {import('../../types').Data} data
  *
  * @returns {boolean} true if condition is met or no condition or condition checker exists
  */
-export function useCondition(condition, data) {
-  const initialData = useService('form')._getState().initialData;
+export default function useCondition(condition) {
   const conditionChecker = useService('conditionChecker', false);
+  const filteredData = useFilteredFormData();
 
-  if (!conditionChecker) {
-    return null;
-  }
-
-  // make sure we do not use data from hidden fields
-  const filteredData = {
-    ...initialData,
-    ...conditionChecker.applyConditions(data, data)
-  };
-
-  return conditionChecker.check(condition, filteredData);
+  return useMemo(() => {
+    return conditionChecker ? conditionChecker.check(condition, filteredData) : null;
+  }, [ conditionChecker, condition, filteredData ]);
 }
