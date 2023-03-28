@@ -11,7 +11,7 @@ export default function LayoutGroup(field, editField) {
     ...ColumnsEntry({ field, editField })
   ];
 
-  if (!entries.length) {
+  if (entries.length === 0) {
     return null;
   }
 

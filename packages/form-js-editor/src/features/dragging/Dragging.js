@@ -49,37 +49,36 @@ export default class Dragging {
     const siblingFormFieldNode = sibling && sibling.querySelector('.fjs-element');
     const siblingFormField = siblingFormFieldNode && this._formFieldRegistry.get(siblingFormFieldNode.dataset.id);
 
-    let targetIndex;
-
     // (1) dropped before existing field => place before
     if (siblingFormField) {
-      targetIndex = getFormFieldIndex(targetFormField, siblingFormField);
-    } else {
-
-      // (2) dropped in row => place at the end of row (after last field in row)
-      if (targetRow) {
-        targetIndex = getFormFieldIndex(
-          targetFormField,
-          this._formFieldRegistry.get(targetRow.components[targetRow.components.length - 1])
-        ) + 1;
-      } else {
-
-        // (3) dropped as last item
-        targetIndex = targetFormField.components.length;
-      }
+      return getFormFieldIndex(targetFormField, siblingFormField);
     }
 
-    return targetIndex;
+    // (2) dropped in row => place at the end of row (after last field in row)
+    if (targetRow) {
+      return (
+        getFormFieldIndex(
+          targetFormField,
+          this._formFieldRegistry.get(
+            targetRow.components[targetRow.components.length - 1],
+          ),
+        ) + 1
+      );
+    }
+
+    // (3) dropped as last item
+    return targetFormField.components.length;
   }
 
   validateDrop(element, target) {
     const formFieldNode = element.querySelector('.fjs-element');
-    const formField = formFieldNode && this._formFieldRegistry.get(formFieldNode.dataset.id);
     const targetRow = this._formLayouter.getRow(target.dataset.rowId);
 
     let columns;
+    let formField;
 
-    if (formField) {
+    if (formFieldNode) {
+      formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
       columns = (formField.layout || {}).columns;
     }
 

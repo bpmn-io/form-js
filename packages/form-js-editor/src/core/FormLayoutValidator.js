@@ -11,7 +11,7 @@ export default class FormLayoutValidator {
     this._formFieldRegistry = formFieldRegistry;
   }
 
-  validateField(field, columns, row) {
+  validateField(field = {}, columns, row) {
 
     // allow empty (auto columns)
     if (columns) {
@@ -37,7 +37,7 @@ export default class FormLayoutValidator {
     let sumAutoCols = columns ? 0 : 1;
 
     row.components.forEach(id => {
-      if ((field || {}).id === id) {
+      if (field.id === id) {
         return;
       }
 
