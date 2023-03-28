@@ -1,5 +1,4 @@
-import { ConditionChecker } from '../../../src/core/ConditionChecker';
-
+import ConditionChecker from '../../../../src/features/expression-language/ConditionChecker';
 
 describe('ConditionChecker', function() {
 
@@ -117,87 +116,6 @@ describe('ConditionChecker', function() {
 
       // then
       expect(result).to.be.true;
-    });
-
-  });
-
-
-  describe('#evaluate', function() {
-
-    it('should return null if there is no expression', function() {
-
-      // when
-      const result = conditionChecker.evaluate(null, null, false);
-
-      // then
-      expect(result).to.be.null;
-    });
-
-
-    it('should return null for non-string expression', function() {
-
-      // given
-      const expression = 1;
-
-      // when
-      const result = conditionChecker.evaluate(expression);
-
-      // then
-      expect(result).to.be.null;
-    });
-
-
-    it('should return null if expression does not start with =', function() {
-
-      // given
-      const expression = 'foo';
-
-      // when
-      const result = conditionChecker.evaluate(expression);
-
-      // then
-      expect(result).to.be.null;
-    });
-
-
-    it('should return null and report error if condition has syntax error', function() {
-
-      // given
-      const expression = '=foo-';
-
-      // when
-      const result = conditionChecker.evaluate(expression);
-
-      // then
-      expect(result).to.be.null;
-      expect(fireSpy).to.have.been.calledWith('error');
-      expect(fireSpy.args[0][1].error).to.be.instanceof(Error);
-    });
-
-
-    it('should return expression result', function() {
-
-      // given
-      const expression = '=2 + 2 + 5';
-
-      // when
-      const result = conditionChecker.evaluate(expression);
-
-      // then
-      expect(result).to.equal(9);
-    });
-
-
-    it('should return expression result (with data)', function() {
-
-      // given
-      const expression = '=2 + 2 + five';
-
-      // when
-      const result = conditionChecker.evaluate(expression, { five: 5 });
-
-      // then
-      expect(result).to.equal(9);
     });
 
   });

@@ -16,7 +16,8 @@ import {
   FormLayoutValidator as formLayoutValidatorMock,
   Injector as injectorMock,
   Selection as selectionMock,
-  Modeling as modelingMock
+  Modeling as modelingMock,
+  Templating as templatingMock
 } from './helper';
 
 import schema from '../../form.json';
@@ -3023,6 +3024,8 @@ function createPropertiesPanel(options = {}) {
   const {
     container,
     editField = () => {},
+    isTemplate = () => false,
+    evaluateTemplate = (value) => `Evaluation of "${value}"`,
     field = null
   } = options;
 
@@ -3031,7 +3034,8 @@ function createPropertiesPanel(options = {}) {
     formEditor,
     formLayoutValidator,
     modeling,
-    selection
+    selection,
+    templating
   } = options;
 
   if (!eventBus) {
@@ -3060,13 +3064,21 @@ function createPropertiesPanel(options = {}) {
     });
   }
 
+  if (!templating) {
+    templating = new templatingMock({
+      isTemplate,
+      evaluate: evaluateTemplate
+    });
+  }
+
   const injector = new injectorMock({
     ...options,
     eventBus,
     formEditor,
     formLayoutValidator,
     modeling,
-    selection
+    selection,
+    templating
   });
 
   return render(<PropertiesPanel
