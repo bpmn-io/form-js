@@ -4,7 +4,7 @@ export { FormFieldRegistry, FormLayouter } from './core';
 export * from './render';
 export * from './util';
 
-const schemaVersion = 7;
+const schemaVersion = 8;
 
 export {
   Form,
