@@ -42,7 +42,6 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/snarkdown": "^2.1.0",
     "@carbon/grid": "^11.11.0",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
@@ -52,7 +51,8 @@
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",
-    "preact-markup": "^2.1.1"
+    "preact-markup": "^2.1.1",
+    "showdown": "^2.1.0"
   },
   "sideEffects": [
     "*.css"
