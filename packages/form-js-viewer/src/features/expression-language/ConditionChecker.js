@@ -1,4 +1,4 @@
-import { unaryTest, evaluate } from 'feelin';
+import { unaryTest } from 'feelin';
 import { isString } from 'min-dash';
 
 /**
@@ -6,7 +6,7 @@ import { isString } from 'min-dash';
  * @property {string} [hide]
  */
 
-export class ConditionChecker {
+export default class ConditionChecker {
   constructor(formFieldRegistry, eventBus) {
     this._formFieldRegistry = formFieldRegistry;
     this._eventBus = eventBus;
@@ -39,7 +39,7 @@ export class ConditionChecker {
    * Check if given condition is met. Returns null for invalid/missing conditions.
    *
    * @param {string} condition
-   * @param {import('../types').Data} [data]
+   * @param {import('../../types').Data} [data]
    *
    * @returns {boolean|null}
    */
@@ -79,33 +79,6 @@ export class ConditionChecker {
     const result = this.check(condition.hide, data);
 
     return result === true;
-  }
-
-  /**
-   * Evaluate an expression.
-   *
-   * @param {string} expression
-   * @param {import('../types').Data} [data]
-   *
-   * @returns {any}
-   */
-  evaluate(expression, data = {}) {
-    if (!expression) {
-      return null;
-    }
-
-    if (!isString(expression) || !expression.startsWith('=')) {
-      return null;
-    }
-
-    try {
-      const result = evaluate(expression.slice(1), data);
-
-      return result;
-    } catch (error) {
-      this._eventBus.fire('error', { error });
-      return null;
-    }
   }
 
   _getConditions() {

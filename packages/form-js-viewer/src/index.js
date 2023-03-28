@@ -3,6 +3,7 @@ import Form from './Form';
 export { FormFieldRegistry, FormLayouter } from './core';
 export * from './render';
 export * from './util';
+export * from './features';
 
 const schemaVersion = 8;
 
