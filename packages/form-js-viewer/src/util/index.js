@@ -1,9 +1,8 @@
-import { isExpression, getExpressionVariableNames, getVariableNames } from './feel';
+import FeelExpressionLanguage from '../features/expression-language/FeelExpressionLanguage.js';
 
 export * from './constants';
 export * from './injector';
 export * from './form';
-export * from './feel';
 
 const EXPRESSION_PROPERTIES = [
   'alt',
@@ -79,7 +78,7 @@ export function clone(data, replacer) {
  *
  * @return {string[]}
  */
-export function getSchemaVariables(schema) {
+export function getSchemaVariables(schema, expressionLanguage = new FeelExpressionLanguage(null)) {
 
   if (!schema.components) {
     return [];
@@ -108,8 +107,7 @@ export function getSchemaVariables(schema) {
 
     if (conditional && conditional.hide) {
 
-      // cut off initial '='
-      const conditionVariables = getVariableNames(conditional.hide.slice(1));
+      const conditionVariables = expressionLanguage.getVariableNames(conditional.hide, { type: 'unaryTest' });
 
       variables = [ ...variables, ...conditionVariables ];
     }
@@ -117,10 +115,9 @@ export function getSchemaVariables(schema) {
     EXPRESSION_PROPERTIES.forEach((prop) => {
       const property = component[prop];
 
-      if (property && isExpression(property)) {
+      if (property && expressionLanguage.isExpression(property)) {
 
-        // cut off initial '='
-        const expressionVariables = getExpressionVariableNames(property.slice(1));
+        const expressionVariables = expressionLanguage.getVariableNames(property, { type: 'expression' });
 
         variables = [ ...variables, ...expressionVariables ];
       }

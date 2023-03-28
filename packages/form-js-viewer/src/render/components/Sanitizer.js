@@ -49,6 +49,8 @@ const FORM_ELEMENT = document.createElement('form');
  * @param {string} html
  * @return {string}
  */
+
+// see https://github.com/developit/snarkdown/issues/70
 export function sanitizeHTML(html) {
 
   const doc = new DOMParser().parseFromString(
@@ -72,6 +74,15 @@ export function sanitizeHTML(html) {
   }
 }
 
+/**
+ * Sanitizes an image source to ensure we only allow for data URI and links
+ * that start with http(s).
+ *
+ * Note: Most browsers anyway do not support script execution in <img> elements.
+ *
+ * @param {string} src
+ * @returns {string}
+ */
 export function sanitizeImageSource(src) {
   const valid = ALLOWED_IMAGE_SRC_PATTERN.test(src);
 

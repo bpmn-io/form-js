@@ -1,13 +1,13 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
 
 import { FormContext } from '../../context';
 
-import { useExpressionValue } from '../../hooks/useExpressionValue';
+import { useExpressionEvaluation } from '../../hooks';
+import { sanitizeImageSource } from '../Sanitizer';
 
 import {
   formFieldClasses,
-  prefixId,
-  safeImageSource
+  prefixId
 } from '../Util';
 
 import ImagePlaceholder from './icons/ImagePlaceholder.svg';
@@ -26,8 +26,12 @@ export default function Image(props) {
     source
   } = field;
 
-  const safeSource = safeImageSource(useExpressionValue(source));
-  const altText = useExpressionValue(alt);
+
+  const evaluatedImageSource = useExpressionEvaluation(source);
+
+  const safeSource = useMemo(() => sanitizeImageSource(evaluatedImageSource), [ evaluatedImageSource ]);
+
+  const altText = useExpressionEvaluation(alt);
 
   const { formId } = useContext(FormContext);
 

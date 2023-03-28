@@ -5,7 +5,7 @@ import { get } from 'min-dash';
 import { FormRenderContext } from '../context';
 
 import useService from '../hooks/useService';
-import { useCondition } from '../hooks/useCondition';
+import { useCondition } from '../hooks';
 
 import { findErrors } from '../../util';
 
@@ -49,7 +49,8 @@ export default function FormField(props) {
 
   const disabled = properties.readOnly || field.disabled || false;
 
-  const hidden = useHideCondition(field, data);
+  const hidden = useCondition(field.conditional && field.conditional.hide || null);
+
   if (hidden) {
     return <Empty />;
   }
@@ -66,10 +67,4 @@ export default function FormField(props) {
       </Element>
     </Column>
   );
-}
-
-function useHideCondition(field, data) {
-  const hideCondition = field.conditional && field.conditional.hide;
-
-  return useCondition(hideCondition, data) === true;
 }

@@ -1,10 +1,10 @@
 import Markup from 'preact-markup';
-
-import { useExpressionValue } from '../../hooks/useExpressionValue';
+import { useMemo } from 'preact/hooks';
+import { useService, useTemplateEvaluation } from '../../hooks';
+import { sanitizeHTML } from '../Sanitizer';
 
 import {
-  formFieldClasses,
-  safeMarkdown
+  formFieldClasses
 } from '../Util';
 
 const type = 'text';
@@ -13,14 +13,23 @@ const type = 'text';
 export default function Text(props) {
   const { field, disableLinks } = props;
 
-  const { text = '' } = field;
+  const { text = '', strict = false } = field;
 
-  const textValue = useExpressionValue(text) || '';
+  const markdownRenderer = useService('markdownRenderer');
 
-  const componentOverrides = disableLinks ? { 'a': DisabledLink } : {};
+  // feelers => pure markdown
+  const markdown = useTemplateEvaluation(text, { debug: true, strict });
+
+  // markdown => safe HTML
+  const safeHtml = useMemo(() => {
+    const html = markdownRenderer.render(markdown);
+    return sanitizeHTML(html);
+  }, [ markdownRenderer, markdown ]);
+
+  const componentOverrides = useMemo(() => disableLinks ? { 'a': DisabledLink } : {}, [ disableLinks ]);
 
   return <div class={ formFieldClasses(type) }>
-    <Markup markup={ safeMarkdown(textValue) } components={ componentOverrides } trim={ false } />
+    <Markup markup={ safeHtml } components={ componentOverrides } trim={ false } />
   </div>;
 }
 

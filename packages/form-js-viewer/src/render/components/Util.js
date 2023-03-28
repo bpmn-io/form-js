@@ -1,7 +1,4 @@
-import snarkdown from '@bpmn-io/snarkdown';
 import classNames from 'classnames';
-
-import { sanitizeHTML, sanitizeImageSource } from './Sanitizer';
 
 export function formFieldClasses(type, { errors = [], disabled = false } = {}) {
   if (!type) {
@@ -40,37 +37,4 @@ export function prefixId(id, formId) {
   }
 
   return `fjs-form-${ id }`;
-}
-
-export function markdownToHTML(markdown) {
-  const htmls = markdown
-    .toString()
-    .split(/(?:\r?\n){2,}/)
-    .map(line =>
-      /^((\d+.)|[><\s#-*])/.test(line)
-        ? snarkdown(line)
-        : `<p>${ snarkdown(line) }</p>`,
-    );
-
-  return htmls.join('\n\n');
-}
-
-// see https://github.com/developit/snarkdown/issues/70
-export function safeMarkdown(markdown) {
-  const html = markdownToHTML(markdown);
-
-  return sanitizeHTML(html);
-}
-
-/**
- * Sanitizes an image source to ensure we only allow for data URI and links
- * that start with http(s).
- *
- * Note: Most browsers anyway do not support script execution in <img> elements.
- *
- * @param {string} src
- * @returns {string}
- */
-export function safeImageSource(src) {
-  return sanitizeImageSource(src);
 }

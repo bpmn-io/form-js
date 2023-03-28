@@ -57,8 +57,8 @@ export default [
       'preact/compat',
       'preact-markup',
       'flatpickr',
-      '@bpmn-io/snarkdown',
-      '@carbin/grid'
+      'showdown',
+      '@carbon/grid'
     ],
     plugins: pgl([
       copy({
