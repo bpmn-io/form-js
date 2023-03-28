@@ -1,6 +1,6 @@
 import dragula from 'dragula';
 
-import { set as setCursor, unset as unsetCursor } from '../../render/util/Cursor';
+import { set as setCursor } from '../../render/util/Cursor';
 
 export const DRAG_CONTAINER_CLS = 'fjs-drag-container';
 export const DROP_CONTAINER_VERTICAL_CLS = 'fjs-drop-container-vertical';
@@ -346,5 +346,5 @@ function setDropNotAllowed(node) {
 
 function unsetDropNotAllowed(node) {
   node.classList.remove(ERROR_DROP_CLS);
-  unsetCursor();
+  setCursor('grabbing');
 }

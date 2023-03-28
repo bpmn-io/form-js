@@ -63,6 +63,7 @@ function Columns(props) {
       },
 
       // todo(pinussilvestrus): make options dependant on field type
+      // cf. https://github.com/bpmn-io/form-js/issues/575
       ...[ 2, 4, 6, 8, 10, 12, 14, 16 ].map(asOption)
     ];
   };
