@@ -23,14 +23,14 @@ import {
   LayoutGroup
 } from './groups';
 
-function getGroups(field, editField) {
+function getGroups(field, editField, getService) {
 
   if (!field) {
     return [];
   }
 
   const groups = [
-    GeneralGroup(field, editField),
+    GeneralGroup(field, editField, getService),
     ConditionGroup(field, editField),
     LayoutGroup(field, editField),
     AppearanceGroup(field, editField),
@@ -105,11 +105,9 @@ export default function FormPropertiesPanel(props) {
 
   const selectedFormField = state.selectedFormField;
 
-  const propertiesPanelContext = {
-    getService(type, strict = true) {
-      return injector.get(type, strict);
-    }
-  };
+  const getService = (type, strict = true) => injector.get(type, strict);
+
+  const propertiesPanelContext = { getService };
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
@@ -128,7 +126,7 @@ export default function FormPropertiesPanel(props) {
         <PropertiesPanel
           element={ selectedFormField }
           eventBus={ eventBus }
-          groups={ getGroups(selectedFormField, editField) }
+          groups={ getGroups(selectedFormField, editField, getService) }
           headerProvider={ PropertiesPanelHeaderProvider }
           placeholderProvider={ PropertiesPanelPlaceholderProvider }
         />

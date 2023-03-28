@@ -15,7 +15,7 @@ import {
 } from '../entries';
 
 
-export default function GeneralGroup(field, editField) {
+export default function GeneralGroup(field, editField, getService) {
 
   const entries = [
     ...IdEntry({ field, editField }),
@@ -25,7 +25,7 @@ export default function GeneralGroup(field, editField) {
     ...DefaultValueEntry({ field, editField }),
     ...ActionEntry({ field, editField }),
     ...DateTimeEntry({ field, editField }),
-    ...TextEntry({ field, editField }),
+    ...TextEntry({ field, editField, getService }),
     ...NumberEntries({ field, editField }),
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),
