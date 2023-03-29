@@ -35,9 +35,14 @@ jobs:
         TEST_BROWSERS: Firefox,ChromeHeadless
       run: xvfb-run npm run all
     - name: Build
-      if: runner.os != 'Linux'
+      if: runner.os == 'Windows'
       env:
         TEST_BROWSERS: ChromeHeadless
+      run: npm run all
+    - name: Build
+      if: runner.os == 'macOS'
+      env:
+        TEST_BROWSERS: ChromeHeadless,Safari
       run: npm run all
     - name: Upload coverage
       uses: codecov/codecov-action@v3
