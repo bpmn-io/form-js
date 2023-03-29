@@ -726,7 +726,7 @@ describe('GeneralGroup', function() {
       // given
       const field = {
         type: 'text',
-        text: 'foobar'
+        text: '=foobar'
       };
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
@@ -736,12 +736,12 @@ describe('GeneralGroup', function() {
       const textBox = findTextbox('text', container);
 
       // when
-      await setEditorValue(textBox, '=foo');
+      await setEditorValue(textBox, 'foo');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.text).to.equal('=foo');
-      expect(textBox.textContent).to.equal('=foo');
+      expect(textBox.textContent).to.equal('foo');
     });
 
   });
@@ -1082,7 +1082,7 @@ function findTextarea(id, container) {
 }
 
 function findFeelers(id, container) {
-  return container.querySelector(`.bio-properties-panel-feelers-editor[name="${id}"]`);
+  return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-feelers-editor`);
 }
 
 function findTextbox(id, container) {
