@@ -1,0 +1,9 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "# Employees\n{{#loop users}}\n## {{name}}\n*Currently {{age}} years old, contact* [@{{twitter}}]({{\"https://twitter.com/\" + twitter}})\n### Skills\n{{#loop skills}}\n- {{this}}\n{{/loop}}\n{{/loop}}\n# Some conditions\n{{#if count(users) > 1}}There are multiple users{{/if}}\n{{#if false}}This should not display{{/if}}\n{{#if true}}This should display{{/if}}\n*Some italic text*\n**Some bold text**\n"
+    }
+  ],
+  "type": "default"
+}

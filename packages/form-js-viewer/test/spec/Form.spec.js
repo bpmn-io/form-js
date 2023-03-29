@@ -20,6 +20,7 @@ import disabledSchema from './disabled.json';
 import schema from './form.json';
 import schemaNoIds from './form.json';
 import textSchema from './text.json';
+import textTemplateSchema from './text-template.json';
 import stress from './stress.json';
 import rowsSchema from './rows.json';
 
@@ -328,6 +329,58 @@ describe('Form', function() {
 
     // then
     expect(form).to.exist;
+  });
+
+
+  it('should render templated text', async function() {
+
+    // given
+    const data = {
+      users: [
+        {
+          name: 'John',
+          age: 25,
+          twitter: 'JohnCena',
+          skills: [
+            'JavaScript',
+            'HTML',
+            'CSS'
+          ]
+        },
+        {
+          name: 'Jane',
+          age: 30,
+          twitter:' KermitTheFrog',
+          skills: [
+            'C#',
+            'Kotlin',
+            'Java'
+          ]
+        },
+        {
+          name: 'Bob',
+          age: 35,
+          twitter: 'bobdylan',
+          skills:[
+            'Rust',
+            'F#',
+            'Fortran'
+          ]
+        }
+      ],
+      currencySymbol: '$'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      schema: textTemplateSchema,
+      data
+    });
+
+    // then
+    expect(form).to.exist;
+
   });
 
 
