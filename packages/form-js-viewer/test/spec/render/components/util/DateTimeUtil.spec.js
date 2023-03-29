@@ -295,7 +295,7 @@ describe('DateTimeUtil', function() {
     it('should serialize with full timezone', () => {
 
       // given
-      const timezoneOffsetSuffix = formatTimezoneOffset(new Date().getTimezoneOffset());
+      const getTimezoneOffsetSuffix = (date) => formatTimezoneOffset(date.getTimezoneOffset());
       const serializingFormat = 'utc_offset';
       const testCases = [
         [ new Date('1995-11-15'), 0, '1995-11-15T00:00' ],
@@ -308,7 +308,7 @@ describe('DateTimeUtil', function() {
 
       // then
       for (const [ date, minutes, expectedWithoutSuffix ] of testCases) {
-        const expected = expectedWithoutSuffix + timezoneOffsetSuffix;
+        const expected = expectedWithoutSuffix + getTimezoneOffsetSuffix(date);
         expect(serializeDateTime(date, minutes, serializingFormat)).to.equal(expected);
       }
     });
@@ -329,7 +329,7 @@ describe('DateTimeUtil', function() {
 
       // then
       for (const [ date, minutesWithoutOffset, expected ] of testCases) {
-        const minutes = minutesWithoutOffset - new Date().getTimezoneOffset();
+        const minutes = minutesWithoutOffset - date.getTimezoneOffset();
         expect(serializeDateTime(date, minutes, serializingFormat)).to.equal(expected);
       }
     });
