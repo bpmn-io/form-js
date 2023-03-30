@@ -270,6 +270,7 @@
   padding: 8px;
   width: auto !important;
   min-width: 34px;
+  max-width: 30%;
   display: flex;
   overflow: hidden;
 }
@@ -361,7 +362,7 @@
   margin: 0;
   outline: 0;
   width: auto;
-  flex-grow: 1;
+  flex: 1;
 }
 
 .fjs-container .fjs-input-group .fjs-select-display {
