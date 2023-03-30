@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.13.1
+
+### Viewer
+
+* `FIX`: add missing `feelers` dependency ([#581](https://github.com/bpmn-io/form-js/issues/581))
+* `FIX`: correct adorner alignments ([#584](https://github.com/bpmn-io/form-js/issues/584))
+
 ## 0.13.0
 
 ### General
