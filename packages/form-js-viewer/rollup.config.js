@@ -58,7 +58,8 @@ export default [
       'preact-markup',
       'flatpickr',
       'showdown',
-      '@carbon/grid'
+      '@carbon/grid',
+      'feelers'
     ],
     plugins: pgl([
       copy({
