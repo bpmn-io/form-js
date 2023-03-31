@@ -93,10 +93,9 @@
 }
 
 .fjs-container .fjs-layout-row {
-  width: 100%;
+  flex: auto;
   padding: 9px 0;
   position: relative;
-  margin-left: 1px;
 }
 
 .fjs-container .fjs-column {
@@ -134,6 +133,7 @@
   color: var(--color-text);
   background-color: var(--color-background);
   position: relative;
+  padding: 0 4px;
 }
 
 .fjs-container .fjs-form * {
