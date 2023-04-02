@@ -101,6 +101,7 @@
 .fjs-editor-container .fjs-input:disabled,
 .fjs-editor-container .fjs-textarea:disabled,
 .fjs-editor-container .fjs-taglist-input:disabled,
+.fjs-editor-container .fjs-button:disabled,
 .fjs-editor-container .fjs-select:disabled {
   pointer-events: none;
 }
