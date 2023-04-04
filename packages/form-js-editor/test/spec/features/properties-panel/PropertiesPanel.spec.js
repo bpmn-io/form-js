@@ -343,6 +343,7 @@ describe('properties panel', function() {
         expectGroups(result.container, [
           'General',
           'Condition',
+          'Validation',
           'Custom properties'
         ]);
 
@@ -352,6 +353,10 @@ describe('properties panel', function() {
           'Key',
           'Default value',
           'Disabled'
+        ]);
+
+        expectGroupEntries(result.container, 'Validation', [
+          'Required'
         ]);
       });
 
@@ -863,6 +868,7 @@ describe('properties panel', function() {
           'Condition',
           'Options source',
           'Static options',
+          'Validation',
           'Custom properties'
         ]);
 
@@ -880,6 +886,10 @@ describe('properties panel', function() {
         expectGroupEntries(result.container, 'Static options', [
           [ 'Label', 3 ],
           [ 'Value', 3 ]
+        ]);
+
+        expectGroupEntries(result.container, 'Validation', [
+          'Required'
         ]);
 
       });
@@ -1129,6 +1139,7 @@ describe('properties panel', function() {
           'Condition',
           'Options source',
           'Static options',
+          'Validation',
           'Custom properties'
         ]);
 
@@ -1148,6 +1159,9 @@ describe('properties panel', function() {
           [ 'Value', 11 ]
         ]);
 
+        expectGroupEntries(result.container, 'Validation', [
+          'Required'
+        ]);
       });
 
 

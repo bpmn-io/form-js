@@ -26,8 +26,11 @@ export default function Checkbox(props) {
   const {
     description,
     id,
-    label
+    label,
+    validate = {}
   } = field;
+
+  const { required } = validate;
 
   const onChange = ({ target }) => {
     props.onChange({
@@ -42,7 +45,7 @@ export default function Checkbox(props) {
     <Label
       id={ prefixId(id, formId) }
       label={ label }
-      required={ false }>
+      required={ required }>
       <input
         checked={ value }
         class="fjs-input"

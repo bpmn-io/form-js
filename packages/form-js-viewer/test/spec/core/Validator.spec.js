@@ -243,6 +243,43 @@ describe('Validator', function() {
         expect(errors[ 0 ]).to.equal('Field is required.');
       });
 
+
+      it('should be invalid (checkbox)', function() {
+
+        // given
+        const field = {
+          type: 'checkbox',
+          validate: {
+            required: true
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, false);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field is required.');
+      });
+
+
+      it('should be invalid (multiple)', function() {
+
+        // given
+        const field = {
+          validate: {
+            required: true
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, []);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field is required.');
+      });
+
     });
 
 

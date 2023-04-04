@@ -49,6 +49,25 @@ describe('Datetime', function() {
     });
 
 
+    it('should render required label', function() {
+
+      // when
+      const { container } = createDatetime({
+        field: {
+          ...dateField,
+          dateLabel: 'Required',
+          validate: {
+            required: true
+          }
+        }
+      });
+
+      const dateLabel = container.querySelector('label');
+      expect(dateLabel).to.exist;
+      expect(dateLabel.textContent).to.equal('Required*');
+    });
+
+
     it('should render value', function() {
 
       // when
@@ -340,6 +359,25 @@ describe('Datetime', function() {
       const adornment = formField.querySelector('.fjs-input-adornment');
       expect(adornment).to.exist;
 
+    });
+
+
+    it('should render required label', function() {
+
+      // when
+      const { container } = createDatetime({
+        field: {
+          ...timeField,
+          timeLabel: 'Required',
+          validate: {
+            required: true
+          }
+        }
+      });
+
+      const dateLabel = container.querySelector('label');
+      expect(dateLabel).to.exist;
+      expect(dateLabel.textContent).to.equal('Required*');
     });
 
 
@@ -639,6 +677,28 @@ describe('Datetime', function() {
       const adornments = formField.querySelectorAll('.fjs-input-adornment');
       expect(adornments.length).to.equal(2);
 
+    });
+
+
+    it('should render required labels', function() {
+
+      // when
+      const { container } = createDatetime({
+        label: 'Required',
+        field: {
+          ...datetimeField,
+          dateLabel: 'Required_date',
+          timeLabel: 'Required_time',
+          validate: {
+            required: true
+          }
+        }
+      });
+
+      const dateTimeLabels = container.querySelectorAll('label');
+      expect(dateTimeLabels.length).to.equal(2);
+      expect(dateTimeLabels[0].textContent).to.equal('Required_date*');
+      expect(dateTimeLabels[1].textContent).to.equal('Required_time*');
     });
 
     it('should render date label with height when time label is not empty', () => {

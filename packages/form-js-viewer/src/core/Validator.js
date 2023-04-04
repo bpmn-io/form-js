@@ -69,11 +69,17 @@ export default class Validator {
       ];
     }
 
-    if (validate.required && (isNil(value) || value === '')) {
-      errors = [
-        ...errors,
-        'Field is required.'
-      ];
+    if (validate.required) {
+      const isUncheckedCheckbox = type === 'checkbox' && value === false;
+      const isUnsetValue = isNil(value) || value === '';
+      const isEmptyMultiselect = Array.isArray(value) && value.length === 0;
+
+      if (isUncheckedCheckbox || isUnsetValue || isEmptyMultiselect) {
+        errors = [
+          ...errors,
+          'Field is required.'
+        ];
+      }
     }
 
     if ('min' in validate && (value || value === 0) && value < validate.min) {

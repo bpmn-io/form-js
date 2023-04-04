@@ -37,7 +37,7 @@ export default function ValidationGroup(field, editField) {
   const validate = get(field, [ 'validate' ], {});
   const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate.validationType);
 
-  if (!(INPUTS.includes(type) && type !== 'checkbox' && type !== 'checklist' && type !== 'taglist')) {
+  if (!INPUTS.includes(type)) {
     return null;
   }
 

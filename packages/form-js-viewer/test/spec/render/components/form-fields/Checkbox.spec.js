@@ -51,6 +51,27 @@ describe('Checkbox', function() {
   });
 
 
+  it('should render required label', function() {
+
+    // when
+    const { container } = createCheckbox({
+      field: {
+        ...defaultField,
+        label: 'Required',
+        validate: {
+          required: true
+        }
+      }
+    });
+
+    // then
+    const label = container.querySelector('label');
+
+    expect(label).to.exist;
+    expect(label.textContent).to.equal('Required*');
+  });
+
+
   it('should render default value (false)', function() {
 
     // when

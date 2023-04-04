@@ -52,6 +52,27 @@ describe('Number', function() {
   });
 
 
+  it('should render required label', function() {
+
+    // when
+    const { container } = createNumberField({
+      field: {
+        ...defaultField,
+        label: 'Required',
+        validate: {
+          required: true
+        }
+      }
+    });
+
+    // then
+    const label = container.querySelector('label');
+
+    expect(label).to.exist;
+    expect(label.textContent).to.equal('Required*');
+  });
+
+
   it('should render adorners', function() {
 
     // when

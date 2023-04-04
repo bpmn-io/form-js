@@ -27,8 +27,11 @@ export default function Checklist(props) {
   const {
     description,
     id,
-    label
+    label,
+    validate = {}
   } = field;
+
+  const { required } = validate;
 
   const toggleCheckbox = (v) => {
 
@@ -55,7 +58,8 @@ export default function Checklist(props) {
 
   return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
     <Label
-      label={ label } />
+      label={ label }
+      required={ required } />
     {
       loadState == LOAD_STATES.LOADED && options.map((v, index) => {
         return (

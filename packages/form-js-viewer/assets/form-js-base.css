@@ -540,6 +540,7 @@
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-select,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-textarea,
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-taglist,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group .fjs-input {
   border-color: var(--color-warning);
