@@ -13,19 +13,6 @@ describe('ValidationGroup', function() {
 
   afterEach(() => cleanup());
 
-
-  it('should NOT render for checkbox', function() {
-
-    // given
-    const field = { type: 'checkbox' };
-
-    const group = ValidationGroup(field);
-
-    // then
-    expect(group).to.not.exist;
-  });
-
-
   describe('required', function() {
 
     it('should render for textfield', function() {

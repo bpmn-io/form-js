@@ -31,8 +31,11 @@ export default function Taglist(props) {
   const {
     description,
     id,
-    label
+    label,
+    validate = {}
   } = field;
+
+  const { required } = validate;
 
   const { formId } = useContext(FormContext);
   const [ filter, setFilter ] = useState('');
@@ -128,6 +131,7 @@ export default function Taglist(props) {
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
       label={ label }
+      required={ required }
       id={ prefixId(`${id}-search`, formId) } />
     <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled }) }>
       { loadState === LOAD_STATES.LOADED &&
