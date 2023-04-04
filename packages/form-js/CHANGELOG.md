@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 0.14.0
+
+* `FEAT`: feat: implemented required parameter for checkboxes, checklists and taglists ([#594](https://github.com/bpmn-io/form-js/issues/594))
+* `FIX`: prevented buttons from intercepting drag&drop action in editor ([#585](https://github.com/bpmn-io/form-js/issues/585))
+* `FIX`: recentered form view ([#582](https://github.com/bpmn-io/form-js/issues/582))
+
+
 ## 0.13.1
 
 ### Viewer
