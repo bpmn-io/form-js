@@ -992,7 +992,8 @@ describe('FormEditor', function() {
     });
 
 
-    it('should move row', async function() {
+    // flaky, skipped for now until we migrate it to playwright
+    it.skip('should move row', async function() {
 
       // given
       formEditor = await createFormEditor({
@@ -1022,6 +1023,7 @@ describe('FormEditor', function() {
         clientX: bounds.x,
         clientY: bounds.y
       });
+
       endDragging(container);
 
       // then

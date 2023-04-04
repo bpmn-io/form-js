@@ -119,24 +119,29 @@
   display: flex;
   width: 100%;
   padding: 3px 0px;
+  position: relative;
 }
 
 .fjs-editor-container .fjs-row-dragger {
-  visibility: hidden;
   z-index: 2;
-  position: relative;
-  margin-left: -12px;
-  margin-top: auto;
-  margin-bottom: auto;
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: -33px;
+  width: 23px;
+  padding-right: 7px;
   cursor: grab;
-  width: 32px;
-  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.fjs-editor-container .fjs-drag-row-move:hover .fjs-row-dragger {
+.fjs-editor-container .fjs-row-dragger svg {
+  visibility: hidden;
+}
+
+.fjs-editor-container .fjs-row-dragger:hover svg,
+.fjs-editor-container .fjs-drag-row-move:hover .fjs-row-dragger svg {
   visibility: visible;
 }
 
@@ -405,11 +410,8 @@
 /* row drop preview */
 .fjs-children > .gu-transit {
   height: 28px !important;
-  margin-left: 28px !important;
-  margin-right: -8px !important;
+  width: 100% !important;
   flex: unset !important;
-  width: unset !important;
-  max-width: unset !important;
 }
 
 /* error drop preview */
