@@ -104,5 +104,6 @@
     "source-map-loader": "^4.0.0",
     "typescript": "^5.0.0",
     "webpack": "^5.40.0"
-  }
+  },
+  "version": "0.14.0"
 }
