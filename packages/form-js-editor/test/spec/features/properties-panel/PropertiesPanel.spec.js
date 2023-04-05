@@ -643,6 +643,65 @@ describe('properties panel', function() {
 
           });
 
+
+          describe('label', function() {
+
+            it('should not be empty', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'product');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Label', { selector: '#bio-properties-panel-Radio_1-staticValues-0-label' });
+
+              fireEvent.input(input, { target: { value: '' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must not be empty.');
+
+              expect(error).to.exist;
+            });
+
+
+            it('should be unique', function() {
+
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = schema.components.find(({ key }) => key === 'product');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Label', { selector: '#bio-properties-panel-Radio_1-staticValues-0-label' });
+
+              fireEvent.input(input, { target: { value: 'Camunda Cloud' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must be unique.');
+
+              expect(error).to.exist;
+            });
+
+          });
+
         });
 
       });
