@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "text": "ConditionalExample: {{#if value > minimum}} Display conditionally {{display.subdisplay}} {{/if}}",
+      "type": "text"
+    },
+    {
+      "text": "NestedLoopExample: {{#loop orgs}} {{#loop members}} {{_parent_._parent_.external1.question}} {{/loop}} {{_parent_.external2}} {{/loop}}",
+      "type": "text"
+    },
+    {
+      "text": "AbiguousNamesExample: {{parent}} {{this}}",
+      "type": "text"
+    },
+    {
+      "text": "OutOfScopeExample: {{_parent_.child.child2}}",
+      "type": "text"
+    }
+  ],
+  "type": "default",
+  "id": "Form",
+  "schemaVersion": 6
+}

@@ -195,6 +195,19 @@ describe('FeelExpressionLanguage', function() {
       expect(result).to.eql([ 'foo', 'bar' ]);
     });
 
+
+    it('should NOT return child variable names', function() {
+
+      // given
+      const expression = '=foo1+foo2.bar1+foo3.bar2.baz1';
+
+      // when
+      const result = feelExpressionLanguage.getVariableNames(expression);
+
+      // then
+      expect(result).to.eql([ 'foo1', 'foo2', 'foo3' ]);
+    });
+
   });
 
 });

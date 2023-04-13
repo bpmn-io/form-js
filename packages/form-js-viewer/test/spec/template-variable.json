@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "text": "=myText",
+      "type": "text"
+    },
+    {
+      "text": "Just some text",
+      "type": "text"
+    },
+    {
+      "text": "Some templated text: {{greeting}} {{name}} {{#if showAge}} {{age}} {{/if}} {{#loop hobbies}} {{this}}: {{experience}} Y{{/loop}}",
+      "type": "text"
+    }
+  ],
+  "type": "default",
+  "id": "Form",
+  "schemaVersion": 6
+}

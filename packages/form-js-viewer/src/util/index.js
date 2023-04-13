@@ -1,4 +1,5 @@
 import FeelExpressionLanguage from '../features/expression-language/FeelExpressionLanguage.js';
+import FeelersTemplating from '../features/expression-language/FeelersTemplating.js';
 
 export * from './constants';
 export * from './injector';
@@ -7,6 +8,10 @@ export * from './form';
 const EXPRESSION_PROPERTIES = [
   'alt',
   'source',
+  'text'
+];
+
+const TEMPLATE_PROPERTIES = [
   'text'
 ];
 
@@ -78,7 +83,7 @@ export function clone(data, replacer) {
  *
  * @return {string[]}
  */
-export function getSchemaVariables(schema, expressionLanguage = new FeelExpressionLanguage(null)) {
+export function getSchemaVariables(schema, expressionLanguage = new FeelExpressionLanguage(null), templating = new FeelersTemplating()) {
 
   if (!schema.components) {
     return [];
@@ -120,6 +125,17 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
         const expressionVariables = expressionLanguage.getVariableNames(property, { type: 'expression' });
 
         variables = [ ...variables, ...expressionVariables ];
+      }
+    });
+
+    TEMPLATE_PROPERTIES.forEach((prop) => {
+      const property = component[prop];
+
+      if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
+
+        const templateVariables = templating.getVariableNames(property);
+
+        variables = [ ...variables, ...templateVariables ];
       }
     });
 
