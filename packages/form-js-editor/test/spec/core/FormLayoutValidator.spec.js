@@ -39,6 +39,19 @@ describe('core/FormLayoutValidator', function() {
     }));
 
 
+    it('should disallow - uneven', inject(function(formLayoutValidator, formFieldRegistry) {
+
+      // given
+      const field = formFieldRegistry.get('Textfield_1');
+
+      // when
+      const error = formLayoutValidator.validateField(field, 3);
+
+      // then
+      expect(error).to.eql('Columns must be even');
+    }));
+
+
     it('should disallow - more than 16 columns per row', inject(
       function(formLayoutValidator, formFieldRegistry) {
 

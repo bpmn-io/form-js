@@ -14,7 +14,7 @@ export default class FormLayoutValidator {
   validateField(field = {}, columns, row) {
 
     // allow empty (auto columns)
-    if (columns) {
+    if (Number.isInteger(columns)) {
 
       // allow minimum 2 cols
       if (columns < 2) {
@@ -24,6 +24,10 @@ export default class FormLayoutValidator {
       // allow maximum 16 cols
       if (columns > 16) {
         return 'Maximum 16 columns are allowed';
+      }
+
+      if (columns % 2 !== 0) {
+        return 'Columns must be even';
       }
     }
 
