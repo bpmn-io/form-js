@@ -202,6 +202,13 @@
   top: 0;
 }
 
+/* do not show resize handles on small screens */
+@media (max-width: 66rem) {
+  .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle  {
+    display: none !important;
+  }
+}
+
 /**
  * Cursor styles
  */
