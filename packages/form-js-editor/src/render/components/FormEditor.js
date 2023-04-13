@@ -19,9 +19,7 @@ import useService from '../hooks/useService';
 
 import { DragAndDropContext } from '../context';
 
-import { DraggableIcon } from './icons';
-
-import { ListDeleteIcon } from '../../features/properties-panel/icons';
+import { DeleteIcon, DraggableIcon } from './icons';
 
 import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
 
@@ -133,7 +131,7 @@ function Element(props) {
       <ContextPad>
         {
           selection.isSelected(field) && field.type !== 'default'
-            ? <button class="fjs-context-pad-item" onClick={ onRemove }><ListDeleteIcon /></button>
+            ? <button class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
             : null
         }
       </ContextPad>
