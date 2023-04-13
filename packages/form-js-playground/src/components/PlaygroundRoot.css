@@ -160,6 +160,11 @@
   overflow: hidden;
 }
 
+.fjs-pgl-form-container .fjs-container .cds--grid .cds--row {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 .fjs-pgl-form-container .fjs-form-editor {
   width: 100%;
 }
