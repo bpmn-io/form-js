@@ -89,7 +89,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(7);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(8);
   });
 
 
@@ -926,7 +926,7 @@ describe('FormEditor', function() {
       await expectDragulaCreated(formEditor);
 
       // assume
-      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
         columns: 8,
         row: 'Row_1'
       });
@@ -946,7 +946,7 @@ describe('FormEditor', function() {
       endDragging(container);
 
       // then
-      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
         columns: 8,
         row: 'Row_4'
       });
@@ -966,7 +966,7 @@ describe('FormEditor', function() {
       await expectDragulaCreated(formEditor);
 
       // assume
-      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
         columns: 8,
         row: 'Row_1'
       });
@@ -985,7 +985,7 @@ describe('FormEditor', function() {
       endDragging(container);
 
       // then
-      expect(formFieldRegistry.get('Textfield_1').layout).to.eql({
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
         columns: 8,
         row: 'Row_1'
       });
@@ -1240,6 +1240,157 @@ describe('FormEditor', function() {
 
   });
 
+
+  describe('resize', function() {
+
+    function expectResized(test, fieldId, direction, prevCols, deltaCols, newCols, undo) {
+
+      it(test, async function() {
+
+        // given
+        formEditor = await createFormEditor({
+          schema: schemaRows,
+          container
+        });
+
+        const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+        const field = formFieldRegistry.get(fieldId);
+
+        formEditor.get('selection').set(field);
+
+        await expectSelected(fieldId);
+
+        // assume
+        expectLayout(field, {
+          columns: prevCols,
+          row: field.layout.row
+        });
+
+        const formFieldNode = container.querySelector(`[data-id="${fieldId}"]`).parentNode;
+
+        const rowNode = getRowParent(formFieldNode);
+
+        const resizer = formFieldNode.querySelector(`.fjs-field-resize-handle-${direction}`);
+        const bounds = resizer.getBoundingClientRect();
+
+        // when
+        startResizing(resizer);
+        moveResizing(resizer, {
+          clientX: bounds.x + asPixels(deltaCols, rowNode),
+          clientY: bounds.y
+        });
+        endResizing(resizer);
+
+        // then
+        expectLayout(formFieldRegistry.get(fieldId), {
+          columns: newCols,
+          row: field.layout.row
+        });
+
+        // and when
+        if (undo) {
+          formEditor.get('commandStack').undo();
+
+          // then
+          expectLayout(formFieldRegistry.get(fieldId), {
+            columns: prevCols,
+            row: field.layout.row
+          });
+        }
+      });
+    }
+
+
+    it('render resize handles', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema,
+        container
+      });
+
+      const field = formEditor.get('formFieldRegistry').get('Textfield_1');
+
+      // when
+      formEditor.get('selection').set(field);
+
+      await expectSelected('Textfield_1');
+
+      const formFieldNode = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      // then
+      expect(formFieldNode.querySelector('.fjs-field-resize-handle-right')).to.exist;
+      expect(formFieldNode.querySelector('.fjs-field-resize-handle-left')).to.exist;
+    });
+
+
+    expectResized(
+      'should resize form field - right, decrease',
+      'Textfield_1',
+      'right',
+      8, -2, 6
+    );
+
+
+    expectResized(
+      'should resize form field - right, increase',
+      'Radio_1',
+      'right',
+      8, 2, 10
+    );
+
+
+    expectResized(
+      'should resize form field - left, decrease',
+      'Textfield_1',
+      'left',
+      8, 2, 6
+    );
+
+
+    expectResized(
+      'should resize form field - left, increase',
+      'Radio_1',
+      'left',
+      8, -2, 10
+    );
+
+
+    expectResized(
+      'should NOT resize form field - invalid, no more cols left',
+      'Textfield_1',
+      'right',
+      8, 4, 8
+    );
+
+
+    expectResized(
+      'should NOT resize form field - max cols reached',
+      'Textfield_1',
+      'right',
+      8, 20, 8
+    );
+
+
+    expectResized(
+      'should NOT resize form field - min cols reached',
+      'Textfield_1',
+      'right',
+      8, -8, 8
+    );
+
+
+    expectResized(
+      'should resize form field - undo',
+      'Radio_1',
+      'right',
+      8, 2, 10,
+      true
+    );
+
+  });
+
 });
 
 // helpers //////////
@@ -1269,6 +1420,10 @@ async function expectSelected(expectedId) {
   });
 }
 
+function expectLayout(field, layout) {
+  expect(field.layout).to.eql(layout);
+}
+
 async function expectDragulaCreated(formEditor) {
   let dragulaCreated = false;
 
@@ -1289,6 +1444,26 @@ function dispatchEvent(element, type, options = {}) {
   Object.keys(options).forEach(key => event[ key ] = options[ key ]);
 
   element.dispatchEvent(event);
+}
+
+function startResizing(node, position) {
+  if (!position) {
+    const bounds = node.getBoundingClientRect();
+    position = {
+      clientX: bounds.x,
+      clientY: bounds.y
+    };
+  }
+
+  dispatchEvent(node, 'dragstart', position);
+}
+
+function moveResizing(node, position) {
+  dispatchEvent(node, 'dragover', position);
+}
+
+function endResizing(node) {
+  dispatchEvent(node, 'dragend');
 }
 
 function startDragging(container, node) {
@@ -1325,4 +1500,16 @@ function getRowOrder(container) {
   rows.forEach(r => order.push(r.dataset.rowId));
 
   return order;
+}
+
+function asPixels(columns, parent) {
+  const totalWidth = parent.getBoundingClientRect().width;
+
+  const oneColumn = (1 / 16) * totalWidth;
+
+  return Math.round(columns * oneColumn);
+}
+
+function getRowParent(node) {
+  return node.closest('.fjs-layout-row');
 }

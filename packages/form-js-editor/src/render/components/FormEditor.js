@@ -35,6 +35,10 @@ import {
   FieldDragPreview
 } from './FieldDragPreview';
 
+import {
+  FieldResizer
+} from './FieldResizer';
+
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
 
 import { iconsByType } from './icons';
@@ -136,6 +140,8 @@ function Element(props) {
         }
       </ContextPad>
       { props.children }
+      <FieldResizer position="left" field={ field }></FieldResizer>
+      <FieldResizer position="right" field={ field }></FieldResizer>
     </div>
   );
 }
