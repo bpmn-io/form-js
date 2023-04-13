@@ -1,5 +1,6 @@
-import { evaluate, parseExpressions, parseUnaryTests } from 'feelin';
+import { evaluate } from 'feelin';
 import { isString } from 'min-dash';
+import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
 export default class FeelExpressionLanguage {
   constructor(eventBus) {
@@ -7,9 +8,9 @@ export default class FeelExpressionLanguage {
   }
 
   /**
-   * Determines if the given string is a FEEL expression.
+   * Determines if the given value is a FEEL expression.
    *
-   * @param {string} value
+   * @param {any} value
    * @returns {boolean}
    *
    */
@@ -34,14 +35,11 @@ export default class FeelExpressionLanguage {
       return [];
     }
 
-    if (type === 'unaryTest') {
-      return this._getUnaryVariableNames(expression);
-    }
-    else if (type === 'expression') {
-      return this._getExpressionVariableNames(expression);
+    if (![ 'unaryTest', 'expression' ].includes(type)) {
+      throw new Error('Unknown expression type: ' + type);
     }
 
-    throw new Error('Unknown expression type: ' + options.type);
+    return getFlavouredFeelVariableNames(expression, type);
   }
 
   /**
@@ -69,40 +67,6 @@ export default class FeelExpressionLanguage {
       this._eventBus.fire('error', { error });
       return null;
     }
-  }
-
-  _getExpressionVariableNames(expression) {
-    const tree = parseExpressions(expression);
-    const cursor = tree.cursor();
-
-    const variables = new Set();
-    do {
-      const node = cursor.node;
-
-      if (node.type.name === 'VariableName') {
-        variables.add(expression.slice(node.from, node.to));
-      }
-
-    } while (cursor.next());
-
-    return Array.from(variables);
-  }
-
-  _getUnaryVariableNames(unaryTest) {
-    const tree = parseUnaryTests(unaryTest);
-    const cursor = tree.cursor();
-
-    const variables = new Set();
-    do {
-      const node = cursor.node;
-
-      if (node.type.name === 'VariableName') {
-        variables.add(unaryTest.slice(node.from, node.to));
-      }
-
-    } while (cursor.next());
-
-    return Array.from(variables);
   }
 }
 

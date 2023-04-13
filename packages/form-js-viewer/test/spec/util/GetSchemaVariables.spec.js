@@ -6,6 +6,8 @@ import schema from '../form.json';
 import dynamicSchema from '../dynamic.json';
 import conditionalSchema from '../condition-external-variable.json';
 import expressionSchema from '../expression-external-variable.json';
+import templateSchema from '../template-variable.json';
+import complexTemplateSchema from '../template-variable-complex.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -40,6 +42,22 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(expressionSchema);
 
     expect(variables).to.eql([ 'logo', 'alt', 'myText' ]);
+  });
+
+
+  it('should include variables in root of templates', () => {
+
+    const variables = getSchemaVariables(templateSchema);
+
+    expect(variables).to.eql([ 'myText', 'greeting', 'name', 'showAge', 'age', 'hobbies' ]);
+  });
+
+
+  it('should handle complex template cases', () => {
+
+    const variables = getSchemaVariables(complexTemplateSchema);
+
+    expect(variables).to.eql([ 'value', 'minimum', 'display', 'orgs', 'external1', 'external2', 'parent', 'this' ]);
   });
 
 
