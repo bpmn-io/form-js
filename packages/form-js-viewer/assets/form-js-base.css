@@ -113,6 +113,8 @@
 
 .fjs-container .cds--grid .cds--row {
   align-items: start;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (max-width: 66rem) {
