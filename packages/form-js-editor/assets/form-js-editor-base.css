@@ -4,9 +4,12 @@
   --color-children-selected-background: transparent;
   --color-children-hover-border: var(--color-blue-219-100-53-05);
   
-  --color-context-pad-item-background: var(--color-white);
-  --color-context-pad-item-fill: var(--color-grey-225-10-35);
-  --color-context-pad-item-hover-fill: var(--color-black);
+  --color-context-pad-item-background: transparent;
+  --color-context-pad-item-fill: var(--color-grey-225-10-15);
+  --color-context-pad-item-hover-fill: var(--color-red-360-100-45);
+
+  --color-resize-handle-background: var(--color-blue-219-100-53);
+  --color-resize-handle-border: var(--color-blue-219-100-53);
 
   --color-dragula-background: var(--color-blue-205-100-95);
   --color-dragula-border: var(--color-blue-205-100-45);
@@ -145,6 +148,60 @@
   visibility: visible;
 }
 
+.fjs-editor-container .fjs-drag-move {
+  padding-left: 3px;
+}
+
+.fjs-editor-container .fjs-field-resize-handle {
+  resize: horizontal;
+  position: absolute;
+  visibility: hidden;
+  width: 6px;
+  top: 9px;
+  bottom: 9px;
+  border: 1px solid var(--color-resize-handle-border);
+  border-radius: 50px;
+  background: var(--color-white);
+  z-index: 3;
+}
+
+.fjs-editor-container .fjs-field-resize-handle-right {
+  right: -4px;
+  cursor: ew-resize;
+}
+
+.fjs-editor-container .fjs-field-resize-handle-left {
+  left: -4px;
+  cursor: ew-resize;
+}
+
+.fjs-editor-container .fjs-form-field-checkbox + .fjs-field-resize-handle,
+.fjs-editor-container .fjs-form-field-checkbox + .fjs-field-resize-handle + .fjs-field-resize-handle,
+.fjs-editor-container .fjs-form-field-radio + .fjs-field-resize-handle,
+.fjs-editor-container .fjs-form-field-radio + .fjs-field-resize-handle + .fjs-field-resize-handle,
+.fjs-editor-container .fjs-form-field-checklist + .fjs-field-resize-handle,
+.fjs-editor-container .fjs-form-field-checklist + .fjs-field-resize-handle + .fjs-field-resize-handle {
+  top: 2px;
+  bottom: 2px;
+}
+
+.fjs-editor-container .fjs-element-resizing-right .fjs-field-resize-handle-right,
+.fjs-editor-container .fjs-element-resizing-left .fjs-field-resize-handle-left,
+.fjs-editor-container .fjs-field-resize-handle:hover {
+  background: var(--color-resize-handle-background);
+}
+
+.fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle {
+  visibility: visible;
+}
+
+.fjs-resize-drag-preview {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+}
+
 /**
  * Cursor styles
  */
@@ -179,26 +236,24 @@
 .fjs-editor-container .fjs-context-pad {
   z-index: 2;
   position: absolute;
-  top: 3px;
-  right: 3px;
-  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 10%);
+  top: 0;
+  right: 5px;
 }
 
 .fjs-editor-container .fjs-context-pad-item {
   border: none;
-  border-radius: 3px;
   background-color: var(--color-context-pad-item-background);
   padding: 0;
   width: 24px;
   height: 24px;
-  fill: var(--color-context-pad-item-fill);
+  color: var(--color-context-pad-item-fill);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .fjs-editor-container .fjs-context-pad-item:hover {
-  fill: var(--color-context-pad-item-hover-fill);
+  color: var(--color-context-pad-item-hover-fill);
 }
 
 /**

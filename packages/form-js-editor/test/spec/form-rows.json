@@ -59,6 +59,26 @@
       "layout": {
         "row": "Row_4"
       }
+    },
+    {
+      "id": "Radio_1",
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Camunda Platform",
+          "value": "camunda-platform"
+        },
+        {
+          "label": "Camunda Cloud",
+          "value": "camunda-cloud"
+        }
+      ],
+      "layout": {
+        "row": "Row_5",
+        "columns": 8
+      }
     }
   ],
   "type": "default",
