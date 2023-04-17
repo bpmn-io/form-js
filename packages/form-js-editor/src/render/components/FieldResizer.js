@@ -91,7 +91,7 @@ export function FieldResizer(props) {
     // has a offset of 16px (1rem) to both side
     const columnNode = getColumnNode(target);
     const startWidth = columnNode.getBoundingClientRect().width + GRID_OFFSET_PX;
-    context.current.startColumns = asColumns(startWidth, parent);
+    context.current.startColumns = asValidColumns(startWidth, parent);
 
     setResizing(target, position);
   };
@@ -138,12 +138,12 @@ export function FieldResizer(props) {
 
 // helper //////
 
-function asColumns(width, parent) {
+function asValidColumns(width, parent) {
   const totalWidth = parent.getBoundingClientRect().width;
 
   const oneColumn = (1 / 16) * totalWidth;
 
-  return Math.round(width / oneColumn);
+  return 2 * Math.round(width / (2 * oneColumn));
 }
 
 function calculateNewColumns(node, currentColumns, deltaX, position) {
@@ -154,7 +154,7 @@ function calculateNewColumns(node, currentColumns, deltaX, position) {
     deltaX = deltaX * -1;
   }
 
-  const deltaColumns = asColumns(deltaX, parent);
+  const deltaColumns = asValidColumns(deltaX, parent);
 
   return currentColumns + deltaColumns;
 }
