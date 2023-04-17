@@ -1,6 +1,5 @@
 import {
-  useRef,
-  useEffect
+  useRef
 } from 'preact/hooks';
 
 import {
@@ -44,18 +43,6 @@ export function FieldResizer(props) {
     newColumns: null
   });
 
-  // create a blank canvas to use as drag preview
-  // ensure it was only created once
-  useEffect(() => {
-    let blankCanvas = getDragPreviewImage();
-
-    if (!blankCanvas) {
-      blankCanvas = document.createElement('canvas');
-      blankCanvas.classList.add(RESIZE_DRAG_PREVIEW_CLS);
-      document.body.appendChild(blankCanvas);
-    }
-  }, []);
-
   const onResize = throttle((_, delta) => {
     const { x: dx } = delta;
 
@@ -82,16 +69,29 @@ export function FieldResizer(props) {
   });
 
   const onResizeStart = (event) => {
-    const onDragStart = createDragger(onResize, getDragPreviewImage());
-    onDragStart(event);
 
     const target = getElementNode(field);
+    const parent = getParent(target);
+
+    // create a blank element to use as drag preview
+    // ensure it was only created once
+    let blankPreview = getDragPreviewImage(parent);
+
+    if (!blankPreview) {
+      blankPreview = document.createElement('div');
+      blankPreview.classList.add(RESIZE_DRAG_PREVIEW_CLS);
+      parent.appendChild(blankPreview);
+    }
+
+    // initialize drag handler
+    const onDragStart = createDragger(onResize, blankPreview);
+    onDragStart(event);
 
     // mitigate auto columns on the grid that
     // has a offset of 16px (1rem) to both side
     const columnNode = getColumnNode(target);
     const startWidth = columnNode.getBoundingClientRect().width + GRID_OFFSET_PX;
-    context.current.startColumns = asColumns(startWidth, getParent(target));
+    context.current.startColumns = asColumns(startWidth, parent);
 
     setResizing(target, position);
   };
@@ -110,6 +110,10 @@ export function FieldResizer(props) {
     unsetResizing(target, position);
 
     context.current.newColumns = null;
+
+    // remove blank preview
+    const blankPreview = getDragPreviewImage(getParent(target));
+    blankPreview.remove();
   };
 
   if (field.type === 'default') {
@@ -171,8 +175,8 @@ function getElementNode(field) {
   return domQuery('.fjs-element[data-id="' + field.id + '"]');
 }
 
-function getDragPreviewImage() {
-  return domQuery('canvas.fjs-resize-drag-preview');
+function getDragPreviewImage(node) {
+  return domQuery('.fjs-resize-drag-preview', node);
 }
 
 function setResizing(node, position) {
