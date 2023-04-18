@@ -19,10 +19,10 @@ describe('core/FormLayoutValidator', function() {
       const field = formFieldRegistry.get('Textfield_1');
 
       // when
-      const error = formLayoutValidator.validateField(field, 0);
+      const error = formLayoutValidator.validateField(field, 1);
 
       // then
-      expect(error).to.eql('Minimum 1 columns are allowed');
+      expect(error).to.eql('Minimum 2 columns are allowed');
     }));
 
 
