@@ -710,6 +710,28 @@ describe('Taglist', function() {
 
   });
 
+  it('should not submit form on enter', function() {
+
+    // given
+    const onSubmitSpy = spy();
+
+    const { container } = createTaglist({
+      onChange: () => {},
+      value: [ 'tag1', 'tag2', 'tag3' ],
+    });
+
+    container.addEventListener('keydown', onSubmitSpy);
+
+    // when
+    const filterInput = container.querySelector('.fjs-taglist-input');
+    fireEvent.focus(filterInput);
+    fireEvent.keyDown(filterInput, { key: 'Enter', code: 'Enter' });
+
+    // then
+
+    expect(onSubmitSpy).to.not.have.been.called;
+  });
+
 });
 
 // helpers //////////

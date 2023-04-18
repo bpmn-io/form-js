@@ -587,6 +587,31 @@ describe('Select', function() {
         expect(filterInput.value).to.equal('');
       });
 
+
+      it('should not submit form on enter', function() {
+
+        // given
+        const onSubmitSpy = spy();
+
+        const { container } = createSelect({
+          field: { ...defaultField, searchable: true },
+          onChange: () => { },
+          value: [ 'german' ],
+        });
+
+        container.addEventListener('keydown', onSubmitSpy);
+
+        // when
+        const input = container.querySelector('.fjs-input');
+
+        fireEvent.focus(input);
+        fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+
+        // then
+
+        expect(onSubmitSpy).to.not.have.been.called;
+      });
+
     });
 
   });
