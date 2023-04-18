@@ -1,3 +1,8 @@
+const MAX_COLUMNS_PER_ROW = 16;
+const MAX_COLUMNS = 16;
+const MIN_COLUMNS = 1;
+const MAX_FIELDS_PER_ROW = 4;
+
 export default class FormLayoutValidator {
 
   /**
@@ -16,18 +21,14 @@ export default class FormLayoutValidator {
     // allow empty (auto columns)
     if (Number.isInteger(columns)) {
 
-      // allow minimum 2 cols
-      if (columns < 2) {
-        return 'Minimum 2 columns are allowed';
+      // allow minimum cols
+      if (columns < MIN_COLUMNS) {
+        return `Minimum ${MIN_COLUMNS} columns are allowed`;
       }
 
-      // allow maximum 16 cols
-      if (columns > 16) {
-        return 'Maximum 16 columns are allowed';
-      }
-
-      if (columns % 2 !== 0) {
-        return 'Columns must be even';
+      // allow maximum cols
+      if (columns > MAX_COLUMNS) {
+        return `Maximum ${MAX_COLUMNS} columns are allowed`;
       }
     }
 
@@ -59,14 +60,14 @@ export default class FormLayoutValidator {
 
     // do not allow overflows
     if (
-      sumColumns > 16 ||
-      (sumColumns === 16 && sumAutoCols > 0) ||
-      (columns === 16 && sumFields > 1)) {
-      return 'New value exceeds the maximum of 16 columns per row';
+      sumColumns > MAX_COLUMNS_PER_ROW ||
+      (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
+      (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)) {
+      return `New value exceeds the maximum of ${MAX_COLUMNS_PER_ROW} columns per row`;
     }
 
-    if (sumFields > 4) {
-      return 'Maximum 4 fields per row are allowed';
+    if (sumFields > MAX_FIELDS_PER_ROW) {
+      return `Maximum ${MAX_FIELDS_PER_ROW} fields per row are allowed`;
     }
 
     return null;
@@ -74,3 +75,11 @@ export default class FormLayoutValidator {
 }
 
 FormLayoutValidator.$inject = [ 'formLayouter', 'formFieldRegistry' ];
+
+
+// helper //////////////////////
+
+// on normal screen sizes, auto columns take minimum 2 columns
+function calculateMaxColumnsWithAuto(autoCols) {
+  return MAX_COLUMNS_PER_ROW - (autoCols * 2);
+}
