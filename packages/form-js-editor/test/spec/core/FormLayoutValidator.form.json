@@ -68,6 +68,33 @@
         "row": "Row_1",
         "columns": 2
       }
+    },
+    {
+      "id": "AutoTextfield_1",
+      "key": "auto_1",
+      "label": "Auto Textfield 1",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_4"
+      }
+    },
+    {
+      "id": "AutoTextfield_2",
+      "key": "auto_2",
+      "label": "Auto Textfield 2",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_4"
+      }
+    },
+    {
+      "id": "AutoTextfield_3",
+      "key": "auto_3",
+      "label": "Auto Textfield 3",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_4"
+      }
     }
   ],
   "type": "default"
