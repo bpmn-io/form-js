@@ -29,7 +29,7 @@ export default function StaticValuesSourceEntry(props) {
     editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], without(values, entry));
   };
 
-  const validateFactory = (key) => {
+  const validateFactory = (key, getValue) => {
     return (value) => {
       if (value === key) {
         return;
@@ -39,7 +39,7 @@ export default function StaticValuesSourceEntry(props) {
         return 'Must not be empty.';
       }
 
-      const isValueAssigned = values.find(entry => entry.value === value);
+      const isValueAssigned = values.find(entry => getValue(entry) === value);
 
       if (isValueAssigned) {
         return 'Must be unique.';

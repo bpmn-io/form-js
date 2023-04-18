@@ -68,7 +68,7 @@ function Label(props) {
     id,
     label: 'Label',
     setValue,
-    validate: validateFactory(getValue())
+    validate: validateFactory(getValue(), (entry) => entry.label)
   });
 }
 
@@ -99,6 +99,6 @@ function Value(props) {
     id,
     label: 'Value',
     setValue,
-    validate: validateFactory(getValue())
+    validate: validateFactory(getValue(), (entry) => entry.value)
   });
 }
