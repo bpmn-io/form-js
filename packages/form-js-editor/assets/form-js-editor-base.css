@@ -184,6 +184,11 @@
   background: var(--color-resize-handle-background);
 }
 
+.fjs-editor-container .fjs-element-resizing-right .fjs-context-pad,
+.fjs-editor-container .fjs-element-resizing-left .fjs-context-pad {
+  display: none;
+}
+
 .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle {
   visibility: visible;
 }
