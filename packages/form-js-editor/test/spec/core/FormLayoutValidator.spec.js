@@ -19,10 +19,10 @@ describe('core/FormLayoutValidator', function() {
       const field = formFieldRegistry.get('Textfield_1');
 
       // when
-      const error = formLayoutValidator.validateField(field, 1);
+      const error = formLayoutValidator.validateField(field, 0);
 
       // then
-      expect(error).to.eql('Minimum 2 columns are allowed');
+      expect(error).to.eql('Minimum 1 columns are allowed');
     }));
 
 
@@ -39,7 +39,7 @@ describe('core/FormLayoutValidator', function() {
     }));
 
 
-    it('should disallow - uneven', inject(function(formLayoutValidator, formFieldRegistry) {
+    it('should allow - uneven', inject(function(formLayoutValidator, formFieldRegistry) {
 
       // given
       const field = formFieldRegistry.get('Textfield_1');
@@ -48,7 +48,7 @@ describe('core/FormLayoutValidator', function() {
       const error = formLayoutValidator.validateField(field, 3);
 
       // then
-      expect(error).to.eql('Columns must be even');
+      expect(error).to.not.exist;
     }));
 
 
@@ -97,6 +97,24 @@ describe('core/FormLayoutValidator', function() {
 
         // then
         expect(error).to.eql('Maximum 4 fields per row are allowed');
+      }
+    ));
+
+
+    it('should disallow - auto columns', inject(
+      function(formLayoutValidator, formFieldRegistry, formLayouter) {
+
+        // given
+        const field = formFieldRegistry.get('AutoTextfield_1');
+
+        const row = formLayouter.getRow('Row_4');
+
+        // when
+        // explanation: two fields with auto columns, 12 columns left
+        const error = formLayoutValidator.validateField(field, 13, row);
+
+        // then
+        expect(error).to.eql('New value exceeds the maximum of 16 columns per row');
       }
     ));
 
