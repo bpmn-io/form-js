@@ -7,6 +7,8 @@ import {
   SelectEntry
 } from '@bpmn-io/properties-panel';
 
+import { MIN_COLUMNS } from '../../../core/FormLayoutValidator';
+
 
 export const AUTO_OPTION_VALUE = '';
 
@@ -64,7 +66,7 @@ function Columns(props) {
 
       // todo(pinussilvestrus): make options dependant on field type
       // cf. https://github.com/bpmn-io/form-js/issues/575
-      ...asArray(16).map(asOption)
+      ...asArray(16).filter(i => i >= MIN_COLUMNS).map(asOption)
     ];
   };
 

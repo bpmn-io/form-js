@@ -1,7 +1,7 @@
-const MAX_COLUMNS_PER_ROW = 16;
-const MAX_COLUMNS = 16;
-const MIN_COLUMNS = 1;
-const MAX_FIELDS_PER_ROW = 4;
+export const MAX_COLUMNS_PER_ROW = 16;
+export const MAX_COLUMNS = 16;
+export const MIN_COLUMNS = 2;
+export const MAX_FIELDS_PER_ROW = 4;
 
 export default class FormLayoutValidator {
 
