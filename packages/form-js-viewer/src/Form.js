@@ -1,8 +1,11 @@
 import Ids from 'ids';
 import { get, isString, set } from 'min-dash';
 
-import ExpressionLanguageModule from './features/expression-language';
-import MarkdownModule from './features/markdown';
+import {
+  ExpressionLanguageModule,
+  MarkdownModule,
+  ViewerCommandsModule
+} from './features';
 
 import core from './core';
 
@@ -381,7 +384,8 @@ export default class Form {
   _getModules() {
     return [
       ExpressionLanguageModule,
-      MarkdownModule
+      MarkdownModule,
+      ViewerCommandsModule
     ];
   }
 

@@ -24,6 +24,7 @@ export default function Taglist(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     readonly,
     value : values = []
@@ -116,9 +117,10 @@ export default function Taglist(props) {
     }
   };
 
-  const onBlur = () => {
+  const onComponentBlur = () => {
     setIsDropdownExpanded(false);
     setFilter('');
+    onBlur();
   };
 
   const onTagRemoveClick = (event, value) => {
@@ -188,7 +190,7 @@ export default function Taglist(props) {
         onKeyDown={ onInputKeyDown }
         onMouseDown={ () => setIsEscapeClose(false) }
         onFocus={ () => !readonly && setIsDropdownExpanded(true) }
-        onBlur={ () => { !readonly && onBlur(); } }
+        onBlur={ () => !readonly && onComponentBlur() }
         aria-describedby={ errorMessageId } />
     </div>
     <div class="fjs-taglist-anchor">

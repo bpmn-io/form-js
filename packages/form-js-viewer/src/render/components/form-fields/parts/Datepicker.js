@@ -13,6 +13,7 @@ export default function Datepicker(props) {
     id,
     label,
     collapseLabelOnEmpty,
+    onDateTimeBlur,
     formId,
     required,
     disabled,
@@ -152,8 +153,9 @@ export default function Datepicker(props) {
       if (!isInputDirty || e.relatedTarget && e.relatedTarget.classList.contains('flatpickr-day')) return;
       dateInputRef.current.dispatchEvent(ENTER_KEYDOWN_EVENT);
       setIsInputDirty(false);
+      onDateTimeBlur(e);
 
-    }, [ isInputDirty ]
+    }, [ isInputDirty, onDateTimeBlur ]
   );
 
   const fullId = `${prefixId(id, formId)}--date`;

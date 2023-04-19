@@ -425,7 +425,8 @@ function createChecklist(options = {}) {
     readonly,
     errors,
     field = defaultField,
-    onChange,
+    onChange = () => {},
+    onBlur = () => {},
     value
   } = options;
 
@@ -436,6 +437,7 @@ function createChecklist(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
+      onBlur={ onBlur }
       value={ value } />,
     options
   ), {

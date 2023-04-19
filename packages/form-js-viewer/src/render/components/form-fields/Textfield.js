@@ -20,6 +20,7 @@ export default function Textfield(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     readonly,
     value = ''
@@ -62,6 +63,7 @@ export default function Textfield(props) {
         readOnly={ readonly }
         id={ prefixId(id, formId) }
         onInput={ onChange }
+        onBlur={ onBlur }
         type="text"
         value={ value }
         aria-describedby={ errorMessageId } />

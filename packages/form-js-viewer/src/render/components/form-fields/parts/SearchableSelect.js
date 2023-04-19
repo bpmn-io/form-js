@@ -20,6 +20,7 @@ export default function SearchableSelect(props) {
     id,
     disabled,
     errors,
+    onBlur,
     field,
     readonly,
     value
@@ -129,7 +130,7 @@ export default function SearchableSelect(props) {
         onKeyDown={ (e) => onInputKeyDown(e) }
         onMouseDown={ () => { setIsEscapeClose(false); setIsDropdownExpanded(true); setShouldApplyFilter(false); } }
         onFocus={ () => { setIsDropdownExpanded(true); setShouldApplyFilter(false); } }
-        onBlur={ () => { setIsDropdownExpanded(false); setFilter(valueLabel); } }
+        onBlur={ () => { setIsDropdownExpanded(false); setFilter(valueLabel); onBlur(); } }
         aria-describedby={ props['aria-describedby'] } />
       { displayState.displayCross && <span class="fjs-select-cross" onMouseDown={ (e) => { setValue(null); e.preventDefault(); } }><XMarkIcon /> </span> }
       <span class="fjs-select-arrow" onMouseDown={ (e) => onAngelMouseDown(e) }>{ displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon /> }</span>

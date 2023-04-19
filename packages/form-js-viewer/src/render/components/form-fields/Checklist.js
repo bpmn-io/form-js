@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useRef } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 import classNames from 'classnames';
 import { FormContext } from '../../context';
@@ -20,6 +20,7 @@ export default function Checklist(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     readonly,
     value = [],
@@ -31,6 +32,8 @@ export default function Checklist(props) {
     label,
     validate = {}
   } = field;
+
+  const outerDivRef = useRef();
 
   const { required } = validate;
 
@@ -50,6 +53,15 @@ export default function Checklist(props) {
     });
   };
 
+  const onCheckboxBlur = (e) => {
+
+    if (outerDivRef.current.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onBlur();
+  };
+
   const {
     state: loadState,
     values: options
@@ -58,7 +70,7 @@ export default function Checklist(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) } ref={ outerDivRef }>
     <Label
       label={ label }
       required={ required } />
@@ -81,6 +93,7 @@ export default function Checklist(props) {
               id={ prefixId(`${id}-${index}`, formId) }
               type="checkbox"
               onClick={ () => toggleCheckbox(v.value) }
+              onBlur={ onCheckboxBlur }
               aria-describedby={ errorMessageId } />
           </Label>
         );

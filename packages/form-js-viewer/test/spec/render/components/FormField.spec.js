@@ -11,12 +11,13 @@ import FormField from 'src/render/components/FormField';
 
 import Textfield from 'src/render/components/form-fields/Textfield';
 
+import UpdateFieldValidationHandler from 'src/features/viewerCommands/cmd/UpdateFieldValidationHandler';
+
 import { FormContext } from 'src/render/context';
 
 import { createFormContainer } from '../../../TestHelper';
 
 let container;
-
 
 const defaultData = {
   creditor: 'John Doe Company'
@@ -303,6 +304,81 @@ describe('FormField', function() {
 
   });
 
+  describe('eager validation', function() {
+
+    it('should trigger validation on blur', function() {
+
+      // when
+      const setStateSpy = sinon.spy();
+      const { container } = createFormField({
+        field: {
+          ...defaultField,
+        },
+        setState: setStateSpy,
+        validationErrors: [ 'validation-error' ]
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      expect(formField).to.exist;
+
+      const input = container.querySelector('input[type="text"]');
+      expect(setStateSpy).not.to.have.been.called;
+
+      // then
+      fireEvent.blur(input);
+      expect(setStateSpy).to.have.been.calledWith({
+        errors: {
+          creditor: [ 'validation-error' ]
+        }
+      });
+
+    });
+
+
+    it('should trigger validation on initial data', function() {
+
+      // when
+      const setStateSpy = sinon.spy();
+      createFormField({
+        field: {
+          ...defaultField,
+        },
+        setState: setStateSpy,
+        validationErrors: [ 'validation-error' ],
+        initialData: {
+          creditor: 'a'
+        }
+      });
+
+      // then
+      expect(setStateSpy).to.have.been.calledWith({
+        errors: {
+          creditor: [ 'validation-error' ]
+        }
+      });
+
+    });
+
+
+    it('should NOT trigger validation without initial data', function() {
+
+      // when
+      const setStateSpy = sinon.spy();
+      createFormField({
+        field: {
+          ...defaultField,
+        },
+        setState: setStateSpy,
+        validationErrors: [ 'validation-error' ]
+      });
+
+      // then
+      expect(setStateSpy).not.to.have.been.called;
+
+    });
+
+  });
 
   describe('readonly form field', function() {
 
@@ -486,6 +562,8 @@ describe('FormField', function() {
 
 // helpers //////////
 
+
+
 function createFormField(options = {}) {
   const {
     FormFieldComponent = Textfield,
@@ -497,8 +575,30 @@ function createFormField(options = {}) {
     properties = {},
     checkCondition = () => false,
     isExpression = () => false,
-    isTemplate = () => false
+    isTemplate = () => false,
+    setState = () => {},
+    validationErrors = []
   } = options;
+
+  const formMock = {
+    _getState() {
+      return {
+        data,
+        errors,
+        initialData,
+        properties
+      };
+    },
+    _setState(...args) {
+      setState(...args);
+    }
+  };
+
+  const validatorMock = {
+    validateField: (field, value) => validationErrors
+  };
+
+  const updateFieldValidationHandler = new UpdateFieldValidationHandler(formMock, validatorMock);
 
   const formContext = {
     getService(type, strict = true) {
@@ -511,16 +611,7 @@ function createFormField(options = {}) {
           }
         };
       } else if (type === 'form') {
-        return {
-          _getState() {
-            return {
-              data,
-              errors,
-              initialData,
-              properties
-            };
-          }
-        };
+        return formMock;
       } else if (type === 'conditionChecker') {
         return checkCondition !== false ? {
           applyConditions(data) {
@@ -542,6 +633,14 @@ function createFormField(options = {}) {
             return isTemplate(...args);
           }
         } : undefined;
+      } else if (type === 'viewerCommands') {
+        return {
+          updateFieldValidation(field, value) {
+            return updateFieldValidationHandler.execute({ field, value });
+          }
+        };
+      } else if (type === 'validator') {
+        return validatorMock;
       }
     }
   };
