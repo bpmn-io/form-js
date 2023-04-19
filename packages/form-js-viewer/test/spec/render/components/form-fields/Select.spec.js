@@ -621,13 +621,14 @@ describe('Select', function() {
   it('#create', function() {
 
     // assume
-    expect(Select.type).to.eql('select');
-    expect(Select.label).to.eql('Select');
-    expect(Select.group).to.eql('selection');
-    expect(Select.keyed).to.be.true;
+    const { config } = Select;
+    expect(config.type).to.eql('select');
+    expect(config.label).to.eql('Select');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Select.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -640,7 +641,7 @@ describe('Select', function() {
     });
 
     // but when
-    const customField = Select.create({
+    const customField = config.create({
       custom: true
     });
 

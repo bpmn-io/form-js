@@ -278,13 +278,14 @@ describe('Radio', function() {
   it('#create', function() {
 
     // assume
-    expect(Radio.type).to.eql('radio');
-    expect(Radio.label).to.eql('Radio');
-    expect(Radio.group).to.eql('selection');
-    expect(Radio.keyed).to.be.true;
+    const { config } = Radio;
+    expect(config.type).to.eql('radio');
+    expect(config.label).to.eql('Radio');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Radio.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -297,7 +298,7 @@ describe('Radio', function() {
     });
 
     // but when
-    const customField = Radio.create({
+    const customField = config.create({
       custom: true
     });
 

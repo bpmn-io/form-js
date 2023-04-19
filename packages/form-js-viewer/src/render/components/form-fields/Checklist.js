@@ -89,29 +89,30 @@ export default function Checklist(props) {
   </div>;
 }
 
-Checklist.create = (options = {}) => {
+Checklist.config = {
+  type,
+  keyed: true,
+  label: 'Checklist',
+  group: 'selection',
+  emptyValue: [],
+  sanitizeValue: sanitizeMultiSelectValue,
+  create: (options = {}) => {
 
-  const defaults = {};
+    const defaults = {};
 
-  // provide default values if valuesKey isn't set
-  if (!options.valuesKey) {
-    defaults.values = [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ];
+    // provide default values if valuesKey isn't set
+    if (!options.valuesKey) {
+      defaults.values = [
+        {
+          label: 'Value',
+          value: 'value'
+        }
+      ];
+    }
+
+    return {
+      ...defaults,
+      ...options
+    };
   }
-
-  return {
-    ...defaults,
-    ...options
-  };
 };
-
-Checklist.type = type;
-Checklist.label = 'Checklist';
-Checklist.keyed = true;
-Checklist.emptyValue = [];
-Checklist.sanitizeValue = sanitizeMultiSelectValue;
-Checklist.group = 'selection';

@@ -147,14 +147,14 @@ export default class Importer {
 
       if (_path) {
 
-        const fieldImplementation = this._formFields.get(type);
+        const { config: fieldConfig } = this._formFields.get(type);
         let valueData = get(data, _path);
 
-        if (!isUndefined(valueData) && fieldImplementation.sanitizeValue) {
-          valueData = fieldImplementation.sanitizeValue({ formField, data, value: valueData });
+        if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {
+          valueData = fieldConfig.sanitizeValue({ formField, data, value: valueData });
         }
 
-        const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldImplementation.emptyValue);
+        const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldConfig.emptyValue);
 
         initializedData = {
           ...initializedData,

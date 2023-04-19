@@ -820,19 +820,20 @@ describe('Number', function() {
   it('#create', function() {
 
     // assume
-    expect(Number.type).to.eql('number');
-    expect(Number.label).to.eql('Number');
-    expect(Number.group).to.eql('basic-input');
-    expect(Number.keyed).to.be.true;
+    const { config } = Number;
+    expect(config.type).to.eql('number');
+    expect(config.label).to.eql('Number');
+    expect(config.group).to.eql('basic-input');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Number.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({});
 
     // but when
-    const customField = Number.create({
+    const customField = config.create({
       custom: true
     });
 

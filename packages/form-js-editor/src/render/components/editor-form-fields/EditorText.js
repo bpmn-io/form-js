@@ -34,6 +34,4 @@ export default function EditorText(props) {
   return <Text { ...{ ...props, disableLinks: true } } />;
 }
 
-EditorText.create = Text.create;
-EditorText.type = Text.type;
-EditorText.keyed = Text.keyed;
+EditorText.config = Text.config;

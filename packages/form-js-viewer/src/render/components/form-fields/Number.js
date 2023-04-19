@@ -59,7 +59,7 @@ export default function Numberfield(props) {
 
   // checks whether the value currently in the form data is practically different from the one in the input field cache
   // this allows us to guarantee the field always displays valid form data, but without auto-simplifying values like 1.000 to 1
-  const cacheValueMatchesState = useMemo(() => Numberfield.sanitizeValue({ value, formField: field }) === Numberfield.sanitizeValue({ value: stringValueCache, formField: field }), [ stringValueCache, value, field ]);
+  const cacheValueMatchesState = useMemo(() => Numberfield.config.sanitizeValue({ value, formField: field }) === Numberfield.config.sanitizeValue({ value: stringValueCache, formField: field }), [ stringValueCache, value, field ]);
 
   const displayValue = useMemo(() => {
 
@@ -212,24 +212,24 @@ export default function Numberfield(props) {
   </div>;
 }
 
-Numberfield.create = (options = {}) => ({
-  ...options
-});
+Numberfield.config = {
+  type,
+  keyed: true,
+  label: 'Number',
+  group: 'basic-input',
+  emptyValue: null,
+  sanitizeValue: ({ value, formField }) => {
 
-Numberfield.sanitizeValue = ({ value, formField }) => {
+    // null state is allowed
+    if (isNullEquivalentValue(value)) return null;
 
-  // null state is allowed
-  if (isNullEquivalentValue(value)) return null;
+    // if data cannot be parsed as a valid number, go into invalid NaN state
+    if (!isValidNumber(value)) return 'NaN';
 
-  // if data cannot be parsed as a valid number, go into invalid NaN state
-  if (!isValidNumber(value)) return 'NaN';
-
-  // otherwise parse to formatting type
-  return formField.serializeToString ? value.toString() : Number(value);
+    // otherwise parse to formatting type
+    return formField.serializeToString ? value.toString() : Number(value);
+  },
+  create: (options = {}) => ({
+    ...options
+  })
 };
-
-Numberfield.type = type;
-Numberfield.keyed = true;
-Numberfield.label = 'Number';
-Numberfield.emptyValue = null;
-Numberfield.group = 'basic-input';

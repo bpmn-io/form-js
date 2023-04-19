@@ -223,19 +223,20 @@ describe('Textfield', function() {
   it('#create', function() {
 
     // assume
-    expect(Textfield.type).to.eql('textfield');
-    expect(Textfield.label).to.eql('Text field');
-    expect(Textfield.group).to.eql('basic-input');
-    expect(Textfield.keyed).to.be.true;
+    const { config } = Textfield;
+    expect(config.type).to.eql('textfield');
+    expect(config.label).to.eql('Text field');
+    expect(config.group).to.eql('basic-input');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Textfield.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({});
 
     // but when
-    const customField = Textfield.create({
+    const customField = config.create({
       custom: true
     });
 

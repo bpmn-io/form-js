@@ -69,29 +69,30 @@ export default function Select(props) {
   </div>;
 }
 
-Select.create = (options = {}) => {
+Select.config = {
+  type,
+  keyed: true,
+  label: 'Select',
+  group: 'selection',
+  emptyValue: null,
+  sanitizeValue: sanitizeSingleSelectValue,
+  create: (options = {}) => {
 
-  const defaults = { };
+    const defaults = {};
 
-  // provide default values if valuesKey isn't set
-  if (!options.valuesKey) {
-    defaults.values = [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ];
+    // provide default values if valuesKey isn't set
+    if (!options.valuesKey) {
+      defaults.values = [
+        {
+          label: 'Value',
+          value: 'value'
+        }
+      ];
+    }
+
+    return {
+      ...defaults,
+      ...options
+    };
   }
-
-  return {
-    ...defaults,
-    ...options
-  };
 };
-
-Select.type = type;
-Select.label = 'Select';
-Select.keyed = true;
-Select.emptyValue = null;
-Select.sanitizeValue = sanitizeSingleSelectValue;
-Select.group = 'selection';

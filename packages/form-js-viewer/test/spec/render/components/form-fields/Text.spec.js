@@ -253,13 +253,14 @@ Some _em_ **strong** [text](#text) \`code\`.
   it('#create', function() {
 
     // assume
-    expect(Text.type).to.eql('text');
-    expect(Text.label).to.eql('Text view');
-    expect(Text.group).to.eql('presentation');
-    expect(Text.keyed).to.be.false;
+    const { config } = Text;
+    expect(config.type).to.eql('text');
+    expect(config.label).to.eql('Text view');
+    expect(config.group).to.eql('presentation');
+    expect(config.keyed).to.be.false;
 
     // when
-    const field = Text.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -267,7 +268,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     });
 
     // but when
-    const customField = Text.create({
+    const customField = config.create({
       custom: true
     });
 

@@ -61,13 +61,14 @@ export default function Checkbox(props) {
   </div>;
 }
 
-Checkbox.create = (options = {}) => ({
-  ...options
-});
-
-Checkbox.type = type;
-Checkbox.label = 'Checkbox';
-Checkbox.keyed = true;
-Checkbox.emptyValue = false;
-Checkbox.sanitizeValue = ({ value }) => value === true;
-Checkbox.group = 'selection';
+Checkbox.config = {
+  type,
+  keyed: true,
+  label: 'Checkbox',
+  group: 'selection',
+  emptyValue: false,
+  sanitizeValue: ({ value }) => value === true,
+  create: (options = {}) => ({
+    ...options
+  })
+};

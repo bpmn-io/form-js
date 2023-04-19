@@ -13,11 +13,11 @@ import {
 
 import { formFields } from '@bpmn-io/form-js-viewer';
 
-export const PALETTE_ENTRIES = formFields.filter(f => f.type !== 'default').map(f => {
+export const PALETTE_ENTRIES = formFields.filter(({ config: fieldConfig }) => fieldConfig.type !== 'default').map(({ config: fieldConfig }) => {
   return {
-    label: f.label,
-    type: f.type,
-    group: f.group
+    label: fieldConfig.label,
+    type: fieldConfig.type,
+    group: fieldConfig.group
   };
 });
 

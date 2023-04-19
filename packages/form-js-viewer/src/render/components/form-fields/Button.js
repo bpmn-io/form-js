@@ -16,12 +16,13 @@ export default function Button(props) {
   </div>;
 }
 
-Button.create = (options = {}) => ({
-  action: 'submit',
-  ...options
-});
-
-Button.type = type;
-Button.label = 'Button';
-Button.keyed = true;
-Button.group = 'action';
+Button.config = {
+  type,
+  keyed: true,
+  label: 'Button',
+  group: 'action',
+  create: (options = {}) => ({
+    action: 'submit',
+    ...options
+  })
+};

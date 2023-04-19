@@ -226,19 +226,20 @@ describe('Textarea', function() {
   it('#create', function() {
 
     // assume
-    expect(Textarea.type).to.eql('textarea');
-    expect(Textarea.label).to.eql('Text area');
-    expect(Textarea.group).to.eql('basic-input');
-    expect(Textarea.keyed).to.be.true;
+    const { config } = Textarea;
+    expect(config.type).to.eql('textarea');
+    expect(config.label).to.eql('Text area');
+    expect(config.group).to.eql('basic-input');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Textarea.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({});
 
     // but when
-    const customField = Textarea.create({
+    const customField = config.create({
       custom: true
     });
 

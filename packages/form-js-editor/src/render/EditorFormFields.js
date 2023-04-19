@@ -5,7 +5,7 @@ export default class EditorFormFields extends FormFields {
   constructor() {
     super();
     editorFormFields.forEach((formField) => {
-      this.register(formField.type, formField);
+      this.register(formField.config.type, formField);
     });
   }
 }

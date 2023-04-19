@@ -78,29 +78,29 @@ export default function Radio(props) {
   </div>;
 }
 
-Radio.create = function(options = {}) {
+Radio.config = {
+  type,
+  keyed: true,
+  label: 'Radio',
+  group: 'selection',
+  emptyValue: null,
+  sanitizeValue: sanitizeSingleSelectValue,
+  create: (options = {}) => {
+    const defaults = {};
 
-  const defaults = { };
+    // provide default values if valuesKey isn't set
+    if (!options.valuesKey) {
+      defaults.values = [
+        {
+          label: 'Value',
+          value: 'value'
+        }
+      ];
+    }
 
-  // provide default values if valuesKey isn't set
-  if (!options.valuesKey) {
-    defaults.values = [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ];
+    return {
+      ...defaults,
+      ...options
+    };
   }
-
-  return {
-    ...defaults,
-    ...options
-  };
 };
-
-Radio.type = type;
-Radio.label = 'Radio';
-Radio.keyed = true;
-Radio.emptyValue = null;
-Radio.sanitizeValue = sanitizeSingleSelectValue;
-Radio.group = 'selection';

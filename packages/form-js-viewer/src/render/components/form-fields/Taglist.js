@@ -197,29 +197,30 @@ export default function Taglist(props) {
   </div>;
 }
 
-Taglist.create = (options = {}) => {
+Taglist.config = {
+  type,
+  keyed: true,
+  label: 'Tag list',
+  group: 'selection',
+  emptyValue: [],
+  sanitizeValue: sanitizeMultiSelectValue,
+  create: (options = {}) => {
 
-  const defaults = {};
+    const defaults = {};
 
-  // provide default values if valuesKey isn't set
-  if (!options.valuesKey) {
-    defaults.values = [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ];
+    // provide default values if valuesKey isn't set
+    if (!options.valuesKey) {
+      defaults.values = [
+        {
+          label: 'Value',
+          value: 'value'
+        }
+      ];
+    }
+
+    return {
+      ...defaults,
+      ...options
+    };
   }
-
-  return {
-    ...defaults,
-    ...options
-  };
 };
-
-Taglist.type = type;
-Taglist.label = 'Tag list';
-Taglist.keyed = true;
-Taglist.emptyValue = [];
-Taglist.sanitizeValue = sanitizeMultiSelectValue;
-Taglist.group = 'selection';

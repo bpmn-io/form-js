@@ -161,19 +161,20 @@ describe('Checkbox', function() {
   it('#create', function() {
 
     // assume
-    expect(Checkbox.type).to.eql('checkbox');
-    expect(Checkbox.label).to.eql('Checkbox');
-    expect(Checkbox.group).to.eql('selection');
-    expect(Checkbox.keyed).to.be.true;
+    const { config } = Checkbox;
+    expect(config.type).to.eql('checkbox');
+    expect(config.label).to.eql('Checkbox');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Checkbox.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({});
 
     // but when
-    const customField = Checkbox.create({
+    const customField = config.create({
       custom: true
     });
 
