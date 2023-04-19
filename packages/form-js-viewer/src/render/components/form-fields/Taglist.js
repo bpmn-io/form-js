@@ -128,7 +128,17 @@ export default function Taglist(props) {
 
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div
+    class={ formFieldClasses(type, { errors, disabled }) }
+    onKeyDown={
+      (event) => {
+        if (event.key === 'Enter') {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }
+    }
+  >
     <Label
       label={ label }
       required={ required }
