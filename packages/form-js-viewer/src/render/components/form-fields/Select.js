@@ -46,8 +46,17 @@ export default function Select(props) {
     onChange
   }), [ disabled, errors, field, id, value, onChange ]);
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }
-    onKeyDown={ (event) => (event.key === 'Enter') && event.stopPropagation() }>
+  return <div
+    class={ formFieldClasses(type, { errors, disabled }) }
+    onKeyDown={
+      (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }
+    }
+  >
     <Label
       id={ prefixId(id, formId) }
       label={ label }

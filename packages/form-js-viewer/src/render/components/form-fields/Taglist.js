@@ -130,7 +130,15 @@ export default function Taglist(props) {
 
   return <div
     class={ formFieldClasses(type, { errors, disabled }) }
-    onKeyDown={ (event) => (event.key === 'Enter') && event.stopPropagation() }>
+    onKeyDown={
+      (event) => {
+        if (event.key === 'Enter') {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }
+    }
+  >
     <Label
       label={ label }
       required={ required }
