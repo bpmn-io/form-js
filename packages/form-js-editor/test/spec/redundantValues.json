@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "key": "redundantValues",
+      "label": "Redundant Values",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Value 2",
+          "value": "value2"
+        },
+        {
+          "label": "Value 3",
+          "value": "value3"
+        }
+      ],
+      "properties": {
+        "key2": "value"
+      }
+    }
+  ],
+  "type": "default"
+}
