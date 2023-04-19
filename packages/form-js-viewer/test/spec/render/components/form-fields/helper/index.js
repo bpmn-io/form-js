@@ -16,6 +16,7 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
       isTemplate = defaultTemplating.isTemplate,
       evaluateTemplate = defaultTemplating.evaluate,
       markdownRenderer = new MarkdownRenderer(),
+      updateFieldValidation,
       properties,
       initialData
     } = options;
@@ -50,6 +51,12 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
         isExpression,
         evaluate(...args) {
           return evaluateExpression(...args);
+        }
+      };
+    } else if (type === 'viewerCommands') {
+      return {
+        updateFieldValidation(...args) {
+          return updateFieldValidation(...args);
         }
       };
     }

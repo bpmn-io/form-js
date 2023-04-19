@@ -14,6 +14,7 @@ export default function Timepicker(props) {
     id,
     label,
     collapseLabelOnEmpty,
+    onDateTimeBlur,
     formId,
     required,
     disabled,
@@ -136,6 +137,7 @@ export default function Timepicker(props) {
   const onInputBlur = (e) => {
     setDropdownIsOpen(false);
     propagateRawToMinute();
+    onDateTimeBlur(e);
   };
 
   const onDropdownValueSelected = (value) => {

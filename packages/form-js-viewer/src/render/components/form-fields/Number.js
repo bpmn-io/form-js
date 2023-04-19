@@ -30,6 +30,7 @@ export default function Numberfield(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     value,
     readonly,
@@ -191,6 +192,7 @@ export default function Numberfield(props) {
           id={ prefixId(id, formId) }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
+          onBlur={ onBlur }
 
           // @ts-ignore
           onInput={ (e) => setValue(e.target.value) }

@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useRef } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
 import classNames from 'classnames';
 import { FormContext } from '../../context';
@@ -20,6 +20,7 @@ export default function Radio(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     readonly,
     value
@@ -32,6 +33,8 @@ export default function Radio(props) {
     validate = {}
   } = field;
 
+  const outerDivRef = useRef();
+
   const { required } = validate;
 
   const onChange = (v) => {
@@ -39,6 +42,15 @@ export default function Radio(props) {
       field,
       value: v
     });
+  };
+
+  const onRadioBlur = (e) => {
+
+    if (outerDivRef.current.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onBlur();
   };
 
   const {
@@ -49,7 +61,7 @@ export default function Radio(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) } ref={ outerDivRef }>
     <Label
       label={ label }
       required={ required } />
@@ -70,6 +82,7 @@ export default function Radio(props) {
               id={ prefixId(`${ id }-${ index }`, formId) }
               type="radio"
               onClick={ () => onChange(option.value) }
+              onBlur={ onRadioBlur }
               aria-describedby={ errorMessageId } />
           </Label>
         );

@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useMemo } from 'preact/hooks';
 
 import { get } from 'min-dash';
 
@@ -24,9 +24,11 @@ export default function FormField(props) {
   } = props;
 
   const formFields = useService('formFields'),
+        viewerCommands = useService('viewerCommands', false),
         form = useService('form');
 
   const {
+    initialData,
     data,
     errors,
     properties
@@ -44,6 +46,8 @@ export default function FormField(props) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
+  const initialValue = useMemo(() => get(initialData, field._path), [ initialData, field._path ]);
+
   const value = get(data, field._path);
 
   const fieldErrors = findErrors(errors, field._path);
@@ -54,6 +58,18 @@ export default function FormField(props) {
   const disabled = !properties.readOnly && (
     properties.disabled || field.disabled || false
   );
+
+  const onBlur = useCallback(() => {
+    if (viewerCommands) {
+      viewerCommands.updateFieldValidation(field, value);
+    }
+  }, [ viewerCommands, field, value ]);
+
+  useEffect(() => {
+    if (viewerCommands && initialValue) {
+      viewerCommands.updateFieldValidation(field, initialValue);
+    }
+  }, [ viewerCommands, field, initialValue ]);
 
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
@@ -69,6 +85,7 @@ export default function FormField(props) {
           disabled={ disabled }
           errors={ fieldErrors }
           onChange={ disabled || readonly ? noop : onChange }
+          onBlur={ disabled || readonly ? noop : onBlur }
           readonly={ readonly }
           value={ value } />
       </Element>

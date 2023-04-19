@@ -20,6 +20,7 @@ export default function Select(props) {
   const {
     disabled,
     errors = [],
+    onBlur,
     field,
     onChange,
     readonly,
@@ -43,12 +44,13 @@ export default function Select(props) {
     id,
     disabled,
     errors,
+    onBlur,
     field,
     value,
     onChange,
     readonly,
     'aria-describedby': errorMessageId,
-  }), [ disabled, errors, field, id, value, onChange, readonly, errorMessageId ]);
+  }), [ disabled, errors, field, id, value, onChange, onBlur, readonly, errorMessageId ]);
 
   return <div
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
