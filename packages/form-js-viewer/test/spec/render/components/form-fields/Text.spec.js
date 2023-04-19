@@ -108,6 +108,66 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
+  it('should render markdown link (no external link)', function() {
+
+    // given
+    const text = '[forms](https://bpmn.io/)';
+
+    // when
+    const { container } = createText({
+      field: {
+        text,
+        type: 'Text'
+      },
+      properties: {
+        useTargetBlank: false
+      }
+    });
+
+    // then
+
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+
+    const link = formField.querySelector('a');
+
+    expect(link).to.exist;
+    expect(link.href).to.eql('https://bpmn.io/');
+    expect(link.target).to.eql('');
+  });
+
+
+  it('should render markdown link (external link)', function() {
+
+    // given
+    const text = '[forms](https://bpmn.io/)';
+
+    // when
+    const { container } = createText({
+      field: {
+        text,
+        type: 'Text'
+      },
+      properties: {
+        useTargetBlank: true
+      }
+    });
+
+    // then
+
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+
+    const link = formField.querySelector('a');
+
+    expect(link).to.exist;
+    expect(link.href).to.eql('https://bpmn.io/');
+    expect(link.target).to.eql('_blank');
+  });
+
+
   it('should render (no text)', function() {
 
     // when
@@ -619,6 +679,7 @@ function createText(options = {}) {
     isTemplate = defaultTemplateEvaluator.isTemplate,
     evaluateTemplate = defaultTemplateEvaluator.evaluate,
     markdownRenderer = defaultMarkdownRenderer,
+    properties = {},
     onChange
   } = options;
 
@@ -632,6 +693,7 @@ function createText(options = {}) {
       isTemplate,
       evaluateTemplate,
       markdownRenderer,
+      properties,
       initialData,
       data
     }

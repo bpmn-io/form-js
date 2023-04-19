@@ -11,6 +11,10 @@ const type = 'text';
 
 
 export default function Text(props) {
+
+  const form = useService('form');
+  const { useTargetBlank } = form._getState().properties;
+
   const { field, disableLinks } = props;
 
   const { text = '', strict = false } = field;
@@ -26,7 +30,19 @@ export default function Text(props) {
     return sanitizeHTML(html);
   }, [ markdownRenderer, markdown ]);
 
-  const componentOverrides = useMemo(() => disableLinks ? { 'a': DisabledLink } : {}, [ disableLinks ]);
+
+  const componentOverrides = useMemo(() => {
+
+    if (disableLinks) {
+      return { 'a': DisabledLink };
+    }
+
+    if (useTargetBlank) {
+      return { 'a': TargetBlankLink };
+    }
+
+    return {};
+  }, [ disableLinks, useTargetBlank ]);
 
   return <div class={ formFieldClasses(type) }>
     <Markup markup={ safeHtml } components={ componentOverrides } trim={ false } />
@@ -43,4 +59,6 @@ Text.keyed = false;
 Text.group = 'presentation';
 Text.label = 'Text view';
 
-function DisabledLink({ href, children }) { return <a class="fjs-disabled-link" href={ href } tabIndex={ -1 }>{ children }</a>; }
+function DisabledLink({ children, ...rest }) { return <a { ...rest } class="fjs-disabled-link" tabIndex={ -1 }>{ children }</a>; }
+
+function TargetBlankLink({ children, ...rest }) { return <a { ...rest } target={ '_blank' }>{ children }</a>; }
