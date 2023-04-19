@@ -164,18 +164,18 @@ export default function Datetime(props) {
   </div>;
 }
 
-Datetime.create = (options = {}) => {
+Datetime.config = {
+  type,
+  keyed: true,
+  label: 'Date time',
+  group: 'basic-input',
+  emptyValue: null,
+  sanitizeValue: sanitizeDateTimePickerValue,
+  create: (options = {}) => {
+    const defaults = {};
+    set(defaults, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
+    set(defaults, DATE_LABEL_PATH, 'Date');
 
-  const defaults = {};
-  set(defaults, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
-  set(defaults, DATE_LABEL_PATH, 'Date');
-
-  return { ...defaults, ...options };
+    return { ...defaults, ...options };
+  }
 };
-
-Datetime.type = type;
-Datetime.keyed = true;
-Datetime.emptyValue = null;
-Datetime.sanitizeValue = sanitizeDateTimePickerValue;
-Datetime.label = 'Date time';
-Datetime.group = 'basic-input';

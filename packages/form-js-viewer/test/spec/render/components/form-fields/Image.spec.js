@@ -198,19 +198,20 @@ describe('Image', function() {
   it('#create', function() {
 
     // assume
-    expect(Image.type).to.eql('image');
-    expect(Image.label).to.eql('Image view');
-    expect(Image.group).to.eql('presentation');
-    expect(Image.keyed).to.be.false;
+    const { config } = Image;
+    expect(config.type).to.eql('image');
+    expect(config.label).to.eql('Image view');
+    expect(config.group).to.eql('presentation');
+    expect(config.keyed).to.be.false;
 
     // when
-    const field = Image.create();
+    const field = config.create();
 
     // then
     expect(field).to.exist;
 
     // but when
-    const customField = Image.create({
+    const customField = config.create({
       custom: true
     });
 

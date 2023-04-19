@@ -50,15 +50,16 @@ export default function Text(props) {
   </div>;
 }
 
-Text.create = (options = {}) => ({
-  text: '# Text',
-  ...options
-});
-
-Text.type = type;
-Text.keyed = false;
-Text.group = 'presentation';
-Text.label = 'Text view';
+Text.config = {
+  type,
+  keyed: false,
+  label: 'Text view',
+  group: 'presentation',
+  create: (options = {}) => ({
+    text: '# Text',
+    ...options
+  })
+};
 
 function BuildOverridenTargetLink(target) {
   return function({ children, ...rest }) {

@@ -77,13 +77,14 @@ describe('Button', function() {
   it('#create', function() {
 
     // assume
-    expect(Button.type).to.eql('button');
-    expect(Button.label).to.eql('Button');
-    expect(Button.group).to.eql('action');
-    expect(Button.keyed).to.be.true;
+    const { config } = Button;
+    expect(config.type).to.eql('button');
+    expect(config.label).to.eql('Button');
+    expect(config.group).to.eql('action');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Button.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -91,7 +92,7 @@ describe('Button', function() {
     });
 
     // but when
-    const customField = Button.create({
+    const customField = config.create({
       custom: true
     });
 

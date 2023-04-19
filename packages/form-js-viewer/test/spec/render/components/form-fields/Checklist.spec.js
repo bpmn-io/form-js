@@ -274,13 +274,14 @@ describe('Checklist', function() {
   it('#create', function() {
 
     // assume
-    expect(Checklist.type).to.eql('checklist');
-    expect(Checklist.label).to.eql('Checklist');
-    expect(Checklist.group).to.eql('selection');
-    expect(Checklist.keyed).to.be.true;
+    const { config } = Checklist;
+    expect(config.type).to.eql('checklist');
+    expect(config.label).to.eql('Checklist');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Checklist.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -293,7 +294,7 @@ describe('Checklist', function() {
     });
 
     // but when
-    const customField = Checklist.create({
+    const customField = config.create({
       custom: true
     });
 

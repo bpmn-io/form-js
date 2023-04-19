@@ -6,12 +6,13 @@ describe('Default', function() {
   it('#create', function() {
 
     // assume
-    expect(Default.type).to.eql('default');
-    expect(Default.label).not.to.exist;
-    expect(Default.keyed).to.be.false;
+    const { config } = Default;
+    expect(config.type).to.eql('default');
+    expect(config.label).not.to.exist;
+    expect(config.keyed).to.be.false;
 
     // when
-    const field = Default.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -19,7 +20,7 @@ describe('Default', function() {
     });
 
     // but when
-    const customField = Default.create({
+    const customField = config.create({
       custom: true
     });
 

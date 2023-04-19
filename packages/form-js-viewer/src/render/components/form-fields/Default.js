@@ -62,12 +62,13 @@ export default function Default(props) {
   </Children>;
 }
 
-Default.create = (options = {}) => ({
-  components: [],
-  ...options
-});
-
-Default.type = 'default';
-Default.keyed = false;
-Default.label = null;
-Default.group = null;
+Default.config = {
+  type: 'default',
+  keyed: false,
+  label: null,
+  group: null,
+  create: (options = {}) => ({
+    components: [],
+    ...options
+  })
+};

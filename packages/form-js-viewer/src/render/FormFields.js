@@ -5,7 +5,7 @@ export default class FormFields {
     this._formFields = {};
 
     formFields.forEach((formField) => {
-      this.register(formField.type, formField);
+      this.register(formField.config.type, formField);
     });
   }
 

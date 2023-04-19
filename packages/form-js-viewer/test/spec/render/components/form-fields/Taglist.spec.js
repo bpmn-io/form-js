@@ -637,13 +637,14 @@ describe('Taglist', function() {
   it('#create', function() {
 
     // assume
-    expect(Taglist.type).to.eql('taglist');
-    expect(Taglist.label).to.eql('Tag list');
-    expect(Taglist.group).to.eql('selection');
-    expect(Taglist.keyed).to.be.true;
+    const { config } = Taglist;
+    expect(config.type).to.eql('taglist');
+    expect(config.label).to.eql('Tag list');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Taglist.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -656,7 +657,7 @@ describe('Taglist', function() {
     });
 
     // but when
-    const customField = Taglist.create({
+    const customField = config.create({
       custom: true
     });
 

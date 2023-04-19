@@ -101,12 +101,14 @@ describe('Text', function() {
   it('#create', function() {
 
     // assume
-    expect(EditorText.type).to.eql('text');
-    expect(EditorText.label).not.to.exist;
-    expect(EditorText.keyed).to.be.false;
+    const { config } = EditorText;
+    expect(config.type).to.eql('text');
+    expect(config.label).to.eql('Text view');
+    expect(config.group).to.eql('presentation');
+    expect(config.keyed).to.be.false;
 
     // when
-    const field = EditorText.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -114,7 +116,7 @@ describe('Text', function() {
     });
 
     // but when
-    const customField = EditorText.create({
+    const customField = config.create({
       custom: true
     });
 

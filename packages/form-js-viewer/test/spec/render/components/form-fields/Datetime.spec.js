@@ -933,13 +933,14 @@ describe('Datetime', function() {
   it('#create', function() {
 
     // assume
-    expect(Datetime.type).to.eql('datetime');
-    expect(Datetime.label).to.eql('Date time');
-    expect(Datetime.group).to.eql('basic-input');
-    expect(Datetime.keyed).to.be.true;
+    const { config } = Datetime;
+    expect(config.type).to.eql('datetime');
+    expect(config.label).to.eql('Date time');
+    expect(config.group).to.eql('basic-input');
+    expect(config.keyed).to.be.true;
 
     // when
-    const field = Datetime.create();
+    const field = config.create();
 
     // then
     expect(field).to.eql({
@@ -948,7 +949,7 @@ describe('Datetime', function() {
     });
 
     // but when
-    const customField = Datetime.create({
+    const customField = config.create({
       custom: true
     });
 

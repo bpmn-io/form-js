@@ -20,8 +20,6 @@ export default function FormField(props) {
     onChange
   } = props;
 
-  const { _path } = field;
-
   const formFields = useService('formFields'),
         form = useService('form');
 
@@ -43,9 +41,9 @@ export default function FormField(props) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
-  const value = get(data, _path);
+  const value = get(data, field._path);
 
-  const fieldErrors = findErrors(errors, _path);
+  const fieldErrors = findErrors(errors, field._path);
 
   const disabled = properties.readOnly || field.disabled || false;
 

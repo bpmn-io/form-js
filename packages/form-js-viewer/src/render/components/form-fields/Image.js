@@ -54,11 +54,12 @@ export default function Image(props) {
   </div>;
 }
 
-Image.create = (options = {}) => ({
-  ...options
-});
-
-Image.type = type;
-Image.keyed = false;
-Image.label = 'Image view';
-Image.group = 'presentation';
+Image.config = {
+  type,
+  keyed: false,
+  label: 'Image view',
+  group: 'presentation',
+  create: (options = {}) => ({
+    ...options
+  })
+};

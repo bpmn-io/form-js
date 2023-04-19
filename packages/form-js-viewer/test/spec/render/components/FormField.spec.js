@@ -326,7 +326,7 @@ function createFormField(options = {}) {
       if (type === 'formFields') {
         return {
           get(type) {
-            if (type === FormFieldComponent.type) {
+            if (type === FormFieldComponent.config.type) {
               return FormFieldComponent;
             }
           }

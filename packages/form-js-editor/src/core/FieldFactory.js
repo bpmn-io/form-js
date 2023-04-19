@@ -25,6 +25,8 @@ export default class FieldFactory {
       throw new Error(`form field of type <${ type }> not supported`);
     }
 
+    const { config } = fieldDefinition;
+
     if (id && this._formFieldRegistry._ids.assigned(id)) {
       throw new Error(`ID <${ id }> already assigned`);
     }
@@ -33,18 +35,18 @@ export default class FieldFactory {
       throw new Error(`key <${ key }> already assigned`);
     }
 
-    const labelAttrs = applyDefaults && fieldDefinition.label ? {
-      label: fieldDefinition.label
+    const labelAttrs = applyDefaults && config.label ? {
+      label: config.label
     } : {};
 
-    const field = fieldDefinition.create({
+    const field = config.create({
       ...labelAttrs,
       ...attrs
     });
 
     this._ensureId(field);
 
-    if (fieldDefinition.keyed) {
+    if (config.keyed) {
       this._ensureKey(field, applyDefaults);
     }
 
