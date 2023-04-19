@@ -21,7 +21,8 @@ import {
 } from './helper';
 
 import schema from '../../form.json';
-import defaultValues from '../../defaultValues.json';
+import defaultValuesSchema from '../../defaultValues.json';
+import redundantValuesSchema from '../../redundantValues.json';
 
 import { insertStyles, setEditorValue } from '../../../TestHelper';
 
@@ -473,7 +474,7 @@ describe('properties panel', function() {
           // given
           const editFieldSpy = spy();
 
-          const field = defaultValues.components.find(({ key }) => key === 'product');
+          const field = defaultValuesSchema.components.find(({ key }) => key === 'product');
 
           createPropertiesPanel({
             container,
@@ -552,6 +553,36 @@ describe('properties panel', function() {
             {
               label: 'Value 3',
               value: 'value3',
+            }
+          ]);
+        });
+
+
+        it('should add value with different index if already used', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = redundantValuesSchema.components.find(({ key }) => key === 'redundantValues');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          const group = findGroup(result.container, 'Static options');
+
+          // when
+          const addEntry = group.querySelector('.bio-properties-panel-add-entry');
+          fireEvent.click(addEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
+            ...field.values,
+            {
+              label: 'Value 4',
+              value: 'value4',
             }
           ]);
         });
@@ -1607,7 +1638,7 @@ describe('properties panel', function() {
           // given
           const editFieldSpy = spy();
 
-          const field = defaultValues.components.find(({ key }) => key === 'language');
+          const field = defaultValuesSchema.components.find(({ key }) => key === 'language');
 
           createPropertiesPanel({
             container,
@@ -1987,7 +2018,7 @@ describe('properties panel', function() {
           // given
           const editFieldSpy = spy();
 
-          const field = defaultValues.components.find(({ key }) => key === 'creditor');
+          const field = defaultValuesSchema.components.find(({ key }) => key === 'creditor');
 
           createPropertiesPanel({
             container,
@@ -2268,7 +2299,7 @@ describe('properties panel', function() {
           // given
           const editFieldSpy = spy();
 
-          const field = defaultValues.components.find(({ key }) => key === 'amount');
+          const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
           createPropertiesPanel({
             container,
@@ -2414,7 +2445,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2442,7 +2473,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2478,7 +2509,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2506,7 +2537,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2531,7 +2562,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2556,7 +2587,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2581,7 +2612,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2606,7 +2637,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2637,7 +2668,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2669,7 +2700,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2697,7 +2728,7 @@ describe('properties panel', function() {
             // given
             const editFieldSpy = spy();
 
-            const field = defaultValues.components.find(({ key }) => key === 'amount');
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
 
             createPropertiesPanel({
               container,
@@ -2994,6 +3025,34 @@ describe('properties panel', function() {
       expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
         ...field.properties,
         key4: 'value'
+      });
+    });
+
+
+    it('should add property with different index if already used', function() {
+
+      // given
+      const editFieldSpy = spy();
+
+
+      const field = redundantValuesSchema.components.find(({ key }) => key === 'redundantValues');
+
+      const result = createPropertiesPanel({
+        container,
+        editField: editFieldSpy,
+        field
+      });
+
+      const group = findGroup(result.container, 'Custom properties');
+
+      // when
+      const addEntry = group.querySelector('.bio-properties-panel-add-entry');
+      fireEvent.click(addEntry);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
+        key2: 'value',
+        key3: 'value'
       });
     });
 
