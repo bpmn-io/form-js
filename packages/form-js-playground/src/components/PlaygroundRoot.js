@@ -86,16 +86,21 @@ export function PlaygroundRoot(props) {
 
   useEffect(() => {
     const dataEditor = dataEditorRef.current = new JSONEditor({
-      value: toString(data)
+      value: toString(data),
+      contentAttributes: { 'aria-label': 'Form Input' }
     });
 
     const resultView = resultViewRef.current = new JSONEditor({
       readonly: true,
-      value: toString(resultData)
+      value: toString(resultData),
+      contentAttributes: { 'aria-label': 'Form Output' }
     });
 
     const form = formRef.current = new Form({
-      properties: viewerProperties
+      properties: {
+        ...viewerProperties,
+        'ariaLabel': 'Form Preview'
+      }
     });
 
     const formEditor = formEditorRef.current = new FormEditor({
@@ -109,7 +114,10 @@ export function PlaygroundRoot(props) {
         parent: propertiesPanelContainerRef.current
       },
       exporter: exporterConfig,
-      properties: editorProperties
+      properties: {
+        ...editorProperties,
+        'ariaLabel': 'Form Definition'
+      }
     });
 
     paletteRef.current = formEditor.get('palette');

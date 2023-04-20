@@ -13,7 +13,8 @@ import { variablesFacet } from './autocompletion/VariablesFacet';
 
 export function JSONEditor(options = {}) {
   const {
-    readonly = false
+    readonly = false,
+    contentAttributes = {}
   } = options;
 
   const emitter = mitt();
@@ -59,18 +60,20 @@ export function JSONEditor(options = {}) {
 
     const editable = EditorView.editable.of(!readonly);
 
+    const contentAttributesExtension = EditorView.contentAttributes.of(contentAttributes);
+
     const view = new EditorView({
-      state: createState('', [ updateListener, editable ])
+      state: createState('', [ updateListener, editable, contentAttributesExtension ])
     });
 
     view.setValue = function(value) {
-      this.setState(createState(value, [ updateListener, editable ]));
+      this.setState(createState(value, [ updateListener, editable, contentAttributesExtension ]));
     };
 
     view.setVariables = function(variables) {
       this.setState(createState(
         view.state.doc.toString(),
-        [ updateListener, editable ],
+        [ updateListener, editable, contentAttributesExtension ],
         variables
       ));
     };
