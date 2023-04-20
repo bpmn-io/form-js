@@ -108,7 +108,7 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
-  it('should render markdown link (no external link)', function() {
+  it('should render markdown link', function() {
 
     // given
     const text = '[forms](https://bpmn.io/)';
@@ -118,9 +118,6 @@ Some _em_ **strong** [text](#text) \`code\`.
       field: {
         text,
         type: 'Text'
-      },
-      properties: {
-        useTargetBlank: false
       }
     });
 
@@ -138,7 +135,7 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
-  it('should render markdown link (external link)', function() {
+  it('should render markdown link (overriden target)', function() {
 
     // given
     const text = '[forms](https://bpmn.io/)';
@@ -150,7 +147,7 @@ Some _em_ **strong** [text](#text) \`code\`.
         type: 'Text'
       },
       properties: {
-        useTargetBlank: true
+        textLinkTarget: '_blank'
       }
     });
 
