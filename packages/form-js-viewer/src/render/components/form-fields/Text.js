@@ -11,6 +11,10 @@ const type = 'text';
 
 
 export default function Text(props) {
+
+  const form = useService('form');
+  const { textLinkTarget } = form._getState().properties;
+
   const { field, disableLinks } = props;
 
   const { text = '', strict = false } = field;
@@ -26,7 +30,20 @@ export default function Text(props) {
     return sanitizeHTML(html);
   }, [ markdownRenderer, markdown ]);
 
-  const componentOverrides = useMemo(() => disableLinks ? { 'a': DisabledLink } : {}, [ disableLinks ]);
+  const OverridenTargetLink = useMemo(() => BuildOverridenTargetLink(textLinkTarget), [ textLinkTarget ]);
+
+  const componentOverrides = useMemo(() => {
+
+    if (disableLinks) {
+      return { 'a': DisabledLink };
+    }
+
+    if (textLinkTarget) {
+      return { 'a': OverridenTargetLink };
+    }
+
+    return {};
+  }, [ disableLinks, OverridenTargetLink, textLinkTarget ]);
 
   return <div class={ formFieldClasses(type) }>
     <Markup markup={ safeHtml } components={ componentOverrides } trim={ false } />
@@ -43,4 +60,10 @@ Text.keyed = false;
 Text.group = 'presentation';
 Text.label = 'Text view';
 
-function DisabledLink({ href, children }) { return <a class="fjs-disabled-link" href={ href } tabIndex={ -1 }>{ children }</a>; }
+function BuildOverridenTargetLink(target) {
+  return function({ children, ...rest }) {
+    return <a { ...rest } target={ target }>{ children }</a>;
+  };
+}
+
+function DisabledLink({ children, ...rest }) { return <a { ...rest } class="fjs-disabled-link" tabIndex={ -1 }>{ children }</a>; }

@@ -27,7 +27,9 @@ export function PlaygroundRoot(props) {
   const {
     actions: actionsConfig = {},
     emit,
-    exporter: exporterConfig = {}
+    exporter: exporterConfig = {},
+    viewerProperties = {},
+    editorProperties = {}
   } = props;
 
   const {
@@ -92,7 +94,10 @@ export function PlaygroundRoot(props) {
       value: toString(resultData)
     });
 
-    const form = formRef.current = new Form();
+    const form = formRef.current = new Form({
+      properties: viewerProperties
+    });
+
     const formEditor = formEditorRef.current = new FormEditor({
       renderer: {
         compact: true
@@ -103,7 +108,8 @@ export function PlaygroundRoot(props) {
       propertiesPanel: {
         parent: propertiesPanelContainerRef.current
       },
-      exporter: exporterConfig
+      exporter: exporterConfig,
+      properties: editorProperties
     });
 
     paletteRef.current = formEditor.get('palette');
