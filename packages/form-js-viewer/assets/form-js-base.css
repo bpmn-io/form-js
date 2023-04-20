@@ -272,7 +272,6 @@
   padding: 8px;
   width: auto !important;
   min-width: 34px;
-  max-width: 30%;
   display: flex;
   overflow: hidden;
 }
@@ -354,6 +353,7 @@
 .fjs-container .fjs-input-group .fjs-taglist,
 .fjs-container .fjs-input-group .fjs-select {
   height: unset;
+  min-width: min(60px, 50%);
   width: 100%;
 }
 
