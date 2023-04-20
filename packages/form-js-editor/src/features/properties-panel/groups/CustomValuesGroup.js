@@ -20,12 +20,13 @@ export default function CustomValuesGroup(field, editField) {
   const addEntry = (event) => {
     event.stopPropagation();
 
-    const index = Object.keys(properties).length + 1;
+    let index = Object.keys(properties).length + 1;
 
-    const key = `key${ index }`,
-          value = 'value';
+    while (`key${ index }` in properties) {
+      index++;
+    }
 
-    editField(field, [ 'properties' ], { ...properties, [ key ]: value });
+    editField(field, [ 'properties' ], { ...properties, [ `key${ index }` ]: 'value' });
   };
 
   const validateFactory = (key) => {
