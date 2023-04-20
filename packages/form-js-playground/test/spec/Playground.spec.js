@@ -427,6 +427,24 @@ describe('playground', function() {
   });
 
 
+  it('should set aria-label attributes', async function() {
+
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    // then
+    expect(domQuery('[aria-label="Form Definition"]', container)).to.exist;
+    expect(domQuery('[aria-label="Form Preview"]', container)).to.exist;
+    expect(domQuery('[aria-label="Form Input"]', container)).to.exist;
+    expect(domQuery('[aria-label="Form Output"]', container)).to.exist;
+  });
+
+
   describe('form data submit', function() {
 
     it('should show submit data', async function() {

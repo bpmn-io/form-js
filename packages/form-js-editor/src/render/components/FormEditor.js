@@ -254,7 +254,9 @@ export default function FormEditor(props) {
         propertiesPanel = useService('propertiesPanel'),
         propertiesPanelConfig = useService('config.propertiesPanel');
 
-  const { schema } = formEditor._getState();
+  const { schema, properties } = formEditor._getState();
+
+  const { ariaLabel } = properties;
 
   const formContainerRef = useRef(null);
   const paletteRef = useRef(null);
@@ -372,6 +374,7 @@ export default function FormEditor(props) {
               data: {},
               errors: {},
               properties: {
+                ariaLabel,
                 readOnly: true
               },
               schema

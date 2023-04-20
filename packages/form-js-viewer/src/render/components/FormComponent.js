@@ -9,7 +9,9 @@ const noop = () => {};
 export default function FormComponent(props) {
   const form = useService('form');
 
-  const { schema } = form._getState();
+  const { schema, properties } = form._getState();
+
+  const { ariaLabel } = properties;
 
   const {
     onSubmit = noop,
@@ -34,6 +36,7 @@ export default function FormComponent(props) {
       class="fjs-form"
       onSubmit={ handleSubmit }
       onReset={ handleReset }
+      aria-label={ ariaLabel }
       noValidate
     >
       <FormField
