@@ -47,6 +47,7 @@ export default function Textfield(props) {
   };
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
@@ -60,10 +61,11 @@ export default function Textfield(props) {
         id={ prefixId(id, formId) }
         onInput={ onChange }
         type="text"
-        value={ value } />
+        value={ value }
+        aria-describedby={ errorMessageId } />
     </InputAdorner>
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

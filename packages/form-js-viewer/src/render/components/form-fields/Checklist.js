@@ -55,6 +55,7 @@ export default function Checklist(props) {
   } = useValuesAsync(field);
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
     <Label
@@ -77,13 +78,14 @@ export default function Checklist(props) {
               disabled={ disabled }
               id={ prefixId(`${id}-${index}`, formId) }
               type="checkbox"
-              onClick={ () => toggleCheckbox(v.value) } />
+              onClick={ () => toggleCheckbox(v.value) }
+              aria-describedby={ errorMessageId } />
           </Label>
         );
       })
     }
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

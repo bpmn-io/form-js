@@ -13,7 +13,7 @@ import Errors from '../Errors';
 import Datepicker from './parts/Datepicker';
 import Timepicker from './parts/Timepicker';
 
-import { formFieldClasses } from '../Util';
+import { formFieldClasses, prefixId } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
 import { parseIsoTime, serializeDate, serializeDateTime, serializeTime } from '../util/dateTimeUtil';
 
@@ -128,6 +128,8 @@ export default function Datetime(props) {
     setDateTimeUpdateRequest((prev) => (prev ? { ...prev, time } : { time }));
   }, []);
 
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+
   const datePickerProps = {
     id,
     label: dateLabel,
@@ -137,9 +139,9 @@ export default function Datetime(props) {
     disabled,
     disallowPassedDates,
     date: dateTime.date,
-    setDate
+    setDate,
+    'aria-describedby': errorMessageId
   };
-
   const timePickerProps = {
     id,
     label: timeLabel,
@@ -150,7 +152,8 @@ export default function Datetime(props) {
     use24h,
     timeInterval,
     time: dateTime.time,
-    setTime
+    setTime,
+    'aria-describedby': errorMessageId
   };
 
   return <div class={ formFieldClasses(type, { errors: allErrors, disabled }) }>
@@ -160,7 +163,7 @@ export default function Datetime(props) {
       { useTimePicker && <Timepicker { ...timePickerProps } /> }
     </div>
     <Description description={ description } />
-    <Errors errors={ allErrors } />
+    <Errors errors={ allErrors } id={ errorMessageId } />
   </div>;
 }
 

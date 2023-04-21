@@ -165,6 +165,7 @@ export default function Numberfield(props) {
   };
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
@@ -186,7 +187,8 @@ export default function Numberfield(props) {
           type="text"
           autoComplete="off"
           step={ arrowIncrementValue }
-          value={ displayValue } />
+          value={ displayValue }
+          aria-describedby={ errorMessageId } />
         <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
           <button
@@ -206,7 +208,7 @@ export default function Numberfield(props) {
       </div>
     </InputAdorner>
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

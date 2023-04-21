@@ -38,6 +38,7 @@ export default function Taglist(props) {
   const { required } = validate;
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
   const [ filter, setFilter ] = useState('');
   const [ filteredOptions, setFilteredOptions ] = useState([]);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
@@ -175,12 +176,13 @@ export default function Taglist(props) {
         onChange={ onFilterChange }
         type="text"
         value={ filter }
-        placeholder={ disabled ? '' : 'Search' }
+        placeholder={ disabled ? undefined : 'Search' }
         autoComplete="off"
-        onKeyDown={ (e) => onInputKeyDown(e) }
+        onKeyDown={ onInputKeyDown }
         onMouseDown={ () => setIsEscapeClose(false) }
         onFocus={ () => setIsDropdownExpanded(true) }
-        onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } } />
+        onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } }
+        aria-describedby={ errorMessageId } />
     </div>
     <div class="fjs-taglist-anchor">
       { shouldDisplayDropdown && <DropdownList
@@ -191,7 +193,7 @@ export default function Taglist(props) {
         listenerElement={ searchbarRef.current } /> }
     </div>
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

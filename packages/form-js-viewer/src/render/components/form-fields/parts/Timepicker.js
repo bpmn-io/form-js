@@ -158,7 +158,8 @@ export default function Timepicker(props) {
           onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }
           onBlur={ onInputBlur }
           onKeyDown={ onInputKeyDown }
-          data-input />
+          data-input
+          aria-describedby={ props['aria-describedby'] } />
 
         { dropdownIsOpen && <DropdownList
           values={ timeOptions }
