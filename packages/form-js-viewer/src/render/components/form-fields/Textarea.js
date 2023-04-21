@@ -70,6 +70,7 @@ export default function Textarea(props) {
   }, [ autoSizeTextarea, value ]);
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
@@ -81,9 +82,10 @@ export default function Textarea(props) {
       id={ prefixId(id, formId) }
       onInput={ onInput }
       value={ value }
-      ref={ textareaRef } />
+      ref={ textareaRef }
+      aria-describedby={ errorMessageId } />
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

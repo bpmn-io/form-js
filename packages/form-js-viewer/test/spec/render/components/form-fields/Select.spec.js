@@ -667,6 +667,21 @@ describe('Select', function() {
     });
 
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'foo',
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations - hidden select input', async function() {
 
       // given

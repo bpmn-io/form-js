@@ -319,6 +319,20 @@ describe('Checklist', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createChecklist({
+        value: [ 'approver' ],
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

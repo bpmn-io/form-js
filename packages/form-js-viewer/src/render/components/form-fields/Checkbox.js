@@ -40,6 +40,7 @@ export default function Checkbox(props) {
   };
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ classNames(formFieldClasses(type, { errors, disabled }), { 'fjs-checked': value }) }>
     <Label
@@ -52,10 +53,11 @@ export default function Checkbox(props) {
         disabled={ disabled }
         id={ prefixId(id, formId) }
         type="checkbox"
-        onChange={ onChange } />
+        onChange={ onChange }
+        aria-describedby={ errorMessageId } />
     </Label>
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

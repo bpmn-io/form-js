@@ -199,6 +199,20 @@ describe('Checkbox', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createCheckbox({
+        value: true,
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

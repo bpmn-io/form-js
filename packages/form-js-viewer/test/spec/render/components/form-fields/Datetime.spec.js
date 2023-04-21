@@ -972,6 +972,19 @@ describe('Datetime', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors - date', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
 
     it('should have no violations - time', async function() {
 
@@ -986,6 +999,20 @@ describe('Datetime', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors - time', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({
+        field: timeField,
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
 
     it('should have no violations - datetime', async function() {
 
@@ -994,6 +1021,20 @@ describe('Datetime', function() {
 
       const { container } = createDatetime({
         field: datetimeField
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+    it('should have no violations for errors - datetime', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({
+        field: datetimeField,
+        errors: [ 'Something went wrong' ]
       });
 
       // then
@@ -1040,7 +1081,8 @@ function createDatetime(options = {}) {
     disabled,
     field = dateField,
     value,
-    onChange = () => {}
+    onChange = () => {},
+    errors
   } = options;
 
   return render(
@@ -1048,7 +1090,8 @@ function createDatetime(options = {}) {
       disabled={ disabled }
       field={ field }
       value={ value }
-      onChange={ onChange } />,
+      onChange={ onChange }
+      errors={ errors } />,
     {
       container: options.container || container.querySelector('.fjs-form')
     }

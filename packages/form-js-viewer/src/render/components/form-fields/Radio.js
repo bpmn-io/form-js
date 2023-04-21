@@ -46,6 +46,7 @@ export default function Radio(props) {
   } = useValuesAsync(field);
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   return <div class={ formFieldClasses(type, { errors, disabled }) }>
     <Label
@@ -66,13 +67,14 @@ export default function Radio(props) {
               disabled={ disabled }
               id={ prefixId(`${ id }-${ index }`, formId) }
               type="radio"
-              onClick={ () => onChange(option.value) } />
+              onClick={ () => onChange(option.value) }
+              aria-describedby={ errorMessageId } />
           </Label>
         );
       })
     }
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

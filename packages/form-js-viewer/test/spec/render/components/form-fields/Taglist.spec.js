@@ -683,6 +683,21 @@ describe('Taglist', function() {
     });
 
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTaglist({
+        value: [ 'tag1', 'tag2', 'tag3' ],
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations - focus on', async function() {
 
       // given

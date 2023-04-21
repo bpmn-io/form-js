@@ -80,7 +80,8 @@ export default function SimpleSelect(props) {
         class="fjs-select-hidden-input"
         value={ valueLabel }
         onFocus={ () => setIsDropdownExpanded(true) }
-        onBlur={ () => setIsDropdownExpanded(false) } />
+        onBlur={ () => setIsDropdownExpanded(false) }
+        aria-describedby={ props['aria-describedby'] } />
       }
       { displayState.displayCross && <span class="fjs-select-cross" onMouseDown={ (e) => { setValue(null); e.stopPropagation(); } }><XMarkIcon /></span> }
       <span class="fjs-select-arrow">{ displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon /> }</span>

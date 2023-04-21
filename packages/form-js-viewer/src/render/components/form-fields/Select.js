@@ -36,6 +36,7 @@ export default function Select(props) {
   const { required } = validate;
 
   const { formId } = useContext(FormContext);
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   const selectProps = useMemo(() => ({
     id,
@@ -43,8 +44,9 @@ export default function Select(props) {
     errors,
     field,
     value,
-    onChange
-  }), [ disabled, errors, field, id, value, onChange ]);
+    onChange,
+    'aria-describedby': errorMessageId,
+  }), [ disabled, errors, field, id, value, onChange, errorMessageId ]);
 
   return <div
     class={ formFieldClasses(type, { errors, disabled }) }
@@ -63,7 +65,7 @@ export default function Select(props) {
       required={ required } />
     { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
     <Description description={ description } />
-    <Errors errors={ errors } />
+    <Errors errors={ errors } id={ errorMessageId } />
   </div>;
 }
 

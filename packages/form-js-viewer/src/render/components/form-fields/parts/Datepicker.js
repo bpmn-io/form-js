@@ -172,16 +172,17 @@ export default function Datepicker(props) {
         <input ref={ dateInputRef }
           type="text"
           id={ fullId }
-          class={ 'fjs-input' }
+          class="fjs-input"
           disabled={ disabled }
           placeholder="mm/dd/yyyy"
           autoComplete="off"
           onFocus={ onInputFocus }
           onKeyDown={ onInputKeyDown }
-          onMouseDown={ (e) => !flatpickrInstance.isOpen && flatpickrInstance.open() }
+          onMouseDown={ () => !flatpickrInstance.isOpen && flatpickrInstance.open() }
           onBlur={ onInputBlur }
-          onInput={ (e) => setIsInputDirty(true) }
-          data-input />
+          onInput={ () => setIsInputDirty(true) }
+          data-input
+          aria-describedby={ props['aria-describedby'] } />
       </div>
     </InputAdorner>
   </div>
