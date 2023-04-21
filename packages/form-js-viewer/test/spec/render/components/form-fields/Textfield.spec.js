@@ -219,6 +219,121 @@ describe('Textfield', function() {
 
   });
 
+  describe('#sanitizeValue', function() {
+
+    it('should convert boolean', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: true });
+
+      // then
+      expect(sanitizedValue).to.equal('true');
+
+    });
+
+
+    it('should convert number', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: 123 });
+
+      // then
+      expect(sanitizedValue).to.equal('123');
+
+    });
+
+
+    it('should sanitize object', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: { foo: 'bar' } });
+
+      // then
+      expect(sanitizedValue).to.equal('');
+
+    });
+
+
+    it('should sanitize array', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: [ 'foo', 'bar' ] });
+
+      // then
+      expect(sanitizedValue).to.equal('');
+
+    });
+
+
+    it('should sanitize newlines', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: 'foo\nbar' });
+
+      // then
+      expect(sanitizedValue).to.equal('foo bar');
+
+    });
+
+
+    it('should sanitize tabs', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: 'foo\tbar' });
+
+      // then
+      expect(sanitizedValue).to.equal('foo bar');
+
+    });
+
+
+    it('should sanitize carriage returns', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: 'foo\rbar' });
+
+      // then
+      expect(sanitizedValue).to.equal('foo bar');
+
+    });
+
+
+    it('should sanitize combination of newlines, tabs and carriage returns', function() {
+
+      // given
+      const { config } = Textfield;
+
+      // when
+      const sanitizedValue = config.sanitizeValue({ value: 'foo\n\t\rbar' });
+
+      // then
+      expect(sanitizedValue).to.equal('foo   bar');
+
+    });
+
+  });
+
 
   it('#create', function() {
 

@@ -75,6 +75,17 @@ Textfield.config = {
   label: 'Text field',
   group: 'basic-input',
   emptyValue: '',
-  sanitizeValue: ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value),
+  sanitizeValue: ({ value }) => {
+    if (isArray(value) || isObject(value)) {
+      return '';
+    }
+
+    // sanitize newlines to spaces
+    if (typeof value === 'string') {
+      return value.replace(/[\r\n\t]/g, ' ');
+    }
+
+    return String(value);
+  },
   create: (options = {}) => ({ ...options })
 };
