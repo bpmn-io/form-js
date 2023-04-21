@@ -128,7 +128,7 @@ export default function Datetime(props) {
     setDateTimeUpdateRequest((prev) => (prev ? { ...prev, time } : { time }));
   }, []);
 
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+  const errorMessageId = allErrors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   const datePickerProps = {
     id,
