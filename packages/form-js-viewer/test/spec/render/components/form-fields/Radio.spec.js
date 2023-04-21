@@ -323,6 +323,20 @@ describe('Radio', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createRadio({
+        value: 'camunda-platform',
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

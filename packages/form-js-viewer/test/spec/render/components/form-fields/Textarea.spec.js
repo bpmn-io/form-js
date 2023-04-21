@@ -264,6 +264,21 @@ describe('Textarea', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTextarea({
+        value: 'This is a textarea value /nFollowed by a newline',
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
   });
 
 });

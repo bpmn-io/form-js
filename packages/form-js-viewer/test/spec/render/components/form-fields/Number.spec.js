@@ -858,6 +858,20 @@ describe('Number', function() {
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createNumberField({
+        value: 123,
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
 
     it('should have no violations (decimal field)', async function() {
 

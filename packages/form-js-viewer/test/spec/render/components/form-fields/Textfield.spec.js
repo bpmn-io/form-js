@@ -262,6 +262,21 @@ describe('Textfield', function() {
     });
 
 
+    it('should have no violations for errors', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTextfield({
+        value: 'John Doe Company',
+        errors: [ 'Something went wrong' ]
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations - appearance', async function() {
 
       // given
