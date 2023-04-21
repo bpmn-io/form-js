@@ -73,9 +73,15 @@ export default function SimpleSelect(props) {
       class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }
       onFocus={ () => setIsDropdownExpanded(true) }
       onBlur={ () => setIsDropdownExpanded(false) }
-      onMouseDown={ (e) => onMouseDown(e) }
-      tabIndex={ disabled ? undefined : 0 }>
+      onMouseDown={ onMouseDown }>
       <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder' : !value }) } id={ prefixId(`${id}-display`, formId) }>{ valueLabel || 'Select' }</div>
+      { !disabled && <input
+        id={ prefixId(`${id}-search`, formId) }
+        class="fjs-select-hidden-input"
+        value={ valueLabel }
+        onFocus={ () => setIsDropdownExpanded(true) }
+        onBlur={ () => setIsDropdownExpanded(false) } />
+      }
       { displayState.displayCross && <span class="fjs-select-cross" onMouseDown={ (e) => { setValue(null); e.stopPropagation(); } }><XMarkIcon /></span> }
       <span class="fjs-select-arrow">{ displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon /> }</span>
     </div>
