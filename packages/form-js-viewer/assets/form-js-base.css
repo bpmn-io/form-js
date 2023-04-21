@@ -376,7 +376,7 @@
 
 .fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-select-display {
-  color: var(--color-text-lightest);
+  color: var(--color-text-lighter);
   line-height: var(--line-height-input);
 }
 
@@ -607,6 +607,14 @@
 .fjs-container .fjs-select-anchor .fjs-dropdownlist {
   position: absolute;
   top: -5px;
+}
+
+.fjs-container .fjs-select-hidden-input {
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0;
+  border: none;
 }
 
 .fjs-container .fjs-taglist {
