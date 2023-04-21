@@ -1,6 +1,7 @@
 import {
   fireEvent,
-  render
+  render,
+  screen
 } from '@testing-library/preact/pure';
 
 import Select from '../../../../../src/render/components/form-fields/Select';
@@ -63,7 +64,7 @@ describe('Select', function() {
 
       expect(label).to.exist;
       expect(label.textContent).to.equal('Language');
-      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1');
+      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1-search');
     });
 
 
@@ -364,7 +365,7 @@ describe('Select', function() {
 
       expect(label).to.exist;
       expect(label.textContent).to.equal('Language');
-      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1');
+      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1-search');
     });
 
 
@@ -660,6 +661,72 @@ describe('Select', function() {
       const { container } = createSelect({
         value: 'foo'
       });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - hidden select input', async function() {
+
+      // given
+      this.timeout(5000);
+
+      createSelect({
+        value: 'foo'
+      });
+
+      const input = screen.getByLabelText('Language');
+
+      // then
+      await expectNoViolations(input);
+    });
+
+
+    it('should have no violations - disabled', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'foo',
+        disabled: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - searchable', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'german',
+        field: { ...defaultField, searchable: true }
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - searchable, open list', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'german',
+        field: { ...defaultField, searchable: true }
+      });
+
+      const filterInput = screen.getByLabelText('Language');
+
+      // when
+      fireEvent.focus(filterInput);
 
       // then
       await expectNoViolations(container);

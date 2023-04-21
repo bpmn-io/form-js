@@ -58,7 +58,7 @@ export default function Select(props) {
     }
   >
     <Label
-      id={ prefixId(id, formId) }
+      id={ prefixId(`${id}-search`, formId) }
       label={ label }
       required={ required } />
     { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
