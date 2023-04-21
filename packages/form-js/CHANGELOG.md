@@ -6,6 +6,19 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.14.1
+
+### Viewer
+
+* `FIX`: properly align rows ([`7fb5c1de`](https://github.com/bpmn-io/form-js/commit/7fb5c1deae6b620acc6a7554167256279226bfc4))
+* `FIX`: prevent submit on enter in `taglist` and `select` options ([#608](https://github.com/bpmn-io/form-js/issues/608))
+* `FIX`: `getSchemaVariables` accounts for `text` templates ([#603](https://github.com/bpmn-io/form-js/pull/603))
+* `FIX`: give adorners enough space ([#598](https://github.com/bpmn-io/form-js/issues/598))
+
+### Editor
+
+* `FIX`: validate unique labels in `values` ([#552](https://github.com/bpmn-io/form-js/issues/552))
+* `FIX`: avoid redundant `properties` and `values` ([#614](https://github.com/bpmn-io/form-js/issues/614))
 
 ## 0.14.0
 
