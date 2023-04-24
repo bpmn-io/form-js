@@ -114,6 +114,10 @@
   user-select: none;
 }
 
+.fjs-editor-container .fjs-drop-container-horizontal {
+  width: 100%;
+}
+
 .fjs-editor-container .fjs-layout-row {
   padding: 4px 0px;
 }
