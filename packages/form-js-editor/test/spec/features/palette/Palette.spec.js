@@ -93,6 +93,22 @@ describe('palette', function() {
     });
 
 
+    it('should ignore spaces in search', function() {
+
+      // given
+      const result = createPalette({ container });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'text field' } });
+
+      // then
+      expectEntries(result.container, [
+        { type: 'textfield' }
+      ]);
+    });
+
   });
 
 

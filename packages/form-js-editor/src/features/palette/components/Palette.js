@@ -50,26 +50,33 @@ export default function Palette(props) {
 
   const groups = groupEntries(entries);
 
+  const simplifyString = useCallback((str) => {
+    return str
+      .toLowerCase()
+      .replace(/\s+/g, '');
+  }, []);
+
+  const filter = useCallback((entry) => {
+
+    const simplifiedSearchTerm = simplifyString(searchTerm);
+
+    if (!simplifiedSearchTerm) {
+      return true;
+    }
+
+    const simplifiedEntryLabel = simplifyString(entry.label);
+    const simplifiedEntryType = simplifyString(entry.type);
+
+    return simplifiedEntryLabel.includes(simplifiedSearchTerm)
+        || simplifiedEntryType.includes(simplifiedSearchTerm);
+
+  }, [ searchTerm, simplifyString ]);
+
   // filter entries on search change
   useEffect(() => {
-
-    const filter = entry => {
-      if (!searchTerm) {
-        return true;
-      }
-
-      const search = entry.label.toLowerCase();
-
-      return searchTerm
-        .toLowerCase()
-        .split(/\s/g)
-        .every(term => search.includes(term));
-    };
-
     const entries = PALETTE_ENTRIES.filter(filter);
-
     setEntries(entries);
-  }, [ searchTerm ]);
+  }, [ filter, searchTerm ]);
 
   const handleInput = useCallback(event => {
     setSearchTerm(() => event.target.value);
