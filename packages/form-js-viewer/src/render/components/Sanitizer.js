@@ -22,7 +22,13 @@ const ALLOWED_NODES = [
   'pre',
   'code',
   'br',
-  'strong'
+  'strong',
+  'table',
+  'thead',
+  'tbody',
+  'tr',
+  'th',
+  'td'
 ];
 
 const ALLOWED_ATTRIBUTES = [
