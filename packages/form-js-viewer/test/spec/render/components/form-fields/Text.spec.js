@@ -147,6 +147,39 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
+  it('should render markdown (table)', function() {
+
+    // given
+    const { container } = createText({
+      field: {
+        text: '| foo | bar |\n| --- | --- |\n| baz | qux |',
+        type: 'text'
+      }
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    const expected = `<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><table>
+<thead>
+<tr>
+<th id="foo">foo</th>
+<th id="bar">bar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baz</td>
+<td>qux</td>
+</tr>
+</tbody>
+</table></div></div>`;
+
+    expect(formField).to.exist;
+    expect(formField.innerHTML).to.eql(expected);
+  });
+
+
   // TODO: implement mocking renderer
   it.skip('should allow overriding rendering module', function() {
 
