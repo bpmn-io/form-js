@@ -6,6 +6,15 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+### Breaking Changes
+
+We changed the structure of the static component configuration properties. These are now located on a static `config` object, and may now be accessed as follows:
+
+```js
+import { Button } from '@bpmn-io/form-js-viewer';
+console.log('Button default label is ' + Button.config.label);
+```
+
 ## 0.14.1
 
 ### Viewer
