@@ -271,7 +271,7 @@
   color: var(--color-text-lighter);
   padding: 8px;
   width: auto !important;
-  min-width: 34px;
+  min-width: min(34px, 20%);
   display: flex;
   overflow: hidden;
 }
@@ -353,7 +353,7 @@
 .fjs-container .fjs-input-group .fjs-taglist,
 .fjs-container .fjs-input-group .fjs-select {
   height: unset;
-  min-width: min(60px, 50%);
+  min-width: min(60px, 40%);
   width: 100%;
 }
 
@@ -430,7 +430,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 0 2px 2px 0;
-  width: 23px;
+  width: clamp(16px, 40%, 23px);
   overflow: clip;
   border-left: var(--border-definition-adornment);
 }
