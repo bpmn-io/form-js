@@ -15,8 +15,7 @@ const schema = {
   id: 'form_id',
   executionPlatform: 'Camunda Cloud',
   executionPlatformVersion: '8.2.0'
-}
-;
+};
 
 new FormPlayground({
   container: document.querySelector('#container'),
