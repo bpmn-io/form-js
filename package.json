@@ -6,7 +6,7 @@
     "build:watch": "npm run build-watch -- @bpmn-io/form-js",
     "build-distro": "lerna run prepublishOnly --sort",
     "build-watch": "run-s \"lerna-build-watch -- {@}\" -- ",
-    "clean": "del-cli \"{node_modules,dist}\" \"packages/*/{node_modules,dist}\"",
+    "clean": "del-cli \"{node_modules,dist}\" \"packages/*/{node_modules,dist}\" \"e2e/dist\"",
     "distro": "run-s clean reinstall build-distro",
     "dev": "run-s build \"lerna-dev -- {@}\" -- ",
     "dev:viewer": "npm run dev -- @bpmn-io/form-js-viewer",
@@ -28,7 +28,12 @@
     "start:viewer": "npm run start:pkg -- @bpmn-io/form-js-viewer",
     "start:viewer:stress": "cross-env SINGLE_START=stress npm run dev -- @bpmn-io/form-js-viewer",
     "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor",
-    "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground"
+    "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground",
+    "dev:e2e": "vite",
+    "test:visual": "playwright test visual",
+    "build:e2e": "vite build",
+    "start:visual-preview": "vite preview --port 8080 --logLevel silent &",
+    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.32.3-focal /bin/bash"
   },
   "repository": {
     "type": "git",
@@ -54,6 +59,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.5",
     "@babel/plugin-transform-react-jsx-source": "^7.14.5",
     "@bpmn-io/properties-panel": "^1.7.0",
+    "@playwright/test": "1.32.3",
     "@rollup/plugin-alias": "^4.0.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-commonjs": "^24.0.0",
@@ -103,6 +109,7 @@
     "sinon-chai": "^3.7.0",
     "source-map-loader": "^4.0.0",
     "typescript": "^5.0.0",
+    "vite": "4.3.1",
     "webpack": "^5.40.0"
   }
 }
