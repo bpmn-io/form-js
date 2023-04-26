@@ -106,6 +106,8 @@ npm run start:editor
 npm run start:playground
 ```
 
+To run the visual regression tests, read the docs [here](./e2e/README.md)
+
 
 ## License
 

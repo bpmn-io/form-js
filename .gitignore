@@ -2,3 +2,6 @@ dist
 coverage
 node_modules
 .vscode
+test-results/
+playwright-report/
+playwright/.cache/
