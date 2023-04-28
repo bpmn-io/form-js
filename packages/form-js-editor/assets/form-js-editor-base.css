@@ -247,8 +247,10 @@
   background-color: var(--color-children-selected-background);
 }
 
-.fjs-editor-container .fjs-children .fjs-element:hover {
+.fjs-editor-container .fjs-children .fjs-element:hover,
+.fjs-editor-container .fjs-children .fjs-element:focus-within {
   border-color: var(--color-children-hover-border);
+  outline: none;
 }
 
 .fjs-editor-container .fjs-input:disabled,
