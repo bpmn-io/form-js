@@ -124,12 +124,21 @@ function Element(props) {
     modeling.removeFormField(field, parentField, index);
   };
 
+  const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+      selection.toggle(field);
+    }
+  };
+
   return (
     <div
       class={ classes.join(' ') }
       data-id={ id }
       data-field-type={ type }
+      tabIndex={ type === 'default' ? -1 : 0 }
       onClick={ onClick }
+      onKeyPress={ onKeyPress }
       ref={ ref }>
       <DebugColumns field={ field } />
       <ContextPad>

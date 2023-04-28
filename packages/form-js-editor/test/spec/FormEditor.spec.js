@@ -18,7 +18,8 @@ import {
 import {
   insertStyles,
   insertTheme,
-  isSingleStart
+  isSingleStart,
+  expectNoViolations
 } from '../TestHelper';
 
 import schema from './form.json';
@@ -1412,6 +1413,25 @@ describe('FormEditor', function() {
       8, 2, 10,
       true
     );
+
+  });
+
+
+  describe('a11y', function() {
+
+    it('should have no violations', async function() {
+
+      // given
+      this.timeout(5000);
+
+      await createFormEditor({
+        schema,
+        container
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
 
   });
 
