@@ -11,7 +11,7 @@ export interface Errors {
   [x: string]: string[];
 }
 
-export type FormProperty = ('readOnly' | string);
+export type FormProperty = ('readOnly' | 'disabled' | string);
 export type FormEvent = ('submit' | 'changed' | string);
 
 export interface FormProperties {

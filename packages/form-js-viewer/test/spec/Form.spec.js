@@ -614,6 +614,42 @@ describe('Form', function() {
       data,
       schema,
       properties: {
+        disabled: true
+      }
+    });
+
+    // when
+    let error;
+
+    try {
+      form.submit();
+    } catch (_error) {
+      error = _error;
+    }
+
+    // then
+    expect(error).to.exist;
+    expect(error.message).to.eql('form is read-only');
+  });
+
+
+  it('should throw error on submit if readonly', async function() {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe'
+    };
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema,
+      properties: {
         readOnly: true
       }
     });

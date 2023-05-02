@@ -130,7 +130,7 @@ describe('FormField', function() {
       createFormField({
         FormFieldComponent: componentSpy,
         properties: {
-          readOnly: true
+          disabled: true
         }
       });
 
@@ -139,6 +139,58 @@ describe('FormField', function() {
 
       expect(props).to.include({
         disabled: true
+      });
+    });
+
+
+    it('should not handle change', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      const onChangeSpy = sinon.spy();
+
+      // when
+      const { container } = createFormField({
+        FormFieldComponent: componentSpy,
+        onChange: onChangeSpy,
+        properties: {
+          disabled: true
+        }
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+
+      // then
+      expect(onChangeSpy).not.to.have.been.called;
+    });
+
+  });
+
+
+  describe('readonly form', function() {
+
+    it('should pass readonly', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      // when
+      createFormField({
+        FormFieldComponent: componentSpy,
+        properties: {
+          readOnly: true
+        }
+      });
+
+      // then
+      const props = componentSpy.firstCall.firstArg;
+
+      expect(props).to.include({
+        readonly: true
       });
     });
 
@@ -208,6 +260,60 @@ describe('FormField', function() {
         field: {
           ...defaultField,
           disabled: true
+        },
+        FormFieldComponent: componentSpy,
+        onChange: onChangeSpy
+      });
+
+      // when
+      const input = container.querySelector('input[type="text"]');
+
+      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+
+      // then
+      expect(onChangeSpy).not.to.have.been.called;
+    });
+
+  });
+
+
+  describe('readonly form field', function() {
+
+    it('should pass readonly', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      // when
+      createFormField({
+        field: {
+          ...defaultField,
+          readonly: true
+        },
+        FormFieldComponent: componentSpy,
+      });
+
+      // then
+      const props = componentSpy.firstCall.firstArg;
+
+      expect(props).to.include({
+        readonly: true
+      });
+    });
+
+
+    it('should not handle change', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      const onChangeSpy = sinon.spy();
+
+      // when
+      const { container } = createFormField({
+        field: {
+          ...defaultField,
+          readonly: true
         },
         FormFieldComponent: componentSpy,
         onChange: onChangeSpy
