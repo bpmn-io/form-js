@@ -32,7 +32,7 @@ export function WithEditorFormContext(Component, options = {}, formId = 'foo') {
             data: {},
             errors: {},
             properties: {
-              readOnly: true
+              disabled: true
             }
           };
         }

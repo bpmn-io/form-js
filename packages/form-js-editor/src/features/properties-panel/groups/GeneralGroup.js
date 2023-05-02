@@ -8,6 +8,7 @@ import {
   ImageSourceEntry,
   KeyEntry,
   LabelEntry,
+  ReadonlyEntry,
   SelectEntries,
   TextEntry,
   NumberEntries,
@@ -30,7 +31,8 @@ export default function GeneralGroup(field, editField, getService) {
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),
     ...SelectEntries({ field, editField }),
-    ...DisabledEntry({ field, editField })
+    ...DisabledEntry({ field, editField }),
+    ...ReadonlyEntry({ field, editField })
   ];
 
   return {
