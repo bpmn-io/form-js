@@ -1047,27 +1047,48 @@ const CARBON_STYLES = css`
   ${SELECT_STYLES}
 
   .fjs-container {
+    width: 100%;
+    height: min-content;
+    --carbon-breakpoint-lg-width: 66rem;
+
     .cds--grid {
-      padding: 0 var(--cds-spacing-06);
+      padding: 0;
+    }
+
+    .fjs-form {
+      background-color: transparent;
+      color: var(--cds-text-primary);
+      padding: 0;
+    }
+
+    .fjs-layout-column:first-of-type .fjs-form-field {
+      margin-left: 0;
+    }
+
+    .fjs-layout-column:last-of-type .fjs-form-field {
+      margin-right: 0;
+    }
+
+    @media (width < var(--carbon-breakpoint-lg-width)) {
+      .fjs-layout-column .fjs-form-field {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+
+    .fjs-input-group {
+      margin: 0;
+    }
+
+    .fjs-powered-by,
+    .fjs-form-field button[type="submit"] {
+      display: none;
     }
   }
 `;
 
 const GlobalFormStyling = createGlobalStyle`
-  ${MARKDOWN_STYLES}
-  ${ANCHOR_STYLES}
-  ${DISABLED_STYLES}
-  ${LABEL_DESCRIPTION_ERROR_STYLES}
-  ${CHECKBOX_STYLES}
-  ${TAGLIST_STYLES}
-  ${RADIO_STYLES}
-  ${BUTTON_STYLES}
-  ${NUMBER_INPUTS}
-  ${DATETIME_INPUTS}
-  ${REMAINING_INPUTS}
-  ${ADORNMENTS_STYLES}
-  ${DROPDOWN_STYLES}
-  ${SELECT_STYLES}
+  ${CARBON_STYLES}
 `;
 
 export { CARBON_STYLES, GlobalFormStyling };
