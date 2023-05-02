@@ -1,0 +1,67 @@
+name: Check Tasklist Carbonization
+
+on: [push]
+
+jobs:
+  Exec:
+    name: Run visual regression
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.32.3-focal
+      options: --user 1001:1000
+    steps:
+      - name: Checkout form-js
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+        with:
+          path: form-js
+      - name: Checkout Tasklist
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+        with:
+          repository: camunda/tasklist
+          token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
+          path: tasklist
+          ref: "test-form-js-int"
+      - name: Setup form-js cache
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
+        with:
+          node-version: "16"
+          cache: "npm"
+          cache-dependency-path: ./form-js/package-lock.json
+      - name: Setup Tasklist cache
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
+        with:
+          node-version: "19"
+          cache: "yarn"
+          cache-dependency-path: ./tasklist/client/yarn.lock
+      - name: Install form-js deps
+        run: npm ci
+        working-directory: ./form-js
+      - name: Build form-js
+        run: npm run build
+        working-directory: ./form-js
+      - name: Link form-js-viewer
+        run: yarn link
+        working-directory: ./form-js/packages/form-js-viewer
+      - name: Link form-js-viewer
+        run: yarn link "@bpmn-io/form-js-viewer"
+        working-directory: ./tasklist/client
+      - name: Install Tasklist deps
+        run: yarn
+        working-directory: ./tasklist/client
+      - name: Build Tasklist
+        run: yarn build:visual-regression
+        working-directory: ./tasklist/client
+      - name: Start server
+        working-directory: ./tasklist/client
+        run: yarn start:visual-regression &
+      - name: Copy form-js schema
+        run: cp ./form-js/packages/form-js-viewer/test/schemaWithAllComponents.json ./tasklist/client/e2e-playwright/bigForm.json
+      - name: Run Playwright tests
+        working-directory: ./tasklist/client
+        run: yarn playwright form-js-integration
+      - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
+        if: always()
+        with:
+          name: playwright-report
+          path: ./tasklist/client/playwright-report/
+          retention-days: 30
