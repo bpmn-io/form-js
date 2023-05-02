@@ -1079,11 +1079,6 @@ const CARBON_STYLES = css`
     .fjs-input-group {
       margin: 0;
     }
-
-    .fjs-powered-by,
-    .fjs-form-field button[type="submit"] {
-      display: none;
-    }
   }
 `;
 
