@@ -44,3 +44,5 @@ jobs:
       if: runner.os == 'Linux'
       with:
         fail_ci_if_error: true
+        max_attempts: 3
+        retry_on: error
