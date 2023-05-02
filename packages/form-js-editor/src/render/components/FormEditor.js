@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState
 } from 'preact/hooks';
@@ -98,10 +99,19 @@ function Element(props) {
     return () => eventBus.off('selection.changed', scrollIntoView);
   }, [ id ]);
 
+  useLayoutEffect(() => {
+    if (selection.isSelected(field)) {
+      ref.current.focus();
+    }
+  }, [ selection, field ]);
+
   function onClick(event) {
     event.stopPropagation();
 
     selection.toggle(field);
+
+    // properly focus on field
+    ref.current.focus();
   }
 
   const classes = [];
