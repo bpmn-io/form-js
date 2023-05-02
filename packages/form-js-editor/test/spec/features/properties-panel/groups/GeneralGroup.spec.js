@@ -826,6 +826,85 @@ describe('GeneralGroup', function() {
   });
 
 
+  describe('readonly', function() {
+
+    it('should NOT render for default', function() {
+
+      // given
+      const field = { type: 'default' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const readonlyInput = findInput('readonly', container);
+
+      expect(readonlyInput).to.not.exist;
+    });
+
+
+    it('should render for INPUTS', function() {
+
+      // given
+      for (const type of INPUTS) {
+
+        const field = { type };
+
+        // when
+        const { container } = renderGeneralGroup({ field });
+
+        // then
+        const readonlyInput = findInput('readonly', container);
+
+        expect(readonlyInput).to.exist;
+      }
+    });
+
+
+    it('should read', function() {
+
+      // given
+      const field = {
+        type: 'number',
+        readonly: true
+      };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      const readonlyInput = findInput('readonly', container);
+
+      // then
+      expect(readonlyInput).to.exist;
+      expect(readonlyInput.checked).to.equal(true);
+    });
+
+
+    it('should write', function() {
+
+      // given
+      const field = {
+        type: 'number',
+        readonly: true
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const readonlyInput = findInput('readonly', container);
+
+      // when
+      fireEvent.click(readonlyInput);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.readonly).to.equal(false);
+    });
+
+  });
+
+
   describe('subtype', function() {
 
     it('should render for datetime', function() {

@@ -21,4 +21,5 @@ export { default as ValuesSourceSelectEntry } from './ValuesSourceSelectEntry';
 export { default as InputKeyValuesSourceEntry } from './InputKeyValuesSourceEntry';
 export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { default as AdornerEntry } from './AdornerEntry';
+export { default as ReadonlyEntry } from './ReadonlyEntry';
 export { ConditionEntry } from './ConditionEntry';

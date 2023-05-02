@@ -261,6 +261,10 @@
   pointer-events: none;
 }
 
+.fjs-editor-container .fjs-readonly {
+  pointer-events: none;
+}
+
 .fjs-editor-container .fjs-drag-container,
 .fjs-editor-container .fjs-drop-container-vertical {
   user-select: none;

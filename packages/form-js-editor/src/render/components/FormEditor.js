@@ -394,7 +394,7 @@ export default function FormEditor(props) {
               errors: {},
               properties: {
                 ariaLabel,
-                readOnly: true
+                disabled: true
               },
               schema
             };
