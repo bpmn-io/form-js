@@ -22,6 +22,7 @@ export default function Select(props) {
     errors = [],
     field,
     onChange,
+    readonly,
     value
   } = props;
 
@@ -45,11 +46,12 @@ export default function Select(props) {
     field,
     value,
     onChange,
+    readonly,
     'aria-describedby': errorMessageId,
-  }), [ disabled, errors, field, id, value, onChange, errorMessageId ]);
+  }), [ disabled, errors, field, id, value, onChange, readonly, errorMessageId ]);
 
   return <div
-    class={ formFieldClasses(type, { errors, disabled }) }
+    class={ formFieldClasses(type, { errors, disabled, readonly }) }
     onKeyDown={
       (event) => {
         if (event.key === 'Enter') {

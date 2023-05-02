@@ -152,6 +152,21 @@ describe('Textfield', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createTextfield({
+      readonly: true
+    });
+
+    // then
+    const input = container.querySelector('input[type="text"]');
+
+    expect(input).to.exist;
+    expect(input.readOnly).to.be.true;
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -378,6 +393,21 @@ describe('Textfield', function() {
     });
 
 
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTextfield({
+        value: 'John Doe Company',
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -431,6 +461,7 @@ function createTextfield(options = {}) {
   const {
     appearance = {},
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -441,6 +472,7 @@ function createTextfield(options = {}) {
     <Textfield
       appearance={ appearance }
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

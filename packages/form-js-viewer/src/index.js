@@ -5,7 +5,7 @@ export * from './render';
 export * from './util';
 export * from './features';
 
-const schemaVersion = 8;
+const schemaVersion = 9;
 
 export {
   Form,

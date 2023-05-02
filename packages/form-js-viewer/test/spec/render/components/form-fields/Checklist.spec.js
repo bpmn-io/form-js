@@ -149,6 +149,22 @@ describe('Checklist', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createChecklist({
+      readonly: true
+    });
+
+    // then
+    const inputs = container.querySelectorAll('input[type="checkbox"]');
+
+    inputs.forEach(input => {
+      expect(input.readOnly).to.be.true;
+    });
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -320,6 +336,22 @@ describe('Checklist', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createChecklist({
+        value: [ 'approver' ],
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -390,6 +422,7 @@ const dynamicFieldInitialData = {
 function createChecklist(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -399,6 +432,7 @@ function createChecklist(options = {}) {
   return render(WithFormContext(
     <Checklist
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

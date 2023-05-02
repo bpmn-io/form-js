@@ -21,6 +21,7 @@ export default function Checklist(props) {
     disabled,
     errors = [],
     field,
+    readonly,
     value = [],
   } = props;
 
@@ -57,7 +58,7 @@ export default function Checklist(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ classNames(formFieldClasses(type, { errors, disabled })) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) }>
     <Label
       label={ label }
       required={ required } />
@@ -76,6 +77,7 @@ export default function Checklist(props) {
               checked={ value.includes(v.value) }
               class="fjs-input"
               disabled={ disabled }
+              readOnly={ readonly }
               id={ prefixId(`${id}-${index}`, formId) }
               type="checkbox"
               onClick={ () => toggleCheckbox(v.value) }

@@ -168,6 +168,20 @@ Find a complete component reference in the [Camunda Platform documentation](http
       "type": "image"
     },
     {
+      "key": "disabled",
+      "label": "A disabled field",
+      "type": "textfield",
+      "defaultValue": "some value",
+      "disabled": true
+    },
+    {
+      "key": "readonly",
+      "label": "A readonly field",
+      "type": "textfield",
+      "defaultValue": "some value",
+      "readonly": true
+    },
+    {
       "key": "submit",
       "label": "Submit",
       "type": "button"

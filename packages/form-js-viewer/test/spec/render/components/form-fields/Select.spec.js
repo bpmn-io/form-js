@@ -148,6 +148,26 @@ describe('Select', function() {
     });
 
 
+    it('should render readonly', function() {
+
+      // when
+      const { container } = createSelect({ value: 'german', readonly: true });
+
+      // then
+      const select = container.querySelector('.fjs-input-group');
+      expect(select.classList.contains('readonly')).to.be.true;
+
+      const display = select.querySelector('.fjs-select-display');
+      expect(display.innerText).to.equal('German');
+
+      const cross = select.querySelector('.fjs-select-cross');
+      expect(cross).to.not.exist;
+
+      const arrow = select.querySelector('.fjs-select-arrow');
+      expect(arrow).to.exist;
+    });
+
+
     it('should render value changes', function() {
 
       // given
@@ -438,6 +458,32 @@ describe('Select', function() {
     });
 
 
+    it('should render readonly', function() {
+
+      // when
+      const { container } = createSelect({
+        field: { ...defaultField, searchable: true },
+        value: 'german',
+        readonly: true
+      });
+
+      // then
+      const select = container.querySelector('.fjs-input-group');
+      expect(select.classList.contains('readonly')).to.be.true;
+
+      const filter = container.querySelector('input[type="text"]');
+      expect(filter).to.exist;
+      expect(filter.readOnly).to.be.true;
+      expect(filter.value).to.equal('German');
+
+      const cross = select.querySelector('.fjs-select-cross');
+      expect(cross).to.not.exist;
+
+      const arrow = select.querySelector('.fjs-select-arrow');
+      expect(arrow).to.exist;
+    });
+
+
     it('should render value changes', function() {
 
       // given
@@ -714,6 +760,21 @@ describe('Select', function() {
     });
 
 
+    it('should have no violations - readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createSelect({
+        value: 'foo',
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations - searchable', async function() {
 
       // given
@@ -797,6 +858,7 @@ const dynamicFieldInitialData = {
 function createSelect(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     searchable = false,
@@ -807,6 +869,7 @@ function createSelect(options = {}) {
   return render(WithFormContext(
     <Select
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

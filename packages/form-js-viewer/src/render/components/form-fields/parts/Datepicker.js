@@ -18,6 +18,7 @@ export default function Datepicker(props) {
     disabled,
     disallowPassedDates,
     date,
+    readonly,
     setDate
   } = props;
 
@@ -138,10 +139,10 @@ export default function Datepicker(props) {
   const onInputFocus = useCallback(
     (e) => {
 
-      if (!flatpickrInstance || focusScopeRef.current.contains(e.relatedTarget)) return;
+      if (!flatpickrInstance || focusScopeRef.current.contains(e.relatedTarget) || readonly) return;
 
       flatpickrInstance.open();
-    }, [ flatpickrInstance ]
+    }, [ flatpickrInstance, readonly ]
   );
 
   // simulate an enter press on blur to make sure the date value is submitted in all scenarios
@@ -166,6 +167,7 @@ export default function Datepicker(props) {
     <InputAdorner
       pre={ <CalendarIcon /> }
       disabled={ disabled }
+      readonly={ readonly }
       rootRef={ focusScopeRef }
       inputRef={ dateInputRef }>
       <div class="fjs-datepicker" style={ { width: '100%' } }>
@@ -174,11 +176,12 @@ export default function Datepicker(props) {
           id={ fullId }
           class="fjs-input"
           disabled={ disabled }
+          readOnly={ readonly }
           placeholder="mm/dd/yyyy"
           autoComplete="off"
           onFocus={ onInputFocus }
           onKeyDown={ onInputKeyDown }
-          onMouseDown={ () => !flatpickrInstance.isOpen && flatpickrInstance.open() }
+          onMouseDown={ () => !flatpickrInstance.isOpen && !readonly && flatpickrInstance.open() }
           onBlur={ onInputBlur }
           onInput={ () => setIsInputDirty(true) }
           data-input

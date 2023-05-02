@@ -128,7 +128,7 @@ describe('viewer exports', function() {
   it('should expose schemaVersion', function() {
     expect(typeof schemaVersion).to.eql('number');
 
-    expect(schemaVersion).to.eql(8);
+    expect(schemaVersion).to.eql(9);
   });
 
 

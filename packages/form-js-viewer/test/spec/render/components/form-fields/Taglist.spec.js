@@ -197,6 +197,32 @@ describe('Taglist', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createTaglist({
+      readonly: true,
+      value: [ 'tag1' ]
+    });
+
+    // then
+    const filterInput = container.querySelector('input[type="text"]');
+    expect(filterInput.readOnly).to.be.true;
+
+    const taglist = container.querySelector('.fjs-taglist');
+    expect(taglist.classList.contains('fjs-readonly')).to.be.true;
+
+    const tag = taglist.querySelector('.fjs-taglist-tag');
+    expect(tag).to.exist;
+    expect(tag.innerText).to.equal('Tag1');
+    expect(tag.classList.contains('fjs-readonly')).to.be.true;
+
+    const cross = tag.querySelector('fjs-taglist-tag-remove');
+    expect(cross).to.not.exist;
+
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -684,6 +710,21 @@ describe('Taglist', function() {
     });
 
 
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTaglist({
+        value: [ 'tag1', 'tag2', 'tag3' ],
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -838,6 +879,7 @@ const dynamicFieldInitialData = {
 function createTaglist(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -847,6 +889,7 @@ function createTaglist(options = {}) {
   return render(WithFormContext(
     <Taglist
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

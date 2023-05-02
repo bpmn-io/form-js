@@ -25,6 +25,7 @@ export default function Datetime(props) {
     errors = [],
     field,
     onChange,
+    readonly,
     value = ''
   } = props;
 
@@ -139,6 +140,7 @@ export default function Datetime(props) {
     disabled,
     disallowPassedDates,
     date: dateTime.date,
+    readonly,
     setDate,
     'aria-describedby': errorMessageId
   };
@@ -149,6 +151,7 @@ export default function Datetime(props) {
     formId,
     required,
     disabled,
+    readonly,
     use24h,
     timeInterval,
     time: dateTime.time,
@@ -156,7 +159,7 @@ export default function Datetime(props) {
     'aria-describedby': errorMessageId
   };
 
-  return <div class={ formFieldClasses(type, { errors: allErrors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors: allErrors, disabled, readonly }) }>
     <div class={ classNames('fjs-vertical-group') }>
       { useDatePicker && <Datepicker { ...datePickerProps } /> }
       { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }

@@ -25,6 +25,7 @@ export default function Taglist(props) {
     disabled,
     errors = [],
     field,
+    readonly,
     value : values = []
   } = props;
 
@@ -115,6 +116,11 @@ export default function Taglist(props) {
     }
   };
 
+  const onBlur = () => {
+    setIsDropdownExpanded(false);
+    setFilter('');
+  };
+
   const onTagRemoveClick = (event, value) => {
     const { target } = event;
 
@@ -130,7 +136,7 @@ export default function Taglist(props) {
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
 
   return <div
-    class={ formFieldClasses(type, { errors, disabled }) }
+    class={ formFieldClasses(type, { errors, disabled, readonly }) }
     onKeyDown={
       (event) => {
         if (event.key === 'Enter') {
@@ -144,17 +150,17 @@ export default function Taglist(props) {
       label={ label }
       required={ required }
       id={ prefixId(`${id}-search`, formId) } />
-    <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled }) }>
+    <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
       { loadState === LOAD_STATES.LOADED &&
         <div class="fjs-taglist-tags">
           {
             values.map((v) => {
               return (
-                <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled }) } onMouseDown={ (e) => e.preventDefault() }>
+                <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) } onMouseDown={ (e) => e.preventDefault() }>
                   <span class="fjs-taglist-tag-label">
                     {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
                   </span>
-                  { !disabled && <button
+                  { (!disabled && !readonly) && <button
                     type="button"
                     title="Remove tag"
                     class="fjs-taglist-tag-remove"
@@ -170,18 +176,19 @@ export default function Taglist(props) {
       }
       <input
         disabled={ disabled }
+        readOnly={ readonly }
         class="fjs-taglist-input"
         ref={ searchbarRef }
         id={ prefixId(`${id}-search`, formId) }
         onChange={ onFilterChange }
         type="text"
         value={ filter }
-        placeholder={ disabled ? undefined : 'Search' }
+        placeholder={ (disabled || readonly) ? undefined : 'Search' }
         autoComplete="off"
         onKeyDown={ onInputKeyDown }
         onMouseDown={ () => setIsEscapeClose(false) }
-        onFocus={ () => setIsDropdownExpanded(true) }
-        onBlur={ () => { setIsDropdownExpanded(false); setFilter(''); } }
+        onFocus={ () => !readonly && setIsDropdownExpanded(true) }
+        onBlur={ () => { !readonly && onBlur(); } }
         aria-describedby={ errorMessageId } />
     </div>
     <div class="fjs-taglist-anchor">

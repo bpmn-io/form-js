@@ -32,6 +32,7 @@ export default function Numberfield(props) {
     errors = [],
     field,
     value,
+    readonly,
     onChange
   } = props;
 
@@ -106,6 +107,10 @@ export default function Numberfield(props) {
   }, [ field, onChange, serializeToString ]);
 
   const increment = () => {
+    if (readonly) {
+      return;
+    }
+
     const base = isValidNumber(value) ? Big(value) : Big(0);
     const stepFlooredValue = base.minus(base.mod(arrowIncrementValue));
 
@@ -114,6 +119,10 @@ export default function Numberfield(props) {
   };
 
   const decrement = () => {
+    if (readonly) {
+      return;
+    }
+
     const base = isValidNumber(value) ? Big(value) : Big(0);
     const offset = base.mod(arrowIncrementValue);
 
@@ -167,17 +176,18 @@ export default function Numberfield(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
-      <div class={ classNames('fjs-vertical-group', { 'fjs-disabled': disabled }, { 'hasErrors': errors.length }) }>
+    <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
+      <div class={ classNames('fjs-vertical-group', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }, { 'hasErrors': errors.length }) }>
         <input
           ref={ inputRef }
           class="fjs-input"
           disabled={ disabled }
+          readOnly={ readonly }
           id={ prefixId(id, formId) }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
@@ -189,7 +199,7 @@ export default function Numberfield(props) {
           step={ arrowIncrementValue }
           value={ displayValue }
           aria-describedby={ errorMessageId } />
-        <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled }) }>
+        <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
           <button
             class="fjs-number-arrow-up"

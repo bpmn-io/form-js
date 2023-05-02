@@ -44,6 +44,7 @@
     var(--cds-field-01, var(--color-white))
   );
   --color-background-disabled: var(--cds-background, var(--color-grey-225-10-95));
+  --color-background-readonly: var(--cds-background, var(--color-grey-225-10-95));
   --color-background-adornment: var(
     --cds-field, 
     var(--cds-field-01, var(--color-grey-225-10-95))
@@ -74,11 +75,16 @@
     --cds-border-subtle, 
     var(--cds-border-subtle-01, var(--color-grey-225-10-85))
   );
+  --color-borders-readonly: var(--cds-border-disabled, var(--color-grey-225-10-75));
   --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
 
   --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
   --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
   --color-accent: var(--cds-link-primary, var(--color-blue-205-100-40));
+  --color-accent-readonly: var(
+    --cds-border-strong, 
+    var(--cds-border-strong-01, var(--color-grey-225-10-55))
+  );
   --color-datepicker-focused-day: var(--cds-button-primary, var(--color-grey-225-10-55));
   --color-shadow: var(--cds-shadow, var(--color-grey-225-10-85));
 
@@ -102,6 +108,7 @@
   --border-definition-adornment: 1px solid var(--color-borders-adornment);
   --outline-definition: 1px solid var(--cds-focus, var(--color-borders));
   --border-definition-disabled: 1px solid var(--color-borders-disabled);
+  --border-definition-readonly: 1px solid var(--color-borders-readonly);
 
   height: 100%;
 }
@@ -230,7 +237,9 @@
 .fjs-container .fjs-taglist-input::placeholder,
 .fjs-container .fjs-textarea::placeholder,
 .fjs-container .fjs-select > option:disabled,
-.fjs-container .fjs-select [disabled] {
+.fjs-container .fjs-select [disabled],
+.fjs-container .fjs-select > option:read-only,
+.fjs-container .fjs-select [read-only] {
   color: var(--color-text-lightest);
   font-size: var(--font-size-input);
   line-height: var(--line-height-input);
@@ -408,7 +417,8 @@
 }
 
 .fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder,
-.fjs-container .fjs-disabled .fjs-input-group .fjs-select-display {
+.fjs-container .fjs-disabled .fjs-input-group .fjs-select-display,
+.fjs-container .fjs-readonly .fjs-input-group .fjs-select-display {
   color: var(--color-text-lighter);
   line-height: var(--line-height-input);
 }
@@ -563,12 +573,43 @@
   background-color: var(--cds-toggle-off, var(--color-background-disabled));
 }
 
+.fjs-container .fjs-input:read-only,
+.fjs-container .fjs-textarea:read-only,
+.fjs-container .fjs-select:read-only,
+.fjs-container .fjs-number-arrow-container.fjs-readonly button,
+.fjs-container .fjs-taglist.fjs-readonly,
+.fjs-container .fjs-readonly .fjs-input-group {
+  background-color: var(--color-background-readonly);
+  border-color: var(--color-borders-readonly);
+}
+
+.fjs-container .fjs-form-field-checkbox.fjs-readonly,
+.fjs-container .fjs-form-field-checklist.fjs-readonly,
+.fjs-container .fjs-form-field-radio.fjs-readonly {
+  pointer-events: none;
+}
+
+.fjs-container .fjs-form-field-checkbox.fjs-readonly .fjs-input:not(:disabled),
+.fjs-container .fjs-form-field-checklist.fjs-readonly .fjs-input:not(:disabled),
+.fjs-container .fjs-form-field-radio.fjs-readonly .fjs-input:not(:disabled) {
+  opacity: 0.4;
+  accent-color: var(--color-accent-readonly);
+}
+
 .fjs-container .fjs-button[type='submit']:disabled,
 .fjs-container .fjs-button[type='reset']:disabled {
   color: var(--cds-text-on-color-disabled, var(--color-text-light));
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
+
+.fjs-container .fjs-button[type='submit']:read-only,
+.fjs-container .fjs-button[type='reset']:read-only {
+  color: var(--text-light);
+  background-color: var(--color-background-readonly);
+  border-color: var(--color-borders-readonly);
+}
+
 .fjs-container .fjs-disabled .fjs-input-group .fjs-input-adornment,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-separator {
@@ -578,6 +619,12 @@
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container .fjs-number-arrow-up,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container .fjs-number-arrow-down {
   pointer-events: none;
+}
+
+.fjs-container .fjs-readonly .fjs-input-group .fjs-input-adornment,
+.fjs-container .fjs-readonly .fjs-input-group .fjs-number-arrow-container,
+.fjs-container .fjs-readonly .fjs-input-group .fjs-number-arrow-separator {
+  border-color: var(--color-borders-readonly);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input,
@@ -677,7 +724,8 @@
   border-radius: 2px;
 }
 
-.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag { 
+.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag,
+.fjs-container .fjs-taglist.fjs-readonly .fjs-taglist-tag { 
   background-color: var(--color-background-inverted);
 }
 
@@ -691,7 +739,8 @@
   padding: 2px 6px 2px 8px;
 }
 
-.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag .fjs-taglist-tag-label {
+.fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag .fjs-taglist-tag-label,
+.fjs-container .fjs-taglist.fjs-readonly .fjs-taglist-tag .fjs-taglist-tag-label {
   padding: 2px 8px;
 }
 

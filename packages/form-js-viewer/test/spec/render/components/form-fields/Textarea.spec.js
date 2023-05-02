@@ -129,6 +129,21 @@ describe('Textarea', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createTextarea({
+      readonly: true
+    });
+
+    // then
+    const textarea = container.querySelector('textarea');
+
+    expect(textarea).to.exist;
+    expect(textarea.readOnly).to.be.true;
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -266,6 +281,21 @@ describe('Textarea', function() {
     });
 
 
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createTextarea({
+        value: 'This is a textarea value /nFollowed by a newline',
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -297,6 +327,7 @@ const defaultField = {
 function createTextarea(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -306,6 +337,7 @@ function createTextarea(options = {}) {
   return render(WithFormContext(
     <Textarea
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

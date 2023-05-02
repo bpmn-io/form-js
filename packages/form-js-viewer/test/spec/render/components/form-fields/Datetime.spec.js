@@ -95,6 +95,20 @@ describe('Datetime', function() {
     });
 
 
+    it('should render readonly', function() {
+
+      // when
+      const { container } = createDatetime({ readonly: true, value: '1996-11-13' });
+
+      // then
+      const dateInput = container.querySelector('input[type="text"]');
+      expect(dateInput).to.exist;
+      expect(dateInput.value).to.be.equal('11/13/1996');
+      expect(dateInput.readOnly).to.be.true;
+
+    });
+
+
     it('should render custom label', function() {
 
       // when
@@ -420,6 +434,7 @@ describe('Datetime', function() {
 
     });
 
+
     it('should render disabled', function() {
 
       // when
@@ -430,6 +445,20 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(timeInput.value).to.equal('13:00');
       expect(timeInput.disabled).to.be.true;
+
+    });
+
+
+    it('should render readonly', function() {
+
+      // when
+      const { container } = createDatetime({ field: { ...timeField, use24h: true }, readonly: true, value: '13:00' });
+
+      // then
+      const timeInput = container.querySelector('input[type="text"]');
+      expect(timeInput).to.exist;
+      expect(timeInput.value).to.equal('13:00');
+      expect(timeInput.readOnly).to.be.true;
 
     });
 
@@ -973,6 +1002,19 @@ describe('Datetime', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations for readonly - date', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({ readonly: true });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors - date', async function() {
 
       // given
@@ -999,6 +1041,22 @@ describe('Datetime', function() {
       // then
       await expectNoViolations(container);
     });
+
+
+    it('should have no violations for readonly - time', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({
+        field: timeField,
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
 
     it('should have no violations for errors - time', async function() {
 
@@ -1027,6 +1085,22 @@ describe('Datetime', function() {
       // then
       await expectNoViolations(container);
     });
+
+
+    it('should have no violations for readonly - datetime', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createDatetime({
+        field: datetimeField,
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
 
     it('should have no violations for errors - datetime', async function() {
 
@@ -1080,6 +1154,7 @@ const datetimeField = {
 function createDatetime(options = {}) {
   const {
     disabled,
+    readonly,
     field = dateField,
     value,
     onChange = () => {},
@@ -1089,6 +1164,7 @@ function createDatetime(options = {}) {
   return render(
     <Datetime
       disabled={ disabled }
+      readonly={ readonly }
       field={ field }
       value={ value }
       onChange={ onChange }

@@ -20,6 +20,7 @@ export default function Checkbox(props) {
     disabled,
     errors = [],
     field,
+    readonly,
     value = false
   } = props;
 
@@ -42,7 +43,7 @@ export default function Checkbox(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ classNames(formFieldClasses(type, { errors, disabled }), { 'fjs-checked': value }) }>
+  return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
@@ -51,6 +52,7 @@ export default function Checkbox(props) {
         checked={ value }
         class="fjs-input"
         disabled={ disabled }
+        readOnly={ readonly }
         id={ prefixId(id, formId) }
         type="checkbox"
         onChange={ onChange }
