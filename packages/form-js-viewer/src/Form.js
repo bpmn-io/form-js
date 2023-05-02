@@ -166,7 +166,7 @@ export default class Form {
       properties
     } = this._getState();
 
-    if (properties.readOnly) {
+    if (properties.readOnly || properties.disabled) {
       throw new Error('form is read-only');
     }
 

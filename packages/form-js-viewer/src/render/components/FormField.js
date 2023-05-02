@@ -45,7 +45,9 @@ export default function FormField(props) {
 
   const fieldErrors = findErrors(errors, field._path);
 
-  const disabled = properties.readOnly || field.disabled || false;
+  const disabled = properties.disabled || field.disabled || false;
+
+  const readonly = properties.readOnly || field.readonly || false;
 
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
@@ -60,7 +62,8 @@ export default function FormField(props) {
           { ...props }
           disabled={ disabled }
           errors={ fieldErrors }
-          onChange={ disabled ? noop : onChange }
+          onChange={ disabled || readonly ? noop : onChange }
+          readonly={ readonly }
           value={ value } />
       </Element>
     </Column>
