@@ -21,6 +21,7 @@ export default function Radio(props) {
     disabled,
     errors = [],
     field,
+    readonly,
     value
   } = props;
 
@@ -48,7 +49,7 @@ export default function Radio(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
       label={ label }
       required={ required } />
@@ -65,6 +66,7 @@ export default function Radio(props) {
               checked={ option.value === value }
               class="fjs-input"
               disabled={ disabled }
+              readOnly={ readonly }
               id={ prefixId(`${ id }-${ index }`, formId) }
               type="radio"
               onClick={ () => onChange(option.value) }

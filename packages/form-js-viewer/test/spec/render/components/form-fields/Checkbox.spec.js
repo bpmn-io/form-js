@@ -100,6 +100,21 @@ describe('Checkbox', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createCheckbox({
+      readonly: true
+    });
+
+    // then
+    const input = container.querySelector('input[type="checkbox"]');
+
+    expect(input).to.exist;
+    expect(input.readOnly).to.be.true;
+  });
+
+
   it('should render without label', function() {
 
     // when
@@ -200,6 +215,22 @@ describe('Checkbox', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createCheckbox({
+        value: true,
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -230,6 +261,7 @@ const defaultField = {
 function createCheckbox(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -239,6 +271,7 @@ function createCheckbox(options = {}) {
   return render(
     <Checkbox
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }

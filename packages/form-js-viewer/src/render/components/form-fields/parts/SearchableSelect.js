@@ -21,6 +21,7 @@ export default function SearchableSelect(props) {
     disabled,
     errors,
     field,
+    readonly,
     value
   } = props;
 
@@ -94,11 +95,11 @@ export default function SearchableSelect(props) {
 
   const displayState = useMemo(() => {
     const ds = {};
-    ds.componentReady = !disabled && loadState === LOAD_STATES.LOADED;
+    ds.componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
     ds.displayCross = ds.componentReady && value !== null && value !== undefined;
-    ds.displayDropdown = !disabled && isDropdownExpanded && !isEscapeClosed;
+    ds.displayDropdown = !disabled && !readonly && isDropdownExpanded && !isEscapeClosed;
     return ds;
-  }, [ disabled, isDropdownExpanded, isEscapeClosed, loadState, value ]);
+  }, [ disabled, isDropdownExpanded, isEscapeClosed, loadState, readonly, value ]);
 
   const onAngelMouseDown = useCallback((e) => {
     setIsEscapeClose(false);
@@ -113,9 +114,10 @@ export default function SearchableSelect(props) {
 
   return <>
     <div id={ prefixId(`${id}`, formId) }
-      class={ classNames('fjs-input-group', { 'disabled': disabled }, { 'hasErrors': errors.length }) }>
+      class={ classNames('fjs-input-group', { 'disabled': disabled, 'readonly': readonly }, { 'hasErrors': errors.length }) }>
       <input
         disabled={ disabled }
+        readOnly={ readonly }
         class="fjs-input"
         ref={ searchbarRef }
         id={ prefixId(`${id}-search`, formId) }

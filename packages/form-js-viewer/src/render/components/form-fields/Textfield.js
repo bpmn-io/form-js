@@ -21,6 +21,7 @@ export default function Textfield(props) {
     disabled,
     errors = [],
     field,
+    readonly,
     value = ''
   } = props;
 
@@ -49,15 +50,16 @@ export default function Textfield(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
-  return <div class={ formFieldClasses(type, { errors, disabled }) }>
+  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
       id={ prefixId(id, formId) }
       label={ label }
       required={ required } />
-    <InputAdorner disabled={ disabled } pre={ prefixAdorner } post={ suffixAdorner }>
+    <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
       <input
         class="fjs-input"
         disabled={ disabled }
+        readOnly={ readonly }
         id={ prefixId(id, formId) }
         onInput={ onChange }
         type="text"

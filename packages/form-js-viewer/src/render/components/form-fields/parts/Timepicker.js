@@ -17,6 +17,7 @@ export default function Timepicker(props) {
     formId,
     required,
     disabled,
+    readonly,
     use24h = false,
     timeInterval,
     time,
@@ -141,7 +142,8 @@ export default function Timepicker(props) {
     <InputAdorner
       pre={ <ClockIcon /> }
       inputRef={ timeInputRef }
-      disabled={ disabled }>
+      disabled={ disabled }
+      readonly={ readonly }>
       <div class="fjs-timepicker fjs-timepicker-anchor">
         <input ref={ timeInputRef }
           type="text"
@@ -149,10 +151,11 @@ export default function Timepicker(props) {
           class="fjs-input"
           value={ rawValue }
           disabled={ disabled }
+          readOnly={ readonly }
           placeholder={ use24h ? 'hh:mm' : 'hh:mm ?m' }
           autoComplete="off"
-          onFocus={ () => useDropdown && setDropdownIsOpen(true) }
-          onClick={ () => useDropdown && setDropdownIsOpen(true) }
+          onFocus={ () => !readonly && useDropdown && setDropdownIsOpen(true) }
+          onClick={ () => !readonly && useDropdown && setDropdownIsOpen(true) }
 
           // @ts-ignore
           onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }

@@ -153,6 +153,22 @@ describe('Radio', function() {
   });
 
 
+  it('should render readonly', function() {
+
+    // when
+    const { container } = createRadio({
+      readonly: true
+    });
+
+    // then
+    const inputs = container.querySelectorAll('input[type="radio"]');
+
+    inputs.forEach(input => {
+      expect(input.readOnly).to.be.true;
+    });
+  });
+
+
   it('should render description', function() {
 
     // when
@@ -324,6 +340,22 @@ describe('Radio', function() {
       await expectNoViolations(container);
     });
 
+
+    it('should have no violations for readonly', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createRadio({
+        value: 'camunda-platform',
+        readonly: true
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
     it('should have no violations for errors', async function() {
 
       // given
@@ -386,6 +418,7 @@ const dynamicFieldInitialData = {
 function createRadio(options = {}) {
   const {
     disabled,
+    readonly,
     errors,
     field = defaultField,
     onChange,
@@ -395,6 +428,7 @@ function createRadio(options = {}) {
   return render(WithFormContext(
     <Radio
       disabled={ disabled }
+      readonly={ readonly }
       errors={ errors }
       field={ field }
       onChange={ onChange }
