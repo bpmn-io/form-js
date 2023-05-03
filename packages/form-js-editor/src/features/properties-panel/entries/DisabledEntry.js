@@ -2,7 +2,7 @@ import { get } from 'min-dash';
 
 import { INPUTS } from '../Util';
 
-import { CheckboxEntry, isCheckboxEntryEdited } from '@bpmn-io/properties-panel';
+import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export default function DisabledEntry(props) {
@@ -23,7 +23,7 @@ export default function DisabledEntry(props) {
       component: Disabled,
       editField: editField,
       field: field,
-      isEdited: isCheckboxEntryEdited
+      isEdited: isToggleSwitchEntryEdited
     });
   }
 
@@ -47,7 +47,7 @@ function Disabled(props) {
     return editField(field, path, value);
   };
 
-  return CheckboxEntry({
+  return ToggleSwitchEntry({
     element: field,
     getValue,
     id,
