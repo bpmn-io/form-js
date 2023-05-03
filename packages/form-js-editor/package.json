@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-editor",
-  "version": "0.14.1",
+  "version": "0.15.0-alpha.0",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -44,7 +44,7 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js-viewer": "^0.14.1",
+    "@bpmn-io/form-js-viewer": "^0.15.0-alpha.0",
     "@bpmn-io/properties-panel": "^1.7.0",
     "array-move": "^3.0.1",
     "big.js": "^6.2.1",
