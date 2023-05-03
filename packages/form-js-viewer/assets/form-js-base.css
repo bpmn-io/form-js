@@ -573,9 +573,9 @@
   background-color: var(--cds-toggle-off, var(--color-background-disabled));
 }
 
-.fjs-container .fjs-input:read-only,
-.fjs-container .fjs-textarea:read-only,
-.fjs-container .fjs-select:read-only,
+.fjs-container .fjs-readonly .fjs-input:read-only:not(:disabled),
+.fjs-container .fjs-readonly .fjs-textarea:read-only:not(:disabled),
+.fjs-container .fjs-readonly .fjs-select:read-only:not(:disabled),
 .fjs-container .fjs-number-arrow-container.fjs-readonly button,
 .fjs-container .fjs-taglist.fjs-readonly,
 .fjs-container .fjs-readonly .fjs-input-group {

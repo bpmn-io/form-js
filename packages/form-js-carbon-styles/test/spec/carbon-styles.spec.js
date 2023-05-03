@@ -107,6 +107,9 @@ describe('FormCustomStyling', function() {
         }
       ],
       tags: [ 'tag1', 'tag2', 'tag3' ],
+      readonly_tags: [ 'tag1', 'tag2', 'tag3' ],
+      readonly_checklist: [ 'option_1' ],
+      readonly_radio: 'option_1',
       language: 'english'
     };
 
@@ -202,7 +205,7 @@ function FormContainer(props) {
     return () => { form.destroy(); };
   }, [ ref, props ]);
 
-  return <div ref={ ref } class="form-container"></div>;
+  return <div ref={ ref } class="form-container cds--layer-two"></div>;
 }
 
 
