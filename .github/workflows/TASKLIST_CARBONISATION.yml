@@ -54,8 +54,6 @@ jobs:
       - name: Start server
         working-directory: ./tasklist/client
         run: yarn start:visual-regression &
-      - name: Copy form-js schema
-        run: cp ./form-js/packages/form-js-viewer/test/schemaWithAllComponents.json ./tasklist/client/e2e-playwright/bigForm.json
       - name: Run Playwright tests
         working-directory: ./tasklist/client
         run: yarn playwright form-js-integration
