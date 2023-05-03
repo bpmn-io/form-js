@@ -1049,7 +1049,6 @@ const CARBON_STYLES = css`
   .fjs-container {
     width: 100%;
     height: min-content;
-    --carbon-breakpoint-lg-width: 66rem;
 
     .cds--grid {
       padding: 0;
@@ -1069,7 +1068,7 @@ const CARBON_STYLES = css`
       margin-right: 0;
     }
 
-    @media (width < var(--carbon-breakpoint-lg-width)) {
+    @media (width < 66rem) { // Carbon lg width breakpoint
       .fjs-layout-column .fjs-form-field {
         margin-left: 0;
         margin-right: 0;
