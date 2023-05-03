@@ -141,7 +141,7 @@ export default function Taglist(props) {
     }
   >
     <Label
-      label={ `${label}fofofofofo` }
+      label={ label }
       required={ required }
       id={ prefixId(`${id}-search`, formId) } />
     <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled }) }>
