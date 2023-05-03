@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.15.0-alpha.1
+
+### Carbon styles
+
+* `FIX`: correct margins for lower screens ([#640](https://github.com/bpmn-io/form-js/pull/640))
 
 ## 0.15.0-alpha.0
 
