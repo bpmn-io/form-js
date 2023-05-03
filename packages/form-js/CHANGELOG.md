@@ -6,6 +6,37 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 0.15.0-alpha.0
+
+### General
+
+* `FEAT`: allow uneven columns ([#605](https://github.com/bpmn-io/form-js/issues/605))
+* `FEAT`: make styles themable ([#557](https://github.com/bpmn-io/form-js/pull/557))
+* `FEAT`: introduce `@bpmn-io/form-js-carbon-styles` package ([#557](https://github.com/bpmn-io/form-js/pull/557))
+* `FIX`: support markdown tables in `text` ([#205](https://github.com/bpmn-io/form-js/issues/205))
+* `CHORE`: introduce visual regression tests ([#632](https://github.com/bpmn-io/form-js/pull/632))
+* `DEPS`: update to `diagram-js@12` ([`798ac2a2`](https://github.com/bpmn-io/form-js/commit/798ac2a204aab059ecc89c2c96bd302d34295982))
+
+### Viewer
+
+* `FEAT`: provide `textLinkTarget` property ([#613](https://github.com/bpmn-io/form-js/pull/613))
+* `FEAT`: correlate error messages to form fields ([#626](https://github.com/bpmn-io/form-js/pull/626))
+* `FIX`: make `select` component accessible ([#617](https://github.com/bpmn-io/form-js/issues/617))
+* `FIX`: sanitize `textfield` new lines ([#380](https://github.com/bpmn-io/form-js/issues/380))
+* `CHORE`: rework component definitions ([#612](https://github.com/bpmn-io/form-js/issues/612))
+
+### Editor
+
+* `FEAT`: update delete icon ([#572](https://github.com/bpmn-io/form-js/issues/572))
+* `FEAT`: resize form fields ([#566](https://github.com/bpmn-io/form-js/issues/566))
+* `FIX`: set proper width to drop containers ([#623](https://github.com/bpmn-io/form-js/issues/623))
+* `FIX`: improve search in palette ([#532](https://github.com/bpmn-io/form-js/issues/532))
+
+### Playground
+
+* `FEAT`: set aria label to each component ([#619](https://github.com/bpmn-io/form-js/pull/619))
+
 ### Breaking Changes
 
 We changed the structure of the static component configuration properties. These are now located on a static `config` object, and may now be accessed as follows:
