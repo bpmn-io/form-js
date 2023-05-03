@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js",
-  "version": "0.15.0-alpha.0",
+  "version": "0.15.0-alpha.1",
   "description": "View and edit forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -57,7 +57,7 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js-carbon-styles": "^0.15.0-alpha.0",
+    "@bpmn-io/form-js-carbon-styles": "^0.15.0-alpha.1",
     "@bpmn-io/form-js-editor": "^0.15.0-alpha.0",
     "@bpmn-io/form-js-playground": "^0.15.0-alpha.0",
     "@bpmn-io/form-js-viewer": "^0.15.0-alpha.0"
