@@ -220,6 +220,33 @@ describe('FormField', function() {
       expect(onChangeSpy).not.to.have.been.called;
     });
 
+
+    it('should have precedence', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      // when
+      createFormField({
+        field: {
+          ...defaultField,
+          disabled: true
+        },
+        FormFieldComponent: componentSpy,
+        properties: {
+          readOnly: true
+        }
+      });
+
+      // then
+      const props = componentSpy.firstCall.firstArg;
+
+      expect(props).to.include({
+        readonly: true,
+        disabled: false
+      });
+    });
+
   });
 
 
