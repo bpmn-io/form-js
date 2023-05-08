@@ -45,9 +45,12 @@ export default function FormField(props) {
 
   const fieldErrors = findErrors(errors, field._path);
 
-  const disabled = properties.disabled || field.disabled || false;
-
   const readonly = properties.readOnly || field.readonly || false;
+
+  // add precedence: global readonly > form field disabled
+  const disabled = !properties.readOnly && (
+    properties.disabled || field.disabled || false
+  );
 
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
