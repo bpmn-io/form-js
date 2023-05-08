@@ -20,7 +20,7 @@ jobs:
           repository: camunda/tasklist
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
           path: tasklist
-          ref: "test-form-js-int"
+          ref: "master"
       - name: Setup form-js cache
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
         with:
