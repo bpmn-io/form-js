@@ -2,23 +2,37 @@ import '@bpmn-io/form-js/dist/assets/form-js.css';
 import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
 import '@bpmn-io/form-js/dist/assets/form-js-playground.css';
 
-import { FormPlayground } from '@bpmn-io/form-js';
+import './theme.scss';
 
-const schema = {
-  schemaVersion: 8,
-  exporter: {
-    name: 'Camunda Web Modeler',
-    version: '0de37f6'
-  },
-  components: [],
-  type: 'default',
-  id: 'form_id',
-  executionPlatform: 'Camunda Cloud',
-  executionPlatformVersion: '8.2.0'
+import { FormPlayground, FormEditor, Form } from '@bpmn-io/form-js';
+
+const COMPONENTS = {
+  'editor': FormEditor,
+  'viewer': Form,
+  'playground': FormPlayground
 };
 
-new FormPlayground({
-  container: document.querySelector('#container'),
-  schema,
-  data: {}
+fetch('/form').then(response => {
+
+  if (!response.ok) {
+    throw new Error('failed to fetch form');
+  }
+
+  return response.json();
+
+}).then((response) => {
+
+  const data = response.data;
+
+  const FormComponent = COMPONENTS[data.component || 'viewer'];
+
+  const form = new FormComponent({
+    container: document.querySelector('#container'),
+    schema: data.schema,
+    data: {}
+  });
+
+  if (data.component !== 'playground') {
+    form.importSchema(data.schema);
+  }
 });
