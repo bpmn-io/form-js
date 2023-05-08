@@ -19,13 +19,15 @@
     "name": "bpmn.io contributors",
     "url": "https://github.com/bpmn-io"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@bpmn-io/form-js-viewer": "^0.15.0-alpha.0",
+    "@types/styled-components": "^5.1.26",
     "@carbon/elements": "^11.19.1",
     "styled-components": "^5.3.6"
   },
-  "devDependencies": {
-    "@bpmn-io/form-js-viewer": "^0.15.0-alpha.0",
-    "@types/styled-components": "^5.1.26"
+  "peerDependencies": {
+    "@carbon/elements": ">=11",
+    "styled-components": ">=5"
   },
   "files": [
     "src"
