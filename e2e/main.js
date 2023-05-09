@@ -13,40 +13,42 @@ const COMPONENTS = {
   playground: FormPlayground,
 };
 
-fetch('/form')
-  .then((response) => {
-    if (response.ok) {
+const DEFAULT_SCHEMA = {
+  data: {
+    component: 'playground',
+    schema: emptySchema,
+  },
+};
+
+async function fetchSchema() {
+  try {
+    const response = await fetch('/form');
+
+    if (
+      response.ok &&
+      response.headers.get('content-type').includes('application/json')
+    ) {
       return response.json();
     }
 
-    return Promise.resolve({
-      data: {
-        component: 'playground',
-        schema: emptySchema,
-      },
-    });
-  })
-  .then((response) => {
-    const data = response.data;
+    return DEFAULT_SCHEMA;
+  } catch {
+    return DEFAULT_SCHEMA;
+  }
+}
 
-    const FormComponent = COMPONENTS[data.component || 'viewer'];
+fetchSchema().then((response) => {
+  const data = response.data;
 
-    const form = new FormComponent({
-      container: document.querySelector('#container'),
-      schema: data.schema,
-      data: {},
-    });
+  const FormComponent = COMPONENTS[data.component || 'viewer'];
 
-    if (data.component !== 'playground') {
-      form.importSchema(data.schema);
-    }
-  })
-  .catch(() => {
-    new FormPlayground({
-      container: document.querySelector('#container'),
-      schema: emptySchema,
-      data: {},
-    });
+  const form = new FormComponent({
+    container: document.querySelector('#container'),
+    schema: data.schema,
+    data: {},
   });
 
-
+  if (data.component !== 'playground') {
+    form.importSchema(data.schema);
+  }
+});
