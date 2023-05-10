@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@bpmn-io/form-js-viewer": "^0.15.0-alpha.0",
-    "@bpmn-io/properties-panel": "^1.7.0",
+    "@bpmn-io/properties-panel": "github:bpmn-io/properties-panel#240-update-feel-toggle",
     "array-move": "^3.0.1",
     "big.js": "^6.2.1",
     "dragula": "^3.7.3",

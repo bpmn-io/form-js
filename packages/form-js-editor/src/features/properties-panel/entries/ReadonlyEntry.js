@@ -2,7 +2,9 @@ import { get } from 'min-dash';
 
 import { INPUTS } from '../Util';
 
-import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
+import { useService, useVariables } from '../hooks';
+
+import { FeelToggleSwitchEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export default function ReadonlyEntry(props) {
@@ -23,7 +25,7 @@ export default function ReadonlyEntry(props) {
       component: Readonly,
       editField: editField,
       field: field,
-      isEdited: isToggleSwitchEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -37,6 +39,10 @@ function Readonly(props) {
     id
   } = props;
 
+  const debounce = useService('debounce');
+
+  const variables = useVariables().map(name => ({ name }));
+
   const path = [ 'readonly' ];
 
   const getValue = () => {
@@ -47,11 +53,14 @@ function Readonly(props) {
     return editField(field, path, value);
   };
 
-  return ToggleSwitchEntry({
+  return FeelToggleSwitchEntry({
+    debounce,
     element: field,
+    feel: 'optional',
     getValue,
     id,
     label: 'Read only',
-    setValue
+    setValue,
+    variables
   });
 }

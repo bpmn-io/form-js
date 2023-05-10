@@ -2,7 +2,9 @@ import { get } from 'min-dash';
 
 import { INPUTS } from '../Util';
 
-import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
+import { useService, useVariables } from '../hooks';
+
+import { FeelCheckboxEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export default function DisabledEntry(props) {
@@ -23,7 +25,7 @@ export default function DisabledEntry(props) {
       component: Disabled,
       editField: editField,
       field: field,
-      isEdited: isToggleSwitchEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -37,6 +39,10 @@ function Disabled(props) {
     id
   } = props;
 
+  const debounce = useService('debounce');
+
+  const variables = useVariables().map(name => ({ name }));
+
   const path = [ 'disabled' ];
 
   const getValue = () => {
@@ -47,11 +53,14 @@ function Disabled(props) {
     return editField(field, path, value);
   };
 
-  return ToggleSwitchEntry({
+  return FeelCheckboxEntry({
+    debounce,
     element: field,
+    feel: 'optional',
     getValue,
     id,
     label: 'Disabled',
-    setValue
+    setValue,
+    variables
   });
 }
