@@ -32,6 +32,7 @@
     "start:carbon": "cross-env SINGLE_START=carbon-form npm run dev -- @bpmn-io/form-js-carbon-styles",
     "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground",
     "dev:e2e": "vite",
+    "test:e2e": "run-s build:e2e start:visual-preview test:visual",
     "test:visual": "playwright test visual",
     "build:e2e": "vite build",
     "start:visual-preview": "vite preview --port 8080 --logLevel silent &",
