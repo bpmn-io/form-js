@@ -19,16 +19,16 @@ test('theming - viewer', async ({ page }) => {
   });
 
   // when
-  await page.goto('/');
+  await page.goto('/carbon');
 
   await page.waitForSelector('#container', {
     state: 'visible'
   });
 
   await page.evaluate(() => {
-    const container = document.querySelector('#container');
+    const container = document.querySelector('body');
+    container.classList.remove('cds--g10');
     container.classList.add('cds--g100');
-    container.style = 'background: var(--cds-background)';
   });
 
   // then
@@ -53,16 +53,16 @@ test('theming - editor', async ({ page }) => {
   });
 
   // when
-  await page.goto('/');
+  await page.goto('/carbon');
 
   await page.waitForSelector('#container', {
     state: 'visible'
   });
 
   await page.evaluate(() => {
-    const container = document.querySelector('#container');
+    const container = document.querySelector('body');
+    container.classList.remove('cds--g10');
     container.classList.add('cds--g100');
-    container.style = 'background: var(--cds-background)';
   });
 
   // then
