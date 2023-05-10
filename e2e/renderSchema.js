@@ -35,8 +35,6 @@ function renderSchema() {
   fetchSchema().then((response) => {
     const data = response.data;
 
-    console.log(data.component);
-
     const FormComponent = COMPONENTS[data.component || 'viewer'];
 
     const form = new FormComponent({
