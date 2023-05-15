@@ -189,8 +189,11 @@
   --list-entry-add-entry-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
   --list-entry-add-entry-fill-color: var(--cds-icon-inverse, var(--color-white));
 
-  --feel-active-color: var(--cds-interactive, var(--color-blue-205-100-35));
+  --feel-background-color: var(--cds-field-02, var(--color-grey-225-10-97));
+  --feel-active-color: var(--cds-interactive, var(--color-blue-205-100-45));
   --feel-inactive-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
+  --feel-hover-background-color: var(--cds-field-hover-02, var(--color-grey-225-10-90));
+  --feel-active-background-color: var(--cds-field-02, var(--color-grey-225-10-97));
 
   --feel-indicator-background-color: var(--cds-background-hover, var(--color-grey-225-10-90));
 }
