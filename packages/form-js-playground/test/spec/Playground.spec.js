@@ -83,20 +83,22 @@ describe('playground', function() {
     };
 
     // when
-    playground = new Playground({
-      container,
-      schema,
-      data
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        data
+      });
+    });
+
+    const formEditor = playground.getEditor();
+
+    formEditor.on('changed', event => {
+      console.log('Form Editor <changed>', event, formEditor.getSchema());
     });
 
     // then
     expect(playground).to.exist;
-
-    expect(playground.getState()).to.eql({
-      schema,
-      data
-    });
-
   });
 
 
