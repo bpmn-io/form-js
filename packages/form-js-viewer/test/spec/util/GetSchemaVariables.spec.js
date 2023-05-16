@@ -8,6 +8,7 @@ import conditionalSchema from '../condition-external-variable.json';
 import expressionSchema from '../expression-external-variable.json';
 import templateSchema from '../template-variable.json';
 import complexTemplateSchema from '../template-variable-complex.json';
+import readonlyExpressionSchema from '../readonly-expression.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -66,6 +67,14 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(expressionSchema);
 
     expect(variables).to.not.have.members([ 'This', 'is', 'just', 'an', 'image' ]);
+  });
+
+
+  it('should include variables in readonly expressions', () => {
+
+    const variables = getSchemaVariables(readonlyExpressionSchema);
+
+    expect(variables).to.eql([ 'amount', 'foo', 'bar', 'text' ]);
   });
 
 });

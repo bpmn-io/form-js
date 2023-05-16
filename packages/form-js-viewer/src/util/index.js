@@ -8,6 +8,7 @@ export * from './form';
 const EXPRESSION_PROPERTIES = [
   'alt',
   'source',
+  'readonly',
   'text'
 ];
 

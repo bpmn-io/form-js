@@ -52,6 +52,7 @@ function Disabled(props) {
     getValue,
     id,
     label: 'Disabled',
+    inline: true,
     setValue
   });
 }
