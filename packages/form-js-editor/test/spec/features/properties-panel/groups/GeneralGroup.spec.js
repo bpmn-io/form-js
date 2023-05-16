@@ -880,7 +880,7 @@ describe('GeneralGroup', function() {
     });
 
 
-    it('should write', function() {
+    it('should write boolean', function() {
 
       // given
       const field = {
@@ -900,6 +900,30 @@ describe('GeneralGroup', function() {
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.readonly).to.equal(false);
+    });
+
+
+    it('should write expression', async function() {
+
+      // given
+      const field = {
+        type: 'number',
+        readonly: '=foo'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const readonlyInput = findTextbox('readonly', container);
+      expect(readonlyInput.textContent).to.equal('foo');
+
+      // when
+      await setEditorValue(readonlyInput, 'bar');
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(editFieldSpy).to.have.been.calledWith(field, [ 'readonly' ], '=bar');
     });
 
   });

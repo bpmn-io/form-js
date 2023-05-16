@@ -4,8 +4,11 @@ import { get } from 'min-dash';
 
 import { FormRenderContext } from '../context';
 
-import useService from '../hooks/useService';
-import { useCondition } from '../hooks';
+import {
+  useCondition,
+  useReadonly,
+  useService
+} from '../hooks';
 
 import { findErrors } from '../../util';
 
@@ -45,7 +48,7 @@ export default function FormField(props) {
 
   const fieldErrors = findErrors(errors, field._path);
 
-  const readonly = properties.readOnly || field.readonly || false;
+  const readonly = useReadonly(field, properties);
 
   // add precedence: global readonly > form field disabled
   const disabled = !properties.readOnly && (

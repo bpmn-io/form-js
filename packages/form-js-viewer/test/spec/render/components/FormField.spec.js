@@ -329,6 +329,33 @@ describe('FormField', function() {
     });
 
 
+    it('should pass readonly expression', function() {
+
+      // given
+      const componentSpy = sinon.spy(Textfield);
+
+      const expression = '=true';
+
+      // when
+      createFormField({
+        field: {
+          ...defaultField,
+          readonly: expression
+        },
+        checkCondition: (value) => value === expression,
+        isExpression: () => true,
+        FormFieldComponent: componentSpy
+      });
+
+      // then
+      const props = componentSpy.firstCall.firstArg;
+
+      expect(props).to.include({
+        readonly: true
+      });
+    });
+
+
     it('should not handle change', function() {
 
       // given
@@ -451,7 +478,8 @@ function createFormField(options = {}) {
     initialData = {},
     onChange = () => {},
     properties = {},
-    checkCondition = () => false
+    checkCondition = () => false,
+    isExpression = () => false
   } = options;
 
   const formContext = {
@@ -482,6 +510,12 @@ function createFormField(options = {}) {
           },
           check(...args) {
             return checkCondition(...args);
+          }
+        } : undefined;
+      } else if (type === 'expressionLanguage') {
+        return isExpression !== false ? {
+          isExpression(...args) {
+            return isExpression(...args);
           }
         } : undefined;
       }
