@@ -29,7 +29,9 @@ export function PlaygroundRoot(props) {
     emit,
     exporter: exporterConfig = {},
     viewerProperties = {},
-    editorProperties = {}
+    editorProperties = {},
+    viewerAdditionalModules = [],
+    editorAdditionalModules = []
   } = props;
 
   const {
@@ -97,6 +99,7 @@ export function PlaygroundRoot(props) {
     });
 
     const form = formRef.current = new Form({
+      additionalModules: viewerAdditionalModules,
       properties: {
         ...viewerProperties,
         'ariaLabel': 'Form Preview'
@@ -117,7 +120,8 @@ export function PlaygroundRoot(props) {
       properties: {
         ...editorProperties,
         'ariaLabel': 'Form Definition'
-      }
+      },
+      additionalModules: editorAdditionalModules
     });
 
     paletteRef.current = formEditor.get('palette');
