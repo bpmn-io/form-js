@@ -33,7 +33,7 @@
     "test:visual": "playwright test visual",
     "build:e2e": "vite build",
     "start:visual-preview": "vite preview --port 8080 --logLevel silent &",
-    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.34.1-focal /bin/bash"
+    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.34.1 /bin/bash"
   },
   "repository": {
     "type": "git",
