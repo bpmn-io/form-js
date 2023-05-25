@@ -6,22 +6,18 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-## 0.15.0-alpha.1
-
-### Carbon styles
-
-* `FIX`: correct margins for lower screens ([#640](https://github.com/bpmn-io/form-js/pull/640))
-
-## 0.15.0-alpha.0
+## 1.0.0-alpha.0
 
 ### General
 
 * `FEAT`: allow uneven columns ([#605](https://github.com/bpmn-io/form-js/issues/605))
 * `FEAT`: make styles themable ([#557](https://github.com/bpmn-io/form-js/pull/557))
-* `FEAT`: introduce `@bpmn-io/form-js-carbon-styles` package ([#557](https://github.com/bpmn-io/form-js/pull/557))
 * `FIX`: support markdown tables in `text` ([#205](https://github.com/bpmn-io/form-js/issues/205))
 * `CHORE`: introduce visual regression tests ([#632](https://github.com/bpmn-io/form-js/pull/632))
 * `DEPS`: update to `diagram-js@12` ([`798ac2a2`](https://github.com/bpmn-io/form-js/commit/798ac2a204aab059ecc89c2c96bd302d34295982))
+* `FEAT`: support `readonly` property ([#636](https://github.com/bpmn-io/form-js/pull/636))
+* `FEAT`: support global `properties.disabled` ([#636](https://github.com/bpmn-io/form-js/pull/636))
+* `DEPS`: update to `@bpmn-io/properties-panel@2`
 
 ### Viewer
 
@@ -33,6 +29,8 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Editor
 
+* `FEAT`: make elements keyboard accessible ([#173](https://github.com/bpmn-io/form-js/issues/173))
+* `FEAT`: use toggle switch for `disabled` property ([#639](https://github.com/bpmn-io/form-js/issues/639))
 * `FEAT`: update delete icon ([#572](https://github.com/bpmn-io/form-js/issues/572))
 * `FEAT`: resize form fields ([#566](https://github.com/bpmn-io/form-js/issues/566))
 * `FIX`: set proper width to drop containers ([#623](https://github.com/bpmn-io/form-js/issues/623))
@@ -42,7 +40,23 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: set aria label to each component ([#619](https://github.com/bpmn-io/form-js/pull/619))
 
-### Breaking Changes
+### Carbon styles
+
+* `FEAT`: introduce `@bpmn-io/form-js-carbon-styles` package ([#557](https://github.com/bpmn-io/form-js/pull/557))
+* `FIX`: correct margins for lower screens ([#640](https://github.com/bpmn-io/form-js/pull/640))
+
+### Breaking changes
+
+We changed the behavior when providing the `readOnly` property to a Form. From this version, the form fields will be rendered as `readOnly` if the property is set. Previously, the form fields were rendered as `disabled`. To restore the same behavior, please use the `disabled` property instead.
+
+```js
+const form = new Form({
+  container: document.querySelector('#form'),
+  properties: {
+    disabled: true
+  }
+});
+```
 
 We changed the structure of the static component configuration properties. These are now located on a static `config` object, and may now be accessed as follows:
 
