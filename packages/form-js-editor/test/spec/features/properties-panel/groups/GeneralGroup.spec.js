@@ -108,7 +108,7 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const labelInput = findInput('label', container);
+      const labelInput = findFeelers('label', container);
 
       expect(labelInput).to.not.exist;
     });
@@ -123,10 +123,28 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const labelInput = findInput('label', container);
+      const labelInput = findFeelers('label', container);
 
       expect(labelInput).to.exist;
     });
+
+
+    it('should render feel editor', function() {
+
+      // given
+      const field = {
+        type: 'button',
+        label: '=foobar'
+      };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const labelInput = findTextbox('label', container);
+      expect(labelInput.textContent).to.equal('foobar');
+    });
+
 
     describe('for datetime', function() {
 
@@ -136,9 +154,9 @@ describe('GeneralGroup', function() {
         const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'date' } });
 
         // then
-        const dateLabelInput = findInput('date-label', container);
+        const dateLabelInput = findFeelers('date-label', container);
         expect(dateLabelInput).to.exist;
-        const timeLabelInput = findInput('time-label', container);
+        const timeLabelInput = findFeelers('time-label', container);
         expect(timeLabelInput).to.not.exist;
       });
 
@@ -149,9 +167,9 @@ describe('GeneralGroup', function() {
         const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'time' } });
 
         // then
-        const dateLabelInput = findInput('date-label', container);
+        const dateLabelInput = findFeelers('date-label', container);
         expect(dateLabelInput).to.not.exist;
-        const timeLabelInput = findInput('time-label', container);
+        const timeLabelInput = findFeelers('time-label', container);
         expect(timeLabelInput).to.exist;
       });
 
@@ -162,9 +180,9 @@ describe('GeneralGroup', function() {
         const { container } = renderGeneralGroup({ field: { type: 'datetime', subtype: 'datetime' } });
 
         // then
-        const dateLabelInput = findInput('date-label', container);
+        const dateLabelInput = findFeelers('date-label', container);
         expect(dateLabelInput).to.exist;
-        const timeLabelInput = findInput('time-label', container);
+        const timeLabelInput = findFeelers('time-label', container);
         expect(timeLabelInput).to.exist;
       });
     });
@@ -183,11 +201,10 @@ describe('GeneralGroup', function() {
         const { container } = renderGeneralGroup({ field });
 
         // then
-        const labelInput = findInput('label', container);
+        const labelInput = findFeelers('label', container);
         expect(labelInput).to.exist;
       }
     });
-
 
 
     it('should read', function() {
@@ -201,15 +218,15 @@ describe('GeneralGroup', function() {
       // when
       const { container } = renderGeneralGroup({ field });
 
-      const labelInput = findInput('label', container);
+      const labelInput = findFeelers('label', container);
 
       // then
       expect(labelInput).to.exist;
-      expect(labelInput.value).to.equal('foobar');
+      expect(labelInput.textContent).to.equal('foobar');
     });
 
 
-    it('should write', function() {
+    it('should write', async function() {
 
       // given
       const field = {
@@ -221,14 +238,41 @@ describe('GeneralGroup', function() {
 
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const labelInput = findInput('label', container);
+      const feelers = findFeelers('label', container);
+      const input = feelers.querySelector('div[contenteditable="true"]');
 
       // when
-      fireEvent.input(labelInput, { target: { value: 'newVal' } });
+      await setEditorValue(input, 'newVal');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.label).to.equal('newVal');
+    });
+
+
+    it('should write expression', async function() {
+
+      // given
+      const field = {
+        type: 'button',
+        label: '=foobar'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const labelInput = findTextbox('label', container);
+
+      // assume
+      expect(labelInput.textContent).to.equal('foobar');
+
+      // when
+      await setEditorValue(labelInput, 'newVal');
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.label).to.equal('=newVal');
     });
 
   });
@@ -245,7 +289,7 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const descriptionInput = findInput('description', container);
+      const descriptionInput = findFeelers('description', container);
 
       expect(descriptionInput).to.not.exist;
     });
@@ -262,7 +306,7 @@ describe('GeneralGroup', function() {
         const { container } = renderGeneralGroup({ field });
 
         // then
-        const descriptionInput = findInput('description', container);
+        const descriptionInput = findFeelers('description', container);
 
         expect(descriptionInput).to.exist;
       }
@@ -281,15 +325,15 @@ describe('GeneralGroup', function() {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const descriptionInput = findInput('description', container);
+      const descriptionInput = findFeelers('description', container);
 
       // then
       expect(descriptionInput).to.exist;
-      expect(descriptionInput.value).to.equal('foobar');
+      expect(descriptionInput.textContent).to.equal('foobar');
     });
 
 
-    it('should write', function() {
+    it('should write', async function() {
 
       // given
       const field = {
@@ -302,14 +346,41 @@ describe('GeneralGroup', function() {
       // when
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const descriptionInput = findInput('description', container);
+      const feelers = findFeelers('description', container);
+      const input = feelers.querySelector('div[contenteditable="true"]');
 
       // when
-      fireEvent.input(descriptionInput, { target: { value: 'newVal' } });
+      await setEditorValue(input, 'newVal');
 
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.description).to.equal('newVal');
+    });
+
+
+    it('should write expression', async function() {
+
+      // given
+      const field = {
+        type: 'number',
+        description: '=foobar'
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const descriptionInput = findTextbox('description', container);
+
+      // assume
+      expect(descriptionInput.textContent).to.equal('foobar');
+
+      // when
+      await setEditorValue(descriptionInput, 'newVal');
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.description).to.equal('=newVal');
     });
 
   });
