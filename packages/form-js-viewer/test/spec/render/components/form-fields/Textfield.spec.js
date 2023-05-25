@@ -122,16 +122,17 @@ describe('Textfield', function() {
       onChange: () => {}
     };
 
-    const options = { container: container.querySelector('.fjs-form') };
+    createTextfield({
+      ...props,
+      value: 'foo'
+    });
 
-    const { rerender } = render(<Textfield { ...props } value={ 'John Doe Company' } />, options);
-
-    // when
-    rerender(<Textfield { ...props } value={ undefined } />, options);
-
-    // then
     const input = container.querySelector('input[type="text"]');
 
+    // when
+    fireEvent.change(input, { target: { value: null } });
+
+    // then
     expect(input).to.exist;
     expect(input.value).to.equal('');
   });

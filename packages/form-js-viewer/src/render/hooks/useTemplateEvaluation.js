@@ -19,7 +19,7 @@ export default function useTemplateEvaluation(value, options) {
 
   return useMemo(() => {
 
-    if (templating.isTemplate(value)) {
+    if (templating && templating.isTemplate(value)) {
       return templating.evaluate(value, filteredData, options);
     }
 

@@ -99,16 +99,16 @@ describe('Textarea', function() {
       onChange: () => {}
     };
 
-    const options = { container: container.querySelector('.fjs-form') };
+    createTextarea({
+      ...props,
+      value: 'foo'
+    });
 
-    const { rerender } = render(<Textarea { ...props } value={ 'Sample text' } />, options);
-
-    // when
-    rerender(<Textarea { ...props } value={ undefined } />, options);
-
-    // then
     const textarea = container.querySelector('textarea');
 
+    fireEvent.change(textarea, { target: { value: null } });
+
+    // then
     expect(textarea).to.exist;
     expect(textarea.value).to.equal('');
   });

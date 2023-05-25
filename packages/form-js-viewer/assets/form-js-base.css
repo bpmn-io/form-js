@@ -250,6 +250,9 @@
 .fjs-container .fjs-form-field-label {
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-incollapsible-label {
@@ -262,10 +265,6 @@
   font-size: var(--font-size-label);
   line-height: var(--line-height-label);
   letter-spacing: var(--letter-spacing-label);
-}
-
-.fjs-container .fjs-form-field-label {
-  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-form-field-description {

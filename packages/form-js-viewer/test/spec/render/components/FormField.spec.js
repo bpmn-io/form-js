@@ -385,8 +385,25 @@ describe('FormField', function() {
   });
 
 
-  describe('condition', function() {
+  describe('label support', function() {
 
+    it('should display field when templating is unavailable', function() {
+
+      // when
+      const { container } = createFormField({
+        isTemplate: false
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+
+      expect(formField).to.exist;
+    });
+
+  });
+
+
+  describe('condition', function() {
 
     it('should display field when condition checker is unavailable', function() {
 
@@ -479,7 +496,8 @@ function createFormField(options = {}) {
     onChange = () => {},
     properties = {},
     checkCondition = () => false,
-    isExpression = () => false
+    isExpression = () => false,
+    isTemplate = () => false
   } = options;
 
   const formContext = {
@@ -516,6 +534,12 @@ function createFormField(options = {}) {
         return isExpression !== false ? {
           isExpression(...args) {
             return isExpression(...args);
+          }
+        } : undefined;
+      } else if (type === 'templating') {
+        return isTemplate !== false ? {
+          isTemplate(...args) {
+            return isTemplate(...args);
           }
         } : undefined;
       }

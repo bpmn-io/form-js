@@ -6,6 +6,8 @@ import {
 
 import Number from '../../../../../src/render/components/form-fields/Number';
 
+import { WithFormContext } from './helper';
+
 import {
   createFormContainer,
   expectNoViolations
@@ -134,16 +136,17 @@ describe('Number', function() {
       onChange: () => {}
     };
 
-    const options = { container: container.querySelector('.fjs-form') };
+    createNumberField({
+      ...props,
+      value: '2'
+    });
 
-    const { rerender } = render(<Number { ...props } value={ 123 } />, options);
-
-    // when
-    rerender(<Number { ...props } value={ null } />, options);
-
-    // then
     const input = container.querySelector('input[type="text"]');
 
+    // when
+    fireEvent.change(input, { target: { value: null } });
+
+    // then
     expect(input).to.exist;
     expect(input.value).to.equal('');
   });
@@ -989,7 +992,7 @@ function createNumberField(options = {}) {
     value
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Number
       disabled={ disabled }
       readonly={ readonly }
@@ -997,8 +1000,7 @@ function createNumberField(options = {}) {
       field={ field }
       onChange={ onChange }
       value={ value } />,
-    {
-      container: options.container || container.querySelector('.fjs-form')
-    }
-  );
+  ), {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }

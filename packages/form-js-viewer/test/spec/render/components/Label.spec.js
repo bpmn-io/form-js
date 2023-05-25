@@ -9,6 +9,8 @@ import {
   expectNoViolations
 } from '../../../TestHelper';
 
+import { WithFormContext } from './form-fields/helper';
+
 let container;
 
 
@@ -87,6 +89,44 @@ describe('Label', function() {
   });
 
 
+  it('should render feel expression', function() {
+
+    // when
+    const { container } = createLabel({
+      initialData: {
+        myLabel: 'feel variable label'
+      },
+      id: 'myLabel',
+      label: '=myLabel'
+    });
+
+    // then
+    const label = container.querySelector('.fjs-form-field-label');
+
+    expect(label).to.exist;
+    expect(label.textContent).to.eql('feel variable label');
+  });
+
+
+  it('should render template', function() {
+
+    // when
+    const { container } = createLabel({
+      initialData: {
+        myLabel: 'template variable label'
+      },
+      id: 'myLabel',
+      label: 'A {{myLabel}}'
+    });
+
+    // then
+    const label = container.querySelector('.fjs-form-field-label');
+
+    expect(label).to.exist;
+    expect(label.textContent).to.eql('A template variable label');
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
@@ -112,17 +152,21 @@ describe('Label', function() {
 function createLabel(options = {}, children = null) {
   const {
     id,
+    initialData,
     label,
     required
   } = options;
 
-  return render(
+  return render(WithFormContext(
     <Label
       id={ id }
       label={ label }
       required={ required }>{ children }</Label>,
     {
-      container: options.container || container.querySelector('.fjs-form')
+      ...options,
+      initialData
     }
-  );
+  ), {
+    container: options.container || container.querySelector('.fjs-form')
+  });
 }

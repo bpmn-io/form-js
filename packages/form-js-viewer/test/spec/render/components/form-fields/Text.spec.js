@@ -1,5 +1,4 @@
 import { render } from '@testing-library/preact/pure';
-import { FeelersTemplating, MarkdownRenderer } from '@bpmn-io/form-js-viewer';
 
 import Text from '../../../../../src/render/components/form-fields/Text';
 
@@ -697,19 +696,12 @@ const defaultField = {
   type: 'text'
 };
 
-const defaultTemplateEvaluator = new FeelersTemplating();
-
-const defaultMarkdownRenderer = new MarkdownRenderer();
-
 function createText(options = {}) {
   const {
     errors,
     data = {},
     initialData = {},
     field = defaultField,
-    isTemplate = defaultTemplateEvaluator.isTemplate,
-    evaluateTemplate = defaultTemplateEvaluator.evaluate,
-    markdownRenderer = defaultMarkdownRenderer,
     properties = {},
     onChange
   } = options;
@@ -721,9 +713,6 @@ function createText(options = {}) {
       onChange={ onChange } />,
     {
       ...options,
-      isTemplate,
-      evaluateTemplate,
-      markdownRenderer,
       properties,
       initialData,
       data

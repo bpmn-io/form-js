@@ -9,6 +9,8 @@ import expressionSchema from '../expression-external-variable.json';
 import templateSchema from '../template-variable.json';
 import complexTemplateSchema from '../template-variable-complex.json';
 import readonlyExpressionSchema from '../readonly-expression.json';
+import labelsSchema from '../labels.json';
+import descriptionsSchema from '../descriptions.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -75,6 +77,22 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(readonlyExpressionSchema);
 
     expect(variables).to.eql([ 'amount', 'foo', 'bar', 'text' ]);
+  });
+
+
+  it('should include variables in labels', () => {
+
+    const variables = getSchemaVariables(labelsSchema);
+
+    expect(variables).to.eql([ 'template', 'foo', 'bar', 'expression', 'label_var' ]);
+  });
+
+
+  it('should include variables in descriptions', () => {
+
+    const variables = getSchemaVariables(descriptionsSchema);
+
+    expect(variables).to.eql([ 'template', 'foo', 'bar', 'expression', 'description_var' ]);
   });
 
 });
