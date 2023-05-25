@@ -18,6 +18,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: support `readonly` property ([#636](https://github.com/bpmn-io/form-js/pull/636))
 * `FEAT`: support global `properties.disabled` ([#636](https://github.com/bpmn-io/form-js/pull/636))
 * `DEPS`: update to `@bpmn-io/properties-panel@2`
+* `CHORE`: update `schemaVersion` to 9
 
 ### Viewer
 
