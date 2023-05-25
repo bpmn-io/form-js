@@ -1,0 +1,15 @@
+{
+  "components": [
+    {
+      "type": "textfield",
+      "description": "{{ foo }} and {{ bar }}",
+      "key": "template"
+    },
+    {
+      "type": "textfield",
+      "description": "=description_var",
+      "key": "expression"
+    }
+  ],
+  "type": "default"
+}
