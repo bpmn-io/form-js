@@ -1,17 +1,21 @@
 import { FormContext } from '../../../../../../src/render/context';
 
+import { MarkdownRenderer, FeelersTemplating } from '../../../../../../src';
+
 export function WithFormContext(Component, options = {}, formId = 'foo') {
 
   function getService(type, strict) {
+
+    const defaultTemplating = new FeelersTemplating();
 
     const {
       data,
       errors,
       isExpression,
       evaluateExpression,
-      isTemplate,
-      evaluateTemplate,
-      markdownRenderer,
+      isTemplate = defaultTemplating.isTemplate,
+      evaluateTemplate = defaultTemplating.evaluate,
+      markdownRenderer = new MarkdownRenderer(),
       properties,
       initialData
     } = options;

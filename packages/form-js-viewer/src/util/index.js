@@ -7,12 +7,16 @@ export * from './form';
 
 const EXPRESSION_PROPERTIES = [
   'alt',
+  'description',
+  'label',
   'source',
   'readonly',
   'text'
 ];
 
 const TEMPLATE_PROPERTIES = [
+  'description',
+  'label',
   'text'
 ];
 
