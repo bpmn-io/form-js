@@ -1,10 +1,10 @@
 import { get } from 'min-dash';
 
-import { useService } from '../hooks';
-
 import { INPUTS } from '../Util';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { useService, useVariables } from '../hooks';
+
+import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export default function DescriptionEntry(props) {
@@ -25,7 +25,7 @@ export default function DescriptionEntry(props) {
       component: Description,
       editField: editField,
       field: field,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -42,6 +42,8 @@ function Description(props) {
 
   const debounce = useService('debounce');
 
+  const variables = useVariables().map(name => ({ name }));
+
   const path = [ 'description' ];
 
   const getValue = () => {
@@ -52,12 +54,14 @@ function Description(props) {
     return editField(field, path, value);
   };
 
-  return TextFieldEntry({
+  return FeelTemplatingEntry({
     debounce,
     element: field,
     getValue,
     id,
     label: 'Field description',
-    setValue
+    singleLine: true,
+    setValue,
+    variables
   });
 }
