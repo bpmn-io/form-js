@@ -1,9 +1,15 @@
+// @ts-nocheck
+
 import {
   useCallback,
   useEffect,
   useRef,
   useState
 } from 'preact/hooks';
+
+import {
+  Slot
+} from '../../render-injection/slot-fill';
 
 import {
   CloseIcon,
@@ -142,6 +148,9 @@ export default function Palette(props) {
           <div class="fjs-palette-no-entries">No components found.</div>
         )
       }
+    </div>
+    <div class="fjs-palette-footer">
+      <Slot name="editor-palette__footer" />
     </div>
   </div>;
 }

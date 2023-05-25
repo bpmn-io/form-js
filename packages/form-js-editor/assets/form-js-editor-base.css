@@ -65,6 +65,12 @@
   position: relative;
 }
 
+.fjs-editor-container .fjs-editor-render-injector-container {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .fjs-editor-container .fjs-form-container,
 .fjs-editor-container .fjs-form {
   display: flex;

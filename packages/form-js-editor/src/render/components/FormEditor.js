@@ -25,6 +25,8 @@ import { ListDeleteIcon } from '../../features/properties-panel/icons';
 
 import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
 
+import { SlotFillRoot } from '../../features/render-injection/slot-fill';
+
 import {
   DRAG_CONTAINER_CLS,
   DROP_CONTAINER_HORIZONTAL_CLS,
@@ -40,7 +42,6 @@ import {
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
 
 import { iconsByType } from './icons';
-
 
 
 function ContextPad(props) {
@@ -247,6 +248,8 @@ export default function FormEditor(props) {
         selection = useService('selection'),
         palette = useService('palette'),
         paletteConfig = useService('config.palette'),
+        renderInjector = useService('renderInjector'),
+        renderInjectorConfig = useService('config.renderInjector'),
         propertiesPanel = useService('propertiesPanel'),
         propertiesPanelConfig = useService('config.propertiesPanel');
 
@@ -255,6 +258,7 @@ export default function FormEditor(props) {
   const formContainerRef = useRef(null);
   const paletteRef = useRef(null);
   const propertiesPanelRef = useRef(null);
+  const renderInjectorRef = useRef(null);
 
   const [ , setSelection ] = useState(schema);
 
@@ -394,6 +398,15 @@ export default function FormEditor(props) {
     }
   }, [ palette, paletteRef, hasDefaultPalette ]);
 
+  // attach default render injector
+  const hasDefaultRenderInjector = defaultRenderInjector(renderInjectorConfig);
+
+  useEffect(() => {
+    if (hasDefaultRenderInjector) {
+      renderInjector.attachTo(renderInjectorRef.current);
+    }
+  }, [ renderInjector, renderInjectorRef, hasDefaultRenderInjector ]);
+
   // attach default properties panel
   const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
 
@@ -405,22 +418,23 @@ export default function FormEditor(props) {
 
   return (
     <div class="fjs-form-editor">
+      <SlotFillRoot>
+        <DragAndDropContext.Provider value={ dragAndDropContext }>
+          { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
+          <div ref={ formContainerRef } class="fjs-form-container">
 
-      <DragAndDropContext.Provider value={ dragAndDropContext }>
-        { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
-        <div ref={ formContainerRef } class="fjs-form-container">
+            <FormContext.Provider value={ formContext }>
+              <FormRenderContext.Provider value={ formRenderContext }>
+                <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
+              </FormRenderContext.Provider>
+            </FormContext.Provider>
 
-          <FormContext.Provider value={ formContext }>
-            <FormRenderContext.Provider value={ formRenderContext }>
-              <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
-            </FormRenderContext.Provider>
-          </FormContext.Provider>
-
-        </div>
-        <CreatePreview />
-      </DragAndDropContext.Provider>
-
-      { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
+          </div>
+          <CreatePreview />
+        </DragAndDropContext.Provider>
+        { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
+        { hasDefaultRenderInjector && <div class="fjs-editor-render-injector-container" ref={ renderInjectorRef } /> }
+      </SlotFillRoot>
     </div>
   );
 }
@@ -511,6 +525,10 @@ function defaultPalette(paletteConfig) {
 
 function defaultPropertiesPanel(propertiesPanelConfig) {
   return !(propertiesPanelConfig && propertiesPanelConfig.parent);
+}
+
+function defaultRenderInjector(renderInjectorConfig) {
+  return !(renderInjectorConfig && renderInjectorConfig.parent);
 }
 
 function findPaletteEntry(type) {
