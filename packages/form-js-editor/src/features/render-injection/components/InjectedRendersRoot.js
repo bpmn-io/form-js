@@ -1,5 +1,6 @@
 import { Fragment } from "preact";
-import { useState } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
+import FillContext from "../slot-fill/FillContext";
 
 /**
  * A functional component that manages the state of injected renderers.
@@ -9,6 +10,8 @@ import { useState } from "preact/hooks";
 export default (props) => {
 
     const { eventBus } = props;
+
+    const fillContext = useContext(FillContext);
 
     const [ injectedRenderers, setInjectedRenderers ] = useState([]);
 
@@ -21,6 +24,6 @@ export default (props) => {
         setInjectedRenderers(e => e.filter(p => p.identifier !== identifier));
     });
 
-    return <Fragment>{ injectedRenderers.map(({ Renderer }) => { <Renderer { ...props } /> }) }</Fragment>
+    return <Fragment>{ injectedRenderers.map(({ Renderer }) => <Renderer { ...props } /> ) }</Fragment>
 
 }

@@ -1,37 +1,22 @@
-import { useContext, useEffect } from 'preact/hooks';
-
 import FillContext from './FillContext';
 import { PureComponent } from 'preact/compat';
 
-export default (props) => {
-  const context = useContext(FillContext);
+export default class Fill extends PureComponent {
 
-  return (
-    <ActualFill { ...props } fillContext={ context } />
-  );
-};
+  render() {
+    const props = this.props;
 
-// export const ActualFill = (props) => {
-//   const { fillContext } = props;
-
-//   useEffect(() => {
-//     const deregister = () => {
-//       fillContext.removeFill(this);
-//     };
-
-//     const register = () => {
-//       fillContext.addFill(this);
-//     };
-
-//     register();
-
-//     return () => {
-//       deregister();
-//     };
-//   }, [ fillContext ]);
-
-//   return null;
-// };
+    return (
+      <FillContext.Consumer>{
+        (context) => {
+          return (
+            <ActualFill { ...props } fillContext={ context } />
+          );
+        }
+      }</FillContext.Consumer>
+    );
+  }
+}
 
 export class ActualFill extends PureComponent {
 

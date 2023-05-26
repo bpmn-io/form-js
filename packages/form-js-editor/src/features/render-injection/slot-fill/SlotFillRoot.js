@@ -4,9 +4,9 @@ import { useRef, useState } from 'preact/hooks';
 
 export default ({ children }) => {
   const [ fills, setFills ] = useState([]);
+  
   const uid = useRef(7913);
-
-  const fillContext = {
+  const fillContext = useRef({
     addFill: (newFill) => {
       let id = newFill.id;
 
@@ -37,15 +37,15 @@ export default ({ children }) => {
         return fills.filter(f => f.id !== fill.id);
       });
     }
-  };
+  });
 
-  const slotContext = {
+  const slotContext = useRef({
     fills
-  };
+  });
 
   return (
-    <SlotContext.Provider value={ slotContext }>
-      <FillContext.Provider value={ fillContext }>
+    <SlotContext.Provider value={ slotContext.current }>
+      <FillContext.Provider value={ fillContext.current }>
         { children }
       </FillContext.Provider>
     </SlotContext.Provider>

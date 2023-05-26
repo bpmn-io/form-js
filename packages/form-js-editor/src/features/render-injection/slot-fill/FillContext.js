@@ -1,10 +1,8 @@
 import { createContext } from 'preact';
 
-const defaultValue = {
-  addFill() {},
+const FillContext = createContext({
+  addFill() { console.log('defaultAddFill') },
   removeFill() {}
-};
-
-const FillContext = createContext(defaultValue);
+});
 
 export default FillContext;
