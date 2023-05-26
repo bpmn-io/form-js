@@ -1,0 +1,21 @@
+{
+  "components": [
+    {
+      "source": "=logo_expression",
+      "type": "image"
+    },
+    {
+      "alt": "=alt_expression",
+      "type": "image"
+    },
+    {
+      "source": "{{ logo_template }}",
+      "type": "image"
+    },
+    {
+      "alt": "{{ alt_template }}",
+      "type": "image"
+    }
+  ],
+  "type": "default"
+}
