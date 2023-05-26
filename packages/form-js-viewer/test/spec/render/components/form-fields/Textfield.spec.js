@@ -99,6 +99,60 @@ describe('Textfield', function() {
   });
 
 
+  it('should render adorners (expression)', function() {
+
+    // when
+    const { container } = createTextfield({
+      initialData: {
+        prefix: 'prefix_expression',
+        suffix: 'suffix_expression'
+      },
+      field: {
+        ...defaultField,
+        appearance: {
+          prefixAdorner: '=prefix',
+          suffixAdorner: '=suffix'
+        }
+      },
+      value: 123
+    });
+
+    // then
+    const adorners = container.querySelectorAll('.fjs-input-adornment');
+
+    expect(adorners.length).to.equal(2);
+    expect(adorners[0].innerText).to.equal('prefix_expression');
+    expect(adorners[1].innerText).to.equal('suffix_expression');
+  });
+
+
+  it('should render adorners (template)', function() {
+
+    // when
+    const { container } = createTextfield({
+      initialData: {
+        prefix: 'prefix_template',
+        suffix: 'suffix_template'
+      },
+      field: {
+        ...defaultField,
+        appearance: {
+          prefixAdorner: '{{ prefix }}',
+          suffixAdorner: '{{ suffix }}'
+        }
+      },
+      value: 123
+    });
+
+    // then
+    const adorners = container.querySelectorAll('.fjs-input-adornment');
+
+    expect(adorners.length).to.equal(2);
+    expect(adorners[0].innerText).to.equal('prefix_template');
+    expect(adorners[1].innerText).to.equal('suffix_template');
+  });
+
+
   it('should render default value (\'\')', function() {
 
     // when
@@ -477,7 +531,8 @@ function createTextfield(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      value={ value } />
+      value={ value } />,
+    options
   ), {
     container: options.container || container.querySelector('.fjs-form')
   });

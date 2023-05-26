@@ -7,7 +7,7 @@ import { FormContext } from '../../context';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
-import InputAdorner from './parts/InputAdorner';
+import InputAdorner from './parts/TemplatedInputAdorner';
 
 import AngelDownIcon from './icons/AngelDown.svg';
 import AngelUpIcon from './icons/AngelUp.svg';
