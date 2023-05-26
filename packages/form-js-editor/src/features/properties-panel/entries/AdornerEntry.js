@@ -1,7 +1,7 @@
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 import { get, set } from 'min-dash';
-import { useService } from '../hooks';
+import { useService, useVariables } from '../hooks';
 
 export default function AdornerEntry(props) {
   const {
@@ -33,7 +33,7 @@ export default function AdornerEntry(props) {
     entries.push({
       id: 'prefix-adorner',
       component: PrefixAdorner,
-      isEdited: isTextFieldEntryEdited,
+      isEdited: isFeelEntryEdited,
       editField,
       field,
       onChange,
@@ -43,7 +43,7 @@ export default function AdornerEntry(props) {
     entries.push({
       id: 'suffix-adorner',
       component: SuffixAdorner,
-      isEdited: isTextFieldEntryEdited,
+      isEdited: isFeelEntryEdited,
       editField,
       field,
       onChange,
@@ -64,13 +64,18 @@ function PrefixAdorner(props) {
 
   const debounce = useService('debounce');
 
-  return TextFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelTemplatingEntry({
     debounce,
     element: field,
+    feel: 'optional',
     getValue: getValue('prefixAdorner'),
     id,
     label: 'Prefix',
-    setValue: onChange('prefixAdorner')
+    setValue: onChange('prefixAdorner'),
+    singleLine: true,
+    variables
   });
 }
 
@@ -84,12 +89,16 @@ function SuffixAdorner(props) {
 
   const debounce = useService('debounce');
 
-  return TextFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelTemplatingEntry({
     debounce,
     element: field,
     getValue: getValue('suffixAdorner'),
     id,
     label: 'Suffix',
-    setValue: onChange('suffixAdorner')
+    setValue: onChange('suffixAdorner'),
+    singleLine: true,
+    variables
   });
 }
