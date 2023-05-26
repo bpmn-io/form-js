@@ -1,11 +1,14 @@
 import TestInjectionComponent from './components/TestInjectionComponent';
 
 export default class TestInjection {
-  constructor(eventBus, renderInjector) {
+  constructor(eventBus) {
     eventBus.once('renderInjector.initialized', 500, () => {
-      renderInjector.registerInjectedRenderer('test-injection', TestInjectionComponent);
-    });   
+      eventBus.fire('renderInjector.registerRenderer', {
+        identifier: 'test-injection',
+        Renderer: TestInjectionComponent
+      });
+    });
   }
 }
 
-TestInjection.$inject = [ 'eventBus', 'renderInjector' ];
+TestInjection.$inject = [ 'eventBus' ];

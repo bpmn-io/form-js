@@ -27,6 +27,8 @@ import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
 
 import { SlotFillRoot } from '../../features/render-injection/slot-fill';
 
+import InjectedRendersRoot from '../../features/render-injection/components/InjectedRendersRoot';
+
 import {
   DRAG_CONTAINER_CLS,
   DROP_CONTAINER_HORIZONTAL_CLS,
@@ -248,7 +250,8 @@ export default function FormEditor(props) {
         selection = useService('selection'),
         palette = useService('palette'),
         paletteConfig = useService('config.palette'),
-        renderInjector = useService('renderInjector'),
+
+        // renderInjector = useService('renderInjector'),
         renderInjectorConfig = useService('config.renderInjector'),
         propertiesPanel = useService('propertiesPanel'),
         propertiesPanelConfig = useService('config.propertiesPanel');
@@ -398,14 +401,14 @@ export default function FormEditor(props) {
     }
   }, [ palette, paletteRef, hasDefaultPalette ]);
 
-  // attach default render injector
-  const hasDefaultRenderInjector = defaultRenderInjector(renderInjectorConfig);
+  // // attach default render injector
+  // const hasDefaultRenderInjector = defaultRenderInjector(renderInjectorConfig);
 
-  useEffect(() => {
-    if (hasDefaultRenderInjector) {
-      renderInjector.attachTo(renderInjectorRef.current);
-    }
-  }, [ renderInjector, renderInjectorRef, hasDefaultRenderInjector ]);
+  // useEffect(() => {
+  //   if (hasDefaultRenderInjector) {
+  //     renderInjector.attachTo(renderInjectorRef.current);
+  //   }
+  // }, [ renderInjector, renderInjectorRef, hasDefaultRenderInjector ]);
 
   // attach default properties panel
   const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
@@ -433,7 +436,7 @@ export default function FormEditor(props) {
           <CreatePreview />
         </DragAndDropContext.Provider>
         { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
-        { hasDefaultRenderInjector && <div class="fjs-editor-render-injector-container" ref={ renderInjectorRef } /> }
+        <div class="fjs-editor-render-injector-container"><InjectedRendersRoot /></div>
       </SlotFillRoot>
     </div>
   );

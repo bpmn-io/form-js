@@ -1,6 +1,11 @@
-import { Fragment } from "preact";
-import { useContext, useState } from "preact/hooks";
-import FillContext from "../slot-fill/FillContext";
+import { Fragment } from 'preact/compat';
+import { useContext, useState, useEffect } from 'preact/hooks';
+import FillContext from '../slot-fill/FillContext';
+
+import Fill from '../slot-fill/Fill';
+import Slot from '../slot-fill/Slot';
+
+import { useService } from '../../../render/hooks';
 
 /**
  * A functional component that manages the state of injected renderers.
@@ -9,21 +14,38 @@ import FillContext from "../slot-fill/FillContext";
  */
 export default (props) => {
 
-    const { eventBus } = props;
+  const eventBus = useService('eventBus');
 
-    const fillContext = useContext(FillContext);
+  const helpers = {
+    Fill,
+    Slot
+  };
 
-    const [ injectedRenderers, setInjectedRenderers ] = useState([]);
+  useEffect(() => {
+    const handleRendered = () => {
+      eventBus.fire('renderInjector.initialized');
+    };
 
-    eventBus.on('renderInjector.registerRenderer', ({ identifier, Renderer }) => {
-        setInjectedRenderers(e => e.filter(r => r.identifier !== identifier));
-        setInjectedRenderers(e => [...e, { identifier, Renderer }]);
-    });
-    
-    eventBus.on('renderInjector.deregisterRenderer', ({ identifier }) => {
-        setInjectedRenderers(e => e.filter(p => p.identifier !== identifier));
-    });
+    eventBus.once('formEditor.rendered', 500, handleRendered);
 
-    return <Fragment>{ injectedRenderers.map(({ Renderer }) => <Renderer { ...props } /> ) }</Fragment>
+    return () => eventBus.off('formEditor.rendered', handleRendered);
+  }, [ eventBus ]);
 
-}
+  const [ injectedRenderers, setInjectedRenderers ] = useState([]);
+
+  eventBus.on('renderInjector.registerRenderer', ({ identifier, Renderer }) => {
+    setInjectedRenderers(e => e.filter(r => r.identifier !== identifier));
+    setInjectedRenderers(e => [ ...e, { identifier, Renderer } ]);
+  });
+
+  eventBus.on('renderInjector.deregisterRenderer', ({ identifier }) => {
+    setInjectedRenderers(e => e.filter(p => p.identifier !== identifier));
+  });
+
+  debugger;
+
+  console.log('rerender injected renderers', injectedRenderers);
+
+  return <Fragment>{ injectedRenderers.map(({ Renderer }) => <Renderer helpers={ helpers } />) }</Fragment>;
+
+};
