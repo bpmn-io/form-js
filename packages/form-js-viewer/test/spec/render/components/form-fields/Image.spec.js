@@ -66,15 +66,36 @@ describe('Image', function() {
 
     // when
     const { container } = createImage({
-      data: {
+      initialData: {
         foo: IMAGE_DATA_URI
       },
       field: {
         ...defaultField,
         source: '=foo'
+      }
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    const image = formField.querySelector('.fjs-image');
+
+    expect(image).to.exist;
+    expect(image.src).to.eql(IMAGE_DATA_URI);
+  });
+
+
+  it('should render image (template)', function() {
+
+    // when
+    const { container } = createImage({
+      initialData: {
+        foo: IMAGE_DATA_URI
       },
-      isExpression: () => true,
-      evaluateExpression: () => IMAGE_DATA_URI
+      field: {
+        ...defaultField,
+        source: '{{ foo }}'
+      }
     });
 
     // then
@@ -180,9 +201,32 @@ describe('Image', function() {
       field: {
         ...defaultField,
         alt: '=altText'
+      }
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    const image = formField.querySelector('.fjs-image');
+
+    expect(image).to.exist;
+    expect(image.alt).to.eql(altText);
+  });
+
+
+  it('should render image alt text (template)', function() {
+
+    // when
+    const altText = 'foo';
+
+    const { container } = createImage({
+      initialData: {
+        altText
       },
-      isExpression: (expression) => expression.startsWith('='),
-      evaluateExpression: () => altText
+      field: {
+        ...defaultField,
+        alt: '{{ altText }}'
+      }
     });
 
     // then

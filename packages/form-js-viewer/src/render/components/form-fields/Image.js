@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'preact/hooks';
 
 import { FormContext } from '../../context';
 
-import { useExpressionEvaluation } from '../../hooks';
+import { useSingleLineTemplateEvaluation } from '../../hooks';
 import { sanitizeImageSource } from '../Sanitizer';
 
 import {
@@ -27,11 +27,11 @@ export default function Image(props) {
   } = field;
 
 
-  const evaluatedImageSource = useExpressionEvaluation(source);
+  const evaluatedImageSource = useSingleLineTemplateEvaluation(source, { debug: true });
 
   const safeSource = useMemo(() => sanitizeImageSource(evaluatedImageSource), [ evaluatedImageSource ]);
 
-  const altText = useExpressionEvaluation(alt);
+  const altText = useSingleLineTemplateEvaluation(alt, { debug: true });
 
   const { formId } = useContext(FormContext);
 
