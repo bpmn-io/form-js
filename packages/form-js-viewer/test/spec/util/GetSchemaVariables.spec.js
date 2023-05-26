@@ -11,6 +11,8 @@ import complexTemplateSchema from '../template-variable-complex.json';
 import readonlyExpressionSchema from '../readonly-expression.json';
 import labelsSchema from '../labels.json';
 import descriptionsSchema from '../descriptions.json';
+import adornersSchema from '../appearance.json';
+import imagesSchema from '../images.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -93,6 +95,34 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(descriptionsSchema);
 
     expect(variables).to.eql([ 'template', 'foo', 'bar', 'expression', 'description_var' ]);
+  });
+
+
+  it('should include variables in adorners', () => {
+
+    const variables = getSchemaVariables(adornersSchema);
+
+    expect(variables).to.eql([
+      'adorner_expression',
+      'prefix_expression',
+      'suffix_expression',
+      'adorner_template',
+      'prefix_template',
+      'suffix_template'
+    ]);
+  });
+
+
+  it('should include variables in images', () => {
+
+    const variables = getSchemaVariables(imagesSchema);
+
+    expect(variables).to.eql([
+      'logo_expression',
+      'alt_expression',
+      'logo_template',
+      'alt_template'
+    ]);
   });
 
 });

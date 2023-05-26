@@ -1,0 +1,21 @@
+{
+  "components": [
+    {
+      "type": "textfield",
+      "key": "adorner_expression",
+      "appearance": {
+        "prefixAdorner": "=prefix_expression",
+        "suffixAdorner": "=suffix_expression"
+      }
+    },
+    {
+      "type": "textfield",
+      "key": "adorner_template",
+      "appearance": {
+        "prefixAdorner": "{{ prefix_template }}",
+        "suffixAdorner": "{{ suffix_template }}"
+      }
+    }
+  ],
+  "type": "default"
+}

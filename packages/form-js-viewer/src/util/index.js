@@ -1,12 +1,17 @@
 import FeelExpressionLanguage from '../features/expression-language/FeelExpressionLanguage.js';
 import FeelersTemplating from '../features/expression-language/FeelersTemplating.js';
 
+import { get } from 'min-dash';
+
 export * from './constants';
 export * from './injector';
 export * from './form';
 
 const EXPRESSION_PROPERTIES = [
   'alt',
+  'appearance.prefixAdorner',
+  'appearance.suffixAdorner',
+  'conditional.hide',
   'description',
   'label',
   'source',
@@ -15,8 +20,12 @@ const EXPRESSION_PROPERTIES = [
 ];
 
 const TEMPLATE_PROPERTIES = [
+  'alt',
+  'appearance.prefixAdorner',
+  'appearance.suffixAdorner',
   'description',
   'label',
+  'source',
   'text'
 ];
 
@@ -99,8 +108,7 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
     const {
       key,
       valuesKey,
-      type,
-      conditional
+      type
     } = component;
 
     if ([ 'button' ].includes(type)) {
@@ -115,15 +123,8 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
       variables = [ ...variables, valuesKey ];
     }
 
-    if (conditional && conditional.hide) {
-
-      const conditionVariables = expressionLanguage.getVariableNames(conditional.hide, { type: 'unaryTest' });
-
-      variables = [ ...variables, ...conditionVariables ];
-    }
-
     EXPRESSION_PROPERTIES.forEach((prop) => {
-      const property = component[prop];
+      const property = get(component, prop.split('.'));
 
       if (property && expressionLanguage.isExpression(property)) {
 
@@ -134,7 +135,7 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
     });
 
     TEMPLATE_PROPERTIES.forEach((prop) => {
-      const property = component[prop];
+      const property = get(component, prop.split('.'));
 
       if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
 
