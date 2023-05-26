@@ -2,7 +2,7 @@ import { get } from 'min-dash';
 
 import { useService, useVariables } from '../hooks';
 
-import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 export default function AltTextEntry(props) {
   const {
@@ -50,7 +50,7 @@ function AltText(props) {
     return editField(field, path, value);
   };
 
-  return FeelEntry({
+  return FeelTemplatingEntry({
     debounce,
     element: field,
     feel: 'optional',
@@ -58,6 +58,7 @@ function AltText(props) {
     id,
     label: 'Alternative text',
     setValue,
+    singleLine: true,
     variables
   });
 }

@@ -2,7 +2,7 @@ import { get } from 'min-dash';
 
 import { useService, useVariables } from '../hooks';
 
-import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 export default function SourceEntry(props) {
   const {
@@ -50,7 +50,7 @@ function Source(props) {
     return editField(field, path, value);
   };
 
-  return FeelEntry({
+  return FeelTemplatingEntry({
     debounce,
     description: 'Expression or static value (link/data URI)',
     element: field,
@@ -59,6 +59,7 @@ function Source(props) {
     id,
     label: 'Image source',
     setValue,
+    singleLine: true,
     variables
   });
 }

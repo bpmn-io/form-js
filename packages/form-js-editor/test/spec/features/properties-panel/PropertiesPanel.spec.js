@@ -2955,11 +2955,13 @@ describe('properties panel', function() {
           });
 
           // assume
-          const input = domQuery('input[name=alt]', container);
-          expect(input.value).to.equal('The bpmn.io logo');
+          const feelers = findFeelers('alt', container);
+          expect(feelers.textContent).to.equal('The bpmn.io logo');
+
+          const input = feelers.querySelector('div[contenteditable="true"]');
 
           // when
-          fireEvent.input(input, { target: { value: 'An image' } });
+          await setEditorValue(input, 'An image');
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
@@ -2967,7 +2969,7 @@ describe('properties panel', function() {
         });
 
 
-        it('should remove alt text', function() {
+        it('should remove alt text', async function() {
 
           // given
           const editFieldSpy = spy();
@@ -2981,11 +2983,13 @@ describe('properties panel', function() {
           });
 
           // assume
-          const input = domQuery('input[name=alt]', container);
-          expect(input.value).to.equal('The bpmn.io logo');
+          const feelers = findFeelers('alt', container);
+          expect(feelers.textContent).to.equal('The bpmn.io logo');
+
+          const input = feelers.querySelector('div[contenteditable="true"]');
 
           // when
-          fireEvent.input(input, { target: { value: '' } });
+          await setEditorValue(input, '');
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
@@ -3259,6 +3263,10 @@ function findEntries(container, groupLabel, entryLabel) {
 
     return Array.from(entries).filter(entry => entry.textContent === entryLabel);
   }
+}
+
+function findFeelers(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-feelers-editor`);
 }
 
 function getListOrdering(list) {
