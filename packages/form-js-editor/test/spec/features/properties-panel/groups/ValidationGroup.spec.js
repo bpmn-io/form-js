@@ -8,6 +8,8 @@ import { ValidationGroup } from '../../../../../src/features/properties-panel/gr
 
 import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
+import { setEditorValue } from '../../../../helper';
+
 
 describe('ValidationGroup', function() {
 
@@ -77,6 +79,7 @@ describe('ValidationGroup', function() {
     });
 
   });
+
 
   describe('validationType', function() {
 
@@ -462,6 +465,21 @@ describe('ValidationGroup', function() {
     });
 
 
+    it('should read (expression)', function() {
+
+      // given
+      const field = { type: 'number', validate: { min: '=2' } };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      const minInput = findTextbox('min', container);
+
+      expect(minInput.textContent).to.eql('2');
+    });
+
+
     it('should write', function() {
 
       // given
@@ -484,6 +502,34 @@ describe('ValidationGroup', function() {
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.min).to.equal(2);
+    });
+
+
+    it('should write (expression)', async function() {
+
+      // given
+      const field = {
+        type: 'number',
+        validate: {
+          min: '=3'
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const minInput = findTextbox('min', container);
+
+      // assume
+      expect(minInput.textContent).to.equal('3');
+
+      // when
+      await setEditorValue(minInput, '2');
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.validate.min).to.equal('=2');
     });
 
 
@@ -567,6 +613,21 @@ describe('ValidationGroup', function() {
     });
 
 
+    it('should read (expression)', function() {
+
+      // given
+      const field = { type: 'number', validate: { max: '=2' } };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      const maxInput = findTextbox('max', container);
+
+      expect(maxInput.textContent).to.eql('2');
+    });
+
+
     it('should write', function() {
 
       // given
@@ -589,6 +650,34 @@ describe('ValidationGroup', function() {
       // then
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.validate.max).to.equal(2);
+    });
+
+
+    it('should write (expression)', async function() {
+
+      // given
+      const field = {
+        type: 'number',
+        validate: {
+          max: '=3'
+        }
+      };
+
+      const editFieldSpy = sinon.spy();
+
+      const { container } = renderValidationGroup({ field, editField: editFieldSpy });
+
+      const maxInput = findTextbox('max', container);
+
+      // assume
+      expect(maxInput.textContent).to.equal('3');
+
+      // when
+      await setEditorValue(maxInput, '2');
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.validate.max).to.equal('=2');
     });
 
 
@@ -643,4 +732,8 @@ function findInput(id, container) {
 
 function findSelect(id, container) {
   return container.querySelector(`select[name="${id}"]`);
+}
+
+function findTextbox(id, container) {
+  return container.querySelector(`[name=${id}] [role="textbox"]`);
 }
