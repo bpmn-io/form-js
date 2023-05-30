@@ -77,6 +77,9 @@ const form = new Form({
 });
 ```
 
+We changed the internal behavior of rendering `palette` and `propertiesPanel` in the editor. Following that, the `.fjs-editor-palette-container` and `.fjs-editor-properties-container` selectors were removed as they were optional. Please use the more generic `.fjs-palette-container` and `.fjs-properties-container` selectors instead.
+
+
 ## 0.14.1
 
 ### Viewer

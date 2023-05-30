@@ -6,6 +6,10 @@ import {
 } from 'preact/hooks';
 
 import {
+  Slot
+} from '../../render-injection/slot-fill';
+
+import {
   CloseIcon,
   iconsByType,
   SearchIcon
@@ -142,6 +146,10 @@ export default function Palette(props) {
           <div class="fjs-palette-no-entries">No components found.</div>
         )
       }
+    </div>
+    <div class="fjs-palette-footer">
+      {/* @ts-ignore */}
+      <Slot name="editor-palette__footer" />
     </div>
   </div>;
 }

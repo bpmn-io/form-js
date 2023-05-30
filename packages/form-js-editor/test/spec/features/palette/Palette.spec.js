@@ -7,6 +7,8 @@ import Palette, {
 
 import { expectNoViolations, insertStyles } from '../../../TestHelper';
 
+import { WithFormEditorContext } from '../properties-panel/helper';
+
 insertStyles();
 
 describe('palette', function() {
@@ -184,7 +186,7 @@ describe('palette', function() {
       // @Note(pinussilvestrus): the palette entries are currently
       // not keyboard accessible, as we need to invest in an overall
       // editor keyboard experience
-      // cf. https://github.com/bpmn-io/form-js/issues/173
+      // cf. https://github.com/bpmn-io/form-js/issues/536
       await expectNoViolations(result.container, {
         rules: {
           'scrollable-region-focusable': {
@@ -228,7 +230,7 @@ function createPalette(options = {}) {
   const { container } = options;
 
   return render(
-    <Palette />,
+    WithFormEditorContext(<Palette />),
     {
       container
     }

@@ -9,7 +9,7 @@ import { LayoutGroup } from '../../../../../src/features/properties-panel/groups
 
 import { AUTO_OPTION_VALUE } from '../../../../../src/features/properties-panel/entries/ColumnsEntry';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 
 describe('LayoutGroup', function() {
@@ -192,7 +192,7 @@ function renderLayoutGroup(options) {
 
   const groups = [ LayoutGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     groups
   }), services));

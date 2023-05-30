@@ -1,5 +1,5 @@
-import PaletteRenderer from './PaletteRenderer';
+import PaletteModule from './PaletteModule';
 
 export default {
-  palette: [ 'type', PaletteRenderer ]
+  palette: [ 'type', PaletteModule ]
 };

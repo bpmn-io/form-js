@@ -6,7 +6,7 @@ import {
 
 import { AppearanceGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 
 describe('AppearanceGroup', function() {
@@ -170,7 +170,7 @@ function renderAppearanceGroup(options) {
 
   const groups = [ AppearanceGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     groups
   })));
