@@ -17,6 +17,10 @@ const EXPRESSION_PROPERTIES = [
   'source',
   'readonly',
   'text',
+  'validate.min',
+  'validate.max',
+  'validate.minLength',
+  'validate.maxLength',
   'valuesExpression'
 ];
 
