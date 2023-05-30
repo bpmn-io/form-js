@@ -1,9 +1,13 @@
+import EventBus from 'diagram-js/lib/core/EventBus';
+
 import Validator from '../../../src/core/Validator';
+
+import { FeelExpressionLanguage } from '../../../src/features/expression-language';
 
 
 describe('Validator', function() {
 
-  const validator = new Validator();
+  const validator = createValidator();
 
 
   describe('#validateField', function() {
@@ -358,6 +362,81 @@ describe('Validator', function() {
     });
 
 
+    describe('min (expression)', function() {
+
+      it('should be valid', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: '=100'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 200);
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+
+      it('should be invalid', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: '=200'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 100);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field must have minimum value of 200.');
+      });
+
+
+      it('should be invalid (zero)', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: '=200'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 0);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 200.');
+      });
+
+
+      it('should be invalid (negative)', function() {
+
+        // given
+        const field = {
+          validate: {
+            min: '=-200'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field,-300);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of -200.');
+      });
+
+    });
+
+
     describe('max', function() {
 
       it('should be valid', function() {
@@ -419,6 +498,81 @@ describe('Validator', function() {
         const field = {
           validate: {
             max: -200
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, -100);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of -200.');
+      });
+
+    });
+
+
+    describe('max (expression)', function() {
+
+      it('should be valid', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: '=200'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 100);
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+
+      it('should be invalid', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: '=100'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 200);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[ 0 ]).to.equal('Field must have maximum value of 100.');
+      });
+
+
+      it('should be invalid (zero)', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: '=-200'
+          }
+        };
+
+        // when
+        const errors = validator.validateField(field, 0);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of -200.');
+      });
+
+
+      it('should be invalid (negative)', function() {
+
+        // given
+        const field = {
+          validate: {
+            max: '=-200'
           }
         };
 
@@ -552,6 +706,45 @@ describe('Validator', function() {
   });
 
 
+  describe('minLength (expression)', function() {
+
+    it('should be valid', function() {
+
+      // given
+      const field = {
+        validate: {
+          minLength: '=5'
+        }
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foobar');
+
+      // then
+      expect(errors).to.have.length(0);
+    });
+
+
+    it('should be invalid', function() {
+
+      // given
+      const field = {
+        validate: {
+          minLength: '=5'
+        }
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foo');
+
+      // then
+      expect(errors).to.have.length(1);
+      expect(errors[ 0 ]).to.equal('Field must have minimum length of 5.');
+    });
+
+  });
+
+
   describe('maxLength', function() {
 
     it('should be valid', function() {
@@ -590,4 +783,69 @@ describe('Validator', function() {
 
   });
 
+
+  describe('maxLength (expression)', function() {
+
+    it('should be valid', function() {
+
+      // given
+      const field = {
+        validate: {
+          maxLength: '=5'
+        }
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foo');
+
+      // then
+      expect(errors).to.have.length(0);
+    });
+
+
+    it('should be invalid', function() {
+
+      // given
+      const field = {
+        validate: {
+          maxLength: '=5'
+        }
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foobar');
+
+      // then
+      expect(errors).to.have.length(1);
+      expect(errors[ 0 ]).to.equal('Field must have maximum length of 5.');
+    });
+
+  });
+
 });
+
+
+// helpers //////////
+
+function createValidator() {
+  const eventBus = new EventBus();
+  const expressionLanguage = new FeelExpressionLanguage(eventBus);
+
+  const conditionChecker = {
+    applyConditions() {},
+    check() {}
+  };
+
+  const form = {
+    _getState() {
+      return {
+        data: {},
+        errors: {},
+        initialData: {},
+        properties: {}
+      };
+    }
+  };
+
+  return new Validator(expressionLanguage, conditionChecker, form);
+}

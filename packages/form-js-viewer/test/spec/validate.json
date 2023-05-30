@@ -1,0 +1,21 @@
+{
+  "components": [
+    {
+      "key": "number_expression",
+      "type": "number",
+      "validate": {
+        "min": "=min",
+        "max": "=max"
+      }
+    },
+    {
+      "key": "textfield_expression",
+      "type": "textfield",
+      "validate": {
+        "minLength": "=minLength",
+        "maxLength": "=maxLength"
+      }
+    }
+  ],
+  "type": "default"
+}

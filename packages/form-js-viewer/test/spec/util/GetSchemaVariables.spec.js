@@ -14,6 +14,7 @@ import descriptionsSchema from '../descriptions.json';
 import adornersSchema from '../appearance.json';
 import imagesSchema from '../images.json';
 import valuesExpressionSchema from '../valuesExpression.json';
+import validateSchema from '../validate.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -129,6 +130,21 @@ describe('util/getSchemaVariables', () => {
       'alt_expression',
       'logo_template',
       'alt_template'
+    ]);
+  });
+
+
+  it('should include variables in validate', () => {
+
+    const variables = getSchemaVariables(validateSchema);
+
+    expect(variables).to.eql([
+      'number_expression',
+      'min',
+      'max',
+      'textfield_expression',
+      'minLength',
+      'maxLength'
     ]);
   });
 
