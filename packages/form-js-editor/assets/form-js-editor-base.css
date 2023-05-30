@@ -214,11 +214,16 @@
   flex-direction: row;
 }
 
-.fjs-editor-container .fjs-form-container,
-.fjs-editor-container .fjs-editor-palette-container,
-.fjs-editor-container .fjs-editor-properties-container {
+.fjs-editor-container .fjs-form-container {
   overflow-y: auto;
   position: relative;
+}
+
+.fjs-editor-container .fjs-render-injector-container {
+  width: 0;
+  height: 0;
+  display: none;
+  overflow: hidden;
 }
 
 .fjs-editor-container .fjs-form-container,

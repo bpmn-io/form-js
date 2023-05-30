@@ -22,7 +22,12 @@ import { DragAndDropContext } from '../context';
 
 import { DeleteIcon, DraggableIcon } from './icons';
 
-import { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
+import ModularSection from './ModularSection';
+import Palette, { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
+import PropertiesPanel from '../../features/properties-panel/PropertiesPanel';
+import InjectedRendersRoot from '../../features/render-injection/components/InjectedRendersRoot';
+
+import { SlotFillRoot } from '../../features/render-injection/slot-fill';
 
 import {
   DRAG_CONTAINER_CLS,
@@ -43,8 +48,6 @@ import {
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
 
 import { iconsByType } from './icons';
-
-
 
 function ContextPad(props) {
   if (!props.children) {
@@ -267,19 +270,13 @@ export default function FormEditor(props) {
         eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
         injector = useService('injector'),
-        selection = useService('selection'),
-        palette = useService('palette'),
-        paletteConfig = useService('config.palette'),
-        propertiesPanel = useService('propertiesPanel'),
-        propertiesPanelConfig = useService('config.propertiesPanel');
+        selection = useService('selection');
 
   const { schema, properties } = formEditor._getState();
 
   const { ariaLabel } = properties;
 
   const formContainerRef = useRef(null);
-  const paletteRef = useRef(null);
-  const propertiesPanelRef = useRef(null);
 
   const [ , setSelection ] = useState(schema);
 
@@ -367,7 +364,7 @@ export default function FormEditor(props) {
       eventBus.off('drag.start', onDragStart);
       eventBus.off('drag.end', onDragEnd);
     };
-  }, []);
+  }, [ dragging, eventBus ]);
 
   // fire event after render to notify interested parties
   useEffect(() => {
@@ -411,42 +408,29 @@ export default function FormEditor(props) {
 
   const onReset = useCallback(() => {}, []);
 
-  // attach default palette
-  const hasDefaultPalette = defaultPalette(paletteConfig);
-
-  useEffect(() => {
-    if (hasDefaultPalette) {
-      palette.attachTo(paletteRef.current);
-    }
-  }, [ palette, paletteRef, hasDefaultPalette ]);
-
-  // attach default properties panel
-  const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
-
-  useEffect(() => {
-    if (hasDefaultPropertiesPanel) {
-      propertiesPanel.attachTo(propertiesPanelRef.current);
-    }
-  }, [ propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel ]);
-
   return (
     <div class="fjs-form-editor">
-
-      <DragAndDropContext.Provider value={ dragAndDropContext }>
-        { hasDefaultPalette && <div class="fjs-editor-palette-container" ref={ paletteRef } /> }
-        <div ref={ formContainerRef } class="fjs-form-container">
-
-          <FormContext.Provider value={ formContext }>
-            <FormRenderContext.Provider value={ formRenderContext }>
-              <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
-            </FormRenderContext.Provider>
-          </FormContext.Provider>
-
-        </div>
-        <CreatePreview />
-      </DragAndDropContext.Provider>
-
-      { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
+      <SlotFillRoot>
+        <DragAndDropContext.Provider value={ dragAndDropContext }>
+          <ModularSection rootClass="fjs-palette-container" section="palette">
+            <Palette />
+          </ModularSection>
+          <div ref={ formContainerRef } class="fjs-form-container">
+            <FormContext.Provider value={ formContext }>
+              <FormRenderContext.Provider value={ formRenderContext }>
+                <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
+              </FormRenderContext.Provider>
+            </FormContext.Provider>
+          </div>
+          <CreatePreview />
+        </DragAndDropContext.Provider>
+        <ModularSection rootClass="fjs-properties-container" section="propertiesPanel">
+          <PropertiesPanel />
+        </ModularSection>
+        <ModularSection rootClass="fjs-render-injector-container" section="renderInjector">
+          <InjectedRendersRoot />
+        </ModularSection>
+      </SlotFillRoot>
     </div>
   );
 }
@@ -530,14 +514,6 @@ function CreatePreview(props) {
 
 
 // helper //////
-
-function defaultPalette(paletteConfig) {
-  return !(paletteConfig && paletteConfig.parent);
-}
-
-function defaultPropertiesPanel(propertiesPanelConfig) {
-  return !(propertiesPanelConfig && propertiesPanelConfig.parent);
-}
 
 function findPaletteEntry(type) {
   return PALETTE_ENTRIES.find(entry => entry.type === type);
