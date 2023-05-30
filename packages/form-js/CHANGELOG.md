@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.1 
+
+### General
+
+* `FEAT`: support FEEL for `label` and `description` ([#658](https://github.com/bpmn-io/form-js/pull/658))
+
+### Editor
+
+* `FEAT`: support UI modules ([#649](https://github.com/bpmn-io/form-js/issues/649))
+
 ## 1.0.0-alpha.0
 
 ### General
