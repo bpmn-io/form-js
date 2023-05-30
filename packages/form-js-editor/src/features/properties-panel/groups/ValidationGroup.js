@@ -6,14 +6,14 @@ import {
 import {
   CheckboxEntry,
   isCheckboxEntryEdited,
-  isNumberFieldEntryEdited,
+  isFeelEntryEdited,
+  FeelNumberEntry,
   isTextFieldEntryEdited,
-  NumberFieldEntry,
   TextFieldEntry,
   SelectEntry
 } from '@bpmn-io/properties-panel';
 
-import { useService } from '../hooks';
+import { useService, useVariables } from '../hooks';
 
 import { INPUTS } from '../Util';
 
@@ -87,7 +87,7 @@ export default function ValidationGroup(field, editField) {
         component: MinLength,
         getValue,
         field,
-        isEdited: isNumberFieldEntryEdited,
+        isEdited: isFeelEntryEdited,
         onChange
       },
       {
@@ -95,7 +95,7 @@ export default function ValidationGroup(field, editField) {
         component: MaxLength,
         getValue,
         field,
-        isEdited: isNumberFieldEntryEdited,
+        isEdited: isFeelEntryEdited,
         onChange
       }
     );
@@ -121,7 +121,7 @@ export default function ValidationGroup(field, editField) {
         component: Min,
         getValue,
         field,
-        isEdited: isNumberFieldEntryEdited,
+        isEdited: isFeelEntryEdited,
         onChange
       },
       {
@@ -129,7 +129,7 @@ export default function ValidationGroup(field, editField) {
         component: Max,
         getValue,
         field,
-        isEdited: isNumberFieldEntryEdited,
+        isEdited: isFeelEntryEdited,
         onChange
       }
     );
@@ -169,14 +169,18 @@ function MinLength(props) {
 
   const debounce = useService('debounce');
 
-  return NumberFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelNumberEntry({
     debounce,
     element: field,
+    feel: 'optional',
     getValue: getValue('minLength'),
     id,
     label: 'Minimum length',
     min: 0,
-    setValue: onChange('minLength')
+    setValue: onChange('minLength'),
+    variables
   });
 }
 
@@ -190,14 +194,18 @@ function MaxLength(props) {
 
   const debounce = useService('debounce');
 
-  return NumberFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelNumberEntry({
     debounce,
     element: field,
+    feel: 'optional',
     getValue: getValue('maxLength'),
     id,
     label: 'Maximum length',
     min: 0,
-    setValue: onChange('maxLength')
+    setValue: onChange('maxLength'),
+    variables
   });
 }
 
@@ -231,14 +239,18 @@ function Min(props) {
 
   const debounce = useService('debounce');
 
-  return NumberFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelNumberEntry({
     debounce,
     element: field,
+    feel: 'optional',
     id,
     label: 'Minimum',
     step: 'any',
     getValue: getValue('min'),
-    setValue: onChange('min')
+    setValue: onChange('min'),
+    variables
   });
 }
 
@@ -252,14 +264,18 @@ function Max(props) {
 
   const debounce = useService('debounce');
 
-  return NumberFieldEntry({
+  const variables = useVariables().map(name => ({ name }));
+
+  return FeelNumberEntry({
     debounce,
     element: field,
+    feel: 'optional',
     id,
     label: 'Maximum',
     step: 'any',
     getValue: getValue('max'),
-    setValue: onChange('max')
+    setValue: onChange('max'),
+    variables
   });
 }
 

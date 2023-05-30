@@ -2484,7 +2484,8 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = screen.getByLabelText('Maximum length');
+            // the fx toggle is screened as well
+            const input = screen.getAllByLabelText('Maximum length').find((el) => el.type === 'number');
 
             expect(input.min).to.equal('0');
 
@@ -2521,7 +2522,7 @@ describe('properties panel', function() {
             });
 
             // assume
-            const input = screen.getByLabelText('Minimum length');
+            const input = screen.getAllByLabelText('Minimum length').find((el) => el.type === 'number');
 
             expect(input.min).to.equal('0');
 
