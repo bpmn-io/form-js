@@ -603,7 +603,7 @@ describe('FormEditor', function() {
       });
 
       // when
-      const paletteContainer = domQuery('.fjs-editor-palette-container', container);
+      const paletteContainer = domQuery('.fjs-palette-container', container);
 
       // then
       expect(paletteContainer).to.exist;
@@ -628,7 +628,6 @@ describe('FormEditor', function() {
       const paletteContainer = domQuery('.fjs-palette-container', paletteParent);
 
       // then
-      expect(domQuery('.fjs-editor-palette-container', container)).to.not.exist;
       expect(paletteContainer).to.exist;
 
       document.body.removeChild(paletteParent);
@@ -648,22 +647,6 @@ describe('FormEditor', function() {
       });
 
       expect(formEditor.get('propertiesPanel')).to.exist;
-    });
-
-
-    it('should render propertiesPanel per default', async function() {
-
-      // given
-      formEditor = await createFormEditor({
-        container,
-        schema
-      });
-
-      // when
-      const propertiesContainer = domQuery('.fjs-editor-properties-container', container);
-
-      // then
-      expect(propertiesContainer).to.exist;
     });
 
 
@@ -1430,7 +1413,17 @@ describe('FormEditor', function() {
       });
 
       // then
-      await expectNoViolations(container);
+      // @Note(pinussilvestrus): the palette entries are currently
+      // not keyboard accessible, as we need to invest in an overall
+      // editor keyboard experience
+      // cf. https://github.com/bpmn-io/form-js/issues/536
+      await expectNoViolations(container, {
+        rules: {
+          'scrollable-region-focusable': {
+            enabled: false
+          }
+        }
+      });
     });
 
   });

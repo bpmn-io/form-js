@@ -5,7 +5,7 @@ import {
 
 import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from './helper';
+import { WithFormEditorContext, WithPropertiesPanel } from './helper';
 
 
 describe('PropertiesPanelHeaderProvider', function() {
@@ -68,7 +68,7 @@ function renderHeader(options) {
     field
   } = options;
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     headerProvider: PropertiesPanelHeaderProvider
   })));

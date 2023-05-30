@@ -6,7 +6,7 @@ import {
 
 import { SerializationGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 import { set } from 'min-dash';
 
@@ -186,7 +186,7 @@ function renderSerializationGroup(options) {
 
   const groups = [ SerializationGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     groups
   })));

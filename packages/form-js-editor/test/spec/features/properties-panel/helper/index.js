@@ -1,8 +1,5 @@
-import {
-  FormPropertiesPanelContext
-} from '../../../../../src/features/properties-panel/context';
-
 import { PropertiesPanel } from '@bpmn-io/properties-panel';
+import { FormEditorContext } from '../../../../../src/render/context';
 
 const noop = () => {};
 
@@ -160,8 +157,8 @@ export class Templating {
   }
 }
 
-export function WithPropertiesPanelContext(Component, services = {}) {
-  const propertiesPanelContext = {
+export function WithFormEditorContext(Component, services = {}) {
+  const formEditorContext = {
     getService(type, strict) {
       if (services[ type ]) {
         return services[ type ];
@@ -217,9 +214,9 @@ export function WithPropertiesPanelContext(Component, services = {}) {
   };
 
   return (
-    <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
+    <FormEditorContext.Provider value={ formEditorContext }>
       { Component }
-    </FormPropertiesPanelContext.Provider>
+    </FormEditorContext.Provider>
   );
 }
 

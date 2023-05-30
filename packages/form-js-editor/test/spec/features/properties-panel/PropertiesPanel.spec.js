@@ -14,10 +14,10 @@ import {
   EventBus as eventBusMock,
   FormEditor as formEditorMock,
   FormLayoutValidator as formLayoutValidatorMock,
-  Injector as injectorMock,
   Selection as selectionMock,
   Modeling as modelingMock,
-  Templating as templatingMock
+  Templating as templatingMock,
+  WithFormEditorContext
 } from './helper';
 
 import schema from '../../form.json';
@@ -3203,22 +3203,20 @@ function createPropertiesPanel(options = {}) {
     });
   }
 
-  const injector = new injectorMock({
-    ...options,
-    eventBus,
-    formEditor,
-    formLayoutValidator,
-    modeling,
-    selection,
-    templating
-  });
-
-  return render(<PropertiesPanel
-    eventBus={ eventBus }
-    injector={ injector } />,
-  {
-    container
-  });
+  return render(
+    WithFormEditorContext(<PropertiesPanel />, {
+      ...options,
+      eventBus,
+      formEditor,
+      formLayoutValidator,
+      modeling,
+      selection,
+      templating
+    }),
+    {
+      container
+    }
+  );
 }
 
 function expectGroups(container, groupLabels) {

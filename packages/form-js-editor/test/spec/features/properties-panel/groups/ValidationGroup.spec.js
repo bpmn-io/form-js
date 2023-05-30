@@ -6,7 +6,7 @@ import {
 
 import { ValidationGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 
 describe('ValidationGroup', function() {
@@ -631,7 +631,7 @@ function renderValidationGroup(options) {
 
   const groups = [ ValidationGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     groups
   })));

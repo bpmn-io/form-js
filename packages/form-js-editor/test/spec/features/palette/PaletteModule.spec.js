@@ -14,31 +14,31 @@ import {
   createFormEditor
 } from '../../../../src';
 
-import propertiesPanelModule from '../../../../src/features/properties-panel';
+import paletteModule from '../../../../src/features/palette';
 
 import schema from '../../form.json';
 
 insertStyles();
 
 
-describe('features/propertiesPanel', function() {
+describe('features/palette', function() {
 
-  let formEditor, formContainer, propertiesPanelContainer;
+  let formEditor, formContainer, paletteContainer;
 
   beforeEach(function() {
     const container = TestContainer.get(this);
 
-    propertiesPanelContainer = document.createElement('div');
+    paletteContainer = document.createElement('div');
     formContainer = document.createElement('div');
 
-    container.appendChild(propertiesPanelContainer);
+    container.appendChild(paletteContainer);
     container.appendChild(formContainer);
   });
 
   afterEach(function() {
     const container = TestContainer.get(this);
 
-    container.removeChild(propertiesPanelContainer);
+    container.removeChild(paletteContainer);
     container.removeChild(formContainer);
 
     formEditor && formEditor.destroy();
@@ -47,7 +47,7 @@ describe('features/propertiesPanel', function() {
   async function createEditor(schema, options = {}) {
     const {
       additionalModules = [
-        propertiesPanelModule
+        paletteModule
       ]
     } = options;
 
@@ -57,8 +57,8 @@ describe('features/propertiesPanel', function() {
         container: formContainer
       },
       additionalModules,
-      propertiesPanel: {
-        parent: propertiesPanelContainer
+      palette: {
+        parent: paletteContainer
       },
       ...options
     });
@@ -81,7 +81,7 @@ describe('features/propertiesPanel', function() {
     eventBus.fire('formEditor.rendered');
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
+    expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
   });
 
 
@@ -98,14 +98,14 @@ describe('features/propertiesPanel', function() {
       formEditor = result.formEditor;
     });
 
-    const propertiesPanel = formEditor.get('propertiesPanel');
+    const palette = formEditor.get('palette');
 
     // when
-    propertiesPanel.attachTo(node);
+    await act(() => palette.attachTo(node));
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
-    expect(domQuery('.fjs-properties-panel', node)).to.exist;
+    expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
+    expect(domQuery('.fjs-palette', node)).to.exist;
 
     // cleanup
     document.body.removeChild(node);
@@ -123,93 +123,108 @@ describe('features/propertiesPanel', function() {
     });
 
     // assume
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
+    expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
 
-    const propertiesPanel = formEditor.get('propertiesPanel');
+    const palette = formEditor.get('palette');
 
     // when
-    propertiesPanel.detach();
+    await act(() => palette.detach());
 
     // then
-    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
+    expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
   });
 
 
   describe('event emitting', function() {
 
-    it('should fire <propertiesPanel.rendered>', async function() {
+    it('should fire <palette.rendered>', async function() {
 
       // given
-      const { formEditor } = await createEditor(schema);
+      let formEditor;
+
+      await act(async () => {
+        const result = await createEditor(schema);
+        formEditor = result.formEditor;
+      });
 
       const eventBus = formEditor.get('eventBus');
 
       const spy = sinon.spy();
 
-      eventBus.on('propertiesPanel.rendered', spy);
+      eventBus.on('palette.rendered', spy);
+
+      const palette = formEditor.get('palette');
 
       // when
-      eventBus.fire('formEditor.rendered');
+      await act(() => palette.attachTo(document.body));
 
       // then
       expect(spy).to.have.been.called;
     });
 
 
-    it('should fire <propertiesPanel.attach>', async function() {
+    it('should fire <palette.attach>', async function() {
 
       // given
       const { formEditor } = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
-      const propertiesPanel = formEditor.get('propertiesPanel');
+      const palette = formEditor.get('palette');
 
       const spy = sinon.spy();
 
-      eventBus.on('propertiesPanel.attach', spy);
+      eventBus.on('palette.attach', spy);
 
       // when
-      propertiesPanel.attachTo(propertiesPanelContainer);
+      palette.attachTo(paletteContainer);
 
       // then
       expect(spy).to.have.been.called;
     });
 
 
-    it('should fire <propertiesPanel.detach>', async function() {
+    it('should fire <palette.detach>', async function() {
 
       // given
       const { formEditor } = await createEditor(schema);
 
       const eventBus = formEditor.get('eventBus');
-      const propertiesPanel = formEditor.get('propertiesPanel');
+      const palette = formEditor.get('palette');
 
       const spy = sinon.spy();
 
-      eventBus.on('propertiesPanel.detach', spy);
+      eventBus.on('palette.detach', spy);
 
       // when
-      propertiesPanel.detach();
+      palette.detach();
 
       // then
       expect(spy).to.have.been.called;
     });
 
 
-    it('should fire <propertiesPanel.destroyed>', async function() {
+    it('should fire <palette.destroyed>', async function() {
 
       // given
-      const { formEditor } = await createEditor(schema);
+      const node = document.createElement('div');
+      document.body.appendChild(node);
 
+      let formEditor;
+
+      await act(async () => {
+        const result = await createEditor(schema);
+        formEditor = result.formEditor;
+      });
+
+      const palette = formEditor.get('palette');
       const eventBus = formEditor.get('eventBus');
-      const propertiesPanel = formEditor.get('propertiesPanel');
 
       const spy = sinon.spy();
 
-      eventBus.on('propertiesPanel.destroyed', spy);
+      eventBus.on('palette.destroyed', spy);
 
       // when
-      propertiesPanel._destroy();
+      await act(() => palette.attachTo(node));
 
       // then
       expect(spy).to.have.been.called;

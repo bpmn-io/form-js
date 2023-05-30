@@ -6,7 +6,7 @@ import {
 
 import { ConditionGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
 
 import { INPUTS } from '../../../../../src/features/properties-panel/Util';
 
@@ -135,7 +135,7 @@ function renderConditionGroup(options) {
 
   const groups = [ ConditionGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
+  return render(WithFormEditorContext(WithPropertiesPanel({
     field,
     groups
   })));
