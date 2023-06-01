@@ -76,17 +76,6 @@ import { Button } from '@bpmn-io/form-js-viewer';
 console.log('Button default label is ' + Button.config.label);
 ```
 
-We changed the behavior when providing the `readOnly` property to a Form. From this version, the form fields will be rendered as `readOnly` if the property is set. Previously, the form fields were rendered as `disabled`. To restore the same behavior, please use the `disabled` property instead.
-
-```js
-const form = new Form({
-  container: document.querySelector('#form'),
-  properties: {
-    disabled: true
-  }
-});
-```
-
 We changed the internal behavior of rendering `palette` and `propertiesPanel` in the editor. Following that, the `.fjs-editor-palette-container` and `.fjs-editor-properties-container` selectors were removed as they were optional. Please use the more generic `.fjs-palette-container` and `.fjs-properties-container` selectors instead.
 
 
