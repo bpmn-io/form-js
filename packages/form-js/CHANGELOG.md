@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.2
+
+### Editor
+
+* `FEAT`: center fills in palette slot container ([`d2de066c`](https://github.com/bpmn-io/form-js/commit/d2de066c1fb14be689872738c67b2f9a9be141a2))
+
 ## 1.0.0-alpha.1 
 
 ### General
