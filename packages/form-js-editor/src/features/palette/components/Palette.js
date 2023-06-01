@@ -149,11 +149,12 @@ export default function Palette(props) {
     </div>
     <div class="fjs-palette-footer">
       {/* @ts-ignore */}
-      <Slot name="editor-palette__footer" />
+      <Slot name="editor-palette__footer" fillRoot={ FillRoot } />
     </div>
   </div>;
 }
 
+const FillRoot = (fill) => <div className="fjs-palette-footer-fill">{fill.children}</div>;
 
 // helpers ///////
 

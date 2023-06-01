@@ -465,6 +465,17 @@
   user-select: none;
 }
 
+.fjs-palette-container .fjs-palette-footer { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fjs-palette-container .fjs-palette-footer .fjs-palette-footer-fill {
+  padding: 10px;
+  width: 100%;
+}
+
 .fjs-palette-container .fjs-palette-search-container {
   display: flex;
   flex-direction: row;

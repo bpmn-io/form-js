@@ -7,6 +7,7 @@ import SlotContext from './SlotContext';
  *
  * @param {Object} props Component properties
  * @param {string} props.name Slot name
+ * @param {Function} props.fillRoot Function for creating a fill root element
  * @param {Function} props.groupFn Function for grouping slot fills
  * @param {Function} props.separatorFn Function for creating separator elements between groups
  * @param {number} props.limit Limit on the number of slot fills to render
@@ -15,6 +16,7 @@ import SlotContext from './SlotContext';
 export default (props) => {
   const {
     name,
+    fillRoot = FillFragment,
     groupFn = _groupByGroupName,
     separatorFn = (key) => null,
     limit
@@ -29,8 +31,8 @@ export default (props) => {
   const groups = useMemo(() => groupFn(cropped), [ cropped , groupFn ]);
 
   const fillsAndSeparators = useMemo(() => {
-    return buildFills(groups, FillFragment, separatorFn);
-  }, [ groups, separatorFn ]);
+    return buildFills(groups, fillRoot, separatorFn);
+  }, [ groups, fillRoot, separatorFn ]);
 
   return fillsAndSeparators;
 };
