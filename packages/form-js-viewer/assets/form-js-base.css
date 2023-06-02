@@ -261,7 +261,8 @@
 
 .fjs-container .fjs-form-field-label,
 .fjs-container .fjs-form-field-description,
-.fjs-container .fjs-form-field-error {
+.fjs-container .fjs-form-field-error,
+.fjs-container .fjs-form-field-a11y-error  {
   font-size: var(--font-size-label);
   line-height: var(--line-height-label);
   letter-spacing: var(--letter-spacing-label);
@@ -656,17 +657,20 @@
   border-color: var(--color-warning-light);
 }
 
-.fjs-container .fjs-form-field-error {
+.fjs-container .fjs-form-field-error,
+.fjs-container .fjs-form-field-a11y-error {
   color: var(--color-warning);
 }
 
-.fjs-container .fjs-form-field-error > ul {
+.fjs-container .fjs-form-field-error > ul ,
+.fjs-container .fjs-form-field-a11y-error > ul{
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.fjs-container .fjs-form-field-error > ul > li {
+.fjs-container .fjs-form-field-error > ul > li,
+.fjs-container .fjs-form-field-a11y-error > ul > li {
   list-style-type: none;
 }
 

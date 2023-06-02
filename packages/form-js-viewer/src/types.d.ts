@@ -11,6 +11,10 @@ export interface Errors {
   [x: string]: string[];
 }
 
+export interface A11yErrors {
+  [x: string]: string[];
+}
+
 export type FormProperty = ('readOnly' | 'disabled' | string);
 export type FormEvent = ('submit' | 'changed' | string);
 

@@ -10,7 +10,7 @@ import {
   useService
 } from '../hooks';
 
-import { findErrors } from '../../util';
+import { findA11yErrors, findErrors } from '../../util';
 
 import { gridColumnClasses } from './Util';
 
@@ -27,6 +27,7 @@ export default function FormField(props) {
         form = useService('form');
 
   const {
+    a11yErrors,
     data,
     errors,
     properties
@@ -48,6 +49,8 @@ export default function FormField(props) {
 
   const fieldErrors = findErrors(errors, field._path);
 
+  const fieldA11yErrors = findA11yErrors(a11yErrors, field._path);
+
   const readonly = useReadonly(field, properties);
 
   // add precedence: global readonly > form field disabled
@@ -66,6 +69,7 @@ export default function FormField(props) {
       <Element class="fjs-element" field={ field }>
         <FormFieldComponent
           { ...props }
+          a11yErrors={ fieldA11yErrors }
           disabled={ disabled }
           errors={ fieldErrors }
           onChange={ disabled || readonly ? noop : onChange }

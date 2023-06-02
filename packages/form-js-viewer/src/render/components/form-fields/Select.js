@@ -4,6 +4,7 @@ import { FormContext } from '../../context';
 
 import Description from '../Description';
 import Errors from '../Errors';
+import A11yErrors from '../A11yErrors';
 import Label from '../Label';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
@@ -20,6 +21,7 @@ export default function Select(props) {
   const {
     disabled,
     errors = [],
+    a11yErrors = [],
     field,
     onChange,
     readonly,
@@ -38,6 +40,7 @@ export default function Select(props) {
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+  const a11yError = a11yErrors.length === 0 ? undefined : `${prefixId(id, formId)}-a11y-error-message`;
 
   const selectProps = useMemo(() => ({
     id,
@@ -68,6 +71,7 @@ export default function Select(props) {
     { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
     <Description description={ description } />
     <Errors errors={ errors } id={ errorMessageId } />
+    <A11yErrors a11yErrors={ a11yErrors } id={ a11yError } />
   </div>;
 }
 

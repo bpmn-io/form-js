@@ -3,6 +3,7 @@ import { get, isString, set } from 'min-dash';
 
 import ExpressionLanguageModule from './features/expression-language';
 import MarkdownModule from './features/markdown';
+import A11yValidationModule from './features/a11y-validation';
 
 import core from './core';
 
@@ -12,6 +13,7 @@ import { clone, createFormContainer, createInjector, pathStringify } from './uti
  * @typedef { import('./types').Injector } Injector
  * @typedef { import('./types').Data } Data
  * @typedef { import('./types').Errors } Errors
+ * @typedef { import('./types').A11yErrors } A11yErrors
  * @typedef { import('./types').Schema } Schema
  * @typedef { import('./types').FormProperties } FormProperties
  * @typedef { import('./types').FormProperty } FormProperty
@@ -22,6 +24,7 @@ import { clone, createFormContainer, createInjector, pathStringify } from './uti
  *   data: Data,
  *   initialData: Data,
  *   errors: Errors,
+ *    a11yErrors: A11yErrors,
  *   properties: FormProperties,
  *   schema: Schema
  * } } State
@@ -77,6 +80,7 @@ export default class Form {
       data: null,
       properties,
       errors: {},
+      a11yErrors: {},
       schema: null
     };
 
@@ -281,6 +285,13 @@ export default class Form {
   }
 
   /**
+   * @param {A11yErrors} errors
+   */
+  setA11yErrors(errors) {
+    this._setState({ a11yErrors: errors });
+  }
+
+  /**
    * @param {FormEvent} type
    * @param {Function} handler
    */
@@ -381,7 +392,8 @@ export default class Form {
   _getModules() {
     return [
       ExpressionLanguageModule,
-      MarkdownModule
+      MarkdownModule,
+      A11yValidationModule
     ];
   }
 

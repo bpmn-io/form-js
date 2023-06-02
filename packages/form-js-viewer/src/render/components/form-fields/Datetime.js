@@ -10,6 +10,7 @@ import { DATETIME_SUBTYPES, DATETIME_SUBTYPE_PATH, DATE_LABEL_PATH } from '../..
 
 import Description from '../Description';
 import Errors from '../Errors';
+import A11yErrors from '../A11yErrors';
 import Datepicker from './parts/Datepicker';
 import Timepicker from './parts/Timepicker';
 
@@ -23,6 +24,7 @@ export default function Datetime(props) {
   const {
     disabled,
     errors = [],
+    a11yErrors = [],
     field,
     onChange,
     readonly,
@@ -130,6 +132,7 @@ export default function Datetime(props) {
   }, []);
 
   const errorMessageId = allErrors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+  const a11yErrorMessageId = a11yErrors.length === 0 ? undefined : `${prefixId(id, formId)}-a11y-error-message`;
 
   const datePickerProps = {
     id,
@@ -167,6 +170,7 @@ export default function Datetime(props) {
     </div>
     <Description description={ description } />
     <Errors errors={ allErrors } id={ errorMessageId } />
+    <A11yErrors a11yErrors={ a11yErrors } id={ a11yErrorMessageId } />
   </div>;
 }
 

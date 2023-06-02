@@ -24,6 +24,10 @@ export function findErrors(errors, path) {
   return errors[ pathStringify(path) ];
 }
 
+export function findA11yErrors(a11yErrors = {}, path) {
+  return a11yErrors[ pathStringify(path) ];
+}
+
 export function isRequired(field) {
   return field.required;
 }

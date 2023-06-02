@@ -8,7 +8,7 @@ const FormRenderContext = createContext({
     return <div class={ props.class }>{ props.children }</div>;
   },
   Element: (props) => {
-    return <div class={ props.class }>{ props.children }</div>;
+    return <div data-id={ props.field.id } class={ props.class }>{ props.children }</div>;
   },
   Row: (props) => {
     return <div class={ props.class }>{ props.children }</div>;

@@ -23,7 +23,6 @@
     },
     {
       "key": "amount",
-      "label": "Amount",
       "type": "number",
       "validate": {
         "min": 0,
@@ -37,7 +36,6 @@
     },
     {
       "key": "approvedBy",
-      "label": "Approved By",
       "type": "textfield"
     },
     {

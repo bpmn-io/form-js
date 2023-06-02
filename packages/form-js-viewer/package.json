@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@carbon/grid": "^11.11.0",
+    "axe-core": "^4.4.3",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
     "didi": "^9.0.0",

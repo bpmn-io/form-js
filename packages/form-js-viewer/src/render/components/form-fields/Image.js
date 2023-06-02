@@ -1,5 +1,7 @@
 import { useContext, useMemo } from 'preact/hooks';
 
+import A11yErrors from '../A11yErrors';
+
 import { FormContext } from '../../context';
 
 import { useExpressionEvaluation } from '../../hooks';
@@ -17,7 +19,8 @@ const type = 'image';
 
 export default function Image(props) {
   const {
-    field
+    field,
+    a11yErrors = []
   } = props;
 
   const {
@@ -35,6 +38,8 @@ export default function Image(props) {
 
   const { formId } = useContext(FormContext);
 
+  const a11yErrorMessageId = a11yErrors.length === 0 ? undefined : `${prefixId(id, formId)}-a11y-error-message`;
+
   return <div class={ formFieldClasses(type) }>
     <div class="fjs-image-container">
       {
@@ -51,6 +56,7 @@ export default function Image(props) {
         </div>
       }
     </div>
+    <A11yErrors id={ a11yErrorMessageId } a11yErrors={ a11yErrors } />
   </div>;
 }
 

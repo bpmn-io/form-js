@@ -5,6 +5,7 @@ import { FormContext } from '../../context';
 
 import Description from '../Description';
 import Errors from '../Errors';
+import A11yErrors from '../A11yErrors';
 import Label from '../Label';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
@@ -20,6 +21,7 @@ export default function Radio(props) {
   const {
     disabled,
     errors = [],
+    a11yErrors = [],
     field,
     readonly,
     value
@@ -48,6 +50,7 @@ export default function Radio(props) {
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+  const a11yErrorMessageId = a11yErrors.length === 0 ? undefined : `${prefixId(id, formId)}-a11y-error-message`;
 
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
@@ -77,6 +80,7 @@ export default function Radio(props) {
     }
     <Description description={ description } />
     <Errors errors={ errors } id={ errorMessageId } />
+    <A11yErrors a11yErrors={ a11yErrors } id={ a11yErrorMessageId } />
   </div>;
 }
 
