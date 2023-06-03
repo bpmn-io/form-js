@@ -163,7 +163,7 @@ describe('features/propertiesPanel', function() {
     });
 
 
-    it('should fire <propertiesPanel.attach>', async function() {
+    it('should fire <propertiesPanel.attach> when section is rendered', async function() {
 
       // given
       const { formEditor } = await createEditor(schema);
@@ -176,14 +176,17 @@ describe('features/propertiesPanel', function() {
       eventBus.on('propertiesPanel.attach', spy);
 
       // when
-      propertiesPanel.attachTo(propertiesPanelContainer);
+      await act(() => {
+        eventBus.fire('propertiesPanel.section.rendered');
+        propertiesPanel.attachTo(propertiesPanelContainer);
+      });
 
       // then
       expect(spy).to.have.been.called;
     });
 
 
-    it('should fire <propertiesPanel.detach>', async function() {
+    it('should fire <propertiesPanel.detach> when section is rendered', async function() {
 
       // given
       const { formEditor } = await createEditor(schema);
@@ -196,7 +199,10 @@ describe('features/propertiesPanel', function() {
       eventBus.on('propertiesPanel.detach', spy);
 
       // when
-      propertiesPanel.detach();
+      await act(() => {
+        eventBus.fire('propertiesPanel.section.rendered');
+        propertiesPanel.detach();
+      });
 
       // then
       expect(spy).to.have.been.called;

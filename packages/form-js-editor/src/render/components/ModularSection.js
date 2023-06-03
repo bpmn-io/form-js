@@ -61,11 +61,13 @@ export default (props) => {
     eventBus.on(`${ section }.attach`, onAttach);
     eventBus.on(`${ section }.detach`, onDetach);
     eventBus.on(`${ section }.reset`, onReset);
+    eventBus.fire(`${ section }.section.rendered`);
 
     return () => {
       eventBus.off(`${ section }.attach`, onAttach);
       eventBus.off(`${ section }.detach`, onDetach);
       eventBus.off(`${ section }.reset`, onReset);
+      eventBus.fire(`${ section }.section.destroyed`);
     };
   }, [ eventBus, section ]);
 

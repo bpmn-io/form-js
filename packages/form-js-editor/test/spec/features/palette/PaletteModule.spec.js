@@ -99,9 +99,13 @@ describe('features/palette', function() {
     });
 
     const palette = formEditor.get('palette');
+    const eventBus = formEditor.get('eventBus');
 
     // when
-    await act(() => palette.attachTo(node));
+    await act(() => {
+      eventBus.fire('palette.section.rendered');
+      return palette.attachTo(node);
+    });
 
     // then
     expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
@@ -126,9 +130,13 @@ describe('features/palette', function() {
     expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
 
     const palette = formEditor.get('palette');
+    const eventBus = formEditor.get('eventBus');
 
     // when
-    await act(() => palette.detach());
+    await act(() => {
+      eventBus.fire('palette.section.rendered');
+      return palette.detach();
+    });
 
     // then
     expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
@@ -156,7 +164,10 @@ describe('features/palette', function() {
       const palette = formEditor.get('palette');
 
       // when
-      await act(() => palette.attachTo(document.body));
+      await act(() => {
+        eventBus.fire('palette.section.rendered');
+        palette.attachTo(document.body);
+      });
 
       // then
       expect(spy).to.have.been.called;
@@ -176,7 +187,10 @@ describe('features/palette', function() {
       eventBus.on('palette.attach', spy);
 
       // when
-      palette.attachTo(paletteContainer);
+      await act(() => {
+        eventBus.fire('palette.section.rendered');
+        palette.attachTo(paletteContainer);
+      });
 
       // then
       expect(spy).to.have.been.called;
@@ -196,7 +210,10 @@ describe('features/palette', function() {
       eventBus.on('palette.detach', spy);
 
       // when
-      palette.detach();
+      await act(() => {
+        eventBus.fire('palette.section.rendered');
+        palette.detach();
+      });
 
       // then
       expect(spy).to.have.been.called;
@@ -224,7 +241,10 @@ describe('features/palette', function() {
       eventBus.on('palette.destroyed', spy);
 
       // when
-      await act(() => palette.attachTo(node));
+      await act(() => {
+        eventBus.fire('palette.section.rendered');
+        palette.attachTo(node);
+      });
 
       // then
       expect(spy).to.have.been.called;
