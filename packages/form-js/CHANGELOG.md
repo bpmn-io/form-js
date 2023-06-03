@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.3
+
+### Editor
+
+* `FIX`: circumvent section timing issue in some usages ([`5371cad7`](https://github.com/bpmn-io/form-js/commit/5371cad775f72dd3b47a5337159f83b5d8def65b))
+
 ## 1.0.0-alpha.2
 
 ### Editor
