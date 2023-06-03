@@ -18,7 +18,9 @@ export default class SectionModuleBase {
    */
   constructor(eventBus, sectionKey) {
     this._eventBus = eventBus;
-    this.sectionKey = sectionKey;
+    this._sectionKey = sectionKey;
+    this._eventBus.on(`${this._sectionKey}.section.rendered`, () => this.isSectionRendered = true);
+    this._eventBus.on(`${this._sectionKey}.section.destroyed`, () => this.isSectionRendered = false);
   }
 
   /**
@@ -26,15 +28,28 @@ export default class SectionModuleBase {
    *
    * @param {HTMLElement} container - The parent node to attach to.
    */
-  attachTo(container) { this._eventBus.fire(`${this.sectionKey}.attach`, { container }); }
+  attachTo(container) {
+    this._onceSectionRendered(() => this._eventBus.fire(`${this._sectionKey}.attach`, { container }));
+  }
 
   /**
    * Detach the managed section from its parent node.
    */
-  detach() { this._eventBus.fire(`${this.sectionKey}.detach`); }
+  detach() {
+    this._onceSectionRendered(() => this._eventBus.fire(`${this._sectionKey}.detach`));
+  }
 
   /**
    * Reset the managed section to its initial state.
    */
-  reset() { this._eventBus.fire(`${this.sectionKey}.reset`); }
+  reset() {
+    this._onceSectionRendered(() => this._eventBus.fire(`${this._sectionKey}.reset`));
+  }
+
+  /**
+   * Circumvents timing issues.
+   */
+  _onceSectionRendered(callback) {
+    this.isSectionRendered ? callback() : this._eventBus.once(`${this._sectionKey}.section.rendered`, () => { callback(); });
+  }
 }
