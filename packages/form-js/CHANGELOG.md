@@ -6,7 +6,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-## 1.0.0-alpha.3
+## 1.0.0-alpha.4
 
 ### Editor
 
