@@ -50,6 +50,16 @@ export default class SectionModuleBase {
    * Circumvents timing issues.
    */
   _onceSectionRendered(callback) {
-    this.isSectionRendered ? callback() : this._eventBus.once(`${this._sectionKey}.section.rendered`, () => { callback(); });
+    if (this.isSectionRendered) {
+      callback();
+    } else {
+
+      const onSectionRendered = () => {
+        callback();
+        this._eventBus.off(`${this._sectionKey}.section.rendered`, onSectionRendered);
+      };
+
+      this._eventBus.on(`${this._sectionKey}.section.rendered`, onSectionRendered);
+    }
   }
 }

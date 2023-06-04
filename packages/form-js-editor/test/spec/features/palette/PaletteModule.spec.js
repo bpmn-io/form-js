@@ -116,6 +116,45 @@ describe('features/palette', function() {
   });
 
 
+  it.skip('should attach when section rendered late', async function() {
+
+    // given
+    const node = document.createElement('div');
+    document.body.appendChild(node);
+
+    let formEditor;
+
+    await act(async () => {
+      const result = await createEditor(schema);
+      formEditor = result.formEditor;
+    });
+
+    const palette = formEditor.get('palette');
+    const eventBus = formEditor.get('eventBus');
+
+    // when
+    await act(() => {
+      return palette.attachTo(node);
+    });
+
+    // then
+    expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
+    expect(domQuery('.fjs-palette', node)).to.not.exist;
+
+    // when
+    await act(() => {
+      eventBus.fire('palette.section.rendered');
+    });
+
+    // then
+    expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
+    expect(domQuery('.fjs-palette', node)).to.exist;
+
+    // cleanup
+    document.body.removeChild(node);
+  });
+
+
   it('should detach', async function() {
 
     // given
