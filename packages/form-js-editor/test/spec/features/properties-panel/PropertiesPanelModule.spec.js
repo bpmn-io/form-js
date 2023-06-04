@@ -99,9 +99,52 @@ describe('features/propertiesPanel', function() {
     });
 
     const propertiesPanel = formEditor.get('propertiesPanel');
+    const eventBus = formEditor.get('eventBus');
 
     // when
-    await act(() => propertiesPanel.attachTo(node));
+    await act(() => {
+      eventBus.fire('propertiesPanel.section.rendered');
+      return propertiesPanel.attachTo(node);
+    });
+
+    // then
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
+    expect(domQuery('.fjs-properties-panel', node)).to.exist;
+
+    // cleanup
+    document.body.removeChild(node);
+  });
+
+
+  it.skip('should attach when section rendered late', async function() {
+
+    // given
+    const node = document.createElement('div');
+    document.body.appendChild(node);
+
+    let formEditor;
+
+    await act(async () => {
+      const result = await createEditor(schema);
+      formEditor = result.formEditor;
+    });
+
+    const propertiesPanel = formEditor.get('propertiesPanel');
+    const eventBus = formEditor.get('eventBus');
+
+    // when
+    await act(() => {
+      return propertiesPanel.attachTo(node);
+    });
+
+    // then
+    expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
+    expect(domQuery('.fjs-properties-panel', node)).to.not.exist;
+
+    // when
+    await act(() => {
+      eventBus.fire('propertiesPanel.section.rendered');
+    });
 
     // then
     expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
