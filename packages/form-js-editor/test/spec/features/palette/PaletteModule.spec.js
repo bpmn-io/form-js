@@ -116,7 +116,7 @@ describe('features/palette', function() {
   });
 
 
-  it.skip('should attach when section rendered late', async function() {
+  it('should attach when section rendered late', async function() {
 
     // given
     const node = document.createElement('div');

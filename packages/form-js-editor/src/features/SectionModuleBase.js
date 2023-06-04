@@ -19,8 +19,8 @@ export default class SectionModuleBase {
   constructor(eventBus, sectionKey) {
     this._eventBus = eventBus;
     this._sectionKey = sectionKey;
-    this._eventBus.on(`${this._sectionKey}.section.rendered`, () => this.isSectionRendered = true);
-    this._eventBus.on(`${this._sectionKey}.section.destroyed`, () => this.isSectionRendered = false);
+    this._eventBus.on(`${this._sectionKey}.section.rendered`, () => { this.isSectionRendered = true; });
+    this._eventBus.on(`${this._sectionKey}.section.destroyed`, () => { this.isSectionRendered = false; });
   }
 
   /**
@@ -53,13 +53,7 @@ export default class SectionModuleBase {
     if (this.isSectionRendered) {
       callback();
     } else {
-
-      const onSectionRendered = () => {
-        callback();
-        this._eventBus.off(`${this._sectionKey}.section.rendered`, onSectionRendered);
-      };
-
-      this._eventBus.on(`${this._sectionKey}.section.rendered`, onSectionRendered);
+      this._eventBus.once(`${this._sectionKey}.section.rendered`, callback);
     }
   }
 }
