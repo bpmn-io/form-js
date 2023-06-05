@@ -68,7 +68,9 @@ export default [
     plugins: pgl([
       copy({
         targets: [
-          { src: 'assets/form-js-editor-base.css', dest: 'dist/assets' }
+          { src: 'assets/form-js-editor-base.css', dest: 'dist/assets' },
+          { src: '../../node_modules/dragula/dist/dragula.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/properties-panel/assets/properties-panel.css', dest: 'dist/assets' }
         ]
       })
     ])
