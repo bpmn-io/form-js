@@ -9,6 +9,7 @@
     },
     "./dist/assets/form-js.css": "./dist/assets/form-js.css",
     "./dist/assets/form-js-base.css": "./dist/assets/form-js-base.css",
+    "./dist/assets/flatpickr/light.css": "./dist/assets/flatpickr/light.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
