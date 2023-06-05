@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.6
+
 ### General
 
 * `FEAT`: re-export external library styles separately ([#677](https://github.com/bpmn-io/form-js/issues/677))
