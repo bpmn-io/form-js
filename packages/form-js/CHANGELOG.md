@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.8
+
+### Editor
+
+* `FIX`: revert properties panel renderer changes
+
 
 ## 1.0.0-alpha.7
 
