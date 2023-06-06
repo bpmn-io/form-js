@@ -3,11 +3,10 @@ import { PropertiesPanel } from '@bpmn-io/properties-panel';
 import {
   useCallback,
   useState,
-  useLayoutEffect,
-  useMemo
+  useLayoutEffect
 } from 'preact/hooks';
 
-import { useService } from './hooks';
+import { FormPropertiesPanelContext } from './context';
 
 import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
@@ -46,13 +45,15 @@ function getGroups(field, editField, getService) {
   return groups.filter(group => group !== null);
 }
 
-export default function FormPropertiesPanel() {
+export default function FormPropertiesPanel(props) {
+  const {
+    eventBus,
+    injector
+  } = props;
 
-  const injector = useService('injector');
-  const eventBus = useService('eventBus');
-  const formEditor = useService('formEditor');
-  const modeling = useService('modeling');
-  const selection = useService('selection');
+  const formEditor = injector.get('formEditor');
+  const modeling = injector.get('modeling');
+  const selection = injector.get('selection');
 
   const { schema } = formEditor._getState();
 
@@ -104,15 +105,15 @@ export default function FormPropertiesPanel() {
 
   const selectedFormField = state.selectedFormField;
 
-  const getService = useCallback((type, strict = true) => injector.get(type, strict), [ injector ]);
+  const getService = (type, strict = true) => injector.get(type, strict);
+
+  const propertiesPanelContext = { getService };
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
   const onBlur = () => eventBus.fire('propertiesPanel.focusout');
 
   const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
-
-  const groups = useMemo(() => getGroups(selectedFormField, editField, getService), [ editField, getService, selectedFormField ]);
 
   return (
     <div
@@ -121,13 +122,15 @@ export default function FormPropertiesPanel() {
       onFocusCapture={ onFocus }
       onBlurCapture={ onBlur }
     >
-      <PropertiesPanel
-        element={ selectedFormField }
-        eventBus={ eventBus }
-        groups={ groups }
-        headerProvider={ PropertiesPanelHeaderProvider }
-        placeholderProvider={ PropertiesPanelPlaceholderProvider }
-      />
+      <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
+        <PropertiesPanel
+          element={ selectedFormField }
+          eventBus={ eventBus }
+          groups={ getGroups(selectedFormField, editField, getService) }
+          headerProvider={ PropertiesPanelHeaderProvider }
+          placeholderProvider={ PropertiesPanelPlaceholderProvider }
+        />
+      </FormPropertiesPanelContext.Provider>
     </div>
   );
 }

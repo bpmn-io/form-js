@@ -1,4 +1,4 @@
-import PropertiesPanelModule from './PropertiesPanelModule';
+import PropertiesPanelModule from './PropertiesPanelRenderer';
 
 export default {
   __init__: [ 'propertiesPanel' ],

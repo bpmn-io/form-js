@@ -1,5 +1,8 @@
 import { PropertiesPanel } from '@bpmn-io/properties-panel';
 import { FormEditorContext } from '../../../../../src/render/context';
+import {
+  FormPropertiesPanelContext
+} from '../../../../../src/features/properties-panel/context';
 
 const noop = () => {};
 
@@ -217,6 +220,69 @@ export function WithFormEditorContext(Component, services = {}) {
     <FormEditorContext.Provider value={ formEditorContext }>
       { Component }
     </FormEditorContext.Provider>
+  );
+}
+
+export function WithPropertiesPanelContext(Component, services = {}) {
+  const propertiesPanelContext = {
+    getService(type, strict) {
+      if (services[ type ]) {
+        return services[ type ];
+      }
+
+      if (type === 'config') {
+        return {
+          propertiesPanel: {
+            debounce: false
+          }
+        };
+      } else if (type === 'debounce') {
+        return fn => fn;
+      } else if (type === 'eventBus') {
+        return {
+          fire() {},
+          on() {},
+          off() {}
+        };
+      } else if (type === 'formFieldRegistry') {
+        return {
+          add() {},
+          remove() {},
+          get() {},
+          getAll() {
+            return [];
+          },
+          forEach() {},
+          clear() {},
+          _ids: {
+            assigned() {
+              return false;
+            }
+          },
+          _keys: {
+            assigned() {
+              return false;
+            }
+          },
+        };
+      } else if (type === 'formEditor') {
+        return new FormEditor();
+      } else if (type === 'formLayoutValidator') {
+        return {
+          validateField() {}
+        };
+      } else if (type === 'expressionLanguage') {
+        return {
+          isExpression: () => false
+        };
+      }
+    }
+  };
+
+  return (
+    <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
+      { Component }
+    </FormPropertiesPanelContext.Provider>
   );
 }
 

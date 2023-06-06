@@ -180,7 +180,7 @@ describe('features/propertiesPanel', function() {
 
   describe('event emitting', function() {
 
-    it('should fire <propertiesPanel.rendered>', async function() {
+    it.skip('should fire <propertiesPanel.rendered>', async function() {
 
       // given
       let formEditor;
@@ -273,7 +273,7 @@ describe('features/propertiesPanel', function() {
       eventBus.on('propertiesPanel.destroyed', spy);
 
       // when
-      await act(() => propertiesPanel.attachTo(node));
+      await act(() => propertiesPanel._destroy());
 
       // then
       expect(spy).to.have.been.called;

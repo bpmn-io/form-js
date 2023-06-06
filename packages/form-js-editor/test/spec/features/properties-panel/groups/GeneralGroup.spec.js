@@ -6,7 +6,7 @@ import {
 
 import { GeneralGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithFormEditorContext, WithPropertiesPanel } from '../helper';
+import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
 
@@ -1233,7 +1233,7 @@ function renderGeneralGroup(options) {
 
   const groups = [ GeneralGroup(field, editField, getService) ];
 
-  return render(WithFormEditorContext(WithPropertiesPanel({
+  return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     groups
   })));
