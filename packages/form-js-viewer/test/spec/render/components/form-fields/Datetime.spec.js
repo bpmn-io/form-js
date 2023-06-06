@@ -378,6 +378,19 @@ describe('Datetime', function() {
     });
 
 
+    it('should render when time interval is undefined', function() {
+
+      // when
+      const { container } = createDatetime({ field: { ...timeField, timeInterval: undefined } });
+
+      // then
+      const timeInput = container.querySelector('input[type="text"]');
+      expect(timeInput).to.exist;
+      expect(timeInput.value).to.be.empty;
+      expect(timeInput.placeholder).to.equal('hh:mm ?m');
+
+    });
+
     it('should render required label', function() {
 
       // when
@@ -539,6 +552,54 @@ describe('Datetime', function() {
 
         expect(firstItem.innerText).to.equal('12:00 AM');
         expect(secondItem.innerText).to.equal('12:30 AM');
+
+      });
+
+
+      it('should default to 15 increment with invalid intervals', function() {
+
+        // when
+        const { container } = createDatetime({ field: { ...timeField, timeInterval: -72 } });
+
+        const timeInput = container.querySelector('input[type="text"]');
+        fireEvent.focus(timeInput);
+
+        // then
+        const dropdown = container.querySelector('.fjs-dropdownlist');
+        expect(dropdown).to.exist;
+
+        const dropdownValues = dropdown.querySelectorAll('.fjs-dropdownlist-item');
+        expect(dropdownValues.length).to.equal(96);
+
+        const firstItem = dropdownValues[0];
+        const secondItem = dropdownValues[1];
+
+        expect(firstItem.innerText).to.equal('12:00 AM');
+        expect(secondItem.innerText).to.equal('12:15 AM');
+
+      });
+
+
+      it('should default to 15 increment with no interval', function() {
+
+        // when
+        const { container } = createDatetime({ field: { ...timeField, timeInterval: undefined } });
+
+        const timeInput = container.querySelector('input[type="text"]');
+        fireEvent.focus(timeInput);
+
+        // then
+        const dropdown = container.querySelector('.fjs-dropdownlist');
+        expect(dropdown).to.exist;
+
+        const dropdownValues = dropdown.querySelectorAll('.fjs-dropdownlist-item');
+        expect(dropdownValues.length).to.equal(96);
+
+        const firstItem = dropdownValues[0];
+        const secondItem = dropdownValues[1];
+
+        expect(firstItem.innerText).to.equal('12:00 AM');
+        expect(secondItem.innerText).to.equal('12:15 AM');
 
       });
 
