@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 1.0.0-alpha.7
+
+### General
+
+* `FIX`: don't render empty strings as adorners ([d7e55851](https://github.com/bpmn-io/form-js/commit/d7e558511e2f81e143e49d1f5b0678d5ff204bf5))
+* `FIX`: safely consume time interval ([4ccc3d85](https://github.com/bpmn-io/form-js/commit/4ccc3d859872fcaf838b5d1ef986e68c7db75611))
+
 ## 1.0.0-alpha.6
 
 ### General
