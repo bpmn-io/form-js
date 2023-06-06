@@ -98,6 +98,51 @@ describe('Number', function() {
   });
 
 
+  it('should not render empty adorners', function() {
+
+    // when
+    const { container } = createNumberField({
+      field: {
+        ...defaultField,
+        appearance: {
+          prefixAdorner: '',
+          suffixAdorner: ''
+        }
+      },
+      value: 123
+    });
+
+    // then
+    const adorners = container.querySelectorAll('.fjs-input-adornment');
+
+    expect(adorners.length).to.equal(0);
+
+  });
+
+
+  it('should render 0 strings', function() {
+
+    // when
+    const { container } = createNumberField({
+      field: {
+        ...defaultField,
+        appearance: {
+          prefixAdorner: '0',
+          suffixAdorner: '0'
+        }
+      },
+      value: 123
+    });
+
+    // then
+    const adorners = container.querySelectorAll('.fjs-input-adornment');
+
+    expect(adorners.length).to.equal(2);
+    expect(adorners[0].innerText).to.equal('0');
+    expect(adorners[1].innerText).to.equal('0');
+  });
+
+
   it('should render default value (\'\')', function() {
 
     // when
