@@ -53,57 +53,42 @@ export default function FormPropertiesPanel(props) {
 
   const formEditor = injector.get('formEditor');
   const modeling = injector.get('modeling');
-  const selection = injector.get('selection');
+  const selectionModule = injector.get('selection');
 
-  const { schema } = formEditor._getState();
+  const [ state , setState ] = useState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
 
-  const [ state, setState ] = useState({
-    selectedFormField: selection.get() || schema
-  });
+  const selectedFormField = state.selectedFormField;
 
-  const _update = (field) => {
+  const refresh = useCallback((field) => {
 
-    setState({
-      ...state,
-      selectedFormField: field
-    });
+    // TODO(skaiir): rework state management, re-rendering the whole properties panel is not the way to go
+    // https://github.com/bpmn-io/form-js/issues/686
+    setState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
 
     // notify interested parties on property panel updates
     eventBus.fire('propertiesPanel.updated', {
       formField: field
     });
-  };
+
+  }, [ eventBus, formEditor, selectionModule ]);
+
 
   useLayoutEffect(() => {
-    function onSelectionChange(event) {
-      _update(event.selection || schema);
-    }
 
-    eventBus.on('selection.changed', onSelectionChange);
-
-    return () => {
-      eventBus.off('selection.changed', onSelectionChange);
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    const onFieldChanged = () => {
-
-      /**
-       * TODO(pinussilvestrus): update with actual updated element,
-       * once we have a proper updater/change support
-       */
-      _update(selection.get() || schema);
-    };
-
-    eventBus.on('changed', onFieldChanged);
+    /**
+     * TODO(pinussilvestrus): update with actual updated element,
+     * once we have a proper updater/change support
+     */
+    eventBus.on('changed', refresh);
+    eventBus.on('import.done', refresh);
+    eventBus.on('selection.changed', refresh);
 
     return () => {
-      eventBus.off('changed', onFieldChanged);
+      eventBus.off('changed', refresh);
+      eventBus.off('import.done', refresh);
+      eventBus.off('selection.changed', refresh);
     };
-  }, []);
-
-  const selectedFormField = state.selectedFormField;
+  }, [ eventBus, refresh ]);
 
   const getService = (type, strict = true) => injector.get(type, strict);
 
