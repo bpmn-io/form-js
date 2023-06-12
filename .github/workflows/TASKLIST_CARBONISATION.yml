@@ -11,11 +11,11 @@ jobs:
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
-        uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
+        uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
         with:
           path: form-js
       - name: Checkout Tasklist
-        uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
+        uses: actions/checkout@96f53100ba2a5449eb71d2e6604bbcd94b9449b5
         with:
           repository: camunda/tasklist
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
