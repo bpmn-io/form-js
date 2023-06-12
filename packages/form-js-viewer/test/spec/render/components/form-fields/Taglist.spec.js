@@ -104,7 +104,7 @@ describe('Taglist', function() {
   });
 
 
-  it('should render tags dynamically', function() {
+  it('should render tags via valuesKey', function() {
 
     // when
     const { container } = createTaglist({
@@ -127,7 +127,37 @@ describe('Taglist', function() {
 
     const tagCross = tagDeleteArea.querySelector('svg');
     expect(tagCross).to.exist;
+  });
 
+
+  it('should render tags via valuesExpression', function() {
+
+    // when
+    const { container } = createTaglist({
+      value: [ 'value1', 'value3' ],
+      onchange: () => { },
+      isExpression: () => true,
+      evaluateExpression: () => [
+        ...expressionFieldInitialData.list1,
+        ...expressionFieldInitialData.list2
+      ],
+      field: expressionField,
+      initialData: expressionFieldInitialData
+    });
+
+    // then
+    const tags = container.querySelectorAll('.fjs-taglist-tag');
+    expect(tags).to.have.length(2);
+
+    const tag = tags[0];
+    const tagLabelArea = tag.querySelector('.fjs-taglist-tag-label');
+    expect(tagLabelArea).to.exist;
+
+    const tagDeleteArea = tag.querySelector('.fjs-taglist-tag-remove');
+    expect(tagLabelArea).to.exist;
+
+    const tagCross = tagDeleteArea.querySelector('svg');
+    expect(tagCross).to.exist;
   });
 
 
@@ -855,6 +885,14 @@ const dynamicField = {
   valuesKey: 'dynamicValues'
 };
 
+const expressionField = {
+  id: 'Taglist_1',
+  key: 'tags',
+  label: 'Taglist',
+  type: 'taglist',
+  valuesExpression: '=concatenate(list1,list2)'
+};
+
 const dynamicFieldInitialData = {
   dynamicValues: [
     {
@@ -872,6 +910,29 @@ const dynamicFieldInitialData = {
     {
       label: 'Dynamic Value 4',
       value: 'dynamicValue4'
+    }
+  ]
+};
+
+const expressionFieldInitialData = {
+  list1: [
+    {
+      label: 'Value 1',
+      value: 'value1'
+    },
+    {
+      label: 'Value 2',
+      value: 'value2'
+    }
+  ],
+  list2: [
+    {
+      label: 'Value 3',
+      value: 'value3'
+    },
+    {
+      label: 'Value 4',
+      value: 'value4'
     }
   ]
 };

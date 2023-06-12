@@ -16,7 +16,8 @@ const EXPRESSION_PROPERTIES = [
   'label',
   'source',
   'readonly',
-  'text'
+  'text',
+  'valuesExpression'
 ];
 
 const TEMPLATE_PROPERTIES = [

@@ -1,0 +1,22 @@
+{
+  "components": [
+    {
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "values": []
+    },
+    {
+      "key": "mailto",
+      "label": "Email Summary To",
+      "type": "checklist",
+      "valuesExpression": "=myList"
+    },
+    {
+      "key": "foo",
+      "type": "taglist",
+      "valuesExpression": "=concatenate(myList2,myList3,myList4)"
+    }
+  ],
+  "type": "default"
+}

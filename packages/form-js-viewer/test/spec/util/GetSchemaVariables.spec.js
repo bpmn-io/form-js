@@ -13,6 +13,7 @@ import labelsSchema from '../labels.json';
 import descriptionsSchema from '../descriptions.json';
 import adornersSchema from '../appearance.json';
 import imagesSchema from '../images.json';
+import valuesExpressionSchema from '../valuesExpression.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -21,7 +22,6 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(schema);
 
     expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
-
   });
 
 
@@ -30,7 +30,14 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(dynamicSchema);
 
     expect(variables).to.eql([ 'product', 'xyzData', 'mailto', 'language', 'tags' ]);
+  });
 
+
+  it('should include variables in valuesExpression', () => {
+
+    const variables = getSchemaVariables(valuesExpressionSchema);
+
+    expect(variables).to.eql([ 'product', 'mailto', 'myList', 'foo', 'concatenate', 'myList2', 'myList3', 'myList4' ]);
   });
 
 

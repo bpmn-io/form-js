@@ -11,7 +11,7 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
     const {
       data,
       errors,
-      isExpression,
+      isExpression = () => false,
       evaluateExpression,
       isTemplate = defaultTemplating.isTemplate,
       evaluateTemplate = defaultTemplating.evaluate,
