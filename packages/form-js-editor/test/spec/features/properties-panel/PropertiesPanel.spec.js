@@ -1,7 +1,9 @@
 import {
+  act,
   fireEvent,
   render,
-  screen
+  screen,
+  waitFor
 } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';
@@ -765,8 +767,9 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledTwice;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            'values': VALUES_SOURCES_DEFAULTS[VALUES_SOURCES.STATIC],
-            'valuesKey': undefined
+            values: VALUES_SOURCES_DEFAULTS[VALUES_SOURCES.STATIC],
+            valuesKey: undefined,
+            valuesExpression: undefined
           });
         });
       });
@@ -798,8 +801,10 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            'values': undefined,
-            'valuesKey': '' });
+            values: undefined,
+            valuesKey: '',
+            valuesExpression: undefined
+          });
         });
 
 
@@ -1136,8 +1141,10 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            'values': undefined,
-            'valuesKey': '' });
+            values: undefined,
+            valuesKey: '',
+            valuesExpression: undefined
+          });
         });
 
 
@@ -1380,7 +1387,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('Dynamic options', function() {
+      describe('dynamic options (valuesKey)', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -1406,8 +1413,10 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            'values': undefined,
-            'valuesKey': '' });
+            values: undefined,
+            valuesKey: '',
+            valuesExpression: undefined
+          });
         });
 
 
@@ -1436,7 +1445,46 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+        });
 
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'tags');
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            field = { ...field, values: undefined, valuesKey: '' };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const valuesKeyInput = screen.getByLabelText('Input values key');
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(valuesKeyInput);
+          });
         });
 
 
@@ -1475,6 +1523,151 @@ describe('properties panel', function() {
             'Input values key'
           ]);
 
+        });
+
+      });
+
+
+      describe('dynamic options (valuesExpression)', function() {
+
+        it('should configure input source & cleanup other sources', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'tags');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            values: undefined,
+            valuesKey: undefined,
+            valuesExpression: '='
+          });
+        });
+
+
+        it('should configure valuesExpression', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'tags');
+          field = { ...field, values: undefined, valuesExpression: '=' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = findTextbox(`${field.id}-valuesExpression-expression`, container);
+
+          expect(input.textContent).to.equal('');
+
+          // when
+          await setEditorValue(input, 'newVal');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesExpression' ], '=newVal');
+        });
+
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'tags');
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            field = { ...field, values: undefined, valuesExpression: '=' };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const editor = findTextbox(`${field.id}-valuesExpression-expression`, container);
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(editor);
+          });
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'tags');
+          field = { ...field, values: undefined, valuesExpression: '=' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Condition',
+            'Options source',
+            'Options expression',
+            'Validation',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Options source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Options expression', [
+            'Options expression'
+          ]);
+
+          expectGroupEntries(result.container, 'Validation', [
+            'Required'
+          ]);
         });
 
       });
@@ -1691,6 +1884,51 @@ describe('properties panel', function() {
         });
 
 
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = {
+            key: 'dri',
+            label: 'Assign DRI',
+            type: 'select',
+            valuesKey: 'queriedDRIs'
+          };
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            field = { ...field, values: [ 'foo' ], valuesKey: undefined };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal(VALUES_SOURCES.INPUT);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.STATIC } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const optionLabelInput = screen.getByLabelText('Label');
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(optionLabelInput);
+          });
+        });
+
+
         it('should add value', function() {
 
           // given
@@ -1813,7 +2051,7 @@ describe('properties panel', function() {
       });
 
 
-      describe('dynamic options', function() {
+      describe('dynamic options (valuesKey)', function() {
 
         it('should configure input source & cleanup static source', function() {
 
@@ -1839,8 +2077,10 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            'values': undefined,
-            'valuesKey': '' });
+            values: undefined,
+            valuesKey: '',
+            valuesExpression: undefined
+          });
         });
 
 
@@ -1869,7 +2109,46 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+        });
 
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'language');
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            field = { ...field, values: undefined, valuesKey: '' };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const valuesKeyInput = screen.getByLabelText('Input values key');
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(valuesKeyInput);
+          });
         });
 
 
@@ -1907,6 +2186,151 @@ describe('properties panel', function() {
 
           expectGroupEntries(result.container, 'Dynamic options', [
             'Input values key'
+          ]);
+
+          expectGroupEntries(result.container, 'Validation', [
+            'Required'
+          ]);
+        });
+
+      });
+
+
+      describe('dynamic options (valuesExpression)', function() {
+
+        it('should configure input source & cleanup other sources', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = schema.components.find(({ key }) => key === 'language');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            values: undefined,
+            valuesKey: undefined,
+            valuesExpression: '='
+          });
+        });
+
+
+        it('should configure valuesExpression', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          let field = schema.components.find(({ key }) => key === 'language');
+          field = { ...field, values: undefined, valuesExpression: '=' };
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = findTextbox(`${field.id}-valuesExpression-expression`, container);
+
+          expect(input.textContent).to.equal('');
+
+          // when
+          await setEditorValue(input, 'newVal');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesExpression' ], '=newVal');
+        });
+
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'language');
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            field = { ...field, values: undefined, valuesExpression: '=' };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal(VALUES_SOURCES.STATIC);
+
+          // when
+          fireEvent.input(input, { target: { value: VALUES_SOURCES.EXPRESSION } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const editor = findTextbox(`${field.id}-valuesExpression-expression`, container);
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(editor);
+          });
+        });
+
+
+        it('entries should change', function() {
+
+          // given
+          let field = schema.components.find(({ key }) => key === 'language');
+          field = { ...field, values: undefined, valuesExpression: '=' };
+
+          const result = createPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          expectGroups(result.container, [
+            'General',
+            'Condition',
+            'Options source',
+            'Options expression',
+            'Validation',
+            'Custom properties'
+          ]);
+
+          expectGroupEntries(result.container, 'General', [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled'
+          ]);
+
+          expectGroupEntries(result.container, 'Options source', [
+            'Type'
+          ]);
+
+          expectGroupEntries(result.container, 'Options expression', [
+            'Options expression'
           ]);
 
           expectGroupEntries(result.container, 'Validation', [
@@ -3156,7 +3580,7 @@ describe('properties panel', function() {
 
 // helpers //////////////
 
-function createPropertiesPanel(options = {}) {
+function createPropertiesPanel(options = {}, renderFn = render) {
   const {
     container,
     editField = () => {},
@@ -3217,7 +3641,7 @@ function createPropertiesPanel(options = {}) {
     templating
   });
 
-  return render(<PropertiesPanel
+  return renderFn(<PropertiesPanel
     eventBus={ eventBus }
     injector={ injector } />,
   {
@@ -3267,6 +3691,10 @@ function findEntries(container, groupLabel, entryLabel) {
 
 function findFeelers(id, container) {
   return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-feelers-editor`);
+}
+
+function findTextbox(id, container) {
+  return container.querySelector(`[name=${id}] [role="textbox"]`);
 }
 
 function getListOrdering(list) {

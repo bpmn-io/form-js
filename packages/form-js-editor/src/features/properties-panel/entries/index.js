@@ -23,3 +23,4 @@ export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { default as AdornerEntry } from './AdornerEntry';
 export { default as ReadonlyEntry } from './ReadonlyEntry';
 export { ConditionEntry } from './ConditionEntry';
+export { default as ValuesExpressionEntry } from './ValuesExpressionEntry';
