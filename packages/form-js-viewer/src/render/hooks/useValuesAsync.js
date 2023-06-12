@@ -51,15 +51,13 @@ export default function(field) {
       if (keyedValues && Array.isArray(keyedValues)) {
         values = keyedValues;
       }
-    }
 
     // static values
-    else if (staticValues !== undefined) {
+    } else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
-    }
 
     // expression
-    else if (evaluatedValues && Array.isArray(evaluatedValues)) {
+    } else if (evaluatedValues && Array.isArray(evaluatedValues)) {
       values = evaluatedValues;
     } else {
       setValuesGetter(buildErrorState('No values source defined in the form definition'));
