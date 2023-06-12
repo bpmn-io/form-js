@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { normalizeValuesData } from '../components/util/valuesUtil';
+import useExpressionEvaluation from './useExpressionEvaluation';
 import useService from './useService';
 
 /**
@@ -25,12 +26,19 @@ export const LOAD_STATES = {
  */
 export default function(field) {
   const {
+    valuesExpression,
     valuesKey,
     values: staticValues
   } = field;
 
   const [ valuesGetter, setValuesGetter ] = useState({ values: [], error: undefined, state: LOAD_STATES.LOADING });
   const initialData = useService('form')._getState().initialData;
+
+  const evaluatedValues = useMemo(() => {
+    if (valuesExpression) {
+      return useExpressionEvaluation(valuesExpression);
+    }
+  }, [ valuesExpression ]);
 
   useEffect(() => {
 
@@ -49,7 +57,11 @@ export default function(field) {
     else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
     }
-    else {
+
+    // expression
+    else if (evaluatedValues && Array.isArray(evaluatedValues)) {
+      values = evaluatedValues;
+    } else {
       setValuesGetter(buildErrorState('No values source defined in the form definition'));
       return;
     }

@@ -289,7 +289,7 @@ describe('Select', function() {
     });
 
 
-    describe('interaction (dynamic data)', function() {
+    describe('interaction (dynamic data, valuesKey)', function() {
 
       it('should set value through dropdown', function() {
 
@@ -339,6 +339,74 @@ describe('Select', function() {
         // then
         expect(onChangeSpy).to.have.been.calledWith({
           field: dynamicField,
+          value: null
+        });
+
+      });
+
+    });
+
+
+    describe('interaction (dynamic data, valuesExpression)', function() {
+
+      it('should set value through dropdown', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createSelect({
+          onChange: onChangeSpy,
+          value: 'value2',
+          isExpression: () => true,
+          evaluateExpression: () => [
+            ...expressionFieldInitialData.list1,
+            ...expressionFieldInitialData.list2
+          ],
+          field: expressionField,
+          initialData: expressionFieldInitialData
+        });
+
+        const select = container.querySelector('.fjs-input-group');
+
+        // when
+        fireEvent.focus(select);
+
+        const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+
+        fireEvent.mouseDown(germanSelector);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: expressionField,
+          value: 'value1'
+        });
+      });
+
+
+      it('should clear', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createSelect({
+          onChange: onChangeSpy,
+          value: 'value1',
+          isExpression: () => true,
+          evaluateExpression: () => [
+            ...expressionFieldInitialData.list1,
+            ...expressionFieldInitialData.list2
+          ],
+          field: expressionField,
+          initialData: expressionFieldInitialData
+        });
+
+        // when
+        const cross = container.querySelector('.fjs-select-cross');
+        fireEvent.mouseDown(cross);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWith({
+          field: expressionField,
           value: null
         });
 
@@ -851,6 +919,37 @@ const dynamicFieldInitialData = {
     {
       label: 'Dynamic Value 2',
       value: 'dynamicValue2'
+    }
+  ]
+};
+
+const expressionField = {
+  id: 'Taglist_1',
+  key: 'tags',
+  label: 'Taglist',
+  type: 'taglist',
+  valuesExpression: '=concatenate(list1,list2)'
+};
+
+const expressionFieldInitialData = {
+  list1: [
+    {
+      label: 'Value 1',
+      value: 'value1'
+    },
+    {
+      label: 'Value 2',
+      value: 'value2'
+    }
+  ],
+  list2: [
+    {
+      label: 'Value 3',
+      value: 'value3'
+    },
+    {
+      label: 'Value 4',
+      value: 'value4'
     }
   ]
 };

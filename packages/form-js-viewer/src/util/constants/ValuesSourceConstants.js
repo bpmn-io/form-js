@@ -4,7 +4,8 @@ import { get } from 'min-dash';
 
 export const VALUES_SOURCES = {
   STATIC: 'static',
-  INPUT: 'input'
+  INPUT: 'input',
+  EXPRESSION: 'expression',
 };
 
 export const VALUES_SOURCE_DEFAULT = VALUES_SOURCES.STATIC;
@@ -12,11 +13,13 @@ export const VALUES_SOURCE_DEFAULT = VALUES_SOURCES.STATIC;
 export const VALUES_SOURCES_LABELS = {
   [VALUES_SOURCES.STATIC]: 'Static',
   [VALUES_SOURCES.INPUT]: 'Input data',
+  [VALUES_SOURCES.EXPRESSION]: 'Expression',
 };
 
 export const VALUES_SOURCES_PATHS = {
   [VALUES_SOURCES.STATIC]: [ 'values' ],
   [VALUES_SOURCES.INPUT]: [ 'valuesKey' ],
+  [VALUES_SOURCES.EXPRESSION]: [ 'valuesExpression' ],
 };
 
 export const VALUES_SOURCES_DEFAULTS = {
@@ -27,6 +30,7 @@ export const VALUES_SOURCES_DEFAULTS = {
     }
   ],
   [VALUES_SOURCES.INPUT]: '',
+  [VALUES_SOURCES.EXPRESSION]: '='
 };
 
 // helpers ///////////////////
