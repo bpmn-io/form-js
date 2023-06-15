@@ -33,8 +33,9 @@ const spy = sinon.spy;
 const singleStartBasic = isSingleStart('basic');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
+const singleStartNoTheme = isSingleStart('no-theme');
 
-const singleStart = singleStartBasic || singleStartRows || singleStartTheme;
+const singleStart = singleStartBasic || singleStartRows || singleStartTheme || singleStartNoTheme;
 
 
 describe('FormEditor', function() {
@@ -111,6 +112,29 @@ describe('FormEditor', function() {
         bindTo: document
       }
     });
+
+    // then
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(16);
+  });
+
+
+  (singleStartNoTheme ? it.only : it)('should render with no theme', async function() {
+
+    // given
+    container.classList.add('cds--g10');
+    container.style.backgroundColor = 'white';
+    insertTheme();
+
+    formEditor = await createFormEditor({
+      container,
+      schema,
+      keyboard: {
+        bindTo: document
+      }
+    });
+
+    // when
+    container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(16);

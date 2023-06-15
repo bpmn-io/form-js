@@ -39,7 +39,13 @@ const singleStartBasic = isSingleStart('basic');
 const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
-const singleStart = singleStartBasic || singleStartStress || singleStartRows || singleStartTheme;
+const singleStartNoTheme = isSingleStart('no-theme');
+const singleStart =
+  singleStartBasic ||
+  singleStartStress ||
+  singleStartRows ||
+  singleStartTheme ||
+  singleStartNoTheme;
 
 
 describe('Form', function() {
@@ -164,6 +170,29 @@ describe('Form', function() {
       data,
       schema
     });
+
+    // then
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+  });
+
+
+  (singleStartNoTheme ? it.only : it)('should render with no theme', async function() {
+
+    // given
+    container.classList.add('cds--g10');
+    container.style.backgroundColor = 'white';
+    insertTheme();
+
+    const form = await createForm({
+      container,
+      schema,
+      keyboard: {
+        bindTo: document
+      }
+    });
+
+    // when
+    container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
     expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
