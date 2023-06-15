@@ -113,6 +113,43 @@
   height: 100%;
 }
 
+.fjs-no-theme {
+  --cds-field: initial;
+  --cds-field-01: initial;
+  --cds-background: initial;
+  --cds-background-inverse: initial;
+  --cds-background-inverse-hover: initial;
+  --cds-background-active: initial;
+  --cds-layer: initial;
+  --cds-layer-01: initial;
+  --cds-layer-02: initial;
+  --cds-icon-primary: initial;
+  --cds-icon-secondary: initial;
+  --cds-icon-inverse: initial;
+  --cds-text-primary: initial;
+  --cds-text-secondary: initial;
+  --cds-text-placeholder: initial;
+  --cds-text-inverse: initial;
+  --cds-text-disabled: initial;
+  --cds-border-strong: initial;
+  --cds-border-strong-01: initial;
+  --cds-border-disabled: initial;
+  --cds-border-subtle: initial;
+  --cds-border-subtle-01: initial;
+  --cds-border-inverse: initial;
+  --cds-text-error: initial;
+  --cds-link-primary: initial;
+  --cds-button-primary: initial;
+  --cds-shadow: initial;
+  --cds-focus: initial;
+  --cds-interactive: initial;
+  --cds-border-interactive: initial;
+  --cds-highlight: initial;
+  --cds-field-02: initial;
+  --cds-field-hover-02: initial;
+  --cds-toggle-off: initial;
+}
+
 /**
  * Layout styles
  */
