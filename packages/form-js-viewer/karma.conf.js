@@ -105,7 +105,7 @@ module.exports = function(karma) {
           },
           {
             test: /\.svg$/,
-            use: [ 'react-svg-loader' ]
+            use: [ '@svgr/webpack' ]
           }
         ]
       },

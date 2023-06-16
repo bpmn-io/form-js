@@ -1,7 +1,7 @@
 import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
-import reactSvg from 'rollup-plugin-react-svg';
+import reactSvg from '@svgr/rollup';
 import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
