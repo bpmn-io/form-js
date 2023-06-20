@@ -1,8 +1,10 @@
-const { test, expect } = require('@playwright/test');
+const { expect } = require('@playwright/test');
+
+const { test: axeTest } = require('../axe-test');
 
 const schema = require('./fixtures/form.json');
 
-test('no-theme - viewer', async ({ page }) => {
+axeTest('no-theme - viewer', async ({ page, makeAxeBuilder }) => {
 
   // given
   await page.route('/form', route => {
@@ -33,10 +35,16 @@ test('no-theme - viewer', async ({ page }) => {
 
   // then
   await expect(page).toHaveScreenshot();
+
+  // and then
+  const results = await makeAxeBuilder().analyze();
+
+  expect(results.violations).toHaveLength(0);
+  expect(results.passes.length).toBeGreaterThan(0);
 });
 
 
-test('no-theme - editor', async ({ page }) => {
+axeTest('no-theme - editor', async ({ page, makeAxeBuilder }) => {
 
   // given
   await page.route('/form', route => {
@@ -67,4 +75,10 @@ test('no-theme - editor', async ({ page }) => {
 
   // then
   await expect(page).toHaveScreenshot();
+
+  // and then
+  const results = await makeAxeBuilder().analyze();
+
+  expect(results.violations).toHaveLength(0);
+  expect(results.passes.length).toBeGreaterThan(0);
 });
