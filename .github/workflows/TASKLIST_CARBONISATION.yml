@@ -20,7 +20,7 @@ jobs:
           repository: camunda/tasklist
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
           path: tasklist
-          ref: "master"
+          ref: "fixup-carbonization-playwright"
       - name: Setup form-js cache
         uses: actions/setup-node@698d50532ea4cc0490274810a45fe52318110a1c
         with:
