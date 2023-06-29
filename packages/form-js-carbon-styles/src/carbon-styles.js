@@ -25,7 +25,7 @@ const getBaseInputStyles = ({ height }) => css`
   color: var(--cds-text-primary);
   border-radius: 0;
   border: none;
-  border-bottom: 1px solid var(--cds-border-strong, var(--cds-border-strong-01));
+  border-bottom: 1px solid var(--cds-border-strong);
   height: ${height};
   font-size: var(--cds-body-short-01-font-size);
   font-weight: var(--cds-body-short-01-font-weight);
@@ -44,7 +44,7 @@ const getBaseInputStyles = ({ height }) => css`
 
 const getSelectArrowStyles = ({ arrowRightPosition, color }) => css`
   color: var(--cds-text-primary);
-  background-color: var(--cds-field, var(--cds-field-01));
+  background-color: var(--cds-field);
   cursor: pointer;
   appearance: none;
   background-image: ${getSelectArrowSvg(color)};
@@ -720,8 +720,7 @@ const NUMBER_INPUTS = css`
     .fjs-container .fjs-form-field-number .fjs-input-group {
       border-radius: 0;
       border: none;
-      border-bottom: 1px solid
-        var(--cds-border-strong, var(--cds-border-strong-01));
+      border-bottom: 1px solid var(--cds-border-strong);
       height: 2.5rem;
       box-sizing: border-box;
 
@@ -746,32 +745,32 @@ const NUMBER_INPUTS = css`
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        background-color: var(--cds-field, var(--cds-field-01));
+        background-color: var(--cds-field);
       }
 
       & .fjs-number-arrow-container .fjs-number-arrow-up,
       & .fjs-number-arrow-container .fjs-number-arrow-down {
         width: 40px;
         height: calc(40px - 1px);
-        background-color: var(--cds-field, var(--cds-field-01));
+        background-color: var(--cds-field);
         color: transparent;
 
         &:hover {
-          background-color: var(--cds-field-hover, var(--cds-field-hover-01));
+          background-color: var(--cds-field-hover);
           cursor: pointer;
         }
       }
 
       &.fjs-disabled .fjs-number-arrow-container .fjs-number-arrow-up:hover,
       &.fjs-disabled .fjs-number-arrow-container .fjs-number-arrow-down:hover {
-        background-color: var(--cds-field, var(--cds-field-01));
+        background-color: var(--cds-field);
         cursor: not-allowed;
       }
 
       & .fjs-number-arrow-container .fjs-number-arrow-separator {
         width: 0.0625rem;
         height: 1rem;
-        background-color: var(--cds-border-subtle, var(--cds-border-subtle-01));
+        background-color: var(--cds-border-subtle);
       }
 
       & .fjs-number-arrow-container .fjs-number-arrow-down {
@@ -844,7 +843,7 @@ const DATETIME_INPUTS = css`
         .fjs-input-group .fjs-input-adornment {
           border: none;
           border-radius: 0;
-          background-color: var(--cds-field, var(--cds-field-01));
+          background-color: var(--cds-field);
           display: flex;
           padding-right: var(--cds-spacing-05);
         }
@@ -898,7 +897,7 @@ const DATETIME_INPUTS = css`
         }
 
         .flatpickr-day:hover {
-          background: var(--cds-layer-hover, var(--cds-layer-hover-01));
+          background: var(--cds-layer-hover);
         }
 
         .flatpickr-days,
@@ -939,7 +938,7 @@ const SELECT_STYLES = css`
           height: calc(2.5rem - 1px);
 
           &:hover {
-            background-color: var(--cds-layer-hover, var(--cds-layer-hover-01));
+            background-color: var(--cds-layer-hover);
           }
 
           svg {
@@ -949,11 +948,10 @@ const SELECT_STYLES = css`
 
         .fjs-input {
           color: var(--cds-text-primary);
-          background-color: var(--cds-field, var(--cds-field-01));
+          background-color: var(--cds-field);
           border-radius: 0;
           border: none;
-          border-bottom: 1px solid
-            var(--cds-border-strong, var(--cds-border-strong-01));
+          border-bottom: 1px solid var(--cds-border-strong);
           height: 2.5rem;
           font-size: var(--cds-body-short-01-font-size);
           font-weight: var(--cds-body-short-01-font-weight);
@@ -1011,7 +1009,7 @@ const REMAINING_INPUTS = css`
     }
     .fjs-form-field-textfield .fjs-input,
     .fjs-form-field-datetime .fjs-input {
-      background-color: var(--cds-field, var(--cds-field-01));
+      background-color: var(--cds-field);
       color: var(--cds-text-primary);
       border-radius: 0;
     }
@@ -1046,7 +1044,7 @@ const DROPDOWN_STYLES = css`
       margin: 0;
       max-height: ${rem(264)};
       border: none;
-      background-color: var(--cds-layer, var(--cds-layer-01));
+      background-color: var(--cds-layer);
       overflow-y: auto;
       cursor: pointer;
       border-radius: 0;
@@ -1060,8 +1058,7 @@ const DROPDOWN_STYLES = css`
       }
 
       & .fjs-dropdownlist-item:not(:first-of-type):not(:hover) {
-        border-top: 1px solid
-          var(--cds-border-subtle, var(--cds-border-subtle-01));
+        border-top: 1px solid var(--cds-border-subtle);
       }
 
       & .fjs-dropdownlist-item,
@@ -1086,7 +1083,7 @@ const DROPDOWN_STYLES = css`
 
       & .fjs-dropdownlist-item:hover,
       & .fjs-dropdownlist-item.focused {
-        background-color: var(--cds-layer-hover, var(--cds-layer-hover-01));
+        background-color: var(--cds-layer-hover);
         color: var(--cds-text-primary);
         margin: 0;
         padding: 0 var(--cds-spacing-05);
@@ -1110,7 +1107,7 @@ const ADORNMENTS_STYLES = css`
       all: unset;
       display: flex;
       align-items: center;
-      background-color: var(--cds-field, var(--cds-field-01));
+      background-color: var(--cds-field);
       color: var(--cds-text-secondary);
       padding: 0 var(--cds-spacing-04);
       cursor: default;
