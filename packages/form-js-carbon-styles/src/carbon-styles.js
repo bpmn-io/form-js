@@ -1013,6 +1013,7 @@ const REMAINING_INPUTS = css`
     .fjs-form-field-datetime .fjs-input {
       background-color: var(--cds-field, var(--cds-field-01));
       color: var(--cds-text-primary);
+      border-radius: 0;
     }
 
     .fjs-has-errors.fjs-form-field-number .fjs-input-group:focus-within,
