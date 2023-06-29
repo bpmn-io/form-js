@@ -75,7 +75,7 @@
     --cds-border-subtle, 
     var(--cds-border-subtle-01, var(--color-grey-225-10-85))
   );
-  --color-borders-readonly: var(--cds-border-disabled, var(--color-grey-225-10-75));
+  --color-borders-readonly: var(--cds-border-subtle, var(--color-grey-225-10-75));
   --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
 
   --color-warning: var(--cds-text-error, var(--color-red-360-100-45));

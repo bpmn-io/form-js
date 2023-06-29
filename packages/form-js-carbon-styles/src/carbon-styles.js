@@ -1,7 +1,6 @@
 // todo(pinussilvestrus): consider moving away from styled-components,
 // cf. https://github.com/bpmn-io/form-js/issues/633
 import { css, createGlobalStyle } from 'styled-components';
-
 import { rem } from '@carbon/elements';
 
 function getSelectArrowSvg(color) {
@@ -43,10 +42,7 @@ const getBaseInputStyles = ({ height }) => css`
   }
 `;
 
-const getSelectArrowStyles = ({
-  arrowRightPosition,
-  color,
-}) => css`
+const getSelectArrowStyles = ({ arrowRightPosition, color }) => css`
   color: var(--cds-text-primary);
   background-color: var(--cds-field, var(--cds-field-01));
   cursor: pointer;
@@ -201,8 +197,7 @@ const READONLY_STYLES = css`
   ${({ theme }) => css`
     .fjs-container {
       .fjs-readonly {
-
-        .fjs-input:read-only:not(:disabled), 
+        .fjs-input:read-only:not(:disabled),
         .fjs-textarea:read-only:not(:disabled),
         .fjs-select:read-only:not(:disabled),
         &.fjs-taglist,
@@ -210,11 +205,17 @@ const READONLY_STYLES = css`
           background-color: transparent;
         }
 
+        &.fjs-form-field {
+          .fjs-input-group {
+            border-bottom: 1px solid var(--cds-border-subtle);
+          }
+        }
+
         &.fjs-form-field-number {
           .fjs-input-group .fjs-number-arrow-container {
             background-color: transparent;
 
-            .fjs-number-arrow-up, 
+            .fjs-number-arrow-up,
             .fjs-number-arrow-down {
               background-color: transparent;
               pointer-events: none;
@@ -233,7 +234,6 @@ const READONLY_STYLES = css`
             cursor: unset;
             background-image: ${getSelectArrowSvg(theme.iconDisabled)};
             background-color: transparent;
-            border-bottom: 1px solid var(--cds-border-strong);
 
             .fjs-input:read-only:not(:disabled) {
               border-color: transparent;
@@ -278,7 +278,7 @@ const READONLY_STYLES = css`
           &.fjs-checked .fjs-input[type='checkbox'],
           .fjs-form-field-label.fjs-checked .fjs-input[type='checkbox'] {
             &:before {
-              border: 1px solid  var(--cds-icon-disabled);
+              border: 1px solid var(--cds-icon-disabled);
               background: transparent;
             }
 
@@ -314,7 +314,6 @@ const DISABLED_STYLES = css`
       &.fjs-form-field.fjs-form-field-radio .fjs-form-field-label,
       &.fjs-form-field.fjs-form-field-checklist .fjs-form-field-label,
       & .fjs-form-field-description {
-
         /* todo(pinussilvestrus): mitigate https://github.com/carbon-design-system/carbon/issues/13286 */
         color: var(--cds-text-disabled);
         cursor: var(--cursor-disabled, not-allowed);
@@ -589,7 +588,7 @@ const TAGLIST_STYLES = css`
       & .fjs-taglist-tag-remove svg {
         all: unset;
         color: var(--cds-icon-inverse);
-      } 
+      }
 
       & .fjs-taglist-tag-remove:focus {
         background-color: transparent;
@@ -713,7 +712,6 @@ const BUTTON_STYLES = css`
     .fjs-form-field.fjs-form-field-button .fjs-button[type='submit']:disabled {
       background: var(--cds-button-disabled);
     }
-    
   }
 `;
 
@@ -722,7 +720,8 @@ const NUMBER_INPUTS = css`
     .fjs-container .fjs-form-field-number .fjs-input-group {
       border-radius: 0;
       border: none;
-      border-bottom: 1px solid var(--cds-border-strong, var(--cds-border-strong-01));
+      border-bottom: 1px solid
+        var(--cds-border-strong, var(--cds-border-strong-01));
       height: 2.5rem;
       box-sizing: border-box;
 
@@ -953,7 +952,8 @@ const SELECT_STYLES = css`
           background-color: var(--cds-field, var(--cds-field-01));
           border-radius: 0;
           border: none;
-          border-bottom: 1px solid var(--cds-border-strong, var(--cds-border-strong-01));
+          border-bottom: 1px solid
+            var(--cds-border-strong, var(--cds-border-strong-01));
           height: 2.5rem;
           font-size: var(--cds-body-short-01-font-size);
           font-weight: var(--cds-body-short-01-font-weight);
@@ -1060,7 +1060,8 @@ const DROPDOWN_STYLES = css`
       }
 
       & .fjs-dropdownlist-item:not(:first-of-type):not(:hover) {
-        border-top: 1px solid var(--cds-border-subtle, var(--cds-border-subtle-01));
+        border-top: 1px solid
+          var(--cds-border-subtle, var(--cds-border-subtle-01));
       }
 
       & .fjs-dropdownlist-item,
@@ -1168,7 +1169,8 @@ const CARBON_STYLES = css`
       margin-right: 0;
     }
 
-    @media (width < 66rem) { // Carbon lg width breakpoint
+    @media (width < 66rem) {
+      // Carbon lg width breakpoint
       .fjs-layout-column .fjs-form-field {
         margin-left: 0;
         margin-right: 0;
