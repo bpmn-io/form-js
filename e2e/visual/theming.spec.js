@@ -1,10 +1,10 @@
 const { expect } = require('@playwright/test');
 
-const { test: axeTest } = require('../axe-test');
+const { test } = require('../test-fixtures');
 
 const schema = require('./fixtures/form.json');
 
-axeTest('theming - viewer', async ({ page, makeAxeBuilder }) => {
+test('theming - viewer', async ({ page, makeAxeBuilder }) => {
 
   // given
   await page.route('/form', route => {
@@ -44,7 +44,7 @@ axeTest('theming - viewer', async ({ page, makeAxeBuilder }) => {
 });
 
 
-axeTest('theming - editor', async ({ page, makeAxeBuilder }) => {
+test('theming - editor', async ({ page, makeAxeBuilder }) => {
 
   // given
   await page.route('/form', route => {
