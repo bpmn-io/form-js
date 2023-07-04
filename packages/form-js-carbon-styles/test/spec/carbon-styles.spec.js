@@ -205,7 +205,7 @@ function FormContainer(props) {
     return () => { form.destroy(); };
   }, [ ref, props ]);
 
-  return <div ref={ ref } class="form-container cds--layer-two"></div>;
+  return <div ref={ ref } class="form-container cds--layer-one"></div>;
 }
 
 
