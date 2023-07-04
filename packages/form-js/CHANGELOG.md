@@ -6,67 +6,26 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-## 1.0.0-alpha.10
-
-### General
-
-* `FEAT`: support FEEL and templates for `prefixAdorner` and `suffixAdorner` ([#663](https://github.com/bpmn-io/form-js/pull/663))
-* `FEAT`: support templates for `alt` and `source` properties ([#663](https://github.com/bpmn-io/form-js/pull/663))
-* `FEAT`: support FEEL to populate multiselect values via `valuesExpression` ([#673](https://github.com/bpmn-io/form-js/issues/673))
-* `FEAT`: support FEEL for `min`, `max`, `minLength` and `maxLength` ([#668](https://github.com/bpmn-io/form-js/pull/668))
-
-## 1.0.0-alpha.8
-
-### Editor
-
-* `FIX`: revert properties panel renderer changes
-
-## 1.0.0-alpha.7
-
-### General
-
-* `FIX`: don't render empty strings as adorners ([d7e55851](https://github.com/bpmn-io/form-js/commit/d7e558511e2f81e143e49d1f5b0678d5ff204bf5))
-* `FIX`: safely consume time interval ([4ccc3d85](https://github.com/bpmn-io/form-js/commit/4ccc3d859872fcaf838b5d1ef986e68c7db75611))
-
-## 1.0.0-alpha.6
+## 1.0.0
 
 ### General
 
 * `FEAT`: re-export external library styles separately ([#677](https://github.com/bpmn-io/form-js/issues/677))
-
-## 1.0.0-alpha.5
-
-### Editor
-
-* `FIX`: circumvent section timing issue in some usages ([`5371cad7`](https://github.com/bpmn-io/form-js/commit/5371cad775f72dd3b47a5337159f83b5d8def65b), [`1dac1280`](https://github.com/bpmn-io/form-js/commit/1dac128044bb1711bbbaaf3d4f1138028e8144cd), [`5d49e6de`](https://github.com/bpmn-io/form-js/commit/5d49e6dea9adbdd87f50075f8c1c1b9f09bf193b))
-
-## 1.0.0-alpha.2
-
-### Editor
-
-* `FEAT`: center fills in palette slot container ([`d2de066c`](https://github.com/bpmn-io/form-js/commit/d2de066c1fb14be689872738c67b2f9a9be141a2))
-
-## 1.0.0-alpha.1 
-
-### General
-
+* `FEAT`: support FEEL and templates for `prefixAdorner` and `suffixAdorner` ([#663](https://github.com/bpmn-io/form-js/pull/663))
+* `FEAT`: support templates for `alt` and `source` properties ([#663](https://github.com/bpmn-io/form-js/pull/663))
+* `FEAT`: support FEEL to populate multiselect values via `valuesExpression` ([#673](https://github.com/bpmn-io/form-js/issues/673))
+* `FEAT`: support FEEL for `min`, `max`, `minLength` and `maxLength` ([#668](https://github.com/bpmn-io/form-js/pull/668))
 * `FEAT`: support FEEL for `label` and `description` ([#658](https://github.com/bpmn-io/form-js/pull/658))
-
-### Editor
-
-* `FEAT`: support UI modules ([#649](https://github.com/bpmn-io/form-js/issues/649))
-
-## 1.0.0-alpha.0
-
-### General
-
+* `FEAT`: support `readonly` property ([#636](https://github.com/bpmn-io/form-js/pull/636))
+* `FEAT`: support global `properties.disabled` ([#636](https://github.com/bpmn-io/form-js/pull/636))
 * `FEAT`: allow uneven columns ([#605](https://github.com/bpmn-io/form-js/issues/605))
 * `FEAT`: make styles themable ([#557](https://github.com/bpmn-io/form-js/pull/557))
+* `FEAT`: add `fjs-no-theme` selector to disable themable styles ([#680](https://github.com/bpmn-io/form-js/issues/680))
+* `FIX`: don't render empty strings as adorners ([d7e55851](https://github.com/bpmn-io/form-js/commit/d7e558511e2f81e143e49d1f5b0678d5ff204bf5))
+* `FIX`: safely consume time interval ([4ccc3d85](https://github.com/bpmn-io/form-js/commit/4ccc3d859872fcaf838b5d1ef986e68c7db75611))
 * `FIX`: support markdown tables in `text` ([#205](https://github.com/bpmn-io/form-js/issues/205))
 * `CHORE`: introduce visual regression tests ([#632](https://github.com/bpmn-io/form-js/pull/632))
 * `DEPS`: update to `diagram-js@12` ([`798ac2a2`](https://github.com/bpmn-io/form-js/commit/798ac2a204aab059ecc89c2c96bd302d34295982))
-* `FEAT`: support `readonly` property ([#636](https://github.com/bpmn-io/form-js/pull/636))
-* `FEAT`: support global `properties.disabled` ([#636](https://github.com/bpmn-io/form-js/pull/636))
 * `DEPS`: update to `@bpmn-io/properties-panel@2`
 * `CHORE`: update `schemaVersion` to 9
 
@@ -80,6 +39,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Editor
 
+* `FEAT`: support UI modules ([#649](https://github.com/bpmn-io/form-js/issues/649))
 * `FEAT`: make elements keyboard accessible ([#173](https://github.com/bpmn-io/form-js/issues/173))
 * `FEAT`: use toggle switch for `disabled` property ([#639](https://github.com/bpmn-io/form-js/issues/639))
 * `FEAT`: update delete icon ([#572](https://github.com/bpmn-io/form-js/issues/572))
@@ -116,8 +76,7 @@ import { Button } from '@bpmn-io/form-js-viewer';
 console.log('Button default label is ' + Button.config.label);
 ```
 
-We changed the internal behavior of rendering `palette` and `propertiesPanel` in the editor. Following that, the `.fjs-editor-palette-container` and `.fjs-editor-properties-container` selectors were removed as they were optional. Please use the more generic `.fjs-palette-container` and `.fjs-properties-container` selectors instead.
-
+We changed the internal behavior of rendering `palette` in the editor. Following that, the `.fjs-editor-palette-container` selector was removed as it was optional. Please use the more generic `.fjs-palette-container` selector instead.
 
 ## 0.14.1
 
