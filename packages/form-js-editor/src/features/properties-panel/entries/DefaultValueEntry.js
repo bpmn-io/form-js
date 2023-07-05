@@ -158,7 +158,11 @@ function DefaultValueNumber(props) {
     return serializeToString ? Big(value).toFixed() : value;
   };
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+
+    if (error) {
+      return;
+    }
 
     let newValue;
 

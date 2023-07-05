@@ -49,7 +49,11 @@ function Key(props) {
 
   const debounce = useService('debounce');
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
     const properties = get(field, [ 'properties' ]);
     const key = Object.keys(properties)[ index ];
     return editField(field, 'properties', updateKey(properties, key, value));
