@@ -53,7 +53,13 @@ function NumberDecimalDigits(props) {
 
   const getValue = (e) => get(field, [ 'decimalDigits' ]);
 
-  const setValue = (value) => editField(field, [ 'decimalDigits' ], value);
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
+    editField(field, [ 'decimalDigits' ], value);
+  };
 
   return NumberFieldEntry({
     debounce,
@@ -101,7 +107,13 @@ function NumberArrowStep(props) {
     return (trimmed.startsWith('.') ? '0' : '') + trimmed;
   };
 
-  const setValue = (value) => editField(field, [ 'increment' ], clearLeadingZeroes(value));
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
+    editField(field, [ 'increment' ], clearLeadingZeroes(value));
+  };
 
   const decimalDigitsSet = decimalDigits || decimalDigits === 0;
 

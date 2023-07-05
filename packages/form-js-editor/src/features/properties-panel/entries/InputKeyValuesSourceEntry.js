@@ -47,7 +47,13 @@ function InputValuesKey(props) {
 
   const getValue = () => get(field, path, '');
 
-  const setValue = (value) => editField(field, path, value || '');
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
+    editField(field, path, value || '');
+  };
 
   const validate = (value) => {
     if (isUndefined(value) || !value.length) {

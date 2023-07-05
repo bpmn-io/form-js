@@ -45,7 +45,12 @@ function Columns(props) {
     return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
   };
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+
+    if (error) {
+      return;
+    }
+
     const layout = get(field, [ 'layout' ], {});
 
     const newValue = value ? parseInt(value) : null;

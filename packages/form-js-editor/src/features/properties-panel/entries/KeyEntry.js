@@ -51,7 +51,11 @@ function Key(props) {
     return get(field, path, '');
   };
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
     return editField(field, path, value);
   };
 

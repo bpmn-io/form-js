@@ -52,7 +52,11 @@ function Label(props) {
 
   const debounce = useService('debounce');
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
     const values = get(field, [ 'values' ]);
     return editField(field, 'values', set(values, [ index, 'label' ], value));
   };
@@ -83,7 +87,11 @@ function Value(props) {
 
   const debounce = useService('debounce');
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
     const values = get(field, [ 'values' ]);
     return editField(field, 'values', set(values, [ index, 'value' ], value));
   };
