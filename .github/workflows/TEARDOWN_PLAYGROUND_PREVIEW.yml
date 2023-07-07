@@ -27,7 +27,7 @@ jobs:
           owner: camunda
           repository: form-playground
           branches: ${{ env.PREVIEW_BRANCH_NAME }}
-      - uses: bobheadxi/deployments@5626e5f5bdc792fc764cc3c439cf6044c6c983f1
+      - uses: bobheadxi/deployments@8a87bc300d207ce86142a8080e9b8fabec463494
         if: always()
         name: Deactivate GitHub Deployment environment
         with:
