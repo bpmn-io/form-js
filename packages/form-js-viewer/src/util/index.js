@@ -143,9 +143,7 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
       const property = get(component, prop.split('.'));
 
       if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
-
         const templateVariables = templating.getVariableNames(property);
-
         variables = [ ...variables, ...templateVariables ];
       }
     });

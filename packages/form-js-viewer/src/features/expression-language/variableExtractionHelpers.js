@@ -1,6 +1,6 @@
 import { parseExpression, parseUnaryTests } from 'feelin';
 
-export const getFlavouredFeelVariableNames = (feelString, feelFlavour, options = {}) => {
+export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'expression', options = {}) => {
 
   const {
     depth = 0,
@@ -13,7 +13,7 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour, options =
 
   const simpleExpressionTree = _buildSimpleFeelStructureTree(tree, feelString);
 
-  return (function _unfoldVariables(node) {
+  const variables = (function _unfoldVariables(node) {
 
     if (node.name === 'PathExpression') {
 
@@ -29,13 +29,18 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour, options =
 
     // for any other kind of node, traverse its children and flatten the result
     if (node.children) {
-      return node.children.reduce((acc, child) => {
+      const variables = node.children.reduce((acc, child) => {
         return acc.concat(_unfoldVariables(child));
       }, []);
+
+      // if we are within a filter context, we need to remove the item variable as it is used for iteration there
+      return node.name === 'FilterContext' ? variables.filter((name) => name !== 'item') : variables;
     }
 
     return [];
   })(simpleExpressionTree);
+
+  return [ ...new Set(variables) ];
 
 };
 
@@ -163,5 +168,54 @@ const _buildSimpleFeelStructureTree = (parseTree, feelString) => {
     }
   });
 
-  return stack[0].children[0];
+  return _extractFilterExpressions(stack[0].children[0]);
+};
+
+/**
+ * Restructure the tree in such a way to bring filters (which create new contexts) to the root of the tree.
+ * This is done to simplify the extraction of variables and match the context hierarchy.
+ */
+const _extractFilterExpressions = (tree) => {
+
+  const flattenedExpressionTree = {
+    name: 'Root',
+    children: [ tree ]
+  };
+
+  const iterate = (node) => {
+
+    if (node.children) {
+      for (let x = 0; x < node.children.length; x++) {
+
+        if (node.children[x].name === 'FilterExpression') {
+
+          const filterTarget = node.children[x].children[0];
+          const filterExpression = node.children[x].children[2];
+
+          // bypass the filter expression
+          node.children[x] = filterTarget;
+
+          const taggedFilterExpression = {
+            name: 'FilterContext',
+            children: [ filterExpression ]
+          };
+
+          // append the filter expression to the root
+          flattenedExpressionTree.children.push(taggedFilterExpression);
+
+          // recursively iterate the expression
+          iterate(filterExpression);
+
+        } else {
+          iterate(node.children[x]);
+        }
+      }
+
+    }
+
+  };
+
+  iterate(tree);
+
+  return flattenedExpressionTree;
 };
