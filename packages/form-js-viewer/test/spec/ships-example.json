@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "text": "#### Ship Name:\n {{shipsForSale[item.name = selectedShip].name}}\n#### Ship Description: \n {{shipsForSale[item.name = selectedShip].description}}\n#### Ship Price: \n {{shipsForSale[item.name = selectedShip].purchasePrice}}\n#### Frame:\n {{shipsForSale[item.name = selectedShip].frame.name}}\n#### Reactor:\n {{shipsForSale[item.name = selectedShip].reactor.name}}\n#### Engine:\n {{shipsForSale[item.name = selectedShip].engine.name}}\n#### Moduels:\n {{shipsForSale[item.name = selectedShip].modules.name}}\n",
+      "type": "text",
+      "layout": {
+        "row": "Row_1oxhkbh",
+        "columns": null
+      },
+      "id": "Field_10y8si5",
+      "conditional": {
+        "hide": "=selectedShip = null"
+      }
+    }
+  ],
+  "schemaVersion": 9,
+  "type": "default",
+  "id": "Form_0ysvmoe"
+}

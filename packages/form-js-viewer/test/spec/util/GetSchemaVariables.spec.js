@@ -15,6 +15,7 @@ import adornersSchema from '../appearance.json';
 import imagesSchema from '../images.json';
 import valuesExpressionSchema from '../valuesExpression.json';
 import validateSchema from '../validate.json';
+import shipsExampleSchema from '../ships-example.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -145,6 +146,17 @@ describe('util/getSchemaVariables', () => {
       'textfield_expression',
       'minLength',
       'maxLength'
+    ]);
+  });
+
+
+  it('should include variables in ships example', () => {
+
+    const variables = getSchemaVariables(shipsExampleSchema);
+
+    expect(variables).to.eql([
+      'selectedShip',
+      'shipsForSale'
     ]);
   });
 
