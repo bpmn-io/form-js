@@ -148,7 +148,7 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
       }
     });
 
-    return variables;
+    return variables.filter(variable => variable !== undefined || variable !== null);
   }, []);
 
   // remove duplicates
