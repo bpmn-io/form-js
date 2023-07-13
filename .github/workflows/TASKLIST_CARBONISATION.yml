@@ -39,11 +39,17 @@ jobs:
       - name: Build form-js
         run: npm run build
         working-directory: ./form-js
-      - name: Link form-js-viewer
+      - name: Create form-js-viewer link
         run: yarn link
         working-directory: ./form-js/packages/form-js-viewer
       - name: Link form-js-viewer
         run: yarn link "@bpmn-io/form-js-viewer"
+        working-directory: ./tasklist/client
+      - name: Create form-js-carbon-styles link
+        run: yarn link
+        working-directory: ./form-js/packages/form-js-carbon-styles
+      - name: Link form-js-carbon-styles
+        run: yarn link "@bpmn-io/form-js-carbon-styles"
         working-directory: ./tasklist/client
       - name: Install Tasklist deps
         run: yarn
