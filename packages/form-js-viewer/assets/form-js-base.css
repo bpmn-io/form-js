@@ -175,6 +175,10 @@
   position: relative;
 }
 
+.fjs-container .fjs-layout-row:empty {
+  display: none;
+}
+
 .fjs-container .fjs-column {
   flex-grow: 1;
 }
