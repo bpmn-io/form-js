@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+### Breaking
+
+* `getSchemaVariables`'s call signature changed, favouring an options object over multiple params. This is very unlikely to have caused any issues as the old parameters were there only for very exceptional language override cases. 
+
 ## 1.0.0
 
 ### General
