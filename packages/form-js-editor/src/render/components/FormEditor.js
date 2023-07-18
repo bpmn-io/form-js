@@ -14,6 +14,10 @@ import {
   FormRenderContext
 } from '@bpmn-io/form-js-viewer';
 
+import {
+  EmptyFormIcon
+} from './icons';
+
 import classNames from 'classnames';
 
 import useService from '../hooks/useService';
@@ -63,7 +67,14 @@ function ContextPad(props) {
 }
 
 function Empty(props) {
-  return null;
+  return <div class="fjs-empty-editor">
+    <div class="fjs-empty-editor-card">
+      <EmptyFormIcon />
+      <h2>Build your form</h2>
+      <span>Drag and drop components here to start designing.</span>
+      <span>Use the preview window to test your form.</span>
+    </div>
+  </div>;
 }
 
 function Element(props) {
