@@ -165,6 +165,57 @@ describe('FormEditor', function() {
   });
 
 
+  it('should render empty placeholder', async function() {
+
+    // when
+    formEditor = await createFormEditor({
+      container,
+      schema: {
+        type: 'default'
+      },
+      debounce: true,
+      keyboard: {
+        bindTo: document
+      }
+    });
+
+    // then
+    const editorContainer = container.querySelector('.fjs-editor-container');
+    expect(editorContainer).to.exist;
+
+    const emptyEditorContainer = container.querySelector('.fjs-empty-editor');
+    expect(emptyEditorContainer).to.exist;
+  });
+
+
+  it('should NOT render empty placeholder', async function() {
+
+    // when
+    formEditor = await createFormEditor({
+      container,
+      schema: {
+        type: 'default',
+        components: [
+          {
+            type: 'textfield'
+          }
+        ]
+      },
+      debounce: true,
+      keyboard: {
+        bindTo: document
+      }
+    });
+
+    // then
+    const editorContainer = container.querySelector('.fjs-editor-container');
+    expect(editorContainer).to.exist;
+
+    const emptyEditorContainer = container.querySelector('.fjs-empty-editor');
+    expect(emptyEditorContainer).not.to.exist;
+  });
+
+
   describe('#importSchema', function() {
 
     it('should import empty schema', async function() {

@@ -280,6 +280,23 @@
   user-select: none;
 }
 
+.fjs-editor-container .fjs-empty-editor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fjs-editor-container .fjs-empty-editor .fjs-empty-editor-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
 .fjs-editor-container .fjs-drop-container-horizontal {
   width: 100%;
 }
