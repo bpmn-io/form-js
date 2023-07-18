@@ -102,7 +102,14 @@ export function clone(data, replacer) {
  *
  * @return {string[]}
  */
-export function getSchemaVariables(schema, expressionLanguage = new FeelExpressionLanguage(null), templating = new FeelersTemplating()) {
+export function getSchemaVariables(schema, options = {}) {
+
+  const {
+    expressionLanguage = new FeelExpressionLanguage(null),
+    templating = new FeelersTemplating(),
+    inputs = true,
+    outputs = true
+  } = options;
 
   if (!schema.components) {
     return [];
@@ -120,33 +127,43 @@ export function getSchemaVariables(schema, expressionLanguage = new FeelExpressi
       return variables;
     }
 
-    if (key) {
-      variables = [ ...variables, key ];
+    // collect bi-directional variables
+    if (inputs || outputs) {
+
+      if (key) {
+        variables = [ ...variables, key ];
+      }
+
     }
 
-    if (valuesKey) {
-      variables = [ ...variables, valuesKey ];
+    // collect input-only variables
+    if (inputs) {
+
+      if (valuesKey) {
+        variables = [ ...variables, valuesKey ];
+      }
+
+      EXPRESSION_PROPERTIES.forEach((prop) => {
+        const property = get(component, prop.split('.'));
+
+        if (property && expressionLanguage.isExpression(property)) {
+
+          const expressionVariables = expressionLanguage.getVariableNames(property, { type: 'expression' });
+
+          variables = [ ...variables, ...expressionVariables ];
+        }
+      });
+
+      TEMPLATE_PROPERTIES.forEach((prop) => {
+        const property = get(component, prop.split('.'));
+
+        if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
+          const templateVariables = templating.getVariableNames(property);
+          variables = [ ...variables, ...templateVariables ];
+        }
+      });
+
     }
-
-    EXPRESSION_PROPERTIES.forEach((prop) => {
-      const property = get(component, prop.split('.'));
-
-      if (property && expressionLanguage.isExpression(property)) {
-
-        const expressionVariables = expressionLanguage.getVariableNames(property, { type: 'expression' });
-
-        variables = [ ...variables, ...expressionVariables ];
-      }
-    });
-
-    TEMPLATE_PROPERTIES.forEach((prop) => {
-      const property = get(component, prop.split('.'));
-
-      if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
-        const templateVariables = templating.getVariableNames(property);
-        variables = [ ...variables, ...templateVariables ];
-      }
-    });
 
     return variables.filter(variable => variable !== undefined || variable !== null);
   }, []);

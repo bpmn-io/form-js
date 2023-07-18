@@ -27,11 +27,27 @@ describe('util/getSchemaVariables', () => {
   });
 
 
+  it('should include form field keys when requesting output vars', () => {
+
+    const variables = getSchemaVariables(schema, { inputs: false });
+
+    expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
+  });
+
+
   it('should include values formfields valuesKeys', () => {
 
     const variables = getSchemaVariables(dynamicSchema);
 
     expect(variables).to.eql([ 'product', 'xyzData', 'mailto', 'language', 'tags' ]);
+  });
+
+
+  it('should NOT include values formfields valuesKeys when requesting output vars', () => {
+
+    const variables = getSchemaVariables(dynamicSchema, { inputs: false });
+
+    expect(variables).to.eql([ 'product', 'mailto', 'language', 'tags' ]);
   });
 
 
@@ -43,11 +59,19 @@ describe('util/getSchemaVariables', () => {
   });
 
 
-  it('should include variables in the conditions', () => {
+  it('should include variables in conditions', () => {
 
     const variables = getSchemaVariables(conditionalSchema);
 
     expect(variables).to.eql([ 'amount', 'externalVariable' ]);
+  });
+
+
+  it('should NOT include variables in conditions when requesting output vars', () => {
+
+    const variables = getSchemaVariables(conditionalSchema, { inputs: false });
+
+    expect(variables).to.eql([ 'amount' ]);
   });
 
 
@@ -56,6 +80,14 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(expressionSchema);
 
     expect(variables).to.eql([ 'logo', 'alt', 'myText' ]);
+  });
+
+
+  it('should NOT include variables in expressions when requesting output vars', () => {
+
+    const variables = getSchemaVariables(expressionSchema, { inputs: false });
+
+    expect(variables).to.eql([]);
   });
 
 
