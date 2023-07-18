@@ -23,7 +23,7 @@
     "@bpmn-io/form-js-viewer": "^1.0.0",
     "@carbon/elements": "^11.19.1",
     "@types/styled-components": "^5.1.26",
-    "styled-components": "^5.3.6"
+    "styled-components": "^6.0.0"
   },
   "peerDependencies": {
     "@carbon/elements": ">=11",
