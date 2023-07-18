@@ -924,7 +924,7 @@ const SELECT_STYLES = css`
         }
 
         .fjs-select-arrow {
-          visibility: hidden;
+          color: transparent;
         }
 
         .fjs-select-cross {
