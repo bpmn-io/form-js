@@ -13,7 +13,7 @@ export default function EditorText(props) {
   const templating = useService('templating');
   const expressionLanguage = useService('expressionLanguage');
 
-  if (!text) {
+  if (!text || !text.trim()) {
     return <div class={ editorFormFieldClasses(type) }>
       <div class="fjs-form-field-placeholder"><Icon viewBox="0 0 54 54" />Text view is empty</div>
     </div>;

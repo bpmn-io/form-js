@@ -95,6 +95,24 @@ describe('Text', function() {
       expect(placeholder.textContent).to.eql('Text view is empty');
     });
 
+
+    it('should render empty placeholder whitespace', function() {
+
+      // given
+      const { container } = createEditorText({
+        field: {
+          text: ' ',
+          type: 'text'
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
+      expect(placeholder).to.exist;
+      expect(placeholder.textContent).to.eql('Text view is empty');
+    });
+
   });
 
 
