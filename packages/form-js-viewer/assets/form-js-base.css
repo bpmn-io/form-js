@@ -711,6 +711,10 @@
   list-style-type: none;
 }
 
+.fjs-container .fjs-form-field-text {
+  overflow-wrap: break-word;
+}
+
 .fjs-container .fjs-form-field-text a {
   color: var(--color-accent);
 }
