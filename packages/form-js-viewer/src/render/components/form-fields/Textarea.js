@@ -1,5 +1,5 @@
 import { isArray, isObject } from 'min-dash';
-import { useCallback, useContext, useEffect, useRef } from 'preact/hooks';
+import { useContext, useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 
 import { FormContext } from '../../context';
 
@@ -42,33 +42,13 @@ export default function Textarea(props) {
     });
   };
 
-  const autoSizeTextarea = useCallback((textarea) => {
-
-    // Ensures the textarea shrinks back, and improves resizing behavior consistency
-    textarea.style.height = '0px';
-
-    const computed = window.getComputedStyle(textarea);
-
-    const calculatedHeight = parseInt(computed.getPropertyValue('border-top-width'))
-      + parseInt(computed.getPropertyValue('padding-top'))
-      + textarea.scrollHeight
-      + parseInt(computed.getPropertyValue('padding-bottom'))
-      + parseInt(computed.getPropertyValue('border-bottom-width'));
-
-    const minHeight = 75;
-    const maxHeight = 350;
-    const displayHeight = Math.max(Math.min(calculatedHeight, maxHeight), minHeight);
-
-    textarea.style.height = `${displayHeight}px`;
-
-    // Overflow is hidden by default to hide scrollbar flickering
-    textarea.style.overflow = calculatedHeight > maxHeight ? 'visible' : 'hidden';
-
-  }, [ ]);
+  useLayoutEffect(() => {
+    autoSizeTextarea(textareaRef.current);
+  }, [ value ]);
 
   useEffect(() => {
     autoSizeTextarea(textareaRef.current);
-  }, [ autoSizeTextarea, value ]);
+  }, []);
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
@@ -99,4 +79,34 @@ Textarea.config = {
   emptyValue: '',
   sanitizeValue: ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value),
   create: (options = {}) => ({ ...options })
+};
+
+const autoSizeTextarea = (textarea) => {
+
+  // Ensures the textarea shrinks back, and improves resizing behavior consistency
+  textarea.style.height = '0px';
+
+  const computed = window.getComputedStyle(textarea);
+
+  const heightFromLines = () => {
+    const lineHeight = parseInt(computed.getPropertyValue('line-height').replace('px', '')) || 0;
+    const lines = textarea.value ? textarea.value.toString().split('\n').length : 0;
+    return lines * lineHeight;
+  };
+
+  const calculatedHeight = parseInt(computed.getPropertyValue('border-top-width'))
+    + parseInt(computed.getPropertyValue('padding-top'))
+    + (textarea.scrollHeight || heightFromLines())
+    + parseInt(computed.getPropertyValue('padding-bottom'))
+    + parseInt(computed.getPropertyValue('border-bottom-width'));
+
+  const minHeight = 75;
+  const maxHeight = 350;
+  const displayHeight = Math.max(Math.min(calculatedHeight || 0, maxHeight), minHeight);
+
+  textarea.style.height = `${displayHeight}px`;
+
+  // Overflow is hidden by default to hide scrollbar flickering
+  textarea.style.overflow = calculatedHeight > maxHeight ? 'visible' : 'hidden';
+
 };
