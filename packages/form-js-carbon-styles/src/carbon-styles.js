@@ -161,15 +161,14 @@ const ANCHOR_STYLES = css`
   .fjs-container .fjs-form-field-text a {
     color: var(--cds-link-primary);
     outline: none;
-    text-decoration: none;
-    font-size: var(--cds-body-short-01-font-size);
-    font-weight: var(--cds-body-short-01-font-weight);
-    line-height: var(--cds-body-short-01-line-height);
-    letter-spacing: var(--cds-body-short-01-letter-spacing);
+    text-decoration: underline;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: var(--cds-body-compact-01-line-height);
+    letter-spacing: var(--cds-body-compact-01-letter-spacing);
 
     &:hover {
       color: var(--cds-link-primary-hover);
-      text-decoration: underline;
     }
 
     &:focus {
@@ -180,7 +179,6 @@ const ANCHOR_STYLES = css`
     &:active:visited,
     &:active:visited:hover {
       color: var(--cds-text-primary);
-      text-decoration: underline;
     }
 
     &:visited {
@@ -926,7 +924,7 @@ const SELECT_STYLES = css`
         }
 
         .fjs-select-arrow {
-          visibility: hidden;
+          color: transparent;
         }
 
         .fjs-select-cross {
