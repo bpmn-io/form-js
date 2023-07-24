@@ -15,6 +15,7 @@ const labelsByType = {
   number: 'NUMBER',
   radio: 'RADIO',
   select: 'SELECT',
+  spacer: 'SPACER',
   taglist: 'TAGLIST',
   text: 'TEXT VIEW',
   textfield: 'TEXT FIELD',

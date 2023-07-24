@@ -11,6 +11,7 @@ import {
   ReadonlyEntry,
   SelectEntries,
   TextEntry,
+  SpacerEntry,
   NumberEntries,
   DateTimeEntry
 } from '../entries';
@@ -27,6 +28,7 @@ export default function GeneralGroup(field, editField, getService) {
     ...ActionEntry({ field, editField }),
     ...DateTimeEntry({ field, editField }),
     ...TextEntry({ field, editField, getService }),
+    ...SpacerEntry({ field, editField }),
     ...NumberEntries({ field, editField }),
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),

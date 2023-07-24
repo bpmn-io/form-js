@@ -370,6 +370,13 @@
   margin: auto;
 }
 
+.fjs-container .fjs-form-field-spacer {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .fjs-container .fjs-input[type='text'],
 .fjs-container .fjs-input[type='email'],
 .fjs-container .fjs-input[type='tel'],

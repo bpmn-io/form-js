@@ -2370,6 +2370,35 @@ describe('properties panel', function() {
     });
 
 
+    describe('spacer', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'spacer');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Condition',
+          'Layout',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Height'
+        ]);
+
+      });
+
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {

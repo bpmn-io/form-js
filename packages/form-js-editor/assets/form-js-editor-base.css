@@ -639,6 +639,10 @@
   margin-right: 2px;
 }
 
+.fjs-editor-container .fjs-form-field-spacer {
+  min-height: 30px;
+}
+
 /**
  * Custom Dragula Styles
  */
