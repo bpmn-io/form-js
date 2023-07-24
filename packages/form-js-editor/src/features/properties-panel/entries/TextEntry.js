@@ -68,7 +68,7 @@ function Text(props) {
   };
 
   const setValue = (value) => {
-    return editField(field, path, value);
+    return editField(field, path, value || '');
   };
 
   const description = useMemo(() => <>Supports markdown and templating. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/" target="_blank">Learn more</a></>, []);
