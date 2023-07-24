@@ -181,6 +181,11 @@
       "type": "image"
     },
     {
+      "id": "Spacer_1",
+      "type": "spacer",
+      "height":60
+    },
+    {
       "id": "Button_1",
       "action": "submit",
       "key": "submit",
