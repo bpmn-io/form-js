@@ -6,9 +6,39 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-### Breaking
+## 1.1.0
 
-* `getSchemaVariables`'s call signature changed, favouring an options object over multiple params. This is very unlikely to have caused any issues as the old parameters were there only for very exceptional language override cases. 
+### General
+
+* `FEAT`: add `spacer` component ([#731](https://github.com/bpmn-io/form-js/issues/731))
+* `FIX`: properly parse variables in FEEL filter expressions ([#711](https://github.com/bpmn-io/form-js/pull/711))
+* `FIX`: break overflowing words in text views ([#651](https://github.com/bpmn-io/form-js/issues/651))
+* `CHORE`: update schemaVersion to 10
+* `DEPS`: update to `@bpmn-io/properties-panel@3`
+* `DEPS`: update to `feelin@1`
+* `DEPS`: update to `feelers@0.1`
+
+### Viewer
+
+* `FEAT`: eagerly validate on blur and input ([#610](https://github.com/bpmn-io/form-js/pull/610))
+* `FEAT`: support defining input/output in `getSchemaVariables` ([#555](https://github.com/bpmn-io/form-js/issues/555))
+* `FIX`: hide empty rows in DOM tree ([#684](https://github.com/bpmn-io/form-js/issues/684))
+* `FIX`: improve auto resize behavior in text views ([#546](https://github.com/bpmn-io/form-js/issues/546))
+
+### Editor
+
+* `FEAT`: update empty state for form editor ([#336](https://github.com/bpmn-io/form-js/issues/336))
+* `FIX`: serialize empty text as empty string ([`cbcfdb5e`](https://github.com/bpmn-io/form-js/commit/cbcfdb5e67bd9347444d71a390e755623eecfb8f))
+* `FIX`: render placeholder for whitespace empty text views ([#721](https://github.com/bpmn-io/form-js/issues/721))
+
+### Carbon styles
+
+* `FIX`: properly display links in text views ([`d3d8a0fa`](https://github.com/bpmn-io/form-js/commit/d3d8a0faeeb8b5d68214d28f02f172afbdb5ab07))
+* `FIX`: click through select arrow ([`29f606e3`](https://github.com/bpmn-io/form-js/commit/29f606e32423862124bfdc7cc7cbb67d706289cf))
+
+### Breaking Changes
+
+The call signature of `getSchemaVariables` changed, favouring an options object over multiple params. This is very unlikely to have caused any issues as the old parameters were there only for very exceptional language override cases. 
 
 ## 1.0.0
 
