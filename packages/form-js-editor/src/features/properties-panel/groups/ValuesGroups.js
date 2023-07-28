@@ -33,6 +33,7 @@ export default function ValuesGroups(field, editField) {
     {
       id: valuesSourceId,
       label: 'Options source',
+      tooltip: '"Static" defines a constant, predefined set of form options.\n"Dynamic" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.',
       component: Group,
       entries: ValuesSourceSelectEntry({ ...context, id: valuesSourceId })
     }

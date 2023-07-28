@@ -14,7 +14,7 @@ import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholder
 import {
   ConditionGroup,
   AppearanceGroup,
-  CustomValuesGroup,
+  CustomPropertiesGroup,
   GeneralGroup,
   SerializationGroup,
   ConstraintsGroup,
@@ -38,7 +38,7 @@ function getGroups(field, editField, getService) {
     ...ValuesGroups(field, editField),
     ConstraintsGroup(field, editField),
     ValidationGroup(field, editField),
-    CustomValuesGroup(field, editField)
+    CustomPropertiesGroup(field, editField)
   ];
 
   // contract: if a group returns null, it should not be displayed at all

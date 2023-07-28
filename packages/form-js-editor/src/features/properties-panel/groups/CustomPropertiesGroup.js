@@ -7,7 +7,7 @@ import {
 
 import { CustomValueEntry } from '../entries';
 
-export default function CustomValuesGroup(field, editField) {
+export default function CustomPropertiesGroup(field, editField) {
   const {
     properties = {},
     type
@@ -75,6 +75,7 @@ export default function CustomValuesGroup(field, editField) {
     id: 'custom-values',
     items,
     label: 'Custom properties',
+    tooltip: 'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
     shouldSort: false
   };
 }

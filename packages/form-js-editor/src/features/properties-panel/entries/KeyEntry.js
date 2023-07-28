@@ -84,6 +84,7 @@ function Key(props) {
     getValue,
     id,
     label: 'Key',
+    tooltip: 'Use a unique "key" to link the form element and the related input/output data. When dealing with nested data, break it down in the user task\'s input mapping before using it.',
     setValue,
     validate
   });
