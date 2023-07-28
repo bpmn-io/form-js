@@ -60,6 +60,7 @@ function Readonly(props) {
     getValue,
     id,
     label: 'Read only',
+    tooltip: 'Field cannot be edited by the end-user, but the data will still be submitted.',
     setValue,
     variables
   });

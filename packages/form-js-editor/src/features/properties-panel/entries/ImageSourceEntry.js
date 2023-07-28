@@ -58,6 +58,7 @@ function Source(props) {
     getValue,
     id,
     label: 'Image source',
+    tooltip: 'Link referring to a hosted image, or use a data URI directly to embed image data into the form.',
     setValue,
     singleLine: true,
     variables

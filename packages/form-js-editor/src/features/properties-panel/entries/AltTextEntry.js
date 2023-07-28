@@ -57,6 +57,7 @@ function AltText(props) {
     getValue,
     id,
     label: 'Alternative text',
+    tooltip: 'Descriptive text for screen reader accessibility.',
     setValue,
     singleLine: true,
     variables

@@ -10,7 +10,7 @@ import { query as domQuery } from 'min-dom';
 
 import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
 import { VALUES_SOURCES, VALUES_SOURCES_DEFAULTS } from '@bpmn-io/form-js-viewer';
-import { removeKey } from '../../../../src/features/properties-panel/groups/CustomValuesGroup';
+import { removeKey } from '../../../../src/features/properties-panel/groups/CustomPropertiesGroup';
 
 import {
   EventBus as eventBusMock,
