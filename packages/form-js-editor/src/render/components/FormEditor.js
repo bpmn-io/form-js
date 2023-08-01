@@ -322,7 +322,6 @@ export default function FormEditor(props) {
         DROP_CONTAINER_VERTICAL_CLS,
         DROP_CONTAINER_HORIZONTAL_CLS
       ],
-      direction: 'vertical',
       mirrorContainer: formContainerRef.current
     });
 
@@ -345,7 +344,6 @@ export default function FormEditor(props) {
           DROP_CONTAINER_VERTICAL_CLS,
           DROP_CONTAINER_HORIZONTAL_CLS
         ],
-        direction: 'vertical',
         mirrorContainer: formContainerRef.current
       });
       setDrake(dragulaInstance);
