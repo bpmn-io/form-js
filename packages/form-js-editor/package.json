@@ -46,11 +46,11 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
+    "@bpmn-io/draggle": "^4.0.0",
     "@bpmn-io/form-js-viewer": "^1.1.0",
     "@bpmn-io/properties-panel": "^3.2.1",
     "array-move": "^3.0.1",
     "big.js": "^6.2.1",
-    "dragula": "^3.7.3",
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
     "min-dom": "^4.0.0",
