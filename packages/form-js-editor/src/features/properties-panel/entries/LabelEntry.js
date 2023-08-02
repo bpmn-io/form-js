@@ -74,7 +74,7 @@ function Label(props) {
   };
 
   const setValue = (value) => {
-    return editField(field, path, value);
+    return editField(field, path, value || '');
   };
 
   return FeelTemplatingEntry({
@@ -107,7 +107,7 @@ function DateLabel(props) {
   };
 
   const setValue = (value) => {
-    return editField(field, path, value);
+    return editField(field, path, value || '');
   };
 
   return FeelTemplatingEntry({
@@ -140,7 +140,7 @@ function TimeLabel(props) {
   };
 
   const setValue = (value) => {
-    return editField(field, path, value);
+    return editField(field, path, value || '');
   };
 
   return FeelTemplatingEntry({
