@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.2.0
+
+* `FEAT`: implement first set of tooltips ([e36de9a78](https://github.com/bpmn-io/form-js/commit/e36de9a78088485f6fdc65fea639d60779dceab9))
+* `FIX`: dynamically set drag and drop axis ([34767366](https://github.com/bpmn-io/form-js/commit/3476736615050a301ab240c54da6658f579593cd))
+* `FIX`: serialize empty labels as empty string ([3a700de5](https://github.com/bpmn-io/form-js/commit/3a700de5629c5244e49cdc8e507d38b790323321))
+* `DEPS`: replaced `dragula` with our own `@bpmn-io/draggle@4.0.0` fork ([34767366](https://github.com/bpmn-io/form-js/commit/3476736615050a301ab240c54da6658f579593cd))
+
 ## 1.1.0
 
 ### General
