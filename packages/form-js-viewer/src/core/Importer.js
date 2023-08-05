@@ -1,13 +1,12 @@
-import { clone } from '@bpmn-io/form-js-viewer';
-
+import { clone } from '../util';
 
 export default class Importer {
 
   /**
    * @constructor
-   * @param { import('../core/FormFieldRegistry').default } formFieldRegistry
-   * @param { import('../core/FieldFactory').default } fieldFactory
-   * @param { import('../core/FormLayouter').default } formLayouter
+   * @param { import('./FormFieldRegistry').default } formFieldRegistry
+   * @param { import('./FieldFactory').default } fieldFactory
+   * @param { import('./FormLayouter').default } formLayouter
    */
   constructor(formFieldRegistry, fieldFactory, formLayouter) {
     this._formFieldRegistry = formFieldRegistry;
@@ -32,14 +31,11 @@ export default class Importer {
    * @returns {ImportResult}
    */
   importSchema(schema) {
-
-    // TODO: Add warnings
     const warnings = [];
 
     try {
-
+      this._cleanup();
       const importedSchema = this.importFormField(clone(schema));
-
       this._formLayouter.calculateLayout(clone(importedSchema));
 
       return {
@@ -47,10 +43,15 @@ export default class Importer {
         warnings
       };
     } catch (err) {
+      this._cleanup();
       err.warnings = warnings;
-
       throw err;
     }
+  }
+
+  _cleanup() {
+    this._formLayouter.clear();
+    this._formFieldRegistry.clear();
   }
 
   /**
@@ -62,9 +63,7 @@ export default class Importer {
    */
   importFormField(fieldAttrs, parentId, index) {
     const {
-      components,
-      id,
-      key
+      components
     } = fieldAttrs;
 
     let parent, path;
@@ -73,23 +72,13 @@ export default class Importer {
       parent = this._formFieldRegistry.get(parentId);
     }
 
-    // validate <id> uniqueness
-    if (id && this._formFieldRegistry._ids.assigned(id)) {
-      throw new Error(`form field with id <${ id }> already exists`);
-    }
-
-    // validate <key> uniqueness
-    if (key && this._formFieldRegistry._keys.assigned(key)) {
-      throw new Error(`form field with key <${ key }> already exists`);
-    }
-
     // set form field path
     path = parent ? [ ...parent._path, 'components', index ] : [];
 
     const field = this._fieldFactory.create({
       ...fieldAttrs,
       _path: path,
-      _parent: parent && parent.id
+      _parent: parentId
     }, false);
 
     this._formFieldRegistry.add(field);

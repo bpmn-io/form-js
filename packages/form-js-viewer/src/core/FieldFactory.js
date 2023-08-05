@@ -3,8 +3,8 @@ export default class FieldFactory {
   /**
    * @constructor
    *
-   * @param { import('./FormFieldRegistry').default } formFieldRegistry
-   * @param { import('@bpmn-io/form-js-viewer').FormFields } formFields
+   * @param  formFieldRegistry
+   * @param  formFields
    */
   constructor(formFieldRegistry, formFields) {
     this._formFieldRegistry = formFieldRegistry;
@@ -28,11 +28,11 @@ export default class FieldFactory {
     const { config } = fieldDefinition;
 
     if (id && this._formFieldRegistry._ids.assigned(id)) {
-      throw new Error(`ID <${ id }> already assigned`);
+      throw new Error(`form field with id <${ id }> already exists`);
     }
 
     if (key && this._formFieldRegistry._keys.assigned(key)) {
-      throw new Error(`key <${ key }> already assigned`);
+      throw new Error(`form field with key <${ key }> already exists`);
     }
 
     const labelAttrs = applyDefaults && config.label ? {
@@ -82,7 +82,11 @@ export default class FieldFactory {
       let prefix = 'field';
 
       field.key = this._formFieldRegistry._keys.nextPrefixed(`${prefix}_`, field);
+
+      return;
     }
+
+    throw new Error('field must have key');
   }
 }
 
