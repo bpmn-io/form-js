@@ -1,20 +1,20 @@
+import { FieldFactory, Importer } from '@bpmn-io/form-js-viewer';
+
 import EventBus from './EventBus';
 import DebounceFactory from './Debounce';
-import FieldFactory from './FieldFactory';
 import FormFieldRegistry from './FormFieldRegistry';
 import FormLayouter from './FormLayouter';
 import FormLayoutValidator from './FormLayoutValidator';
 
-import importModule from '../import';
 import renderModule from '../render';
 
 export default {
   __depends__: [
-    importModule,
     renderModule
   ],
   debounce: [ 'factory', DebounceFactory ],
   eventBus: [ 'type', EventBus ],
+  importer: [ 'type', Importer ],
   formFieldRegistry: [ 'type', FormFieldRegistry ],
   formLayouter: [ 'type', FormLayouter ],
   formLayoutValidator: [ 'type', FormLayoutValidator ],

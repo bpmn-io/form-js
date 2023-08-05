@@ -1,5 +1,5 @@
 import Ids from 'ids';
-import { get, isString, set } from 'min-dash';
+import { get, isString, isUndefined, set } from 'min-dash';
 
 import {
   ExpressionLanguageModule,
@@ -133,9 +133,10 @@ export default class Form {
 
         const {
           schema: importedSchema,
-          data: initializedData,
           warnings
-        } = this.get('importer').importSchema(schema, data);
+        } = this.get('importer').importSchema(schema);
+
+        const initializedData = this._initializeFieldData(data);
 
         this._setState({
           data: initializedData,
@@ -434,5 +435,43 @@ export default class Form {
   _applyConditions(toFilter, data) {
     const conditionChecker = this.get('conditionChecker');
     return conditionChecker.applyConditions(toFilter, data);
+  }
+
+  /**
+   * @internal
+   */
+  _initializeFieldData(data) {
+    return this.get('formFieldRegistry').getAll().reduce((initializedData, formField) => {
+      const {
+        defaultValue,
+        _path,
+        type
+      } = formField;
+
+      // try to get value from data
+      // if unavailable - try to get default value from form field
+      // if unavailable - get empty value from form field
+
+      if (_path) {
+
+        const { config: fieldConfig } = this.get('formFields').get(type);
+        let valueData = get(data, _path);
+
+        if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {
+          valueData = fieldConfig.sanitizeValue({ formField, data, value: valueData });
+        }
+
+        const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldConfig.emptyValue);
+
+        initializedData = {
+          ...initializedData,
+          [_path[0]]: initializedFieldValue,
+        };
+
+      }
+
+      return initializedData;
+
+    }, data);
   }
 }
