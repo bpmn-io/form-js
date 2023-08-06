@@ -1,6 +1,9 @@
 import { createContext } from 'preact';
 
 const FormRenderContext = createContext({
+  EmptyRoot: (props) => {
+    return null;
+  },
   Empty: (props) => {
     return null;
   },
