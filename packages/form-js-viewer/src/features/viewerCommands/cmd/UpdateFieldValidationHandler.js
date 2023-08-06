@@ -1,5 +1,5 @@
 import { set } from 'min-dash';
-import { clone, pathStringify } from '../../../util';
+import { clone } from '../../../util';
 
 export default class UpdateFieldValidationHandler {
 
@@ -10,13 +10,12 @@ export default class UpdateFieldValidationHandler {
 
   execute(context) {
     const { field, value } = context;
-    const { _path } = field;
     const { errors } = this._form._getState();
 
     context.oldErrors = clone(errors);
 
     const fieldErrors = this._validator.validateField(field, value);
-    const updatedErrors = set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
+    const updatedErrors = set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
     this._form._setState({ errors: updatedErrors });
   }
 
