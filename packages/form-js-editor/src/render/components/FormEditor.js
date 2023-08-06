@@ -66,7 +66,9 @@ function ContextPad(props) {
   );
 }
 
-function Empty(props) {
+function Empty() { return null; }
+
+function EmptyRoot(props) {
   return <div class="fjs-empty-editor">
     <div class="fjs-empty-editor-card">
       <EmptyFormIcon />
@@ -388,6 +390,7 @@ export default function FormEditor(props) {
     Column,
     Element,
     Empty,
+    EmptyRoot,
     Row
   };
 
