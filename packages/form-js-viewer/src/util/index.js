@@ -34,9 +34,6 @@ const TEMPLATE_PROPERTIES = [
   'text'
 ];
 
-export function findErrors(errors, path) {
-  return errors[ pathStringify(path) ];
-}
 
 export function isRequired(field) {
   return field.required;
@@ -61,12 +58,23 @@ export function pathsEqual(a, b) {
   );
 }
 
-export function pathStringify(path) {
-  if (!path) {
-    return '';
+export function getValuePath(field, formFieldRegistry) {
+
+  let localValuePath = [];
+
+  if (field.key) {
+    localValuePath = [ field.key ];
+  } else if (field.path) {
+    localValuePath = field.path.split('.');
   }
 
-  return path.join('.');
+  if (field._parent) {
+    const parent = formFieldRegistry.get(field._parent);
+
+    return [ ...(getValuePath(parent, formFieldRegistry) || []), ...localValuePath ];
+  }
+
+  return localValuePath.length ? localValuePath : undefined;
 }
 
 const indices = {};

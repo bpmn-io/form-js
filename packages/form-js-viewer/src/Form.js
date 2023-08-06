@@ -9,7 +9,7 @@ import {
 
 import core from './core';
 
-import { clone, createFormContainer, createInjector, pathStringify } from './util';
+import { clone, createFormContainer, createInjector, getValuePath } from './util';
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -209,19 +209,18 @@ export default class Form {
 
     const errors = formFieldRegistry.getAll().reduce((errors, field) => {
       const {
-        disabled,
-        _path
+        disabled
       } = field;
 
       if (disabled) {
         return errors;
       }
 
-      const value = get(data, _path);
+      const value = get(data, getValuePath(field, formFieldRegistry));
 
       const fieldErrors = validator.validateField(field, value);
 
-      return set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
     }, /** @type {Errors} */ ({}));
 
     this._setState({ errors });
@@ -339,20 +338,19 @@ export default class Form {
       value
     } = update;
 
-    const { _path } = field;
-
-    let {
+    const {
       data,
       errors
     } = this._getState();
 
     const validator = this.get('validator');
+    const formFieldRegistry = this.get('formFieldRegistry');
 
     const fieldErrors = validator.validateField(field, value);
 
-    set(data, _path, value);
+    set(data, getValuePath(field, formFieldRegistry), value);
 
-    set(errors, [ pathStringify(_path) ], fieldErrors.length ? fieldErrors : undefined);
+    set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
 
     this._setState({
       data: clone(data),
@@ -407,21 +405,18 @@ export default class Form {
 
     const submitData = formFieldRegistry.getAll().reduce((previous, field) => {
       const {
-        disabled,
-        _path
+        disabled
       } = field;
 
+      const valuePath = getValuePath(field, formFieldRegistry);
+
       // do not submit disabled form fields
-      if (disabled || !_path) {
+      if (disabled || !valuePath) {
         return previous;
       }
 
-      const value = get(formData, _path);
-
-      return {
-        ...previous,
-        [ _path[ 0 ] ]: value
-      };
+      const value = get(formData, valuePath);
+      return set(previous, valuePath, value);
     }, {});
 
     const filteredSubmitData = this._applyConditions(submitData, formData);
@@ -441,10 +436,11 @@ export default class Form {
    * @internal
    */
   _initializeFieldData(data) {
-    return this.get('formFieldRegistry').getAll().reduce((initializedData, formField) => {
+    const formFieldRegistry = this.get('formFieldRegistry');
+
+    return formFieldRegistry.getAll().reduce((initializedData, formField) => {
       const {
         defaultValue,
-        _path,
         type
       } = formField;
 
@@ -452,10 +448,12 @@ export default class Form {
       // if unavailable - try to get default value from form field
       // if unavailable - get empty value from form field
 
-      if (_path) {
+      const valuePath = getValuePath(formField, formFieldRegistry);
+
+      if (valuePath) {
 
         const { config: fieldConfig } = this.get('formFields').get(type);
-        let valueData = get(data, _path);
+        let valueData = get(data, valuePath);
 
         if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {
           valueData = fieldConfig.sanitizeValue({ formField, data, value: valueData });
@@ -463,11 +461,7 @@ export default class Form {
 
         const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldConfig.emptyValue);
 
-        initializedData = {
-          ...initializedData,
-          [_path[0]]: initializedFieldValue,
-        };
-
+        return set(initializedData, valuePath, initializedFieldValue);
       }
 
       return initializedData;

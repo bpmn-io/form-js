@@ -46,13 +46,13 @@ export default function FormField(props) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
-  const initialValue = useMemo(() => get(initialData, field._path), [ initialData, field._path ]);
+  const valuePath = useMemo(() => getValuePath(field, formFieldRegistry), [ field, formFieldRegistry ]);
 
-  const value = get(data, field._path);
-
-  const fieldErrors = findErrors(errors, field._path);
+  const initialValue = useMemo(() => get(initialData, valuePath), [ initialData, valuePath ]);
 
   const readonly = useReadonly(field, properties);
+
+  const value = get(data, valuePath);
 
   // add precedence: global readonly > form field disabled
   const disabled = !properties.readOnly && (
@@ -83,7 +83,7 @@ export default function FormField(props) {
         <FormFieldComponent
           { ...props }
           disabled={ disabled }
-          errors={ fieldErrors }
+          errors={ errors[ field.id ] }
           onChange={ disabled || readonly ? noop : onChange }
           onBlur={ disabled || readonly ? noop : onBlur }
           readonly={ readonly }
