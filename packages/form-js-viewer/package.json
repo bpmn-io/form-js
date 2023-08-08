@@ -52,7 +52,7 @@
     "flatpickr": "^4.6.13",
     "ids": "^1.0.0",
     "min-dash": "^4.0.0",
-    "preact": "^10.5.14",
+    "preact": "^10.16.0",
     "preact-markup": "^2.1.1",
     "showdown": "^2.1.0"
   },
