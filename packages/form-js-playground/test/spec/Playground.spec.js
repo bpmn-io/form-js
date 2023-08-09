@@ -65,6 +65,7 @@ describe('playground', function() {
       mailto: [ 'regional-manager', 'approver' ],
       product: 'camunda-cloud',
       dri: 'johnDoe',
+      hobbies: [ 'sports', 'books', 'dancing' ],
       queriedDRIs: [
         {
           'label': 'John Doe',
