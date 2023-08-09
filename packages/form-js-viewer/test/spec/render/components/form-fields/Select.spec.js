@@ -766,6 +766,62 @@ describe('Select', function() {
   });
 
 
+  it('#create - values key', function() {
+
+    // assume
+    const { config } = Select;
+    expect(config.type).to.eql('select');
+    expect(config.label).to.eql('Select');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
+
+    // when
+    const field = config.create({ valuesKey: 'foo' });
+
+    // then
+    expect(field.values).to.not.exist;
+    expect(field.valuesKey).to.eql('foo');
+
+    // but when
+    const customField = config.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
+  });
+
+
+  it('#create - values expression', function() {
+
+    // assume
+    const { config } = Select;
+    expect(config.type).to.eql('select');
+    expect(config.label).to.eql('Select');
+    expect(config.group).to.eql('selection');
+    expect(config.keyed).to.be.true;
+
+    // when
+    const field = config.create({ valuesExpression: '=foo' });
+
+    // then
+    expect(field.values).to.not.exist;
+    expect(field.valuesExpression).to.eql('=foo');
+
+    // but when
+    const customField = config.create({
+      custom: true
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true
+    });
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {

@@ -46,6 +46,12 @@
       "type": "textarea"
     },
     {
+      "key": "hobbies",
+      "label": "Hobbies",
+      "type": "taglist",
+      "valuesExpression": "=hobbies"
+    },
+    {
       "key": "mailto",
       "label": "Email data to",
       "type": "checklist",
