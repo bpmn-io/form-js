@@ -291,6 +291,10 @@
   height: 100%;
 }
 
+.fjs-cursor-grabbing .fjs-editor-container .fjs-empty-editor {
+  display: none;
+}
+
 .fjs-editor-container .fjs-empty-editor .fjs-empty-editor-card {
   display: flex;
   flex-direction: column;
