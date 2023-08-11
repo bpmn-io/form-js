@@ -22,13 +22,15 @@ export default class Dragging {
    * @constructor
    *
    * @param { import('../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../../core/PathRegistry').default } pathRegistry
    * @param { import('../../core/FormLayouter').default } formLayouter
    * @param { import('../../core/FormLayoutValidator').default } formLayoutValidator
    * @param { import('../../core/EventBus').default } eventBus
    * @param { import('../modeling/Modeling').default } modeling
    */
-  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling) {
+  constructor(formFieldRegistry, pathRegistry, formLayouter, formLayoutValidator, eventBus, modeling) {
     this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
     this._formLayouter = formLayouter;
     this._formLayoutValidator = formLayoutValidator;
     this._eventBus = eventBus;
@@ -76,13 +78,47 @@ export default class Dragging {
 
     let columns;
     let formField;
+    let targetParentId;
 
     if (formFieldNode) {
       formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
       columns = (formField.layout || {}).columns;
-    }
 
-    return this._formLayoutValidator.validateField(formField, columns, targetRow);
+      // (1) check for row constraints
+      if (isRow(target)) {
+        targetParentId = getFormParent(target).dataset.id;
+        const rowError = this._formLayoutValidator.validateField(formField, columns, targetRow);
+        if (rowError) {
+          return rowError;
+        }
+      }
+      else {
+        targetParentId = target.dataset.id;
+      }
+
+      // (2) check  for path collisions
+      const targetParentFormField = this._formFieldRegistry.get(targetParentId);
+      const currentParentFormField = this._formFieldRegistry.get(formField._parent);
+
+      if (targetParentFormField !== currentParentFormField) {
+        const targetPath = this._pathRegistry.getValuePath(targetParentFormField);
+
+        const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(
+          ({ field, isClosed }) => {
+            const options = {
+              cutoffNode: currentParentFormField.id,
+            };
+
+            const fieldPath = this._pathRegistry.getValuePath(field, options);
+            return this._pathRegistry.canClaimPath([...targetPath, ...fieldPath], isClosed);
+          }, formField
+        );
+
+        if (!isDropAllowedByPathRegistry) {
+          return 'Drop not allowed by path registry';
+        }
+      }
+    }
   }
 
   moveField(element, source, targetRow, targetFormField, targetIndex) {
@@ -114,6 +150,7 @@ export default class Dragging {
 
     attrs = {
       ...attrs,
+      _parent: targetFormField.id,
       layout: {
         row: targetRow ? targetRow.id : this._formLayouter.nextRowId(),
 
@@ -168,16 +205,14 @@ export default class Dragging {
 
     // (2.1) dropped in existing row
     if (isRow(target)) {
-      unsetDropNotAllowed(target);
-
       targetRow = this._formLayouter.getRow(target.dataset.rowId);
+    }
 
-      // validate whether drop is allowed
-      const validationError = this.validateDrop(el, target);
+    // (2.2) validate whether drop is allowed
+    const validationError = this.validateDrop(el, target);
 
-      if (validationError) {
-        return drake.cancel(true);
-      }
+    if (validationError) {
+      return drake.cancel(true);
     }
 
     drake.remove();
@@ -235,15 +270,13 @@ export default class Dragging {
           return !target.classList.contains(DROP_CONTAINER_HORIZONTAL_CLS);
         }
 
-        // validate field drop in row
-        if (isRow(target)) {
-          const validationError = this.validateDrop(el, target);
+        // validate field drop
+        const validationError = this.validateDrop(el, target);
 
-          if (validationError) {
+        if (validationError) {
 
-            // set error feedback to row
-            setDropNotAllowed(target);
-          }
+          // set error feedback to row
+          setDropNotAllowed(target);
         }
 
         return !target.classList.contains(DRAG_NO_DROP_CLS);
@@ -308,6 +341,7 @@ export default class Dragging {
 
 Dragging.$inject = [
   'formFieldRegistry',
+  'pathRegistry',
   'formLayouter',
   'formLayoutValidator',
   'eventBus',
