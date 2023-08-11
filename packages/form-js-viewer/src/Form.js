@@ -9,7 +9,7 @@ import {
 
 import core from './core';
 
-import { clone, createFormContainer, createInjector, getValuePath } from './util';
+import { clone, createFormContainer, createInjector } from './util';
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -136,7 +136,7 @@ export default class Form {
           warnings
         } = this.get('importer').importSchema(schema);
 
-        const initializedData = this._initializeFieldData(data);
+        const initializedData = this._initializeFieldData(clone(data));
 
         this._setState({
           data: initializedData,
@@ -203,6 +203,7 @@ export default class Form {
    */
   validate() {
     const formFieldRegistry = this.get('formFieldRegistry'),
+          pathRegistry = this.get('pathRegistry'),
           validator = this.get('validator');
 
     const { data } = this._getState();
@@ -216,7 +217,7 @@ export default class Form {
         return errors;
       }
 
-      const value = get(data, getValuePath(field, formFieldRegistry));
+      const value = get(data, pathRegistry.getValuePath(field));
 
       const fieldErrors = validator.validateField(field, value);
 
@@ -343,12 +344,12 @@ export default class Form {
       errors
     } = this._getState();
 
-    const validator = this.get('validator');
-    const formFieldRegistry = this.get('formFieldRegistry');
+    const validator = this.get('validator'),
+          pathRegistry = this.get('pathRegistry');
 
     const fieldErrors = validator.validateField(field, value);
 
-    set(data, getValuePath(field, formFieldRegistry), value);
+    set(data, pathRegistry.getValuePath(field), value);
 
     set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
 
@@ -400,7 +401,8 @@ export default class Form {
    */
   _getSubmitData() {
 
-    const formFieldRegistry = this.get('formFieldRegistry');
+    const formFieldRegistry = this.get('formFieldRegistry'),
+          pathRegistry = this.get('pathRegistry');
     const formData = this._getState().data;
 
     const submitData = formFieldRegistry.getAll().reduce((previous, field) => {
@@ -408,7 +410,7 @@ export default class Form {
         disabled
       } = field;
 
-      const valuePath = getValuePath(field, formFieldRegistry);
+      const valuePath = pathRegistry.getValuePath(field);
 
       // do not submit disabled form fields
       if (disabled || !valuePath) {
@@ -436,7 +438,9 @@ export default class Form {
    * @internal
    */
   _initializeFieldData(data) {
-    const formFieldRegistry = this.get('formFieldRegistry');
+    const formFieldRegistry = this.get('formFieldRegistry'),
+          formFields = this.get('formFields'),
+          pathRegistry = this.get('pathRegistry');
 
     return formFieldRegistry.getAll().reduce((initializedData, formField) => {
       const {
@@ -448,11 +452,11 @@ export default class Form {
       // if unavailable - try to get default value from form field
       // if unavailable - get empty value from form field
 
-      const valuePath = getValuePath(formField, formFieldRegistry);
+      const valuePath = pathRegistry.getValuePath(formField);
 
       if (valuePath) {
 
-        const { config: fieldConfig } = this.get('formFields').get(type);
+        const { config: fieldConfig } = formFields.get(type);
         let valueData = get(data, valuePath);
 
         if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {

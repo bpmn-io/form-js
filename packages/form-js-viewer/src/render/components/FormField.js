@@ -10,8 +10,6 @@ import {
   useService
 } from '../hooks';
 
-import { findErrors } from '../../util';
-
 import { gridColumnClasses } from './Util';
 
 const noop = () => false;
@@ -25,6 +23,7 @@ export default function FormField(props) {
 
   const formFields = useService('formFields'),
         viewerCommands = useService('viewerCommands', false),
+        pathRegistry = useService('pathRegistry'),
         form = useService('form');
 
   const {
@@ -46,7 +45,7 @@ export default function FormField(props) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
-  const valuePath = useMemo(() => getValuePath(field, formFieldRegistry), [ field, formFieldRegistry ]);
+  const valuePath = useMemo(() => pathRegistry.getValuePath(field), [ field, pathRegistry ]);
 
   const initialValue = useMemo(() => get(initialData, valuePath), [ initialData, valuePath ]);
 

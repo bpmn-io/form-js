@@ -58,25 +58,6 @@ export function pathsEqual(a, b) {
   );
 }
 
-export function getValuePath(field, formFieldRegistry) {
-
-  let localValuePath = [];
-
-  if (field.key) {
-    localValuePath = [ field.key ];
-  } else if (field.path) {
-    localValuePath = field.path.split('.');
-  }
-
-  if (field._parent) {
-    const parent = formFieldRegistry.get(field._parent);
-
-    return [ ...(getValuePath(parent, formFieldRegistry) || []), ...localValuePath ];
-  }
-
-  return localValuePath.length ? localValuePath : undefined;
-}
-
 const indices = {};
 
 export function generateIndexForType(type) {

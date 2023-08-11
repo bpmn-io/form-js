@@ -46,11 +46,6 @@ export class FormFieldRegistry {
       }
     };
 
-    this._keys = {
-      assigned() {
-        return false;
-      }
-    };
   }
 
   add() {}
