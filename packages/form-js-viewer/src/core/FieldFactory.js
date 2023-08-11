@@ -6,8 +6,9 @@ export default class FieldFactory {
    * @param  formFieldRegistry
    * @param  formFields
    */
-  constructor(formFieldRegistry, formFields) {
+  constructor(formFieldRegistry, pathRegistry, formFields) {
     this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
     this._formFields = formFields;
   }
 
@@ -15,8 +16,10 @@ export default class FieldFactory {
 
     const {
       id,
+      type,
       key,
-      type
+      path,
+      _parent
     } = attrs;
 
     const fieldDefinition = this._formFields.get(type);
@@ -31,8 +34,18 @@ export default class FieldFactory {
       throw new Error(`form field with id <${ id }> already exists`);
     }
 
-    if (key && this._formFieldRegistry._keys.assigned(key)) {
-      throw new Error(`form field with key <${ key }> already exists`);
+    // ensure that we can claim the path
+
+    const parent = _parent && this._formFieldRegistry.get(_parent);
+
+    const parentPath = parent && this._pathRegistry.getValuePath(parent) || [];
+
+    if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, key ], true)) {
+      throw new Error(`dataPath <${ [ ...parentPath, key ].join('.') }> already claimed`);
+    }
+
+    if (config.routed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ], false)) {
+      throw new Error(`dataPath <${ [ ...parentPath, ...path.split('.') ].join('.') }> already claimed`);
     }
 
     const labelAttrs = applyDefaults && config.label ? {
@@ -48,6 +61,10 @@ export default class FieldFactory {
 
     if (config.keyed) {
       this._ensureKey(field, applyDefaults);
+    }
+
+    if (config.routed && path) {
+      this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), false);
     }
 
     return field;
@@ -72,26 +89,30 @@ export default class FieldFactory {
 
   _ensureKey(field, applyDefaults) {
 
-    if (field.key) {
-      this._formFieldRegistry._keys.claim(field.key, field);
-
-      return;
+    if (!applyDefaults && !field.key) {
+      throw new Error('field must have key');
     }
 
-    if (applyDefaults) {
-      let prefix = 'field';
+    if (!field.key) {
 
-      field.key = this._formFieldRegistry._keys.nextPrefixed(`${prefix}_`, field);
+      let random;
+      const parent = this._formFieldRegistry.get(field._parent);
 
-      return;
+      // ensure key uniqueness at level
+      do {
+        random = Math.random().toString(36).substring(7);
+      } while (parent.components.some(child => child.key === random));
+
+      field.key = `${field.type}_${random}`;
     }
 
-    throw new Error('field must have key');
+    this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), true);
   }
 }
 
 
 FieldFactory.$inject = [
   'formFieldRegistry',
+  'pathRegistry',
   'formFields'
 ];

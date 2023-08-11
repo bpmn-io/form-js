@@ -9,7 +9,6 @@ export default class FormFieldRegistry {
     eventBus.on('form.clear', () => this.clear());
 
     this._ids = new Ids([ 32, 36, 1 ]);
-    this._keys = new Ids([ 32, 36, 1 ]);
   }
 
   add(formField) {
@@ -52,7 +51,6 @@ export default class FormFieldRegistry {
     this._formFields = {};
 
     this._ids.clear();
-    this._keys.clear();
   }
 
 }

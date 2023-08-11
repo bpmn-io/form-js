@@ -5,11 +5,13 @@ export default class Importer {
   /**
    * @constructor
    * @param { import('./FormFieldRegistry').default } formFieldRegistry
+   * @param { import('./PathRegistry').default } pathRegistry
    * @param { import('./FieldFactory').default } fieldFactory
    * @param { import('./FormLayouter').default } formLayouter
    */
-  constructor(formFieldRegistry, fieldFactory, formLayouter) {
+  constructor(formFieldRegistry, pathRegistry, fieldFactory, formLayouter) {
     this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
     this._fieldFactory = fieldFactory;
     this._formLayouter = formLayouter;
   }
@@ -52,6 +54,7 @@ export default class Importer {
   _cleanup() {
     this._formLayouter.clear();
     this._formFieldRegistry.clear();
+    this._pathRegistry.clear();
   }
 
   /**
@@ -104,4 +107,4 @@ export default class Importer {
 
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'fieldFactory', 'formLayouter' ];
+Importer.$inject = [ 'formFieldRegistry', 'pathRegistry', 'fieldFactory', 'formLayouter' ];
