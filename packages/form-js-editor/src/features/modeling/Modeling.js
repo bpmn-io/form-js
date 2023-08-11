@@ -4,6 +4,7 @@ import MoveFormFieldHandler from './cmd/MoveFormFieldHandler';
 import RemoveFormFieldHandler from './cmd/RemoveFormFieldHandler';
 import UpdateIdClaimHandler from './cmd/UpdateIdClaimHandler';
 import UpdateKeyClaimHandler from './cmd/UpdateKeyClaimHandler';
+import UpdatePathClaimHandler from './cmd/UpdatePathClaimHandler';
 
 import { isObject } from 'min-dash';
 
@@ -33,7 +34,8 @@ export default class Modeling {
       'formField.move': MoveFormFieldHandler,
       'formField.remove': RemoveFormFieldHandler,
       'id.updateClaim': UpdateIdClaimHandler,
-      'key.updateClaim': UpdateKeyClaimHandler
+      'key.updateClaim': UpdateKeyClaimHandler,
+      'path.updateClaim': UpdatePathClaimHandler
     };
   }
 
@@ -129,6 +131,26 @@ export default class Modeling {
     };
 
     this._commandStack.execute('key.updateClaim', context);
+  }
+
+  claimPath(formField, path) {
+    const context = {
+      formField,
+      path,
+      claiming: true
+    };
+
+    this._commandStack.execute('path.updateClaim', context);
+  }
+
+  unclaimPath(formField, path) {
+    const context = {
+      formField,
+      path,
+      claiming: false
+    };
+
+    this._commandStack.execute('path.updateClaim', context);
   }
 }
 

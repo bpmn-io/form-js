@@ -2,10 +2,10 @@ export default class UpdateKeyClaimHandler {
 
   /**
    * @constructor
-   * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('@bpmn-io/form-js-viewer/PathRegistry').default } pathRegistry
    */
-  constructor(formFieldRegistry) {
-    this._formFieldRegistry = formFieldRegistry;
+  constructor(pathRegistry) {
+    this._pathRegistry = pathRegistry;
   }
 
   execute(context) {
@@ -15,26 +15,37 @@ export default class UpdateKeyClaimHandler {
       key
     } = context;
 
+    const options = {
+      replacements: {
+        [ formField.id ]: [ key ]
+      }
+    };
+
+    const valuePath = this._pathRegistry.getValuePath(formField, options);
+
     if (claiming) {
-      this._formFieldRegistry._keys.claim(key, formField);
+      this._pathRegistry.claimPath(valuePath, true);
     } else {
-      this._formFieldRegistry._keys.unclaim(key);
+      this._pathRegistry.unclaimPath(valuePath);
     }
+
+    // cache path for revert
+    context.valuePath = valuePath;
   }
 
   revert(context) {
     const {
       claiming,
       formField,
-      key
+      valuePath
     } = context;
 
     if (claiming) {
-      this._formFieldRegistry._keys.unclaim(key);
+      this._pathRegistry.unclaimPath(valuePath);
     } else {
-      this._formFieldRegistry._keys.claim(key, formField);
+      this._pathRegistry.claimPath(valuePath, formField);
     }
   }
 }
 
-UpdateKeyClaimHandler.$inject = [ 'formFieldRegistry' ];
+UpdateKeyClaimHandler.$inject = [ 'pathRegistry' ];

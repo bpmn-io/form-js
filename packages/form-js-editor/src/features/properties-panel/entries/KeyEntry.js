@@ -41,7 +41,7 @@ function Key(props) {
     id
   } = props;
 
-  const formFieldRegistry = useService('formFieldRegistry');
+  const pathRegistry = useService('pathRegistry');
 
   const debounce = useService('debounce');
 
@@ -60,6 +60,11 @@ function Key(props) {
   };
 
   const validate = (value) => {
+
+    if (value === field.key) {
+      return null;
+    }
+
     if (isUndefined(value) || !value.length) {
       return 'Must not be empty.';
     }
@@ -68,10 +73,17 @@ function Key(props) {
       return 'Must not contain spaces.';
     }
 
-    const assigned = formFieldRegistry._keys.assigned(value);
+    const currentPath = pathRegistry.getValuePath(field);
 
-    if (assigned && assigned !== field) {
-      return 'Must be unique.';
+    // ignore if the path is unchanged
+    if (currentPath.length > 0 && currentPath[-1] === value) {
+      return null;
+    }
+
+    const newPath = [ ...currentPath.slice(0, -1), value ];
+
+    if (!pathRegistry.canClaimPath(newPath, true)) {
+      return 'Must not conflict with other key/path assignments.';
     }
 
     return null;

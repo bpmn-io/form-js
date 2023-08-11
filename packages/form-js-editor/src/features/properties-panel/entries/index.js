@@ -6,6 +6,7 @@ export { default as DefaultValueEntry } from './DefaultValueEntry';
 export { default as DisabledEntry } from './DisabledEntry';
 export { default as IdEntry } from './IdEntry';
 export { default as KeyEntry } from './KeyEntry';
+export { default as PathEntry } from './PathEntry';
 export { default as LabelEntry } from './LabelEntry';
 export { default as ImageSourceEntry } from './ImageSourceEntry';
 export { default as TextEntry } from './TextEntry';
