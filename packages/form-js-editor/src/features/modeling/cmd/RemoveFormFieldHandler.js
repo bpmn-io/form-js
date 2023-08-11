@@ -33,7 +33,7 @@ export default class RemoveFormFieldHandler {
     // (1) Remove form field
     arrayRemove(get(schema, sourcePath), sourceIndex);
 
-    // (2) Update paths of its siblings
+    // (2) Update internal paths of its siblings (and their children)
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Remove form field from form field registry
@@ -57,7 +57,7 @@ export default class RemoveFormFieldHandler {
     // (1) Add form field
     arrayAdd(get(schema, sourcePath), sourceIndex, formField);
 
-    // (2) Update paths of its siblings
+    // (2) Update internal paths of its siblings (and their children)
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     // (3) Add form field to form field registry

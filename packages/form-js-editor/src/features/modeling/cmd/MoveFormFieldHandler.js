@@ -14,10 +14,12 @@ export default class MoveFormFieldHandler {
    * @constructor
    * @param { import('../../../FormEditor').default } formEditor
    * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../../../core/PathRegistry').default } pathRegistry
    */
-  constructor(formEditor, formFieldRegistry) {
+  constructor(formEditor, formFieldRegistry, pathRegistry) {
     this._formEditor = formEditor;
     this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
   }
 
   execute(context) {
@@ -77,30 +79,44 @@ export default class MoveFormFieldHandler {
       // (2) Move form field
       arrayMove(get(schema, sourcePath), sourceIndex, targetIndex);
 
-      // (3) Update paths of new form field and its siblings
+      // (3) Update internal paths of new form field and its siblings (and their children)
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
     } else {
       const formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
+      // (1) Deregister form field (and children) from path registry
+      this._pathRegistry.executeRecursivelyOnFields(
+        ({ field }) => {
+          this._pathRegistry.unclaimPath(this._pathRegistry.getValuePath(field));
+        }, formField
+      );
+
       formField._parent = targetFormField.id;
 
-      // (1) Remove form field
+      // (2) Remove form field
       arrayRemove(get(schema, sourcePath), sourceIndex);
 
-      // (2) Update paths of siblings
+      // (3) Update internal paths of siblings (and their children)
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
       const targetPath = [ ...targetFormField._path, 'components' ];
 
-      // (3) Add to row
+      // (4) Add to row
       updateRow(formField, targetRow ? targetRow.id : null);
 
-      // (4) Add form field
+      // (5) Add form field
       arrayAdd(get(schema, targetPath), targetIndex, formField);
 
-      // (5) Update paths of siblings
+      // (6) Update internal paths of siblings (and their children)
       get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
+
+      // (7) Reregister form field (and children) from path registry
+      this._pathRegistry.executeRecursivelyOnFields(
+        ({ field, isClosed }) => {
+          this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), isClosed);
+        }, formField
+      );
     }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
@@ -108,4 +124,4 @@ export default class MoveFormFieldHandler {
   }
 }
 
-MoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry' ];
+MoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry', 'pathRegistry' ];

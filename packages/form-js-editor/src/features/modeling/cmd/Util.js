@@ -14,10 +14,18 @@ export function arrayRemove(array, index) {
 
 export function updatePath(formFieldRegistry, formField, index) {
   const parent = formFieldRegistry.get(formField._parent);
-
-  formField._path = [ ...parent._path, 'components', index ];
-
+  refreshPathsRecursively(formField, [ ...parent._path, 'components', index ]);
   return formField;
+}
+
+export function refreshPathsRecursively(formField, path) {
+
+  formField._path = path;
+  const components = formField.components || [];
+
+  components.forEach((component, index) => {
+    refreshPathsRecursively(component, [ ...path, 'components', index ]);
+  });
 }
 
 export function updateRow(formField, rowId) {
