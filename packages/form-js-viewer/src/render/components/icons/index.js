@@ -13,6 +13,7 @@ import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
 import ImageIcon from './Image.svg';
+import GroupIcon from './Group.svg';
 
 export const iconsByType = (type) => {
   return {
@@ -21,6 +22,7 @@ export const iconsByType = (type) => {
     checklist: ChecklistIcon,
     columns: ColumnsIcon,
     datetime: DatetimeIcon,
+    group: GroupIcon,
     image: ImageIcon,
     number: NumberIcon,
     radio: RadioIcon,

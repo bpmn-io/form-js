@@ -41,7 +41,7 @@ export default function LabelEntry(props) {
       );
     }
   }
-  else if (INPUTS.includes(type) || type === 'button') {
+  else if (INPUTS.includes(type) || type === 'button' || type === 'group') {
     entries.push(
       {
         id: 'label',

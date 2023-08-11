@@ -102,7 +102,7 @@ export default class FormLayouter {
       components
     } = formField;
 
-    if (type !== 'default' || !components) {
+    if (type !== 'default' && type !== 'group' || !components) {
       return;
     }
 
