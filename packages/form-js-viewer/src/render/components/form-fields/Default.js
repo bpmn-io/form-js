@@ -1,68 +1,19 @@
 import { useContext } from 'preact/hooks';
-
-import useService from '../../hooks/useService';
-
-import FormField from '../FormField';
-
 import { FormRenderContext } from '../../context';
+import Grid from './parts/Grid';
 
-export default function Default(props) {
+export default function FormComponent(props) {
+
   const {
-    Children,
-    Empty,
-    Row
+    EmptyRoot,
   } = useContext(FormRenderContext);
 
-  const { field } = props;
+  const fullProps = { ...props, Empty: EmptyRoot };
 
-  const { id, components = [] } = field;
-
-  const formLayouter = useService('formLayouter');
-  const formFieldRegistry = useService('formFieldRegistry');
-  const rows = formLayouter.getRows(id);
-
-  return <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
-    {
-
-      rows.map(row => {
-        const {
-          components = []
-        } = row;
-
-        if (!components.length) {
-          return null;
-        }
-
-        return (
-          <Row row={ row } class="fjs-layout-row cds--row">
-            {
-              components.map(id => {
-
-                const childField = formFieldRegistry.get(id);
-
-                if (!childField) {
-                  return null;
-                }
-
-                return (
-                  <FormField
-                    { ...props }
-                    key={ childField.id }
-                    field={ childField } />
-                );
-              })
-            }
-          </Row>
-        );
-      })
-    }
-    {
-      components.length ? null : <Empty />
-    }
-  </Children>;
+  return <Grid { ...fullProps } />;
 }
 
-Default.config = {
+FormComponent.config = {
   type: 'default',
   keyed: false,
   label: null,
