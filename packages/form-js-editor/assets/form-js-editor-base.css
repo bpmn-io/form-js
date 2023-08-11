@@ -331,7 +331,7 @@
 }
 
 .fjs-editor-container .fjs-row-dragger:hover svg,
-.fjs-editor-container .fjs-drag-row-move:hover .fjs-row-dragger svg {
+.fjs-editor-container .fjs-drag-row-move:hover > .fjs-row-dragger svg {
   visibility: visible;
 }
 
@@ -376,7 +376,7 @@
   display: none;
 }
 
-.fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle {
+.fjs-editor-container .fjs-children .fjs-editor-selected > .fjs-field-resize-handle {
   visibility: visible;
 }
 
