@@ -2,5 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>bpmn-io/renovate-config:recommended"
+  ],
+  "reviewers": [
+    "team:hto-dev"
   ]
 }
