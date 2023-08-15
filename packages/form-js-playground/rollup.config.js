@@ -59,7 +59,8 @@ export default [
       '@codemirror/autocomplete',
       '@codemirror/language',
       'codemirror',
-      'classnames'
+      'classnames',
+      'min-dom'
     ],
     onwarn
   },

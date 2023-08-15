@@ -210,6 +210,11 @@
   display: flex;
 }
 
+.fjs-no-json-lint .cm-lint-marker,
+.fjs-no-json-lint .cm-lintPoint-error {
+  display: none;
+}
+
 .fjs-editor-container .fjs-form-editor {
   display: flex;
   flex: 1;

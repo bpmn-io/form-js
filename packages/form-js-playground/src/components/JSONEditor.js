@@ -1,7 +1,7 @@
 import mitt from 'mitt';
 
 import { basicSetup } from 'codemirror';
-import { EditorView, keymap } from '@codemirror/view';
+import { EditorView, keymap, placeholder } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
@@ -10,17 +10,32 @@ import { indentWithTab } from '@codemirror/commands';
 import autocompletion from './autocompletion/index';
 import { variablesFacet } from './autocompletion/VariablesFacet';
 
+import {
+  classes as domClasses
+} from 'min-dom';
 
+const NO_LINT_CLS = 'fjs-no-json-lint';
+
+
+/**
+ * @param {object} options
+ * @param {boolean} [options.readonly]
+ * @param {object} [options.contentAttributes]
+ * @param {string | HTMLElement} [options.placeholder]
+ */
 export function JSONEditor(options = {}) {
   const {
+    contentAttributes = {},
+    placeholder: editorPlaceholder,
     readonly = false,
-    contentAttributes = {}
   } = options;
 
   const emitter = mitt();
 
   let language = new Compartment().of(json());
   let tabSize = new Compartment().of(EditorState.tabSize.of(2));
+
+  let container = null;
 
 
   /**
@@ -31,6 +46,19 @@ export function JSONEditor(options = {}) {
 
   const linterExtension = linter(jsonParseLinter());
 
+  // this sets no-linting mode if placeholders are present
+  const placeholderLinterExtension = linter(view => {
+    const placeholders = view.dom.querySelectorAll('.cm-placeholder');
+
+    if (placeholders.length > 0) {
+      set(container, NO_LINT_CLS);
+    } else {
+      unset(container, NO_LINT_CLS);
+    }
+
+    return [];
+  });
+
   function createState(doc, extensions = [], variables = []) {
     return EditorState.create({
       doc,
@@ -39,10 +67,12 @@ export function JSONEditor(options = {}) {
         language,
         tabSize,
         linterExtension,
+        placeholderLinterExtension,
         lintGutter(),
         autocompletionConf.of(variablesFacet.of(variables)),
         autocompletion(),
         keymap.of([ indentWithTab ]),
+        editorPlaceholder ? placeholder(editorPlaceholder) : [],
         ...extensions
       ]
     });
@@ -102,7 +132,8 @@ export function JSONEditor(options = {}) {
   this.off = emitter.off;
   this.emit = emitter.emit;
 
-  this.attachTo = function(container) {
+  this.attachTo = function(_container) {
+    container = _container;
     container.appendChild(view.dom);
   };
 
@@ -113,4 +144,17 @@ export function JSONEditor(options = {}) {
 
     view.destroy();
   };
+}
+
+// helpers //////////////////////
+
+
+function set(node, cls) {
+  const classes = domClasses(node, document.body);
+  classes.add(cls);
+}
+
+function unset(node, cls) {
+  const classes = domClasses(node, document.body);
+  classes.remove(cls);
 }
