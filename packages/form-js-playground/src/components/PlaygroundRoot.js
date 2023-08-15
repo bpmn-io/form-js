@@ -54,7 +54,7 @@ export function PlaygroundRoot(props) {
 
   const [ showEmbed, setShowEmbed ] = useState(false);
 
-  const [ initialData ] = useState(props.data || {});
+  const [ initialData ] = useState(props.data || undefined);
   const [ initialSchema, setInitialSchema ] = useState(props.schema);
 
   const [ data, setData ] = useState(props.data || {});
@@ -89,7 +89,8 @@ export function PlaygroundRoot(props) {
   useEffect(() => {
     const dataEditor = dataEditorRef.current = new JSONEditor({
       value: toString(data),
-      contentAttributes: { 'aria-label': 'Form Input' }
+      contentAttributes: { 'aria-label': 'Form Input' },
+      placeholder: createDataEditorPlaceholder()
     });
 
     const resultView = resultViewRef.current = new JSONEditor({
@@ -269,4 +270,14 @@ export function PlaygroundRoot(props) {
 
 function toString(obj) {
   return JSON.stringify(obj, null, '  ');
+}
+
+function createDataEditorPlaceholder() {
+  const element = document.createElement('p');
+
+  element.innerHTML = 'Use this panel to simulate the form input, such as process variables.\nThis helps to test the form by populating the preview.\n\n' +
+    'Follow the JSON format like this:\n\n' +
+    '{\n  "variable": "value"\n}';
+
+  return element;
 }
