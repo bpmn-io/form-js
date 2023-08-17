@@ -253,21 +253,27 @@
   margin: 1px 6px;
 }
 
+.fjs-editor-container .fjs-children .fjs-element.fjs-outlined {
+  border-color: var(--color-borders-group);
+}
+
 .fjs-editor-container .fjs-children .fjs-element.fjs-editor-selected {
   border-color: var(--color-children-selected-border) !important;
   background-color: var(--color-children-selected-background);
 }
 
 .fjs-editor-container .fjs-children .fjs-element[data-field-type="group"] {
-  border-color: var(--color-borders-group);
   margin: 0 -6px;
 }
 
 .fjs-editor-container .fjs-form-field-group,
 .fjs-editor-container .fjs-form-field-group .fjs-form-field-group .fjs-form-field-group {
-  outline: none;
   margin: 1px 6px !important;
   padding: 0px;
+}
+
+.fjs-editor-container .fjs-form-field-group.fjs-outlined {
+  outline: none;
 }
 
 .fjs-editor-container .fjs-form-field-group .cds--grid {

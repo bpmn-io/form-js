@@ -90,7 +90,8 @@ function Element(props) {
 
   const {
     id,
-    type
+    type,
+    showOutline
   } = field;
 
   const ref = useRef();
@@ -137,6 +138,10 @@ function Element(props) {
 
   if (selection.isSelected(field)) {
     classes.push('fjs-editor-selected');
+  }
+
+  if (showOutline) {
+    classes.push('fjs-outlined');
   }
 
   const onRemove = (event) => {
