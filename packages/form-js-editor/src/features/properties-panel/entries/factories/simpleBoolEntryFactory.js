@@ -39,7 +39,7 @@ const SimpleBoolComponent = (props) => {
 
   const getValue = () => get(field, path, '');
 
-  const setValue = (value) => editField(field, path, value);
+  const setValue = (value) => editField(field, path, value || false);
 
   return CheckboxEntry({
     element: field,

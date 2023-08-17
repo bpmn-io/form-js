@@ -8,7 +8,7 @@ import classNames from 'classnames';
 export default function Group(props) {
 
   const { field } = props;
-  const { label, id, type } = field;
+  const { label, id, type, showOutline } = field;
   const { formId } = useContext(FormContext);
 
   const {
@@ -18,7 +18,7 @@ export default function Group(props) {
   const fullProps = { ...props, Empty };
 
   return (
-    <div className={ classNames(formFieldClasses(type)) } role="group" aria-labelledby={ prefixId(id, formId) }>
+    <div className={ classNames(formFieldClasses(type), { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ prefixId(id, formId) }>
       <Label
         id={ prefixId(id, formId) }
         label={ label } />
@@ -34,6 +34,7 @@ Group.config = {
   group: 'presentation',
   create: (options = {}) => ({
     components: [],
+    showOutline: true,
     ...options
   })
 };

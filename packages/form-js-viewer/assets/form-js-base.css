@@ -315,13 +315,16 @@
 
 .fjs-container .fjs-form-field-group,
 .fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-form-field-group {
-  outline: solid var(--color-borders-group) 2px;
   padding: 5px 6px 0 6px;
   margin: 0 -6px !important;
 }
 
 .fjs-container .fjs-form-field-group .fjs-form-field-group {
   margin: 0 11px !important;
+}
+
+.fjs-container .fjs-form-field-group.fjs-outlined {
+  outline: solid var(--color-borders-group) 2px;
 }
 
 .fjs-container .fjs-form-field-group label {
