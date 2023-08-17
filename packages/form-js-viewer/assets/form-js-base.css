@@ -70,6 +70,7 @@
     --cds-border-strong, 
     var(--cds-border-strong-01, var(--color-grey-225-10-55))
   );
+  --color-borders-group: var(--cds-border-subtle-01, var(--color-grey-225-10-85));
   --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
   --color-borders-adornment: var(
     --cds-border-subtle, 
@@ -310,6 +311,36 @@
 
 .fjs-container .fjs-form-field-description {
   color: var(--color-text-lighter);
+}
+
+.fjs-container .fjs-form-field-group,
+.fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-form-field-group {
+  outline: solid var(--color-borders-group) 2px;
+  padding: 5px 6px 0 6px;
+  margin: 0 -6px !important;
+}
+
+.fjs-container .fjs-form-field-group .fjs-form-field-group {
+  margin: 0 11px !important;
+}
+
+.fjs-container .fjs-form-field-group label {
+  font-size: var(--font-size-label);
+}
+
+.fjs-container .fjs-form-field-group .cds--grid {
+  padding: 4px 16px;
+}
+
+.fjs-container .fjs-form-field-group .fjs-form-field-group .cds--grid {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.fjs-container .fjs-form-field-group > label {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-input);
+  margin-left: 7px;
 }
 
 .fjs-container .fjs-form-field-checkbox .fjs-form-field-label,

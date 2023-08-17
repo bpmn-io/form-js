@@ -1,12 +1,15 @@
 import { useContext } from 'preact/hooks';
 import Grid from './parts/Grid';
-import { FormRenderContext } from '../../context';
+import { FormContext, FormRenderContext } from '../../context';
+import { formFieldClasses, prefixId } from '../Util';
+import Label from '../Label';
+import classNames from 'classnames';
 
 export default function Group(props) {
 
   const { field } = props;
-
-  const { label } = field;
+  const { label, id, type } = field;
+  const { formId } = useContext(FormContext);
 
   const {
     Empty,
@@ -15,10 +18,12 @@ export default function Group(props) {
   const fullProps = { ...props, Empty };
 
   return (
-    <fieldset class="fjs-form-group">
-      { label == null ? null : <legend>{ label }</legend> }
+    <div className={ classNames(formFieldClasses(type)) } role="group" aria-labelledby={ prefixId(id, formId) }>
+      <Label
+        id={ prefixId(id, formId) }
+        label={ label } />
       <Grid { ...fullProps } />
-    </fieldset>
+    </div>
   );
 }
 
