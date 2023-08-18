@@ -17,7 +17,7 @@ export default class UpdateKeyClaimHandler {
 
     const options = {
       replacements: {
-        [ formField.id ]: [ key ]
+        [ formField.id ]: key
       }
     };
 

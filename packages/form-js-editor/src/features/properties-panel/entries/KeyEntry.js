@@ -69,8 +69,8 @@ function Key(props) {
       return 'Must not be empty.';
     }
 
-    if (/\s/.test(value)) {
-      return 'Must not contain spaces.';
+    if (value && !/^\w+(.\w+)*$/.test(value)) {
+      return 'Must be a variable or a path (e.g. "foo.bar")';
     }
 
     const currentPath = pathRegistry.getValuePath(field);
