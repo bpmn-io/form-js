@@ -125,6 +125,7 @@ export default class PathRegistry {
    * @param {Object} field - The field object with properties: `key`, `path`, `id`, and optionally `_parent`.
    * @param {Object} [options={}] - Configuration options.
    * @param {Object} [options.replacements={}] - A map of field IDs to alternative path arrays.
+   * @param {Object} [options.cutoffNode] - The ID of the parent field at which to stop generating the path.
    *
    * @returns {(Array<string>|undefined)} An array of strings representing the binding path, or undefined if not determinable.
    */
@@ -153,7 +154,7 @@ export default class PathRegistry {
       }
 
     } else if (formFieldConfig.keyed) {
-      localValuePath = [ field.key ];
+      localValuePath = field.key.split('.');
     } else if (formFieldConfig.routed && field.path) {
       localValuePath = field.path.split('.');
     }
