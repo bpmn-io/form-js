@@ -402,20 +402,24 @@ export default class Form {
   _getSubmitData() {
 
     const formFieldRegistry = this.get('formFieldRegistry'),
-          pathRegistry = this.get('pathRegistry');
+          pathRegistry = this.get('pathRegistry'),
+          formFields = this.get('formFields');
     const formData = this._getState().data;
 
     const submitData = formFieldRegistry.getAll().reduce((previous, field) => {
       const {
-        disabled
+        disabled,
+        type
       } = field;
 
-      const valuePath = pathRegistry.getValuePath(field);
+      const { config: fieldConfig } = formFields.get(type);
 
-      // do not submit disabled form fields
-      if (disabled || !valuePath) {
+      // do not submit disabled form fields or routing fields
+      if (disabled || !fieldConfig.keyed) {
         return previous;
       }
+
+      const valuePath = pathRegistry.getValuePath(field);
 
       const value = get(formData, valuePath);
       return set(previous, valuePath, value);
