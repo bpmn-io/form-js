@@ -61,7 +61,12 @@ function Path(props) {
     }
 
     if (value && !/^\w+(.\w+)*$/.test(value)) {
-      return 'Must be empty, a variable or a variable path (e.g. "foo.bar")';
+      return 'Must be empty, a variable or a dot separated path';
+    }
+
+    const hasIntegerPathSegment = value && value.split('.').some(segment => /^\d+$/.test(segment));
+    if (hasIntegerPathSegment) {
+      return 'Must not contain numerical path segments.';
     }
 
     const options = value && {
