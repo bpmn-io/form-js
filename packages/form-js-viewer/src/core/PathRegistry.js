@@ -164,7 +164,7 @@ export default class PathRegistry {
       return [ ...(this.getValuePath(parent, options) || []), ...localValuePath ];
     }
 
-    return localValuePath.length ? localValuePath : undefined;
+    return localValuePath;
   }
 
   clear() {
