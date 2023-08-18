@@ -30,6 +30,10 @@ export const PropertiesPanelHeaderProvider = {
       type
     } = field;
 
+    if (type === 'spacer') {
+      return '';
+    }
+
     if (type === 'text') {
       return textToLabel(field.text);
     }
