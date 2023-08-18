@@ -70,7 +70,12 @@ function Key(props) {
     }
 
     if (value && !/^\w+(.\w+)*$/.test(value)) {
-      return 'Must be a variable or a path (e.g. "foo.bar")';
+      return 'Must be a variable or a dot separated path';
+    }
+
+    const hasIntegerPathSegment = value.split('.').some(segment => /^\d+$/.test(segment));
+    if (hasIntegerPathSegment) {
+      return 'Must not contain numerical path segments.';
     }
 
     const currentPath = pathRegistry.getValuePath(field);
