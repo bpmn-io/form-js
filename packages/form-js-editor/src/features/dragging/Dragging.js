@@ -101,21 +101,25 @@ export default class Dragging {
       const currentParentFormField = this._formFieldRegistry.get(formField._parent);
 
       if (targetParentFormField !== currentParentFormField) {
-        const targetPath = this._pathRegistry.getValuePath(targetParentFormField);
+        const targetParentPath = this._pathRegistry.getValuePath(targetParentFormField);
+        const currentParentPath = this._pathRegistry.getValuePath(currentParentFormField);
 
-        const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(
-          ({ field, isClosed }) => {
-            const options = {
-              cutoffNode: currentParentFormField.id,
-            };
+        if (targetParentPath.join('.') !== currentParentPath.join('.')) {
 
-            const fieldPath = this._pathRegistry.getValuePath(field, options);
-            return this._pathRegistry.canClaimPath([...targetPath, ...fieldPath], isClosed);
-          }, formField
-        );
+          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(
+            ({ field, isClosed }) => {
+              const options = {
+                cutoffNode: currentParentFormField.id,
+              };
 
-        if (!isDropAllowedByPathRegistry) {
-          return 'Drop not allowed by path registry';
+              const fieldPath = this._pathRegistry.getValuePath(field, options);
+              return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], isClosed);
+            }, formField
+          );
+
+          if (!isDropAllowedByPathRegistry) {
+            return 'Drop not allowed by path registry';
+          }
         }
       }
     }
