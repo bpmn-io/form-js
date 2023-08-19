@@ -106,16 +106,14 @@ export default class Dragging {
 
         if (targetParentPath.join('.') !== currentParentPath.join('.')) {
 
-          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(
-            ({ field, isClosed }) => {
-              const options = {
-                cutoffNode: currentParentFormField.id,
-              };
+          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
+            const options = {
+              cutoffNode: currentParentFormField.id,
+            };
 
-              const fieldPath = this._pathRegistry.getValuePath(field, options);
-              return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], isClosed);
-            }, formField
-          );
+            const fieldPath = this._pathRegistry.getValuePath(field, options);
+            return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], isClosed);
+          });
 
           if (!isDropAllowedByPathRegistry) {
             return 'Drop not allowed by path registry';

@@ -1,4 +1,5 @@
 import { isArray } from 'min-dash';
+import { clone } from '../util';
 
 export default class PathRegistry {
   constructor(formFieldRegistry, formFields) {
@@ -88,25 +89,24 @@ export default class PathRegistry {
     }
   }
 
-  executeRecursivelyOnFields(fn, field) {
+  executeRecursivelyOnFields(field, fn, context = {}) {
 
     let result = true;
 
     const formFieldConfig = this._formFields.get(field.type).config;
 
     if (formFieldConfig.keyed) {
-      const callResult = fn({ field, isClosed: true });
+      const callResult = fn({ field, isClosed: true, context: context });
       return result && callResult;
     }
-
-    if (formFieldConfig.routed) {
-      const callResult = fn({ field, isClosed: false });
+    else if (formFieldConfig.routed) {
+      const callResult = fn({ field, isClosed: false, context: context });
       result = result && callResult;
     }
 
     if (field.components) {
       for (const child of field.components) {
-        const callResult = this.executeRecursivelyOnFields(fn, child);
+        const callResult = this.executeRecursivelyOnFields(child, fn, clone(context));
         result = result && callResult;
 
         // only stop executing if false is specifically returned, not if undefined

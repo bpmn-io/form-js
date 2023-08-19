@@ -1,5 +1,5 @@
 import { unaryTest } from 'feelin';
-import { isString } from 'min-dash';
+import { get, isString, set, values, isObject } from 'min-dash';
 
 /**
  * @typedef {object} Condition
@@ -7,8 +7,9 @@ import { isString } from 'min-dash';
  */
 
 export default class ConditionChecker {
-  constructor(formFieldRegistry, eventBus) {
+  constructor(formFieldRegistry, pathRegistry, eventBus) {
     this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
     this._eventBus = eventBus;
   }
 
@@ -20,17 +21,21 @@ export default class ConditionChecker {
    */
   applyConditions(properties, data = {}) {
 
-    const conditions = this._getConditions();
-
     const newProperties = { ...properties };
 
-    for (const { key, condition } of conditions) {
-      const shouldRemove = this._checkHideCondition(condition, data);
+    const form = this._formFieldRegistry.getAll().find((field) => field.type === 'default');
 
-      if (shouldRemove) {
-        delete newProperties[ key ];
+    this._pathRegistry.executeRecursivelyOnFields(form, ({ field, isClosed, context }) => {
+      const { conditional: condition } = field;
+
+      context.isHidden = context.isHidden || (condition && this._checkHideCondition(condition, data));
+
+      // only clear the leaf nodes, as groups may both point to the same path
+      if (context.isHidden && isClosed) {
+        const valuePath = this._pathRegistry.getValuePath(field);
+        this._clearObjectValueRecursively(valuePath, newProperties);
       }
-    }
+    });
 
     return newProperties;
   }
@@ -81,23 +86,21 @@ export default class ConditionChecker {
     return result === true;
   }
 
-  _getConditions() {
-    const formFields = this._formFieldRegistry.getAll();
+  _clearObjectValueRecursively(valuePath, obj) {
+    const workingValuePath = [ ...valuePath ];
+    let recurse = false;
 
-    return formFields.reduce((conditions, formField) => {
-      const { key, conditional: condition } = formField;
-
-      if (key && condition) {
-        return [ ...conditions, { key, condition } ];
-      }
-
-      return conditions;
-
-    }, []);
+    do {
+      set(obj, workingValuePath, undefined);
+      workingValuePath.pop();
+      const parentObject = get(obj, workingValuePath);
+      recurse = isObject(parentObject) && !values(parentObject).length && !!workingValuePath.length;
+    } while (recurse);
   }
 }
 
 ConditionChecker.$inject = [
   'formFieldRegistry',
+  'pathRegistry',
   'eventBus'
 ];
