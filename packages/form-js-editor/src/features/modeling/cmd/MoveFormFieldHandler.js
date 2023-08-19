@@ -86,11 +86,9 @@ export default class MoveFormFieldHandler {
       const formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
       // (1) Deregister form field (and children) from path registry
-      this._pathRegistry.executeRecursivelyOnFields(
-        ({ field }) => {
-          this._pathRegistry.unclaimPath(this._pathRegistry.getValuePath(field));
-        }, formField
-      );
+      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field }) => {
+        this._pathRegistry.unclaimPath(this._pathRegistry.getValuePath(field));
+      });
 
       formField._parent = targetFormField.id;
 
@@ -112,11 +110,9 @@ export default class MoveFormFieldHandler {
       get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
       // (7) Reregister form field (and children) from path registry
-      this._pathRegistry.executeRecursivelyOnFields(
-        ({ field, isClosed }) => {
-          this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), isClosed);
-        }, formField
-      );
+      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
+        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), isClosed);
+      });
     }
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution

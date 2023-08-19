@@ -75,12 +75,10 @@ function Path(props) {
       }
     } || {};
 
-    const canClaim = pathRegistry.executeRecursivelyOnFields(
-      ({ field, isClosed }) => {
-        const path = pathRegistry.getValuePath(field, options);
-        return pathRegistry.canClaimPath(path, isClosed);
-      }, field
-    );
+    const canClaim = pathRegistry.executeRecursivelyOnFields(field, ({ field, isClosed }) => {
+      const path = pathRegistry.getValuePath(field, options);
+      return pathRegistry.canClaimPath(path, isClosed);
+    });
 
     if (!canClaim) {
       return 'Must not cause two binding paths to colide';
