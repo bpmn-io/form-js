@@ -104,26 +104,24 @@ export function getSchemaVariables(schema, options = {}) {
     return [];
   }
 
-  const variables = schema.components.reduce((variables, component) => {
+  const getAllComponents = (node) => {
+    const components = [];
+
+    if (node.components) {
+      node.components.forEach(component => {
+        components.push(component);
+        components.push(...getAllComponents(component));
+      });
+    }
+
+    return components;
+  };
+
+  const variables = getAllComponents(schema).reduce((variables, component) => {
 
     const {
-      key,
-      valuesKey,
-      type
+      valuesKey
     } = component;
-
-    if ([ 'button' ].includes(type)) {
-      return variables;
-    }
-
-    // collect bi-directional variables
-    if (inputs || outputs) {
-
-      if (key) {
-        variables = [ ...variables, key ];
-      }
-
-    }
 
     // collect input-only variables
     if (inputs) {
@@ -156,6 +154,31 @@ export function getSchemaVariables(schema, options = {}) {
 
     return variables.filter(variable => variable !== undefined || variable !== null);
   }, []);
+
+  const getBindingVariables = (node)=> {
+    const bindingVariable = [];
+
+    // c.f. https://github.com/bpmn-io/form-js/issues/778 @Skaiir to remove?
+    if (node.type === 'button') {
+      return [];
+    }
+    else if (node.key) {
+      return [ node.key.split('.')[0] ];
+    } else if (node.path) {
+      return [ node.path.split('.')[0] ];
+    } else if (node.components) {
+      node.components.forEach(component => {
+        bindingVariable.push(...getBindingVariables(component));
+      });
+    }
+
+    return bindingVariable;
+  };
+
+  // collect binding variables
+  if (inputs || outputs) {
+    variables.push(...getBindingVariables(schema));
+  }
 
   // remove duplicates
   return Array.from(new Set(variables));
