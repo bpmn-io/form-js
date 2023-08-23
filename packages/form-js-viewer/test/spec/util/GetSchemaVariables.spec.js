@@ -15,6 +15,7 @@ import adornersSchema from '../appearance.json';
 import imagesSchema from '../images.json';
 import valuesExpressionSchema from '../valuesExpression.json';
 import validateSchema from '../validate.json';
+import groupsSchema from '../groups.json';
 import shipsExampleSchema from '../ships-example.json';
 
 describe('util/getSchemaVariables', () => {
@@ -39,7 +40,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(dynamicSchema);
 
-    expect(variables).to.eql([ 'product', 'xyzData', 'mailto', 'language', 'tags' ]);
+    expect(variables).to.eql([ 'xyzData', 'product', 'mailto', 'language', 'tags' ]);
   });
 
 
@@ -55,7 +56,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(valuesExpressionSchema);
 
-    expect(variables).to.eql([ 'product', 'mailto', 'myList', 'foo', 'concatenate', 'myList2', 'myList3', 'myList4' ]);
+    expect(variables).to.eql([ 'myList', 'concatenate', 'myList2', 'myList3', 'myList4', 'product', 'mailto', 'foo' ]);
   });
 
 
@@ -63,7 +64,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(conditionalSchema);
 
-    expect(variables).to.eql([ 'amount', 'externalVariable' ]);
+    expect(variables).to.eql([ 'externalVariable', 'amount' ]);
   });
 
 
@@ -119,7 +120,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(readonlyExpressionSchema);
 
-    expect(variables).to.eql([ 'amount', 'foo', 'bar', 'text' ]);
+    expect(variables).to.eql([ 'foo', 'bar', 'amount', 'text' ]);
   });
 
 
@@ -127,7 +128,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(labelsSchema);
 
-    expect(variables).to.eql([ 'template', 'foo', 'bar', 'expression', 'label_var' ]);
+    expect(variables).to.eql([ 'foo', 'bar', 'label_var', 'template', 'expression' ]);
   });
 
 
@@ -135,7 +136,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(descriptionsSchema);
 
-    expect(variables).to.eql([ 'template', 'foo', 'bar', 'expression', 'description_var' ]);
+    expect(variables).to.eql([ 'foo', 'bar', 'description_var', 'template', 'expression' ]);
   });
 
 
@@ -144,12 +145,12 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(adornersSchema);
 
     expect(variables).to.eql([
-      'adorner_expression',
       'prefix_expression',
       'suffix_expression',
-      'adorner_template',
       'prefix_template',
-      'suffix_template'
+      'suffix_template',
+      'adorner_expression',
+      'adorner_template'
     ]);
   });
 
@@ -172,12 +173,12 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(validateSchema);
 
     expect(variables).to.eql([
-      'number_expression',
       'min',
       'max',
-      'textfield_expression',
       'minLength',
-      'maxLength'
+      'maxLength',
+      'number_expression',
+      'textfield_expression',
     ]);
   });
 
@@ -190,6 +191,27 @@ describe('util/getSchemaVariables', () => {
       'selectedShip',
       'shipsForSale'
     ]);
+  });
+
+
+  it('should only include root keys in nested components, but all variable references', () => {
+
+    const variables = getSchemaVariables(groupsSchema);
+
+    expect(variables).to.eql([
+      'alt_root',
+      'alt_flat',
+      'alt_nested',
+      'alt_pathed',
+      'alt_separated',
+      'text_root',
+      'text_flat',
+      'text_nested',
+      'pathed',
+      'separated',
+      'separated2'
+    ]);
+
   });
 
 });
