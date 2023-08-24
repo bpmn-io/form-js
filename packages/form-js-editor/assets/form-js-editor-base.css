@@ -262,8 +262,12 @@
   background-color: var(--color-children-selected-background);
 }
 
-.fjs-editor-container .fjs-children .fjs-element[data-field-type="group"] {
-  margin: 0 -6px;
+.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"] {
+  margin-left: -6px;
+}
+
+.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="group"] {
+  margin-right: -6px;
 }
 
 .fjs-editor-container .fjs-form-field-group,
