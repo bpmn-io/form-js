@@ -17,7 +17,7 @@ describe('features/modeling - KeyBehavior', function() {
   }));
 
 
-  it('should unclaim key on form field remove', inject(function(formFieldRegistry, modeling) {
+  it('should unclaim key on form field remove', inject(function(formFieldRegistry, pathRegistry, modeling) {
 
     // given
     const formField = formFieldRegistry.get('Textfield_1'),
@@ -32,25 +32,29 @@ describe('features/modeling - KeyBehavior', function() {
     );
 
     // then
-    expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+    expect(pathRegistry.canClaimPath([ formField.key ])).to.be.true;
   }));
 
 
-  it('should unclaim old key and claim new key on form field edit', inject(function(formFieldRegistry, modeling) {
+  it('should unclaim old key and claim new key on form field edit', inject(function(formFieldRegistry, pathRegistry, modeling) {
 
     // given
     const formField = formFieldRegistry.get('Textfield_1');
+
+    const oldKey = formField.key;
 
     // when
     modeling.editFormField(
       formField,
       'key',
-      'foo'
+      'user.creditor'
     );
 
     // then
-    expect(formFieldRegistry._keys.assigned('creditor')).to.be.false;
-    expect(formFieldRegistry._keys.assigned('foo')).to.equal(formField);
+    expect(pathRegistry.canClaimPath([ oldKey ])).to.be.true;
+    expect(pathRegistry.canClaimPath([ 'user' ], true)).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'user' ])).to.be.true;
+    expect(pathRegistry.canClaimPath([ 'user', 'creditor' ])).to.be.false;
   }));
 
 });

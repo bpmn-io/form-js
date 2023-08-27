@@ -25,6 +25,7 @@ const defaultData = {
 
 const defaultField = {
   key: 'creditor',
+  id: 'Creditor_ID',
   _path: [ 'creditor' ],
   label: 'Creditor',
   type: 'textfield',
@@ -88,7 +89,7 @@ describe('FormField', function() {
     // when
     createFormField({
       errors: {
-        creditor: [
+        Creditor_ID: [
           'foo'
         ]
       },
@@ -329,7 +330,7 @@ describe('FormField', function() {
       fireEvent.blur(input);
       expect(setStateSpy).to.have.been.calledWith({
         errors: {
-          creditor: [ 'validation-error' ]
+          Creditor_ID: [ 'validation-error' ]
         }
       });
 
@@ -354,7 +355,7 @@ describe('FormField', function() {
       // then
       expect(setStateSpy).to.have.been.calledWith({
         errors: {
-          creditor: [ 'validation-error' ]
+          Creditor_ID: [ 'validation-error' ]
         }
       });
 
@@ -639,7 +640,12 @@ function createFormField(options = {}) {
             return updateFieldValidationHandler.execute({ field, value });
           }
         };
-      } else if (type === 'validator') {
+      } else if (type === 'pathRegistry') {
+        return {
+          getValuePath(field) { return field.key.split('.'); }
+        };
+      }
+      else if (type === 'validator') {
         return validatorMock;
       }
     }

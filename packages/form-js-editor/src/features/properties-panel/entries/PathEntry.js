@@ -60,7 +60,7 @@ function Path(props) {
       return null;
     }
 
-    if (value && !/^\w+(.\w+)*$/.test(value)) {
+    if (value && !/^\w+(\.\w+)*$/.test(value)) {
       return 'Must be empty, a variable or a dot separated path';
     }
 

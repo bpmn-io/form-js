@@ -8,7 +8,6 @@ export default class PathRegistry {
     this._dataPaths = [];
   }
 
-
   canClaimPath(path, closed = false) {
 
     let node = { children: this._dataPaths };

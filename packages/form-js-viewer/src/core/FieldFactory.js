@@ -30,6 +30,10 @@ export default class FieldFactory {
 
     const { config } = fieldDefinition;
 
+    if (!config) {
+      throw new Error(`form field of type <${ type }> has no config`);
+    }
+
     if (id && this._formFieldRegistry._ids.assigned(id)) {
       throw new Error(`form field with id <${ id }> already exists`);
     }
@@ -41,11 +45,11 @@ export default class FieldFactory {
     const parentPath = parent && this._pathRegistry.getValuePath(parent) || [];
 
     if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, key ], true)) {
-      throw new Error(`dataPath <${ [ ...parentPath, key ].join('.') }> already claimed`);
+      throw new Error(`binding path '${ [ ...parentPath, key ].join('.') }' is already claimed`);
     }
 
     if (config.routed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ], false)) {
-      throw new Error(`dataPath <${ [ ...parentPath, ...path.split('.') ].join('.') }> already claimed`);
+      throw new Error(`binding path '${ [ ...parentPath, ...path.split('.') ].join('.') }' is already claimed`);
     }
 
     const labelAttrs = applyDefaults && config.label ? {
@@ -60,7 +64,7 @@ export default class FieldFactory {
     this._ensureId(field);
 
     if (config.keyed) {
-      this._ensureKey(field, applyDefaults);
+      this._ensureKey(field);
     }
 
     if (config.routed && path) {
@@ -87,11 +91,7 @@ export default class FieldFactory {
     field.id = this._formFieldRegistry._ids.nextPrefixed(`${prefix}_`, field);
   }
 
-  _ensureKey(field, applyDefaults) {
-
-    if (!applyDefaults && !field.key) {
-      throw new Error('field must have key');
-    }
+  _ensureKey(field) {
 
     if (!field.key) {
 
@@ -101,7 +101,7 @@ export default class FieldFactory {
       // ensure key uniqueness at level
       do {
         random = Math.random().toString(36).substring(7);
-      } while (parent.components.some(child => child.key === random));
+      } while (parent && parent.components.some(child => child.key === random));
 
       field.key = `${field.type}_${random}`;
     }

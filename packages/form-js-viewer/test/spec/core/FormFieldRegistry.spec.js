@@ -218,7 +218,6 @@ describe('FormFieldRegistry', function() {
       formFieldRegistry.add(formField1);
 
       formFieldRegistry._ids.claim(formField1.id, formField1);
-      formFieldRegistry._keys.claim(formField1.key, formField1);
 
       formField2 = {
         id: 'bar',
@@ -228,7 +227,6 @@ describe('FormFieldRegistry', function() {
       formFieldRegistry.add(formField2);
 
       formFieldRegistry._ids.claim(formField2.id, formField2);
-      formFieldRegistry._keys.claim(formField2.key, formField2);
     }));
 
 
@@ -242,9 +240,6 @@ describe('FormFieldRegistry', function() {
 
       expect(formFieldRegistry._ids.assigned('foo')).to.be.false;
       expect(formFieldRegistry._ids.assigned('bar')).to.be.false;
-
-      expect(formFieldRegistry._keys.assigned('foo')).to.be.false;
-      expect(formFieldRegistry._keys.assigned('bar')).to.be.false;
     }));
 
 
@@ -258,9 +253,6 @@ describe('FormFieldRegistry', function() {
 
       expect(formFieldRegistry._ids.assigned('foo')).to.be.false;
       expect(formFieldRegistry._ids.assigned('bar')).to.be.false;
-
-      expect(formFieldRegistry._keys.assigned('foo')).to.be.false;
-      expect(formFieldRegistry._keys.assigned('bar')).to.be.false;
     }));
 
   });

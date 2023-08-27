@@ -2,7 +2,7 @@ import { formFieldClasses } from '../../../src/render/components/Util';
 
 const type = 'button';
 
-function CustomButtonRenderer(props) {
+function CustomButton(props) {
   const {
     disabled,
     field
@@ -15,17 +15,24 @@ function CustomButtonRenderer(props) {
   </div>;
 }
 
-CustomButtonRenderer.label = 'Custom Button';
+CustomButton.config = {
+  type,
+  keyed: true,
+  label: 'Custom Button',
+  group: 'action',
+  create: (options = {}) => ({
+    action: 'submit',
+    ...options
+  })
+};
 
-CustomButtonRenderer.type = type;
-
-class RegisterCustomButtonRenderer {
+class CustomButtonRegistrer {
   constructor(formFields) {
-    formFields.register(type, CustomButtonRenderer);
+    formFields.register(type, CustomButton);
   }
 }
 
 export default {
-  __init__: [ 'customButtonRenderer' ],
-  customButtonRenderer: [ 'type', RegisterCustomButtonRenderer ]
+  __init__: [ 'customButtonRegisterer' ],
+  customButtonRegisterer: [ 'type', CustomButtonRegistrer ]
 };

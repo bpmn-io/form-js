@@ -1,4 +1,6 @@
 import ConditionChecker from '../../../../src/features/expression-language/ConditionChecker';
+import PathRegistry from '../../../../src/core/PathRegistry';
+import FormFields from '../../../../src/render/FormFields';
 
 describe('ConditionChecker', function() {
 
@@ -8,11 +10,12 @@ describe('ConditionChecker', function() {
 
   beforeEach(function() {
     fireSpy = sinon.spy();
-    conditionChecker = new ConditionChecker({
-      getAll: () => fields
-    }, { fire: fireSpy });
+    conditionChecker = new ConditionChecker(
+      { getAll: () => fields },
+      new PathRegistry({}, new FormFields()),
+      { fire: fireSpy }
+    );
   });
-
 
   describe('#check', function() {
 
@@ -128,16 +131,23 @@ describe('ConditionChecker', function() {
       // given
       fields = [
         {
-          key: 'foo',
-          conditional: {
-            hide: '=2 + 2 = 4'
-          }
-        },
-        {
-          key: 'bar',
-          conditional: {
-            hide: '=2 + 2 = 5'
-          }
+          type: 'default',
+          components: [
+            {
+              key: 'foo',
+              type: 'textfield',
+              conditional: {
+                hide: '=2 + 2 = 4'
+              }
+            },
+            {
+              key: 'bar',
+              type: 'textfield',
+              conditional: {
+                hide: '=2 + 2 = 5'
+              }
+            }
+          ]
         }
       ];
 
@@ -161,16 +171,23 @@ describe('ConditionChecker', function() {
       // given
       fields = [
         {
-          key: 'foo',
-          conditional: {
-            hide: '=2 + 2 = four'
-          }
-        },
-        {
-          key: 'bar',
-          conditional: {
-            hide: '=2 + 2 = five'
-          }
+          type: 'default',
+          components: [
+            {
+              key: 'foo',
+              type: 'textfield',
+              conditional: {
+                hide: '=2 + 2 = 4'
+              }
+            },
+            {
+              key: 'bar',
+              type: 'textfield',
+              conditional: {
+                hide: '=2 + 2 = 5'
+              }
+            }
+          ]
         }
       ];
 

@@ -18,7 +18,7 @@ export default function GroupEntries(props) {
     simpleBoolEntryFactory({
       id: 'showOutline',
       path: [ 'showOutline' ],
-      label: 'Show Outline',
+      label: 'Show outline',
       props
     })
   ];

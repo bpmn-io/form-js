@@ -81,7 +81,7 @@ describe('Button', function() {
     expect(config.type).to.eql('button');
     expect(config.label).to.eql('Button');
     expect(config.group).to.eql('action');
-    expect(config.keyed).to.be.true;
+    expect(config.keyed).to.be.false;
 
     // when
     const field = config.create();

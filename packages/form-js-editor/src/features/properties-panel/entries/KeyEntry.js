@@ -69,8 +69,8 @@ function Key(props) {
       return 'Must not be empty.';
     }
 
-    if (value && !/^\w+(.\w+)*$/.test(value)) {
-      return 'Must be a variable or a dot separated path';
+    if (value && !/^\w+(\.\w+)*$/.test(value)) {
+      return 'Must be a variable or a dot separated path.';
     }
 
     const hasIntegerPathSegment = value.split('.').some(segment => /^\d+$/.test(segment));
@@ -78,14 +78,11 @@ function Key(props) {
       return 'Must not contain numerical path segments.';
     }
 
-    const currentPath = pathRegistry.getValuePath(field);
+    const replacements = {
+      [ field.id ]: value.split('.')
+    };
 
-    // ignore if the path is unchanged
-    if (currentPath.length > 0 && currentPath[-1] === value) {
-      return null;
-    }
-
-    const newPath = [ ...currentPath.slice(0, -1), value ];
+    const newPath = pathRegistry.getValuePath(field, { replacements });
 
     if (!pathRegistry.canClaimPath(newPath, true)) {
       return 'Must not conflict with other key/path assignments.';
