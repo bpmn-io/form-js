@@ -18,7 +18,6 @@ describe('core/FieldFactory', function() {
     it('Button', testCreate({
       type: 'button',
       label: 'Button',
-      keyed: true,
       defaults: {
         action: 'submit'
       }
@@ -188,7 +187,7 @@ describe('core/FieldFactory', function() {
       }, false);
 
       // then
-      expect(create).to.throw('ID <foo> already assigned');
+      expect(create).to.throw('form field with id <foo> already exists');
     }));
 
   });
@@ -204,7 +203,7 @@ describe('core/FieldFactory', function() {
       });
 
       // then
-      expect(field.key).to.match(/field_[a-z|0-9]{7}/);
+      expect(field.key).to.match(/textfield_[a-z|0-9]+/);
     }));
 
 
@@ -236,7 +235,7 @@ describe('core/FieldFactory', function() {
       }, false);
 
       // then
-      expect(create).to.throw('key <foo> already assigned');
+      expect(create).to.throw('binding path \'foo\' is already claimed');
     }));
 
   });

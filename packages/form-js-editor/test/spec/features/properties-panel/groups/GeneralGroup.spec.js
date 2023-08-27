@@ -1216,10 +1216,17 @@ describe('GeneralGroup', function() {
 
 // helper ///////////////
 
-function _getService(type, options) {
+function _getService(type, options = {}) {
   if (type === 'templating') {
     return {
       isTemplate: options.isTemplate || (() => false)
+    };
+  }
+
+  if (type === 'pathRegistry') {
+    return {
+      getValuePath: options.getValuePath || ((field) => [ field.key ]),
+      canClaimPath: options.canClaimPath || (() => true)
     };
   }
 }
@@ -1236,7 +1243,9 @@ function renderGeneralGroup(options) {
   return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     groups
-  })));
+  }), {
+    [ 'pathRegistry' ] : getService('pathRegistry'),
+  }));
 }
 
 function findEntry(id, container) {

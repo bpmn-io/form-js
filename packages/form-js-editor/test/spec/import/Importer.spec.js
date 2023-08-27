@@ -107,7 +107,7 @@ describe('Importer', function() {
     }));
 
 
-    it('should indicate duplicate <key>', inject(async function(formEditor) {
+    it('should indicate conflicting binding path', inject(async function(formEditor) {
 
       // given
       const errorSchema = {
@@ -135,7 +135,7 @@ describe('Importer', function() {
 
       // then
       expect(error).to.exist;
-      expect(error.message).to.eql('form field with key <creditor> already exists');
+      expect(error.message).to.eql('binding path \'creditor\' is already claimed');
 
       expect(error.warnings).to.exist;
       expect(error.warnings).to.be.empty;

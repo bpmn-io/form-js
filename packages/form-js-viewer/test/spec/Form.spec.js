@@ -11,7 +11,7 @@ import {
 
 import { spy } from 'sinon';
 
-import customModule from './custom';
+import customButtonModule from './custom';
 
 import conditionSchema from './condition.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
@@ -503,7 +503,7 @@ describe('Form', function() {
       });
 
       expect(submission.errors).to.eql({
-        creditor: [ 'Field is required.' ]
+        Creditor_ID: [ 'Field is required.' ]
       });
     });
 
@@ -575,7 +575,7 @@ describe('Form', function() {
 
     // then
     expect(errors).to.eql({
-      creditor: [
+      Creditor_ID: [
         'Field is required.'
       ]
     });
@@ -720,7 +720,7 @@ describe('Form', function() {
 
     // then
     expect(submission.data).not.to.have.property('creditor');
-    expect(submission.errors).not.to.have.property('creditor');
+    expect(submission.errors).not.to.have.property('Creditor_ID');
   });
 
 
@@ -862,7 +862,7 @@ describe('Form', function() {
       data,
       schema,
       additionalModules: [
-        customModule
+        customButtonModule
       ]
     });
 
@@ -1069,7 +1069,7 @@ describe('Form', function() {
       });
 
       expect(event.errors).to.eql({
-        creditor: [ 'Field is required.' ]
+        Creditor_ID: [ 'Field is required.' ]
       });
     });
 

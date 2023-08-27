@@ -788,17 +788,17 @@ describe('features/modeling', function() {
     };
 
 
-    it('<do>', inject(function(formFieldRegistry, modeling) {
+    it('<do>', inject(function(pathRegistry, modeling) {
 
       // when
       modeling.claimKey(formField, formField.key);
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.false;
     }));
 
 
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+    it('<undo>', inject(function(commandStack, pathRegistry, modeling) {
 
       // given
       modeling.claimKey(formField, formField.key);
@@ -807,11 +807,11 @@ describe('features/modeling', function() {
       commandStack.undo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.true;
     }));
 
 
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+    it('<redo>', inject(function(commandStack, pathRegistry, modeling) {
 
       // given
       modeling.claimKey(formField, formField.key);
@@ -822,13 +822,13 @@ describe('features/modeling', function() {
       commandStack.redo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.false;
     }));
 
   });
 
 
-  describe('#unclaimId', function() {
+  describe('#unclaimKey', function() {
 
     const formField = {
       id: 'foo',
@@ -837,21 +837,21 @@ describe('features/modeling', function() {
     };
 
     this.beforeEach(inject(function(modeling) {
-      modeling.claimId(formField, formField.id);
+      modeling.claimKey(formField, formField.key);
     }));
 
 
-    it('<do>', inject(function(formFieldRegistry, modeling) {
+    it('<do>', inject(function(pathRegistry, modeling) {
 
       // when
       modeling.unclaimKey(formField, formField.key);
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.true;
     }));
 
 
-    it('<undo>', inject(function(commandStack, formFieldRegistry, modeling) {
+    it('<undo>', inject(function(commandStack, pathRegistry, modeling) {
 
       // given
       modeling.unclaimKey(formField, formField.key);
@@ -860,11 +860,11 @@ describe('features/modeling', function() {
       commandStack.undo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.equal(formField);
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.false;
     }));
 
 
-    it('<redo>', inject(function(commandStack, formFieldRegistry, modeling) {
+    it('<redo>', inject(function(commandStack, pathRegistry, modeling) {
 
       // given
       modeling.unclaimKey(formField, formField.key);
@@ -875,7 +875,7 @@ describe('features/modeling', function() {
       commandStack.redo();
 
       // then
-      expect(formFieldRegistry._keys.assigned(formField.key)).to.be.false;
+      expect(pathRegistry.canClaimPath([ formField.key ])).to.be.true;
     }));
 
   });

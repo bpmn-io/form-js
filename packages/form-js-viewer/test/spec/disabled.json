@@ -4,6 +4,7 @@
       "disabled": true,
       "key": "creditor",
       "label": "Creditor",
+      "id": "Creditor_ID",
       "type": "textfield",
       "validate": {
         "required": true

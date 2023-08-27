@@ -19,6 +19,7 @@ import {
   Selection as selectionMock,
   Modeling as modelingMock,
   Templating as templatingMock,
+  PathRegistry as pathRegistryMock,
   Injector as injectorMock
 } from './helper';
 
@@ -2627,13 +2628,13 @@ describe('properties panel', function() {
             // then
             expect(editFieldSpy).not.to.have.been.called;
 
-            const error = screen.getByText('Must not contain spaces.');
+            const error = screen.getByText('Must be a variable or a dot separated path.');
 
             expect(error).to.exist;
           });
 
 
-          it('should be unique', function() {
+          it('should not conflict', function() {
 
             // given
             const editFieldSpy = spy();
@@ -2644,12 +2645,9 @@ describe('properties panel', function() {
               container,
               editField: editFieldSpy,
               field,
-              formFieldRegistry: {
-                _keys: {
-                  assigned(key) {
-                    return schema.components.find((component) => component.key === key);
-                  }
-                }
+              claimedPaths: [ 'amount' ],
+              valuePaths: {
+                [ field.id ] : [ 'amount' ]
               }
             });
 
@@ -2664,7 +2662,7 @@ describe('properties panel', function() {
             // then
             expect(editFieldSpy).not.to.have.been.called;
 
-            const error = screen.getByText('Must be unique.');
+            const error = screen.getByText('Must not conflict with other key/path assignments.');
 
             expect(error).to.exist;
           });
@@ -3262,13 +3260,13 @@ describe('properties panel', function() {
             // then
             expect(editFieldSpy).not.to.have.been.called;
 
-            const error = screen.getByText('Must not contain spaces.');
+            const error = screen.getByText('Must be a variable or a dot separated path.');
 
             expect(error).to.exist;
           });
 
 
-          it('should be unique', function() {
+          it.only('should not conflict', function() {
 
             // given
             const editFieldSpy = spy();
@@ -3279,12 +3277,9 @@ describe('properties panel', function() {
               container,
               editField: editFieldSpy,
               field,
-              formFieldRegistry: {
-                _keys: {
-                  assigned(key) {
-                    return schema.components.find((component) => component.key === key);
-                  }
-                }
+              claimedPaths: [ 'creditor' ],
+              valuePaths: {
+                [ field.id ] : [ 'creditor' ]
               }
             });
 
@@ -3293,13 +3288,15 @@ describe('properties panel', function() {
 
             expect(input.value).to.equal('amount');
 
+            expect(editFieldSpy).not.to.have.been.called;
+
             // when
             fireEvent.input(input, { target: { value: 'creditor' } });
 
             // then
             expect(editFieldSpy).not.to.have.been.called;
 
-            const error = screen.getByText('Must be unique.');
+            const error = screen.getByText('Must not conflict with other key/path assignments.');
 
             expect(error).to.exist;
           });
@@ -3616,6 +3613,8 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     editField = () => {},
     isTemplate = () => false,
     evaluateTemplate = (value) => `Evaluation of "${value}"`,
+    valuePaths = {},
+    claimedPaths = [],
     field = null
   } = options;
 
@@ -3623,6 +3622,7 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     eventBus,
     formEditor,
     formLayoutValidator,
+    pathRegistry,
     modeling,
     selection,
     templating
@@ -3661,6 +3661,13 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     });
   }
 
+  if (!pathRegistry) {
+    pathRegistry = new pathRegistryMock({
+      valuePaths,
+      claimedPaths
+    });
+  }
+
   const injector = new injectorMock({
     ...options,
     eventBus,
@@ -3668,7 +3675,8 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     formLayoutValidator,
     modeling,
     selection,
-    templating
+    templating,
+    pathRegistry
   });
 
   return renderFn(<PropertiesPanel

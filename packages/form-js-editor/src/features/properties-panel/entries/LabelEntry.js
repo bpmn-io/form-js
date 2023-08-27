@@ -77,12 +77,14 @@ function Label(props) {
     return editField(field, path, value || '');
   };
 
+  const label = field.type === 'group' ? 'Group label' : 'Field label';
+
   return FeelTemplatingEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: 'Field label',
+    label,
     singleLine: true,
     setValue,
     variables

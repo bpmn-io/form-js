@@ -6,6 +6,7 @@
     },
     {
       "key": "creditor",
+      "id": "Creditor_ID",
       "label": "Creditor",
       "type": "textfield",
       "validate": {

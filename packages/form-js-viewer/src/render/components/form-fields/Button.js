@@ -2,7 +2,6 @@ import { formFieldClasses } from '../Util';
 
 const type = 'button';
 
-
 export default function Button(props) {
   const {
     disabled,
@@ -18,7 +17,7 @@ export default function Button(props) {
 
 Button.config = {
   type,
-  keyed: true,
+  keyed: false,
   label: 'Button',
   group: 'action',
   create: (options = {}) => ({

@@ -25,6 +25,10 @@ export default class ConditionChecker {
 
     const form = this._formFieldRegistry.getAll().find((field) => field.type === 'default');
 
+    if (!form) {
+      throw new Error('form field registry has no form');
+    }
+
     this._pathRegistry.executeRecursivelyOnFields(form, ({ field, isClosed, context }) => {
       const { conditional: condition } = field;
 

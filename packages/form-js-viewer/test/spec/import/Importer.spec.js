@@ -138,7 +138,7 @@ describe('Importer', function() {
 
         // then
         expect(error).to.exist;
-        expect(error.message).to.eql('form field with key <creditor> already exists');
+        expect(error.message).to.eql('binding path \'creditor\' is already claimed');
 
         expect(error.warnings).to.exist;
         expect(error.warnings).to.be.empty;

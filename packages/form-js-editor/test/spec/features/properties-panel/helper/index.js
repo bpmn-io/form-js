@@ -58,6 +58,30 @@ export class FormFieldRegistry {
   clear() {}
 }
 
+export class PathRegistry {
+
+  constructor(options) {
+    this._valuePaths = options.valuePaths || {};
+    this._claimedPaths = options.claimedPaths || [];
+  }
+
+  getValuePath(field) {
+
+    if (this._valuePaths[ field.id ]) {
+      return this._valuePaths[ field.id ];
+    }
+
+    return [ field.key ];
+  }
+
+  canClaimPath(path) {
+    return !this._claimedPaths.some(claimedPath => path.join('.') === claimedPath);
+  }
+
+  unclaimPath() {}
+  claimPath() {}
+}
+
 export class FormEditor {
 
   constructor(options = {}) {
@@ -140,6 +164,10 @@ export class Injector {
 
     if (type === 'formFieldRegistry') {
       return this._options.formFieldRegistry || new FormFieldRegistry();
+    }
+
+    if (type === 'pathRegistry') {
+      return this._options.pathRegistry || new PathRegistry();
     }
   }
 }

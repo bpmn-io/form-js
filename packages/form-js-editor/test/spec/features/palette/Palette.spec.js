@@ -44,7 +44,7 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(13);
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(14);
 
     expectEntries(result.container, PALETTE_ENTRIES);
   });
