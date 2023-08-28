@@ -1,6 +1,6 @@
 import { FormContext } from '../../../../../../src/render/context';
 
-import { MarkdownRenderer, FeelersTemplating } from '../../../../../../src';
+import { MarkdownRenderer, FeelersTemplating, FormFields } from '../../../../../../src';
 
 export function WithFormContext(Component, options = {}, formId = 'foo') {
 
@@ -10,14 +10,16 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
 
     const {
       data,
-      errors,
+      errors = {},
       isExpression = () => false,
       evaluateExpression,
       isTemplate = defaultTemplating.isTemplate,
       evaluateTemplate = defaultTemplating.evaluate,
       markdownRenderer = new MarkdownRenderer(),
+      formFields = new FormFields(),
+      children = [],
       updateFieldValidation,
-      properties,
+      properties = {},
       initialData
     } = options;
 
@@ -32,6 +34,8 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
           };
         }
       };
+    } else if (type === 'formFields') {
+      return formFields;
     } else if (type === 'conditionChecker') {
       return {
         applyConditions() {},
@@ -57,6 +61,20 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
       return {
         updateFieldValidation(...args) {
           return updateFieldValidation(...args);
+        }
+      };
+    } else if (type === 'formLayouter') {
+      return { getRows: () => children.map((child) => ({ components: [ child.id ] })) };
+    } else if (type === 'formFieldRegistry') {
+      return {
+        get: (id) => {
+          return children.find((child) => child.id === id);
+        }
+      };
+    } else if (type === 'pathRegistry') {
+      return {
+        getValuePath: (field) => {
+          return field.key;
         }
       };
     }

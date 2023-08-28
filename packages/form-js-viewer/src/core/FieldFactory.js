@@ -44,7 +44,7 @@ export default class FieldFactory {
 
     const parentPath = parent && this._pathRegistry.getValuePath(parent) || [];
 
-    if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, key ], true)) {
+    if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, ...key.split('.') ], true)) {
       throw new Error(`binding path '${ [ ...parentPath, key ].join('.') }' is already claimed`);
     }
 

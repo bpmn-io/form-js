@@ -129,6 +129,21 @@ describe('GeneralGroup', function() {
     });
 
 
+    it('should render for group', function() {
+
+      // given
+      const field = { type: 'group' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const labelInput = findFeelers('label', container);
+
+      expect(labelInput).to.exist;
+    });
+
+
     it('should render feel editor', function() {
 
       // given
@@ -1226,7 +1241,9 @@ function _getService(type, options = {}) {
   if (type === 'pathRegistry') {
     return {
       getValuePath: options.getValuePath || ((field) => [ field.key ]),
-      canClaimPath: options.canClaimPath || (() => true)
+      canClaimPath: options.canClaimPath || (() => true),
+      claimPath: options.claimPath || (() => {}),
+      unclaimPath: options.unclaimPath || (() => {})
     };
   }
 }
