@@ -35,7 +35,7 @@ export default class PathRegistry {
   claimPath(path, closed = false) {
 
     if (!this.canClaimPath(path, closed)) {
-      throw new Error(`cannot claim path ${ path.join('.') }`);
+      throw new Error(`cannot claim path '${ path.join('.') }'`);
     }
 
     let node = { children: this._dataPaths };
@@ -67,7 +67,7 @@ export default class PathRegistry {
     for (const segment of path) {
       const child = _getNextSegment(node, segment);
       if (!child) {
-        throw new Error(`no open path found for ${ path }`);
+        throw new Error(`no open path found for '${ path.join('.') }'`);
       }
       node = child;
     }
@@ -95,11 +95,11 @@ export default class PathRegistry {
     const formFieldConfig = this._formFields.get(field.type).config;
 
     if (formFieldConfig.keyed) {
-      const callResult = fn({ field, isClosed: true, context: context });
+      const callResult = fn({ field, isClosed: true, context });
       return result && callResult;
     }
     else if (formFieldConfig.routed) {
-      const callResult = fn({ field, isClosed: false, context: context });
+      const callResult = fn({ field, isClosed: false, context });
       result = result && callResult;
     }
 

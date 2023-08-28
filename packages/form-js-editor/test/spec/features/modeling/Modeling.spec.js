@@ -605,74 +605,342 @@ describe('features/modeling', function() {
 
     });
 
+
+    describe('different parent', function() {
+
+      describe('into inner', function() {
+
+        const sourceIndex = 0,
+              targetIndex = 0;
+
+        let sourceFormFieldIds,
+            targetFormFieldIds,
+            formFieldsLength,
+            sourceParent,
+            targetParent;
+
+        beforeEach(inject(function(formFieldRegistry, modeling) {
+
+          // given
+          formFieldsLength = formFieldRegistry.getAll().length;
+
+          sourceParent = formFieldRegistry.get('Form_1');
+          targetParent = formFieldRegistry.get('Group_1');
+
+          const formField = sourceParent.components[ sourceIndex ];
+
+          sourceFormFieldIds = sourceParent.components.map(({ id }) => id);
+          targetFormFieldIds = targetParent.components.map(({ id }) => id);
+
+          // when
+          modeling.moveFormField(
+            formField,
+            sourceParent,
+            targetParent,
+            sourceIndex,
+            targetIndex
+          );
+        }));
+
+
+        it('<do>', inject(function(formFieldRegistry) {
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Form_1');
+          const targetParent = formFieldRegistry.get('Group_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds.slice(1));
+          expect(targetParent.components.map(({ id }) => id)).to.eql([
+            sourceFormFieldIds[ 0 ],
+            ...targetFormFieldIds
+          ]);
+        }));
+
+
+        it('<undo>', inject(function(commandStack, formFieldRegistry) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Form_1');
+          const targetParent = formFieldRegistry.get('Group_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds);
+          expect(targetParent.components.map(({ id }) => id)).to.eql(targetFormFieldIds);
+        }));
+
+
+        it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Form_1');
+          const targetParent = formFieldRegistry.get('Group_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds.slice(1));
+          expect(targetParent.components.map(({ id }) => id)).to.eql([
+            sourceFormFieldIds[ 0 ],
+            ...targetFormFieldIds
+          ]);
+
+        }));
+
+      });
+
+
+      describe('into outer', function() {
+
+        const sourceIndex = 0,
+              targetIndex = 0;
+
+        let sourceFormFieldIds,
+            targetFormFieldIds,
+            formFieldsLength,
+            sourceParent,
+            targetParent;
+
+        beforeEach(inject(function(formFieldRegistry, modeling) {
+
+          // given
+          formFieldsLength = formFieldRegistry.getAll().length;
+
+          sourceParent = formFieldRegistry.get('Group_1');
+          targetParent = formFieldRegistry.get('Form_1');
+
+          const formField = sourceParent.components[ sourceIndex ];
+
+          sourceFormFieldIds = sourceParent.components.map(({ id }) => id);
+          targetFormFieldIds = targetParent.components.map(({ id }) => id);
+
+          // when
+          modeling.moveFormField(
+            formField,
+            sourceParent,
+            targetParent,
+            sourceIndex,
+            targetIndex
+          );
+        }));
+
+
+        it('<do>', inject(function(formFieldRegistry) {
+
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Group_1');
+          const targetParent = formFieldRegistry.get('Form_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds.slice(1));
+          expect(targetParent.components.map(({ id }) => id)).to.eql([
+            sourceFormFieldIds[ 0 ],
+            ...targetFormFieldIds
+          ]);
+        }));
+
+
+        it('<undo>', inject(function(commandStack, formFieldRegistry) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Group_1');
+          const targetParent = formFieldRegistry.get('Form_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds);
+          expect(targetParent.components.map(({ id }) => id)).to.eql(targetFormFieldIds);
+        }));
+
+
+        it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+          const sourceParent = formFieldRegistry.get('Group_1');
+          const targetParent = formFieldRegistry.get('Form_1');
+
+          expect(sourceParent.components.map(({ id }) => id)).to.eql(sourceFormFieldIds.slice(1));
+          expect(targetParent.components.map(({ id }) => id)).to.eql([
+            sourceFormFieldIds[ 0 ],
+            ...targetFormFieldIds
+          ]);
+        }));
+
+      });
+
+    });
+
   });
 
 
   describe('#removeFormField', function() {
 
-    const sourceIndex = 0;
 
-    let formFieldIds,
-        formFieldsLength;
+    describe('simple field', function() {
 
-    beforeEach(inject(function(formFieldRegistry, modeling) {
+      const sourceIndex = 0;
 
-      // given
-      formFieldsLength = formFieldRegistry.getAll().length;
+      let formFieldIds,
+          formFieldsLength;
 
-      const parent = formFieldRegistry.get('Form_1');
+      beforeEach(inject(function(formFieldRegistry, modeling) {
 
-      const formField = parent.components[ sourceIndex ];
+        // given
+        formFieldsLength = formFieldRegistry.getAll().length;
 
-      formFieldIds = parent.components.map(({ id }) => id);
+        const parent = formFieldRegistry.get('Form_1');
 
-      // when
-      modeling.removeFormField(
-        formField,
-        parent,
-        sourceIndex
-      );
-    }));
+        const formField = parent.components[ sourceIndex ];
 
+        formFieldIds = parent.components.map(({ id }) => id);
 
-    it('<do>', inject(function(formFieldRegistry) {
-
-      // then
-      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
-
-      const parent = formFieldRegistry.get('Form_1');
-
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
-    }));
+        // when
+        modeling.removeFormField(
+          formField,
+          parent,
+          sourceIndex
+        );
+      }));
 
 
-    it('<undo>', inject(function(commandStack, formFieldRegistry) {
+      it('<do>', inject(function(formFieldRegistry) {
 
-      // when
-      commandStack.undo();
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
 
-      // then
-      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+        const parent = formFieldRegistry.get('Form_1');
 
-      const parent = formFieldRegistry.get('Form_1');
-
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
-    }));
+        expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
+      }));
 
 
-    it('<redo>', inject(function(commandStack, formFieldRegistry) {
+      it('<undo>', inject(function(commandStack, formFieldRegistry) {
 
-      // when
-      commandStack.undo();
-      commandStack.redo();
+        // when
+        commandStack.undo();
 
-      // then
-      expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
-      const parent = formFieldRegistry.get('Form_1');
+        const parent = formFieldRegistry.get('Form_1');
 
-      expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
-    }));
+        expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+      }));
+
+
+      it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - 1);
+
+        const parent = formFieldRegistry.get('Form_1');
+
+        expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds.slice(1));
+      }));
+
+    });
+
+
+    describe('group', function() {
+
+      const sourceIndex = 1;
+
+      let formFieldIds,
+          groupFieldCount,
+          formFieldsLength;
+
+      beforeEach(inject(function(formFieldRegistry, modeling) {
+
+        // given
+        formFieldsLength = formFieldRegistry.getAll().length;
+
+        const parent = formFieldRegistry.get('Form_1');
+
+        const group = formFieldRegistry.get('Group_1');
+
+        groupFieldCount = group.components.length + 1;
+
+        formFieldIds = parent.components.map(({ id }) => id);
+
+        // when
+        modeling.removeFormField(
+          group,
+          parent,
+          sourceIndex
+        );
+      }));
+
+
+      it('<do>', inject(function(formFieldRegistry) {
+
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - groupFieldCount);
+
+        const parent = formFieldRegistry.get('Form_1');
+
+        expect(parent.components.map(({ id }) => id)).to.eql([
+          formFieldIds[ 0 ],
+          ...formFieldIds.slice(2)
+        ]);
+      }));
+
+
+      it('<undo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
+
+        const parent = formFieldRegistry.get('Form_1');
+
+        expect(parent.components.map(({ id }) => id)).to.eql(formFieldIds);
+      }));
+
+
+      it('<redo>', inject(function(commandStack, formFieldRegistry) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength - groupFieldCount);
+
+        const parent = formFieldRegistry.get('Form_1');
+
+        expect(parent.components.map(({ id }) => id)).to.eql([
+          formFieldIds[ 0 ],
+          ...formFieldIds.slice(2)
+        ]);
+      }));
+
+    });
 
   });
 

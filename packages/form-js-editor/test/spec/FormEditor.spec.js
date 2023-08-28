@@ -73,7 +73,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(17);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
   });
 
 
@@ -114,7 +114,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(17);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
   });
 
 
@@ -137,7 +137,7 @@ describe('FormEditor', function() {
     container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(17);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
   });
 
 
@@ -243,7 +243,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(17);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
     });
 
 
@@ -980,7 +980,7 @@ describe('FormEditor', function() {
       // assume
       const formFieldRegistry = formEditor.get('formFieldRegistry');
 
-      expect(formFieldRegistry.getAll()).to.have.length(17);
+      expect(formFieldRegistry.getAll()).to.have.length(20);
 
       // when
       startDragging(container);
@@ -988,7 +988,7 @@ describe('FormEditor', function() {
       endDragging(container);
 
       // then
-      expect(formFieldRegistry.getAll()).to.have.length(18);
+      expect(formFieldRegistry.getAll()).to.have.length(21);
 
       const selection = formEditor.get('selection');
 

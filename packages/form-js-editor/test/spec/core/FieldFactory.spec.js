@@ -220,7 +220,20 @@ describe('core/FieldFactory', function() {
     }));
 
 
-    it('should throw if ID already assigned', inject(function(fieldFactory) {
+    it('should not assign key (path)', inject(function(fieldFactory) {
+
+      // when
+      const field = fieldFactory.create({
+        key: 'foo.bar',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(field.key).to.equal('foo.bar');
+    }));
+
+
+    it('should throw if binding path is already claimed (simple key)', inject(function(fieldFactory) {
 
       // given
       fieldFactory.create({
@@ -236,6 +249,25 @@ describe('core/FieldFactory', function() {
 
       // then
       expect(create).to.throw('binding path \'foo\' is already claimed');
+    }));
+
+
+    it('should throw if binding path is already claimed (path key)', inject(function(fieldFactory) {
+
+      // given
+      fieldFactory.create({
+        key: 'foo.bar',
+        type: 'textfield'
+      }, false);
+
+      // when
+      const create = () => fieldFactory.create({
+        key: 'foo.bar',
+        type: 'textfield'
+      }, false);
+
+      // then
+      expect(create).to.throw('binding path \'foo.bar\' is already claimed');
     }));
 
   });

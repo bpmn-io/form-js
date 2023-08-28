@@ -2400,6 +2400,45 @@ describe('properties panel', function() {
     });
 
 
+    describe('group', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'group');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Condition',
+          'Layout',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Group label',
+          'Path',
+          'Show outline'
+        ]);
+
+        expectGroupEntries(result.container, 'Condition', [
+          'Hide if'
+        ]);
+
+        expectGroupEntries(result.container, 'Layout', [
+          'Columns'
+        ]);
+
+      });
+
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {
@@ -2665,6 +2704,37 @@ describe('properties panel', function() {
             const error = screen.getByText('Must not conflict with other key/path assignments.');
 
             expect(error).to.exist;
+          });
+
+
+          it('should not allow numerical key segments', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'creditor');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-key' });
+
+            expect(input.value).to.equal('creditor');
+
+            // when
+            fireEvent.input(input, { target: { value: 'credi.0.tor' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not contain numerical path segments.');
+
+            expect(error).to.exist;
+
           });
 
         });
@@ -3299,6 +3369,37 @@ describe('properties panel', function() {
             const error = screen.getByText('Must not conflict with other key/path assignments.');
 
             expect(error).to.exist;
+          });
+
+
+          it('should not allow numerical key segments', function() {
+
+            // given
+            const editFieldSpy = spy();
+
+            const field = schema.components.find(({ key }) => key === 'amount');
+
+            createPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field
+            });
+
+            // assume
+            const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-key' });
+
+            expect(input.value).to.equal('amount');
+
+            // when
+            fireEvent.input(input, { target: { value: 'amou.0.nt' } });
+
+            // then
+            expect(editFieldSpy).not.to.have.been.called;
+
+            const error = screen.getByText('Must not contain numerical path segments.');
+
+            expect(error).to.exist;
+
           });
 
         });
