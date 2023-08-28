@@ -3266,7 +3266,7 @@ describe('properties panel', function() {
           });
 
 
-          it.only('should not conflict', function() {
+          it('should not conflict', function() {
 
             // given
             const editFieldSpy = spy();

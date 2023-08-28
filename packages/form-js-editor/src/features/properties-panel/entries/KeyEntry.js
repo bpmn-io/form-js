@@ -82,13 +82,15 @@ function Key(props) {
       [ field.id ]: value.split('.')
     };
 
+    const oldPath = pathRegistry.getValuePath(field);
     const newPath = pathRegistry.getValuePath(field, { replacements });
 
-    if (!pathRegistry.canClaimPath(newPath, true)) {
-      return 'Must not conflict with other key/path assignments.';
-    }
+    // unclaim temporarily to avoid self-conflicts
+    pathRegistry.unclaimPath(oldPath);
+    const canClaim = pathRegistry.canClaimPath(newPath, true);
+    pathRegistry.claimPath(oldPath, true);
 
-    return null;
+    return canClaim ? null : 'Must not conflict with other key/path assignments.';
   };
 
   return TextFieldEntry({
