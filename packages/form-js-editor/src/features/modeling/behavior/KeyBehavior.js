@@ -1,16 +1,17 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 export default class KeyBehavior extends CommandInterceptor {
-  constructor(eventBus, modeling) {
+  constructor(eventBus, modeling, formFields) {
     super(eventBus);
 
     // @ts-ignore-next-line
     this.preExecute('formField.remove', function(context) {
+
       const { formField } = context;
+      const { key, type } = formField;
+      const { config } = formFields.get(type);
 
-      const { key } = formField;
-
-      if (key) {
+      if (config.keyed && key) {
         modeling.unclaimKey(formField, key);
       }
     }, true);
@@ -22,13 +23,16 @@ export default class KeyBehavior extends CommandInterceptor {
         properties
       } = context;
 
-      if ('key' in properties) {
-        modeling.unclaimKey(formField, formField.key);
+      const { key: oldKey, type } = formField;
+      const { key: newKey } = properties;
+      const { config } = formFields.get(type);
 
-        modeling.claimKey(formField, properties.key);
+      if (config.keyed && newKey) {
+        modeling.unclaimKey(formField, oldKey);
+        modeling.claimKey(formField, newKey);
       }
     }, true);
   }
 }
 
-KeyBehavior.$inject = [ 'eventBus', 'modeling' ];
+KeyBehavior.$inject = [ 'eventBus', 'modeling', 'formFields' ];
