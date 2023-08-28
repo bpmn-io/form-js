@@ -1,16 +1,16 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 export default class PathBehavior extends CommandInterceptor {
-  constructor(eventBus, modeling) {
+  constructor(eventBus, modeling, formFields) {
     super(eventBus);
 
     // @ts-ignore-next-line
     this.preExecute('formField.remove', function(context) {
       const { formField } = context;
+      const { path, type } = formField;
+      const { config } = formFields.get(type);
 
-      const { path } = formField;
-
-      if (path) {
+      if (config.routed && path) {
         modeling.unclaimPath(formField, path);
       }
     }, true);
@@ -22,12 +22,16 @@ export default class PathBehavior extends CommandInterceptor {
         properties
       } = context;
 
-      if ('path' in properties) {
-        modeling.unclaimPath(formField, formField.path);
-        modeling.claimPath(formField, properties.path);
+      const { path: oldPath, type } = formField;
+      const { path: newPath } = properties;
+      const { config } = formFields.get(type);
+
+      if (config.routed && newPath) {
+        modeling.unclaimPath(formField, oldPath);
+        modeling.claimPath(formField, newPath);
       }
     }, true);
   }
 }
 
-PathBehavior.$inject = [ 'eventBus', 'modeling' ];
+PathBehavior.$inject = [ 'eventBus', 'modeling', 'formFields' ];
