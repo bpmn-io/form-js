@@ -36,14 +36,13 @@ export default class UpdateKeyClaimHandler {
   revert(context) {
     const {
       claiming,
-      formField,
       valuePath
     } = context;
 
     if (claiming) {
       this._pathRegistry.unclaimPath(valuePath);
     } else {
-      this._pathRegistry.claimPath(valuePath, formField);
+      this._pathRegistry.claimPath(valuePath, true);
     }
   }
 }

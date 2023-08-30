@@ -6,6 +6,10 @@ import {
   updatePath
 } from './Util';
 
+import {
+  runRecursively
+} from '@bpmn-io/form-js-viewer';
+
 export default class RemoveFormFieldHandler {
 
   /**
@@ -36,8 +40,8 @@ export default class RemoveFormFieldHandler {
     // (2) Update internal paths of its siblings (and their children)
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
-    // (3) Remove form field from form field registry
-    this._formFieldRegistry.remove(formField);
+    // (3) Remove form field and children from form field registry
+    runRecursively(formField, (formField) => this._formFieldRegistry.remove(formField));
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });
@@ -60,8 +64,8 @@ export default class RemoveFormFieldHandler {
     // (2) Update internal paths of its siblings (and their children)
     get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
-    // (3) Add form field to form field registry
-    this._formFieldRegistry.add(formField);
+    // (3) Add form field and children to form field registry
+    runRecursively(formField, (formField) => this._formFieldRegistry.add(formField));
 
     // TODO: Create updater/change support that automatically updates paths and schema on command execution
     this._formEditor._setState({ schema });

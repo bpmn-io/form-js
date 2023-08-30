@@ -183,3 +183,13 @@ export function getSchemaVariables(schema, options = {}) {
   // remove duplicates
   return Array.from(new Set(variables));
 }
+
+export function runRecursively(formField, fn) {
+  const components = formField.components || [];
+
+  components.forEach((component, index) => {
+    runRecursively(component, fn);
+  });
+
+  fn(formField);
+}

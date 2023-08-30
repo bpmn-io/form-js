@@ -26,35 +26,34 @@ export default class UpdatePathClaimHandler {
     if (claiming) {
       this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
         const valuePath = this._pathRegistry.getValuePath(field, options);
-        valuePaths.push(valuePath);
+        valuePaths.push({ valuePath, isClosed });
         this._pathRegistry.claimPath(valuePath, isClosed);
       });
     } else {
       this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
         const valuePath = this._pathRegistry.getValuePath(field, options);
-        valuePaths.push(valuePath);
+        valuePaths.push({ valuePath, isClosed });
         this._pathRegistry.unclaimPath(valuePath, isClosed);
       });
     }
 
-    // cache path for revert
+    // cache path info for revert
     context.valuePaths = valuePaths;
   }
 
   revert(context) {
     const {
       claiming,
-      formField,
       valuePaths
     } = context;
 
     if (claiming) {
-      valuePaths.forEach(valuePath => {
+      valuePaths.forEach(({ valuePath })=> {
         this._pathRegistry.unclaimPath(valuePath);
       });
     } else {
-      valuePaths.forEach(valuePath => {
-        this._pathRegistry.claimPath(valuePath, formField);
+      valuePaths.forEach(({ valuePath, isClosed }) => {
+        this._pathRegistry.claimPath(valuePath, isClosed);
       });
     }
   }
