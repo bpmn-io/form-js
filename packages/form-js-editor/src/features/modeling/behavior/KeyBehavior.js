@@ -11,7 +11,7 @@ export default class KeyBehavior extends CommandInterceptor {
       const { key, type } = formField;
       const { config } = formFields.get(type);
 
-      if (config.keyed && key) {
+      if (config.keyed) {
         modeling.unclaimKey(formField, key);
       }
     }, true);
@@ -23,13 +23,12 @@ export default class KeyBehavior extends CommandInterceptor {
         properties
       } = context;
 
-      const { key: oldKey, type } = formField;
-      const { key: newKey } = properties;
+      const { key, type } = formField;
       const { config } = formFields.get(type);
 
-      if (config.keyed && newKey) {
-        modeling.unclaimKey(formField, oldKey);
-        modeling.claimKey(formField, newKey);
+      if (config.keyed && 'key' in properties) {
+        modeling.unclaimKey(formField, key);
+        modeling.claimKey(formField, properties.key);
       }
     }, true);
   }
