@@ -249,6 +249,10 @@
   border: solid 2px transparent;
 }
 
+.fjs-editor-container .fjs-form > .fjs-element {
+  border: none;
+}
+
 .fjs-editor-container .fjs-form-field:not(.fjs-powered-by) {
   margin: 1px 6px;
 }
