@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 8,
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "0de37f6"
+  },
+  "components": [
+    {
+      "type": "group",
+      "id": "Group_1",
+      "label": "Group 1",
+      "showOutline": true,
+      "components": [
+        { 
+          "type": "group",
+          "id": "Group_2",
+          "label": "Group 2",
+          "showOutline": false,
+          "components": [
+            {
+              "type": "textfield",
+              "id": "Textfield_1",
+              "label": "Textfield 1",
+              "defaultValue": "Hello groups"
+            },
+            {
+              "type": "checkbox",
+              "id": "Checkbox_1",
+              "label": "Checkbox 1",
+              "defaultValue": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "type": "default",
+  "id": "form_id",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0"
+}
