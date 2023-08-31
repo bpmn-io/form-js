@@ -28,6 +28,7 @@
     "start": "npm run start:pkg -- @bpmn-io/form-js",
     "start:viewer": "npm run start:pkg -- @bpmn-io/form-js-viewer",
     "start:viewer:stress": "cross-env SINGLE_START=stress npm run dev -- @bpmn-io/form-js-viewer",
+    "start:viewer:groups": "cross-env SINGLE_START=groups npm run dev -- @bpmn-io/form-js-viewer",
     "start:editor": "npm run start:pkg -- @bpmn-io/form-js-editor",
     "start:carbon": "cross-env SINGLE_START=carbon-form npm run dev -- @bpmn-io/form-js-carbon-styles",
     "start:playground": "npm run start:pkg -- @bpmn-io/form-js-playground",
