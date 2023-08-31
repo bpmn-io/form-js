@@ -8,6 +8,10 @@ h1 {
   margin: 0 0 1rem 0;
 }
 
+.form-container {
+  padding: 20px;
+}
+
 .test-container {
   height: 100% !important;
 }
