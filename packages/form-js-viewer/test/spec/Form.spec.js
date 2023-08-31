@@ -18,6 +18,7 @@ import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
 import schema from './form.json';
+import groupsSchema from './groups.json';
 import schemaNoIds from './form.json';
 import textSchema from './text.json';
 import textTemplateSchema from './text-template.json';
@@ -36,17 +37,19 @@ import customCSS from './custom/custom.css';
 insertCSS('custom.css', customCSS);
 
 const singleStartBasic = isSingleStart('basic');
+const singleStartGroups = isSingleStart('groups');
 const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
 const singleStartNoTheme = isSingleStart('no-theme');
+
 const singleStart =
   singleStartBasic ||
+  singleStartGroups ||
   singleStartStress ||
   singleStartRows ||
   singleStartTheme ||
   singleStartNoTheme;
-
 
 describe('Form', function() {
 
@@ -109,6 +112,23 @@ describe('Form', function() {
 
     // then
     expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+  });
+
+
+  (singleStartGroups ? it.only : it)('should render groups', async function() {
+
+    // given
+    const data = {};
+
+    // when
+    const form = await createForm({
+      container,
+      data,
+      schema: groupsSchema
+    });
+
+    // then
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(4);
   });
 
 

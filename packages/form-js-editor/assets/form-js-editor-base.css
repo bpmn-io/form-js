@@ -1,8 +1,4 @@
 .fjs-editor-container {
-  --color-children-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-75))
-  );
   --color-children-selected-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
   --color-children-selected-background: transparent;
   --color-children-hover-border: var(--cds-border-interactive, var(--color-blue-219-100-53-05));
@@ -240,7 +236,6 @@
 }
 
 .fjs-editor-container .fjs-children .fjs-children {
-  border: dotted 1px var(--color-children-border);
   margin: 3px 0;
 }
 
@@ -258,12 +253,20 @@
 }
 
 .fjs-editor-container .fjs-children .fjs-element.fjs-outlined {
-  border-color: var(--color-borders-group);
+  outline: 2px solid var(--color-borders-group);
+  outline-offset: -2px;
 }
 
 .fjs-editor-container .fjs-children .fjs-element.fjs-editor-selected {
   border-color: var(--color-children-selected-border) !important;
   background-color: var(--color-children-selected-background);
+  outline: none;
+}
+
+.fjs-editor-container .fjs-children .fjs-element:hover,
+.fjs-editor-container .fjs-children .fjs-element:focus-within {
+  border-color: var(--color-children-hover-border);
+  outline: none;
 }
 
 .fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"] {
@@ -289,13 +292,7 @@
 }
 
 .fjs-editor-container .fjs-form-field-group > label {
-  margin-left: 0;
-}
-
-.fjs-editor-container .fjs-children .fjs-element:hover,
-.fjs-editor-container .fjs-children .fjs-element:focus-within {
-  border-color: var(--color-children-hover-border);
-  outline: none;
+  margin-top: 6px;
 }
 
 .fjs-editor-container .fjs-input:disabled,

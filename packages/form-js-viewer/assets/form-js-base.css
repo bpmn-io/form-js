@@ -91,6 +91,7 @@
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
+  --font-size-group: 15px;
   --font-size-base: 14px;
   --font-size-input: 14px;
   --font-size-label: 12px;
@@ -199,6 +200,11 @@
   margin-right: 0;
 }
 
+.fjs-container .cds--grid .cds--grid .cds--row {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 @media (max-width: 66rem) {
   .cds--col {
     flex-basis: unset !important;
@@ -227,7 +233,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  min-height: 100px;
+  min-height: 80px;
 }
 
 .fjs-container .fjs-element {
@@ -314,8 +320,12 @@
 }
 
 .fjs-container .fjs-form-field-group {
-  padding: 5px 6px 0 6px;
-  margin: 0 6px !important;
+  padding: 10px 6px 0 6px;
+  margin: 0 10px !important;
+}
+
+.fjs-container .fjs-form-field-group .cds--grid {
+  padding: 4px 16px;
 }
 
 .fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group),
@@ -344,17 +354,13 @@
   font-size: var(--font-size-label);
 }
 
-.fjs-container .fjs-form-field-group .cds--grid {
-  padding: 4px 16px;
-}
-
 .fjs-container .fjs-form-field-group .fjs-form-field-group .cds--grid {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
 .fjs-container .fjs-form-field-group > label {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-group);
   line-height: var(--line-height-input);
   margin-left: 7px;
 }

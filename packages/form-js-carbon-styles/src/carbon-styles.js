@@ -388,7 +388,7 @@ const LABEL_DESCRIPTION_ERROR_STYLES = css`
       letter-spacing: var(--cds-label-01-letter-spacing);
     }
 
-    .fjs-form-field:not(.fjs-form-field-checkbox)
+    .fjs-form-field:not(.fjs-form-field-checkbox, .fjs-form-field-group)
       .fjs-form-field-label:first-child {
       margin: 0;
       margin-bottom: var(--cds-spacing-03);
@@ -655,6 +655,11 @@ const RADIO_STYLES = css`
     }
   }
 `;
+
+const GROUP_STYLES = css`
+.fjs-container .fjs-form-field-group.fjs-outlined {
+  outline: solid var(--color-borders-group) 2px;
+}`;
 
 const BUTTON_STYLES = css`
   .fjs-container {
@@ -1134,6 +1139,7 @@ const CARBON_STYLES = css`
   ${CHECKBOX_STYLES}
   ${TAGLIST_STYLES}
   ${RADIO_STYLES}
+  ${GROUP_STYLES}
   ${BUTTON_STYLES}
   ${NUMBER_INPUTS}
   ${DATETIME_INPUTS}
@@ -1154,14 +1160,6 @@ const CARBON_STYLES = css`
       background-color: transparent;
       color: var(--cds-text-primary);
       padding: 0;
-    }
-
-    .fjs-layout-column:first-of-type .fjs-form-field {
-      margin-left: 0;
-    }
-
-    .fjs-layout-column:last-of-type .fjs-form-field {
-      margin-right: 0;
     }
 
     @media (width < 66rem) {
