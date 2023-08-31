@@ -6,6 +6,37 @@
       "id": "Field_1bbbwwg"
     },
     {
+      "id": "Group_1a82jj2",
+      "label": "I am a group",
+      "showOutline": true,
+      "type": "group",
+      "path": "groupExample",
+      "components": [
+        {
+          "id": "Field_1a82jj2",
+          "label": "I am a textfield in a group",
+          "type": "textfield",
+          "key": "groupTextField",
+          "description": "I am a textfield description"
+        },
+        {
+          "id": "Field_1a82jj3",
+          "label": "I am a number field in a group",
+          "type": "number",
+          "key": "groupNumberField",
+          "description": "I am a number field description"
+        },
+        {
+          "id": "Group_1a82jj3",
+          "label": "I am a nested group",
+          "showOutline": true,
+          "type": "group",
+          "path": "nestedGroup",
+          "components": []
+        }
+      ]
+    },
+    {
       "label": "I am a textfield",
       "type": "textfield",
       "id": "Field_1l0t1m5",
