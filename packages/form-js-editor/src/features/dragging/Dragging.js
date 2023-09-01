@@ -96,7 +96,12 @@ export default class Dragging {
         targetParentId = target.dataset.id;
       }
 
-      // (2) check  for path collisions
+      // (2) check target is a valid parent
+      if (!targetParentId) {
+        return 'Drop is not a valid target';
+      }
+
+      // (3) check  for path collisions
       const targetParentFormField = this._formFieldRegistry.get(targetParentId);
       const currentParentFormField = this._formFieldRegistry.get(formField._parent);
 
