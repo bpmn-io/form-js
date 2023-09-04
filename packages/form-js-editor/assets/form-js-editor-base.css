@@ -263,8 +263,8 @@
   outline: none;
 }
 
-.fjs-editor-container .fjs-children .fjs-element:hover,
-.fjs-editor-container .fjs-children .fjs-element:focus-within {
+.fjs-editor-container .fjs-children .fjs-element:hover.fjs-editor-hovered,
+.fjs-editor-container .fjs-children .fjs-element:focus {
   border-color: var(--color-children-hover-border);
   outline: none;
 }

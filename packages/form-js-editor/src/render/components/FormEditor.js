@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState
 } from 'preact/hooks';
@@ -86,6 +87,8 @@ function Element(props) {
         modeling = useService('modeling'),
         selection = useService('selection');
 
+  const { hoveredId, setHoveredId } = useContext(FormRenderContext);
+
   const { field } = props;
 
   const {
@@ -144,6 +147,10 @@ function Element(props) {
     classes.push('fjs-outlined');
   }
 
+  if (hoveredId === field.id) {
+    classes.push('fjs-editor-hovered');
+  }
+
   const onRemove = (event) => {
     event.stopPropagation();
 
@@ -169,6 +176,12 @@ function Element(props) {
       tabIndex={ type === 'default' ? -1 : 0 }
       onClick={ onClick }
       onKeyPress={ onKeyPress }
+      onMouseOver={
+        (e) => {
+          setHoveredId(field.id);
+          e.stopPropagation();
+        }
+      }
       ref={ ref }>
       <DebugColumns field={ field } />
       <ContextPad>
@@ -390,16 +403,20 @@ export default function FormEditor(props) {
     eventBus.fire('formEditor.rendered');
   }, []);
 
-  const formRenderContext = {
+  const [ hoveredId, setHoveredId ] = useState(null);
+
+  const formRenderContext = useMemo(() => ({
     Children,
     Column,
     Element,
     Empty,
     EmptyRoot,
-    Row
-  };
+    Row,
+    hoveredId,
+    setHoveredId
+  }), [ hoveredId ]);
 
-  const formContext = {
+  const formContext = useMemo(() => ({
     getService(type, strict = true) {
 
       // TODO(philippfromme): clean up
@@ -422,7 +439,7 @@ export default function FormEditor(props) {
       return injector.get(type, strict);
     },
     formId: formEditor._id
-  };
+  }), [ ariaLabel, formEditor, injector, schema ]);
 
   const onSubmit = useCallback(() => {}, []);
 
