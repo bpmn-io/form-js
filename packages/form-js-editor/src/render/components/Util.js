@@ -23,11 +23,10 @@ export function editorFormFieldClasses(type, { disabled = false } = {}) {
  * domElement.addEventListener('dragstart', dragger(dragMove));
  *
  * @param {Function} fn
- * @param {Element} dragPreview
  *
  * @return {Function} drag start callback function
  */
-export function createDragger(fn, dragPreview) {
+export function createDragger(fn) {
 
   let self;
 
@@ -41,9 +40,9 @@ export function createDragger(fn, dragPreview) {
     startX = event.clientX;
     startY = event.clientY;
 
-    // (1) prevent preview image
+    // (1) hide drag preview image
     if (event.dataTransfer) {
-      event.dataTransfer.setDragImage(dragPreview, 0, 0);
+      event.dataTransfer.setDragImage(createEmptyImage(), 0, 0);
     }
 
     // (2) setup drag listeners
@@ -109,4 +108,10 @@ export function throttle(fn) {
 function preventDefault(event) {
   event.preventDefault();
   event.stopPropagation();
+}
+
+function createEmptyImage() {
+  const img = new Image();
+  img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  return img;
 }
