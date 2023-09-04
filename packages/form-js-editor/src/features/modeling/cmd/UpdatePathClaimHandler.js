@@ -2,7 +2,7 @@ export default class UpdatePathClaimHandler {
 
   /**
    * @constructor
-   * @param { import('@bpmn-io/form-js-viewer/PathRegistry').default } pathRegistry
+   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    */
   constructor(pathRegistry) {
     this._pathRegistry = pathRegistry;
@@ -33,7 +33,7 @@ export default class UpdatePathClaimHandler {
       this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
         const valuePath = this._pathRegistry.getValuePath(field, options);
         valuePaths.push({ valuePath, isClosed });
-        this._pathRegistry.unclaimPath(valuePath, isClosed);
+        this._pathRegistry.unclaimPath(valuePath);
       });
     }
 

@@ -178,6 +178,8 @@ function Element(props) {
       onKeyPress={ onKeyPress }
       onMouseOver={
         (e) => {
+
+          // @ts-ignore
           setHoveredId(field.id);
           e.stopPropagation();
         }
@@ -463,7 +465,10 @@ export default function FormEditor(props) {
           </ModularSection>
           <div ref={ formContainerRef } class="fjs-form-container">
             <FormContext.Provider value={ formContext }>
-              <FormRenderContext.Provider value={ formRenderContext }>
+              <FormRenderContext.Provider
+
+                // @ts-ignore
+                value={ formRenderContext }>
                 <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
               </FormRenderContext.Provider>
             </FormContext.Provider>

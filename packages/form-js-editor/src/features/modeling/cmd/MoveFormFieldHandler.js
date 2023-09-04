@@ -14,7 +14,7 @@ export default class MoveFormFieldHandler {
    * @constructor
    * @param { import('../../../FormEditor').default } formEditor
    * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
-   * @param { import('../../../core/PathRegistry').default } pathRegistry
+   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    */
   constructor(formEditor, formFieldRegistry, pathRegistry) {
     this._formEditor = formEditor;
