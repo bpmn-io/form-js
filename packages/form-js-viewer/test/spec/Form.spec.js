@@ -128,7 +128,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(4);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(17);
   });
 
 
