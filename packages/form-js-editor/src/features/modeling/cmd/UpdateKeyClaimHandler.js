@@ -2,7 +2,7 @@ export default class UpdateKeyClaimHandler {
 
   /**
    * @constructor
-   * @param { import('@bpmn-io/form-js-viewer/PathRegistry').default } pathRegistry
+   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    */
   constructor(pathRegistry) {
     this._pathRegistry = pathRegistry;

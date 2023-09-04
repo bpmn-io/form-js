@@ -22,7 +22,7 @@ export default class Dragging {
    * @constructor
    *
    * @param { import('../../core/FormFieldRegistry').default } formFieldRegistry
-   * @param { import('../../core/PathRegistry').default } pathRegistry
+   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    * @param { import('../../core/FormLayouter').default } formLayouter
    * @param { import('../../core/FormLayoutValidator').default } formLayoutValidator
    * @param { import('../../core/EventBus').default } eventBus
