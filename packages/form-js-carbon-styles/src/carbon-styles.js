@@ -656,11 +656,6 @@ const RADIO_STYLES = css`
   }
 `;
 
-const GROUP_STYLES = css`
-.fjs-container .fjs-form-field-group.fjs-outlined {
-  outline: solid var(--color-borders-group) 2px;
-}`;
-
 const BUTTON_STYLES = css`
   .fjs-container {
     .fjs-form-field.fjs-form-field-button .fjs-button {
@@ -1139,7 +1134,6 @@ const CARBON_STYLES = css`
   ${CHECKBOX_STYLES}
   ${TAGLIST_STYLES}
   ${RADIO_STYLES}
-  ${GROUP_STYLES}
   ${BUTTON_STYLES}
   ${NUMBER_INPUTS}
   ${DATETIME_INPUTS}
