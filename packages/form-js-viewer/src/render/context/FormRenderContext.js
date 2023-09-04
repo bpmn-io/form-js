@@ -22,7 +22,9 @@ const FormRenderContext = createContext({
     }
 
     return <div class={ props.class }>{ props.children }</div>;
-  }
+  },
+  hoveredId: [],
+  setHoveredId: (newValue) => { console.log(`setHoveredId not defined, called with '${newValue}'`); }
 });
 
 export default FormRenderContext;
