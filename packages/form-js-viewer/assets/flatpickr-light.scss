@@ -1,0 +1,51 @@
+@use "flatpickr/dist/themes/light.css";
+
+/**
+* Flatpickr style adjustments
+*/
+
+.fjs-container .flatpickr-day.today {
+  border-color: transparent;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.fjs-container .flatpickr-day.today:hover,
+.fjs-container .flatpickr-day.today:focus {
+  border-color: var(--color-borders);
+  background-color: var(--color-datepicker-focused-day);
+  color: var(--color-text-inverted);
+}
+
+.fjs-container .flatpickr-day.selected {
+  border-color: var(--color-accent);
+  background-color: inherit;
+  color: inherit;
+  font-weight: normal;
+}
+
+.fjs-container .flatpickr-day.selected.today {
+  font-weight: bold;
+}
+
+.fjs-container .flatpickr-day.selected:hover,
+.fjs-container .flatpickr-day.selected:focus {
+  background-color: var(--color-accent);
+  font-weight: bold; 
+  color: var(--color-text-inverted);
+  border-color: var(--color-accent);
+}
+
+.fjs-container .flatpickr-days, .flatpickr-weekdays {
+  padding: 10px;
+  width: 100%;
+}
+
+.fjs-container .flatpickr-calendar.hasTime.noCalendar {
+  width: auto;
+  max-width: 250px;
+}
+
+.fjs-container .flatpickr-calendar {
+  width: 326px;
+}

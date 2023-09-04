@@ -23,7 +23,7 @@
     "build": "run-p bundle bundle:scss generate-types",
     "start": "SINGLE_START=basic npm run dev",
     "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
-    "bundle:scss": "sass --no-source-map --load-path=\"../../node_modules\" assets/index.scss dist/assets/form-js.css",
+    "bundle:scss": "sass --no-source-map --load-path=\"../../node_modules\" assets/form-js.scss:dist/assets/form-js.css assets/flatpickr-light.scss:dist/assets/flatpickr-light.css assets/form-js-carbon-compat.scss:dist/assets/form-js-carbon-compat.css",
     "bundle:watch": "run-p bundle:watch-js bundle:watch-scss",
     "bundle:watch-js": "rollup -c -w --bundleConfigAsCjs",
     "bundle:watch-scss": "npm run bundle:scss -- --watch",
