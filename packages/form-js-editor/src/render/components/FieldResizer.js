@@ -19,10 +19,7 @@ const COLUMNS_REGEX = /^cds--col(-lg)?/;
 
 const ELEMENT_RESIZING_CLS = 'fjs-element-resizing';
 
-const RESIZE_DRAG_PREVIEW_CLS = 'fjs-resize-drag-preview';
-
 const GRID_OFFSET_PX = 16;
-
 
 export function FieldResizer(props) {
 
@@ -73,18 +70,8 @@ export function FieldResizer(props) {
     const target = getElementNode(field);
     const parent = getParent(target);
 
-    // create a blank element to use as drag preview
-    // ensure it was only created once
-    let blankPreview = getDragPreviewImage(parent);
-
-    if (!blankPreview) {
-      blankPreview = document.createElement('div');
-      blankPreview.classList.add(RESIZE_DRAG_PREVIEW_CLS);
-      parent.appendChild(blankPreview);
-    }
-
     // initialize drag handler
-    const onDragStart = createDragger(onResize, blankPreview);
+    const onDragStart = createDragger(onResize);
     onDragStart(event);
 
     // mitigate auto columns on the grid that
@@ -110,10 +97,6 @@ export function FieldResizer(props) {
     unsetResizing(target, position);
 
     context.current.newColumns = null;
-
-    // remove blank preview
-    const blankPreview = getDragPreviewImage(getParent(target));
-    blankPreview.remove();
   };
 
   if (field.type === 'default') {
@@ -173,10 +156,6 @@ function getColumnNode(node) {
 
 function getElementNode(field) {
   return domQuery('.fjs-element[data-id="' + field.id + '"]');
-}
-
-function getDragPreviewImage(node) {
-  return domQuery('.fjs-resize-drag-preview', node);
 }
 
 function setResizing(node, position) {
