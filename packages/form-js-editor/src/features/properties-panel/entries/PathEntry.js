@@ -4,6 +4,8 @@ import { useService } from '../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
+import { isValidDotPath } from '../Util';
+
 
 export default function PathEntry(props) {
   const {
@@ -60,7 +62,7 @@ function Path(props) {
       return null;
     }
 
-    if (value && !/^\w+(\.\w+)*$/.test(value)) {
+    if (value && !isValidDotPath(value)) {
       return 'Must be empty, a variable or a dot separated path';
     }
 
