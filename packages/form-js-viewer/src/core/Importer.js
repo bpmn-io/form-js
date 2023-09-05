@@ -33,6 +33,8 @@ export default class Importer {
    * @returns {ImportResult}
    */
   importSchema(schema) {
+
+    // TODO: Add warnings
     const warnings = [];
 
     try {
