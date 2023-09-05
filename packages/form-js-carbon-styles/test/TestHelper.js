@@ -1,6 +1,4 @@
 export function isSingleStart(topic) {
-
-  // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;
 }
 

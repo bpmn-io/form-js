@@ -7,7 +7,6 @@ export default class ValidateBehavior extends CommandInterceptor {
     /**
      * Remove custom validation if <validationType> is about to be added.
      */
-    // @ts-ignore-next-line
     this.preExecute('formField.edit', function(context) {
       const { properties } = context;
 

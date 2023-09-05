@@ -4,7 +4,6 @@ export default class KeyBehavior extends CommandInterceptor {
   constructor(eventBus, modeling, formFields) {
     super(eventBus);
 
-    // @ts-ignore-next-line
     this.preExecute('formField.remove', function(context) {
 
       const { formField } = context;
@@ -16,7 +15,6 @@ export default class KeyBehavior extends CommandInterceptor {
       }
     }, true);
 
-    // @ts-ignore-next-line
     this.preExecute('formField.edit', function(context) {
       const {
         formField,

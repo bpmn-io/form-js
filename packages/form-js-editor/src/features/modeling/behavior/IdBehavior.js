@@ -4,7 +4,6 @@ export default class IdBehavior extends CommandInterceptor {
   constructor(eventBus, modeling) {
     super(eventBus);
 
-    // @ts-ignore-next-line
     this.preExecute('formField.remove', function(context) {
       const { formField } = context;
 
@@ -13,7 +12,6 @@ export default class IdBehavior extends CommandInterceptor {
       modeling.unclaimId(formField, id);
     }, true);
 
-    // @ts-ignore-next-line
     this.preExecute('formField.edit', function(context) {
       const {
         formField,
