@@ -31,7 +31,6 @@ import {
   isSingleStart,
 } from '../TestHelper';
 
-// @ts-ignore-next-line
 import customCSS from './custom/custom.css';
 
 insertCSS('custom.css', customCSS);
