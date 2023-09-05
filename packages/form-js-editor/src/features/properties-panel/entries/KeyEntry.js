@@ -2,7 +2,7 @@ import { isUndefined } from 'min-dash';
 
 import { get } from 'min-dash';
 
-import { INPUTS } from '../Util';
+import { INPUTS, isValidDotPath } from '../Util';
 
 import { useService } from '../hooks';
 
@@ -69,7 +69,7 @@ function Key(props) {
       return 'Must not be empty.';
     }
 
-    if (value && !/^\w+(\.\w+)*$/.test(value)) {
+    if (value && !isValidDotPath(value)) {
       return 'Must be a variable or a dot separated path.';
     }
 

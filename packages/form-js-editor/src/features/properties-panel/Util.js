@@ -56,6 +56,10 @@ export function textToLabel(text) {
   return null;
 }
 
+export function isValidDotPath(path) {
+  return /^\w+(\.\w+)*$/.test(path);
+}
+
 export const INPUTS = [
   'checkbox',
   'checklist',
