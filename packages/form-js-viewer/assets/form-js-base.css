@@ -70,7 +70,7 @@
     --cds-border-strong, 
     var(--cds-border-strong-01, var(--color-grey-225-10-55))
   );
-  --color-borders-group: var(--cds-border-subtle-01, var(--color-grey-225-10-85));
+  --color-borders-group: var(--cds-border-subtle, var(--color-grey-225-10-85));
   --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
   --color-borders-adornment: var(
     --cds-border-subtle, 
