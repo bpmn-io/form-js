@@ -1,5 +1,6 @@
 import { unaryTest } from 'feelin';
 import { get, isString, set, values, isObject } from 'min-dash';
+import { clone } from '../../util';
 
 /**
  * @typedef {object} Condition
@@ -21,7 +22,7 @@ export default class ConditionChecker {
    */
   applyConditions(properties, data = {}) {
 
-    const newProperties = { ...properties };
+    const newProperties = clone(properties);
 
     const form = this._formFieldRegistry.getAll().find((field) => field.type === 'default');
 
