@@ -321,7 +321,7 @@
 
 .fjs-container .fjs-form-field-group {
   padding: 10px 6px 0 6px;
-  margin: 0 10px !important;
+  margin: 0 10px;
 }
 
 .fjs-container .fjs-form-field-group .cds--grid {
@@ -330,20 +330,20 @@
 
 .fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group),
 .fjs-container .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
-  margin-left: -6px !important;
+  margin-left: -6px;
 }
 
 .fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group),
 .fjs-container .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
-  margin-right: -6px !important;
+  margin-right: -6px;
 }
 
 .fjs-container .fjs-form-field-group .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
-  margin-left: 11px !important;
+  margin-left: 11px;
 }
 
 .fjs-container .fjs-form-field-group .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
-  margin-right: 11px !important;
+  margin-right: 11px;
 }
 
 .fjs-container .fjs-form-field-group.fjs-outlined {
