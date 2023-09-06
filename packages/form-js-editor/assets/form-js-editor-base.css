@@ -282,7 +282,7 @@
 
 .fjs-editor-container .fjs-form-field-group,
 .fjs-editor-container .fjs-form-field-group .fjs-form-field-group .fjs-form-field-group {
-  margin: 1px 6px !important;
+  margin: 1px 6px;
   padding: 0px;
 }
 
