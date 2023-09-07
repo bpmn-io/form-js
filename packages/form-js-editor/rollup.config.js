@@ -70,7 +70,7 @@ export default [
         targets: [
           { src: 'assets/form-js-editor-base.css', dest: 'dist/assets' },
           { src: '../../node_modules/@bpmn-io/draggle/dist/dragula.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/properties-panel/assets/properties-panel.css', dest: 'dist/assets' }
+          { src: '../../node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css', dest: 'dist/assets' }
         ]
       })
     ])
