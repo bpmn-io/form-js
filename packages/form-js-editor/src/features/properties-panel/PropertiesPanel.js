@@ -54,6 +54,11 @@ export default function FormPropertiesPanel(props) {
   const formEditor = injector.get('formEditor');
   const modeling = injector.get('modeling');
   const selectionModule = injector.get('selection');
+  const propertiesPanelConfig = injector.get('config.propertiesPanel') || {};
+
+  const {
+    feelPopupContainer
+  } = propertiesPanelConfig;
 
   const [ state , setState ] = useState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
 
@@ -114,6 +119,7 @@ export default function FormPropertiesPanel(props) {
           groups={ getGroups(selectedFormField, editField, getService) }
           headerProvider={ PropertiesPanelHeaderProvider }
           placeholderProvider={ PropertiesPanelPlaceholderProvider }
+          feelPopupContainer={ feelPopupContainer }
         />
       </FormPropertiesPanelContext.Provider>
     </div>

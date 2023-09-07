@@ -169,6 +169,10 @@ export class Injector {
     if (type === 'pathRegistry') {
       return this._options.pathRegistry || new PathRegistry();
     }
+
+    if (type === 'config.propertiesPanel') {
+      return this._options.propertiesPanelConfig || {};
+    }
   }
 }
 

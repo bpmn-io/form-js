@@ -31,7 +31,8 @@ export function PlaygroundRoot(props) {
     viewerProperties = {},
     editorProperties = {},
     viewerAdditionalModules = [],
-    editorAdditionalModules = []
+    editorAdditionalModules = [],
+    propertiesPanel: propertiesPanelConfig = {}
   } = props;
 
   const {
@@ -115,7 +116,8 @@ export function PlaygroundRoot(props) {
         parent: paletteContainerRef.current
       },
       propertiesPanel: {
-        parent: propertiesPanelContainerRef.current
+        parent: propertiesPanelContainerRef.current,
+        ...propertiesPanelConfig
       },
       exporter: exporterConfig,
       properties: {
