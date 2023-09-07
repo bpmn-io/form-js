@@ -3703,6 +3703,41 @@ describe('properties panel', function() {
 
   });
 
+
+  describe('feel popup', function() {
+
+    it('should render feel popup in given container', async function() {
+
+      // given
+      const editFieldSpy = spy();
+
+      const field = schema.components.find(({ source }) => source === '=logo');
+
+      createPropertiesPanel({
+        container,
+        editField: editFieldSpy,
+        field,
+        propertiesPanelConfig: {
+          feelPopupContainer: container
+        }
+      });
+
+      const openPopupBtn = findOpenFeelPopup('source', container);
+
+      // when
+      await act(() => {
+        fireEvent.click(openPopupBtn);
+      });
+
+      const feelPopup = domQuery('.bio-properties-panel-feel-popup', container);
+
+      // then
+      expect(feelPopup).to.exist;
+      expect(feelPopup.parentNode).to.eql(container);
+    });
+
+  });
+
 });
 
 
@@ -3830,6 +3865,10 @@ function findEntries(container, groupLabel, entryLabel) {
 
 function findFeelers(id, container) {
   return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-feelers-editor`);
+}
+
+function findOpenFeelPopup(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
 }
 
 function findTextbox(id, container) {

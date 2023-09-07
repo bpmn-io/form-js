@@ -7,13 +7,21 @@ import mitt from 'mitt';
 import { PlaygroundRoot } from './components/PlaygroundRoot';
 
 /**
+ * @typedef { import('@bpmn-io/form-js-viewer/dist/types/types').FormProperties } FormProperties
+ * @typedef { import('@bpmn-io/form-js-editor/dist/types/types').FormEditorProperties } FormEditorProperties
+ *
  * @typedef { {
  *  actions?: { display: Boolean }
  *  container?: Element
  *  data: any
  *  editor?: { inlinePropertiesPanel: Boolean }
+ *  editorAdditionalModules?: Array<any>
+ *  editorProperties?: FormEditorProperties
  *  exporter?: { name: String, version: String }
+ *  propertiesPanel?: { parent: Element, feelPopupContainer: Element }
  *  schema: any
+ *  viewerAdditionalModules?: Array<any>
+ *  viewerProperties?: FormProperties
  * } } FormPlaygroundOptions
  */
 
