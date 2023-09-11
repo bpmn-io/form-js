@@ -89,7 +89,7 @@ function Path(props) {
 
   return TextFieldEntry({
     debounce,
-    description: 'Where the child variables of this component are routed to.',
+    description: 'Where the child variables of this component are pathed to.',
     element: field,
     getValue,
     id,

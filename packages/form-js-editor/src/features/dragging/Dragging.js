@@ -22,19 +22,19 @@ export default class Dragging {
    * @constructor
    *
    * @param { import('../../core/FormFieldRegistry').default } formFieldRegistry
-   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    * @param { import('../../core/FormLayouter').default } formLayouter
    * @param { import('../../core/FormLayoutValidator').default } formLayoutValidator
    * @param { import('../../core/EventBus').default } eventBus
    * @param { import('../modeling/Modeling').default } modeling
+   * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    */
-  constructor(formFieldRegistry, pathRegistry, formLayouter, formLayoutValidator, eventBus, modeling) {
+  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry) {
     this._formFieldRegistry = formFieldRegistry;
-    this._pathRegistry = pathRegistry;
     this._formLayouter = formLayouter;
     this._formLayoutValidator = formLayoutValidator;
     this._eventBus = eventBus;
     this._modeling = modeling;
+    this._pathRegistry = pathRegistry;
   }
 
   /**
@@ -348,11 +348,11 @@ export default class Dragging {
 
 Dragging.$inject = [
   'formFieldRegistry',
-  'pathRegistry',
   'formLayouter',
   'formLayoutValidator',
   'eventBus',
-  'modeling'
+  'modeling',
+  'pathRegistry'
 ];
 
 

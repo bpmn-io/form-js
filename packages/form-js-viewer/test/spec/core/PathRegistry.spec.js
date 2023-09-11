@@ -23,19 +23,57 @@ describe('PathRegistry', function() {
   describe('#canClaimPath', function() {
 
     it('should claim path when available', function() {
-      expect(localPathRegistry.canClaimPath([ 'foo', 'bar' ])).to.equal(true);
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path);
+
+      // then
+      expect(canClaim).to.be.true;
     });
 
 
     it('should NOT allow path claim when unavailable (closed over open)', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
-      expect(localPathRegistry.canClaimPath([ 'foo', 'bar' ], true)).to.equal(false);
+
+      // given
+      const path = [ 'foo', 'bar' ];
+      localPathRegistry.claimPath(path, false);
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path, true);
+
+      // then
+      expect(canClaim).to.be.false;
     });
 
 
     it('should NOT allow path claim when unavailable (closed over closed)', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], true);
-      expect(localPathRegistry.canClaimPath([ 'foo', 'bar' ], true)).to.equal(false);
+
+      // given
+      const path = [ 'foo', 'bar' ];
+      localPathRegistry.claimPath(path, true);
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path, true);
+
+      // then
+      expect(canClaim).to.be.false;
+    });
+
+
+    it('should NOT allow path claim when unavailable (open over closed)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+      localPathRegistry.claimPath(path, true);
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path, false);
+
+      // then
+      expect(canClaim).to.be.false;
     });
 
   });
@@ -44,46 +82,95 @@ describe('PathRegistry', function() {
   describe('#claimPath', function() {
 
     it('should NOT throw error when two same open paths are claimed', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar' ], false)).to.not.throw();
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, false);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, false)).to.not.throw();
     });
 
 
     it('should throw error when two same closed paths are claimed', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], true);
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar' ], true)).to.throw('cannot claim path \'foo.bar\'');
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, true);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
     it('should throw error if a closed path would clash with an open path', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
-      expect(() => localPathRegistry.claimPath([ 'foo' ], true)).to.throw('cannot claim path \'foo\'');
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, false);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
     it('should throw an error if a closed path would clash with an open path (2)', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar' ], true)).to.throw('cannot claim path \'foo.bar\'');
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, false);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
     it('should NOT throw an error if a closed path is a subpath of an open path', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, false);
+
+      // then
       expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], true)).to.not.throw();
     });
 
 
     it('should claim, unclaim and claim again without issue (closed)', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], false);
-      localPathRegistry.unclaimPath([ 'foo', 'bar' ]);
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar' ], false)).to.not.throw();
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, false);
+      localPathRegistry.unclaimPath(path);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, false)).to.not.throw();
     });
 
 
     it('should claim, unclaim and claim again without issue (open)', function() {
-      localPathRegistry.claimPath([ 'foo', 'bar' ], true);
-      localPathRegistry.unclaimPath([ 'foo', 'bar' ]);
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar' ], true)).to.not.throw();
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, true);
+      localPathRegistry.unclaimPath(path);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, true)).to.not.throw();
     });
 
   });
@@ -92,7 +179,12 @@ describe('PathRegistry', function() {
   describe('#unclaimPath', function() {
 
     it('should throw error when no path found', function() {
-      expect(() => localPathRegistry.unclaimPath([ 'foo', 'bar' ])).to.throw('no open path found for \'foo.bar\'');
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // then
+      expect(() => localPathRegistry.unclaimPath(path)).to.throw('no open path found for \'foo.bar\'');
     });
 
   });
@@ -101,6 +193,8 @@ describe('PathRegistry', function() {
   describe('#executeRecursivelyOnFields', function() {
 
     it('should execute function recursively', function() {
+
+      // given
       const field = {
         type: 'group',
         components: [
@@ -111,13 +205,18 @@ describe('PathRegistry', function() {
       };
 
       const spyFn = sinon.spy();
+
+      // when
       localPathRegistry.executeRecursivelyOnFields(field, spyFn);
 
+      // then
       expect(spyFn).to.have.been.calledThrice;
     });
 
 
     it('should not execute at all for non-bound fields', function() {
+
+      // given
       const field = {
         type: 'default',
         components: [
@@ -129,13 +228,17 @@ describe('PathRegistry', function() {
 
       const spyFn = sinon.spy();
 
+      // when
       localPathRegistry.executeRecursivelyOnFields(field, spyFn);
 
+      // then
       expect(spyFn).to.not.have.been.called;
     });
 
 
     it('should pass context down recursively', function() {
+
+      // given
       const field = {
         type: 'group',
         components: [
@@ -146,8 +249,11 @@ describe('PathRegistry', function() {
       };
 
       const spyFn = sinon.spy();
+
+      // when
       localPathRegistry.executeRecursivelyOnFields(field, spyFn, { foo: 'bar' });
 
+      // then
       expect(spyFn).to.have.been.calledThrice;
       expect(spyFn.firstCall.args[0].context).to.eql({ foo: 'bar' });
       expect(spyFn.secondCall.args[0].context).to.eql({ foo: 'bar' });
@@ -155,6 +261,8 @@ describe('PathRegistry', function() {
 
 
     it('should pass isClosed state to function', function() {
+
+      // given
       const field = {
         type: 'group',
         components: [
@@ -165,8 +273,11 @@ describe('PathRegistry', function() {
       };
 
       const spyFn = sinon.spy();
+
+      // when
       localPathRegistry.executeRecursivelyOnFields(field, spyFn);
 
+      // then
       expect(spyFn).to.have.been.calledThrice;
       expect(spyFn.firstCall.args[0].isClosed).to.be.false;
       expect(spyFn.secondCall.args[0].isClosed).to.be.true;
@@ -179,18 +290,25 @@ describe('PathRegistry', function() {
   describe('#getValuePath', function() {
 
     it('should get simple value path', function() {
+
+      // given
       const field = {
         id: 'FooID',
         type: 'textfield',
         key: 'foo'
       };
 
+      // when
       const result = localPathRegistry.getValuePath(field);
+
+      // then
       expect(result).to.eql([ 'foo' ]);
     });
 
 
     it('should get value path with replacement', function() {
+
+      // given
       const field = {
         id: 'FooID',
         type: 'textfield',
@@ -199,13 +317,17 @@ describe('PathRegistry', function() {
 
       const options = { replacements: { FooID: 'bar' } };
 
+      // when
       const result = localPathRegistry.getValuePath(field, options);
+
+      // then
       expect(result).to.eql([ 'bar' ]);
     });
 
 
     it('should get value path with parent', function() {
 
+      // given
       const parent = {
         id: 'BarID',
         type: 'group',
@@ -220,13 +342,18 @@ describe('PathRegistry', function() {
       };
 
       localFormFieldRegistry.add(parent);
+
+      // when
       const result = localPathRegistry.getValuePath(child);
+
+      // then
       expect(result).to.eql([ 'bar', 'foo' ]);
     });
 
 
     it('should get value path with empty parent', function() {
 
+      // given
       const parent = {
         id: 'BarID',
         type: 'group',
@@ -241,13 +368,18 @@ describe('PathRegistry', function() {
       };
 
       localFormFieldRegistry.add(parent);
+
+      // when
       const result = localPathRegistry.getValuePath(child);
+
+      // then
       expect(result).to.eql([ 'foo' ]);
     });
 
 
     it('should get value path with parent and replacement', function() {
 
+      // given
       const parent = {
         id: 'BarID',
         type: 'group',
@@ -264,13 +396,17 @@ describe('PathRegistry', function() {
       localFormFieldRegistry.add(parent);
       const options = { replacements: { BarID: 'baz' } };
 
+      // when
       const result = localPathRegistry.getValuePath(child, options);
+
+      // then
       expect(result).to.eql([ 'baz', 'foo' ]);
     });
 
 
     it('should get value path with multiple levels of parents', function() {
 
+      // given
       const grandparent = {
         id: 'GrandparentID',
         type: 'group',
@@ -294,13 +430,17 @@ describe('PathRegistry', function() {
       localFormFieldRegistry.add(grandparent);
       localFormFieldRegistry.add(parent);
 
+      // when
       const result = localPathRegistry.getValuePath(child);
+
+      // then
       expect(result).to.eql([ 'grandparent', 'parent', 'child' ]);
     });
 
 
     it('should get value path with multiple levels of parents with dot accessed paths', function() {
 
+      // given
       const grandparent = {
         id: 'GrandparentID',
         type: 'group',
@@ -324,10 +464,11 @@ describe('PathRegistry', function() {
       localFormFieldRegistry.add(grandparent);
       localFormFieldRegistry.add(parent);
 
+      // when
       const result = localPathRegistry.getValuePath(child);
 
+      // then
       expect(result).to.eql([ 'grandparent', 'a', 'parent', 'b', 'child', 'c' ]);
-
     });
 
   });
@@ -336,11 +477,16 @@ describe('PathRegistry', function() {
   describe('#clear', function() {
 
     it('should clear all paths', function() {
+
+      // given
       localPathRegistry.claimPath([ 'foo', 'bar' ], false);
       localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], true);
       localPathRegistry.claimPath([ 'foo', 'bar', 'qux' ], true);
+
+      // when
       localPathRegistry.clear();
 
+      // then
       expect(localPathRegistry._dataPaths).to.be.empty;
     });
 
