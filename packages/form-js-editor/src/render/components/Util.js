@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 
+const emptyImage = createEmptyImage();
+
 export function editorFormFieldClasses(type, { disabled = false } = {}) {
   if (!type) {
     throw new Error('type required');
@@ -42,7 +44,7 @@ export function createDragger(fn) {
 
     // (1) hide drag preview image
     if (event.dataTransfer) {
-      event.dataTransfer.setDragImage(createEmptyImage(), 0, 0);
+      event.dataTransfer.setDragImage(emptyImage, 0, 0);
     }
 
     // (2) setup drag listeners
