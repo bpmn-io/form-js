@@ -121,7 +121,7 @@ describe('Group', () => {
     expect(config.type).to.eql('group');
     expect(config.label).to.eql('Group');
     expect(config.group).to.eql('presentation');
-    expect(config.routed).to.be.true;
+    expect(config.pathed).to.be.true;
 
     // when
     const field = config.create();

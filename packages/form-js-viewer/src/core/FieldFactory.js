@@ -48,7 +48,7 @@ export default class FieldFactory {
       throw new Error(`binding path '${ [ ...parentPath, key ].join('.') }' is already claimed`);
     }
 
-    if (config.routed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ], false)) {
+    if (config.pathed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ], false)) {
       throw new Error(`binding path '${ [ ...parentPath, ...path.split('.') ].join('.') }' is already claimed`);
     }
 
@@ -67,7 +67,7 @@ export default class FieldFactory {
       this._ensureKey(field);
     }
 
-    if (config.routed && path) {
+    if (config.pathed && path) {
       this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), false);
     }
 

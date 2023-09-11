@@ -29,7 +29,7 @@ export default function Group(props) {
 
 Group.config = {
   type: 'group',
-  routed: true,
+  pathed: true,
   label: 'Group',
   group: 'presentation',
   create: (options = {}) => ({

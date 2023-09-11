@@ -1,6 +1,37 @@
 import { isArray } from 'min-dash';
 import { clone } from '../util';
 
+/**
+ * The PathRegistry class manages a hierarchical structure of paths associated with form fields.
+ * It enables claiming, unclaiming, and validating paths within this structure.
+ *
+ * Example Tree Structure:
+ *
+ *   [
+ *     {
+ *       segment: 'root',
+ *       claimCount: 1,
+ *       children: [
+ *         {
+ *           segment: 'child1',
+ *           claimCount: 2,
+ *           children: null  // A leaf node (closed path)
+ *         },
+ *         {
+ *           segment: 'child2',
+ *           claimCount: 1,
+ *           children: [
+ *             {
+ *               segment: 'subChild1',
+ *               claimCount: 1,
+ *               children: []  // An open node (open path)
+ *             }
+ *           ]
+ *         }
+ *       ]
+ *     }
+ *   ]
+ */
 export default class PathRegistry {
   constructor(formFieldRegistry, formFields) {
     this._formFieldRegistry = formFieldRegistry;
@@ -88,6 +119,17 @@ export default class PathRegistry {
     }
   }
 
+  /**
+   * Applies a function (fn) recursively on a given field and its children.
+   *
+   * - `field`: Starting field object.
+   * - `fn`: Function to apply.
+   * - `context`: Optional object for passing data between calls.
+   *
+   * Stops early if `fn` returns `false`. Useful for traversing the form field tree.
+   *
+   * @returns {boolean} Success status based on function execution.
+   */
   executeRecursivelyOnFields(field, fn, context = {}) {
 
     let result = true;
@@ -98,7 +140,7 @@ export default class PathRegistry {
       const callResult = fn({ field, isClosed: true, context });
       return result && callResult;
     }
-    else if (formFieldConfig.routed) {
+    else if (formFieldConfig.pathed) {
       const callResult = fn({ field, isClosed: false, context });
       result = result && callResult;
     }
@@ -154,7 +196,7 @@ export default class PathRegistry {
 
     } else if (formFieldConfig.keyed) {
       localValuePath = field.key.split('.');
-    } else if (formFieldConfig.routed && field.path) {
+    } else if (formFieldConfig.pathed && field.path) {
       localValuePath = field.path.split('.');
     }
 

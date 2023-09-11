@@ -9,7 +9,7 @@ export default class PathBehavior extends CommandInterceptor {
       const { path, type } = formField;
       const { config } = formFields.get(type);
 
-      if (config.routed) {
+      if (config.pathed) {
         modeling.unclaimPath(formField, path);
       }
     }, true);
@@ -23,7 +23,7 @@ export default class PathBehavior extends CommandInterceptor {
       const { path, type } = formField;
       const { config } = formFields.get(type);
 
-      if (config.routed && 'path' in properties) {
+      if (config.pathed && 'path' in properties) {
         modeling.unclaimPath(formField, path);
         modeling.claimPath(formField, properties.path);
       }
