@@ -860,48 +860,9 @@ const DATETIME_INPUTS = css`
           position: unset;
         }
 
-        .flatpickr-calendar.static {
-          top: calc(100% + 3px);
-        }
-
         .flatpickr-calendar .flatpickr-prev-month svg,
         .flatpickr-calendar .flatpickr-next-month svg {
           height: 16px;
-        }
-
-        .flatpickr-day.today {
-          position: relative;
-          color: var(--cds-link-primary);
-          font-weight: 600;
-          border-color: transparent;
-        }
-
-        .flatpickr-day.selected,
-        .flatpickr-day.today.selected,
-        .flatpickr-day.selected:hover,
-        .flatpickr-day.today.selected:hover {
-          background-color: var(--cds-button-primary);
-          color: var(--cds-text-on-color);
-        }
-
-        .flatpickr-day:focus {
-          outline: 2px solid var(--cds-focus);
-          outline-offset: -2px;
-        }
-
-        .flatpickr-day.selected:focus {
-          outline: 0.0625rem solid var(--cds-focus);
-          outline-offset: -0.1875rem;
-        }
-
-        .flatpickr-day:hover {
-          background: var(--cds-layer-hover);
-        }
-
-        .flatpickr-days,
-        .flatpickr-weekdays {
-          padding: unset;
-          width: unset;
         }
       }
     }
