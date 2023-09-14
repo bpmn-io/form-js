@@ -21,13 +21,15 @@
               "type": "textfield",
               "id": "Textfield_1",
               "label": "Textfield 1",
-              "defaultValue": "Hello groups"
+              "defaultValue": "Hello groups",
+              "key": "textfield_1"
             },
             {
               "type": "checkbox",
               "id": "Checkbox_1",
               "label": "Checkbox 1",
-              "defaultValue": true
+              "defaultValue": true,
+              "key": "checkbox_1"
             }
           ]
         }
