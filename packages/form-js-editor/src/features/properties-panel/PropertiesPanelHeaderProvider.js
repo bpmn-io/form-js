@@ -4,25 +4,10 @@ import {
 
 import { iconsByType } from '../../render/components/icons';
 
-const labelsByType = {
-  button: 'BUTTON',
-  checkbox: 'CHECKBOX',
-  checklist: 'CHECKLIST',
-  columns: 'COLUMNS',
-  default: 'FORM',
-  datetime: 'DATETIME',
-  group: 'GROUP',
-  image: 'IMAGE VIEW',
-  number: 'NUMBER',
-  radio: 'RADIO',
-  select: 'SELECT',
-  separator: 'SEPARATOR',
-  spacer: 'SPACER',
-  taglist: 'TAGLIST',
-  text: 'TEXT VIEW',
-  textfield: 'TEXT FIELD',
-  textarea: 'TEXT AREA',
-};
+import { getPaletteIcon } from '../palette/components/Palette';
+
+import { useService } from './hooks';
+
 
 export const PropertiesPanelHeaderProvider = {
 
@@ -55,10 +40,17 @@ export const PropertiesPanelHeaderProvider = {
       type
     } = field;
 
-    const Icon = iconsByType(type);
+    // @Note: We know that we are inside the properties panel context,
+    // so we can savely use the hook here.
+    // eslint-disable-next-line
+    const fieldDefinition = useService('formFields').get(type).config;
+
+    const Icon = fieldDefinition.icon || iconsByType(type);
 
     if (Icon) {
       return () => <Icon width="36" height="36" viewBox="0 0 54 54" />;
+    } else if (fieldDefinition.iconUrl) {
+      return getPaletteIcon({ iconUrl: fieldDefinition.iconUrl, label: fieldDefinition.label });
     }
   },
 
@@ -67,6 +59,15 @@ export const PropertiesPanelHeaderProvider = {
       type
     } = field;
 
-    return labelsByType[type];
+    if (type === 'default') {
+      return 'Form';
+    }
+
+    // @Note: We know that we are inside the properties panel context,
+    // so we can savely use the hook here.
+    // eslint-disable-next-line
+    const fieldDefinition = useService('formFields').get(type).config;
+
+    return fieldDefinition.label || type;
   }
 };

@@ -3,6 +3,8 @@ import {
   render
 } from '@testing-library/preact/pure';
 
+import { FormFields } from '@bpmn-io/form-js-viewer';
+
 import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
 import { WithPropertiesPanelContext, WithPropertiesPanel } from './helper';
@@ -58,6 +60,91 @@ describe('PropertiesPanelHeaderProvider', function() {
     expect(label.innerText).to.eql(field.label);
   });
 
+
+  describe('extension support', function() {
+
+    it('should render type label from config', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom label',
+          group: 'basic-input'
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      const field = { type: 'custom' };
+
+      // when
+      const { container } = renderHeader({ field, formFields });
+
+      // then
+      const label = container.querySelector('.bio-properties-panel-header-type');
+
+      expect(label).to.exist;
+      expect(label.innerText).to.eql(extension.config.label.toUpperCase());
+    });
+
+
+    it('should render icon from config', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom label',
+          group: 'basic-input',
+          icon: () => <div class="custom-icon">Custom Icon</div>
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      const field = { type: 'custom' };
+
+      // when
+      const { container } = renderHeader({ field, formFields });
+
+      // then
+      const customIcon = container.querySelector('.custom-icon');
+
+      expect(customIcon).to.exist;
+    });
+
+
+    it('should render iconUrl from config', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom label',
+          group: 'basic-input',
+          iconUrl: 'https://example.com/icon.png'
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      const field = { type: 'custom' };
+
+      // when
+      const { container } = renderHeader({ field, formFields });
+
+      // then
+      const customIcon = container.querySelector('.fjs-field-icon-image');
+
+      expect(customIcon).to.exist;
+    });
+
+  });
+
 });
 
 
@@ -65,11 +152,14 @@ describe('PropertiesPanelHeaderProvider', function() {
 
 function renderHeader(options) {
   const {
-    field
+    field,
+    formFields
   } = options;
 
   return render(WithPropertiesPanelContext(WithPropertiesPanel({
     field,
     headerProvider: PropertiesPanelHeaderProvider
-  })));
+  }), {
+    formFields
+  }));
 }
