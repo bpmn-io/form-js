@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "key": "creditor",
+      "label": "Creditor",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "amount",
+      "type": "range",
+      "label": "Amount",
+      "min": 0,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "type": "button",
+      "action": "submit",
+      "label": "Submit"
+    }
+  ],
+  "type": "default"
+}

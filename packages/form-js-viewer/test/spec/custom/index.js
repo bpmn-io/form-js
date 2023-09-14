@@ -1,6 +1,16 @@
-import { formFieldClasses } from '../../../src/render/components/Util';
+import {
+  formFieldClasses,
+  prefixId
+} from '../../../src/render/components/Util';
 
-const type = 'button';
+import { Numberfield, Button } from '../../../src';
+
+import { FormContext } from '../../../src/render/context';
+
+import { useContext } from 'preact/hooks';
+
+const btnType = Button.config.type;
+const rangeType = 'range';
 
 function CustomButton(props) {
   const {
@@ -10,29 +20,75 @@ function CustomButton(props) {
 
   const { action = 'submit' } = field;
 
-  return <div class={ formFieldClasses(type) }>
+  return <div class={ formFieldClasses(btnType) }>
     <button class="fjs-button custom-button" type={ action } disabled={ disabled }>{ field.label }</button>
   </div>;
 }
 
 CustomButton.config = {
-  type,
-  keyed: true,
+  ...Button.config,
   label: 'Custom Button',
-  group: 'action',
   create: (options = {}) => ({
     action: 'submit',
     ...options
   })
 };
 
-class CustomButtonRegistrer {
+function Range(props) {
+
+  const {
+    field,
+    value
+  } = props;
+
+  const {
+    min,
+    max,
+    step,
+    id,
+    label
+  } = field;
+
+  const { formId } = useContext(FormContext);
+
+  const onChange = ({ target }) => {
+    props.onChange({
+      field,
+      value: Number(target.value)
+    });
+  };
+
+  return <div class={ formFieldClasses(rangeType) }>
+    <label class="fjs-form-field-label" for={ prefixId(id, formId) }>
+      { label }
+    </label>
+    <input
+      type="range"
+      id={ prefixId(id, formId) }
+      onInput={ onChange }
+      min={ min }
+      max={ max }
+      value={ value }
+      step={ step } />
+  </div>;
+}
+
+Range.config = {
+  ...Numberfield.config,
+  type: rangeType,
+  keyed: true,
+  label: 'Range',
+  group: 'basic-input'
+};
+
+class CustomFormFields {
   constructor(formFields) {
-    formFields.register(type, CustomButton);
+    formFields.register(btnType, CustomButton);
+    formFields.register(rangeType, Range);
   }
 }
 
 export default {
-  __init__: [ 'customButtonRegisterer' ],
-  customButtonRegisterer: [ 'type', CustomButtonRegistrer ]
+  __init__: [ 'customFormFields' ],
+  customFormFields: [ 'type', CustomFormFields ]
 };
