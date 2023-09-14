@@ -5,26 +5,33 @@ import {
   useState
 } from 'preact/hooks';
 
+import { useService } from '../../../render/hooks';
+
 import {
   Slot
 } from '../../render-injection/slot-fill';
 
 import {
   CloseIcon,
-  SearchIcon
+  SearchIcon,
+  iconsByType
 } from '../../../render/components/icons';
 
 import PaletteEntry from './PaletteEntry';
 
-import { formFields } from '@bpmn-io/form-js-viewer';
+import { sanitizeImageSource } from '@bpmn-io/form-js-viewer';
 
-export const PALETTE_ENTRIES = formFields.filter(({ config: fieldConfig }) => fieldConfig.type !== 'default').map(({ config: fieldConfig }) => {
-  return {
-    label: fieldConfig.label,
-    type: fieldConfig.type,
-    group: fieldConfig.group
-  };
-});
+/**
+ * @typedef { import('@bpmn-io/form-js-viewer').FormFields } FormFields
+ *
+ * @typedef { {
+ *  label: string,
+ *  type: string,
+ *  group: ('basic-input'|'selection'|'presentation'|'action'),
+ *  icon: preact.FunctionalComponent,
+ *  iconUrl: string
+ * } } PaletteEntry
+ */
 
 export const PALETTE_GROUPS = [
   {
@@ -47,13 +54,17 @@ export const PALETTE_GROUPS = [
 
 export default function Palette(props) {
 
-  const [ entries, setEntries ] = useState(PALETTE_ENTRIES);
+  const formFields = useService('formFields');
+
+  const initialPaletteEntries = collectPaletteEntries(formFields);
+
+  const [ paletteEntries, setPaletteEntries ] = useState(initialPaletteEntries);
 
   const [ searchTerm, setSearchTerm ] = useState('');
 
   const inputRef = useRef();
 
-  const groups = groupEntries(entries);
+  const groups = groupEntries(paletteEntries);
 
   const simplifyString = useCallback((str) => {
     return str
@@ -79,8 +90,8 @@ export default function Palette(props) {
 
   // filter entries on search change
   useEffect(() => {
-    const entries = PALETTE_ENTRIES.filter(filter);
-    setEntries(entries);
+    const entries = initialPaletteEntries.filter(filter);
+    setPaletteEntries(entries);
   }, [ filter, searchTerm ]);
 
   const handleInput = useCallback(event => {
@@ -124,6 +135,7 @@ export default function Palette(props) {
                 entries.map(entry => {
                   return (
                     <PaletteEntry
+                      getPaletteIcon={ getPaletteIcon }
                       { ...entry }
                     />
                   );
@@ -166,4 +178,46 @@ function groupEntries(entries) {
   });
 
   return groups.filter(g => g.entries.length);
+}
+
+/**
+ * Returns a list of palette entries.
+ *
+ * @param {FormFields} formFields
+ * @returns {Array<PaletteEntry>}
+ */
+export function collectPaletteEntries(formFields) {
+  return Object.entries(formFields._formFields).map(([ type, formField ]) => {
+
+    const { config: fieldConfig } = formField;
+
+    return {
+      label: fieldConfig.label,
+      type: type,
+      group: fieldConfig.group,
+      icon: fieldConfig.icon,
+      iconUrl: fieldConfig.iconUrl
+    };
+  }).filter(({ type }) => type !== 'default');
+}
+
+/**
+ * There are various options to specify an icon for a palette entry.
+ *
+ * a) via `iconUrl` property in a form field config
+ * b) via `icon` property in a form field config
+ * c) via statically defined iconsByType (fallback)
+ */
+export function getPaletteIcon(entry) {
+  const { icon, iconUrl, type, label } = entry;
+
+  let Icon;
+
+  if (iconUrl) {
+    Icon = () => <img class="fjs-field-icon-image" width={ 36 } style={ { margin: 'auto' } } alt={ label } src={ sanitizeImageSource(iconUrl) } />;
+  } else {
+    Icon = icon || iconsByType(type);
+  }
+
+  return Icon;
 }
