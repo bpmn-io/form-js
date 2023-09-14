@@ -114,7 +114,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.58.3",
     "sass-loader": "^13.2.0",
-    "sinon": "^15.0.0",
+    "sinon": "^16.0.0",
     "sinon-chai": "^3.7.0",
     "source-map-loader": "^4.0.0",
     "style-loader": "^3.3.1",
