@@ -7,7 +7,8 @@ export default function simpleBoolEntryFactory(options) {
     label,
     description,
     path,
-    props
+    props,
+    isDefaultVisible
   } = options;
 
   const {
@@ -23,7 +24,8 @@ export default function simpleBoolEntryFactory(options) {
     editField,
     description,
     component: SimpleBoolComponent,
-    isEdited: isCheckboxEntryEdited
+    isEdited: isCheckboxEntryEdited,
+    isDefaultVisible
   };
 }
 

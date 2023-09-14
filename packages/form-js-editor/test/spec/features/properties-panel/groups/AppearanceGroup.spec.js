@@ -20,10 +20,10 @@ describe('AppearanceGroup', function() {
     // given
     const field = { type: 'checkbox' };
 
-    const group = AppearanceGroup(field);
+    renderAppearanceGroup({ field });
 
     // then
-    expect(group).to.not.exist;
+    expect(findGroup('appearance', document.body)).to.not.exist;
   });
 
 
@@ -236,4 +236,8 @@ function findFeelers(id, container) {
 
 function findTextbox(id, container) {
   return container.querySelector(`[name=${id}] [role="textbox"]`);
+}
+
+function findGroup(id, container) {
+  return container.querySelector(`.bio-properties-panel-group [data-group-id="group-${id}"]`);
 }

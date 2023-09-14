@@ -13,15 +13,14 @@ export default function IdEntry(props) {
 
   const entries = [];
 
-  if (field.type === 'default') {
-    entries.push({
-      id: 'id',
-      component: Id,
-      editField: editField,
-      field: field,
-      isEdited: isTextFieldEntryEdited
-    });
-  }
+  entries.push({
+    id: 'id',
+    component: Id,
+    editField: editField,
+    field: field,
+    isEdited: isTextFieldEntryEdited,
+    isDefaultVisible: (field) => field.type === 'default'
+  });
 
   return entries;
 }

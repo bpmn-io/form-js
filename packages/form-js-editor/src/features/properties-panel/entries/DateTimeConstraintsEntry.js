@@ -11,36 +11,37 @@ export default function DateTimeConstraintsEntry(props) {
     id
   } = props;
 
-  const {
-    type,
-    subtype
-  } = field;
+  function isDefaultVisible(subtypes) {
+    return (field) => {
+      if (field.type !== 'datetime') {
+        return false;
+      }
 
-  if (type !== 'datetime') {
-    return [];
+      return subtypes.includes(field.subtype);
+    };
   }
 
   const entries = [];
 
-  if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
-    entries.push({
-      id: id + '-timeInterval',
-      component: TimeIntervalSelect,
-      isEdited: isSelectEntryEdited,
-      editField,
-      field
-    });
-  }
+  entries.push({
+    id: id + '-timeInterval',
+    component: TimeIntervalSelect,
+    isEdited: isSelectEntryEdited,
+    editField,
+    field,
+    isDefaultVisible: isDefaultVisible([ DATETIME_SUBTYPES.TIME, DATETIME_SUBTYPES.DATETIME ])
+  });
 
-  if (subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME) {
-    entries.push({
-      id: id + '-disallowPassedDates',
-      component: DisallowPassedDates,
-      isEdited: isCheckboxEntryEdited,
-      editField,
-      field
-    });
-  }
+
+  entries.push({
+    id: id + '-disallowPassedDates',
+    component: DisallowPassedDates,
+    isEdited: isCheckboxEntryEdited,
+    editField,
+    field,
+    isDefaultVisible: isDefaultVisible([ DATETIME_SUBTYPES.DATE, DATETIME_SUBTYPES.DATETIME ])
+  });
+
 
   return entries;
 }

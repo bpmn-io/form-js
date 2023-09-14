@@ -12,14 +12,6 @@ export default function NumberEntries(props) {
     id
   } = props;
 
-  const {
-    type
-  } = field;
-
-  if (type !== 'number') {
-    return [];
-  }
-
   const entries = [];
 
   entries.push({
@@ -27,7 +19,8 @@ export default function NumberEntries(props) {
     component: NumberDecimalDigits,
     isEdited: isNumberFieldEntryEdited,
     editField,
-    field
+    field,
+    isDefaultVisible: (field) => field.type === 'number'
   });
 
   entries.push({
@@ -35,7 +28,8 @@ export default function NumberEntries(props) {
     component: NumberArrowStep,
     isEdited: isTextFieldEntryEdited,
     editField,
-    field
+    field,
+    isDefaultVisible: (field) => field.type === 'number'
   });
 
   return entries;

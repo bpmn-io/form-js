@@ -9,10 +9,6 @@ export default function AdornerEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
   const onChange = (key) => {
@@ -29,27 +25,27 @@ export default function AdornerEntry(props) {
     };
   };
 
-  if ([ 'number', 'textfield' ].includes(type)) {
-    entries.push({
-      id: 'prefix-adorner',
-      component: PrefixAdorner,
-      isEdited: isFeelEntryEdited,
-      editField,
-      field,
-      onChange,
-      getValue
-    });
+  entries.push({
+    id: 'prefix-adorner',
+    component: PrefixAdorner,
+    isEdited: isFeelEntryEdited,
+    editField,
+    field,
+    onChange,
+    getValue,
+    isDefaultVisible: (field) => [ 'number', 'textfield' ].includes(field.type)
+  });
 
-    entries.push({
-      id: 'suffix-adorner',
-      component: SuffixAdorner,
-      isEdited: isFeelEntryEdited,
-      editField,
-      field,
-      onChange,
-      getValue
-    });
-  }
+  entries.push({
+    id: 'suffix-adorner',
+    component: SuffixAdorner,
+    isEdited: isFeelEntryEdited,
+    editField,
+    field,
+    onChange,
+    getValue,
+    isDefaultVisible: (field) => [ 'number', 'textfield' ].includes(field.type)
+  });
 
   return entries;
 }

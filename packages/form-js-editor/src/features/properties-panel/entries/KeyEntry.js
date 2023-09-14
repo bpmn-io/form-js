@@ -15,21 +15,16 @@ export default function KeyEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (INPUTS.includes(type)) {
-    entries.push({
-      id: 'key',
-      component: Key,
-      editField: editField,
-      field: field,
-      isEdited: isTextFieldEntryEdited
-    });
-  }
+  entries.push({
+    id: 'key',
+    component: Key,
+    editField: editField,
+    field: field,
+    isEdited: isTextFieldEntryEdited,
+    isDefaultVisible: (field) => INPUTS.includes(field.type)
+  });
 
   return entries;
 }

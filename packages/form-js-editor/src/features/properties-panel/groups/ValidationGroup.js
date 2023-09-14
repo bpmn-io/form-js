@@ -37,10 +37,6 @@ export default function ValidationGroup(field, editField) {
   const validate = get(field, [ 'validate' ], {});
   const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate.validationType);
 
-  if (!INPUTS.includes(type)) {
-    return null;
-  }
-
   const onChange = (key) => {
     return (value) => {
       const validate = get(field, [ 'validate' ], {});
@@ -62,78 +58,83 @@ export default function ValidationGroup(field, editField) {
       getValue,
       field,
       isEdited: isCheckboxEntryEdited,
-      onChange
+      onChange,
+      isDefaultVisible: (field) => INPUTS.includes(field.type)
     }
   ];
 
-  if (type === 'textfield') {
-    entries.push(
-      {
-        id: 'validationType',
-        component: ValidationType,
-        getValue,
-        field,
-        editField,
-        isEdited: isTextFieldEntryEdited,
-        onChange
-      }
-    );
-  }
+  entries.push(
+    {
+      id: 'validationType',
+      component: ValidationType,
+      getValue,
+      field,
+      editField,
+      isEdited: isTextFieldEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => field.type === 'textfield'
+    }
+  );
 
-  if (type === 'textarea' || (type === 'textfield' && isCustomValidation)) {
-    entries.push(
-      {
-        id: 'minLength',
-        component: MinLength,
-        getValue,
-        field,
-        isEdited: isFeelEntryEdited,
-        onChange
-      },
-      {
-        id: 'maxLength',
-        component: MaxLength,
-        getValue,
-        field,
-        isEdited: isFeelEntryEdited,
-        onChange
-      }
-    );
-  }
+  entries.push(
+    {
+      id: 'minLength',
+      component: MinLength,
+      getValue,
+      field,
+      isEdited: isFeelEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
+        type === 'textarea' || (type === 'textfield' && isCustomValidation)
+      )
+    },
+    {
+      id: 'maxLength',
+      component: MaxLength,
+      getValue,
+      field,
+      isEdited: isFeelEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
+        type === 'textarea' || (type === 'textfield' && isCustomValidation)
+      )
+    }
+  );
 
-  if (type === 'textfield' && isCustomValidation) {
-    entries.push(
-      {
-        id: 'pattern',
-        component: Pattern,
-        getValue,
-        field,
-        isEdited: isTextFieldEntryEdited,
-        onChange
-      }
-    );
-  }
+  entries.push(
+    {
+      id: 'pattern',
+      component: Pattern,
+      getValue,
+      field,
+      isEdited: isTextFieldEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
+        type === 'textfield' && isCustomValidation
+      )
+    }
+  );
 
-  if (type === 'number') {
-    entries.push(
-      {
-        id: 'min',
-        component: Min,
-        getValue,
-        field,
-        isEdited: isFeelEntryEdited,
-        onChange
-      },
-      {
-        id: 'max',
-        component: Max,
-        getValue,
-        field,
-        isEdited: isFeelEntryEdited,
-        onChange
-      }
-    );
-  }
+  entries.push(
+    {
+      id: 'min',
+      component: Min,
+      getValue,
+      field,
+      isEdited: isFeelEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => field.type === 'number'
+    },
+    {
+      id: 'max',
+      component: Max,
+      getValue,
+      field,
+      isEdited: isFeelEntryEdited,
+      onChange,
+      isDefaultVisible: (field) => field.type === 'number'
+    }
+  );
 
   return {
     id: 'validation',

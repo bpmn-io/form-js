@@ -21,8 +21,8 @@ describe('SerializationGroup', function() {
 
     // then
     for (const type of types) {
-      const group = SerializationGroup({ type }, () => {});
-      expect(group).to.be.null;
+      renderSerializationGroup({ field : { type } });
+      expect(findGroup('serialization', document.body)).to.be.null;
     }
   });
 
@@ -32,8 +32,8 @@ describe('SerializationGroup', function() {
     const field = { type: 'datetime', subtype: 'date' };
 
     // then
-    const group = SerializationGroup(field, () => { });
-    expect(group).to.be.null;
+    renderSerializationGroup({ field });
+    expect(findGroup('serialization', document.body)).to.be.null;
   });
 
 
@@ -198,4 +198,8 @@ function findInput(id, container) {
 
 function findSelect(id, container) {
   return container.querySelector(`select[name="${id}"]`);
+}
+
+function findGroup(id, container) {
+  return container.querySelector(`.bio-properties-panel-group [data-group-id="group-${id}"]`);
 }

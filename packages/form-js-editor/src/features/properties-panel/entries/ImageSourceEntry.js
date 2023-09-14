@@ -10,21 +10,15 @@ export default function SourceEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
-
-  if (type === 'image') {
-    entries.push({
-      id: 'source',
-      component: Source,
-      editField: editField,
-      field: field,
-      isEdited: isFeelEntryEdited
-    });
-  }
+  entries.push({
+    id: 'source',
+    component: Source,
+    editField: editField,
+    field: field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: (field) => field.type === 'image'
+  });
 
   return entries;
 }

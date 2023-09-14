@@ -11,20 +11,8 @@ import { useMemo } from 'preact/hooks';
 export default function TextEntry(props) {
   const {
     editField,
-
-    /* getService, */
     field
   } = props;
-
-  const {
-    type
-  } = field;
-
-  // const templating = getService('templating');
-
-  if (type !== 'text') {
-    return [];
-  }
 
   const entries = [
     {
@@ -32,7 +20,8 @@ export default function TextEntry(props) {
       component: Text,
       editField: editField,
       field: field,
-      isEdited: isFeelEntryEdited
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: (field) => field.type === 'text'
     }
   ];
 

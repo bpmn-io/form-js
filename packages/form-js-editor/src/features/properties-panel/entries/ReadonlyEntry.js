@@ -13,21 +13,16 @@ export default function ReadonlyEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (INPUTS.includes(type)) {
-    entries.push({
-      id: 'readonly',
-      component: Readonly,
-      editField: editField,
-      field: field,
-      isEdited: isFeelEntryEdited
-    });
-  }
+  entries.push({
+    id: 'readonly',
+    component: Readonly,
+    editField: editField,
+    field: field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: (field) => INPUTS.includes(field.type)
+  });
 
   return entries;
 }

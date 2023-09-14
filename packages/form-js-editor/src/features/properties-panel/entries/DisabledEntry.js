@@ -11,21 +11,16 @@ export default function DisabledEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (INPUTS.includes(type)) {
-    entries.push({
-      id: 'disabled',
-      component: Disabled,
-      editField: editField,
-      field: field,
-      isEdited: isToggleSwitchEntryEdited
-    });
-  }
+  entries.push({
+    id: 'disabled',
+    component: Disabled,
+    editField: editField,
+    field: field,
+    isEdited: isToggleSwitchEntryEdited,
+    isDefaultVisible: (field) => INPUTS.includes(field.type)
+  });
 
   return entries;
 }
