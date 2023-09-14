@@ -25,6 +25,7 @@ import './PlaygroundRoot.css';
 export function PlaygroundRoot(props) {
 
   const {
+    additionalModules = [], // goes into both editor + viewer
     actions: actionsConfig = {},
     emit,
     exporter: exporterConfig = {},
@@ -101,7 +102,10 @@ export function PlaygroundRoot(props) {
     });
 
     const form = formRef.current = new Form({
-      additionalModules: viewerAdditionalModules,
+      additionalModules: [
+        ...additionalModules,
+        ...viewerAdditionalModules
+      ],
       properties: {
         ...viewerProperties,
         'ariaLabel': 'Form Preview'
@@ -124,7 +128,10 @@ export function PlaygroundRoot(props) {
         ...editorProperties,
         'ariaLabel': 'Form Definition'
       },
-      additionalModules: editorAdditionalModules
+      additionalModules: [
+        ...additionalModules,
+        ...editorAdditionalModules
+      ]
     });
 
     paletteRef.current = formEditor.get('palette');
