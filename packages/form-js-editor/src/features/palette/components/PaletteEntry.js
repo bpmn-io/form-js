@@ -1,19 +1,18 @@
-import {
-  iconsByType
-} from '../../../render/components/icons';
-
 import { useService } from '../../../render/hooks';
 
 export default function PaletteEntry(props) {
   const {
     type,
-    label
+    label,
+    icon,
+    iconUrl,
+    getPaletteIcon
   } = props;
 
   const modeling = useService('modeling');
   const formEditor = useService('formEditor');
 
-  const Icon = iconsByType(type);
+  const Icon = getPaletteIcon({ icon, iconUrl, label, type });
 
   const onKeyDown = (event) => {
     if (event.code === 'Enter') {

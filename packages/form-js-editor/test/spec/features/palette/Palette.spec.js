@@ -1,7 +1,9 @@
 import { render, fireEvent } from '@testing-library/preact/pure';
 
+import { FormFields } from '@bpmn-io/form-js-viewer';
+
 import Palette, {
-  PALETTE_ENTRIES,
+  collectPaletteEntries,
   PALETTE_GROUPS
 } from '../../../../src/features/palette/components/Palette';
 
@@ -43,10 +45,12 @@ describe('palette', function() {
     // given
     const result = createPalette({ container });
 
-    // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(PALETTE_ENTRIES.length);
+    const paletteEntries = collectPaletteEntries(new FormFields());
 
-    expectEntries(result.container, PALETTE_ENTRIES);
+    // then
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(paletteEntries.length);
+
+    expectEntries(result.container, paletteEntries);
   });
 
 
@@ -167,7 +171,7 @@ describe('palette', function() {
       fireEvent.click(clear);
 
       // then
-      expectEntries(result.container, PALETTE_ENTRIES);
+      expectEntries(result.container, collectPaletteEntries(new FormFields()));
     });
 
   });
@@ -263,16 +267,103 @@ describe('palette', function() {
     });
   });
 
+
+  describe('extension support', function() {
+
+    it('should render custom entry from extension', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom',
+          group: 'basic-input',
+          iconUrl: 'foo-bar'
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      // given
+      const result = createPalette({ container, formFields });
+
+      const paletteEntries = collectPaletteEntries(formFields);
+
+      // then
+      expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(paletteEntries.length);
+
+      expectEntries(result.container, [
+        ...paletteEntries,
+        { type: 'custom' }
+      ]);
+
+    });
+
+
+    it('should render custom entry icon from icon', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom',
+          group: 'basic-input',
+          icon: () => <div class="custom-icon"></div>
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      // given
+      const result = createPalette({ container, formFields });
+
+      // then
+      expect(result.container.querySelector('.custom-icon')).to.exist;
+    });
+
+
+    it('should render custom entry icon from iconUrl', function() {
+
+      // given
+      const extension = {
+        config: {
+          label: 'Custom',
+          group: 'basic-input',
+          iconUrl: 'https://foo.bar/baz.png'
+        }
+      };
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', extension);
+
+      // given
+      const result = createPalette({ container, formFields });
+
+      const iconImage = result.container.querySelector('.fjs-field-icon-image');
+
+      // then
+      expect(iconImage).to.exist;
+      expect(iconImage.src).to.eql(extension.config.iconUrl);
+    });
+
+  });
+
 });
 
 
 // helper ///////////////
 
 function createPalette(options = {}) {
-  const { container } = options;
+  const {
+    container,
+    ...rest
+  } = options;
 
   return render(
-    WithFormEditorContext(<Palette />, options),
+    WithFormEditorContext(<Palette />, rest),
     {
       container
     }

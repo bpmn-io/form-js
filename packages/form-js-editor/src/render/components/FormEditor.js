@@ -28,7 +28,7 @@ import { DragAndDropContext } from '../context';
 import { DeleteIcon, DraggableIcon } from './icons';
 
 import ModularSection from './ModularSection';
-import Palette, { PALETTE_ENTRIES } from '../../features/palette/components/Palette';
+import Palette, { collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
 import InjectedRendersRoot from '../../features/render-injection/components/InjectedRendersRoot';
 
 import { SlotFillRoot } from '../../features/render-injection/slot-fill';
@@ -50,8 +50,6 @@ import {
 } from './FieldResizer';
 
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
-
-import { iconsByType } from './icons';
 
 function ContextPad(props) {
   if (!props.children) {
@@ -503,6 +501,8 @@ function CreatePreview(props) {
 
   const { drake } = useContext(DragAndDropContext);
 
+  const formFields = useService('formFields');
+
   function handleCloned(clone, original, type) {
 
     const fieldType = clone.dataset.fieldType;
@@ -510,9 +510,15 @@ function CreatePreview(props) {
     // (1) field preview
     if (fieldType) {
 
-      const { label } = findPaletteEntry(fieldType);
+      const paletteEntry = findPaletteEntry(fieldType, formFields);
 
-      const Icon = iconsByType(fieldType);
+      if (!paletteEntry) {
+        return;
+      }
+
+      const { label } = paletteEntry;
+
+      const Icon = getPaletteIcon(paletteEntry);
 
       clone.innerHTML = '';
 
@@ -567,8 +573,8 @@ function CreatePreview(props) {
 
 // helper //////
 
-function findPaletteEntry(type) {
-  return PALETTE_ENTRIES.find(entry => entry.type === type);
+function findPaletteEntry(type, formFields) {
+  return collectPaletteEntries(formFields).find(entry => entry.type === type);
 }
 
 function defaultPropertiesPanel(propertiesPanelConfig) {
