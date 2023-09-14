@@ -1,6 +1,1 @@
-export {
-  createForm,
-  Form,
-  schemaVersion,
-  getSchemaVariables
-} from '@bpmn-io/form-js-viewer';
+export * from '@bpmn-io/form-js-viewer';

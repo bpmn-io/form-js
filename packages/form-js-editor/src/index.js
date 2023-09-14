@@ -7,6 +7,17 @@ export {
   schemaVersion
 };
 
+export {
+  useDebounce,
+  usePrevious,
+  useService
+} from './render/hooks';
+
+export {
+  useService as usePropertiesPanelService,
+  useVariables
+} from './features/properties-panel/hooks';
+
 /**
  * @typedef { import('./types').CreateFormEditorOptions } CreateFormEditorOptions
  */
