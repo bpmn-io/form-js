@@ -9,10 +9,13 @@ import {
   query as domQuery
 } from 'min-dom';
 
+const DEFAULT_PRIORITY = 1000;
+
 /**
  * @typedef { { parent: Element } } PropertiesPanelConfig
  * @typedef { import('../../core/EventBus').default } EventBus
  * @typedef { import('../../types').Injector } Injector
+ * @typedef { { getGroups: ({ formField, editFormField }) => ({ groups}) => Array } } PropertiesProvider
  */
 
 /**
@@ -82,6 +85,7 @@ export default class PropertiesPanelRenderer {
   _render() {
     render(
       <PropertiesPanel
+        getProviders={ this._getProviders.bind(this) }
         eventBus={ this._eventBus }
         injector={ this._injector }
       />,
@@ -97,6 +101,44 @@ export default class PropertiesPanelRenderer {
 
       this._eventBus.fire('propertiesPanel.destroyed');
     }
+  }
+
+  /**
+   * Register a new properties provider to the properties panel.
+   *
+   * @param {PropertiesProvider} provider
+   * @param {Number} [priority]
+   */
+  registerProvider(provider, priority) {
+
+    if (!priority) {
+      priority = DEFAULT_PRIORITY;
+    }
+
+    if (typeof provider.getGroups !== 'function') {
+      console.error(
+        'Properties provider does not implement #getGroups(element) API'
+      );
+
+      return;
+    }
+
+    this._eventBus.on('propertiesPanel.getProviders', priority, function(event) {
+      event.providers.push(provider);
+    });
+
+    this._eventBus.fire('propertiesPanel.providersChanged');
+  }
+
+  _getProviders() {
+    const event = this._eventBus.createEvent({
+      type: 'propertiesPanel.getProviders',
+      providers: []
+    });
+
+    this._eventBus.fire(event);
+
+    return event.providers;
   }
 }
 

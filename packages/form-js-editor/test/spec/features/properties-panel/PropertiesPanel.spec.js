@@ -12,6 +12,10 @@ import PropertiesPanel from '../../../../src/features/properties-panel/Propertie
 import { VALUES_SOURCES, VALUES_SOURCES_DEFAULTS } from '@bpmn-io/form-js-viewer';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomPropertiesGroup';
 
+import PropertiesProvider from '../../../../src/features/properties-panel/PropertiesProvider';
+
+import { FormFields } from '@bpmn-io/form-js-viewer';
+
 import {
   EventBus as eventBusMock,
   FormEditor as formEditorMock,
@@ -20,7 +24,8 @@ import {
   Modeling as modelingMock,
   Templating as templatingMock,
   PathRegistry as pathRegistryMock,
-  Injector as injectorMock
+  Injector as injectorMock,
+  PropertiesPanelMock as propertiesPanelMock
 } from './helper';
 
 import schema from '../../form.json';
@@ -3738,6 +3743,127 @@ describe('properties panel', function() {
 
   });
 
+
+  describe('extension support', function() {
+
+    it('should render configured propertiesPanelEntries', function() {
+
+      // given
+      const field = {
+        id: 'Custom_1',
+        type: 'custom'
+      };
+
+      const extension = {
+        config: {
+          propertiesPanelEntries: [
+            'label',
+            'description'
+          ]
+        }
+      };
+
+      const formFields = new FormFields();
+      formFields.register('custom', extension);
+
+      const result = createPropertiesPanel({
+        container,
+        field,
+        formFields
+      });
+
+      // then
+      expectGroupEntries(result.container, 'General', [
+        'Field label',
+        'Field description'
+      ]);
+
+    });
+
+
+    it('should render configured values groups', function() {
+
+      // given
+      const field = {
+        id: 'Custom_1',
+        type: 'custom',
+        values: []
+      };
+
+      const extension = {
+        config: {
+          propertiesPanelEntries: [
+            'values'
+          ]
+        }
+      };
+
+      const formFields = new FormFields();
+      formFields.register('custom', extension);
+
+      const result = createPropertiesPanel({
+        container,
+        field,
+        formFields
+      });
+
+      // then
+      expectGroups(result.container, [
+        'Condition',
+        'Layout',
+        'Options source',
+        'Static options',
+        'Custom properties'
+      ]);
+
+    });
+
+
+    it('should render from provider', function() {
+
+      // given
+      const propertiesProvider = {
+        getGroups(element) {
+          return (groups) => {
+
+            return [
+              ...groups,
+              {
+                id: 'custom',
+                label: 'Custom group',
+                entries: []
+              }
+            ];
+          };
+        }
+      };
+
+      const field = {
+        id: 'Custom_1',
+        type: 'textfield',
+        values: []
+      };
+
+      const result = createPropertiesPanel({
+        container,
+        field,
+        propertiesProviders: [
+          propertiesProvider
+        ]
+      });
+
+      // then
+      expectGroups(result.container, [
+        'Condition',
+        'Layout',
+        'Custom properties',
+        'Custom group'
+      ]);
+
+    });
+
+  });
+
 });
 
 
@@ -3751,6 +3877,7 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     evaluateTemplate = (value) => `Evaluation of "${value}"`,
     valuePaths = {},
     claimedPaths = [],
+    propertiesProviders = [],
     field = null
   } = options;
 
@@ -3759,6 +3886,7 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     formEditor,
     formLayoutValidator,
     pathRegistry,
+    formFields,
     modeling,
     selection,
     templating
@@ -3776,6 +3904,10 @@ function createPropertiesPanel(options = {}, renderFn = render) {
 
   if (!formLayoutValidator) {
     formLayoutValidator = new formLayoutValidatorMock();
+  }
+
+  if (!formFields) {
+    formFields = new FormFields();
   }
 
   if (!modeling) {
@@ -3809,13 +3941,24 @@ function createPropertiesPanel(options = {}, renderFn = render) {
     eventBus,
     formEditor,
     formLayoutValidator,
+    formFields,
     modeling,
     selection,
     templating,
     pathRegistry
   });
 
+  const propertiesPanel = new propertiesPanelMock();
+
+  const getProviders = () => {
+    return [
+      new PropertiesProvider(propertiesPanel, injector),
+      ...propertiesProviders
+    ];
+  };
+
   return renderFn(<PropertiesPanel
+    getProviders={ getProviders }
     eventBus={ eventBus }
     injector={ injector } />,
   {

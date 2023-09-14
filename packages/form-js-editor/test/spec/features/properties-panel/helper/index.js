@@ -1,5 +1,9 @@
 import { PropertiesPanel } from '@bpmn-io/properties-panel';
+
+import { FormFields } from '@bpmn-io/form-js-viewer';
+
 import { FormEditorContext } from '../../../../../src/render/context';
+
 import {
   FormPropertiesPanelContext
 } from '../../../../../src/features/properties-panel/context';
@@ -173,6 +177,10 @@ export class Injector {
     if (type === 'config.propertiesPanel') {
       return this._options.propertiesPanelConfig || {};
     }
+
+    if (type === 'formFields') {
+      return this._options.formFields || new FormFields();
+    }
   }
 }
 
@@ -185,6 +193,10 @@ export class Templating {
     this.isTemplate = options.isTemplate || (() => false);
     this.evaluate = options.evaluate || ((value) => `Evaluation of "${value}"`);
   }
+}
+
+export class PropertiesPanelMock {
+  registerProvider() {}
 }
 
 export function WithFormEditorContext(Component, services = {}) {
@@ -239,6 +251,8 @@ export function WithFormEditorContext(Component, services = {}) {
         return {
           isExpression: () => false
         };
+      } else if (type === 'formFields') {
+        return new FormFields();
       }
     }
   };
@@ -302,6 +316,8 @@ export function WithPropertiesPanelContext(Component, services = {}) {
         return {
           isExpression: () => false
         };
+      } else if (type === 'formFields') {
+        return new FormFields();
       }
     }
   };
@@ -317,9 +333,14 @@ export function WithPropertiesPanel(options = {}) {
 
   const {
     field = noopField,
-    groups = [],
     headerProvider = noopHeaderProvider
   } = options;
+
+  let {
+    groups = []
+  } = options;
+
+  groups = applyDefaultVisible(field, groups);
 
   return (
     <PropertiesPanel
@@ -328,4 +349,33 @@ export function WithPropertiesPanel(options = {}) {
       headerProvider={ headerProvider }
     />
   );
+}
+
+// helpers //////////////////////
+
+function applyDefaultVisible(field, groups) {
+
+  groups.forEach(group => {
+    const {
+      entries
+    } = group;
+
+    if (!entries || !entries.length) {
+      return true;
+    }
+
+    group.entries = entries.filter(entry => {
+      const {
+        isDefaultVisible
+      } = entry;
+
+      if (!isDefaultVisible) {
+        return true;
+      }
+
+      return isDefaultVisible(field);
+    });
+  });
+
+  return groups.filter(group => group.entries && group.entries.length);
 }

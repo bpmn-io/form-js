@@ -2,52 +2,22 @@ import { PropertiesPanel } from '@bpmn-io/properties-panel';
 
 import {
   useCallback,
+  useMemo,
   useState,
   useLayoutEffect
 } from 'preact/hooks';
+
+import { reduce, isArray } from 'min-dash';
 
 import { FormPropertiesPanelContext } from './context';
 
 import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
 
-import {
-  ConditionGroup,
-  AppearanceGroup,
-  CustomPropertiesGroup,
-  GeneralGroup,
-  SerializationGroup,
-  ConstraintsGroup,
-  ValidationGroup,
-  ValuesGroups,
-  LayoutGroup
-} from './groups';
-
-function getGroups(field, editField, getService) {
-
-  if (!field) {
-    return [];
-  }
-
-  const groups = [
-    GeneralGroup(field, editField, getService),
-    ConditionGroup(field, editField),
-    LayoutGroup(field, editField),
-    AppearanceGroup(field, editField),
-    SerializationGroup(field, editField),
-    ...ValuesGroups(field, editField),
-    ConstraintsGroup(field, editField),
-    ValidationGroup(field, editField),
-    CustomPropertiesGroup(field, editField)
-  ];
-
-  // contract: if a group returns null, it should not be displayed at all
-  return groups.filter(group => group !== null);
-}
-
 export default function FormPropertiesPanel(props) {
   const {
     eventBus,
+    getProviders,
     injector
   } = props;
 
@@ -105,6 +75,23 @@ export default function FormPropertiesPanel(props) {
 
   const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
 
+  // retrieve groups for selected form field
+  const providers = getProviders(selectedFormField);
+
+  const groups = useMemo(() => {
+    return reduce(providers, function(groups, provider) {
+
+      // do not collect groups for multi element state
+      if (isArray(selectedFormField)) {
+        return [];
+      }
+
+      const updater = provider.getGroups(selectedFormField, editField);
+
+      return updater(groups);
+    }, []);
+  }, [ providers, selectedFormField, editField ]);
+
   return (
     <div
       class="fjs-properties-panel"
@@ -116,7 +103,7 @@ export default function FormPropertiesPanel(props) {
         <PropertiesPanel
           element={ selectedFormField }
           eventBus={ eventBus }
-          groups={ getGroups(selectedFormField, editField, getService) }
+          groups={ groups }
           headerProvider={ PropertiesPanelHeaderProvider }
           placeholderProvider={ PropertiesPanelPlaceholderProvider }
           feelPopupContainer={ feelPopupContainer }

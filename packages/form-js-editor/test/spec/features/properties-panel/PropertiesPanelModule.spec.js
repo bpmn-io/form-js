@@ -47,7 +47,8 @@ describe('features/propertiesPanel', function() {
   async function createEditor(schema, options = {}) {
     const {
       additionalModules = [
-        propertiesPanelModule
+        propertiesPanelModule,
+        ...options.additionalModules || []
       ]
     } = options;
 
@@ -304,6 +305,81 @@ describe('features/propertiesPanel', function() {
       expect(feelPopup.open).to.exist;
       expect(feelPopup.close).to.exist;
       expect(feelPopup.isOpen).to.exist;
+    });
+
+  });
+
+
+  describe('providers', function() {
+
+    it('should register provider', async function() {
+
+      // given
+      const provider = {
+        getGroups() {
+          return () => [];
+        }
+      };
+
+      const { formEditor } = await createEditor(schema);
+
+      const propertiesPanel = formEditor.get('propertiesPanel');
+
+      // assume
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+
+      // when
+      propertiesPanel.registerProvider(provider);
+
+      // then
+      expect(propertiesPanel._getProviders()).to.have.length(2);
+    });
+
+
+    it('should ignore incompatible provider', async function() {
+
+      // given
+      const incompatibleProvider = {};
+
+      const { formEditor } = await createEditor(schema);
+
+      const propertiesPanel = formEditor.get('propertiesPanel');
+
+      // assume
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+
+      // when
+      propertiesPanel.registerProvider(incompatibleProvider);
+
+      // then
+      // incompatible provider was not added
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+    });
+
+
+    it('should fire <propertiesPanel.providersChanged>', async function() {
+
+      // given
+      const provider = {
+        getGroups() {
+          return () => [];
+        }
+      };
+
+      const { formEditor } = await createEditor(schema);
+
+      const eventBus = formEditor.get('eventBus');
+
+      const propertiesPanel = formEditor.get('propertiesPanel');
+
+      const spy = sinon.spy();
+
+      // when
+      eventBus.on('propertiesPanel.providersChanged', spy);
+      propertiesPanel.registerProvider(provider);
+
+      // then
+      expect(spy).to.have.been.called;
     });
 
   });
