@@ -10,14 +10,6 @@ export default function SpacerEntry(props) {
     id
   } = props;
 
-  const {
-    type
-  } = field;
-
-  if (type !== 'spacer') {
-    return [];
-  }
-
   const entries = [];
 
   entries.push({
@@ -25,7 +17,8 @@ export default function SpacerEntry(props) {
     component: SpacerHeight,
     isEdited: isNumberFieldEntryEdited,
     editField,
-    field
+    field,
+    isDefaultVisible: (field) => field.type === 'spacer'
   });
 
   return entries;

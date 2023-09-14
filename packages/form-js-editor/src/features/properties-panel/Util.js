@@ -78,3 +78,23 @@ export const VALUES_INPUTS = [
   'select',
   'taglist'
 ];
+
+export function hasEntryConfigured(formFieldDefinition, entryId) {
+  const { propertiesPanelEntries = [] } = formFieldDefinition;
+
+  if (!propertiesPanelEntries.length) {
+    return false;
+  }
+
+  return propertiesPanelEntries.some(id => id === entryId);
+}
+
+export function hasValuesGroupsConfigured(formFieldDefinition) {
+  const { propertiesPanelEntries = [] } = formFieldDefinition;
+
+  if (!propertiesPanelEntries.length) {
+    return false;
+  }
+
+  return propertiesPanelEntries.some(id => id === 'values');
+}

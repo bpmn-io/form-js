@@ -29,9 +29,17 @@ export default function DefaultOptionEntry(props) {
 
   const entries = [];
 
-  // Only make default values available when they are statically defined
-  if (!INPUTS.includes(type) || VALUES_INPUTS.includes(type) && !field.values) {
-    return entries;
+  function isDefaultVisible(matchers) {
+    return (field) => {
+
+      // Only make default values available when they are statically defined
+      if (!INPUTS.includes(type) || VALUES_INPUTS.includes(type) && !field.values) {
+        return false;
+      }
+
+      return matchers(field);
+    };
+
   }
 
   const defaultOptions = {
@@ -41,47 +49,42 @@ export default function DefaultOptionEntry(props) {
     label: 'Default value'
   };
 
-  if (type === 'checkbox') {
-    entries.push({
-      ...defaultOptions,
-      component: DefaultValueCheckbox,
-      isEdited: isSelectEntryEdited
-    });
-  }
+  entries.push({
+    ...defaultOptions,
+    component: DefaultValueCheckbox,
+    isEdited: isSelectEntryEdited,
+    isDefaultVisible: isDefaultVisible((field) => field.type === 'checkbox')
+  });
 
-  if (type === 'number') {
-    entries.push({
-      ...defaultOptions,
-      component: DefaultValueNumber,
-      isEdited: isTextFieldEntryEdited
-    });
-  }
+  entries.push({
+    ...defaultOptions,
+    component: DefaultValueNumber,
+    isEdited: isTextFieldEntryEdited,
+    isDefaultVisible: isDefaultVisible((field) => field.type === 'number')
+  });
 
-  if (type === 'radio' || type === 'select') {
-    entries.push({
-      ...defaultOptions,
-      component: DefaultValueSingleSelect,
-      isEdited: isSelectEntryEdited
-    });
-  }
+  entries.push({
+    ...defaultOptions,
+    component: DefaultValueSingleSelect,
+    isEdited: isSelectEntryEdited,
+    isDefaultVisible: isDefaultVisible((field) => field.type === 'radio' || field.type === 'select')
+  });
 
   // todo(Skaiir): implement a multiselect equivalent (cf. https://github.com/bpmn-io/form-js/issues/265)
 
-  if (type === 'textfield') {
-    entries.push({
-      ...defaultOptions,
-      component: DefaultValueTextfield,
-      isEdited: isTextFieldEntryEdited
-    });
-  }
+  entries.push({
+    ...defaultOptions,
+    component: DefaultValueTextfield,
+    isEdited: isTextFieldEntryEdited,
+    isDefaultVisible: isDefaultVisible((field) => field.type === 'textfield')
+  });
 
-  if (type === 'textarea') {
-    entries.push({
-      ...defaultOptions,
-      component: DefaultValueTextarea,
-      isEdited: isTextAreaEntryEdited
-    });
-  }
+  entries.push({
+    ...defaultOptions,
+    component: DefaultValueTextarea,
+    isEdited: isTextAreaEntryEdited,
+    isDefaultVisible: isDefaultVisible((field) => field.type === 'textarea')
+  });
 
   return entries;
 }

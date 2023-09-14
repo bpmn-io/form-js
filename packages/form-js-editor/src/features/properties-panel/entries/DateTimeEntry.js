@@ -21,36 +21,27 @@ export default function DateTimeEntry(props) {
     field
   } = props;
 
-  const {
-    type,
-    subtype
-  } = field;
-
-  if (type !== 'datetime') {
-    return [];
-  }
-
   const entries = [
     {
       id: 'subtype',
       component: DateTimeSubtypeSelect,
       isEdited: isSelectEntryEdited,
       editField,
-      field
+      field,
+      isDefaultVisible: (field) => field.type === 'datetime'
     }
   ];
 
-  if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
-
-    entries.push({
-      id: 'use24h',
-      component: Use24h,
-      isEdited: isCheckboxEntryEdited,
-      editField,
-      field
-    });
-
-  }
+  entries.push({
+    id: 'use24h',
+    component: Use24h,
+    isEdited: isCheckboxEntryEdited,
+    editField,
+    field,
+    isDefaultVisible: (field) => field.type === 'datetime' && (
+      field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME
+    )
+  });
 
   return entries;
 }

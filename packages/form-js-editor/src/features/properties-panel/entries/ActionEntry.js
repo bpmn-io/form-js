@@ -9,21 +9,16 @@ export default function ActionEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (type === 'button') {
-    entries.push({
-      id: 'action',
-      component: Action,
-      editField: editField,
-      field: field,
-      isEdited: isSelectEntryEdited
-    });
-  }
+  entries.push({
+    id: 'action',
+    component: Action,
+    editField: editField,
+    field: field,
+    isEdited: isSelectEntryEdited,
+    isDefaultVisible: (field) => field.type === 'button'
+  });
 
   return entries;
 }

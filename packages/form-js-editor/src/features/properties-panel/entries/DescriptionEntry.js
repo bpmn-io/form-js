@@ -13,21 +13,16 @@ export default function DescriptionEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (INPUTS.includes(type)) {
-    entries.push({
-      id: 'description',
-      component: Description,
-      editField: editField,
-      field: field,
-      isEdited: isFeelEntryEdited
-    });
-  }
+  entries.push({
+    id: 'description',
+    component: Description,
+    editField: editField,
+    field: field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: (field) => INPUTS.includes(field.type)
+  });
 
   return entries;
 }

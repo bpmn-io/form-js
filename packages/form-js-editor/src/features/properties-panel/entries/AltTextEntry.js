@@ -10,21 +10,16 @@ export default function AltTextEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
   const entries = [];
 
-  if (type === 'image') {
-    entries.push({
-      id: 'alt',
-      component: AltText,
-      editField: editField,
-      field: field,
-      isEdited: isFeelEntryEdited
-    });
-  }
+  entries.push({
+    id: 'alt',
+    component: AltText,
+    editField: editField,
+    field: field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: (field) => [ 'image' ].includes(field.type)
+  });
 
   return entries;
 }

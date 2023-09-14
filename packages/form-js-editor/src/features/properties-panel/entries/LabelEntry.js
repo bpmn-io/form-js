@@ -10,48 +10,50 @@ export default function LabelEntry(props) {
     editField
   } = props;
 
-  const {
-    type,
-    subtype
-  } = field;
-
   const entries = [];
 
-  if (type === 'datetime') {
-    if (subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME) {
-      entries.push(
-        {
-          id: 'date-label',
-          component: DateLabel,
-          editField,
-          field,
-          isEdited: isFeelEntryEdited
-        }
-      );
-    }
-    if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
-      entries.push(
-        {
-          id: 'time-label',
-          component: TimeLabel,
-          editField,
-          field,
-          isEdited: isFeelEntryEdited
-        }
-      );
-    }
-  }
-  else if (INPUTS.includes(type) || type === 'button' || type === 'group') {
-    entries.push(
-      {
-        id: 'label',
-        component: Label,
-        editField,
-        field,
-        isEdited: isFeelEntryEdited
+  entries.push(
+    {
+      id: 'date-label',
+      component: DateLabel,
+      editField,
+      field,
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: function(field) {
+        return (
+          field.type === 'datetime' &&
+          (field.subtype === DATETIME_SUBTYPES.DATE || field.subtype === DATETIME_SUBTYPES.DATETIME)
+        );
       }
-    );
-  }
+    }
+  );
+
+  entries.push(
+    {
+      id: 'time-label',
+      component: TimeLabel,
+      editField,
+      field,
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: function(field) {
+        return (
+          field.type === 'datetime' &&
+          (field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME)
+        );
+      }
+    }
+  );
+
+  entries.push(
+    {
+      id: 'label',
+      component: Label,
+      editField,
+      field,
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: (field) => INPUTS.includes(field.type) || field.type === 'button' || field.type === 'group'
+    }
+  );
 
   return entries;
 }

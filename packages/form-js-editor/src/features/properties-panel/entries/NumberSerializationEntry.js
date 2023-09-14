@@ -10,14 +10,6 @@ export default function NumberSerializationEntry(props) {
     field
   } = props;
 
-  const {
-    type
-  } = field;
-
-  if (type !== 'number') {
-    return [];
-  }
-
   const entries = [];
 
   entries.push({
@@ -25,7 +17,8 @@ export default function NumberSerializationEntry(props) {
     component: SerializeToString,
     isEdited: isCheckboxEntryEdited,
     editField,
-    field
+    field,
+    isDefaultVisible: (field) => field.type === 'number'
   });
 
   return entries;

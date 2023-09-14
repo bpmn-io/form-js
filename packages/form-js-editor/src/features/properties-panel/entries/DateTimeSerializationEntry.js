@@ -10,26 +10,18 @@ export default function DateTimeFormatEntry(props) {
     field
   } = props;
 
-  const {
-    type,
-    subtype
-  } = field;
-
-  if (type !== 'datetime') {
-    return [];
-  }
-
   const entries = [];
 
-  if (subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME) {
-    entries.push({
-      id: 'time-format',
-      component: TimeFormatSelect,
-      isEdited: isSelectEntryEdited,
-      editField,
-      field
-    });
-  }
+  entries.push({
+    id: 'time-format',
+    component: TimeFormatSelect,
+    isEdited: isSelectEntryEdited,
+    editField,
+    field,
+    isDefaultVisible: (field) => field.type === 'datetime' && (
+      field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME
+    )
+  });
 
   return entries;
 }

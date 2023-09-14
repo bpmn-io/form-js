@@ -10,16 +10,21 @@ import { getValuesSource, VALUES_SOURCES } from '@bpmn-io/form-js-viewer';
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 import {
-  VALUES_INPUTS
+  VALUES_INPUTS,
+  hasValuesGroupsConfigured
 } from '../Util';
 
-export default function ValuesGroups(field, editField) {
+export default function ValuesGroups(field, editField, getService) {
   const {
     type,
     id: fieldId
   } = field;
 
-  if (!VALUES_INPUTS.includes(type)) {
+  const formFields = getService('formFields');
+
+  const fieldDefinition = formFields.get(type).config;
+
+  if (!VALUES_INPUTS.includes(type) && !hasValuesGroupsConfigured(fieldDefinition)) {
     return [];
   }
 
