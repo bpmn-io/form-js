@@ -17,6 +17,11 @@ import {
 import schema from './form.json';
 import otherSchema from './other-form.json';
 import rowsSchema from './rows-form.json';
+import customSchema from './custom.json';
+
+import customViewerModule from '../custom/viewer';
+import customEditorModule from '../custom/editor';
+import customStyles from '../custom/styles.css';
 
 import {
   insertCSS,
@@ -32,9 +37,12 @@ insertCSS('Test.css', `
   }
 `);
 
+insertCSS('custom.css', customStyles);
+
 const singleStartBasic = isSingleStart('basic');
 const singleStartRows = isSingleStart('rows');
-const singleStart = singleStartBasic || singleStartRows;
+const singleStartCustom = isSingleStart('custom');
+const singleStart = singleStartBasic || singleStartRows || singleStartCustom;
 
 
 describe('playground', function() {
@@ -125,6 +133,33 @@ describe('playground', function() {
     // then
     expect(playground).to.exist;
 
+  });
+
+
+  (singleStartCustom ? it.only : it)('should support custom element', async function() {
+
+    // given
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 25
+    };
+
+    // when
+    // viewer and editor
+    playground = new Playground({
+      container,
+      schema: customSchema,
+      data,
+      additionalModules: [
+        customViewerModule
+      ],
+      editorAdditionalModules: [
+        customEditorModule
+      ]
+    });
+
+    // then
+    expect(playground).to.exist;
   });
 
 

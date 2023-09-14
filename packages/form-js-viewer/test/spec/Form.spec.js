@@ -26,6 +26,7 @@ import textTemplateSchema from './text-template.json';
 import stress from './stress.json';
 import rowsSchema from './rows.json';
 import focusables from './focusables.json';
+import customFieldSchema from './customField.json';
 
 import {
   insertCSS,
@@ -44,14 +45,15 @@ const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
 const singleStartNoTheme = isSingleStart('no-theme');
-
+const singleStartCustom = isSingleStart('custom');
 const singleStart =
   singleStartBasic ||
   singleStartGroups ||
   singleStartStress ||
   singleStartRows ||
   singleStartTheme ||
-  singleStartNoTheme;
+  singleStartNoTheme ||
+  singleStartCustom;
 
 describe('Form', function() {
 
@@ -958,33 +960,31 @@ describe('Form', function() {
   });
 
 
-  it('should be customizable', async function() {
+  (singleStartCustom ? it.only : it)('should be customizable', async function() {
 
     // given
     const data = {
       creditor: 'John Doe Company',
-      amount: 456,
-      invoiceNumber: 'C-123',
-      approved: true,
-      approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
-      product: 'camunda-cloud',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'english'
+      amount: 25
     };
 
     // when
-    await createForm({
+    const form = await createForm({
       container,
       data,
-      schema,
+      schema: customFieldSchema,
       additionalModules: [
         customButtonModule
       ]
     });
 
+    form.on('changed', event => {
+      console.log('Form <changed>', event);
+    });
+
     // then
     expect(document.querySelector('.custom-button')).to.exist;
+    expect(document.querySelector('.fjs-form-field-range')).to.exist;
   });
 
 
