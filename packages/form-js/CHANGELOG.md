@@ -6,6 +6,23 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.3.0-alpha.0
+
+* `FEAT`: localized date picker based on browser language ([#733](https://github.com/bpmn-io/form-js/issues/733))
+* `FEAT`: added placeholder to playground input panel ([0f696119](https://github.com/bpmn-io/form-js/commit/0f6961191c076f8cc2d221428b2d7fdbab9a2fe3))
+* `FEAT`: implemented Group component with multiple updates ([#768](https://github.com/bpmn-io/form-js/pull/768))
+  * dynamic input/output data access
+  * proper group component implementation
+  * new `pathRegistry` module for conflict-free path and key management
+  * added validation for drag-and-drop and properties panel in nested scenarios
+  * introduced `EmptyRoot` render context for root of empty forms
+  * enhanced `getSchemaVariables` for nested components
+  * additional changes detailed in epic and pr
+* `FEAT`: Added support for nested component keys ([#464](https://github.com/bpmn-io/form-js/issues/464))
+* `FIX`: Dropdown options no longer reset when form reopens ([#764](https://github.com/bpmn-io/form-js/issues/764))
+* `FIX`: Removed keying from buttons ([#778](https://github.com/bpmn-io/form-js/issues/778))
+* `DEPS`: Updated `properties-panel` to v3.3.0
+
 ## 1.2.0
 
 * `FEAT`: implement first set of tooltips ([e36de9a78](https://github.com/bpmn-io/form-js/commit/e36de9a78088485f6fdc65fea639d60779dceab9))
