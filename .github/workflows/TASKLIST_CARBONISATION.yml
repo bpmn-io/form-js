@@ -7,7 +7,7 @@ jobs:
     name: Run visual regression
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.37.1
+      image: mcr.microsoft.com/playwright:v1.38.0
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
@@ -30,7 +30,7 @@ jobs:
       - name: Setup Tasklist cache
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
-          node-version: "19"
+          node-version: "20"
           cache: "yarn"
           cache-dependency-path: ./tasklist/client/yarn.lock
       - name: Install form-js deps
