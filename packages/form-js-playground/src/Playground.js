@@ -12,6 +12,7 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
  *
  * @typedef { {
  *  actions?: { display: Boolean }
+ *  additionalModules?: Array<any>
  *  container?: Element
  *  data: any
  *  editor?: { inlinePropertiesPanel: Boolean }
