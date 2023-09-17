@@ -63,6 +63,13 @@ export function isValidDotPath(path) {
   return /^\w+(\.\w+)*$/.test(path);
 }
 
+export const LABELED_NON_INPUTS = [
+  'button',
+  'group',
+  'subform',
+  'iframe'
+];
+
 export const INPUTS = [
   'checkbox',
   'checklist',

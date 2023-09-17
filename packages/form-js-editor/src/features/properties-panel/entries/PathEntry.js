@@ -19,7 +19,7 @@ export default function PathEntry(props) {
 
   const entries = [];
 
-  if (type === 'group') {
+  if (type === 'group' || type === 'subform') {
     entries.push({
       id: 'path',
       component: Path,

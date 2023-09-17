@@ -27,7 +27,8 @@ export { default as InputKeyValuesSourceEntry } from './InputKeyValuesSourceEntr
 export { default as StaticValuesSourceEntry } from './StaticValuesSourceEntry';
 export { default as AdornerEntry } from './AdornerEntry';
 export { default as ReadonlyEntry } from './ReadonlyEntry';
-export { ConditionEntry } from './ConditionEntry';
+export { default as RepeatableDefaultEntry } from './RepeatableDefaultEntry';
+export { default as ConditionEntry } from './ConditionEntry';
 export { default as ValuesExpressionEntry } from './ValuesExpressionEntry';
 export { TableDataSourceEntry } from './TableDataSourceEntry';
 export { PaginationEntry } from './PaginationEntry';

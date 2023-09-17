@@ -27,7 +27,11 @@ export default class RepeatRenderManager {
   Repeater(props) {
     const { ElementRenderer } = props;
     const parentId = props.field.id;
-    const renderElements = [ 1, 2, 3, 4, 5 ];
+
+    // Placeholder
+    const formField = this._formFieldRegistry.get(parentId);
+    const formFieldDefinition = this._formFields.get(formField.type);
+    const renderElements = new Array(formFieldDefinition.defaultRepetitions || 5);
 
     return (
       <>
