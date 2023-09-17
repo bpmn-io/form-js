@@ -1,5 +1,5 @@
-import FeelExpressionLanguage from '../features/expression-language/FeelExpressionLanguage.js';
-import FeelersTemplating from '../features/expression-language/FeelersTemplating.js';
+import FeelExpressionLanguage from '../features/expressionLanguage/FeelExpressionLanguage.js';
+import FeelersTemplating from '../features/expressionLanguage/FeelersTemplating.js';
 import FormFields from '../render/FormFields.js';
 
 import { get } from 'min-dash';
