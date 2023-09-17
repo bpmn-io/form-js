@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 import { FormRenderContext } from '../../context';
-import Grid from './parts/Grid';
+import ChildrenRenderer from './parts/ChildrenRenderer';
 
 export default function FormComponent(props) {
 
@@ -10,7 +10,7 @@ export default function FormComponent(props) {
 
   const fullProps = { ...props, Empty: EmptyRoot };
 
-  return <Grid { ...fullProps } />;
+  return <ChildrenRenderer { ...fullProps } />;
 }
 
 FormComponent.config = {

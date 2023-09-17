@@ -1,19 +1,16 @@
 import { useContext } from 'preact/hooks';
-import Grid from './parts/Grid';
 import { FormContext, FormRenderContext } from '../../context';
 import { formFieldClasses, prefixId } from '../Util';
 import Label from '../Label';
 import classNames from 'classnames';
+import ChildrenRenderer from './parts/ChildrenRenderer';
 
 export default function Group(props) {
 
   const { field } = props;
   const { label, id, type, showOutline } = field;
   const { formId } = useContext(FormContext);
-
-  const {
-    Empty,
-  } = useContext(FormRenderContext);
+  const { Empty } = useContext(FormRenderContext);
 
   const fullProps = { ...props, Empty };
 
@@ -22,7 +19,7 @@ export default function Group(props) {
       <Label
         id={ prefixId(id, formId) }
         label={ label } />
-      <Grid { ...fullProps } />
+      <ChildrenRenderer { ...fullProps } />
     </div>
   );
 }
