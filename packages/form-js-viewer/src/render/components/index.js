@@ -13,6 +13,7 @@ import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
 import Separator from './form-fields/Separator';
 import Spacer from './form-fields/Spacer';
+import Subform from './form-fields/Subform';
 import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
 import Textfield from './form-fields/Textfield';
@@ -45,6 +46,7 @@ export {
   Select,
   Separator,
   Spacer,
+  Subform,
   Taglist,
   Text,
   Textfield,
@@ -66,6 +68,7 @@ export const formFields = [
   Select,
   Spacer,
   Separator,
+  Subform,
   Taglist,
   Text,
   Textfield,
