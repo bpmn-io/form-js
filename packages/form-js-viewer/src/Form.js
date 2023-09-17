@@ -340,6 +340,7 @@ export default class Form {
   _update(update) {
     const {
       field,
+      indexes,
       value
     } = update;
 
@@ -353,7 +354,7 @@ export default class Form {
 
     const fieldErrors = validator.validateField(field, value);
 
-    set(data, pathRegistry.getValuePath(field), value);
+    set(data, pathRegistry.getValuePath(field, { indexes }), value);
 
     set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
 

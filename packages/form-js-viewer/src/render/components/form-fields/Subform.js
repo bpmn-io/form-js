@@ -30,6 +30,7 @@ export default function Subform(props) {
 Subform.config = {
   type: 'subform',
   pathed: true,
+  repeatable: true,
   label: 'Subform',
   group: 'presentation',
   create: (options = {}) => ({

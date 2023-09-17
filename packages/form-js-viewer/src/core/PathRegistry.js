@@ -33,9 +33,10 @@ import { clone } from '../util';
  *   ]
  */
 export default class PathRegistry {
-  constructor(formFieldRegistry, formFields) {
+  constructor(formFieldRegistry, formFields, injector) {
     this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;
+    this._injector = injector;
     this._dataPaths = [];
   }
 
@@ -166,6 +167,7 @@ export default class PathRegistry {
    * @param {Object} field - The field object with properties: `key`, `path`, `id`, and optionally `_parent`.
    * @param {Object} [options={}] - Configuration options.
    * @param {Object} [options.replacements={}] - A map of field IDs to alternative path arrays.
+   * @param {Object} [options.indexes={}] - A map of parent IDs to the index of the field within said parent.
    * @param {Object} [options.cutoffNode] - The ID of the parent field at which to stop generating the path.
    *
    * @returns {(Array<string>|undefined)} An array of strings representing the binding path, or undefined if not determinable.
@@ -173,6 +175,7 @@ export default class PathRegistry {
   getValuePath(field, options = {}) {
     const {
       replacements = {},
+      indexes = {},
       cutoffNode = null
     } = options;
 
@@ -181,6 +184,7 @@ export default class PathRegistry {
     const hasReplacement = Object.prototype.hasOwnProperty.call(replacements, field.id);
     const formFieldConfig = this._formFields.get(field.type).config;
 
+    // uses path overrides instead of true path to calculate a potential value path
     if (hasReplacement) {
       const replacement = replacements[field.id];
 
@@ -200,6 +204,10 @@ export default class PathRegistry {
       localValuePath = field.path.split('.');
     }
 
+    // add potential indexes of repeated fields
+    localValuePath = this._addIndexes(localValuePath, field, indexes);
+
+    // if parent exists and isn't cutoff node, add parent's value path
     if (field._parent && field._parent !== cutoffNode) {
       const parent = this._formFieldRegistry.get(field._parent);
       return [ ...(this.getValuePath(parent, options) || []), ...localValuePath ];
@@ -211,6 +219,17 @@ export default class PathRegistry {
   clear() {
     this._dataPaths = [];
   }
+
+  _addIndexes(localValuePath, field, indexes) {
+
+    const repeatRenderManager = this._injector.get('repeatRenderManager', false);
+
+    if (repeatRenderManager && repeatRenderManager.isFieldRepeating(field._parent)) {
+      return [ indexes[field._parent], ...localValuePath ];
+    }
+
+    return localValuePath;
+  }
 }
 
 const _getNextSegment = (node, segment) => {
@@ -218,4 +237,4 @@ const _getNextSegment = (node, segment) => {
   return null;
 };
 
-PathRegistry.$inject = [ 'formFieldRegistry', 'formFields' ];
+PathRegistry.$inject = [ 'formFieldRegistry', 'formFields', 'injector' ];
