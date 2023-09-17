@@ -4,7 +4,8 @@ import { get, isString, isUndefined, set } from 'min-dash';
 import {
   ExpressionLanguageModule,
   MarkdownModule,
-  ViewerCommandsModule
+  ViewerCommandsModule,
+  RepeatRenderModule
 } from './features';
 
 import core from './core';
@@ -388,7 +389,8 @@ export default class Form {
     return [
       ExpressionLanguageModule,
       MarkdownModule,
-      ViewerCommandsModule
+      ViewerCommandsModule,
+      RepeatRenderModule
     ];
   }
 
