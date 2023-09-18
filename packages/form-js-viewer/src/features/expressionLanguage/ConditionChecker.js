@@ -30,7 +30,7 @@ export default class ConditionChecker {
       getFilterPath = (field) => this._pathRegistry.getValuePath(field)
     } = options;
 
-    const form = this._formFieldRegistry.getAll().find((field) => field.type === 'default');
+    const form = this._formFieldRegistry.getForm();
 
     if (!form) {
       throw new Error('form field registry has no form');

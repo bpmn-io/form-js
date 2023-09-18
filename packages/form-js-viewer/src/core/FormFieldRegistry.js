@@ -43,6 +43,10 @@ export default class FormFieldRegistry {
     return Object.values(this._formFields);
   }
 
+  getForm() {
+    return this.getAll().find((formField) => formField.type === 'default');
+  }
+
   forEach(callback) {
     this.getAll().forEach((formField) => callback(formField));
   }

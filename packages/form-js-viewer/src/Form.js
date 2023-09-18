@@ -1,5 +1,5 @@
 import Ids from 'ids';
-import { get, isString, isUndefined, set } from 'min-dash';
+import { get, isObject, isString, isUndefined, set } from 'min-dash';
 
 import {
   ExpressionLanguageModule,
@@ -335,7 +335,7 @@ export default class Form {
   /**
    * @internal
    *
-   * @param { { add?: boolean, field: any, remove?: number, value?: any } } update
+   * @param { { add?: boolean, field: any, indexes: object, remove?: number, value?: any } } update
    */
   _update(update) {
     const {
@@ -448,38 +448,64 @@ export default class Form {
    * @internal
    */
   _initializeFieldData(data) {
-    const formFieldRegistry = this.get('formFieldRegistry'),
-          formFields = this.get('formFields'),
-          pathRegistry = this.get('pathRegistry');
+    const formFieldRegistry = this.get('formFieldRegistry');
+    const formFields = this.get('formFields');
+    const pathRegistry = this.get('pathRegistry');
 
-    return formFieldRegistry.getAll().reduce((initializedData, formField) => {
-      const {
-        defaultValue,
-        type
-      } = formField;
+    function initializeFieldDataRecursively(initializedData, formField, indexes = {}) {
+      const { defaultValue, type, isRepeating } = formField;
+      const { config: fieldConfig } = formFields.get(type);
 
-      // try to get value from data
-      // if unavailable - try to get default value from form field
-      // if unavailable - get empty value from form field
+      const valuePath = pathRegistry.getValuePath(formField, { indexes });
+      let valueData = get(data, valuePath);
 
-      const valuePath = pathRegistry.getValuePath(formField);
+      // (1) Process keyed fields
+      if (fieldConfig.keyed) {
 
-      if (valuePath) {
-
-        const { config: fieldConfig } = formFields.get(type);
-        let valueData = get(data, valuePath);
-
+        // (a) Retrieve and sanitize data from input
         if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {
           valueData = fieldConfig.sanitizeValue({ formField, data, value: valueData });
         }
 
+        // (b) Initialize field value in output data
         const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldConfig.emptyValue);
-
-        return set(initializedData, valuePath, initializedFieldValue);
+        set(initializedData, valuePath, initializedFieldValue);
       }
 
-      return initializedData;
+      // (2) Process parents
+      if (formField.components) {
 
-    }, data);
+        if (fieldConfig.repeatable && isRepeating) {
+
+          // (a) Sanitize repeatable parents data if it is not an array
+          if (!valueData || !Array.isArray(valueData)) {
+            valueData = new Array(formField.defaultRepetitions || 0).fill().map(_ => ({})) || [];
+          }
+
+          // (b) Ensure all elements of the array are objects
+          valueData = valueData.map((val) => isObject(val) ? val : {});
+
+          // (c) Initialize field value in output data
+          set(initializedData, valuePath, valueData);
+
+          // (d) Recurse repeatable parents both across the indexes of repetition and the children
+          valueData.forEach((_, index) => {
+            formField.components.forEach(
+              (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes, [formField.id]: index })
+            );
+          });
+
+          return;
+        }
+
+        // (c) Recurse non-repeatable parents only across the children
+        formField.components.forEach((component) => initializeFieldDataRecursively(initializedData, component, indexes));
+      }
+    }
+
+    const workingData = clone(data);
+    initializeFieldDataRecursively(workingData, formFieldRegistry.getForm());
+    return workingData;
   }
+
 }
