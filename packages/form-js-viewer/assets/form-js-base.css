@@ -320,47 +320,47 @@
   color: var(--color-text-lighter);
 }
 
-.fjs-container .fjs-form-field-group {
+.fjs-container .fjs-form-field-grouplike {
   padding: 10px 6px 0 6px;
   margin: 0 10px;
 }
 
-.fjs-container .fjs-form-field-group .cds--grid {
+.fjs-container .fjs-form-field-grouplike .cds--grid {
   padding: 4px 16px;
 }
 
-.fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group),
-.fjs-container .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
+.fjs-container .fjs-form-field-grouplike .fjs-form-field-grouplike .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
+.fjs-container .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-left: -6px;
 }
 
-.fjs-container .fjs-form-field-group .fjs-form-field-group .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group),
-.fjs-container .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
+.fjs-container .fjs-form-field-grouplike .fjs-form-field-grouplike .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
+.fjs-container .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-right: -6px;
 }
 
-.fjs-container .fjs-form-field-group .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
+.fjs-container .fjs-form-field-grouplike .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-left: 11px;
 }
 
-.fjs-container .fjs-form-field-group .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-group:not(.fjs-editor-container .fjs-form-field-group) {
+.fjs-container .fjs-form-field-grouplike .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-right: 11px;
 }
 
-.fjs-container .fjs-form-field-group.fjs-outlined {
+.fjs-container .fjs-form-field-grouplike.fjs-outlined {
   outline: solid var(--color-borders-group) 2px;
 }
 
-.fjs-container .fjs-form-field-group label {
+.fjs-container .fjs-form-field-grouplike label {
   font-size: var(--font-size-label);
 }
 
-.fjs-container .fjs-form-field-group .fjs-form-field-group .cds--grid {
+.fjs-container .fjs-form-field-grouplike .fjs-form-field-grouplike .cds--grid {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
-.fjs-container .fjs-form-field-group > label {
+.fjs-container .fjs-form-field-grouplike > label {
   font-size: var(--font-size-group);
   line-height: var(--line-height-input);
   margin-left: 7px;

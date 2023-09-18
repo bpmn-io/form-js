@@ -18,7 +18,7 @@ export default function Subform(props) {
   const fullProps = { ...props, Empty };
 
   return (
-    <div className={ classNames(formFieldClasses(type), { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ prefixId(id, formId) }>
+    <div className={ classNames(formFieldClasses(type), 'fjs-form-field-grouplike', { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ prefixId(id, formId) }>
       <Label
         id={ prefixId(id, formId) }
         label={ label } />
