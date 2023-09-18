@@ -214,7 +214,7 @@ export function getPaletteIcon(entry) {
   let Icon;
 
   if (iconUrl) {
-    Icon = () => <img class="fjs-field-icon-image" width={ 36 } style={ { margin: 'auto' } } alt={ label } src={ sanitizeImageSource(iconUrl) } />;
+    Icon = () => <img class="fjs-field-icon-image" width={ 36 } alt={ label } src={ sanitizeImageSource(iconUrl) } />;
   } else {
     Icon = icon || iconsByType(type);
   }

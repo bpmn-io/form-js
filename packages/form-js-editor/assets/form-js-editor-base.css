@@ -652,7 +652,8 @@
   outline: solid 1px var(--color-palette-field-focus);
 }
 
-.fjs-palette-field .fjs-palette-field-icon {
+.fjs-palette-field .fjs-palette-field-icon,
+.fjs-palette-field .fjs-field-icon-image {
   margin: 0 auto;
 }
 
