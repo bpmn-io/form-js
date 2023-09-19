@@ -1,10 +1,15 @@
+import { get } from 'min-dash';
+
 export default class RepeatRenderManager {
 
   /** TODO: do we need to maintain keys list for preact rendering ? 9*/
 
-  constructor(formFieldRegistry, formFields) {
-    this._formFieldRegistry = formFieldRegistry;
+  constructor(form, formFields, formFieldRegistry, pathRegistry) {
+    this._form = form;
     this._formFields = formFields;
+    this._formFieldRegistry = formFieldRegistry;
+    this._pathRegistry = pathRegistry;
+    this.Repeater = this.Repeater.bind(this);
   }
 
   /**
@@ -25,20 +30,20 @@ export default class RepeatRenderManager {
   }
 
   Repeater(props) {
-    const { ElementRenderer } = props;
-    const parentId = props.field.id;
 
-    // Placeholder
-    const formField = this._formFieldRegistry.get(parentId);
-    const formFieldDefinition = this._formFields.get(formField.type);
-    const renderElements = new Array(formFieldDefinition.defaultRepetitions || 5);
+    const { ElementRenderer, indexes } = props;
+    const { data } = this._form._state;
+
+    const repeaterField = props.field;
+    const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
+    const values = get(data, dataPath) || [];
 
     return (
       <>
-        {renderElements.map((renderElement, index) => {
+        {values.map((_, index) => {
           const elementProps = {
             ...props,
-            indexes: { ...props.indexes, [parentId]: index },
+            indexes: { ...indexes, [ repeaterField.id ]: index },
           };
 
           return <ElementRenderer { ...elementProps } />;
@@ -48,4 +53,4 @@ export default class RepeatRenderManager {
   }
 }
 
-RepeatRenderManager.$inject = [ 'formFieldRegistry', 'formFields' ];
+RepeatRenderManager.$inject = [ 'form', 'formFields', 'formFieldRegistry', 'pathRegistry' ];
