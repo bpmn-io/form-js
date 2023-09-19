@@ -67,8 +67,14 @@ export default class FieldFactory {
       this._ensureKey(field);
     }
 
-    if (config.pathed && path) {
-      this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), false);
+    if (config.pathed) {
+      if (config.repeatable) {
+        this._enforceDefaultPath(field);
+      }
+
+      if (field.path) {
+        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), false);
+      }
     }
 
     return field;
@@ -92,22 +98,32 @@ export default class FieldFactory {
   }
 
   _ensureKey(field) {
-
     if (!field.key) {
-
-      let random;
-      const parent = this._formFieldRegistry.get(field._parent);
-
-      // ensure key uniqueness at level
-      do {
-        random = Math.random().toString(36).substring(7);
-      } while (parent && parent.components.some(child => child.key === random));
-
-      field.key = `${field.type}_${random}`;
+      field.key = this._getUniqueKeyPath(field);
     }
 
     this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), true);
   }
+
+  _enforceDefaultPath(field) {
+    if (!field.path) {
+      field.path = this._getUniqueKeyPath(field);
+    }
+  }
+
+  _getUniqueKeyPath(field) {
+
+    let random;
+    const parent = this._formFieldRegistry.get(field._parent);
+
+    // ensure key uniqueness at level
+    do {
+      random = Math.random().toString(36).substring(7);
+    } while (parent && parent.components.some(child => child.key === random));
+
+    return `${field.type}_${random}`;
+  }
+
 }
 
 
