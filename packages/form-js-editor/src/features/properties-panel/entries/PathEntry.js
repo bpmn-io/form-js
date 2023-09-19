@@ -10,7 +10,8 @@ import { isValidDotPath } from '../Util';
 export default function PathEntry(props) {
   const {
     editField,
-    field
+    field,
+    getService
   } = props;
 
   const {
@@ -19,7 +20,10 @@ export default function PathEntry(props) {
 
   const entries = [];
 
-  if (type === 'group' || type === 'subform') {
+  const formFields = getService('formFields');
+  const { config } = formFields.get(type);
+
+  if (config.pathed) {
     entries.push({
       id: 'path',
       component: Path,

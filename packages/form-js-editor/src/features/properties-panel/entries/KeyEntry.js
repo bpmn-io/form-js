@@ -1,6 +1,6 @@
 import { isString, get } from 'min-dash';
 
-import { INPUTS, hasIntegerPathSegment, isValidDotPath } from '../Util';
+import { hasIntegerPathSegment, isValidDotPath } from '../Util';
 
 import { useService } from '../hooks';
 
@@ -10,7 +10,8 @@ import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-pane
 export default function KeyEntry(props) {
   const {
     editField,
-    field
+    field,
+    getService
   } = props;
 
   const entries = [];
@@ -21,7 +22,11 @@ export default function KeyEntry(props) {
     editField: editField,
     field: field,
     isEdited: isTextFieldEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type)
+    isDefaultVisible: (field) => {
+      const formFields = getService('formFields');
+      const { config } = formFields.get(field.type);
+      return config.keyed;
+    }
   });
 
   return entries;
