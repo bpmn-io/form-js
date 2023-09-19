@@ -105,6 +105,10 @@ function Path(props) {
     return null;
   };
 
+  const tooltip = isRepeating
+    ? 'Routes the children of this component into a form variable, may be left empty to route at the root level.'
+    : 'Routes the children of this component into a form variable.';
+
   return TextFieldEntry({
     debounce,
     description: 'Where the child variables of this component are pathed to.',
@@ -112,7 +116,7 @@ function Path(props) {
     getValue,
     id,
     label: 'Path',
-    tooltip: 'Routes the children of this component into a form variable, may be left empty to route at the root level.',
+    tooltip,
     setValue,
     validate
   });
