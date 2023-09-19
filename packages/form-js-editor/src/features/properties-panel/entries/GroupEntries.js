@@ -10,7 +10,7 @@ export default function GroupEntries(props) {
     type
   } = field;
 
-  if (![ 'group', 'subform' ].includes(type)) {
+  if (![ 'group', 'dynamiclist' ].includes(type)) {
     return [];
   }
 

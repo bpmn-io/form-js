@@ -66,7 +66,7 @@ export function isValidDotPath(path) {
 export const LABELED_NON_INPUTS = [
   'button',
   'group',
-  'subform',
+  'dynamiclist',
   'iframe'
 ];
 

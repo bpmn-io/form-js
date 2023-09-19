@@ -5,7 +5,7 @@ import { formFieldClasses, prefixId } from '../Util';
 import Label from '../Label';
 import classNames from 'classnames';
 
-export default function Subform(props) {
+export default function DynamicList(props) {
 
   const { field } = props;
   const { label, id, type, showOutline } = field;
@@ -27,11 +27,11 @@ export default function Subform(props) {
   );
 }
 
-Subform.config = {
-  type: 'subform',
+DynamicList.config = {
+  type: 'dynamiclist',
   pathed: true,
   repeatable: true,
-  label: 'Subform',
+  label: 'Dynamic list',
   group: 'presentation',
   create: (options = {}) => ({
     components: [],
