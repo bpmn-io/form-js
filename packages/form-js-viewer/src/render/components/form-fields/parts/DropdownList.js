@@ -63,7 +63,8 @@ export default function DropdownList(props) {
   useEffect(() => {
     const individualEntries = dropdownContainer.current.children;
     if (individualEntries.length && !mouseControl) {
-      individualEntries[focusedValueIndex].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      const focusedEntry = individualEntries[focusedValueIndex];
+      focusedEntry && focusedEntry.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
   }, [ focusedValueIndex, mouseControl ]);
 
