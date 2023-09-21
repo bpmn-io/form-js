@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { normalizeValuesData } from '../components/util/valuesUtil';
 import useExpressionEvaluation from './useExpressionEvaluation';
 import useService from './useService';
+import usePrevious from './usePrevious';
 
 /**
  * @enum { String }
@@ -34,11 +35,11 @@ export default function(field) {
   const [ valuesGetter, setValuesGetter ] = useState({ values: [], error: undefined, state: LOAD_STATES.LOADING });
   const initialData = useService('form')._getState().initialData;
 
-  const evaluatedValues = useMemo(() => {
-    if (valuesExpression) {
-      return useExpressionEvaluation(valuesExpression);
-    }
-  }, [ valuesExpression ]);
+  const evaluatedValues = valuesExpression && useExpressionEvaluation(valuesExpression);
+
+  // re-calculate values if evaluated expression changes
+  const previousEvaluatedValues = usePrevious(evaluatedValues);
+  const evaluatedValuesChanged = !compare(previousEvaluatedValues, evaluatedValues);
 
   useEffect(() => {
 
@@ -56,9 +57,12 @@ export default function(field) {
     } else if (staticValues !== undefined) {
       values = Array.isArray(staticValues) ? staticValues : [];
 
-    // expression
-    } else if (evaluatedValues && Array.isArray(evaluatedValues)) {
-      values = evaluatedValues;
+      // expression
+    } else if (valuesExpression) {
+
+      if (evaluatedValues && Array.isArray(evaluatedValues)) {
+        values = evaluatedValues;
+      }
     } else {
       setValuesGetter(buildErrorState('No values source defined in the form definition'));
       return;
@@ -69,7 +73,7 @@ export default function(field) {
 
     setValuesGetter(buildLoadedState(values));
 
-  }, [ valuesKey, staticValues, initialData ]);
+  }, [ valuesKey, staticValues, initialData, valuesExpression, evaluatedValuesChanged ]);
 
   return valuesGetter;
 }
@@ -77,3 +81,9 @@ export default function(field) {
 const buildErrorState = (error) => ({ values: [], error, state: LOAD_STATES.ERROR });
 
 const buildLoadedState = (values) => ({ values, error: undefined, state: LOAD_STATES.LOADED });
+
+// helper //////////////////////
+
+function compare(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}

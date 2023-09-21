@@ -147,7 +147,7 @@ describe('Taglist', function() {
 
     // then
     const tags = container.querySelectorAll('.fjs-taglist-tag');
-    expect(tags).to.have.length(2);
+    expect(getTagValues(container)).to.eql([ 'Value 1', 'Value 3' ]);
 
     const tag = tags[0];
     const tagLabelArea = tag.querySelector('.fjs-taglist-tag-label');
@@ -158,6 +158,43 @@ describe('Taglist', function() {
 
     const tagCross = tagDeleteArea.querySelector('svg');
     expect(tagCross).to.exist;
+  });
+
+
+  it('should update tags via valuesExpression - evaluation changed', function() {
+
+    // given
+    const result = createTaglist({
+      value: [ 'value1', 'value3' ],
+      onchange: () => { },
+      isExpression: () => true,
+      evaluateExpression: () => [
+        ...expressionFieldInitialData.list1,
+        ...expressionFieldInitialData.list2
+      ],
+      field: expressionField,
+      initialData: expressionFieldInitialData
+    });
+
+    // assume
+    expect(getTagValues(result.container)).to.eql([ 'Value 1', 'Value 3' ]);
+
+    // when
+    createTaglist({
+      value: [ 'value1', 'value5' ],
+      onchange: () => { },
+      isExpression: () => true,
+      evaluateExpression: () => [
+        ...expressionFieldInitialData.list1,
+        ...expressionFieldInitialData.list2,
+        ...[ { label: 'Value 5', value: 'value5' } ]
+      ],
+      field: expressionField,
+      initialData: expressionFieldInitialData
+    }, result.rerender);
+
+    // then
+    expect(getTagValues(result.container)).to.eql([ 'Value 1', 'Value 5' ]);
   });
 
 
@@ -937,7 +974,7 @@ const expressionFieldInitialData = {
   ]
 };
 
-function createTaglist(options = {}) {
+function createTaglist(options = {}, renderFn = render) {
   const {
     disabled,
     readonly,
@@ -948,7 +985,7 @@ function createTaglist(options = {}) {
     value
   } = options;
 
-  return render(WithFormContext(
+  return renderFn(WithFormContext(
     <Taglist
       disabled={ disabled }
       readonly={ readonly }
@@ -961,4 +998,10 @@ function createTaglist(options = {}) {
   ), {
     container: options.container || formContainer.querySelector('.fjs-form')
   });
+}
+
+function getTagValues(container) {
+  const tags = container.querySelectorAll('.fjs-taglist-tag');
+
+  return Array.from(tags).map(tag => tag.textContent);
 }

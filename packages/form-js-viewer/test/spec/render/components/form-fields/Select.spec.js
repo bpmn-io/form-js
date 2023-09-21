@@ -383,6 +383,93 @@ describe('Select', function() {
       });
 
 
+      it('should render options from values expression', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const options = [
+          ...expressionFieldInitialData.list1,
+          ...expressionFieldInitialData.list2
+        ];
+
+        const { container } = createSelect({
+          onChange: onChangeSpy,
+          value: 'value2',
+          isExpression: () => true,
+          evaluateExpression: () => options,
+          field: expressionField,
+          initialData: expressionFieldInitialData
+        });
+
+        const select = container.querySelector('.fjs-input-group');
+
+        // when
+        fireEvent.focus(select);
+
+        // then
+        expect(getSelectValues(container)).to.eql([
+          'Value 1',
+          'Value 2',
+          'Value 3',
+          'Value 4'
+        ]);
+      });
+
+
+      it('should update options when evaluation changed', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const options = [
+          ...expressionFieldInitialData.list1,
+          ...expressionFieldInitialData.list2
+        ];
+
+        let result = createSelect({
+          onChange: onChangeSpy,
+          value: 'value2',
+          isExpression: () => true,
+          evaluateExpression: () => options,
+          field: expressionField,
+          initialData: expressionFieldInitialData
+        });
+
+        const select = result.container.querySelector('.fjs-input-group');
+
+        // when
+        fireEvent.focus(select);
+
+        // assume
+        expect(getSelectValues(result.container)).to.eql([
+          'Value 1',
+          'Value 2',
+          'Value 3',
+          'Value 4'
+        ]);
+
+        // and when
+        options.push({ label: 'Value 5', value: 'value5' });
+
+        createSelect({
+          field: expressionField,
+          isExpression: () => true,
+          evaluateExpression: () => options
+        }, result.rerender);
+
+        // then
+        expect(getSelectValues(result.container)).to.eql([
+          'Value 1',
+          'Value 2',
+          'Value 3',
+          'Value 4',
+          'Value 5'
+        ]);
+
+      });
+
+
       it('should clear', function() {
 
         // given
@@ -1010,7 +1097,7 @@ const expressionFieldInitialData = {
   ]
 };
 
-function createSelect(options = {}) {
+function createSelect(options = {}, renderFn = render) {
   const {
     disabled,
     readonly,
@@ -1022,7 +1109,7 @@ function createSelect(options = {}) {
     value
   } = options;
 
-  return render(WithFormContext(
+  return renderFn(WithFormContext(
     <Select
       disabled={ disabled }
       readonly={ readonly }
@@ -1035,5 +1122,13 @@ function createSelect(options = {}) {
     options
   ), {
     container: options.container || container.querySelector('.fjs-form')
+  });
+}
+
+function getSelectValues(container) {
+  const listItems = container.querySelectorAll('.fjs-dropdownlist-item');
+
+  return Array.from(listItems).map(listItem => {
+    return listItem.innerText;
   });
 }
