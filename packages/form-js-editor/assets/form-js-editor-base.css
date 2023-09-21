@@ -444,6 +444,16 @@
   top: 0;
 }
 
+.fjs-editor-container .fjs-editor-repeat-render-info {
+	background: var(--cds-field, var(--color-background-disabled));
+  color: var(--cds-text-disabled, var(--color-grey-225-10-55));
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 5px 3px 5px;
+}
+
 /* do not show resize handles on small screens */
 @media (max-width: 66rem) {
   .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle  {

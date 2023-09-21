@@ -211,7 +211,7 @@ export default class Form {
 
     const getErrorPath = (field, indexes) => [ field.id, ...Object.values(indexes || {}) ];
 
-    function validateFieldRecursively(errors, field, indexes = {}) {
+    function validateFieldRecursively(errors, field, indexes) {
       const { disabled, type, isRepeating } = field;
       const { config: fieldConfig } = formFields.get(type);
 
@@ -360,7 +360,7 @@ export default class Form {
   _update(update) {
     const {
       field,
-      indexes = {},
+      indexes,
       value
     } = update;
 
@@ -433,7 +433,7 @@ export default class Form {
     const pathRegistry = this.get('pathRegistry');
     const formData = this._getState().data;
 
-    function collectSubmitDataRecursively(submitData, formField, indexes = {}) {
+    function collectSubmitDataRecursively(submitData, formField, indexes) {
       const { disabled, type } = formField;
       const { config: fieldConfig } = formFields.get(type);
 
@@ -465,7 +465,7 @@ export default class Form {
     }
 
     const workingSubmitData = {};
-    collectSubmitDataRecursively(workingSubmitData, formFieldRegistry.getForm());
+    collectSubmitDataRecursively(workingSubmitData, formFieldRegistry.getForm(), {});
     return this._applyConditions(workingSubmitData, formData);
   }
 
@@ -485,7 +485,7 @@ export default class Form {
     const formFields = this.get('formFields');
     const pathRegistry = this.get('pathRegistry');
 
-    function initializeFieldDataRecursively(initializedData, formField, indexes = {}) {
+    function initializeFieldDataRecursively(initializedData, formField, indexes) {
       const { defaultValue, type, isRepeating } = formField;
       const { config: fieldConfig } = formFields.get(type);
 
@@ -537,7 +537,7 @@ export default class Form {
     }
 
     const workingData = clone(data);
-    initializeFieldDataRecursively(workingData, formFieldRegistry.getForm());
+    initializeFieldDataRecursively(workingData, formFieldRegistry.getForm(), {});
     return workingData;
   }
 

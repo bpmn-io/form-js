@@ -12,7 +12,7 @@ export default function ChildrenRenderer(props) {
     Children
   } = useContext(FormRenderContext);
 
-  const { field, Empty, indexes = {} } = props;
+  const { field, Empty } = props;
 
   const { id, components = [] } = field;
 
@@ -21,12 +21,16 @@ export default function ChildrenRenderer(props) {
   const isRepeating = repeatRenderManager && repeatRenderManager.isFieldRepeating(id);
   const isEmpty = !components.length;
 
-  const Repeater = useMemo(() => repeatRenderManager && repeatRenderManager.Repeater, [ repeatRenderManager ]);
+  const Repeater = repeatRenderManager.Repeater;
+  const RepeatInfo = repeatRenderManager.RepeatInfo;
 
-  return <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
-    { isRepeating ? <Repeater { ...{ ...props, ElementRenderer: RowsRenderer, indexes } } /> : <RowsRenderer { ...{ ...props, indexes } } /> }
-    { isEmpty ? <Empty /> : null }
-  </Children>;
+  return <>
+    <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
+      { isRepeating && Repeater ? <Repeater { ...{ ...props, ElementRenderer: RowsRenderer } } /> : <RowsRenderer { ...props } /> }
+      { isEmpty ? <Empty /> : null }
+    </Children>
+    { isRepeating && RepeatInfo ? <RepeatInfo { ...props } /> : null }
+  </>;
 }
 
 function RowsRenderer(props) {

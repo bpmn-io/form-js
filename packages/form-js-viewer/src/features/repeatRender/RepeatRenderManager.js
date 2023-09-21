@@ -2,8 +2,6 @@ import { get } from 'min-dash';
 
 export default class RepeatRenderManager {
 
-  /** TODO: do we need to maintain keys list for preact rendering ? 9*/
-
   constructor(form, formFields, formFieldRegistry, pathRegistry) {
     this._form = form;
     this._formFields = formFields;
@@ -43,7 +41,7 @@ export default class RepeatRenderManager {
         {values.map((_, index) => {
           const elementProps = {
             ...props,
-            indexes: { ...indexes, [ repeaterField.id ]: index },
+            indexes: { ...(indexes || {}), [ repeaterField.id ]: index },
           };
 
           return <ElementRenderer { ...elementProps } />;
