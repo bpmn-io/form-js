@@ -9,13 +9,13 @@ export default class UpdateFieldValidationHandler {
   }
 
   execute(context) {
-    const { field, value } = context;
+    const { field, value, indexes } = context;
     const { errors } = this._form._getState();
 
     context.oldErrors = clone(errors);
 
     const fieldErrors = this._validator.validateField(field, value);
-    const updatedErrors = set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
+    const updatedErrors = set(errors, [ field.id, ...Object.values(indexes || {}) ], fieldErrors.length ? fieldErrors : undefined);
     this._form._setState({ errors: updatedErrors });
   }
 

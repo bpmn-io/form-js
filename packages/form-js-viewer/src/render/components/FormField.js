@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useMemo } from 'preact/hooks';
 
 import { get } from 'min-dash';
 
-import { FormRenderContext } from '../context';
+import { FormContext, FormRenderContext } from '../context';
 
 import {
   useCondition,
@@ -10,7 +10,7 @@ import {
   useService
 } from '../hooks';
 
-import { gridColumnClasses } from './Util';
+import { gridColumnClasses, prefixId } from './Util';
 
 const noop = () => false;
 
@@ -18,7 +18,7 @@ const noop = () => false;
 export default function FormField(props) {
   const {
     field,
-    indexes = {},
+    indexes,
     onChange
   } = props;
 
@@ -41,6 +41,8 @@ export default function FormField(props) {
     Column
   } = useContext(FormRenderContext);
 
+  const { formId } = useContext(FormContext);
+
   const FormFieldComponent = formFields.get(field.type);
 
   if (!FormFieldComponent) {
@@ -62,10 +64,10 @@ export default function FormField(props) {
 
   const onBlur = useCallback(() => {
     if (viewerCommands) {
-      viewerCommands.updateFieldValidation(field, value);
+      viewerCommands.updateFieldValidation(field, value, indexes);
     }
     eventBus.fire('formField.blur', { formField: field });
-  }, [ eventBus, viewerCommands, field, value ]);
+  }, [ eventBus, viewerCommands, field, value, indexes ]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
@@ -73,9 +75,9 @@ export default function FormField(props) {
 
   useEffect(() => {
     if (viewerCommands && initialValue) {
-      viewerCommands.updateFieldValidation(field, initialValue);
+      viewerCommands.updateFieldValidation(field, initialValue, indexes);
     }
-  }, [ viewerCommands, field, initialValue ]);
+  }, [ viewerCommands, field, initialValue, JSON.stringify(indexes) ]);
 
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
@@ -89,13 +91,17 @@ export default function FormField(props) {
     return <Empty />;
   }
 
+  const fieldErrors = get(errors, [ field.id, ...Object.values(indexes || {}) ]) || [];
+  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(field.id, formId)}-error-message`;
+
   return (
     <Column field={ field } class={ gridColumnClasses(field) }>
       <Element class="fjs-element" field={ field }>
         <FormFieldComponent
           { ...props }
           disabled={ disabled }
-          errors={ errors[ field.id ] }
+          errors={ fieldErrors }
+          errorMessageId={ errorMessageId }
           onChange={ disabled || readonly ? noop : onChangeIndexed }
           onBlur={ disabled || readonly ? noop : onBlur }
           onFocus={ disabled || readonly ? noop : onFocus }

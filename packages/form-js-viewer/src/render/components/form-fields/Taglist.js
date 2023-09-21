@@ -30,6 +30,7 @@ export default function Taglist(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
     onFocus,
     onBlur,
     field,
@@ -47,7 +48,6 @@ export default function Taglist(props) {
   const { required } = validate;
 
   const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
   const [ filter, setFilter ] = useState('');
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);

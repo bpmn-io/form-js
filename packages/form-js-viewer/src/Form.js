@@ -202,32 +202,52 @@ export default class Form {
    * @returns {Errors}
    */
   validate() {
-    const formFieldRegistry = this.get('formFieldRegistry'),
+    const formFields = this.get('formFields'),
+          formFieldRegistry = this.get('formFieldRegistry'),
           pathRegistry = this.get('pathRegistry'),
           validator = this.get('validator');
 
     const { data } = this._getState();
 
-    const getErrorPath = (field) => [ field.id ];
+    const getErrorPath = (field, indexes) => [ field.id, ...Object.values(indexes || {}) ];
 
-    const errors = formFieldRegistry.getAll().reduce((errors, field) => {
-      const {
-        disabled
-      } = field;
+    function validateFieldRecursively(errors, field, indexes = {}) {
+      const { disabled, type, isRepeating } = field;
+      const { config: fieldConfig } = formFields.get(type);
 
+      // Skip disabled fields
       if (disabled) {
-        return errors;
+        return;
       }
 
-      const value = get(data, pathRegistry.getValuePath(field));
+      // Validate the field
+      const valuePath = pathRegistry.getValuePath(field, { indexes });
+      const valueData = get(data, valuePath);
+      const fieldErrors = validator.validateField(field, valueData);
 
-      const fieldErrors = validator.validateField(field, value);
+      set(errors, getErrorPath(field, indexes), fieldErrors.length ? fieldErrors : undefined);
 
-      return set(errors, getErrorPath(field), fieldErrors.length ? fieldErrors : undefined);
-    }, /** @type {Errors} */ ({}));
+      // Process parents
+      if (field.components) {
+        if (fieldConfig.repeatable && isRepeating) {
+          if (Array.isArray(valueData)) {
+            valueData.forEach((_, index) => {
+              field.components.forEach((component) => {
+                validateFieldRecursively(errors, component, { ...indexes, [field.id]: index });
+              });
+            });
+          }
+          return;
+        }
 
-    const filteredErrors = this._applyConditions(errors, data, { getFilterPath: getErrorPath });
+        // Recurse non-repeatable parents only across the children
+        field.components.forEach((component) => validateFieldRecursively(errors, component, indexes));
+      }
+    }
 
+    const workingErrors = {};
+    validateFieldRecursively(workingErrors, formFieldRegistry.getForm());
+    const filteredErrors = this._applyConditions(workingErrors, data, { getFilterPath: getErrorPath });
     this._setState({ errors: filteredErrors });
 
     return filteredErrors;
@@ -340,7 +360,7 @@ export default class Form {
   _update(update) {
     const {
       field,
-      indexes,
+      indexes = {},
       value
     } = update;
 
@@ -358,7 +378,7 @@ export default class Form {
 
     set(data, valuePath, value);
 
-    set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
+    set(errors, [ field.id, ...Object.values(indexes || {}) ], fieldErrors.length ? fieldErrors : undefined);
 
     this._setState({
       data: clone(data),
