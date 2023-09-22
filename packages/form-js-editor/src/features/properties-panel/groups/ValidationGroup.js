@@ -300,6 +300,10 @@ function ValidationType(props) {
     id,
     label: 'Validation pattern',
     setValue,
-    getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS)
+    getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS),
+    tooltip:
+      getValue('validationType')() === VALIDATION_TYPE_OPTIONS.phone.value
+        ? 'The built-in phone validation pattern is based on the E.164 standard with no spaces. Ex: +491234567890'
+        : undefined
   });
 }
