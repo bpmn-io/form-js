@@ -281,4 +281,31 @@ describe('features/propertiesPanel', function() {
 
   });
 
+
+  describe('feel popup', function() {
+
+    it('should support feel popup module', async function() {
+
+      // given
+      const node = document.createElement('div');
+      document.body.appendChild(node);
+
+      let formEditor;
+
+      await act(async () => {
+        const result = await createEditor(schema);
+        formEditor = result.formEditor;
+      });
+
+      const feelPopup = formEditor.get('feelPopup');
+
+      // then
+      expect(feelPopup).to.exist;
+      expect(feelPopup.open).to.exist;
+      expect(feelPopup.close).to.exist;
+      expect(feelPopup.isOpen).to.exist;
+    });
+
+  });
+
 });
