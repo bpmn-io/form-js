@@ -470,6 +470,83 @@ describe('Select', function() {
       });
 
 
+      it('should update options - roundtrip', function() {
+
+        // given
+        const onChangeSpy = spy();
+
+        const options = [
+          ...expressionFieldInitialData.list1,
+          ...expressionFieldInitialData.list2
+        ];
+
+        let result = createSelect({
+          onChange: onChangeSpy,
+          value: 'value2',
+          isExpression: () => true,
+          evaluateExpression: () => options,
+          field: expressionField,
+          initialData: expressionFieldInitialData
+        });
+
+        const select = result.container.querySelector('.fjs-input-group');
+
+        // when
+        fireEvent.focus(select);
+
+        // assume
+        expect(getSelectValues(result.container)).to.eql([
+          'Value 1',
+          'Value 2',
+          'Value 3',
+          'Value 4'
+        ]);
+
+        // and when
+        createSelect({
+          field: dynamicField,
+          isExpression: () => false,
+          initialData: dynamicFieldInitialData
+        }, result.rerender);
+
+        // assume
+        expect(getSelectValues(result.container)).to.eql([
+          'Dynamic Value 1',
+          'Dynamic Value 2'
+        ]);
+
+        // and when
+        createSelect({
+          field: {
+            ...expressionField,
+            valuesExpression: '='
+          },
+          isExpression: () => true,
+          evaluateExpression: () => null,
+          initialData: expressionFieldInitialData
+        }, result.rerender);
+
+        // assume
+        expect(getSelectValues(result.container)).to.eql([]);
+
+        // and when
+        createSelect({
+          field: expressionField,
+          isExpression: () => true,
+          evaluateExpression: () => options,
+          initialData: expressionFieldInitialData
+        }, result.rerender);
+
+        // expect
+        expect(getSelectValues(result.container)).to.eql([
+          'Value 1',
+          'Value 2',
+          'Value 3',
+          'Value 4'
+        ]);
+      });
+
+
       it('should clear', function() {
 
         // given
