@@ -35,10 +35,10 @@ export default function(field) {
   const [ valuesGetter, setValuesGetter ] = useState({ values: [], error: undefined, state: LOAD_STATES.LOADING });
   const initialData = useService('form')._getState().initialData;
 
-  const evaluatedValues = valuesExpression && useExpressionEvaluation(valuesExpression);
+  const evaluatedValues = valuesExpression ? (useExpressionEvaluation(valuesExpression) || []) : [];
 
   // re-calculate values if evaluated expression changes
-  const previousEvaluatedValues = usePrevious(evaluatedValues);
+  const previousEvaluatedValues = usePrevious(evaluatedValues, [], [ evaluatedValues ]);
   const evaluatedValuesChanged = !compare(previousEvaluatedValues, evaluatedValues);
 
   useEffect(() => {

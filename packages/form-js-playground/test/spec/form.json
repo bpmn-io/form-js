@@ -46,6 +46,16 @@
       "type": "textarea"
     },
     {
+      "type": "checkbox",
+      "label": "Checkbox",
+      "key": "isGood"
+    },
+    {
+      "type": "select",
+      "label": "Select me",
+      "valuesExpression": "=if isGood then [ \"good\" ] else [\"bad\"]"
+    },
+    {
       "key": "hobbies",
       "label": "Hobbies",
       "type": "taglist",
