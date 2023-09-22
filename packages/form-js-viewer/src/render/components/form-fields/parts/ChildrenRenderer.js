@@ -45,7 +45,7 @@ function SimpleChildrenRenderer(props) {
   return (
     <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
       <RowsRenderer { ...props } />
-      { isEmpty ? <Empty /> : null }
+      { isEmpty ? <Empty field={ field } /> : null }
     </ChildrenRoot>
   );
 }
@@ -70,7 +70,7 @@ function RepeatChildrenRenderer(props) {
   return <>
     <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
       { Repeater ? <Repeater { ...{ ...restProps, useSharedState, field, RowsRenderer } } /> : <RowsRenderer { ...{ ...restProps, field } } /> }
-      { !components.length ? <Empty /> : null }
+      { !components.length ? <Empty field={ field } /> : null }
     </ChildrenRoot>
     { RepeatFooter ? <RepeatFooter { ...{ ...restProps, useSharedState, field } } /> : null }
   </>;

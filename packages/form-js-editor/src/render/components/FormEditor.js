@@ -65,17 +65,27 @@ function ContextPad(props) {
   );
 }
 
-function Empty() { return null; }
+function Empty(props) {
+  if (props.field.type === 'default') {
+    return <div class="fjs-empty-editor">
+      <div class="fjs-empty-editor-card">
+        <EmptyFormIcon />
+        <h2>Build your form</h2>
+        <span>Drag and drop components here to start designing.</span>
+        <span>Use the preview window to test your form.</span>
+      </div>
+    </div>;
+  }
 
-function EmptyRoot(props) {
-  return <div class="fjs-empty-editor">
-    <div class="fjs-empty-editor-card">
-      <EmptyFormIcon />
-      <h2>Build your form</h2>
-      <span>Drag and drop components here to start designing.</span>
-      <span>Use the preview window to test your form.</span>
-    </div>
-  </div>;
+  if (props.field.type === 'group') {
+    return <div class="fjs-empty-component"><span>Drag and drop components here.</span></div>;
+  }
+
+  if (props.field.type === 'dynamiclist') {
+    return <div class="fjs-empty-component"><span>Drag and drop components here <br /> to create a repeatable list item.</span></div>;
+  }
+
+  return null;
 }
 
 function Element(props) {
@@ -415,7 +425,6 @@ export default function FormEditor(props) {
     Column,
     Element,
     Empty,
-    EmptyRoot,
     Row,
     hoveredId,
     setHoveredId
