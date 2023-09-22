@@ -444,7 +444,7 @@
   top: 0;
 }
 
-.fjs-editor-container .fjs-editor-repeat-render-info {
+.fjs-editor-container .fjs-repeat-render-footer {
 	background: var(--cds-field, var(--color-background-disabled));
   color: var(--cds-text-disabled, var(--color-grey-225-10-55));
   padding: 3px;

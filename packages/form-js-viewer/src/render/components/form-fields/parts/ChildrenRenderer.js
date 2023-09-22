@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 
 import useService from '../../../hooks/useService';
 
@@ -14,22 +14,65 @@ export default function ChildrenRenderer(props) {
 
   const { field, Empty } = props;
 
-  const { id, components = [] } = field;
+  const { id } = field;
 
   const repeatRenderManager = useService('repeatRenderManager', false);
 
   const isRepeating = repeatRenderManager && repeatRenderManager.isFieldRepeating(id);
-  const isEmpty = !components.length;
 
   const Repeater = repeatRenderManager.Repeater;
-  const RepeatInfo = repeatRenderManager.RepeatInfo;
+  const RepeatFooter = repeatRenderManager.RepeatFooter;
+
+  return (
+    isRepeating
+      ? <RepeatChildrenRenderer { ...props } { ...{ ChildrenRoot: Children, Empty, Repeater, RepeatFooter, repeatRenderManager } } />
+      : <SimpleChildrenRenderer { ...props } { ...{ ChildrenRoot: Children, Empty } } />
+  );
+}
+
+function SimpleChildrenRenderer(props) {
+
+  const {
+    ChildrenRoot,
+    Empty,
+    field
+  } = props;
+
+  const { components = [] } = field;
+
+  const isEmpty = !components.length;
+
+  return (
+    <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
+      <RowsRenderer { ...props } />
+      { isEmpty ? <Empty /> : null }
+    </ChildrenRoot>
+  );
+}
+
+function RepeatChildrenRenderer(props) {
+
+  const {
+    ChildrenRoot,
+    repeatRenderManager,
+    Empty,
+    field,
+    ...restProps
+  } = props;
+
+  const { components = [] } = field;
+
+  const useSharedState = useState({ isCollapsed: true });
+
+  const Repeater = repeatRenderManager.Repeater;
+  const RepeatFooter = repeatRenderManager.RepeatFooter;
 
   return <>
-    <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
-      { isRepeating && Repeater ? <Repeater { ...{ ...props, ElementRenderer: RowsRenderer } } /> : <RowsRenderer { ...props } /> }
-      { isEmpty ? <Empty /> : null }
-    </Children>
-    { isRepeating && RepeatInfo ? <RepeatInfo { ...props } /> : null }
+    <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={ field }>
+      { Repeater ? <Repeater { ...{ ...restProps, useSharedState, field, RowsRenderer } } /> : <RowsRenderer { ...{ ...restProps, field } } /> }
+      { !components.length ? <Empty /> : null }
+    </ChildrenRoot>
+    { RepeatFooter ? <RepeatFooter { ...{ ...restProps, useSharedState, field } } /> : null }
   </>;
 }
 

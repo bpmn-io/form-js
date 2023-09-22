@@ -5,7 +5,7 @@ export default class RepeatRenderManager {
   constructor(formFields, formFieldRegistry) {
     this._formFields = formFields;
     this._formFieldRegistry = formFieldRegistry;
-    this.RepeatInfo = this.RepeatInfo.bind(this);
+    this.RepeatFooter = this.RepeatFooter.bind(this);
   }
 
   /**
@@ -25,8 +25,8 @@ export default class RepeatRenderManager {
     return formFieldDefinition.config.repeatable && formField.isRepeating;
   }
 
-  RepeatInfo() {
-    return <div className="fjs-editor-repeat-render-info"><CloseSvg /><span>Repeatable</span></div>;
+  RepeatFooter() {
+    return <div className="fjs-repeat-render-footer"><CloseSvg /><span>Repeatable</span></div>;
   }
 
 }

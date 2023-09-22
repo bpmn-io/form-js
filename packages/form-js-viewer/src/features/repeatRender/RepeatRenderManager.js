@@ -8,6 +8,7 @@ export default class RepeatRenderManager {
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;
     this.Repeater = this.Repeater.bind(this);
+    this.RepeatFooter = this.RepeatFooter.bind(this);
   }
 
   /**
@@ -29,26 +30,71 @@ export default class RepeatRenderManager {
 
   Repeater(props) {
 
-    const { ElementRenderer, indexes } = props;
+    const { RowsRenderer, indexes, useSharedState, ...restProps } = props;
+
+    const [ sharedRepeatState ] = useSharedState;
+
     const { data } = this._form._state;
 
     const repeaterField = props.field;
     const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
     const values = get(data, dataPath) || [];
 
+    const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
+    const isCollapsed = sharedRepeatState.isCollapsed && values.length > nonCollapsedItems;
+
+    const displayValues = isCollapsed ? values.slice(0, nonCollapsedItems) : values;
+
     return (
       <>
-        {values.map((_, index) => {
+        {displayValues.map((_, index) => {
           const elementProps = {
-            ...props,
+            ...restProps,
             indexes: { ...(indexes || {}), [ repeaterField.id ]: index },
           };
 
-          return <ElementRenderer { ...elementProps } />;
+          return <RowsRenderer { ...elementProps } />;
         })}
       </>
     );
   }
+
+  RepeatFooter(props) {
+
+    const { useSharedState, indexes } = props;
+    const [ sharedRepeatState, setSharedRepeatState ] = useSharedState;
+
+    const { data } = this._form._state;
+
+    const repeaterField = props.field;
+    const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
+    const values = get(data, dataPath) || [];
+
+    const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
+    const togglingEnabled = values.length > nonCollapsedItems;
+    const isCollapsed = sharedRepeatState.isCollapsed;
+
+    const toggle = () => {
+      setSharedRepeatState(state => ({ ...state, isCollapsed: !isCollapsed }));
+    };
+
+    return togglingEnabled
+      ? <div className="fjs-repeat-render-footer">
+        <button onClick={ toggle }>
+          { isCollapsed ? `Expand all (${values.length})` : 'Collapse' }
+        </button>
+      </div>
+      : null;
+  }
+
+  _getNonCollapsedItems(field) {
+    const DEFAULT_NON_COLLAPSED_ITEMS = 5;
+
+    const { nonCollapsedItems } = field;
+
+    return nonCollapsedItems ? nonCollapsedItems : DEFAULT_NON_COLLAPSED_ITEMS;
+  }
+
 }
 
 RepeatRenderManager.$inject = [ 'form', 'formFields', 'formFieldRegistry', 'pathRegistry' ];
