@@ -137,7 +137,7 @@ export default class Form {
           warnings
         } = this.get('importer').importSchema(schema);
 
-        const initializedData = this._initializeFieldData(clone(data));
+        const initializedData = this._getInitializedFieldData(clone(data));
 
         this._setState({
           data: initializedData,
@@ -480,10 +480,15 @@ export default class Form {
   /**
    * @internal
    */
-  _initializeFieldData(data) {
+  _getInitializedFieldData(data, options = {}) {
     const formFieldRegistry = this.get('formFieldRegistry');
     const formFields = this.get('formFields');
     const pathRegistry = this.get('pathRegistry');
+
+    const {
+      customRoot,
+      customIndexes
+    } = options;
 
     function initializeFieldDataRecursively(initializedData, formField, indexes) {
       const { defaultValue, type, isRepeating } = formField;
@@ -521,7 +526,16 @@ export default class Form {
           // (c) Initialize field value in output data
           set(initializedData, valuePath, valueData);
 
-          // (d) Recurse repeatable parents both across the indexes of repetition and the children
+          // (d) If indexed ahead of time, recurse repeatable simply across the children
+          if (!isUndefined(indexes[formField.id])) {
+            formField.components.forEach(
+              (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes })
+            );
+
+            return;
+          }
+
+          // (e) Recurse repeatable parents both across the indexes of repetition and the children
           valueData.forEach((_, index) => {
             formField.components.forEach(
               (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes, [formField.id]: index })
@@ -536,9 +550,17 @@ export default class Form {
       }
     }
 
+    // allows definition of a specific subfield to generate the data for
+    const root = customRoot || formFieldRegistry.getForm();
+    const indexes = customIndexes || {};
+    const basePath = pathRegistry.getValuePath(root, { indexes }) || [];
+
+    // if indexing ahead of time, we must add this index to the data path at the end
+    const path = !isUndefined(indexes[root.id]) ? [ ...basePath, indexes[root.id] ] : basePath;
+
     const workingData = clone(data);
-    initializeFieldDataRecursively(workingData, formFieldRegistry.getForm(), {});
-    return workingData;
+    initializeFieldDataRecursively(workingData, root, indexes);
+    return get(workingData, path, {});
   }
 
 }
