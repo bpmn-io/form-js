@@ -1,6 +1,7 @@
 import {
   AdornerEntry,
-  RepeatableAppearanceEntry
+  RepeatableAppearanceEntry,
+  LayouterAppearanceEntry
 } from '../entries';
 
 
@@ -8,7 +9,8 @@ export default function AppearanceGroup(field, editField, getService) {
 
   const entries = [
     ...AdornerEntry({ field, editField }),
-    ...RepeatableAppearanceEntry({ field, editField, getService })
+    ...RepeatableAppearanceEntry({ field, editField, getService }),
+    ...LayouterAppearanceEntry({ field, editField })
   ];
 
   if (!entries.length) {

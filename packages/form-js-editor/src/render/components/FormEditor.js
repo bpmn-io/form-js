@@ -267,6 +267,7 @@ function Row(props) {
       </span>
       <div
         class={ classes.join(' ') }
+        style={ props.style }
         data-row-id={ id }>
         { props.children }
       </div>

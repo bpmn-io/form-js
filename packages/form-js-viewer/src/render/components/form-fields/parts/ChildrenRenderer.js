@@ -79,7 +79,7 @@ function RepeatChildrenRenderer(props) {
 function RowsRenderer(props) {
 
   const { field, indexes } = props;
-  const { id: parentId } = field;
+  const { id: parentId, verticalAlignment = 'start' } = field;
 
   const formLayouter = useService('formLayouter');
   const formFieldRegistry = useService('formFieldRegistry');
@@ -100,7 +100,7 @@ function RowsRenderer(props) {
       }
 
       return (
-        <Row row={ row } class="fjs-layout-row cds--row">
+        <Row row={ row } class="fjs-layout-row cds--row" style={ { alignItems: verticalAlignment } }>
           {
             components.map(childId => {
 
