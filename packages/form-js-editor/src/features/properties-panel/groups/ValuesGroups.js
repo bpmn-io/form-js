@@ -33,7 +33,7 @@ export default function ValuesGroups(field, editField) {
     {
       id: valuesSourceId,
       label: 'Options source',
-      tooltip: '"Static" defines a constant, predefined set of form options.\n"Dynamic" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.',
+      tooltip: getValuesTooltip(),
       component: Group,
       entries: ValuesSourceSelectEntry({ ...context, id: valuesSourceId })
     }
@@ -68,4 +68,12 @@ export default function ValuesGroups(field, editField) {
   }
 
   return groups;
+}
+
+// helpers //////////
+
+function getValuesTooltip() {
+  return '"Static" defines a constant, predefined set of form options.\n\n' +
+  '"Input data" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.\n\n' +
+  '"Expression" defines options that are populated from a FEEL expression.';
 }
