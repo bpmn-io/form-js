@@ -467,6 +467,10 @@
   margin: 0px 5px 3px 5px;
 }
 
+.fjs-editor-container .fjs-repeat-render-footer svg {
+  margin-right: 2px;
+}
+
 /* do not show resize handles on small screens */
 @media (max-width: 66rem) {
   .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle  {

@@ -1,5 +1,8 @@
 import { get } from 'min-dash';
 
+import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
+import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg';
+
 export default class RepeatRenderManager {
 
   constructor(form, formFields, formFieldRegistry, pathRegistry) {
@@ -81,7 +84,11 @@ export default class RepeatRenderManager {
     return togglingEnabled
       ? <div className="fjs-repeat-render-footer">
         <button onClick={ toggle }>
-          { isCollapsed ? `Expand all (${values.length})` : 'Collapse' }
+          {
+            isCollapsed
+              ? <><ExpandSvg /> { `Expand all (${values.length})` }</>
+              : <><CollapseSvg /> { 'Collapse' }</>
+          }
         </button>
       </div>
       : null;

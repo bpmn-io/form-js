@@ -1120,6 +1120,23 @@
   margin-bottom: 5px;
 }
 
+.fjs-container .fjs-repeat-render-footer button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+}
+
+.fjs-container .fjs-repeat-render-footer button svg {
+  margin-right: 2px;
+}
+
 /**
 * Flatpickr style adjustments
 */

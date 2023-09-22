@@ -1,4 +1,4 @@
-import CloseSvg from '../../render/components/icons/Close.svg';
+import RepeatSvg from '../../render/components/icons/Repeat.svg';
 
 export default class RepeatRenderManager {
 
@@ -26,7 +26,7 @@ export default class RepeatRenderManager {
   }
 
   RepeatFooter() {
-    return <div className="fjs-repeat-render-footer"><CloseSvg /><span>Repeatable</span></div>;
+    return <div className="fjs-repeat-render-footer"><RepeatSvg /><span>Repeatable</span></div>;
   }
 
 }
