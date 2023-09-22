@@ -96,7 +96,7 @@ function Element(props) {
         modeling = useService('modeling'),
         selection = useService('selection');
 
-  const { hoveredId, setHoveredId } = useContext(FormRenderContext);
+  const { hoverInfo } = useContext(FormRenderContext);
 
   const { field } = props;
 
@@ -107,6 +107,8 @@ function Element(props) {
   } = field;
 
   const ref = useRef();
+
+  const [ hovered, setHovered ] = useState(false);
 
   function scrollIntoView({ selection }) {
     if (!selection || selection.id !== id || !ref.current) {
@@ -142,23 +144,31 @@ function Element(props) {
     ref.current.focus();
   }
 
-  const classes = [];
+  const isSelected = selection.isSelected(field);
 
-  if (props.class) {
-    classes.push(...props.class.split(' '));
-  }
+  const classString = useMemo(() => {
 
-  if (selection.isSelected(field)) {
-    classes.push('fjs-editor-selected');
-  }
+    const classes = [];
 
-  if (showOutline) {
-    classes.push('fjs-outlined');
-  }
+    if (props.class) {
+      classes.push(...props.class.split(' '));
+    }
 
-  if (hoveredId === field.id) {
-    classes.push('fjs-editor-hovered');
-  }
+    if (isSelected) {
+      classes.push('fjs-editor-selected');
+    }
+
+    if (showOutline) {
+      classes.push('fjs-outlined');
+    }
+
+    if (hovered) {
+      classes.push('fjs-editor-hovered');
+    }
+
+    return classes.join(' ');
+
+  }, [ hovered, isSelected, props.class, showOutline ]);
 
   const onRemove = (event) => {
     event.stopPropagation();
@@ -179,7 +189,7 @@ function Element(props) {
 
   return (
     <div
-      class={ classes.join(' ') }
+      class={ classString }
       data-id={ id }
       data-field-type={ type }
       tabIndex={ type === 'default' ? -1 : 0 }
@@ -187,9 +197,12 @@ function Element(props) {
       onKeyPress={ onKeyPress }
       onMouseOver={
         (e) => {
+          if (hoverInfo.cleanup) {
+            hoverInfo.cleanup();
+          }
 
-          // @ts-ignore
-          setHoveredId(field.id);
+          setHovered(true);
+          hoverInfo.cleanup = () => setHovered(false);
           e.stopPropagation();
         }
       }
@@ -418,17 +431,14 @@ export default function FormEditor(props) {
     eventBus.fire('formEditor.rendered');
   }, []);
 
-  const [ hoveredId, setHoveredId ] = useState(null);
-
   const formRenderContext = useMemo(() => ({
     Children,
     Column,
     Element,
     Empty,
     Row,
-    hoveredId,
-    setHoveredId
-  }), [ hoveredId ]);
+    hoverInfo: {}
+  }), []);
 
   const formContext = useMemo(() => ({
     getService(type, strict = true) {
