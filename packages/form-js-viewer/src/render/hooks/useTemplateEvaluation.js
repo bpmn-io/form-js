@@ -1,6 +1,8 @@
 import useService from './useService';
 import useFilteredFormData from './useFilteredFormData';
-import { useMemo } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
+import LocalExpressionContext from '../context/LocalExpressionContext';
+import { wrapExpressionContext } from '../../util';
 
 /**
  * Template a string reactively based on form data. If the string is not a template, it is returned as is.
@@ -13,17 +15,24 @@ import { useMemo } from 'preact/hooks';
  * @param {Function} [options.buildDebugString]
  *
  */
-export default function useTemplateEvaluation(value, options) {
+export default function useTemplateEvaluation(value, options = {}) {
   const filteredData = useFilteredFormData();
   const templating = useService('templating');
 
-  return useMemo(() => {
+  const variableContext = useContext(LocalExpressionContext);
 
-    if (templating && templating.isTemplate(value)) {
-      return templating.evaluate(value, filteredData, options);
+  const fullData = useMemo(() => {
+    if (variableContext) {
+      return wrapExpressionContext(filteredData, variableContext);
     }
+    return filteredData;
+  }, [ filteredData, variableContext ]);
 
+  return useMemo(() => {
+    if (templating && templating.isTemplate(value)) {
+      return templating.evaluate(value, fullData, options);
+    }
     return value;
-
-  }, [ filteredData, templating, value, options ]);
+  }, [ fullData, templating, value, options ]);
 }
+

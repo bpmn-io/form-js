@@ -1,8 +1,9 @@
 import FormField from './FormField';
-
 import PoweredBy from './PoweredBy';
+import LocalExpressionContext from '../context/LocalExpressionContext';
 
-import useService from '../hooks/useService';
+import { useMemo } from 'preact/hooks';
+import { useFilteredFormData, useService } from '../hooks';
 
 const noop = () => {};
 
@@ -31,6 +32,14 @@ export default function FormComponent(props) {
     onReset();
   };
 
+  const filteredFormData = useFilteredFormData();
+
+  const localExpressionContext = useMemo(() => ({
+    parent: null,
+    this: filteredFormData,
+    i: []
+  }), [ filteredFormData ]);
+
   return (
     <form
       class="fjs-form"
@@ -39,11 +48,12 @@ export default function FormComponent(props) {
       aria-label={ ariaLabel }
       noValidate
     >
-      <FormField
-        field={ schema }
-        onChange={ onChange }
-      />
-
+      <LocalExpressionContext.Provider value={ localExpressionContext }>
+        <FormField
+          field={ schema }
+          onChange={ onChange }
+        />
+      </LocalExpressionContext.Provider>
       <PoweredBy />
     </form>
   );

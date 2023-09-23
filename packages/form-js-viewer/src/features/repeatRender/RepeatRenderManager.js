@@ -1,8 +1,11 @@
 import { get } from 'min-dash';
+import { useContext, useMemo } from 'preact/hooks';
+import LocalExpressionContext from '../../render/context/LocalExpressionContext';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
 import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg';
 import XMarkSvg from '../../render/components/form-fields/icons/XMark.svg';
+import { wrapExpressionContext } from '../../util';
 
 export default class RepeatRenderManager {
 
@@ -61,16 +64,27 @@ export default class RepeatRenderManager {
       });
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const parentExpressionContext = useContext(LocalExpressionContext);
+
     return (
       <>
-        {displayValues.map((_, index) => {
+        {displayValues.map((value, index) => {
           const elementProps = {
             ...restProps,
-            indexes: { ...(indexes || {}), [ repeaterField.id ]: index }
+            indexes: { ...(indexes || {}), [ repeaterField.id ]: index },
           };
 
+          const localExpressionContext = useMemo(() => ({
+            this: value,
+            parent: wrapExpressionContext(parentExpressionContext.this, parentExpressionContext),
+            i: [ ...parentExpressionContext.i , index + 1 ]
+          }), [ index, value ]);
+
           return <div class="fjs-repeat-row-container">
-            <RowsRenderer { ...elementProps } />
+            <LocalExpressionContext.Provider value={ localExpressionContext }>
+              <RowsRenderer { ...elementProps } />
+            </LocalExpressionContext.Provider>
             <div class="fjs-repeat-row-delete-container">
               <button class="fjs-repeat-row-delete" onClick={ () => onDeleteItem(index) }>
                 <XMarkSvg />
