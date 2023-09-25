@@ -6,10 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-## 1.3.0-alpha.0
+## 1.3.0
+
+### General
 
 * `FEAT`: localized date picker based on browser language ([#733](https://github.com/bpmn-io/form-js/issues/733))
-* `FEAT`: added placeholder to playground input panel ([0f696119](https://github.com/bpmn-io/form-js/commit/0f6961191c076f8cc2d221428b2d7fdbab9a2fe3))
 * `FEAT`: implemented Group component with multiple updates ([#768](https://github.com/bpmn-io/form-js/pull/768))
   * dynamic input/output data access
   * proper group component implementation
@@ -21,7 +22,23 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: Added support for nested component keys ([#464](https://github.com/bpmn-io/form-js/issues/464))
 * `FIX`: Dropdown options no longer reset when form reopens ([#764](https://github.com/bpmn-io/form-js/issues/764))
 * `FIX`: Removed keying from buttons ([#778](https://github.com/bpmn-io/form-js/issues/778))
-* `DEPS`: Updated `properties-panel` to v3.3.0
+* `FIX`: Update options when expression evaluation changed ([#809](https://github.com/bpmn-io/form-js/issues/809))
+* `CHORE`: Update schemaVersion to 11
+* `DEPS`: Updated `properties-panel` to v3.7.0
+
+### Viewer
+
+* `CHORE`: export `FormField` component ([#797](https://github.com/bpmn-io/form-js/pull/797))
+
+### Editor
+
+* `FEAT`: allow defining `propertiesPanel.feelPopupContainer` ([#795](https://github.com/bpmn-io/form-js/pull/795)
+* `FEAT`: incorporate `FeelPopup` module to interact via API ([#814](https://github.com/bpmn-io/form-js/pull/814))
+* `FEAT`: add phone validation tooltip ([#815](https://github.com/bpmn-io/form-js/pull/815))
+
+### Playground
+
+* `FEAT`: added placeholder to playground input panel ([0f696119](https://github.com/bpmn-io/form-js/commit/0f6961191c076f8cc2d221428b2d7fdbab9a2fe3))
 
 ## 1.2.0
 
