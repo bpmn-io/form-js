@@ -32,7 +32,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Editor
 
-* `FEAT`: allow defining `propertiesPanel.feelPopupContainer` ([#795](https://github.com/bpmn-io/form-js/pull/795)
+* `FEAT`: allow defining `propertiesPanel.feelPopupContainer` ([#795](https://github.com/bpmn-io/form-js/pull/795))
 * `FEAT`: incorporate `FeelPopup` module to interact via API ([#814](https://github.com/bpmn-io/form-js/pull/814))
 * `FEAT`: add phone validation tooltip ([#815](https://github.com/bpmn-io/form-js/pull/815))
 
