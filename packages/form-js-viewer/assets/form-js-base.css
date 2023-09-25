@@ -1114,45 +1114,38 @@
 }
 
 .fjs-container .fjs-repeat-row-container {
-  position: relative;
-}
-
-.fjs-container .fjs-repeat-row-container:focus-within .fjs-repeat-row-delete,
-.fjs-container .fjs-repeat-row-container:hover .fjs-repeat-row-delete-container .fjs-repeat-row-delete,
-.fjs-container .fjs-repeat-row-container .fjs-repeat-row-delete-container:hover .fjs-repeat-row-delete {
-	display: flex;
-}
-
-.fjs-container .fjs-repeat-row-container .fjs-repeat-row-delete-container {
   display: flex;
-	position: absolute;
-  height: 100px;
-  width: 30px;
-  top: calc(50% - 45px);
-	right: -35px;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
 }
 
 .fjs-container .fjs-repeat-row-container .fjs-repeat-row-delete {
-  display: none;
-	font-family: inherit;
-	font-size: inherit;
+	display: flex;
 	cursor: pointer;
-	color: var(--color-accent);
-	background: white;
-	border: 2px solid var(--color-accent);
-  height: 24px;
+	background: transparent;
+	border: none;
+	width: 32px;
+	color: var(--color-black);
+	align-items: center;
+	justify-content: center;
+  margin-left: 1rem;
+  margin-right: -1rem;
+}
+
+.fjs-container .fjs-repeat-row-container:hover .fjs-repeat-render-footer-spacer {
   width: 24px;
-  align-items: center;
-  justify-content: center;
+}
+
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-delete:hover {
+  color: var(--color-warning);
 }
 
 .fjs-container .fjs-repeat-render-footer {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 5px;
+  justify-content: space-between;
+  padding: 16px;
 }
 
 .fjs-container .fjs-repeat-render-footer button {

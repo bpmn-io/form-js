@@ -1,4 +1,4 @@
-import { zeroPositiveIntegerEntryFactory } from './factories';
+import { simpleBoolEntryFactory, zeroPositiveIntegerEntryFactory } from './factories';
 
 export default function RepeatableDefaultEntry(props) {
   const {
@@ -14,13 +14,25 @@ export default function RepeatableDefaultEntry(props) {
   }
 
   const entries = [
-    zeroPositiveIntegerEntryFactory({
+    simpleBoolEntryFactory({
+      id: 'disableCollapse',
+      path: [ 'disableCollapse' ],
+      label: 'Disable collapse',
+      props
+    })
+  ];
+
+  if (!field.disableCollapse) {
+    const nonCollapseItemsEntry = zeroPositiveIntegerEntryFactory({
       id: 'nonCollapsedItems',
       path: [ 'nonCollapsedItems' ],
       label: 'Number of non-collapsing items',
       props
-    })
-  ];
+    });
+
+    // @ts-ignore
+    entries.push(nonCollapseItemsEntry);
+  }
 
   return entries;
 }

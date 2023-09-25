@@ -4,7 +4,9 @@ import LocalExpressionContext from '../../render/context/LocalExpressionContext'
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
 import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg';
-import XMarkSvg from '../../render/components/form-fields/icons/XMark.svg';
+import AddSvg from '../../render/components/form-fields/icons/Add.svg';
+import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
+
 import { wrapExpressionContext } from '../../util';
 
 export default class RepeatRenderManager {
@@ -85,11 +87,9 @@ export default class RepeatRenderManager {
             <LocalExpressionContext.Provider value={ localExpressionContext }>
               <RowsRenderer { ...elementProps } />
             </LocalExpressionContext.Provider>
-            <div class="fjs-repeat-row-delete-container">
-              <button class="fjs-repeat-row-delete" onClick={ () => onDeleteItem(index) }>
-                <XMarkSvg />
-              </button>
-            </div>
+            <button class="fjs-repeat-row-delete" onClick={ () => onDeleteItem(index) }>
+              <DeleteSvg />
+            </button>
           </div>;
         })}
       </>
@@ -98,17 +98,16 @@ export default class RepeatRenderManager {
 
   RepeatFooter(props) {
 
-    const { useSharedState, indexes } = props;
+    const { useSharedState, indexes, field: repeaterField } = props;
     const [ sharedRepeatState, setSharedRepeatState ] = useSharedState;
 
     const { data } = this._form._state;
 
-    const repeaterField = props.field;
     const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
     const values = get(data, dataPath) || [];
 
     const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
-    const togglingEnabled = values.length > nonCollapsedItems;
+    const collapseEnabled = !repeaterField.disableCollapse && (values.length > nonCollapsedItems);
     const isCollapsed = sharedRepeatState.isCollapsed;
 
     const toggle = () => {
@@ -129,17 +128,25 @@ export default class RepeatRenderManager {
         value: updatedValues,
         indexes
       });
+
+      setSharedRepeatState(state => ({ ...state, isCollapsed: false }))
     };
 
-    return <div className="fjs-repeat-render-footer">
-      <button onClick={ onAddItem }>add</button>
-      { togglingEnabled ? <button onClick={ toggle }>
-        {
-          isCollapsed
-            ? <><ExpandSvg /> { `Expand all (${values.length})` }</>
-            : <><CollapseSvg /> { 'Collapse' }</>
-        }
-      </button> : null }
+    return <div className="fjs-repeat-render-footer" style={ !repeaterField.readonly ? { marginRight: 32 } : {} }>
+      {
+        !repeaterField.readonly ? <button onClick={ onAddItem }>
+          <><AddSvg /> { 'Add new' }</>
+        </button> : null
+      }
+      {
+        collapseEnabled ? <button onClick={ toggle }>
+          {
+            isCollapsed
+              ? <><ExpandSvg /> { `Expand all (${values.length})` }</>
+              : <><CollapseSvg /> { 'Collapse' }</>
+          }
+        </button> : null
+      }
     </div>;
   }
 

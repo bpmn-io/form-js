@@ -21,7 +21,7 @@ export default function ReadonlyEntry(props) {
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type)
+    isDefaultVisible: (field) => INPUTS.includes(field.type) || field.type === 'dynamiclist'
   });
 
   return entries;
