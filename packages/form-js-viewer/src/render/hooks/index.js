@@ -1,4 +1,5 @@
 export { default as useCondition } from './useCondition';
+export { default as useScrollIntoView } from './useScrollIntoView';
 export { default as useExpressionEvaluation } from './useExpressionEvaluation';
 export { default as useFilteredFormData } from './useFilteredFormData';
 export { default as useKeyDownAction } from './useKeyDownAction';

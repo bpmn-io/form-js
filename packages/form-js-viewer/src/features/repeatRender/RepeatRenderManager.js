@@ -1,5 +1,8 @@
+// disable react hook rules as the linter is confusing the functional components within a class as class components
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import { get } from 'min-dash';
-import { useContext, useMemo } from 'preact/hooks';
+import { useContext, useMemo, useRef } from 'preact/hooks';
 import LocalExpressionContext from '../../render/context/LocalExpressionContext';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
@@ -8,6 +11,7 @@ import AddSvg from '../../render/components/form-fields/icons/Add.svg';
 import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 
 import { wrapExpressionContext } from '../../util';
+import { useScrollIntoView } from '../../render/hooks';
 
 export default class RepeatRenderManager {
 
@@ -66,7 +70,6 @@ export default class RepeatRenderManager {
       });
     };
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const parentExpressionContext = useContext(LocalExpressionContext);
 
     return (
@@ -98,6 +101,7 @@ export default class RepeatRenderManager {
 
   RepeatFooter(props) {
 
+    const addButtonRef = useRef(null);
     const { useSharedState, indexes, field: repeaterField } = props;
     const [ sharedRepeatState, setSharedRepeatState ] = useSharedState;
 
@@ -114,6 +118,8 @@ export default class RepeatRenderManager {
       setSharedRepeatState(state => ({ ...state, isCollapsed: !isCollapsed }));
     };
 
+    const shouldScroll = useRef(false);
+
     const onAddItem = () => {
       const updatedValues = values.slice();
       const newItem = this._form._getInitializedFieldData(this._form._state.data, {
@@ -123,18 +129,26 @@ export default class RepeatRenderManager {
 
       updatedValues.push(newItem);
 
+      shouldScroll.current = true;
+
       props.onChange({
         field: repeaterField,
         value: updatedValues,
         indexes
       });
 
-      setSharedRepeatState(state => ({ ...state, isCollapsed: false }))
+      setSharedRepeatState(state => ({ ...state, isCollapsed: false }));
     };
+
+    useScrollIntoView(addButtonRef, [ values.length ], {
+      align: 'bottom',
+      behavior: 'auto',
+      offset: 20
+    }, [ shouldScroll ]);
 
     return <div className="fjs-repeat-render-footer" style={ !repeaterField.readonly ? { marginRight: 32 } : {} }>
       {
-        !repeaterField.readonly ? <button onClick={ onAddItem }>
+        !repeaterField.readonly ? <button ref={ addButtonRef } onClick={ onAddItem }>
           <><AddSvg /> { 'Add new' }</>
         </button> : null
       }
