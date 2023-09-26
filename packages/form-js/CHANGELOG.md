@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.3.1
+
+### Editor
+
+* `FIX`: cleanup FEEL popup editor lifecycle events
+* `DEPS`: updated `properties-panel` to v3.8.0
+
 ## 1.3.0
 
 ### General
