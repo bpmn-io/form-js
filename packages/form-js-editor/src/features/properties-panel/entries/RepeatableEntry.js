@@ -1,6 +1,6 @@
-import { simpleBoolEntryFactory, zeroPositiveIntegerEntryFactory } from './factories';
+import { zeroPositiveIntegerEntryFactory, simpleBoolEntryFactory } from './factories';
 
-export default function RepeatableDefaultEntry(props) {
+export default function RepeatableEntry(props) {
   const {
     field,
     getService
@@ -14,6 +14,18 @@ export default function RepeatableDefaultEntry(props) {
   }
 
   const entries = [
+    zeroPositiveIntegerEntryFactory({
+      id: 'defaultRepetitions',
+      path: [ 'defaultRepetitions' ],
+      label: 'Default number of items',
+      props
+    }),
+    simpleBoolEntryFactory({
+      id: 'allowAddRemove',
+      path: [ 'allowAddRemove' ],
+      label: 'Allow add/delete items',
+      props
+    }),
     simpleBoolEntryFactory({
       id: 'disableCollapse',
       path: [ 'disableCollapse' ],
@@ -30,7 +42,6 @@ export default function RepeatableDefaultEntry(props) {
       props
     });
 
-    // @ts-ignore
     entries.push(nonCollapseItemsEntry);
   }
 

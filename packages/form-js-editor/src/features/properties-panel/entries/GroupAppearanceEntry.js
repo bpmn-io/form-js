@@ -1,7 +1,6 @@
-
 import { simpleBoolEntryFactory } from './factories';
 
-export default function GroupEntries(props) {
+export default function GroupAppearanceEntry(props) {
   const {
     field,
   } = props;

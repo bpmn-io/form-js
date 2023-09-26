@@ -37,6 +37,8 @@ DynamicList.config = {
     components: [],
     showOutline: true,
     isRepeating: true,
+    allowAddRemove: true,
+    defaultRepetitions: 1,
     ...options
   })
 };

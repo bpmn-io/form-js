@@ -459,6 +459,7 @@
 }
 
 .fjs-editor-container .fjs-repeat-render-footer {
+  font-size: var(--font-size-label);
 	background: var(--cds-field, var(--color-background-disabled));
   color: var(--cds-text-disabled, var(--color-grey-225-10-55));
   padding: 3px;
@@ -469,7 +470,7 @@
 }
 
 .fjs-editor-container .fjs-repeat-render-footer svg {
-  margin-right: 2px;
+  margin-right: 4px;
 }
 
 /* do not show resize handles on small screens */

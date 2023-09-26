@@ -517,7 +517,7 @@ export default class Form {
 
           // (a) Sanitize repeatable parents data if it is not an array
           if (!valueData || !Array.isArray(valueData)) {
-            valueData = new Array(formField.defaultRepetitions || 0).fill().map(_ => ({})) || [];
+            valueData = new Array(isUndefined(formField.defaultRepetitions) ? 1 : formField.defaultRepetitions).fill().map(_ => ({})) || [];
           }
 
           // (b) Ensure all elements of the array are objects
