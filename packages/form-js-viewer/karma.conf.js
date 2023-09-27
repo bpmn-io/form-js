@@ -29,7 +29,18 @@ module.exports = function(karma) {
       [ suite ]: [ 'webpack', 'env' ]
     },
 
-    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+    reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
+
+    specReporter: {
+      suppressSummary: true,
+      suppressErrorSummary: false,
+      suppressFailed: false,
+      suppressPassed: false,
+      suppressSkipped: true,
+      showBrowser: false,
+      showSpecTiming: false,
+      failFast: true
+    },
 
     coverageReporter: {
       reporters: [
