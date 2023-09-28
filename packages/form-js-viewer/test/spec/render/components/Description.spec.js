@@ -100,13 +100,24 @@ describe('Description', function() {
       // given
       this.timeout(5000);
 
-      const { container } = createDescription({
-        id: 'foo',
-        description: 'Foo'
-      });
+      // @Note(pinussilvestrus): we need to render a bit more here as
+      // Firefox + Ubuntu has problems with the description element on its own
+      // cf. https://github.com/bpmn-io/form-js/pull/824
+      const result =
+        render(WithFormContext(
+          <>
+            <label for="foo">Foo</label>
+            <input id="foo" />
+            <Description
+              id="foo"
+              description="This a description" />
+          </>
+        ), {
+          container
+        });
 
       // then
-      await expectNoViolations(container);
+      await expectNoViolations(result.container);
     });
 
   });
