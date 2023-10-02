@@ -194,6 +194,8 @@
   --feel-required-color: var(--cds-icon-disabled, var(--color-grey-225-10-55));
 
   --feel-indicator-background-color: var(--cds-background-hover, var(--color-grey-225-10-90));
+  
+  --outline-definition: 1px solid var(--cds-focus, var(--input-focus-border-color));
 }
 
 .fjs-properties-container .bio-properties-panel-input {
@@ -673,6 +675,10 @@
 
 .fjs-properties-container .fjs-properties-panel * {
   box-sizing: border-box;
+}
+
+.fjs-properties-container .fjs-properties-panel *:focus-visible {
+  outline: var(--outline-definition);
 }
 
 .fjs-properties-container .fjs-properties-panel .bio-properties-panel-header-icon svg {
