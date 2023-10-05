@@ -599,6 +599,10 @@
   color: var(--cds-text-inverse, var(--color-text));
 }
 
+.fjs-container .fjs-form-field-number.fjs-readonly .fjs-number-arrow-container {
+  display: none;
+}
+
 .fjs-container .fjs-radio {
   display: flex;
   flex-direction: column;
