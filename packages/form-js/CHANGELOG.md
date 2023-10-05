@@ -6,6 +6,27 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+### General 
+
+* `FEAT`: support custom form fields ([#123](https://github.com/bpmn-io/form-js/issues/123))
+
+### Viewer
+
+* `FEAT`: provide more customization options, as of ([#776](https://github.com/bpmn-io/form-js/pull/776))
+  * extending form field config via `icon`, `iconUrl`, `propertiesPanelEntries`
+  * re-export core components as `Label`, `Description`, `Errors`
+
+### Editor
+
+* `FEAT`: add properties panel providers mechanism ([#776](https://github.com/bpmn-io/form-js/pull/776))
+* `FEAT`: collect palette entries and properties panel header information via form field configs ([#776](https://github.com/bpmn-io/form-js/pull/776))
+* `FEAT`: add `isDefaultVisible` control to all properties panel entries ([#776](https://github.com/bpmn-io/form-js/pull/776))
+* `FEAT`: re-export hooks
+
+### Playground
+
+`FEAT`: provide `additionalModules` to both viewer and editor ([#776](https://github.com/bpmn-io/form-js/pull/776))
+
 ## 1.3.2
 
 ### Viewer
