@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "label": "Checkbox",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0ifu9f7",
+        "columns": null
+      },
+      "id": "Field_0r8ir96",
+      "key": "checkbox_4u82gk"
+    },
+    {
+      "label": "Number",
+      "type": "number",
+      "layout": {
+        "row": "Row_0ifu9f7",
+        "columns": null
+      },
+      "id": "Field_17uk1c9",
+      "key": "number_o4f027",
+      "conditional": {
+        "hide": "=checkbox_4u82gk"
+      },
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "reset",
+      "label": "Reset",
+      "type": "button",
+      "id": "Field_1jcm8tv",
+      "layout": {
+        "row": "Row_0ifu9f7"
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Button",
+      "type": "button",
+      "layout": {
+        "row": "Row_15idciq",
+        "columns": null
+      },
+      "id": "Field_0bqqn6m"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0k71hbi",
+  "exporter": {},
+  "schemaVersion": 11
+}

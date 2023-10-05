@@ -19,10 +19,16 @@ export default class ConditionChecker {
    *
    * @param {Object<string, any>} properties
    * @param {Object<string, any>} data
+   * @param {Object} [options]
+   * @param {Function} [options.getFilterPath]
    */
-  applyConditions(properties, data = {}) {
+  applyConditions(properties, data = {}, options = {}) {
 
     const newProperties = clone(properties);
+
+    const {
+      getFilterPath = (field) => this._pathRegistry.getValuePath(field)
+    } = options;
 
     const form = this._formFieldRegistry.getAll().find((field) => field.type === 'default');
 
@@ -37,8 +43,7 @@ export default class ConditionChecker {
 
       // only clear the leaf nodes, as groups may both point to the same path
       if (context.isHidden && isClosed) {
-        const valuePath = this._pathRegistry.getValuePath(field);
-        this._clearObjectValueRecursively(valuePath, newProperties);
+        this._clearObjectValueRecursively(getFilterPath(field), newProperties);
       }
     });
 
