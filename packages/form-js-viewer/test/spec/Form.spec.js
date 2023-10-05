@@ -14,6 +14,7 @@ import { spy } from 'sinon';
 import customButtonModule from './custom';
 
 import conditionSchema from './condition.json';
+import conditionErrorsSchema from './condition-errors.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -581,23 +582,48 @@ describe('Form', function() {
   });
 
 
-  it('#validate', async function() {
+  describe('#validate', function() {
 
-    // given
-    const form = await createForm({
-      container,
-      schema
+    it('should add errors', async function() {
+
+      // given
+      const form = await createForm({
+        container,
+        schema
+      });
+
+      // when
+      const errors = form.validate();
+
+      // then
+      expect(errors).to.eql({
+        Creditor_ID: [
+          'Field is required.'
+        ]
+      });
     });
 
-    // when
-    const errors = form.validate();
 
-    // then
-    expect(errors).to.eql({
-      Creditor_ID: [
-        'Field is required.'
-      ]
+    it('should NOT add errors for hidden fields', async function() {
+
+      // given
+      const initialData = {
+        checkbox_4u82gk: true
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema: conditionErrorsSchema
+      });
+
+      // when
+      const errors = form.validate();
+
+      // then
+      expect(errors).to.be.empty;
     });
+
   });
 
 
@@ -1294,6 +1320,29 @@ describe('Form', function() {
 
       // then
       expect(data).not.to.have.property('text');
+    });
+
+
+    it('should NOT submit errors for hidden fields', async function() {
+
+      // given
+      const initialData = {
+        checkbox_4u82gk: true
+      };
+
+      const form = await createForm({
+        container,
+        data: initialData,
+        schema: conditionErrorsSchema
+      });
+
+      // when
+      const { errors } = form.submit();
+      const { errors: stateErrors } = form._getState();
+
+      // then
+      expect(errors).to.not.have.property('Field_17uk1c9');
+      expect(stateErrors).to.not.have.property('Field_17uk1c9');
     });
 
   });

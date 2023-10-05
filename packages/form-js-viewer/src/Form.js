@@ -177,11 +177,10 @@ export default class Form {
     const data = this._getSubmitData();
 
     const errors = this.validate();
-    const filteredErrors = this._applyConditions(errors, data);
 
     const result = {
       data,
-      errors: filteredErrors
+      errors
     };
 
     this._emit('submit', result);
@@ -208,6 +207,8 @@ export default class Form {
 
     const { data } = this._getState();
 
+    const getErrorPath = (field) => [ field.id ];
+
     const errors = formFieldRegistry.getAll().reduce((errors, field) => {
       const {
         disabled
@@ -221,12 +222,14 @@ export default class Form {
 
       const fieldErrors = validator.validateField(field, value);
 
-      return set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
+      return set(errors, getErrorPath(field), fieldErrors.length ? fieldErrors : undefined);
     }, /** @type {Errors} */ ({}));
 
-    this._setState({ errors });
+    const filteredErrors = this._applyConditions(errors, data, { getFilterPath: getErrorPath });
 
-    return errors;
+    this._setState({ errors: filteredErrors });
+
+    return filteredErrors;
   }
 
   /**
@@ -433,9 +436,9 @@ export default class Form {
   /**
    * @internal
    */
-  _applyConditions(toFilter, data) {
+  _applyConditions(toFilter, data, options = {}) {
     const conditionChecker = this.get('conditionChecker');
-    return conditionChecker.applyConditions(toFilter, data);
+    return conditionChecker.applyConditions(toFilter, data, options);
   }
 
   /**
