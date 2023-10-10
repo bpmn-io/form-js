@@ -173,6 +173,65 @@ describe('palette', function() {
   });
 
 
+  describe('keyboard support', function() {
+
+
+    it('should add entry on ENTER', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const schema = {
+        components: []
+      };
+
+      const result = createPalette({
+        container,
+        modeling: { addFormField: spy },
+        formEditor: { _getState: () => ({ schema }) }
+      });
+
+      const entry = result.container.querySelector('[data-field-type="textfield"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 0);
+    });
+
+
+    it('should add entry to last position', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const schema = {
+        components: [ {
+          type: 'textfield',
+          id: 'foo'
+        } ]
+      };
+
+      const result = createPalette({
+        container,
+        modeling: { addFormField: spy },
+        formEditor: { _getState: () => ({ schema }) }
+      });
+
+      const entry = result.container.querySelector('[data-field-type="textfield"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
+    });
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
@@ -183,17 +242,7 @@ describe('palette', function() {
       const result = createPalette({ container });
 
       // then
-      // @Note(pinussilvestrus): the palette entries are currently
-      // not keyboard accessible, as we need to invest in an overall
-      // editor keyboard experience
-      // cf. https://github.com/bpmn-io/form-js/issues/536
-      await expectNoViolations(result.container, {
-        rules: {
-          'scrollable-region-focusable': {
-            enabled: false
-          }
-        }
-      });
+      await expectNoViolations(result.container);
     });
 
 
@@ -210,15 +259,8 @@ describe('palette', function() {
       fireEvent.input(search, { target: { value: 'text' } });
 
       // then
-      await expectNoViolations(result.container, {
-        rules: {
-          'scrollable-region-focusable': {
-            enabled: false
-          }
-        }
-      });
+      await expectNoViolations(result.container);
     });
-
   });
 
 });
@@ -230,7 +272,7 @@ function createPalette(options = {}) {
   const { container } = options;
 
   return render(
-    WithFormEditorContext(<Palette />),
+    WithFormEditorContext(<Palette />, options),
     {
       container
     }
