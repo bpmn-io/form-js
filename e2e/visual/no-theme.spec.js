@@ -77,13 +77,8 @@ test('no-theme - editor', async ({ page, makeAxeBuilder }) => {
   await expect(page).toHaveScreenshot();
 
   // and then
-  // @Note(pinussilvestrus): the palette entries are currently
-  // not keyboard accessible, as we need to invest in an overall
-  // editor keyboard experience
-  // cf. https://github.com/bpmn-io/form-js/issues/536
   const results = await makeAxeBuilder({
     disableRules: [
-      'scrollable-region-focusable',
       'page-has-heading-one'
     ]
   }).analyze();
