@@ -11,9 +11,10 @@ import {
 
 import {
   CloseIcon,
-  iconsByType,
   SearchIcon
 } from '../../../render/components/icons';
+
+import PaletteEntry from './PaletteEntry';
 
 import { formFields } from '@bpmn-io/form-js-viewer';
 
@@ -120,20 +121,11 @@ export default function Palette(props) {
             <span class="fjs-palette-group-title">{ label }</span>
             <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
               {
-                entries.map(({ label, type }) => {
-                  const Icon = iconsByType(type);
-
+                entries.map(entry => {
                   return (
-                    <div
-                      class="fjs-palette-field fjs-drag-copy fjs-no-drop"
-                      data-field-type={ type }
-                      title={ `Create ${getIndefiniteArticle(type)} ${label} element` }
-                    >
-                      {
-                        Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null
-                      }
-                      <span class="fjs-palette-field-text">{ label }</span>
-                    </div>
+                    <PaletteEntry
+                      { ...entry }
+                    />
                   );
                 })
               }
@@ -174,14 +166,4 @@ function groupEntries(entries) {
   });
 
   return groups.filter(g => g.entries.length);
-}
-
-function getIndefiniteArticle(type) {
-  if ([
-    'image'
-  ].includes(type)) {
-    return 'an';
-  }
-
-  return 'a';
 }

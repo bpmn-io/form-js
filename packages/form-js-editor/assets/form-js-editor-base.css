@@ -61,6 +61,7 @@
     --cds-border-strong,
     var(--cds-border-strong-01, var(--color-grey-225-10-80))
   );
+  --color-palette-field-focus: var(--cds-border-interactive, var(--color-blue-219-100-53));
   --color-palette-field-hover-background: var(--cds-background-hover, var(--color-grey-225-10-90));
   --cursor-palette-field: grab;
   --palette-width: 250px;
@@ -625,6 +626,8 @@
   flex-direction: column;
   justify-content: center;
   font-size: 11px;
+  align-items: center;
+  border: none;
   user-select: none;
   color: var( --color-palette-field);
   background: var(--color-palette-field-background);
@@ -632,6 +635,11 @@
 
 .fjs-palette-container .fjs-palette-field {
   width: 68px;
+}
+
+.fjs-palette-container .fjs-palette-field:focus {
+  outline: none;
+  border: solid 1px var(--color-palette-field-focus);
 }
 
 .fjs-palette-field .fjs-palette-field-icon {
