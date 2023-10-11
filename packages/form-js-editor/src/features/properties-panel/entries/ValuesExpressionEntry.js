@@ -15,7 +15,6 @@ export default function ValuesExpressionEntry(props) {
     {
       id: id + '-expression',
       component: ValuesExpression,
-      label: 'Values expression',
       isEdited: isFeelEntryEdited,
       editField,
       field
@@ -38,9 +37,8 @@ function ValuesExpression(props) {
 
   const schema = '[\n  {\n    "label": "dollar",\n    "value": "$"\n  }\n]';
 
-  const description = <div>
-    Define an expression to populate the options from.
-    <br /><br />The expression may result in an array of simple values or alternatively follow this schema:
+  const tooltip = <div>
+    The expression may result in an array of simple values or alternatively follow this schema:
     <pre><code>{schema}</code></pre>
   </div>;
 
@@ -50,7 +48,8 @@ function ValuesExpression(props) {
 
   return FeelEntry({
     debounce,
-    description,
+    description: 'Define an expression to populate the options from.',
+    tooltip,
     element: field,
     feel: 'required',
     getValue,
