@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useService } from '../../../hooks';
+import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
 
 import { FormContext } from '../../../context';
 
@@ -40,6 +41,14 @@ export default function SearchableSelect(props) {
     loadState,
     options
   } = useOptionsAsync(field);
+
+  useCleanupSingleSelectValue({
+    field,
+    loadState,
+    options,
+    value,
+    onChange: props.onChange
+  });
 
   // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
   const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]: options[x] }))), [ options ]);
