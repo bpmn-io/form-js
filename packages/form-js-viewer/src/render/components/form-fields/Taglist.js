@@ -1,7 +1,8 @@
 import { useContext, useMemo, useRef, useState } from 'preact/hooks';
 
-import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import { useService } from '../../hooks';
+import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
+import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 
 import { FormContext } from '../../context';
 import classNames from 'classnames';
@@ -58,6 +59,14 @@ export default function Taglist(props) {
     loadState,
     options
   } = useOptionsAsync(field);
+
+  useCleanupMultiSelectValues({
+    field,
+    loadState,
+    options,
+    values,
+    onChange: props.onChange
+  });
 
   // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
   const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]:  options[x] }))), [ options ]);
@@ -189,7 +198,7 @@ export default function Taglist(props) {
               return (
                 <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) } onMouseDown={ (e) => e.preventDefault() }>
                   <span class="fjs-taglist-tag-label">
-                    {valueToOptionMap[v] ? valueToOptionMap[v].label : `unexpected value{${v}}`}
+                    { valueToOptionMap[v] ? valueToOptionMap[v].label : undefined }
                   </span>
                   { (!disabled && !readonly) && <button
                     type="button"

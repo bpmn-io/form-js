@@ -1,5 +1,6 @@
-import { useContext, useEffect, useRef } from 'preact/hooks';
+import { useContext, useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
+import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import classNames from 'classnames';
 import { FormContext } from '../../context';
 
@@ -79,6 +80,14 @@ export default function Checklist(props) {
     loadState,
     options
   } = useOptionsAsync(field);
+
+  useCleanupMultiSelectValues({
+    field,
+    loadState,
+    options,
+    values,
+    onChange: props.onChange
+  });
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
