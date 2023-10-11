@@ -1,6 +1,6 @@
-import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useContext, useMemo, useRef, useState } from 'preact/hooks';
 
-import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import { useService } from '../../hooks';
 
 import { FormContext } from '../../context';
@@ -15,7 +15,8 @@ import Label from '../Label';
 import SkipLink from './parts/SkipLink';
 
 import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
-import { createEmptyOptions } from '../util/valuesUtil';
+
+import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
   formFieldClasses,
@@ -47,35 +48,30 @@ export default function Taglist(props) {
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
   const [ filter, setFilter ] = useState('');
-  const [ filteredOptions, setFilteredOptions ] = useState([]);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
-  const [ hasOptionsLeft, setHasOptionsLeft ] = useState(true);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const focusScopeRef = useRef();
   const inputRef = useRef();
   const eventBus = useService('eventBus');
 
   const {
-    state: loadState,
-    values: options
-  } = useValuesAsync(field);
+    loadState,
+    options
+  } = useOptionsAsync(field);
 
   // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
   const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]:  options[x] }))), [ options ]);
 
-  // Usage of stringify is necessary here because we want this effect to only trigger when there is a value change to the array
-  useEffect(() => {
-    if (loadState === LOAD_STATES.LOADED) {
-      setFilteredOptions(options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value)));
-    }
-    else {
-      setFilteredOptions([]);
-    }
-  }, [ filter, JSON.stringify(values), options, loadState ]);
+  const hasOptionsLeft = useMemo(() => options.length > values.length, [ options.length, values.length ]);
 
-  useEffect(() => {
-    setHasOptionsLeft(options.length > values.length);
-  }, [ options.length, values.length ]);
+  // Usage of stringify is necessary here because we want this effect to only trigger when there is a value change to the array
+  const filteredOptions = useMemo(() => {
+    if (loadState !== LOAD_STATES.LOADED) {
+      return [];
+    }
+    return options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value));
+  }, [ filter, options, JSON.stringify(values), loadState ]);
+
 
   const selectValue = (value) => {
     if (filter) {
