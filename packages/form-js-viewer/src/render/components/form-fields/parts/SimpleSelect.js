@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo, useRef, useState } from 'preact/hooks';
-import useValuesAsync, { LOAD_STATES } from '../../../hooks/useValuesAsync';
+import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 
 import { FormContext } from '../../../context';
 
@@ -34,9 +34,9 @@ export default function SimpleSelect(props) {
   const inputRef = useRef();
 
   const {
-    state: loadState,
-    values: options
-  } = useValuesAsync(field);
+    loadState,
+    options
+  } = useOptionsAsync(field);
 
   // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
   const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]: options[x] }))), [ options ]);

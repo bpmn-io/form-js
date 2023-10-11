@@ -1,6 +1,6 @@
 import { DATETIME_SUBTYPES } from '../../../util/constants/DatetimeConstants';
 import { isDateInputInformationMatching, isDateTimeInputInformationSufficient, isInvalidDateString, parseIsoTime } from './dateTimeUtil';
-import { getValuesData, normalizeValuesData } from './valuesUtil';
+import { getOptionsData, normalizeOptionsData } from './optionsUtil';
 
 export function sanitizeDateTimePickerValue(options) {
   const {
@@ -27,7 +27,7 @@ export function sanitizeSingleSelectValue(options) {
   } = options;
 
   try {
-    const validValues = normalizeValuesData(getValuesData(formField, data)).map(v => v.value);
+    const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
     return validValues.includes(value) ? value : null;
   } catch (error) {
 
@@ -45,7 +45,7 @@ export function sanitizeMultiSelectValue(options) {
   } = options;
 
   try {
-    const validValues = normalizeValuesData(getValuesData(formField, data)).map(v => v.value);
+    const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
     return value.filter(v => validValues.includes(v));
   } catch (error) {
 
