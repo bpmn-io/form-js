@@ -56,9 +56,9 @@ export default function Palette(props) {
 
   const formFields = useService('formFields');
 
-  const initialPaletteEntries = collectPaletteEntries(formFields);
+  const initialPaletteEntries = useRef(collectPaletteEntries(formFields));
 
-  const [ paletteEntries, setPaletteEntries ] = useState(initialPaletteEntries);
+  const [ paletteEntries, setPaletteEntries ] = useState(initialPaletteEntries.current);
 
   const [ searchTerm, setSearchTerm ] = useState('');
 
@@ -90,7 +90,7 @@ export default function Palette(props) {
 
   // filter entries on search change
   useEffect(() => {
-    const entries = initialPaletteEntries.filter(filter);
+    const entries = initialPaletteEntries.current.filter(filter);
     setPaletteEntries(entries);
   }, [ filter, searchTerm ]);
 
@@ -214,7 +214,7 @@ export function getPaletteIcon(entry) {
   let Icon;
 
   if (iconUrl) {
-    Icon = () => <img class="fjs-field-icon-image" width={ 36 } alt={ label } src={ sanitizeImageSource(iconUrl) } />;
+    Icon = () => <img class="fjs-field-icon-image" width={ 36 } style={ { margin: 'auto' } } alt={ label } src={ sanitizeImageSource(iconUrl) } />;
   } else {
     Icon = icon || iconsByType(type);
   }
