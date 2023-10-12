@@ -11,6 +11,7 @@ import DropdownList from './parts/DropdownList';
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
+import SkipLink from './parts/SkipLink';
 
 import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 
@@ -138,6 +139,10 @@ export default function Taglist(props) {
     }
   };
 
+  const onSkipToSearch = () => {
+    searchbarRef.current.focus();
+  };
+
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
 
   return <div
@@ -155,6 +160,7 @@ export default function Taglist(props) {
       label={ label }
       required={ required }
       id={ prefixId(`${id}-search`, formId) } />
+    { (!disabled && !readonly && !!values.length) && <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={ onSkipToSearch } /> }
     <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
       { loadState === LOAD_STATES.LOADED &&
         <div class="fjs-taglist-tags">

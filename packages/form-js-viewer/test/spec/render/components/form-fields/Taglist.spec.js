@@ -308,6 +308,23 @@ describe('Taglist', function() {
   });
 
 
+  it('should render skip to search link', function() {
+
+    // when
+    const { container } = createTaglist({
+      field: {
+        ...defaultField
+      },
+      value: [ 'tag1', 'tag2', 'tag3' ]
+    });
+
+    // then
+    const skipLink = container.querySelector('.fjs-taglist-skip-link');
+
+    expect(skipLink).to.exist;
+  });
+
+
   describe('interaction', function() {
 
     describe('tag deletion', function() {

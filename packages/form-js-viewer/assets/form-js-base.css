@@ -821,6 +821,26 @@
   background-color: var(--color-background);
 }
 
+.fjs-container .fjs-taglist-skip-link {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: transparent;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  left: -100px;
+}
+
+.fjs-container .fjs-taglist-skip-link:focus {
+  position: relative;
+  height: auto;
+  width: auto;
+  border: solid 1px var(--color-accent);
+  color: var(--color-accent);
+  left: 0;
+}
+
 .fjs-container .fjs-taglist .fjs-taglist-tag {
   display: flex;
   overflow: hidden;
