@@ -42,7 +42,7 @@ export const PropertiesPanelHeaderProvider = {
 
     // @Note: We know that we are inside the properties panel context,
     // so we can savely use the hook here.
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const fieldDefinition = useService('formFields').get(type).config;
 
     const Icon = fieldDefinition.icon || iconsByType(type);
@@ -65,7 +65,7 @@ export const PropertiesPanelHeaderProvider = {
 
     // @Note: We know that we are inside the properties panel context,
     // so we can savely use the hook here.
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const fieldDefinition = useService('formFields').get(type).config;
 
     return fieldDefinition.label || type;
