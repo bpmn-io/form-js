@@ -154,9 +154,33 @@ Remove form from the document.
 
 ## Events
 
-The form emits the `changed` and `submit` events you may hook into.
+### `changed :: { data, errors }`
+Fired off every time there is a form state change.
 
-Both events receive `{ data, errors }` as a payload.
+### `submit :: { data, errors }`
+Fired off on form submission.
+
+### `import.done :: { error, warnings }`
+Fired whenever a schema has finished importing, whether it succeeds or fails.
+
+### `form.layoutCalculated :: { rows }`
+
+### `form.layoutCleared :: {}`
+
+### `<lifeCycleEvent> :: {}`
+- `detach`
+- `attach`
+- `form.init`
+- `form.clear`
+- `form.destroy`
+- `diagram.clear`
+- `diagram.destroy`
+
+### `<formFieldEvent> :: { formField }`
+- `formField.add` 
+- `formField.remove` 
+- `formField.focus` 
+- `formField.blur` 
 
 
 ## License
