@@ -65,8 +65,8 @@ export default function Textarea(props) {
       readonly={ readonly }
       id={ prefixId(id, formId) }
       onInput={ onInput }
-      onBlur={ onBlur }
-      onFocus={ onFocus }
+      onBlur={ () => onBlur && onBlur() }
+      onFocus={ () => onFocus && onFocus() }
       value={ value }
       ref={ textareaRef }
       aria-describedby={ errorMessageId } />

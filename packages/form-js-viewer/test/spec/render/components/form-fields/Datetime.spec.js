@@ -1232,7 +1232,6 @@ function createDatetime(options = {}) {
     field = dateField,
     value,
     onChange = () => {},
-    onBlur = () => {},
     errors
   } = options;
 
@@ -1242,7 +1241,6 @@ function createDatetime(options = {}) {
       readonly={ readonly }
       field={ field }
       value={ value }
-      onBlur={ onBlur }
       onChange={ onChange }
       errors={ errors } />,
   ), {

@@ -316,7 +316,6 @@ describe('FormField', function() {
           ...defaultField,
         },
         setState: setStateSpy,
-        onBlur: () => {},
         validationErrors: [ 'validation-error' ]
       });
 

@@ -1182,7 +1182,6 @@ function createSelect(options = {}, renderFn = render) {
     field = defaultField,
     searchable = false,
     onChange = () => {},
-    onBlur = () => {},
     value
   } = options;
 
@@ -1193,7 +1192,6 @@ function createSelect(options = {}, renderFn = render) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      onBlur={ onBlur }
       searchable={ searchable }
       value={ value } />,
     options

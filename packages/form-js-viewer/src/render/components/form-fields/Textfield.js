@@ -64,8 +64,8 @@ export default function Textfield(props) {
         readOnly={ readonly }
         id={ prefixId(id, formId) }
         onInput={ onChange }
-        onBlur={ onBlur }
-        onFocus={ onFocus }
+        onBlur={ () => onBlur && onBlur() }
+        onFocus={ () => onFocus && onFocus() }
         type="text"
         value={ value }
         aria-describedby={ errorMessageId } />

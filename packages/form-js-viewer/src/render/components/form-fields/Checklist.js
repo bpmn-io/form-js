@@ -63,7 +63,7 @@ export default function Checklist(props) {
       return;
     }
 
-    onBlur();
+    onBlur && onBlur();
   };
 
   const onCheckboxFocus = (e) => {
@@ -72,7 +72,7 @@ export default function Checklist(props) {
       return;
     }
 
-    onFocus();
+    onFocus && onFocus();
   };
 
   const {
