@@ -85,9 +85,33 @@ export function clone(data, replacer) {
 }
 
 /**
- * Parse the schema for input variables a form might make use of
+ * @typedef { import('../types').Schema } Schema
+ */
+
+/**
+ * Parse the schema for variables a form might make use of.
  *
- * @param {any} schema
+ * @example
+ *
+ * // retrieve variables from schema
+ * const variables = getSchemaVariables(schema);
+ *
+ * @example
+ *
+ * // retrieve input variables from schema
+ * const inputVariables = getSchemaVariables(schema, { outputs: false });
+ *
+ * @example
+ *
+ * // retrieve output variables from schema
+ * const outputVariables = getSchemaVariables(schema, { inputs: false });
+ *
+ * @param {Schema} schema
+ * @param {object} [options]
+ * @param {any} [options.expressionLanguage]
+ * @param {any} [options.templating]
+ * @param {boolean} [options.inputs=true]
+ * @param {boolean} [options.outputs=true]
  *
  * @return {string[]}
  */
