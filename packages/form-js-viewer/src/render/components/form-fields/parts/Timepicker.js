@@ -15,6 +15,7 @@ export default function Timepicker(props) {
     label,
     collapseLabelOnEmpty,
     onDateTimeBlur,
+    onDateTimeFocus,
     formId,
     required,
     disabled,
@@ -140,6 +141,11 @@ export default function Timepicker(props) {
     onDateTimeBlur(e);
   };
 
+  const onInputFocus = (e) => {
+    onDateTimeFocus(e);
+    !readonly && useDropdown && setDropdownIsOpen(true);
+  };
+
   const onDropdownValueSelected = (value) => {
     setDropdownIsOpen(false);
     propagateRawToMinute(value);
@@ -168,12 +174,12 @@ export default function Timepicker(props) {
           readOnly={ readonly }
           placeholder={ use24h ? 'hh:mm' : 'hh:mm ?m' }
           autoComplete="off"
-          onFocus={ () => !readonly && useDropdown && setDropdownIsOpen(true) }
-          onClick={ () => !readonly && useDropdown && setDropdownIsOpen(true) }
 
           // @ts-ignore
           onInput={ (e) => { setRawValue(e.target.value); useDropdown && setDropdownIsOpen(false); } }
           onBlur={ onInputBlur }
+          onFocus={ onInputFocus }
+          onClick={ () => !readonly && useDropdown && setDropdownIsOpen(true) }
           onKeyDown={ onInputKeyDown }
           data-input
           aria-describedby={ props['aria-describedby'] } />

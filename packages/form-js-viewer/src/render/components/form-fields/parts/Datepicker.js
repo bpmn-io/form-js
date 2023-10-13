@@ -15,6 +15,7 @@ export default function Datepicker(props) {
     label,
     collapseLabelOnEmpty,
     onDateTimeBlur,
+    onDateTimeFocus,
     formId,
     required,
     disabled,
@@ -142,18 +143,23 @@ export default function Datepicker(props) {
     (e) => {
 
       if (!flatpickrInstance || focusScopeRef.current.contains(e.relatedTarget) || readonly) return;
-
       flatpickrInstance.open();
-    }, [ flatpickrInstance, readonly ]
+      onDateTimeFocus(e);
+
+    }, [ flatpickrInstance, readonly, onDateTimeFocus ]
   );
 
   // simulate an enter press on blur to make sure the date value is submitted in all scenarios
   const onInputBlur = useCallback(
     (e) => {
 
-      if (!isInputDirty || e.relatedTarget && e.relatedTarget.classList.contains('flatpickr-day')) return;
-      dateInputRef.current.dispatchEvent(ENTER_KEYDOWN_EVENT);
-      setIsInputDirty(false);
+      const isFalseBlur = e.relatedTarget && e.relatedTarget.classList.contains('flatpickr-day');
+      if (isFalseBlur) return;
+      if (isInputDirty) {
+        dateInputRef.current.dispatchEvent(ENTER_KEYDOWN_EVENT);
+        setIsInputDirty(false);
+      }
+
       onDateTimeBlur(e);
 
     }, [ isInputDirty, onDateTimeBlur ]
@@ -183,9 +189,9 @@ export default function Datepicker(props) {
           placeholder={ getLocaleReadableDateFormat() }
           autoComplete="off"
           onFocus={ onInputFocus }
+          onBlur={ onInputBlur }
           onKeyDown={ onInputKeyDown }
           onMouseDown={ () => !flatpickrInstance.isOpen && !readonly && flatpickrInstance.open() }
-          onBlur={ onInputBlur }
           onInput={ () => setIsInputDirty(true) }
           data-input
           aria-describedby={ props['aria-describedby'] } />

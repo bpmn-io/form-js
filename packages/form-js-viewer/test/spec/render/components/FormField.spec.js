@@ -316,6 +316,7 @@ describe('FormField', function() {
           ...defaultField,
         },
         setState: setStateSpy,
+        onBlur: () => {},
         validationErrors: [ 'validation-error' ]
       });
 
@@ -603,7 +604,11 @@ function createFormField(options = {}) {
 
   const formContext = {
     getService(type, strict = true) {
-      if (type === 'formFields') {
+      if (type === 'eventBus') {
+        return {
+          fire: () => {}
+        };
+      } else if (type === 'formFields') {
         return {
           get(type) {
             if (type === FormFieldComponent.config.type) {

@@ -1,0 +1,192 @@
+{
+  "components": [
+    {
+      "label": "Number",
+      "type": "number",
+      "layout": {
+        "row": "Row_0mj4ue9",
+        "columns": null
+      },
+      "id": "number",
+      "key": "number"
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Date",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0pyh4s9",
+        "columns": null
+      },
+      "id": "date",
+      "key": "date"
+    },
+    {
+      "subtype": "time",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_1bih132",
+        "columns": null
+      },
+      "id": "time",
+      "key": "time",
+      "timeLabel": "Time",
+      "timeSerializingFormat": "utc_offset",
+      "timeInterval": 15
+    },
+    {
+      "subtype": "datetime",
+      "dateLabel": "Date",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_1j4nfzg",
+        "columns": null
+      },
+      "id": "datetime",
+      "key": "datetime",
+      "timeLabel": "Time",
+      "timeSerializingFormat": "utc_offset",
+      "timeInterval": 15
+    },
+    {
+      "label": "Text field",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_03ja9s1",
+        "columns": null
+      },
+      "id": "textfield",
+      "key": "textfield"
+    },
+    {
+      "label": "Text area",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1i5blqw",
+        "columns": null
+      },
+      "id": "textarea",
+      "key": "textarea"
+    },
+    {
+      "label": "Checkbox",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_1o5w06m",
+        "columns": null
+      },
+      "id": "checkbox",
+      "key": "checkbox"
+    },
+    {
+      "values": [
+        {
+          "label": "Value",
+          "value": "value"
+        },
+        {
+          "label": "Value 2",
+          "value": "value2"
+        }
+      ],
+      "label": "Checklist",
+      "type": "checklist",
+      "layout": {
+        "row": "Row_0lq7x9d",
+        "columns": null
+      },
+      "id": "checklist",
+      "key": "checklist"
+    },
+    {
+      "values": [
+        {
+          "label": "Value",
+          "value": "value"
+        },
+        {
+          "label": "Value 2",
+          "value": "value2"
+        }
+      ],
+      "label": "Radio",
+      "type": "radio",
+      "layout": {
+        "row": "Row_0o24b4q",
+        "columns": null
+      },
+      "id": "radio",
+      "key": "radio"
+    },
+    {
+      "values": [
+        {
+          "label": "Value",
+          "value": "value"
+        }
+      ],
+      "label": "Select",
+      "type": "select",
+      "layout": {
+        "row": "Row_1g6rfgk",
+        "columns": null
+      },
+      "id": "select",
+      "key": "select"
+    },
+    {
+      "values": [
+        {
+          "label": "Value",
+          "value": "value"
+        }
+      ],
+      "label": "Select",
+      "type": "select",
+      "layout": {
+        "row": "Row_1efssj7",
+        "columns": null
+      },
+      "id": "searchableselect",
+      "key": "searchableselect",
+      "searchable": true
+    },
+    {
+      "values": [
+        {
+          "label": "Value",
+          "value": "value"
+        },
+        {
+          "label": "Value 2",
+          "value": "value2"
+        }
+      ],
+      "label": "Tag list",
+      "type": "taglist",
+      "layout": {
+        "row": "Row_04mnkm8",
+        "columns": null
+      },
+      "id": "taglist",
+      "key": "taglist"
+    },
+    {
+      "action": "submit",
+      "label": "Button",
+      "type": "button",
+      "layout": {
+        "row": "Row_1vxa15p",
+        "columns": null
+      },
+      "id": "button"
+    }
+  ],
+  "type": "default",
+  "id": "Form_13ywyw1",
+  "exporter": {},
+  "schemaVersion": 11
+}

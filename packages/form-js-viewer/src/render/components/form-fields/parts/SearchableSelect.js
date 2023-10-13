@@ -21,6 +21,7 @@ export default function SearchableSelect(props) {
     disabled,
     errors,
     onBlur,
+    onFocus,
     field,
     readonly,
     value
@@ -68,6 +69,25 @@ export default function SearchableSelect(props) {
     props.onChange({ value: option && option.value || null, field });
   }, [ field, props ]);
 
+  const displayState = useMemo(() => {
+    const ds = {};
+    ds.componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
+    ds.displayCross = ds.componentReady && value !== null && value !== undefined;
+    ds.displayDropdown = !disabled && !readonly && isDropdownExpanded && !isEscapeClosed;
+    return ds;
+  }, [ disabled, isDropdownExpanded, isEscapeClosed, loadState, readonly, value ]);
+
+  const onAngelMouseDown = useCallback((e) => {
+    setIsEscapeClose(false);
+    setIsDropdownExpanded(!isDropdownExpanded);
+
+    const searchbar = searchbarRef.current;
+    isDropdownExpanded ? searchbar.blur() : searchbar.focus();
+
+    e.preventDefault();
+
+  }, [ isDropdownExpanded ]);
+
   const onInputKeyDown = useCallback((keyDownEvent) => {
 
     switch (keyDownEvent.key) {
@@ -94,24 +114,23 @@ export default function SearchableSelect(props) {
     }
   }, [ isDropdownExpanded, isEscapeClosed ]);
 
-  const displayState = useMemo(() => {
-    const ds = {};
-    ds.componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
-    ds.displayCross = ds.componentReady && value !== null && value !== undefined;
-    ds.displayDropdown = !disabled && !readonly && isDropdownExpanded && !isEscapeClosed;
-    return ds;
-  }, [ disabled, isDropdownExpanded, isEscapeClosed, loadState, readonly, value ]);
-
-  const onAngelMouseDown = useCallback((e) => {
+  const onInputMouseDown = useCallback(() => {
     setIsEscapeClose(false);
-    setIsDropdownExpanded(!isDropdownExpanded);
+    setIsDropdownExpanded(true);
+    setShouldApplyFilter(false);
+  }, []);
 
-    const searchbar = searchbarRef.current;
-    isDropdownExpanded ? searchbar.blur() : searchbar.focus();
+  const onInputFocus = useCallback(() => {
+    setIsEscapeClose(false);
+    setIsDropdownExpanded(true);
+    onFocus();
+  }, [ onFocus ]);
 
-    e.preventDefault();
-
-  }, [ isDropdownExpanded ]);
+  const onInputBlur = useCallback(() => {
+    setIsDropdownExpanded(false);
+    setFilter(valueLabel);
+    onBlur();
+  }, [ onBlur, valueLabel ]);
 
   return <>
     <div id={ prefixId(`${id}`, formId) }
@@ -127,10 +146,10 @@ export default function SearchableSelect(props) {
         value={ filter }
         placeholder={ 'Search' }
         autoComplete="off"
-        onKeyDown={ (e) => onInputKeyDown(e) }
-        onMouseDown={ () => { setIsEscapeClose(false); setIsDropdownExpanded(true); setShouldApplyFilter(false); } }
-        onFocus={ () => { setIsDropdownExpanded(true); setShouldApplyFilter(false); } }
-        onBlur={ () => { setIsDropdownExpanded(false); setFilter(valueLabel); onBlur(); } }
+        onKeyDown={ onInputKeyDown }
+        onMouseDown={ onInputMouseDown }
+        onFocus={ onInputFocus }
+        onBlur={ onInputBlur }
         aria-describedby={ props['aria-describedby'] } />
       { displayState.displayCross && <span class="fjs-select-cross" onMouseDown={ (e) => { setValue(null); e.preventDefault(); } }><XMarkIcon /> </span> }
       <span class="fjs-select-arrow" onMouseDown={ (e) => onAngelMouseDown(e) }>{ displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon /> }</span>

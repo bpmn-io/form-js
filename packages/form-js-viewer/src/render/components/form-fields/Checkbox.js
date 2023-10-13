@@ -20,6 +20,7 @@ export default function Checkbox(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     readonly,
     value = false
@@ -58,6 +59,7 @@ export default function Checkbox(props) {
         type="checkbox"
         onChange={ onChange }
         onBlur={ onBlur }
+        onFocus={ onFocus }
         aria-describedby={ errorMessageId } />
     </Label>
     <Description description={ description } />

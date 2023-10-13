@@ -24,6 +24,7 @@ export default function Radio(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     readonly,
     value
@@ -48,12 +49,19 @@ export default function Radio(props) {
   };
 
   const onRadioBlur = (e) => {
-
     if (outerDivRef.current.contains(e.relatedTarget)) {
       return;
     }
 
     onBlur();
+  };
+
+  const onRadioFocus = (e) => {
+    if (outerDivRef.current.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onFocus();
   };
 
   const {
@@ -86,6 +94,7 @@ export default function Radio(props) {
               type="radio"
               onClick={ () => onChange(option.value) }
               onBlur={ onRadioBlur }
+              onFocus={ onRadioFocus }
               aria-describedby={ errorMessageId } />
           </Label>
         );

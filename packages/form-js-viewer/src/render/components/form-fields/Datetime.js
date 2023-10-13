@@ -24,6 +24,7 @@ export default function Datetime(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     onChange,
     readonly,
@@ -65,6 +66,14 @@ export default function Datetime(props) {
 
     onBlur();
   }, [ onBlur ]);
+
+  const onDateTimeFocus = useCallback((e) => {
+    if (e.relatedTarget && dateTimeGroupRef.current.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onFocus();
+  }, [ onFocus ]);
 
   useEffect(() => {
 
@@ -146,6 +155,7 @@ export default function Datetime(props) {
     label: dateLabel,
     collapseLabelOnEmpty: !timeLabel,
     onDateTimeBlur,
+    onDateTimeFocus,
     formId,
     required,
     disabled,
@@ -160,6 +170,7 @@ export default function Datetime(props) {
     label: timeLabel,
     collapseLabelOnEmpty: !dateLabel,
     onDateTimeBlur,
+    onDateTimeFocus,
     formId,
     required,
     disabled,

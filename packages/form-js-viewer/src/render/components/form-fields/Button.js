@@ -5,13 +5,22 @@ const type = 'button';
 export default function Button(props) {
   const {
     disabled,
+    onFocus,
+    onBlur,
     field
   } = props;
 
   const { action = 'submit' } = field;
 
   return <div class={ formFieldClasses(type) }>
-    <button class="fjs-button" type={ action } disabled={ disabled }>{ field.label }</button>
+    <button
+      class="fjs-button"
+      type={ action }
+      disabled={ disabled }
+      onFocus={ onFocus }
+      onBlur={ onBlur }>
+      { field.label }
+    </button>
   </div>;
 }
 
