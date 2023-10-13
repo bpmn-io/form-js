@@ -20,6 +20,7 @@ export default function Textarea(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     readonly,
     value = ''
@@ -65,6 +66,7 @@ export default function Textarea(props) {
       id={ prefixId(id, formId) }
       onInput={ onInput }
       onBlur={ onBlur }
+      onFocus={ onFocus }
       value={ value }
       ref={ textareaRef }
       aria-describedby={ errorMessageId } />

@@ -22,6 +22,7 @@ export default function SimpleSelect(props) {
     disabled,
     errors,
     onBlur,
+    onFocus,
     field,
     readonly,
     value
@@ -69,20 +70,34 @@ export default function SimpleSelect(props) {
 
   const initialFocusIndex = useMemo(() => value && findIndex(options, (o) => o.value === value) || 0, [ options, value ]);
 
+  const onInputFocus = useCallback(() => {
+    if (!readonly) {
+      setIsDropdownExpanded(true);
+      onFocus();
+    }
+  }, [ onFocus, readonly ]);
+
+  const onInputBlur = useCallback(() => {
+    if (!readonly) {
+      setIsDropdownExpanded(false);
+      onBlur();
+    }
+  }, [ onBlur, readonly ]);
+
   return <>
     <div ref={ selectRef }
       id={ prefixId(`${id}`, formId) }
       class={ classNames('fjs-input-group', { disabled, readonly }, { 'hasErrors': errors.length }) }
-      onFocus={ () => setIsDropdownExpanded(true) }
-      onBlur={ () => { setIsDropdownExpanded(false); onBlur(); } }
+      onFocus={ onInputFocus }
+      onBlur={ onInputBlur }
       onMouseDown={ onMouseDown }>
       <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder' : !value }) } id={ prefixId(`${id}-display`, formId) }>{ valueLabel || 'Select' }</div>
       { !disabled && <input
         id={ prefixId(`${id}-search`, formId) }
         class="fjs-select-hidden-input"
         value={ valueLabel }
-        onFocus={ () => !readonly && setIsDropdownExpanded(true) }
-        onBlur={ () => !readonly && setIsDropdownExpanded(false) }
+        onFocus={ onInputFocus }
+        onBlur={ onInputBlur }
         aria-describedby={ props['aria-describedby'] } />
       }
       { displayState.displayCross && <span class="fjs-select-cross" onMouseDown={ (e) => { setValue(null); e.stopPropagation(); } }><XMarkIcon /></span> }

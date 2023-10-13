@@ -31,6 +31,7 @@ export default function Numberfield(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     value,
     readonly,
@@ -193,6 +194,7 @@ export default function Numberfield(props) {
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
           onBlur={ onBlur }
+          onFocus={ onFocus }
 
           // @ts-ignore
           onInput={ (e) => setValue(e.target.value) }

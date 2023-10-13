@@ -24,6 +24,7 @@ export default function FormField(props) {
   const formFields = useService('formFields'),
         viewerCommands = useService('viewerCommands', false),
         pathRegistry = useService('pathRegistry'),
+        eventBus = useService('eventBus'),
         form = useService('form');
 
   const {
@@ -62,7 +63,12 @@ export default function FormField(props) {
     if (viewerCommands) {
       viewerCommands.updateFieldValidation(field, value);
     }
-  }, [ viewerCommands, field, value ]);
+    eventBus.fire('formField.blur', { formField: field });
+  }, [ eventBus, viewerCommands, field, value ]);
+
+  const onFocus = useCallback(() => {
+    eventBus.fire('formField.focus', { formField: field });
+  }, [ eventBus, field ]);
 
   useEffect(() => {
     if (viewerCommands && initialValue) {
@@ -85,6 +91,7 @@ export default function FormField(props) {
           errors={ errors[ field.id ] }
           onChange={ disabled || readonly ? noop : onChange }
           onBlur={ disabled || readonly ? noop : onBlur }
+          onFocus={ disabled || readonly ? noop : onFocus }
           readonly={ readonly }
           value={ value } />
       </Element>

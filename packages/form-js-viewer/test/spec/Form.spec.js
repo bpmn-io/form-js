@@ -25,6 +25,7 @@ import textSchema from './text.json';
 import textTemplateSchema from './text-template.json';
 import stress from './stress.json';
 import rowsSchema from './rows.json';
+import focusables from './focusables.json';
 
 import {
   insertCSS,
@@ -33,6 +34,7 @@ import {
 } from '../TestHelper';
 
 import customCSS from './custom/custom.css';
+import { act } from 'preact/test-utils';
 
 insertCSS('custom.css', customCSS);
 
@@ -472,6 +474,76 @@ describe('Form', function() {
     expect(form).to.exist;
 
   });
+
+
+  const runFocusBlurTest = function(id, index, selector) {
+
+    it('focus and blur events should trigger for ' + id, async function() {
+
+      // given
+
+      let form;
+
+      await act(async () => {
+
+        form = await createForm({
+          container,
+          schema: focusables,
+          data: {
+            taglist: [ 'value1', 'value2' ]
+          }
+        });
+
+      });
+
+      const focusSpy = spy();
+      const blurSpy = spy();
+
+      form.on('formField.focus', focusSpy);
+      form.on('formField.blur', blurSpy);
+
+      const formField = form.get('formFieldRegistry').get(id);
+      const elements = container.querySelector('.fjs-element').querySelectorAll('.fjs-element');
+      const element = elements[index];
+      const focusTarget = element.querySelector(selector);
+
+      // when
+      await act(() => {
+        fireEvent.focus(focusTarget);
+        fireEvent.blur(focusTarget);
+      });
+
+      // then
+      expect(focusSpy).to.have.been.calledWithMatch({ formField });
+      expect(blurSpy).to.have.been.calledWithMatch({ formField });
+
+    });
+
+  };
+
+  runFocusBlurTest('number', 0, 'input');
+
+  runFocusBlurTest('date', 1, 'input');
+
+  runFocusBlurTest('time', 2, 'input');
+
+  runFocusBlurTest('datetime', 3, 'input');
+
+  runFocusBlurTest('textfield', 4, 'input');
+
+  runFocusBlurTest('textarea', 5, 'textarea');
+
+  runFocusBlurTest('checkbox', 6, 'input');
+
+  runFocusBlurTest('checklist', 7, 'input');
+
+  runFocusBlurTest('radio', 8, 'input');
+
+  runFocusBlurTest('select', 9, 'input');
+
+  runFocusBlurTest('searchableselect', 10, 'input');
+
+  runFocusBlurTest('taglist', 11, 'input');
 
 
   describe('empty', function() {

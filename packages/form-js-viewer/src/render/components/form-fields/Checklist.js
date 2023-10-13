@@ -24,6 +24,7 @@ export default function Checklist(props) {
     disabled,
     errors = [],
     onBlur,
+    onFocus,
     field,
     readonly,
     value = [],
@@ -65,6 +66,15 @@ export default function Checklist(props) {
     onBlur();
   };
 
+  const onCheckboxFocus = (e) => {
+
+    if (outerDivRef.current.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onFocus();
+  };
+
   const {
     state: loadState,
     values: options
@@ -97,6 +107,7 @@ export default function Checklist(props) {
               type="checkbox"
               onClick={ () => toggleCheckbox(v.value) }
               onBlur={ onCheckboxBlur }
+              onFocus={ onCheckboxFocus }
               aria-describedby={ errorMessageId } />
           </Label>
         );

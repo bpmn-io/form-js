@@ -28,6 +28,7 @@ export default function Taglist(props) {
   const {
     disabled,
     errors = [],
+    onFocus,
     onBlur,
     field,
     readonly,
@@ -50,7 +51,8 @@ export default function Taglist(props) {
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const [ hasOptionsLeft, setHasOptionsLeft ] = useState(true);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
-  const searchbarRef = useRef();
+  const focusScopeRef = useRef();
+  const inputRef = useRef();
 
   const {
     state: loadState,
@@ -121,10 +123,29 @@ export default function Taglist(props) {
     }
   };
 
-  const onComponentBlur = () => {
-    setIsDropdownExpanded(false);
-    setFilter('');
+  const onElementBlur = (e) => {
+    if (focusScopeRef.current.contains(e.relatedTarget)) return;
     onBlur();
+  };
+
+  const onElementFocus = (e) => {
+    if (focusScopeRef.current.contains(e.relatedTarget)) return;
+    onFocus();
+  };
+
+  const onInputBlur = (e) => {
+    if (!readonly) {
+      setIsDropdownExpanded(false);
+      setFilter('');
+    }
+    onElementBlur(e);
+  };
+
+  const onInputFocus = (e) => {
+    if (!readonly) {
+      setIsDropdownExpanded(true);
+    }
+    onElementFocus(e);
   };
 
   const onTagRemoveClick = (event, value) => {
@@ -135,7 +156,7 @@ export default function Taglist(props) {
     // restore focus if there is no next sibling to focus
     const nextTag = target.closest('.fjs-taglist-tag').nextSibling;
     if (!nextTag) {
-      searchbarRef.current.focus();
+      inputRef.current.focus();
     }
   };
 
@@ -146,6 +167,7 @@ export default function Taglist(props) {
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
 
   return <div
+    ref={ focusScopeRef }
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
     onKeyDown={
       (event) => {
@@ -175,6 +197,8 @@ export default function Taglist(props) {
                     type="button"
                     title="Remove tag"
                     class="fjs-taglist-tag-remove"
+                    onFocus={ onElementFocus }
+                    onBlur={ onElementBlur }
                     onClick={ (event) => onTagRemoveClick(event, v) }>
 
                     <XMarkIcon />
@@ -189,7 +213,7 @@ export default function Taglist(props) {
         disabled={ disabled }
         readOnly={ readonly }
         class="fjs-taglist-input"
-        ref={ searchbarRef }
+        ref={ inputRef }
         id={ prefixId(`${id}-search`, formId) }
         onChange={ onFilterChange }
         type="text"
@@ -198,8 +222,8 @@ export default function Taglist(props) {
         autoComplete="off"
         onKeyDown={ onInputKeyDown }
         onMouseDown={ () => setIsEscapeClose(false) }
-        onFocus={ () => !readonly && setIsDropdownExpanded(true) }
-        onBlur={ () => !readonly && onComponentBlur() }
+        onFocus={ onInputFocus }
+        onBlur={ onInputBlur }
         aria-describedby={ errorMessageId } />
     </div>
     <div class="fjs-taglist-anchor">
@@ -208,7 +232,7 @@ export default function Taglist(props) {
         getLabel={ (o) => o.label }
         onValueSelected={ (o) => selectValue(o.value) }
         emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
-        listenerElement={ searchbarRef.current } /> }
+        listenerElement={ inputRef.current } /> }
     </div>
     <Description description={ description } />
     <Errors errors={ errors } id={ errorMessageId } />
