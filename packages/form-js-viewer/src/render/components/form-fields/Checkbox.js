@@ -58,8 +58,8 @@ export default function Checkbox(props) {
         id={ prefixId(id, formId) }
         type="checkbox"
         onChange={ onChange }
-        onBlur={ onBlur }
-        onFocus={ onFocus }
+        onBlur={ () => onBlur && onBlur() }
+        onFocus={ () => onFocus && onFocus() }
         aria-describedby={ errorMessageId } />
     </Label>
     <Description description={ description } />

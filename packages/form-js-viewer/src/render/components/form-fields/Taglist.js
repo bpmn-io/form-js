@@ -125,12 +125,12 @@ export default function Taglist(props) {
 
   const onElementBlur = (e) => {
     if (focusScopeRef.current.contains(e.relatedTarget)) return;
-    onBlur();
+    onBlur && onBlur();
   };
 
   const onElementFocus = (e) => {
     if (focusScopeRef.current.contains(e.relatedTarget)) return;
-    onFocus();
+    onFocus && onFocus();
   };
 
   const onInputBlur = (e) => {

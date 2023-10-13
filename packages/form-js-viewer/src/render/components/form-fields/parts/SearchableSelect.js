@@ -123,13 +123,13 @@ export default function SearchableSelect(props) {
   const onInputFocus = useCallback(() => {
     setIsEscapeClose(false);
     setIsDropdownExpanded(true);
-    onFocus();
+    onFocus && onFocus();
   }, [ onFocus ]);
 
   const onInputBlur = useCallback(() => {
     setIsDropdownExpanded(false);
     setFilter(valueLabel);
-    onBlur();
+    onBlur && onBlur();
   }, [ onBlur, valueLabel ]);
 
   return <>

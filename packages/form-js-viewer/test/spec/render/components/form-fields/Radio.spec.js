@@ -422,7 +422,6 @@ function createRadio(options = {}) {
     errors,
     field = defaultField,
     onChange = () => {},
-    onBlur = () => {},
     value
   } = options;
 
@@ -433,7 +432,6 @@ function createRadio(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      onBlur={ onBlur }
       value={ value } />,
     options
   ), {

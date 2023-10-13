@@ -331,7 +331,6 @@ function createTextarea(options = {}) {
     errors,
     field = defaultField,
     onChange = () => {},
-    onBlur = () => {},
     value
   } = options;
 
@@ -342,7 +341,6 @@ function createTextarea(options = {}) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      onBlur={ onBlur }
       value={ value } />
   ), {
     container: options.container || container.querySelector('.fjs-form')

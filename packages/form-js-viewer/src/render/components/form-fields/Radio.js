@@ -53,7 +53,7 @@ export default function Radio(props) {
       return;
     }
 
-    onBlur();
+    onBlur && onBlur();
   };
 
   const onRadioFocus = (e) => {
@@ -61,7 +61,7 @@ export default function Radio(props) {
       return;
     }
 
-    onFocus();
+    onFocus && onFocus();
   };
 
   const {

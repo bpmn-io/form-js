@@ -73,14 +73,14 @@ export default function SimpleSelect(props) {
   const onInputFocus = useCallback(() => {
     if (!readonly) {
       setIsDropdownExpanded(true);
-      onFocus();
+      onFocus && onFocus();
     }
   }, [ onFocus, readonly ]);
 
   const onInputBlur = useCallback(() => {
     if (!readonly) {
       setIsDropdownExpanded(false);
-      onBlur();
+      onBlur && onBlur();
     }
   }, [ onBlur, readonly ]);
 

@@ -64,7 +64,7 @@ export default function Datetime(props) {
       return;
     }
 
-    onBlur();
+    onBlur && onBlur();
   }, [ onBlur ]);
 
   const onDateTimeFocus = useCallback((e) => {
@@ -72,7 +72,7 @@ export default function Datetime(props) {
       return;
     }
 
-    onFocus();
+    onFocus && onFocus();
   }, [ onFocus ]);
 
   useEffect(() => {

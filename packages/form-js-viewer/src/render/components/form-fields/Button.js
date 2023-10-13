@@ -17,8 +17,8 @@ export default function Button(props) {
       class="fjs-button"
       type={ action }
       disabled={ disabled }
-      onFocus={ onFocus }
-      onBlur={ onBlur }>
+      onFocus={ () => onFocus && onFocus() }
+      onBlur={ () => onBlur && onBlur() }>
       { field.label }
     </button>
   </div>;

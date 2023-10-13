@@ -998,7 +998,6 @@ function createTaglist(options = {}, renderFn = render) {
     errors,
     field = defaultField,
     onChange = () => {},
-    onBlur = () => {},
     value
   } = options;
 
@@ -1009,7 +1008,6 @@ function createTaglist(options = {}, renderFn = render) {
       errors={ errors }
       field={ field }
       onChange={ onChange }
-      onBlur={ onBlur }
       value={ value } />,
     options
   ), {
