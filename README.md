@@ -64,6 +64,28 @@ const formPlayground = new FormPlayground({
 See [playground documentation](./packages/form-js-playground) for further details.
 
 
+### Retrieve schema variables from a form
+
+Use the `getSchemaVariables` util to retrieve the variables defined in a form schema. This is useful to gather what data is consumed and produced by a form.
+
+```javascript
+import { getSchemaVariables } from '@bpmn-io/form-js';
+
+const variables = getSchemaVariables(schema);
+
+console.log('Schema variables', variables);
+```
+
+It is also possible to distinct between input and output variables:
+
+```javascript
+import { getSchemaVariables } from '@bpmn-io/form-js';
+
+const outputVariables = getSchemaVariables(schema, { inputs: false});
+const inputVariables = getSchemaVariables(schema, { outputs: false});
+```
+
+
 ## Resources
 
 * [Demo](https://demo.bpmn.io/form)
