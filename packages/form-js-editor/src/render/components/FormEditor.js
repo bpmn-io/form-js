@@ -402,6 +402,9 @@ export default function FormEditor(props) {
 
   // fire event after render to notify interested parties
   useEffect(() => {
+    eventBus.fire('rendered');
+
+    // keep deprecated event to ensure backward compatibility
     eventBus.fire('formEditor.rendered');
   }, []);
 
