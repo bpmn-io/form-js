@@ -44,7 +44,7 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(14);
+    expect(result.container.querySelectorAll('.fjs-palette-field')).to.have.length(PALETTE_ENTRIES.length);
 
     expectEntries(result.container, PALETTE_ENTRIES);
   });
@@ -56,7 +56,7 @@ describe('palette', function() {
     const result = createPalette({ container });
 
     // then
-    expect(result.container.querySelectorAll('.fjs-palette-group')).to.have.length(4);
+    expect(result.container.querySelectorAll('.fjs-palette-group')).to.have.length(PALETTE_GROUPS.length);
 
     expectGroups(result.container, PALETTE_GROUPS);
   });

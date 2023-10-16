@@ -41,6 +41,10 @@ export default function GeneralGroup(field, editField, getService) {
     ...ReadonlyEntry({ field, editField })
   ];
 
+  if (entries.length === 0) {
+    return null;
+  }
+
   return {
     id: 'general',
     label: 'General',
