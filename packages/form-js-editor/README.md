@@ -110,6 +110,42 @@ Subscribe to an [event](#events).
 
 Remove form from editor the document.
 
+## Events
+
+### `selection.changed :: { selection }`
+
+### Properties panel events
+- `propertiesPanel.focusin`
+- `propertiesPanel.focusout`
+- `propertiesPanel.showEntry :: { id }`
+- `propertiesPanel.updated :: { formField }`
+
+### Form lifecycle events
+- `detach`
+- `attach`
+- `rendered`
+- `form.init`
+- `form.clear`
+- `form.destroy`
+- `diagram.clear`
+- `diagram.destroy`
+- `dragula.created`
+- `dragula.destroyed`
+- `editorActions.init :: { editorActions }`
+
+### Drag events
+- `drag.start :: { element, source }`
+- `drag.end :: { element }`
+- `drag.drop :: { element, target, source, sibling }`
+- `drag.hover :: { element, container, source }`
+- `drag.out :: { element, container, source }`
+- `drag.cancel :: { element, container, source }`
+
+### Form field events
+- `formField.add :: { formField }` 
+- `formField.remove :: { formField }`
+- `formField.updateId :: { formField, newId }`
+
 
 ## License
 
