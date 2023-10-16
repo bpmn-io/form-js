@@ -161,7 +161,7 @@ export default function Taglist(props) {
   };
 
   const onSkipToSearch = () => {
-    searchbarRef.current.focus();
+    inputRef.current.focus();
   };
 
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
