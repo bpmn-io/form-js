@@ -163,11 +163,11 @@ Fired off on form submission.
 ### `import.done :: { error, warnings }`
 Fired whenever a schema has finished importing, whether it succeeds or fails.
 
-### `form.layoutCalculated :: { rows }`
+### Layouting events
+- `form.layoutCleared`
+- `form.layoutCalculated :: { rows }`
 
-### `form.layoutCleared :: {}`
-
-### `<lifeCycleEvent> :: {}`
+### Lifecycle Events
 - `detach`
 - `attach`
 - `form.init`
@@ -176,11 +176,11 @@ Fired whenever a schema has finished importing, whether it succeeds or fails.
 - `diagram.clear`
 - `diagram.destroy`
 
-### `<formFieldEvent> :: { formField }`
-- `formField.add` 
-- `formField.remove` 
-- `formField.focus` 
-- `formField.blur` 
+### Formfield events
+- `formField.add :: { formField }` 
+- `formField.remove :: { formField }` 
+- `formField.focus :: { formField }` 
+- `formField.blur :: { formField }` 
 
 
 ## License
