@@ -51,6 +51,9 @@
       "key": "isGood"
     },
     {
+      "type": "separator"
+    },
+    {
       "type": "select",
       "label": "Select me",
       "valuesExpression": "=if isGood then [ \"good\" ] else [\"bad\"]"

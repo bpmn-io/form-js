@@ -8,6 +8,7 @@ import ColumnsIcon from './Group.svg';
 import NumberIcon from './Number.svg';
 import RadioIcon from './Radio.svg';
 import SelectIcon from './Select.svg';
+import SeparatorIcon from './Separator.svg';
 import SpacerIcon from './Spacer.svg';
 import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
@@ -27,6 +28,7 @@ export const iconsByType = (type) => {
     number: NumberIcon,
     radio: RadioIcon,
     select: SelectIcon,
+    separator: SeparatorIcon,
     spacer: SpacerIcon,
     taglist: TaglistIcon,
     text: TextIcon,

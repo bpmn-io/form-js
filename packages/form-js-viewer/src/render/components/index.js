@@ -10,6 +10,7 @@ import Image from './form-fields/Image';
 import Numberfield from './form-fields/Number';
 import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
+import Separator from './form-fields/Separator';
 import Spacer from './form-fields/Spacer';
 import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
@@ -29,6 +30,7 @@ export {
   Numberfield,
   Radio,
   Select,
+  Separator,
   Spacer,
   Taglist,
   Text,
@@ -48,6 +50,7 @@ export const formFields = [
   Radio,
   Select,
   Spacer,
+  Separator,
   Taglist,
   Text,
   Textfield,

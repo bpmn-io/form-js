@@ -430,6 +430,15 @@
   justify-content: center;
 }
 
+.fjs-container hr {
+  border: none;
+  border-top: solid 2px var(--color-borders-group);
+}
+
+.fjs-container .fjs-form-field-separator hr {
+  margin: 7px 2px;
+}
+
 .fjs-container .fjs-input[type='text'],
 .fjs-container .fjs-input[type='email'],
 .fjs-container .fjs-input[type='tel'],
