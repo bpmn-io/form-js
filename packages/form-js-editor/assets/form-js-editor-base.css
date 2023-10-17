@@ -68,7 +68,7 @@
     var(--cds-border-strong-01, var(--color-grey-225-10-55))
   );
   --cursor-palette-field: grab;
-  --palette-width: 250px;
+  --palette-width: 246px;
 }
 
 .fjs-properties-container {
@@ -543,8 +543,7 @@
   display: flex;
   flex-direction: row;
   padding: 4px;
-  margin: 15px;
-  margin-top: 12px;
+  margin: 12px;
   color: var(--color-palette-search);
   border: 1px solid var(--color-palette-search-border);
   background-color: var(--color-palette-search-background);
