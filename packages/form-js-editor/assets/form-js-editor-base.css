@@ -599,33 +599,37 @@
 }
 
 .fjs-palette-container .fjs-palette-entries {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
+  gap: 20px;
+  padding-bottom: 20px;
 }
 
 .fjs-palette-container .fjs-palette-group {
-  padding: 5px 15px;
-  padding-right: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 212px;
+  margin: auto;
 }
 
 .fjs-palette-container .fjs-palette-group-title {
   font-size: 14px;
   font-weight: 500;
+  margin-bottom: 4px;
   color: var(--color-palette-group-title);
   user-select: none;
 }
 
 .fjs-palette-container .fjs-palette-fields {
-  height: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 3%;
+  gap: 10px;
 }
 
 .fjs-palette-field {
   height: 64px;
-  margin: 5px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
