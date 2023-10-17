@@ -58,11 +58,15 @@
     var(--cds-layer-01, var(--color-white))
   );
   --color-palette-field-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-80))
+    --cds-border-subtle,
+    var(--cds-border-subtle-01, var(--color-grey-225-10-93))
   );
   --color-palette-field-focus: var(--cds-border-interactive, var(--color-blue-205-100-45));
   --color-palette-field-hover-background: var(--cds-background-hover, var(--color-grey-225-10-90));
+  --color-palette-field-hover-border: var(
+    --cds-border-strong,
+    var(--cds-border-strong-01, var(--color-grey-225-10-55))
+  );
   --cursor-palette-field: grab;
   --palette-width: 250px;
 }
@@ -620,7 +624,7 @@
 }
 
 .fjs-palette-field {
-  height: 68px;
+  height: 64px;
   margin: 5px 0;
   display: flex;
   flex-direction: column;
@@ -631,11 +635,14 @@
   font-family: inherit;
   user-select: none;
   color: var( --color-palette-field);
-  background: var(--color-palette-field-background);
+  background-color: var(--color-palette-field-background);
+  outline: solid 1px var(--color-palette-field-border);
+  outline-offset: 0px;
+  transition: all ease-in-out 0.05s;
 }
 
 .fjs-palette-container .fjs-palette-field {
-  width: 68px;
+  width: 64px;
 }
 
 .fjs-palette-container .fjs-palette-field:focus {
@@ -653,7 +660,7 @@
 }
 
 .fjs-palette-container .fjs-palette-field:hover {
-  background-color: var(--color-palette-field-hover-background);
+  outline: solid 1px var(--color-palette-field-hover-border);
   cursor: var(--cursor-palette-field);
 }
 
