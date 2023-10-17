@@ -650,8 +650,7 @@
 }
 
 .fjs-palette-container .fjs-palette-field:focus {
-  outline: none;
-  border: solid 1px var(--color-palette-field-focus);
+  outline: solid 1px var(--color-palette-field-focus);
 }
 
 .fjs-palette-field .fjs-palette-field-icon {
