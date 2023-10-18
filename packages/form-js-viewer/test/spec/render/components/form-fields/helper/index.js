@@ -19,11 +19,16 @@ export function WithFormContext(Component, options = {}, formId = 'foo') {
       formFields = new FormFields(),
       children = [],
       updateFieldValidation,
+      eventBusFire = () => {},
       properties = {},
       initialData
     } = options;
 
-    if (type === 'form') {
+    if (type === 'eventBus') {
+      return {
+        fire: eventBusFire
+      };
+    } else if (type === 'form') {
       return {
         _getState() {
           return {

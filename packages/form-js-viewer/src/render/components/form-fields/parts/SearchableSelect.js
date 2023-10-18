@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useValuesAsync, { LOAD_STATES } from '../../../hooks/useValuesAsync';
+import { useService } from '../../../hooks';
 
 import { FormContext } from '../../../context';
 
@@ -33,6 +34,7 @@ export default function SearchableSelect(props) {
   const [ shouldApplyFilter, setShouldApplyFilter ] = useState(true);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const searchbarRef = useRef();
+  const eventBus = useService('eventBus');
 
   const {
     state: loadState,
@@ -57,13 +59,6 @@ export default function SearchableSelect(props) {
 
   }, [ filter, loadState, options, shouldApplyFilter ]);
 
-  const onChange = ({ target }) => {
-    setIsEscapeClose(false);
-    setIsDropdownExpanded(true);
-    setShouldApplyFilter(true);
-    setFilter(target.value || '');
-  };
-
   const setValue = useCallback((option) => {
     setFilter(option && option.label || '');
     props.onChange({ value: option && option.value || null, field });
@@ -87,6 +82,14 @@ export default function SearchableSelect(props) {
     e.preventDefault();
 
   }, [ isDropdownExpanded ]);
+
+  const onInputChange = ({ target }) => {
+    setIsEscapeClose(false);
+    setIsDropdownExpanded(true);
+    setShouldApplyFilter(true);
+    setFilter(target.value || '');
+    eventBus.fire('formField.search', { formField: field, value: target.value || '' });
+  };
 
   const onInputKeyDown = useCallback((keyDownEvent) => {
 
@@ -141,7 +144,7 @@ export default function SearchableSelect(props) {
         class="fjs-input"
         ref={ searchbarRef }
         id={ prefixId(`${id}-search`, formId) }
-        onChange={ onChange }
+        onChange={ onInputChange }
         type="text"
         value={ filter }
         placeholder={ 'Search' }
