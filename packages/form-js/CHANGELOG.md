@@ -6,6 +6,19 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.3.2
+
+### Viewer
+
+* `FIX`: cleanup errors for hidden fields ([#825](https://github.com/bpmn-io/form-js/issues/825))
+* `FIX`: hide controls from readonly number fields ([#810](https://github.com/bpmn-io/form-js/issues/810))
+
+### General
+
+* `FIX`: resize datetime properly ([#781](https://github.com/bpmn-io/form-js/issues/781))
+* `FIX`: remove dateime unnecessary event context ([cc598798](https://github.com/bpmn-io/form-js/commit/cc598798986e67d56406d43a9dea424102e7546d))
+* `DEPS`: bumped feelin@1.2.0 && feelers@1.0.0
+
 ## 1.3.1
 
 ### Editor
