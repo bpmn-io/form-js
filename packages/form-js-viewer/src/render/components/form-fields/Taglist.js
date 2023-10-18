@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 
 import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import { useService } from '../../hooks';
 
 import { FormContext } from '../../context';
 import classNames from 'classnames';
@@ -14,7 +15,6 @@ import Label from '../Label';
 import SkipLink from './parts/SkipLink';
 
 import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
-
 import { createEmptyOptions } from '../util/valuesUtil';
 
 import {
@@ -53,6 +53,7 @@ export default function Taglist(props) {
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const focusScopeRef = useRef();
   const inputRef = useRef();
+  const eventBus = useService('eventBus');
 
   const {
     state: loadState,
@@ -76,11 +77,6 @@ export default function Taglist(props) {
     setHasOptionsLeft(options.length > values.length);
   }, [ options.length, values.length ]);
 
-  const onFilterChange = ({ target }) => {
-    setIsEscapeClose(false);
-    setFilter(target.value);
-  };
-
   const selectValue = (value) => {
     if (filter) {
       setFilter('');
@@ -96,6 +92,12 @@ export default function Taglist(props) {
 
   const deselectValue = (value) => {
     props.onChange({ value: values.filter((v) => v != value), field });
+  };
+
+  const onInputChange = ({ target }) => {
+    setIsEscapeClose(false);
+    setFilter(target.value || '');
+    eventBus.fire('formField.search', { formField: field, value: target.value || '' });
   };
 
   const onInputKeyDown = (e) => {
@@ -215,7 +217,7 @@ export default function Taglist(props) {
         class="fjs-taglist-input"
         ref={ inputRef }
         id={ prefixId(`${id}-search`, formId) }
-        onChange={ onFilterChange }
+        onChange={ onInputChange }
         type="text"
         value={ filter }
         placeholder={ (disabled || readonly) ? undefined : 'Search' }

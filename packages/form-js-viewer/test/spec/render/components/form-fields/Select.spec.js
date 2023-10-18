@@ -768,7 +768,9 @@ describe('Select', function() {
     it('should filter dropdown', function() {
 
       // when
-      const { container } = createSelect({ field: { ...defaultField, searchable: true } });
+      const eventBusFireSpy = spy();
+      const field = { ...defaultField, searchable: true };
+      const { container } = createSelect({ field, eventBusFire: eventBusFireSpy });
 
       const filterInput = container.querySelector('input[type="text"]');
       fireEvent.focus(filterInput);
@@ -784,6 +786,11 @@ describe('Select', function() {
       listItems = dropdownList.querySelectorAll('.fjs-dropdownlist-item');
       expect(listItems.length).to.equal(1);
       expect(listItems[0].innerText).to.equal('German');
+
+      expect(eventBusFireSpy).to.have.been.calledWith('formField.search', {
+        formField: field,
+        value: 'Ger'
+      });
 
     });
 

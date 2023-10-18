@@ -424,8 +424,10 @@ describe('Taglist', function() {
       it('should filter dropdown', function() {
 
         // given
+        const eventBusFireSpy = spy();
         const { container } = createTaglist({
           onChange: () => {},
+          eventBusFire: eventBusFireSpy,
           value: [ 'tag1', 'tag2', 'tag3' ]
         });
 
@@ -440,9 +442,17 @@ describe('Taglist', function() {
         // then
         fireEvent.input(filterInput, { target: { value: '4' } });
         expect(dropdownList.children.length).to.equal(1);
+        expect(eventBusFireSpy).to.have.been.calledWith('formField.search', {
+          formField: defaultField,
+          value: '4'
+        });
 
         fireEvent.input(filterInput, { target: { value: 'Tag' } });
         expect(dropdownList.children.length).to.equal(8);
+        expect(eventBusFireSpy).to.have.been.calledWith('formField.search', {
+          formField: defaultField,
+          value: 'Tag'
+        });
 
       });
 

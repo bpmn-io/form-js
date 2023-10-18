@@ -180,7 +180,8 @@ Fired whenever a schema has finished importing, whether it succeeds or fails.
 - `formField.add :: { formField }` 
 - `formField.remove :: { formField }` 
 - `formField.focus :: { formField }` 
-- `formField.blur :: { formField }` 
+- `formField.blur :: { formField }`
+- `formField.search :: { formField, value }`
 
 
 ## License
