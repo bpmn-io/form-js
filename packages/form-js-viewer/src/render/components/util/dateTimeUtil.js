@@ -6,7 +6,6 @@ export const ENTER_KEYDOWN_EVENT = new KeyboardEvent('keydown', {
   key: 'Enter',
   charCode: 13,
   keyCode: 13,
-  view: window,
   bubbles: true
 });
 
