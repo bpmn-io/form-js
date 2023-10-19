@@ -22,13 +22,13 @@ jobs:
           path: tasklist
           ref: "master"
       - name: Setup form-js cache
-        uses: actions/setup-node@2a017f350dbf6c4b6bb4508cc83809719115162e
+        uses: actions/setup-node@6e9e44895f11c5489716beba7b3be1cd4d76f8e9
         with:
           node-version: "20"
           cache: "npm"
           cache-dependency-path: ./form-js/package-lock.json
       - name: Setup Tasklist cache
-        uses: actions/setup-node@2a017f350dbf6c4b6bb4508cc83809719115162e
+        uses: actions/setup-node@6e9e44895f11c5489716beba7b3be1cd4d76f8e9
         with:
           node-version: "20"
           cache: "yarn"
