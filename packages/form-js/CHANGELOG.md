@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.3.3
+
+## General
+
+* `FIX`: getSchemaVariables filters all non-string variables ([#860](https://github.com/bpmn-io/form-js/issues/860))
+* `FIX`: properly handle getSchemaVariables when combining contexts with paths ([#860](https://github.com/bpmn-io/form-js/issues/860))
+
 ## 1.3.2
 
 ### Viewer
