@@ -17,6 +17,13 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'express
 
     if (node.name === 'PathExpression') {
 
+      // if the path is built on top of a context, we process that context and
+      // ignore the rest of the path expression, as it is not relevant for variable extraction
+      const pathRoot = _linearizePathExpression(node)[0];
+      if (pathRoot.name === 'Context') {
+        return _unfoldVariables(pathRoot);
+      }
+
       if (Object.keys(specialDepthAccessors).length === 0) {
         return depth === 0 ? [ _getVariableNameAtPathIndex(node, 0) ] : [ ];
       }
@@ -53,8 +60,8 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'express
  * @returns {string|null} The variable name at the specified index or null if index is out of bounds.
  */
 const _getVariableNameAtPathIndex = (root, index) => {
-  const accessors = _deconstructPathExpression(root);
-  return accessors[index] || null;
+  const nodes = _linearizePathExpression(root);
+  return nodes[index].variableName || null;
 };
 
 
@@ -73,10 +80,10 @@ const _smartExtractVariableNames = (node, initialDepth, specialDepthAccessors) =
   // we track multiple of these to account for the fact that a path expression may be ambiguous due to special keywords
   let accessorDepthInfos = [ { previous: null, current: initialDepth - 1 } ];
   const extractedVariables = new Set();
-  const nodeAccessors = _deconstructPathExpression(node);
+  const pathNodes = _linearizePathExpression(node);
 
-  for (let i = 0; i < nodeAccessors.length; i++) {
-    const currentAccessor = nodeAccessors[i];
+  for (let i = 0; i < pathNodes.length; i++) {
+    const currentAccessor = pathNodes[i].variableName;
 
     if (currentAccessor in specialDepthAccessors) {
       const depthOffsets = specialDepthAccessors[currentAccessor];
@@ -115,21 +122,21 @@ const _smartExtractVariableNames = (node, initialDepth, specialDepthAccessors) =
  * Deconstructs a path expression tree into an array of components.
  *
  * @param {Object} root - The root node of the path expression tree.
- * @returns {Array<string>} An array of components in the path expression, in the correct order.
+ * @returns {Array<object>} An array of components in the path expression, in the correct order.
  */
-const _deconstructPathExpression = (root) => {
+const _linearizePathExpression = (root) => {
 
   let node = root;
   let parts = [];
 
   // Traverse the tree and collect path components
   while (node.name === 'PathExpression') {
-    parts.push(node.children[1].variableName);
+    parts.push(node.children[1]);
     node = node.children[0];
   }
 
   // Add the last component to the array
-  parts.push(node.variableName);
+  parts.push(node);
 
   // Reverse and return the array to get the correct order
   return parts.reverse();
