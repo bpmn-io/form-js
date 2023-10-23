@@ -14,6 +14,7 @@ import descriptionsSchema from '../descriptions.json';
 import adornersSchema from '../appearance.json';
 import imagesSchema from '../images.json';
 import valuesExpressionSchema from '../valuesExpression.json';
+import complexConditionExpressionSchema from '../complex-conditions.json';
 import validateSchema from '../validate.json';
 import groupsSchema from '../groups.json';
 import shipsExampleSchema from '../ships-example.json';
@@ -190,6 +191,19 @@ describe('util/getSchemaVariables', () => {
     expect(variables).to.eql([
       'selectedShip',
       'shipsForSale'
+    ]);
+  });
+
+
+  it('should include variables in complex conditions example', () => {
+
+    const variables = getSchemaVariables(complexConditionExpressionSchema);
+
+    expect(variables).to.eql([
+      'loanOptions',
+      'remainingAllowance',
+      'offeredAdditionalLoan',
+      'c1'
     ]);
   });
 

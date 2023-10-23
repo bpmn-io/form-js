@@ -34,6 +34,8 @@ describe('getFlavouredFeelVariableNames', () => {
 
   expectVariables('ListInContextEntry', '{entry1: [variable1, variable2]}', [ 'variable1', 'variable2' ]);
 
+  expectVariables('ContextIntoPathExpression', '={ entry1: variable1 }.accessor1 < 0', [ 'variable1' ]);
+
   expectVariables('VariableInUnaryTest', 'variable1 in (variable2..variable3)', [ 'variable1', 'variable2', 'variable3' ]);
 
   expectVariables('ArrayAccessorSingleVariable', 'variable1[1]', [ 'variable1' ]);

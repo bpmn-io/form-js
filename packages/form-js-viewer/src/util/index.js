@@ -1,5 +1,6 @@
 import FeelExpressionLanguage from '../features/expression-language/FeelExpressionLanguage.js';
 import FeelersTemplating from '../features/expression-language/FeelersTemplating.js';
+import FormFields from '../render/FormFields.js';
 
 import { get } from 'min-dash';
 
@@ -118,6 +119,7 @@ export function clone(data, replacer) {
 export function getSchemaVariables(schema, options = {}) {
 
   const {
+    formFields = new FormFields(),
     expressionLanguage = new FeelExpressionLanguage(null),
     templating = new FeelersTemplating(),
     inputs = true,
@@ -176,19 +178,16 @@ export function getSchemaVariables(schema, options = {}) {
 
     }
 
-    return variables.filter(variable => variable !== undefined || variable !== null);
+    return variables.filter(variable => typeof variable === 'string');
   }, []);
 
   const getBindingVariables = (node)=> {
     const bindingVariable = [];
+    const formField = formFields.get(node.type);
 
-    // c.f. https://github.com/bpmn-io/form-js/issues/778 @Skaiir to remove?
-    if (node.type === 'button') {
-      return [];
-    }
-    else if (node.key) {
+    if (formField && formField.config.keyed && node.key) {
       return [ node.key.split('.')[0] ];
-    } else if (node.path) {
+    } else if (formField && formField.config.pathed && node.path) {
       return [ node.path.split('.')[0] ];
     } else if (node.components) {
       node.components.forEach(component => {

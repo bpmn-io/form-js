@@ -1,0 +1,16 @@
+{
+  "components": [
+    {
+      "label": "Complex display condition 1",
+      "type": "textarea",
+      "key": "c1",
+      "conditional": {
+        "hide": "={\nremainingAllowance: loanOptions.maxAllowance - loanOptions.currentlyUsed,\nrestAfterNewLoan: remainingAllowance - offeredAdditionalLoan\n        }.restAfterNewLoan < 0"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0jn1poe",
+  "exporter": {},
+  "schemaVersion": 12
+}
