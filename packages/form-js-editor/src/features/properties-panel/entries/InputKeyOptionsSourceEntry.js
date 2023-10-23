@@ -1,10 +1,10 @@
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 import { get, isUndefined } from 'min-dash';
 import { useService } from '../hooks';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
+import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 
-export default function InputKeyValuesSourceEntry(props) {
+export default function InputKeyOptionsSourceEntry(props) {
   const {
     editField,
     field,
@@ -31,7 +31,7 @@ function InputValuesKey(props) {
 
   const debounce = useService('debounce');
 
-  const path = VALUES_SOURCES_PATHS[VALUES_SOURCES.INPUT];
+  const path = OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.INPUT];
 
   const schema = '[\n  {\n    "label": "dollar",\n    "value": "$"\n  }\n]';
 

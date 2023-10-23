@@ -13,7 +13,7 @@ import Big from 'big.js';
 
 import { useService } from '../hooks';
 
-import { countDecimals, INPUTS, isValidNumber, VALUES_INPUTS } from '../Util';
+import { countDecimals, INPUTS, isValidNumber, OPTIONS_INPUTS } from '../Util';
 
 export const EMPTY_OPTION = null;
 
@@ -33,7 +33,7 @@ export default function DefaultOptionEntry(props) {
     return (field) => {
 
       // Only make default values available when they are statically defined
-      if (!INPUTS.includes(type) || VALUES_INPUTS.includes(type) && !field.values) {
+      if (!INPUTS.includes(type) || OPTIONS_INPUTS.includes(type) && !field.values) {
         return false;
       }
 

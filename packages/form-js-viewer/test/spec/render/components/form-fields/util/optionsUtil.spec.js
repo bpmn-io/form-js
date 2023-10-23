@@ -7,7 +7,7 @@ describe('optionsUtil', function() {
     it('should not alter fully defined value', function() {
 
       // given
-      const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ];
+      const options = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ];
 
       // when
       const result = normalizeOptionsData(values);
@@ -20,7 +20,7 @@ describe('optionsUtil', function() {
     it('should filter out null', function() {
 
       // given
-      const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, null ];
+      const options = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, null ];
 
       // when
       const result = normalizeOptionsData(values);
@@ -33,7 +33,7 @@ describe('optionsUtil', function() {
     it('should filter out undefined', function() {
 
       // given
-      const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, undefined ];
+      const options = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, undefined ];
 
       // when
       const result = normalizeOptionsData(values);
@@ -46,7 +46,7 @@ describe('optionsUtil', function() {
     it('should add label if not provided', function() {
 
       // given
-      const values = [ { value: 'john' }, { value: 'jessica' } ];
+      const options = [ { value: 'john' }, { value: 'jessica' } ];
 
       // when
       const result = normalizeOptionsData(values);
@@ -56,10 +56,10 @@ describe('optionsUtil', function() {
     });
 
 
-    it('should ignore valuesData without value', function() {
+    it('should ignore optionsData without value', function() {
 
       // given
-      const valuesData = [ { label: 'John' }, { label: 'Jessica' } ];
+      const optionsData = [ { label: 'John' }, { label: 'Jessica' } ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -72,7 +72,7 @@ describe('optionsUtil', function() {
     it('should convert string definitions to value/label objects', function() {
 
       // given
-      const valuesData = [ 'john', 'jessica' ];
+      const optionsData = [ 'john', 'jessica' ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -85,7 +85,7 @@ describe('optionsUtil', function() {
     it('should filter out incorrectly structured objects', function() {
 
       // given
-      const valuesData = [ { foo: 'bar' }, { value: 'john', label: 'John' } ];
+      const optionsData = [ { foo: 'bar' }, { value: 'john', label: 'John' } ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -96,10 +96,10 @@ describe('optionsUtil', function() {
     });
 
 
-    it('should allow any structured objects as values if a proper label is defined', function() {
+    it('should allow any structured objects as options if a proper label is defined', function() {
 
       // given
-      const valuesData = [ { value: { foo: 'bar', bar: 'foo' }, label: 'myObject' }, { value: 'john', label: 'John' } ];
+      const optionsData = [ { value: { foo: 'bar', bar: 'foo' }, label: 'myObject' }, { value: 'john', label: 'John' } ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -110,10 +110,10 @@ describe('optionsUtil', function() {
     });
 
 
-    it('should filter out any structured objects as values if no label is defined', function() {
+    it('should filter out any structured objects as options if no label is defined', function() {
 
       // given
-      const valuesData = [ { value: { foo: 'bar', bar: 'foo' } }, { value: 'john', label: 'John' } ];
+      const optionsData = [ { value: { foo: 'bar', bar: 'foo' } }, { value: 'john', label: 'John' } ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -127,7 +127,7 @@ describe('optionsUtil', function() {
     it('should convert number definitions to value/label objects', function() {
 
       // given
-      const valuesData = [ 1, 2 ];
+      const optionsData = [ 1, 2 ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -140,7 +140,7 @@ describe('optionsUtil', function() {
     it('should handle zero as value', function() {
 
       // given
-      const valuesData = [ 0 ];
+      const optionsData = [ 0 ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -153,7 +153,7 @@ describe('optionsUtil', function() {
     it('should ignore boolean definitions', function() {
 
       // given
-      const valuesData = [ true, false ];
+      const optionsData = [ true, false ];
 
       // when
       const result = normalizeOptionsData(valuesData);
@@ -166,7 +166,7 @@ describe('optionsUtil', function() {
     it('should handle mixed definitions individually', function() {
 
       // given
-      const valuesData = [ { value: 'john', label: 'John' }, 'jessica', 1, true, false, null, undefined ];
+      const optionsData = [ { value: 'john', label: 'John' }, 'jessica', 1, true, false, null, undefined ];
 
       // when
       const result = normalizeOptionsData(valuesData);

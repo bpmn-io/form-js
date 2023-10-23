@@ -13,7 +13,7 @@ import { setEditorValue } from '../../../../helper';
 
 import { set } from 'min-dash';
 
-import { INPUTS, VALUES_INPUTS } from '../../../../../src/features/properties-panel/Util';
+import { INPUTS, OPTIONS_INPUTS } from '../../../../../src/features/properties-panel/Util';
 
 
 describe('GeneralGroup', function() {
@@ -589,7 +589,7 @@ describe('GeneralGroup', function() {
 
     describe('for all other INPUTS', () => {
 
-      const otherInputTypes = INPUTS.filter(i => !VALUES_INPUTS.includes(i));
+      const otherInputTypes = INPUTS.filter(i => !OPTIONS_INPUTS.includes(i));
 
       it('should render', function() {
 

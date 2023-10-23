@@ -1,20 +1,20 @@
 import {
-  ValuesSourceSelectEntry,
-  StaticValuesSourceEntry,
-  InputKeyValuesSourceEntry,
-  ValuesExpressionEntry
+  OptionsSourceSelectEntry,
+  StaticOptionsSourceEntry,
+  InputKeyOptionsSourceEntry,
+  OptionsExpressionEntry
 } from '../entries';
 
-import { getValuesSource, VALUES_SOURCES } from '@bpmn-io/form-js-viewer';
+import { getOptionsSource, OPTIONS_SOURCES } from '@bpmn-io/form-js-viewer';
 
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 import {
-  VALUES_INPUTS,
-  hasValuesGroupsConfigured
+  OPTIONS_INPUTS,
+  hasOptionsGroupsConfigured
 } from '../Util';
 
-export default function ValuesGroups(field, editField, getService) {
+export default function OptionsGroups(field, editField, getService) {
   const {
     type
   } = field;
@@ -23,7 +23,7 @@ export default function ValuesGroups(field, editField, getService) {
 
   const fieldDefinition = formFields.get(type).config;
 
-  if (!VALUES_INPUTS.includes(type) && !hasValuesGroupsConfigured(fieldDefinition)) {
+  if (!OPTIONS_INPUTS.includes(type) && !hasOptionsGroupsConfigured(fieldDefinition)) {
     return [];
   }
 
@@ -39,35 +39,35 @@ export default function ValuesGroups(field, editField, getService) {
       label: 'Options source',
       tooltip: getValuesTooltip(),
       component: Group,
-      entries: ValuesSourceSelectEntry({ ...context, id })
+      entries: OptionsSourceSelectEntry({ ...context, id })
     }
   ];
 
-  const valuesSource = getValuesSource(field);
+  const valuesSource = getOptionsSource(field);
 
-  if (valuesSource === VALUES_SOURCES.INPUT) {
-    const id = 'dynamicValues';
+  if (valuesSource === OPTIONS_SOURCES.INPUT) {
+    const id = 'dynamicOptions';
     groups.push({
       id,
       label: 'Dynamic options',
       component: Group,
-      entries: InputKeyValuesSourceEntry({ ...context, id })
+      entries: InputKeyOptionsSourceEntry({ ...context, id })
     });
-  } else if (valuesSource === VALUES_SOURCES.STATIC) {
-    const id = 'staticValues';
+  } else if (valuesSource === OPTIONS_SOURCES.STATIC) {
+    const id = 'staticOptions';
     groups.push({
       id,
       label: 'Static options',
       component: ListGroup,
-      ...StaticValuesSourceEntry({ ...context, id })
+      ...StaticOptionsSourceEntry({ ...context, id })
     });
-  } else if (valuesSource === VALUES_SOURCES.EXPRESSION) {
-    const id = 'valuesExpression';
+  } else if (valuesSource === OPTIONS_SOURCES.EXPRESSION) {
+    const id = 'optionsExpression';
     groups.push({
       id,
       label: 'Options expression',
       component: Group,
-      entries: ValuesExpressionEntry({ ...context, id })
+      entries: OptionsExpressionEntry({ ...context, id })
     });
   }
 

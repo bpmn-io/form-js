@@ -104,17 +104,15 @@ describe('Description', function() {
       // Firefox + Ubuntu has problems with the description element on its own
       // cf. https://github.com/bpmn-io/form-js/pull/824
       const result =
-        render(WithFormContext(
-          <>
+        render(
+          <MockFormContext>
             <label for="foo">Foo</label>
             <input id="foo" />
             <Description
               id="foo"
               description="This a description" />
-          </>
-        ), {
-          container
-        });
+          </MockFormContext>
+          , { container });
 
       // then
       await expectNoViolations(result.container);

@@ -80,7 +80,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const label = container.querySelector('.bio-properties-panel-header-type');
@@ -108,7 +108,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const customIcon = container.querySelector('.custom-icon');
@@ -135,7 +135,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const customIcon = container.querySelector('.fjs-field-icon-image');
@@ -150,18 +150,18 @@ describe('PropertiesPanelHeaderProvider', function() {
 
 // helpers /////////
 
-function renderHeader(options) {
+function renderHeader({ services, ...restOptions }) {
 
-  const {
-    field,
-    formFields
-  } = options;
+  const defaultField = { type: 'textfield' };
+
+  const options = {
+    field: defaultField,
+    ...restOptions
+  };
 
   return render(
-    <MockPropertiesPanelContext options={ options }>
-      <TestPropertiesPanel field={ field } headerProvider={ PropertiesPanelHeaderProvider } />
-    </MockPropertiesPanelContext>, {
-      formFields
-    }
+    <MockPropertiesPanelContext options={ options } services={ services }>
+      <TestPropertiesPanel field={ options.field } headerProvider={ PropertiesPanelHeaderProvider } />
+    </MockPropertiesPanelContext>
   );
 }

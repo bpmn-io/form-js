@@ -1,9 +1,9 @@
 import { isUndefined, without } from 'min-dash';
 import { arrayAdd } from '../Util';
 import ValueEntry from './ValueEntry';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
+import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
-export default function StaticValuesSourceEntry(props) {
+export default function StaticOptionsSourceEntry(props) {
   const {
     editField,
     field,
@@ -22,11 +22,11 @@ export default function StaticValuesSourceEntry(props) {
 
     const entry = getIndexedEntry(index, values);
 
-    editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], arrayAdd(values, values.length, entry));
+    editField(field, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.STATIC], arrayAdd(values, values.length, entry));
   };
 
   const removeEntry = (entry) => {
-    editField(field, VALUES_SOURCES_PATHS[VALUES_SOURCES.STATIC], without(values, entry));
+    editField(field, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.STATIC], without(values, entry));
   };
 
   const validateFactory = (key, getValue) => {

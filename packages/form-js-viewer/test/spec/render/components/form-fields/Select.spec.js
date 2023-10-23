@@ -885,8 +885,12 @@ describe('Select', function() {
 
       // when
       const eventBusFireSpy = spy();
+      const eventBus = {
+        fire: eventBusFireSpy
+      };
+
       const field = { ...defaultField, searchable: true };
-      const { container } = createSelect({ field, eventBusFire: eventBusFireSpy });
+      const { container } = createSelect({ field, services: { eventBus } });
 
       const filterInput = container.querySelector('input[type="text"]');
       fireEvent.focus(filterInput);

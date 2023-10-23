@@ -376,6 +376,7 @@ export default function FormEditor(props) {
       if (dragulaInstance) {
         dragulaInstance.destroy();
 
+        debugger;
         eventBus.fire('dragula.destroyed');
       }
     };

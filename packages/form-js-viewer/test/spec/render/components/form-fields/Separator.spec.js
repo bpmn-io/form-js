@@ -6,7 +6,7 @@ import {
   createFormContainer
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -45,25 +45,23 @@ const defaultField = {
   type: 'separator'
 };
 
-function createSeparator(options = {}) {
-  const {
-    data = {},
-    initialData = {},
-    properties = {},
-    field = defaultField
-  } = options;
+function createSeparator({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Separator field={ field }
-    />,
-    {
-      ...options,
-      properties,
-      initialData,
-      data
+  const options = {
+    domId: 'test-separator',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      field={ options.field }
+    >
+      <Separator field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ),
-  {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

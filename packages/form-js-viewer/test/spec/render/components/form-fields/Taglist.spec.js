@@ -440,9 +440,13 @@ describe('Taglist', function() {
 
         // given
         const eventBusFireSpy = spy();
+        const eventBus = {
+          fire: eventBusFireSpy
+        };
+
         const { container } = createTaglist({
           onChange: () => {},
-          eventBusFire: eventBusFireSpy,
+          services: { eventBus },
           value: [ 'tag1', 'tag2', 'tag3' ]
         });
 

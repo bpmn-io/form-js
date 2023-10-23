@@ -500,6 +500,7 @@ describe('Form', function() {
         await bootstrapForm({
           container,
           schema: focusables,
+          bootstrapExecute: (f) => form = f,
           data: {
             taglist: [ 'value1', 'value2' ]
           }

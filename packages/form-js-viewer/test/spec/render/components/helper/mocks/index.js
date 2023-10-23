@@ -20,6 +20,7 @@ function _createMockModule(services, options) {
     formLayouter: [ 'value', services.formLayouter || new FormLayouterMock(options) ],
     formFieldRegistry: [ 'value', services.formFieldRegistry || new FormFieldRegistryMock(options) ],
     pathRegistry: [ 'value', services.pathRegistry || new PathRegistryMock(options) ],
+    eventBus: [ 'value', services.eventBus || new EventBusMock(options) ],
 
     // using actual implementations in testing
     formFields: services.formFields ? [ 'value', services.formFields ] : [ 'type', FormFields ],
@@ -104,6 +105,32 @@ export class FormFieldRegistryMock {
 export class PathRegistryMock {
   getValuePath(field) {
     return field.valuePath || [ field.path ] || [ field.key ];
+  }
+}
+
+export class EventBusMock {
+  constructor() {
+    this.listeners = {};
+  }
+
+  on(event, priority, callback) {
+    if (!callback) {
+      callback = priority;
+    }
+
+    if (!this.listeners[ event ]) {
+      this.listeners[ event ] = [];
+    }
+
+    this.listeners[ event ].push(callback);
+  }
+
+  off() {}
+
+  fire(event, context) {
+    if (this.listeners[ event ]) {
+      this.listeners[ event ].forEach(callback => callback(context));
+    }
   }
 }
 

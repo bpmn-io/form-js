@@ -21,14 +21,15 @@ function _createEditorMockModule(services, options) {
     formEditor: [ 'value', services.formEditor || new FormEditorMock(options) ],
     formLayoutValidator: [ 'value', services.formLayoutValidator || new FormLayoutValidatorMock(options) ],
     eventBus: [ 'value', services.eventBus || new EventBusMock(options) ],
+    propertiesPanel: [ 'value', services.propertiesPanel || new PropertiesPanelMock(options) ],
     expressionLanguage: [ 'value', services.expressionLanguage || new ExpressionLanguageMock(options) ],
     modeling: [ 'value', services.modeling || new ModelingMock(options) ],
     selection: [ 'value', services.selection || new SelectionMock(options) ],
     templating: [ 'value', services.templating || new TemplatingMock(options) ],
     formFieldRegistry: [ 'value', services.formFieldRegistry || new FormFieldRegistryMock(options) ],
     pathRegistry: [ 'value', services.pathRegistry || new PathRegistryMock(options) ],
-    debounce: [ 'value', fn => fn ],
-    config: [ 'value', EDITOR_CONFIG ],
+    debounce: [ 'value', services.debounce || (fn => fn) ],
+    config: [ 'value', services.config || EDITOR_CONFIG ],
 
     // using actual implementations in testing
     formFields: services.formFields ? [ 'value', services.formFields ] : [ 'type', EditorFormFields ],
@@ -55,6 +56,10 @@ export class FormEditorMock {
 
 export class ModelingMock {
   editFormField() {}
+}
+
+export class PropertiesPanelMock {
+  registerProvider() {}
 }
 
 export class SelectionMock {
