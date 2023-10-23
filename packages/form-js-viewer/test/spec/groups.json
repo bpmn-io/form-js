@@ -77,7 +77,7 @@
     },
     {
       "label": "separated key textfield",
-      "path": "separated2.key",
+      "key": "separated2.key",
       "type": "textfield"
     }
   ],
