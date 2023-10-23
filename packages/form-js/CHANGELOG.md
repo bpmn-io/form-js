@@ -27,6 +27,13 @@ ___Note:__ Yet to be released changes appear here._
 
 `FEAT`: provide `additionalModules` to both viewer and editor ([#776](https://github.com/bpmn-io/form-js/pull/776))
 
+## 1.3.3
+
+## General
+
+* `FIX`: getSchemaVariables filters all non-string variables ([#860](https://github.com/bpmn-io/form-js/issues/860))
+* `FIX`: properly handle getSchemaVariables when combining contexts with paths ([#860](https://github.com/bpmn-io/form-js/issues/860))
+
 ## 1.3.2
 
 ### Viewer
