@@ -152,7 +152,7 @@ export function getSchemaVariables(schema, options = {}) {
 
     }
 
-    return variables.filter(variable => variable !== undefined || variable !== null);
+    return variables.filter(variable => typeof variable === 'string');
   }, []);
 
   const getBindingVariables = (node)=> {
