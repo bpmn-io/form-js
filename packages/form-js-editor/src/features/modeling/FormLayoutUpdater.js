@@ -41,11 +41,23 @@ export default class FormLayoutUpdater extends CommandInterceptor {
 
     const { schema } = this._formEditor._getState();
 
+    const setRowIds = parent => {
+      if (!parent.components || !parent.components.length) {
+        return;
+      }
+
+      parent.components.forEach(formField => {
+        const row = this._formLayouter.getRowForField(formField);
+
+        updateRow(formField, row.id);
+
+        // handle children recursively
+        setRowIds(formField);
+      });
+    };
+
     // make sure rows are persisted in schema (e.g. for migration case)
-    schema.components.forEach(formField => {
-      const row = this._formLayouter.getRowForField(formField);
-      updateRow(formField, row.id);
-    });
+    setRowIds(schema);
   }
 
 }

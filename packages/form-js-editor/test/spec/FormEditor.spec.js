@@ -25,6 +25,7 @@ import {
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
 import schemaRows from './form-rows.json';
+import schemaGroup from './form-group.json';
 
 insertStyles();
 
@@ -1046,6 +1047,46 @@ describe('FormEditor', function() {
         columns: 8,
         row: 'Row_4'
       });
+    });
+
+
+    it('should move form field into group', async function() {
+
+      // given
+      formEditor = await createFormEditor({
+        schema: schemaGroup,
+        container
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      await expectDragulaCreated(formEditor);
+
+      // assume
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
+        columns: 16,
+        row: 'Row_1'
+      });
+
+      const formField = container.querySelector('[data-id=Textfield_1]').parentNode;
+
+      const row = container.querySelector('[data-row-id=Row_3]');
+      const bounds = row.getBoundingClientRect();
+
+      // when
+      startDragging(container, formField);
+      moveDragging(container, {
+        clientX: bounds.x + 10,
+        clientY: bounds.y + bounds.height
+      });
+
+      endDragging(container);
+
+      // then
+      const textfield = formFieldRegistry.get('Textfield_1');
+
+      expect(textfield.layout.row).to.not.be.null;
+      expect(textfield.layout.columns).to.eql(16);
     });
 
 

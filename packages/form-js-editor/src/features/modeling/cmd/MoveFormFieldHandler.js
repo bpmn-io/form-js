@@ -15,11 +15,13 @@ export default class MoveFormFieldHandler {
    * @param { import('../../../FormEditor').default } formEditor
    * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
+   * @param { import('@bpmn-io/form-js-viewer').FormLayouter } formLayouter
    */
-  constructor(formEditor, formFieldRegistry, pathRegistry) {
+  constructor(formEditor, formFieldRegistry, pathRegistry, formLayouter) {
     this._formEditor = formEditor;
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;
+    this._formLayouter = formLayouter;
   }
 
   execute(context) {
@@ -73,8 +75,8 @@ export default class MoveFormFieldHandler {
 
       const formField = get(schema, [ ...sourcePath, sourceIndex ]);
 
-      // (1) Add to row
-      updateRow(formField, targetRow ? targetRow.id : null);
+      // (1) Add to row or create new one
+      updateRow(formField, targetRow ? targetRow.id : this._formLayouter.nextRowId());
 
       // (2) Move form field
       arrayMove(get(schema, sourcePath), sourceIndex, targetIndex);
@@ -100,8 +102,8 @@ export default class MoveFormFieldHandler {
 
       const targetPath = [ ...targetFormField._path, 'components' ];
 
-      // (4) Add to row
-      updateRow(formField, targetRow ? targetRow.id : null);
+      // (4) Add to row or create new one
+      updateRow(formField, targetRow ? targetRow.id : this._formLayouter.nextRowId());
 
       // (5) Add form field
       arrayAdd(get(schema, targetPath), targetIndex, formField);
@@ -120,4 +122,4 @@ export default class MoveFormFieldHandler {
   }
 }
 
-MoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry', 'pathRegistry' ];
+MoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry', 'pathRegistry', 'formLayouter' ];
