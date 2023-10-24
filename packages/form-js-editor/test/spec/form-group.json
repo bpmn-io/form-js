@@ -1,0 +1,39 @@
+{
+  "components": [
+    {
+      "id": "Textfield_1",
+      "key": "invoiceNumber",
+      "label": "Invoice Number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1",
+        "columns": 16
+      }
+    },
+    {
+      "components": [
+        {
+          "label": "Text field",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_3",
+            "columns": null
+          },
+          "id": "Textfield_2",
+          "key": "textfield_2"
+        }
+      ],
+      "showOutline": true,
+      "label": "Group",
+      "type": "group",
+      "layout": {
+        "row": "Row_2",
+        "columns": null
+      },
+      "id": "Group_1"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1",
+  "schemaVersion": 11
+}
