@@ -2,6 +2,7 @@
   "name": "@bpmn-io/form-js",
   "version": "1.3.3",
   "description": "View and edit forms - powered by bpmn.io",
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",

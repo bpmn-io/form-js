@@ -4,6 +4,7 @@
   "description": "Custom carbon styles for form-js",
   "main": "src/carbon-styles.js",
   "types": "src/types/carbon-styles.d.ts",
+  "type": "module",
   "scripts": {
     "all": "run-s test",
     "test": "karma start",

@@ -20,6 +20,7 @@
   "module": "dist/index.es.js",
   "umd:main": "dist/form-playground.umd.js",
   "types": "dist/types/index.d.ts",
+  "type": "module",
   "scripts": {
     "all": "run-s lint test build",
     "build": "run-p bundle generate-types",
