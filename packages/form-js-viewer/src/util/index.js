@@ -111,6 +111,7 @@ export function clone(data, replacer) {
  * @param {object} [options]
  * @param {any} [options.expressionLanguage]
  * @param {any} [options.templating]
+ * @param {any} [options.formFields]
  * @param {boolean} [options.inputs=true]
  * @param {boolean} [options.outputs=true]
  *
