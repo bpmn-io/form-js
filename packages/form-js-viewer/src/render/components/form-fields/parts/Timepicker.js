@@ -1,22 +1,20 @@
-import ClockIcon from '../icons/Clock.svg';
-
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { prefixId } from '../../Util';
-import DropdownList from './DropdownList';
-import { isNumber } from 'min-dash';
-import InputAdorner from './InputAdorner';
 import { formatTime, parseInputTime } from '../../util/dateTimeUtil';
+import { isNumber } from 'min-dash';
+
+import ClockIcon from '../icons/Clock.svg';
+import DropdownList from './DropdownList';
+import InputAdorner from './InputAdorner';
 import Label from '../../Label';
 
 export default function Timepicker(props) {
 
   const {
-    id,
     label,
     collapseLabelOnEmpty,
     onDateTimeBlur,
     onDateTimeFocus,
-    formId,
+    domId,
     required,
     disabled,
     readonly,
@@ -151,11 +149,9 @@ export default function Timepicker(props) {
     propagateRawToMinute(value);
   };
 
-  const fullId = `${prefixId(id, formId)}--time`;
-
   return <div class="fjs-datetime-subsection">
     <Label
-      id={ fullId }
+      id={ domId }
       label={ label }
       collapseOnEmpty={ collapseLabelOnEmpty }
       required={ required } />
@@ -167,7 +163,7 @@ export default function Timepicker(props) {
       <div class="fjs-timepicker fjs-timepicker-anchor">
         <input ref={ timeInputRef }
           type="text"
-          id={ fullId }
+          id={ domId }
           class="fjs-input"
           value={ rawValue }
           disabled={ disabled }

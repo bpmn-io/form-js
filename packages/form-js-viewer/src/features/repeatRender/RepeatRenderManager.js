@@ -98,7 +98,7 @@ export default class RepeatRenderManager {
                   <RowsRenderer { ...elementProps } />
                 </LocalExpressionContext.Provider>
               </div>
-              <button class="fjs-repeat-row-remove" onClick={ () => onDeleteItem(index) }>
+              <button class="fjs-repeat-row-remove" aria-label={ `Remove list item ${index + 1}` } onClick={ () => onDeleteItem(index) }>
                 <DeleteSvg />
               </button>
             </div>;

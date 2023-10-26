@@ -7,7 +7,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -617,8 +617,12 @@ Some _em_ **strong** [text](#text) \`code\`.
           text,
           type: 'text'
         },
-        isTemplate: () => true,
-        evaluateTemplate: (template) => { return 'EVALUATED:' + template; }
+        services: {
+          templating: {
+            isTemplate: () => true,
+            evaluate: (template) => { return 'EVALUATED:' + template; }
+          }
+        }
       });
 
       // then
@@ -696,29 +700,23 @@ const defaultField = {
   type: 'text'
 };
 
-function createText(options = {}) {
-  const {
-    errors,
-    data = {},
-    initialData = {},
-    field = defaultField,
-    properties = {},
-    onChange
-  } = options;
+function createText({ services, ...restOptions } = {}) {
+  const options = {
+    domId: 'test-text',
+    field: defaultField,
+    ...restOptions
+  };
 
-  return render(WithFormContext(
-    <Text
-      errors={ errors }
-      field={ field }
-      onChange={ onChange } />,
-    {
-      ...options,
-      properties,
-      initialData,
-      data
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Text
+        domId={ options.domId }
+        errors={ options.errors }
+        field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ),
-  {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

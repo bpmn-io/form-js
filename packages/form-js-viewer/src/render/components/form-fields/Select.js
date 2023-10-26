@@ -1,6 +1,7 @@
-import { useContext, useMemo } from 'preact/hooks';
-
-import { FormContext } from '../../context';
+import { formFieldClasses } from '../Util';
+import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
+import { createEmptyOptions } from '../util/valuesUtil';
+import { useMemo } from 'preact/hooks';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -24,6 +25,7 @@ export default function Select(props) {
     disabled,
     errors = [],
     errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -34,7 +36,6 @@ export default function Select(props) {
 
   const {
     description,
-    id,
     label,
     searchable = false,
     validate = {}
@@ -42,10 +43,8 @@ export default function Select(props) {
 
   const { required } = validate;
 
-  const { formId } = useContext(FormContext);
-
   const selectProps = useMemo(() => ({
-    id,
+    domId,
     disabled,
     errors,
     onBlur,
@@ -55,7 +54,7 @@ export default function Select(props) {
     onChange,
     readonly,
     'aria-describedby': errorMessageId,
-  }), [ disabled, errors, field, id, value, onChange, onBlur, onFocus, readonly, errorMessageId ]);
+  }), [ disabled, errors, field, domId, value, onChange, onBlur, onFocus, readonly, errorMessageId ]);
 
   return <div
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
@@ -69,7 +68,7 @@ export default function Select(props) {
     }
   >
     <Label
-      id={ prefixId(`${id}-search`, formId) }
+      id={ domId }
       label={ label }
       required={ required } />
     { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }

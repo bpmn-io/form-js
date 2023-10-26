@@ -192,4 +192,9 @@ export async function expectNoViolations(node, options = {}) {
 
   expect(results.passes).to.be.not.empty;
   expect(results.violations).to.be.empty;
+
+  // log violations for ease of debugging
+  if (results.violations.length) {
+    console.log(JSON.stringify(results.violations, null, 2));
+  }
 }

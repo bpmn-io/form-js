@@ -1,4 +1,5 @@
 import {
+  act,
   fireEvent,
   screen
 } from '@testing-library/preact/pure';
@@ -35,7 +36,6 @@ import {
 } from '../TestHelper';
 
 import customCSS from './custom/custom.css';
-import { act } from 'preact/test-utils';
 
 insertCSS('custom.css', customCSS);
 
@@ -57,7 +57,14 @@ const singleStart =
 
 describe('Form', function() {
 
-  let container;
+  let container, form;
+
+  const bootstrapForm = ({ bootstrapExecute = () => {}, ...options }) => {
+    return act(async () => {
+      form = await createForm(options);
+      bootstrapExecute(form);
+    });
+  };
 
   beforeEach(function() {
     container = document.createElement('div');
@@ -67,6 +74,8 @@ describe('Form', function() {
 
   !singleStart && afterEach(function() {
     document.body.removeChild(container);
+    form && form.destroy();
+    form = null;
   });
 
 
@@ -100,18 +109,18 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
     });
 
     form.on('changed', event => {
-      console.log('Form <changed>', event);
+      singleStartBasic && console.log('Form <changed>', event);
     });
 
     form.on('submit', event => {
-      console.log('Form <submit>', event);
+      singleStartBasic && console.log('Form <submit>', event);
     });
 
     // then
@@ -125,7 +134,7 @@ describe('Form', function() {
     const data = {};
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema: groupsSchema
@@ -147,7 +156,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema: stress,
       data
@@ -189,7 +198,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
@@ -207,7 +216,7 @@ describe('Form', function() {
     container.style.backgroundColor = 'white';
     insertTheme();
 
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema,
       keyboard: {
@@ -233,7 +242,7 @@ describe('Form', function() {
       };
 
       // when
-      const form = await createForm({
+      await bootstrapForm({
         container,
         schema
       });
@@ -335,7 +344,7 @@ describe('Form', function() {
 
       // when
       try {
-        await createForm({
+        await bootstrapForm({
           container,
           data,
           schema
@@ -416,7 +425,7 @@ describe('Form', function() {
   it('should render complex text', async function() {
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema: textSchema
     });
@@ -466,7 +475,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema: textTemplateSchema,
       data
@@ -488,7 +497,7 @@ describe('Form', function() {
 
       await act(async () => {
 
-        form = await createForm({
+        await bootstrapForm({
           container,
           schema: focusables,
           data: {
@@ -556,7 +565,7 @@ describe('Form', function() {
       const data = {};
 
       // when
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data,
         schema
@@ -572,7 +581,7 @@ describe('Form', function() {
       // given
       const data = {};
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data,
         schema
@@ -607,7 +616,7 @@ describe('Form', function() {
   it('#clear', async function() {
 
     // given
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema
     });
@@ -634,7 +643,7 @@ describe('Form', function() {
   it('#destroy', async function() {
 
     // given
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema
     });
@@ -661,7 +670,7 @@ describe('Form', function() {
     it('should add errors', async function() {
 
       // given
-      const form = await createForm({
+      await bootstrapForm({
         container,
         schema
       });
@@ -685,7 +694,7 @@ describe('Form', function() {
         checkbox_4u82gk: true
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: conditionErrorsSchema
@@ -704,7 +713,7 @@ describe('Form', function() {
   it('#on', async function() {
 
     // given
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema
     });
@@ -724,7 +733,7 @@ describe('Form', function() {
   it('#off', async function() {
 
     // given
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema
     });
@@ -757,7 +766,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema,
@@ -793,7 +802,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema,
@@ -828,7 +837,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema: disabledSchema
@@ -855,7 +864,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema: disabledSchema
@@ -881,7 +890,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema: disabledSchema
@@ -911,7 +920,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       data,
       schema
     });
@@ -943,7 +952,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
@@ -969,7 +978,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema: customFieldSchema,
@@ -1005,7 +1014,7 @@ describe('Form', function() {
     };
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
@@ -1066,7 +1075,7 @@ describe('Form', function() {
   it('should reset (no data)', async function() {
 
     // when
-    const form = await createForm({
+    await bootstrapForm({
       container,
       schema
     });
@@ -1122,7 +1131,7 @@ describe('Form', function() {
       approvedBy: 'John Doe'
     };
 
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
@@ -1160,7 +1169,7 @@ describe('Form', function() {
       amount: 456
     };
 
-    const form = await createForm({
+    await bootstrapForm({
       container,
       data,
       schema
@@ -1199,7 +1208,7 @@ describe('Form', function() {
 
   describe('validation', function() {
 
-    it.skip('should display error if required field empty', async function() {
+    it('should display error if required field empty', async function() {
 
       // given
       const data = {
@@ -1223,7 +1232,7 @@ describe('Form', function() {
         ]
       };
 
-      await createForm({
+      await bootstrapForm({
         container,
         data,
         schema
@@ -1239,7 +1248,7 @@ describe('Form', function() {
     });
 
 
-    it.skip('should display error if required field does not match pattern', async function() {
+    it('should display error if required field does not match pattern', async function() {
 
       // given
       const data = {
@@ -1263,7 +1272,7 @@ describe('Form', function() {
         ]
       };
 
-      await createForm({
+      await bootstrapForm({
         container,
         data,
         schema
@@ -1291,7 +1300,7 @@ describe('Form', function() {
         text: 'value'
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: conditionSchema
@@ -1325,7 +1334,7 @@ describe('Form', function() {
         text: 'value'
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema
@@ -1347,7 +1356,7 @@ describe('Form', function() {
         text: 'value'
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: conditionSchema
@@ -1381,7 +1390,7 @@ describe('Form', function() {
         text: 'value'
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema
@@ -1402,7 +1411,7 @@ describe('Form', function() {
         checkbox_4u82gk: true
       };
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: conditionErrorsSchema
@@ -1425,7 +1434,7 @@ describe('Form', function() {
     it('should not affect other fields (conditional)', async function() {
 
       // given
-      await createForm({
+      await bootstrapForm({
         container,
         schema: hiddenFieldsConditionalSchema
       });
@@ -1459,7 +1468,7 @@ describe('Form', function() {
         c: true
       };
 
-      await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: hiddenFieldsConditionalSchema
@@ -1491,7 +1500,7 @@ describe('Form', function() {
     it('should not affect other fields (expression)', async function() {
 
       // given
-      await createForm({
+      await bootstrapForm({
         container,
         schema: hiddenFieldsExpressionSchema
       });
@@ -1525,7 +1534,7 @@ describe('Form', function() {
         c: 'external'
       };
 
-      await createForm({
+      await bootstrapForm({
         container,
         data: initialData,
         schema: hiddenFieldsExpressionSchema
@@ -1562,7 +1571,7 @@ describe('Form', function() {
       // given
       const data = {};
 
-      await createForm({
+      await bootstrapForm({
         container,
         data,
         schema: rowsSchema
@@ -1586,7 +1595,7 @@ describe('Form', function() {
       // given
       const data = {};
 
-      const form = await createForm({
+      await bootstrapForm({
         container,
         data,
         schema: rowsSchema

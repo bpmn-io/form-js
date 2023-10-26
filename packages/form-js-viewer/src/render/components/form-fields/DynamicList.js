@@ -1,15 +1,15 @@
 import { useContext } from 'preact/hooks';
-import ChildrenRenderer from './parts/ChildrenRenderer';
-import { FormContext, FormRenderContext } from '../../context';
-import { formFieldClasses, prefixId } from '../Util';
+import { FormRenderContext } from '../../context';
+import { formFieldClasses } from '../Util';
+
 import Label from '../Label';
+import ChildrenRenderer from './parts/ChildrenRenderer';
 import classNames from 'classnames';
 
 export default function DynamicList(props) {
 
-  const { field } = props;
-  const { label, id, type, showOutline } = field;
-  const { formId } = useContext(FormContext);
+  const { field, domId } = props;
+  const { label, type, showOutline } = field;
 
   const {
     Empty,
@@ -18,9 +18,9 @@ export default function DynamicList(props) {
   const fullProps = { ...props, Empty };
 
   return (
-    <div className={ classNames(formFieldClasses(type), 'fjs-form-field-grouplike', { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ prefixId(id, formId) }>
+    <div className={ classNames(formFieldClasses(type), 'fjs-form-field-grouplike', { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ domId }>
       <Label
-        id={ prefixId(id, formId) }
+        id={ domId }
         label={ label } />
       <ChildrenRenderer { ...fullProps } />
     </div>

@@ -2,7 +2,6 @@ import { useContext, useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../hooks/useCleanupSingleSelectValue';
 import classNames from 'classnames';
-import { FormContext } from '../../context';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -13,8 +12,7 @@ import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
 
 const type = 'radio';
@@ -25,6 +23,7 @@ export default function Radio(props) {
     disabled,
     errors = [],
     errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -34,7 +33,6 @@ export default function Radio(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;
@@ -87,10 +85,13 @@ export default function Radio(props) {
       required={ required } />
     {
       loadState == LOAD_STATES.LOADED && options.map((option, index) => {
+
+        const itemDomId = `${domId}-${index}`;
+
         return (
           <Label
-            id={ prefixId(`${ id }-${ index }`, formId) }
-            key={ `${ id }-${ index }` }
+            id={ itemDomId }
+            key={ index }
             label={ option.label }
             class={ classNames({ 'fjs-checked': option.value === value }) }
             required={ false }>
@@ -99,7 +100,7 @@ export default function Radio(props) {
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }
-              id={ prefixId(`${ id }-${ index }`, formId) }
+              id={ itemDomId }
               type="radio"
               onClick={ () => onChange(option.value) }
               onBlur={ onRadioBlur }

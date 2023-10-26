@@ -91,8 +91,9 @@ export default function FormField(props) {
     return <Hidden field={ field } />;
   }
 
+  const domId = `${prefixId(field.id, formId, indexes)}`;
   const fieldErrors = get(errors, [ field.id, ...Object.values(indexes || {}) ]) || [];
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(field.id, formId)}-error-message`;
+  const errorMessageId = errors.length === 0 ? undefined : `${domId}-error-message`;
 
   return (
     <Column field={ field } class={ gridColumnClasses(field) }>
@@ -102,6 +103,7 @@ export default function FormField(props) {
           disabled={ disabled }
           errors={ fieldErrors }
           errorMessageId={ errorMessageId }
+          domId={ domId }
           onChange={ disabled || readonly ? noop : onChangeIndexed }
           onBlur={ disabled || readonly ? noop : onBlur }
           onFocus={ disabled || readonly ? noop : onFocus }

@@ -9,7 +9,7 @@ import Palette, {
 
 import { expectNoViolations, insertStyles } from '../../../TestHelper';
 
-import { WithFormEditorContext } from '../properties-panel/helper';
+import { MockEditorContext } from '../../../helper';
 
 insertStyles();
 
@@ -363,7 +363,9 @@ function createPalette(options = {}) {
   } = options;
 
   return render(
-    WithFormEditorContext(<Palette />, rest),
+    <MockEditorContext options={ rest }>
+      <Palette />
+    </MockEditorContext>,
     {
       container
     }

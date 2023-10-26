@@ -1,22 +1,20 @@
-import CalendarIcon from '../icons/Calendar.svg';
 import flatpickr from 'flatpickr';
-
 import { ENTER_KEYDOWN_EVENT, focusRelevantFlatpickerDay } from '../../util/dateTimeUtil';
 import { getLocaleReadableDateFormat, getLocaleDateFlatpickrConfig } from '../../util/localisationUtil';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import { prefixId } from '../../Util';
+
+import CalendarIcon from '../icons/Calendar.svg';
 import InputAdorner from './InputAdorner';
 import Label from '../../Label';
 
 export default function Datepicker(props) {
 
   const {
-    id,
     label,
+    domId,
     collapseLabelOnEmpty,
     onDateTimeBlur,
     onDateTimeFocus,
-    formId,
     required,
     disabled,
     disallowPassedDates,
@@ -165,11 +163,9 @@ export default function Datepicker(props) {
     }, [ isInputDirty, onDateTimeBlur ]
   );
 
-  const fullId = `${prefixId(id, formId)}--date`;
-
   return <div class="fjs-datetime-subsection">
     <Label
-      id={ fullId }
+      id={ domId }
       label={ label }
       collapseOnEmpty={ collapseLabelOnEmpty }
       required={ required } />
@@ -182,7 +178,7 @@ export default function Datepicker(props) {
       <div class="fjs-datepicker" style={ { width: '100%' } }>
         <input ref={ dateInputRef }
           type="text"
-          id={ fullId }
+          id={ domId }
           class="fjs-input"
           disabled={ disabled }
           readOnly={ readonly }

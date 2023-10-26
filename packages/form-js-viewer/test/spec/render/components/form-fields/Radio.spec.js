@@ -10,7 +10,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -44,15 +44,15 @@ describe('Radio', function() {
     const inputs = container.querySelectorAll('input[type="radio"]');
 
     expect(inputs).to.have.length(2);
-    expect(inputs[ 0 ].id).to.equal('fjs-form-foo-Radio_1-0');
-    expect(inputs[ 1 ].id).to.equal('fjs-form-foo-Radio_1-1');
+    expect(inputs[ 0 ].id).to.equal('test-radio-0');
+    expect(inputs[ 1 ].id).to.equal('test-radio-1');
 
     const labels = container.querySelectorAll('label');
 
     expect(labels).to.have.length(3);
     expect(labels[ 0 ].textContent).to.equal('Product');
-    expect(labels[ 1 ].htmlFor).to.equal('fjs-form-foo-Radio_1-0');
-    expect(labels[ 2 ].htmlFor).to.equal('fjs-form-foo-Radio_1-1');
+    expect(labels[ 1 ].htmlFor).to.equal('test-radio-0');
+    expect(labels[ 2 ].htmlFor).to.equal('test-radio-1');
   });
 
 
@@ -95,15 +95,15 @@ describe('Radio', function() {
     const inputs = container.querySelectorAll('input[type="radio"]');
 
     expect(inputs).to.have.length(2);
-    expect(inputs[0].id).to.equal('fjs-form-foo-Radio_1-0');
-    expect(inputs[1].id).to.equal('fjs-form-foo-Radio_1-1');
+    expect(inputs[0].id).to.equal('test-radio-0');
+    expect(inputs[1].id).to.equal('test-radio-1');
 
     const labels = container.querySelectorAll('label');
 
     expect(labels).to.have.length(3);
     expect(labels[0].textContent).to.equal('Product');
-    expect(labels[1].htmlFor).to.equal('fjs-form-foo-Radio_1-0');
-    expect(labels[2].htmlFor).to.equal('fjs-form-foo-Radio_1-1');
+    expect(labels[1].htmlFor).to.equal('test-radio-0');
+    expect(labels[2].htmlFor).to.equal('test-radio-1');
   });
 
 
@@ -415,26 +415,30 @@ const dynamicFieldInitialData = {
   ]
 };
 
-function createRadio(options = {}) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createRadio({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Radio
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-radio',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Radio
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        domId={ options.domId }
+        field={ options.field }
+        onChange={ options.onChange }
+        onBlur={ options.onBlur }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

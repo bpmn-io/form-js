@@ -38,6 +38,7 @@ module.exports = function(karma) {
     reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
 
     specReporter: {
+      maxLogLines: 10,
       suppressSummary: true,
       suppressErrorSummary: false,
       suppressFailed: false,
@@ -45,7 +46,7 @@ module.exports = function(karma) {
       suppressSkipped: true,
       showBrowser: false,
       showSpecTiming: false,
-      failFast: true
+      failFast: false
     },
 
     coverageReporter: {

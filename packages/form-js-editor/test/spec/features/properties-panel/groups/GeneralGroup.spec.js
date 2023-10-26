@@ -6,7 +6,8 @@ import {
 
 import { GeneralGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
+import { createMockInjector } from '../helper/mocks';
 
 import { setEditorValue } from '../../../../helper';
 
@@ -1231,38 +1232,37 @@ describe('GeneralGroup', function() {
 
 // helper ///////////////
 
-function _getService(type, options = {}) {
-  if (type === 'templating') {
-    return {
+function buildGeneralGroupServiceMocks(options = {}) {
+  return {
+    templating: {
       isTemplate: options.isTemplate || (() => false)
-    };
-  }
-
-  if (type === 'pathRegistry') {
-    return {
+    },
+    pathRegistry: {
       getValuePath: options.getValuePath || ((field) => [ field.key ]),
       canClaimPath: options.canClaimPath || (() => true),
       claimPath: options.claimPath || (() => {}),
       unclaimPath: options.unclaimPath || (() => {})
-    };
-  }
+    }
+  };
 }
 
-function renderGeneralGroup(options) {
+function renderGeneralGroup({ services, ...options }) {
   const {
     editField,
-    field,
-    getService = (type) => _getService(type, options),
+    field
   } = options;
 
-  const groups = [ GeneralGroup(field, editField, getService) ];
+  const defaultedServices = { ...buildGeneralGroupServiceMocks(options), ...services };
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  }), {
-    [ 'pathRegistry' ] : getService('pathRegistry'),
-  }));
+  const injector = createMockInjector(defaultedServices, options);
+
+  const groups = [ GeneralGroup(field, editField, (type, strict) => injector.get(type, strict)) ];
+
+  return render(
+    <MockPropertiesPanelContext options={ options } services={ defaultedServices }>
+      <TestPropertiesPanel field={ field } groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function findEntry(id, container) {

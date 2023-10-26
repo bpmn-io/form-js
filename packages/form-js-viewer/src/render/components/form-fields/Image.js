@@ -26,7 +26,6 @@ export default function Image(props) {
     source
   } = field;
 
-
   const evaluatedImageSource = useSingleLineTemplateEvaluation(source, { debug: true });
 
   const safeSource = useMemo(() => sanitizeImageSource(evaluatedImageSource), [ evaluatedImageSource ]);

@@ -11,7 +11,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -133,16 +133,22 @@ describe('Taglist', function() {
   it('should render tags via valuesExpression', function() {
 
     // when
+    const options = [
+      ...expressionFieldInitialData.list1,
+      ...expressionFieldInitialData.list2
+    ];
+
     const { container } = createTaglist({
       value: [ 'value1', 'value3' ],
       onchange: () => { },
-      isExpression: () => true,
-      evaluateExpression: () => [
-        ...expressionFieldInitialData.list1,
-        ...expressionFieldInitialData.list2
-      ],
       field: expressionField,
-      initialData: expressionFieldInitialData
+      initialData: expressionFieldInitialData,
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => options
+        }
+      }
     });
 
     // then
@@ -164,16 +170,22 @@ describe('Taglist', function() {
   it('should update tags via valuesExpression - evaluation changed', function() {
 
     // given
+    const options = [
+      ...expressionFieldInitialData.list1,
+      ...expressionFieldInitialData.list2
+    ];
+
     const result = createTaglist({
       value: [ 'value1', 'value3' ],
       onchange: () => { },
-      isExpression: () => true,
-      evaluateExpression: () => [
-        ...expressionFieldInitialData.list1,
-        ...expressionFieldInitialData.list2
-      ],
       field: expressionField,
-      initialData: expressionFieldInitialData
+      initialData: expressionFieldInitialData,
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => options
+        }
+      }
     });
 
     // assume
@@ -183,14 +195,17 @@ describe('Taglist', function() {
     createTaglist({
       value: [ 'value1', 'value5' ],
       onchange: () => { },
-      isExpression: () => true,
-      evaluateExpression: () => [
-        ...expressionFieldInitialData.list1,
-        ...expressionFieldInitialData.list2,
-        ...[ { label: 'Value 5', value: 'value5' } ]
-      ],
       field: expressionField,
-      initialData: expressionFieldInitialData
+      initialData: expressionFieldInitialData,
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => [
+            ...options,
+            ...[ { label: 'Value 5', value: 'value5' } ]
+          ]
+        }
+      }
     }, result.rerender);
 
     // then
@@ -1001,28 +1016,31 @@ const expressionFieldInitialData = {
   ]
 };
 
-function createTaglist(options = {}, renderFn = render) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createTaglist({ services, ...restOptions } = {}, renderFn = render) {
+  const options = {
+    domId: 'test-taglist',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
 
-  return renderFn(WithFormContext(
-    <Taglist
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || formContainer.querySelector('.fjs-form')
-  });
+  return renderFn(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Taglist
+        domId={ options.domId }
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        field={ options.field }
+        onChange={ options.onChange }
+        onBlur={ options.onBlur }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || formContainer.querySelector('.fjs-form')
+    }
+  );
 }
 
 function getTagValues(container) {

@@ -2,24 +2,14 @@ import { useCallback, useContext, useMemo, useRef, useState } from 'preact/hooks
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
 
-import { FormContext } from '../../../context';
-
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
 import AngelUpIcon from '../icons/AngelUp.svg';
-
-import {
-  prefixId,
-} from '../../Util';
-
-import classNames from 'classnames';
-
 import DropdownList from './DropdownList';
-import { findIndex } from 'min-dash';
 
 export default function SimpleSelect(props) {
   const {
-    id,
+    domId,
     disabled,
     errors,
     onBlur,
@@ -29,7 +19,6 @@ export default function SimpleSelect(props) {
     value
   } = props;
 
-  const { formId } = useContext(FormContext);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const selectRef = useRef();
   const inputRef = useRef();
@@ -95,15 +84,14 @@ export default function SimpleSelect(props) {
 
   return <>
     <div ref={ selectRef }
-      id={ prefixId(`${id}`, formId) }
       class={ classNames('fjs-input-group', { disabled, readonly }, { 'hasErrors': errors.length }) }
       onFocus={ onInputFocus }
       onBlur={ onInputBlur }
       onMouseDown={ onMouseDown }>
-      <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder' : !value }) } id={ prefixId(`${id}-display`, formId) }>{ valueLabel || 'Select' }</div>
+      <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder' : !value }) } id={ `${domId}-display` }>{ valueLabel || 'Select' }</div>
       { !disabled && <input
         ref={ inputRef }
-        id={ prefixId(`${id}-search`, formId) }
+        id={ domId }
         class="fjs-select-hidden-input"
         value={ valueLabel }
         onFocus={ onInputFocus }

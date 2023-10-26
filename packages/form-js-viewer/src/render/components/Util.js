@@ -31,11 +31,18 @@ export function gridColumnClasses(formField) {
   );
 }
 
+export function prefixId(id, formId, indexes) {
+  let result = 'fjs-form';
 
-export function prefixId(id, formId) {
   if (formId) {
-    return `fjs-form-${ formId }-${ id }`;
+    result += `-${formId}`;
   }
 
-  return `fjs-form-${ id }`;
+  result += `-${id}`;
+
+  Object.values(indexes || {}).forEach((index) => {
+    result += `_${index}`;
+  });
+
+  return result;
 }

@@ -10,7 +10,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -45,13 +45,13 @@ describe('Textfield', function() {
 
     expect(input).to.exist;
     expect(input.value).to.equal('John Doe Company');
-    expect(input.id).to.equal('fjs-form-foo-Textfield_1');
+    expect(input.id).to.equal('test-textfield');
 
     const label = container.querySelector('label');
 
     expect(label).to.exist;
     expect(label.textContent).to.equal('Creditor');
-    expect(label.htmlFor).to.equal('fjs-form-foo-Textfield_1');
+    expect(label.htmlFor).to.equal('test-textfield');
   });
 
 
@@ -612,28 +612,22 @@ const defaultField = {
   type: 'textfield'
 };
 
-function createTextfield(options = {}) {
-  const {
-    appearance = {},
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createTextfield({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Textfield
-      appearance={ appearance }
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-textfield',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Textfield { ...options } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

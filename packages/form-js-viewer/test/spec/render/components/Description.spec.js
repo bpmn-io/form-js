@@ -9,7 +9,7 @@ import {
   expectNoViolations
 } from '../../../TestHelper';
 
-import { WithFormContext } from './form-fields/helper';
+import { MockFormContext } from './helper';
 
 let container;
 
@@ -126,22 +126,22 @@ describe('Description', function() {
 
 // helpers //////////
 
-function createDescription(options = {}) {
-  const {
-    description,
-    id,
-    initialData
-  } = options;
+function createDescription({ services, ...restOptions }) {
 
-  return render(WithFormContext(
-    <Description
-      id={ id }
-      description={ description } />,
+  const options = {
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Description
+        id={ options.id }
+        description={ options.description } />
+    </MockFormContext>,
     {
-      ...options,
-      initialData
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

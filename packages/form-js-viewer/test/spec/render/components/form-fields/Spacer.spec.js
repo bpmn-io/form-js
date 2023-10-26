@@ -6,7 +6,7 @@ import {
   createFormContainer
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -59,25 +59,21 @@ const defaultField = {
   type: 'spacer'
 };
 
-function createSpacer(options = {}) {
-  const {
-    data = {},
-    initialData = {},
-    properties = {},
-    field = defaultField
-  } = options;
+function createSpacer({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Spacer field={ field }
-    />,
-    {
-      ...options,
-      properties,
-      initialData,
-      data
+  const options = {
+    field: defaultField,
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Spacer
+        field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ),
-  {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

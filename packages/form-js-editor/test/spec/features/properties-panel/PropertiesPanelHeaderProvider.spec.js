@@ -7,7 +7,7 @@ import { FormFields } from '@bpmn-io/form-js-viewer';
 
 import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from './helper';
+import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
 
 describe('PropertiesPanelHeaderProvider', function() {
@@ -151,15 +151,17 @@ describe('PropertiesPanelHeaderProvider', function() {
 // helpers /////////
 
 function renderHeader(options) {
+
   const {
     field,
     formFields
   } = options;
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    headerProvider: PropertiesPanelHeaderProvider
-  }), {
-    formFields
-  }));
+  return render(
+    <MockPropertiesPanelContext options={ options }>
+      <TestPropertiesPanel field={ field } headerProvider={ PropertiesPanelHeaderProvider } />
+    </MockPropertiesPanelContext>, {
+      formFields
+    }
+  );
 }

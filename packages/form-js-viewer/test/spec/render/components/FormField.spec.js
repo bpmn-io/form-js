@@ -13,7 +13,7 @@ import Textfield from 'src/render/components/form-fields/Textfield';
 
 import UpdateFieldValidationHandler from 'src/features/viewerCommands/cmd/UpdateFieldValidationHandler';
 
-import { FormContext } from 'src/render/context';
+import { MockFormContext } from './helper';
 
 import { createFormContainer } from '../../../TestHelper';
 
@@ -601,64 +601,56 @@ function createFormField(options = {}) {
 
   const updateFieldValidationHandler = new UpdateFieldValidationHandler(formMock, validatorMock);
 
-  const formContext = {
-    getService(type, strict = true) {
-      if (type === 'eventBus') {
-        return {
-          fire: () => {}
-        };
-      } else if (type === 'formFields') {
-        return {
-          get(type) {
-            if (type === FormFieldComponent.config.type) {
-              return FormFieldComponent;
-            }
-          }
-        };
-      } else if (type === 'form') {
-        return formMock;
-      } else if (type === 'conditionChecker') {
-        return checkCondition !== false ? {
-          applyConditions(data) {
-            return data;
-          },
-          check(...args) {
-            return checkCondition(...args);
-          }
-        } : undefined;
-      } else if (type === 'expressionLanguage') {
-        return isExpression !== false ? {
-          isExpression(...args) {
-            return isExpression(...args);
-          }
-        } : undefined;
-      } else if (type === 'templating') {
-        return isTemplate !== false ? {
-          isTemplate(...args) {
-            return isTemplate(...args);
-          }
-        } : undefined;
-      } else if (type === 'viewerCommands') {
-        return {
-          updateFieldValidation(field, value) {
-            return updateFieldValidationHandler.execute({ field, value });
-          }
-        };
-      } else if (type === 'pathRegistry') {
-        return {
-          getValuePath(field) { return field.key.split('.'); }
-        };
+  const conditionCheckerMock = checkCondition !== false ? {
+    applyConditions(data) {
+      return data;
+    },
+    check(...args) {
+      return checkCondition(...args);
+    }
+  } : undefined;
+
+  const expressionLanguageMock = isExpression !== false ? {
+    isExpression(...args) {
+      return isExpression(...args);
+    }
+  } : undefined;
+
+  const templatingMock = isTemplate !== false ? {
+    isTemplate(...args) {
+      return isTemplate(...args);
+    }
+  } : undefined;
+
+  const services = {
+    form: formMock,
+    formFields: {
+      get(type) {
+        if (type === FormFieldComponent.config.type) {
+          return FormFieldComponent;
+        }
       }
-      else if (type === 'validator') {
-        return validatorMock;
+    },
+    conditionChecker: conditionCheckerMock,
+    expressionLanguage: expressionLanguageMock,
+    templating: templatingMock,
+    validator: validatorMock,
+    viewerCommands: {
+      updateFieldValidation(field, value) {
+        return updateFieldValidationHandler.execute({ field, value });
       }
+    },
+    pathRegistry: {
+      getValuePath(field) { return field.key.split('.'); }
     }
   };
 
   return render(
-    <FormContext.Provider value={ formContext }>
+    <MockFormContext
+      services={ services }
+      options={ options }>
       <FormField field={ field } onChange={ onChange } />
-    </FormContext.Provider>
+    </MockFormContext>
     ,
     {
       container: options.container || container.querySelector('.fjs-form')

@@ -76,11 +76,11 @@ function getAutoFocusEntryId(field) {
   const valuesSource = getValuesSource(field);
 
   if (valuesSource === VALUES_SOURCES.EXPRESSION) {
-    return `${field.id}-valuesExpression-expression`;
+    return 'valuesExpression-expression';
   } else if (valuesSource === VALUES_SOURCES.INPUT) {
-    return `${field.id}-dynamicValues-key`;
+    return 'dynamicValues-key';
   } else if (valuesSource === VALUES_SOURCES.STATIC) {
-    return `${field.id}-staticValues-0-label`;
+    return 'staticValues-0-label';
   }
 
   return null;

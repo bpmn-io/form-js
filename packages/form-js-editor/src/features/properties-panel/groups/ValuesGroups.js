@@ -16,8 +16,7 @@ import {
 
 export default function ValuesGroups(field, editField, getService) {
   const {
-    type,
-    id: fieldId
+    type
   } = field;
 
   const formFields = getService('formFields');
@@ -29,46 +28,46 @@ export default function ValuesGroups(field, editField, getService) {
   }
 
   const context = { editField, field };
-  const valuesSourceId = `${fieldId}-valuesSource`;
+  const id = 'valuesSource';
 
   /**
    * @type {Array<Group|ListGroup>}
    */
   const groups = [
     {
-      id: valuesSourceId,
+      id,
       label: 'Options source',
       tooltip: getValuesTooltip(),
       component: Group,
-      entries: ValuesSourceSelectEntry({ ...context, id: valuesSourceId })
+      entries: ValuesSourceSelectEntry({ ...context, id })
     }
   ];
 
   const valuesSource = getValuesSource(field);
 
   if (valuesSource === VALUES_SOURCES.INPUT) {
-    const dynamicValuesId = `${fieldId}-dynamicValues`;
+    const id = 'dynamicValues';
     groups.push({
-      id: dynamicValuesId,
+      id,
       label: 'Dynamic options',
       component: Group,
-      entries: InputKeyValuesSourceEntry({ ...context, id: dynamicValuesId })
+      entries: InputKeyValuesSourceEntry({ ...context, id })
     });
   } else if (valuesSource === VALUES_SOURCES.STATIC) {
-    const staticValuesId = `${fieldId}-staticValues`;
+    const id = 'staticValues';
     groups.push({
-      id: staticValuesId,
+      id,
       label: 'Static options',
       component: ListGroup,
-      ...StaticValuesSourceEntry({ ...context, id: staticValuesId })
+      ...StaticValuesSourceEntry({ ...context, id })
     });
   } else if (valuesSource === VALUES_SOURCES.EXPRESSION) {
-    const valuesExpressionId = `${fieldId}-valuesExpression`;
+    const id = 'valuesExpression';
     groups.push({
-      id: valuesExpressionId,
+      id,
       label: 'Options expression',
       component: Group,
-      entries: ValuesExpressionEntry({ ...context, id: valuesExpressionId })
+      entries: ValuesExpressionEntry({ ...context, id })
     });
   }
 

@@ -6,10 +6,13 @@ export default function RepeatableEntry(props) {
     getService
   } = props;
 
-  const formFields = getService('formFields');
-  const config = formFields.get(field.type).config;
+  const {
+    type
+  } = field;
 
-  if (!config.repeatable) {
+  const formFieldDefinition = getService('formFields').get(type);
+
+  if (!formFieldDefinition || !formFieldDefinition.config.repeatable) {
     return [];
   }
 

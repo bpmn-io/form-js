@@ -20,10 +20,9 @@ export default function PathEntry(props) {
 
   const entries = [];
 
-  const formFields = getService('formFields');
-  const { config } = formFields.get(type);
+  const formFieldDefinition = getService('formFields').get(type);
 
-  if (config.pathed) {
+  if (formFieldDefinition && formFieldDefinition.config.pathed) {
     entries.push({
       id: 'path',
       component: Path,
