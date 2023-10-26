@@ -225,7 +225,9 @@ export default class Form {
       const valueData = get(data, valuePath);
       const fieldErrors = validator.validateField(field, valueData);
 
-      set(errors, getErrorPath(field, indexes), fieldErrors.length ? fieldErrors : undefined);
+      if (fieldErrors.length) {
+        set(errors, getErrorPath(field, indexes), fieldErrors);
+      }
 
       // Process parents
       if (field.components) {
