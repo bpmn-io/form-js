@@ -102,6 +102,9 @@ describe('validation', function() {
   testForm('validate-validationType');
 
 
+  testForm('layout-empty-row');
+
+
   describe('rules - required properties', function() {
 
 
