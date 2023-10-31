@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+### JSON Schema
+
+* `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
+
 ## 1.4.0
 
 ### General 
@@ -36,10 +40,6 @@ ___Note:__ Yet to be released changes appear here._
 ### Playground
 
 `FEAT`: provide `additionalModules` to both viewer and editor ([#776](https://github.com/bpmn-io/form-js/pull/776))
-
-### JSON Schema
-
-* `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
 
 ## 1.3.3
 

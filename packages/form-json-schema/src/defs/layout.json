@@ -6,7 +6,7 @@
   "properties": {
     "row": {
       "$id": "/#component/layout/row",
-      "type": "string",
+      "type": [ "string", "null" ],
       "description": "Row in which a form field is placed."
     },
     "columns": {
