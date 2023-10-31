@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "schemaVersion": 1,
   "exporter": {
     "name": "form-js (https://demo.bpmn.io)",

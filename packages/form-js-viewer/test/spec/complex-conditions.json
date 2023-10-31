@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "label": "Complex display condition 1",

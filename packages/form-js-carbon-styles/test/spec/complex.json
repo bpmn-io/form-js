@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "text": "# Title 1\n## Title 2\n### Title 3\n#### Title 4\n##### Title 5\n###### Title 6\n\n[this is a link](https://camunda.com) and then comes [**another bold link**](https://bpmn.io) and then [_another italic link_](https://camunda.com)\n\n- list\n- list\n\n1. foo\n2. foo\n\nFoo _italic_ **bold**\n\n&gt; Multiline code\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus auctor sodales pretium. Donec id volutpat quam, sit amet elementum lectus. \n\nInline `code`\n\n```\nMultiline code\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus auctor sodales pretium. Donec id volutpat quam, sit amet elementum lectus. \n```\n\n[Link](https://camunda.com)\n",
@@ -60,7 +61,7 @@
       "label": "I am a read only textfield",
       "type": "textfield",
       "id": "Field_1r9b6p3",
-      "key": "readonly-textfield",
+      "key": "readonly_textfield",
       "description": "I am a read only textfield description",
       "readonly": true,
       "defaultValue": "value"
@@ -613,15 +614,13 @@
       "action": "reset",
       "label": "reset",
       "type": "button",
-      "id": "Field_1ydujqw",
-      "key": "field_1yi6q4r"
+      "id": "Field_1ydujqw"
     },
     {
       "action": "submit",
       "label": "submit",
       "type": "button",
-      "id": "Field_1ydujqa",
-      "key": "field_1yi6q4a"
+      "id": "Field_1ydujqa"
     }
   ],
   "type": "default",

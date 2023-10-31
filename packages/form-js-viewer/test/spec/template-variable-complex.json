@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "text": "ConditionalExample: {{#if value > minimum}} Display conditionally {{display.subdisplay}} {{/if}}",

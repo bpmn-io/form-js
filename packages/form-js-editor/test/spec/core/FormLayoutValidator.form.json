@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "id": "Textfield_1",

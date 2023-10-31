@@ -282,7 +282,7 @@ describe('properties panel', function() {
       it('entries', function() {
 
         // given
-        const field = schema.components.find(({ key }) => key === 'submit');
+        const field = schema.components.find(({ action }) => action === 'submit');
 
         const result = createPropertiesPanel({
           container,
