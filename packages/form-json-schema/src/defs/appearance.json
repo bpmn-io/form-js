@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component/appearance",
+  "type": "object",
+  "description": "Changes the visual appearance of the form field.",
+  "properties": {
+    "prefixAdorner": {
+      "$id": "/#component/appearance/prefixAdorner",
+      "type": "string",
+      "description": "Adds an appendage before the input."
+    },
+    "suffixAdorner": {
+      "$id": "/#component/appearance/suffixAdorner",
+      "type": "string",
+      "description": "Adds an appendage after the input."
+    }
+  }
+}

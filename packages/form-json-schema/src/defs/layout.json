@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component/layout",
+  "type": "object",
+  "description": "Layout related information of a form field.",
+  "properties": {
+    "row": {
+      "$id": "/#component/layout/row",
+      "type": "string",
+      "description": "Row in which a form field is placed."
+    },
+    "columns": {
+      "$id": "/#component/validate/columns",
+      "type": [ "integer", "null" ],
+      "description": "Space the field will use inside its row. No value means it will automatically adjust to available space in the row.",
+      "minimum": 2,
+      "maximum": 16
+    }
+  }
+}

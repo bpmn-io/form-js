@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component/validate",
+  "type": "object",
+  "description": "Given that one of the following properties is set, the form will only submit when the respective condition is fulfilled. Otherwise, a validation error will be displayed.",
+  "properties": {
+    "required": {
+      "$id": "/#component/validate/required",
+      "type": "boolean",
+      "description": "Form field must contain a value."
+    },
+    "validationType": {
+      "$id": "/#component/validate/validationType",
+      "type": "string",
+      "description": "Use predefined validation patterns. Available options are: Email, Phone, and Custom (empty).",
+      "enum": [
+        "email",
+        "phone",
+        "custom",
+        "",
+        null
+      ]
+    },
+    "pattern": {
+      "$id": "/#component/validate/pattern",
+      "type": "string",
+      "description": "Form field value must match the provided RegEx pattern."
+    },
+    "minLength": {
+      "$id": "/#component/validate/minLength",
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "Form field value must be at least the provided length."
+    },
+    "maxLength": {
+      "$id": "/#component/validate/maxLength",
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "Form field value must be at most the provided length."
+    },
+    "min": {
+      "$id": "/#component/validate/min",
+      "type": [
+        "number",
+        "string"
+      ],
+      "description": "Form field value must be at least the provided number."
+    },
+    "max": {
+      "$id": "/#component/validate/max",
+      "type": [
+        "number",
+        "string"
+      ],
+      "description": "Form field value must be at most the provided number."
+    }
+  }
+}

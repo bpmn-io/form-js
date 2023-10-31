@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "type": {
+      "enum": [
+        "checkbox",
+        "checklist",
+        "datetime",
+        "number",
+        "radio",
+        "select",
+        "taglist",
+        "textfield",
+        "textarea"
+      ]
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

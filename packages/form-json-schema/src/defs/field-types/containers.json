@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "type": {
+      "enum": [
+        "group",
+        "dynamiclist"
+      ]
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

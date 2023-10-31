@@ -1,0 +1,147 @@
+{
+  "examples": [
+    [
+      {
+        "text": "Create a text",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "label": "Create a text field",
+        "type": "textfield",
+        "key": "textfield"
+      }
+    ],
+    [
+      {
+        "label": "Create a number field",
+        "type": "number",
+        "key": "number"
+      }
+    ],
+    [
+      {
+        "label": "Create a check box",
+        "type": "checkbox",
+        "key": "checkbox"
+      }
+    ],
+    [
+      {
+        "label": "Create a check list",
+        "values": [
+          {
+            "label": "Option 1",
+            "value": "option_1"
+          },
+          {
+            "label": "Option 2",
+            "value": "option_2"
+          }
+        ],
+        "type": "checklist",
+        "key": "checklist"
+      }
+    ],
+    [
+      {
+        "label": "Create a tag list",
+        "values": [
+          {
+            "label": "Option 1",
+            "value": "option_1"
+          },
+          {
+            "label": "Option 2",
+            "value": "option_2"
+          }
+        ],
+        "type": "taglist",
+        "key": "taglist"
+      }
+    ],
+    [
+      {
+        "label": "Create a radio button",
+        "values": [
+          {
+            "label": "Option 1",
+            "value": "option_1"
+          },
+          {
+            "label": "Option 2",
+            "value": "option_2"
+          }
+        ],
+        "type": "radio",
+        "key": "radio"
+      }
+    ],
+    [
+      {
+        "label": "Create a select",
+        "values": [
+          {
+            "label": "Option 1",
+            "value": "option_1"
+          },
+          {
+            "label": "Option 2",
+            "value": "option_2"
+          }
+        ],
+        "type": "select",
+        "key": "select"
+      }
+    ],
+    [
+      {
+        "alt": "Create an image",
+        "type": "image"
+      }
+    ],
+    [
+      {
+        "label": "Create a text area",
+        "type": "textarea",
+        "key": "textarea"
+      }
+    ],
+    [
+      {
+        "dateLabel": "Create a date time picker",
+        "subtype": "date",
+        "type": "datetime",
+        "key": "date"
+      }
+    ],
+    [
+      {
+        "type": "spacer",
+        "height": 60
+      }
+    ],
+    [
+      {
+        "label": "Create a button",
+        "type": "button",
+        "action": "submit"
+      }
+    ],
+    [
+      {
+        "label": "Create a group",
+        "type": "group",
+        "components": []
+      }
+    ],
+    [
+      {
+        "label": "Create a dynamic list",
+        "type": "dymamiclist",
+        "components": []
+      }
+    ]
+  ]
+}

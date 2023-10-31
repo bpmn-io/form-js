@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "type": {
+      "enum": [
+        "checklist",
+        "radio",
+        "select",
+        "taglist"
+      ]
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

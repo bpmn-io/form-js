@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://niklaskiefer.de/schema/form-js/1.0",
+  "title": "form-js JSON Schema",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "src/defs/rules/rules-default.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "$id": "#/type",
+      "description": "The type of a form.",
+      "type": "string",
+      "const": "default"
+    },
+    "id": {
+      "$id": "#/id",
+      "description": "The id of a form.",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "$id": "#/schemaVersion",
+      "description": "The schema version of a form",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "executionPlatform": {
+      "$id": "#/executionPlatform",
+      "description": "The target execution platform of a form",
+      "type": "string"
+    },
+    "executionPlatformVersion": {
+      "$id": "#/executionPlatformVersion",
+      "description": "The target execution platform version of a form",
+      "type": "string"
+    },
+    "exporter": {
+      "$id": "#/exporter",
+      "$ref": "src/defs/exporter.json"
+    },
+    "components": {
+      "type": "array",
+      "$id": "#/components",
+      "description": "List of form fields.",
+      "items": {
+        "type": "object",
+        "$ref": "src/defs/component.json",
+        "$id": "#/component"
+      },
+      "allOf": [
+        {
+          "$ref": "src/defs/examples/components.json"
+        }
+      ]
+    }
+  },
+  "required": [ 
+    "type", 
+    "components"
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "rules/rules-required-properties.json"
+    },
+    {
+      "$ref": "rules/rules-allowed-properties.json"
+    },
+    {
+      "$ref": "rules/rules-defaultValue-type.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "$id": "#/component/type",
+      "$ref": "type.json"
+    },
+    "id": {
+      "$id": "#/component/id",
+      "description": "The id of a form field.",
+      "type": "string"
+    },
+    "label": {
+      "$id": "#/component/label",
+      "description": "Label displayed on top of the form field.",
+      "type": "string"
+    },
+    "description": {
+      "$id": "#/component/description",
+      "description": "Description provided below the form field.",
+      "type": "string"
+    },
+    "key": {
+      "$id": "#/component/key",
+      "description": "Binds the form field to a form variable. Can be a dot separated path.",
+      "type": "string",
+      "pattern": "^\\w+(\\.\\w+)*$"
+    },
+    "readonly": {
+      "$id": "#/component/readonly",
+      "description": "Makes the form field read only.",
+      "type": [
+        "boolean",
+        "string"
+      ]
+    },
+    "disabled": {
+      "$id": "#/component/disabled",
+      "description": "Disables the form field.",
+      "type": [
+        "boolean",
+        "string"
+      ]
+    },
+    "text": {
+      "$id": "#/component/text",
+      "description": "Text content of a text view. Either an expression, plain text, or templating syntax.",
+      "type": "string"
+    },
+    "defaultValue": {
+      "$id": "#/component/defaultValue",
+      "description": "Provides a default value for the form field in case no input data exists for the given key.",
+      "type": [ "string", "boolean", "number", "array" ]
+    },
+    "action": {
+      "$id": "#/component/action",
+      "description": "A button can either trigger a submit or a reset action. Defaults to submit.",
+      "default": "submit",
+      "type": "string",
+      "enum": [
+        "submit",
+        "reset"
+      ]
+    },
+    "source": {
+      "$id": "#/component/source",
+      "description": "Specifies the image source via expression or static value (hyperlink or data URI).",
+      "type": "string"
+    },
+    "alt": {
+      "$id": "#/component/alt",
+      "description": "Provides an alternative text to the image in case it cannot be displayed.",
+      "type": "string"
+    },
+    "subtype": {
+      "$id": "#/component/subtype",
+      "description": "Selects the type of the datetime component. This can either be date, time, or datetime. Defaults to date.",
+      "type": "string",
+      "default": "date",
+      "enum": [
+        "date",
+        "time",
+        "datetime"
+      ]
+    },
+    "dateLabel": {
+      "$id": "#/component/dateLabel",
+      "description": "Label displayed beside the date input field.",
+      "type": "string"
+    },
+    "timeLabel": {
+      "$id": "#/component/timeLabel",
+      "description": "Label displayed beside the time input field.",
+      "type": "string"
+    },
+    "use24h": {
+      "$id": "#/component/use24h",
+      "description": "Enables 24-hour time format.",
+      "type": "boolean"
+    },
+    "timeSerializingFormat": {
+      "$id": "#/component/timeSerializingFormat",
+      "description": "Defines the time data format. This can either be utc_offset, utc_normalized, or no_timezone.",
+      "type": "string",
+      "enum": [
+        "utc_offset",
+        "utc_normalized",
+        "no_timezone"
+      ]
+    },
+    "timeInterval": {
+      "$id": "#/component/timeInterval",
+      "description": "Defines the steps of time that can be selected in the time input field.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "disallowPassedDates": {
+      "$id": "#/component/disallowPassedDates",
+      "description": "Enables the restriction to not allow past dates.",
+      "type": "boolean"
+    },
+    "increment": {
+      "$id": "#/component/increment",
+      "description": "Defines the increment between valid field value.",
+      "type": [
+        "number",
+        "string"
+      ]
+    },
+    "decimalDigits": {
+      "$id": "#/component/decimalDigits",
+      "description": "Defines the maximum number of digits after the decimal..",
+      "type": "integer"
+    },
+    "serializeToString": {
+      "$id": "#/component/serializeToString",
+      "description": "Configures the output format of the value. This enables unlimited precision digits.",
+      "type": "boolean"
+    },
+    "searchable": {
+      "$id": "#/component/searchable",
+      "description": "Allows the select entries to be searched via keyboard.",
+      "type": "boolean"
+    },
+    "valuesKey": {
+      "$id": "#/component/valuesKey",
+      "description": "Form fields can be configured with an options source defining the individual choices the select provides.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "valuesExpression": {
+      "$id": "#/component/valuesExpression",
+      "description": "Form fields can be configured with a FEEL expression defining the individual choices the select provides.",
+      "type": "string"
+    },
+    "height": {
+      "$id": "#/component/height",
+      "description": "The height of the spacer component.",
+      "type": "number"
+    },
+    "components": {
+      "type": "array",
+      "$id": "#/component/components",
+      "description": "List of form field children.",
+      "items": {
+        "type": "object",
+        "$ref": "component.json",
+        "$id": "#/components/component"
+      }
+    },
+    "path": {
+      "$id": "#/component/path",
+      "description": "Assigns a path that maps form field children into a data object. Can be a dot separated path.",
+      "type": "string",
+      "pattern": "^(\\w+(\\.\\w+)*)*$"
+    },
+    "showOutline": {
+      "$id": "#/component/showOutline",
+      "description": "Groups and dynamic lists can have a visual outline.",
+      "type": "boolean"
+    },
+    "verticalAlignment": {
+      "$id": "#/component/verticalAlignment",
+      "description": "Groups and dynamic lists can be vertical aligned.",
+      "type": "string",
+      "default": "start",
+      "enum": [
+        "start",
+        "center",
+        "end"
+      ]
+    },
+    "validate": {
+      "$id": "#/component/validate",
+      "$ref": "validate.json"
+    },
+    "layout": {
+      "$id": "#/component/layout",
+      "$ref": "layout.json"
+    },
+    "values": {
+      "$id": "#/component/values",
+      "$ref": "values.json"
+    },
+    "appearance": {
+      "$id": "#/component/appearance",
+      "$ref": "appearance.json"
+    },
+    "conditional": {
+      "$id": "#/component/conditional",
+      "$ref": "conditional.json"
+    },
+    "properties": {
+      "$id": "#/component/properties",
+      "$ref": "properties.json"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}
