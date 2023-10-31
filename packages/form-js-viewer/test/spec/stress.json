@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "id": "Form_1",
   "type": "default",
   "components": [
@@ -19,14 +20,12 @@
     {
       "id": "Field_11",
       "action": "submit",
-      "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
       "id": "Field_12",
       "action": "reset",
-      "key": "reset",
       "label": "Reset",
       "type": "button"
     }

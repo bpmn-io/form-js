@@ -1,9 +1,9 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "action": "reset",
       "id": "foo",
-      "key": "reset",
       "label": "Reset",
       "type": "button"
     }

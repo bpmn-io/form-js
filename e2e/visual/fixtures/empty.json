@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../packages/form-json-schema/resources/schema.json",
   "schemaVersion": 8,
   "exporter": {
     "name": "Camunda Web Modeler",

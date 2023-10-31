@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "type": "text",
@@ -137,13 +138,11 @@
       "type": "image"
     },
     {
-      "key": "submit",
       "label": "Submit",
       "type": "button"
     },
     {
       "action": "reset",
-      "key": "reset",
       "label": "Reset",
       "type": "button"
     }

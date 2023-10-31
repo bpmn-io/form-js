@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "key": "amount",
@@ -14,6 +15,7 @@
     },
     {
       "label": "Text Field",
+      "key": "textfield",
       "type": "textfield",
       "id": "Field",
       "conditional": {

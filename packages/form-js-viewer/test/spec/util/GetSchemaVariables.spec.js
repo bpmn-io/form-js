@@ -65,7 +65,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(conditionalSchema);
 
-    expect(variables).to.eql([ 'externalVariable', 'amount' ]);
+    expect(variables).to.eql([ 'externalVariable', 'amount', 'textfield' ]);
   });
 
 
@@ -73,7 +73,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(conditionalSchema, { inputs: false });
 
-    expect(variables).to.eql([ 'amount' ]);
+    expect(variables).to.eql([ 'amount', 'textfield' ]);
   });
 
 

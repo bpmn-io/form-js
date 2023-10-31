@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
       "text": "#### Ship Name:\n {{shipsForSale[item.name = selectedShip].name}}\n#### Ship Description: \n {{shipsForSale[item.name = selectedShip].description}}\n#### Ship Price: \n {{shipsForSale[item.name = selectedShip].purchasePrice}}\n#### Frame:\n {{shipsForSale[item.name = selectedShip].frame.name}}\n#### Reactor:\n {{shipsForSale[item.name = selectedShip].reactor.name}}\n#### Engine:\n {{shipsForSale[item.name = selectedShip].engine.name}}\n#### Moduels:\n {{shipsForSale[item.name = selectedShip].modules.name}}\n",
