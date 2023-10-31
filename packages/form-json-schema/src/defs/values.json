@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component/values",
+  "type": "array",
+  "description": "Static options of a form field",
+  "items": {
+    "type": "object",
+    "properties": {
+      "label": {
+        "$id": "#/component/values/label",
+        "type": "string",
+        "description": "Label of the option"
+      },
+      "value": {
+        "$id": "#/component/values/value",
+        "type": "string",
+        "description": "Value of the option"
+      }
+    }
+  }
+}

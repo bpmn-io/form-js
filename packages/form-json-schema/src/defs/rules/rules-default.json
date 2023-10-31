@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "default"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "layout": false,
+          "conditional": false,
+          "properties": false
+        }
+      }
+    }
+  ]
+}

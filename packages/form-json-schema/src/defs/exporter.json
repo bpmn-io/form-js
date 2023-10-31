@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/exporter",
+  "description": "The exporter tool of a form",
+  "type": "object",
+  "properties": {
+    "name": {
+      "$id": "#/exporter/name",
+      "description": "The name of the exporter tool",
+      "type": "string"
+    },
+    "version": {
+      "$id": "#/exporter/version",
+      "description": "The version of the exporter tool",
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "allOf": [
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "text"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "text": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "anyOf": [
+            {
+              "$ref": "../field-types/inputs.json"
+            },
+            {
+              "properties": {
+                "type": {
+                  "const": "button"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            {
+              "$ref": "../field-types/containers.json"
+            }
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "label": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "$ref": "../field-types/inputs.json"
+        }
+      },
+      "then": {
+        "properties": {
+          "description": false,
+          "key": false,
+          "disabled": false,
+          "readonly": false,
+          "validate": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "button"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "action": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "image"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "source": false,
+          "alt": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "datetime"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "subtype": false,
+          "dateLabel": false,
+          "timeLabel": false,
+          "use24h": false,
+          "timeSerializingFormat": false,
+          "timeInterval": false,
+          "disallowPassedDates": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "number"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "increment": false,
+          "decimalDigits": false,
+          "serializeToString": false,
+          "validate": {
+            "properties": {
+              "min": false,
+              "max": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "select"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "searchable": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "$ref": "../field-types/multi-inputs.json"
+        }
+      },
+      "then": {
+        "properties": {
+          "values": false,
+          "valuesKey": false,
+          "valuesExpression": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "textfield"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "validate": {
+            "properties": {
+              "validationType": false,
+              "pattern": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "enum": [
+                "textfield",
+                "textarea"
+              ]
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "validate": {
+            "properties": {
+              "minLength": false,
+              "maxLength": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "enum": [
+                "textfield",
+                "number"
+              ]
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "appearance": {
+            "properties": {
+              "prefixAdorner": false,
+              "suffixAdorner": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "not": {
+              "$ref": "../field-types/inputs.json"
+            }
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "../field-types/multi-inputs.json"
+              },
+              {
+                "properties": {
+                  "valuesKey": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "valuesKey"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "defaultValue": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "spacer"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "height": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "$ref": "../field-types/containers.json"
+        }
+      },
+      "then": {
+        "properties": {
+          "path": false,
+          "showOutline": false,
+          "verticalAlignment": false,
+          "components": false
+        }
+      }
+    }
+  ]
+}

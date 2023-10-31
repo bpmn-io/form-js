@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "allOf": [
+    {
+      "if": {
+        "$ref": "../field-types/inputs.json"
+      },
+      "then": {
+        "required": [
+          "key"
+        ]
+      }
+    }
+  ]
+}

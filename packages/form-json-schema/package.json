@@ -1,0 +1,32 @@
+{
+  "name": "@bpmn-io/form-json-schema",
+  "version": "1.3.3",
+  "description": "JSON Schema for form-js",
+  "files": [
+    "resources"
+  ],
+  "scripts": {
+    "test": "mocha --reporter=spec --recursive test/spec",
+    "dev": "npm run test -- --watch",
+    "all": "run-s build test",
+    "build": "run-s build:error-messages build:schema",
+    "build:error-messages": "node tasks/generate-error-messages.js --input=./src/error-messages.json --output=./resources/error-messages.json",
+    "build:schema": "node tasks/generate-schema.js --input=./src/index.json --output=./resources/schema.json",
+    "prepare": "run-s build"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpmn-io/form-js.git",
+    "directory": "packages/form-json-schema"
+  },
+  "author": {
+    "name": "bpmn.io contributors",
+    "url": "https://github.com/bpmn-io"
+  },
+  "keywords": [
+    "json-schema",
+    "form-js",
+    "forms"
+  ]
+}

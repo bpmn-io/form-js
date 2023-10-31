@@ -59,6 +59,7 @@
     }
   ],
   "devDependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "@axe-core/playwright": "^4.7.3",
     "@babel/core": "^7.18.10",
     "@babel/plugin-transform-react-jsx": "^7.14.5",
@@ -80,6 +81,8 @@
     "@types/node": "^20.6.3",
     "@types/sinon": "^10.0.0",
     "@types/sinon-chai": "^3.2.5",
+    "ajv": "^8.12.0",
+    "ajv-errors": "^3.0.0",
     "axe-core": "^4.8.2",
     "babel-loader": "^9.0.0",
     "babel-plugin-istanbul": "^6.1.1",
@@ -112,6 +115,7 @@
     "raw-loader": "^4.0.2",
     "rollup": "^3.0.0",
     "rollup-plugin-copy": "^3.4.0",
+    "mri": "^1.2.0",
     "sass": "^1.58.3",
     "sass-loader": "^13.2.0",
     "sinon": "^17.0.0",
