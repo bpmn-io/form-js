@@ -2,19 +2,24 @@
 
 All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documented here. We use [semantic versioning](http://semver.org/) for releases.
 
-## Unreleased
+## 1.4.0
 
 ___Note:__ Yet to be released changes appear here._
 
 ### General 
 
 * `FEAT`: support custom form fields ([#123](https://github.com/bpmn-io/form-js/issues/123))
+* `FEAT`: implement separator form field ([#480](https://github.com/bpmn-io/form-js/issues/480))
+* `FEAT`: implement <formField.search> events ([#785](https://github.com/bpmn-io/form-js/issues/785))
+* `CHORE`: update schemaVersion to 12
 
 ### Viewer
 
 * `FEAT`: provide more customization options, as of ([#776](https://github.com/bpmn-io/form-js/pull/776))
   * extending form field config via `icon`, `iconUrl`, `propertiesPanelEntries`
   * re-export core components as `Label`, `Description`, `Errors`
+* `FEAT`: make it easier to navigate over tags in `taglist` component([#435](https://github.com/bpmn-io/form-js/issues/435))
+* `FEAT`: add focus and blur events ([#841](https://github.com/bpmn-io/form-js/pull/841))
 
 ### Editor
 
@@ -22,6 +27,9 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: collect palette entries and properties panel header information via form field configs ([#776](https://github.com/bpmn-io/form-js/pull/776))
 * `FEAT`: add `isDefaultVisible` control to all properties panel entries ([#776](https://github.com/bpmn-io/form-js/pull/776))
 * `FEAT`: re-export hooks
+* `FEAT`: better keyboard support for pallette entries ([#536](https://github.com/bpmn-io/form-js/issues/536))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.11.0`
+* `FIX`: improve pallette visuals ([#539](https://github.com/bpmn-io/form-js/issues/539)) ([#848](https://github.com/bpmn-io/form-js/issues/848))
 
 ### Playground
 
