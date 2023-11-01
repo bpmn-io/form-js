@@ -10,8 +10,8 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: support custom form fields ([#123](https://github.com/bpmn-io/form-js/issues/123))
 * `FEAT`: implement separator form field ([#480](https://github.com/bpmn-io/form-js/issues/480))
-* `CHORE`: update schemaVersion to 12
 * `FEAT`: implement <formField.search> events ([#785](https://github.com/bpmn-io/form-js/issues/785))
+* `CHORE`: update schemaVersion to 12
 
 ### Viewer
 
