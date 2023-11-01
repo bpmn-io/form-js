@@ -2,9 +2,11 @@
 
 All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documented here. We use [semantic versioning](http://semver.org/) for releases.
 
-## 1.4.0
+## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+
+## 1.4.0
 
 ### General 
 
