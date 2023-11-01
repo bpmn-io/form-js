@@ -773,9 +773,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledTwice;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: VALUES_SOURCES_DEFAULTS[VALUES_SOURCES.STATIC],
-            valuesKey: undefined,
-            valuesExpression: undefined
+            values: VALUES_SOURCES_DEFAULTS[VALUES_SOURCES.STATIC]
           });
         });
       });
@@ -783,7 +781,7 @@ describe('properties panel', function() {
 
       describe('dynamic options', function() {
 
-        it('should configure input source & cleanup static source', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -807,9 +805,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
             valuesKey: '',
-            valuesExpression: undefined
           });
         });
 
@@ -1123,7 +1119,7 @@ describe('properties panel', function() {
 
       describe('dynamic options', function() {
 
-        it('should configure input source & cleanup static source', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -1147,9 +1143,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
-            valuesKey: '',
-            valuesExpression: undefined
+            valuesKey: ''
           });
         });
 
@@ -1395,7 +1389,7 @@ describe('properties panel', function() {
 
       describe('dynamic options (valuesKey)', function() {
 
-        it('should configure input source & cleanup static source', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -1419,9 +1413,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
-            valuesKey: '',
-            valuesExpression: undefined
+            valuesKey: ''
           });
         });
 
@@ -1536,7 +1528,7 @@ describe('properties panel', function() {
 
       describe('dynamic options (valuesExpression)', function() {
 
-        it('should configure input source & cleanup other sources', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -1560,8 +1552,6 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
-            valuesKey: undefined,
             valuesExpression: '='
           });
         });
@@ -2059,7 +2049,7 @@ describe('properties panel', function() {
 
       describe('dynamic options (valuesKey)', function() {
 
-        it('should configure input source & cleanup static source', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -2083,9 +2073,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
-            valuesKey: '',
-            valuesExpression: undefined
+            valuesKey: ''
           });
         });
 
@@ -2204,7 +2192,7 @@ describe('properties panel', function() {
 
       describe('dynamic options (valuesExpression)', function() {
 
-        it('should configure input source & cleanup other sources', function() {
+        it('should configure input source', function() {
 
           // given
           const editFieldSpy = spy();
@@ -2228,8 +2216,6 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: undefined,
-            valuesKey: undefined,
             valuesExpression: '='
           });
         });
