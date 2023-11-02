@@ -67,6 +67,7 @@
       ]
     },
     {
+      "id": "language",
       "defaultValue": "english",
       "key": "language",
       "label": "Language",
