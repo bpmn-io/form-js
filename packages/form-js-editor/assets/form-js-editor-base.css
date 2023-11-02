@@ -216,6 +216,17 @@
   display: none;
 }
 
+.fjs-no-json-lint .cm-activeLine,
+.fjs-no-json-lint .cm-activeLineGutter {
+  background: none;
+}
+
+.fjs-no-json-lint .cm-placeholder {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
+}
+
 .fjs-editor-container .fjs-form-editor {
   display: flex;
   flex: 1;
