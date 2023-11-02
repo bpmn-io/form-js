@@ -82,6 +82,7 @@ function Element(props) {
   const eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
         formFieldRegistry = useService('formFieldRegistry'),
+        formFields = useService('formFields'),
         modeling = useService('modeling'),
         selection = useService('selection');
 
@@ -187,7 +188,7 @@ function Element(props) {
       <ContextPad>
         {
           selection.isSelected(field) && field.type !== 'default'
-            ? <button class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
+            ? <button title={ getRemoveButtonTitle(field, formFields) } class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
             : null
         }
       </ContextPad>
@@ -579,4 +580,14 @@ function findPaletteEntry(type, formFields) {
 
 function defaultPropertiesPanel(propertiesPanelConfig) {
   return !(propertiesPanelConfig && propertiesPanelConfig.parent);
+}
+
+function getRemoveButtonTitle(formField, formFields) {
+  const entry = findPaletteEntry(formField.type, formFields);
+
+  if (!entry) {
+    return 'Remove form field';
+  }
+
+  return `Remove ${entry.label}`;
 }
