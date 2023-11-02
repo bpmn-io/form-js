@@ -59,7 +59,7 @@
     }
   ],
   "devDependencies": {
-    "@apidevtools/json-schema-ref-parser": "^9.0.9",
+    "@apidevtools/json-schema-ref-parser": "^11.0.0",
     "@axe-core/playwright": "^4.7.3",
     "@babel/core": "^7.18.10",
     "@babel/plugin-transform-react-jsx": "^7.14.5",
