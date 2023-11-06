@@ -91,14 +91,14 @@ export function PlaygroundRoot(props) {
   useEffect(() => {
     const dataEditor = dataEditorRef.current = new JSONEditor({
       value: toString(data),
-      contentAttributes: { 'aria-label': 'Form Input' },
+      contentAttributes: { 'aria-label': 'Form Input', tabIndex: 0 },
       placeholder: createDataEditorPlaceholder()
     });
 
     const resultView = resultViewRef.current = new JSONEditor({
       readonly: true,
       value: toString(resultData),
-      contentAttributes: { 'aria-label': 'Form Output' }
+      contentAttributes: { 'aria-label': 'Form Output', tabIndex: 0 }
     });
 
     const form = formRef.current = new Form({
