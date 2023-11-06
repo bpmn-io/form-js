@@ -4,6 +4,8 @@ import '@bpmn-io/form-js-viewer/dist/assets/form-js.css';
 
 import '@bpmn-io/form-js-editor/dist/assets/form-js-editor.css';
 
+export { expectNoViolations } from '../../form-js-viewer/test/helper';
+
 
 export function isSingleStart(topic) {
   return window.__env__ && window.__env__.SINGLE_START === topic;
