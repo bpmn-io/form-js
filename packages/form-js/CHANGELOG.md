@@ -10,6 +10,15 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
 
+## 1.4.1
+
+### Editor
+
+* `FIX`: clean up default value on options source change ([#859](https://github.com/bpmn-io/form-js/issues/859))
+* `FIX`: improve color contrast in input data placeholder ([#876](https://github.com/bpmn-io/form-js/pull/876))
+* `FIX`: add title to remove action ([#877](https://github.com/bpmn-io/form-js/pull/877))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.13.0`
+
 ## 1.4.0
 
 ### General 
