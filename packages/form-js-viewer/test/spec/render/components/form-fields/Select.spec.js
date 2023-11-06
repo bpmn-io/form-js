@@ -235,6 +235,68 @@ describe('Select', function() {
     });
 
 
+    it('should close dropdown on blur', function() {
+
+      // given
+      const { container } = createSelect();
+
+      const select = container.querySelector('.fjs-input-group');
+
+      // when
+      fireEvent.focus(select);
+
+      // assume
+      let dropdownList = container.querySelector('.fjs-dropdownlist');
+      expect(dropdownList).to.exist;
+
+      // and when
+      fireEvent.blur(select);
+
+      // then
+      dropdownList = container.querySelector('.fjs-dropdownlist');
+      expect(dropdownList).to.not.exist;
+    });
+
+
+    it('should focus input on mouse down', function() {
+
+      // given
+      const focusSpy = spy();
+
+      const { container } = createSelect({
+        onFocus: focusSpy
+      });
+
+      const select = container.querySelector('.fjs-input-group');
+
+      // when
+      fireEvent.mouseDown(select);
+
+      // then
+      expect(focusSpy).to.have.been.called;
+    });
+
+
+    it('should blur input on second mouse down', function() {
+
+      // given
+      const blurSpy = spy();
+
+      const { container } = createSelect({
+        onBlur: blurSpy
+      });
+
+      const select = container.querySelector('.fjs-input-group');
+
+      // when
+      fireEvent.mouseDown(select);
+      fireEvent.mouseDown(select);
+
+      // then
+      expect(blurSpy).to.have.been.called;
+    });
+
+
     describe('interaction (static data)', function() {
 
       it('should set value through dropdown', function() {
@@ -1188,6 +1250,8 @@ function createSelect(options = {}, renderFn = render) {
     errors,
     field = defaultField,
     searchable = false,
+    onBlur,
+    onFocus,
     onChange = () => {},
     value
   } = options;
@@ -1198,6 +1262,8 @@ function createSelect(options = {}, renderFn = render) {
       readonly={ readonly }
       errors={ errors }
       field={ field }
+      onBlur={ onBlur }
+      onFocus={ onFocus }
       onChange={ onChange }
       searchable={ searchable }
       value={ value } />,

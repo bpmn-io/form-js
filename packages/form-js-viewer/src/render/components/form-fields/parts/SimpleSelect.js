@@ -31,6 +31,7 @@ export default function SimpleSelect(props) {
   const { formId } = useContext(FormContext);
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const selectRef = useRef();
+  const inputRef = useRef();
 
   const {
     state: loadState,
@@ -55,14 +56,13 @@ export default function SimpleSelect(props) {
   }, [ disabled, isDropdownExpanded, loadState, value ]);
 
   const onMouseDown = useCallback((e) => {
-    const select = selectRef.current;
+    const input = inputRef.current;
     setIsDropdownExpanded(!isDropdownExpanded);
 
     if (isDropdownExpanded) {
-      select.blur();
-    }
-    else {
-      select.focus();
+      input.blur();
+    } else {
+      input.focus();
     }
 
     e.preventDefault();
@@ -93,6 +93,7 @@ export default function SimpleSelect(props) {
       onMouseDown={ onMouseDown }>
       <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder' : !value }) } id={ prefixId(`${id}-display`, formId) }>{ valueLabel || 'Select' }</div>
       { !disabled && <input
+        ref={ inputRef }
         id={ prefixId(`${id}-search`, formId) }
         class="fjs-select-hidden-input"
         value={ valueLabel }
