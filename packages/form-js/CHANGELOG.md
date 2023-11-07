@@ -10,6 +10,14 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
 
+### Carbon styles
+
+* `FEAT`: introduce Carbon styles as a SASS stylesheet ([#633](https://github.com/bpmn-io/form-js/issues/633))
+
+### Breaking Changes
+
+The `@bpmn-io/form-js-carbon-styles` deprecates the `carbon-styles.js` styled component export. The `type` definitions got removed from the package. Please use the `src/carbon-styles.scss` stylesheet instead.
+
 ## 1.4.1
 
 ### Editor

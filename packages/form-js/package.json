@@ -24,7 +24,7 @@
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/form-js-editor-base.css": "./dist/assets/form-js-editor-base.css",
     "./dist/assets/form-js-playground.css": "./dist/assets/form-js-playground.css",
-    "./dist/carbon-styles": "./dist/carbon-styles.js",
+    "./dist/assets/carbon-styles.scss": "./dist/assets/carbon-styles.scss",
     "./package.json": "./package.json"
   },
   "publishConfig": {
