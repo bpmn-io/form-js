@@ -36,6 +36,8 @@ import themeCSS from './theme.scss';
 
 import testCSS from '../test.css';
 
+import carbonSassStyles from '../../src/carbon-styles.scss';
+
 const THEME_TOKENS = {
   light: 'g10',
   dark: 'g100',
@@ -127,6 +129,73 @@ describe('Carbon styles', function() {
         container,
         schema,
         data
+      }, result.rerender);
+    });
+
+    // then
+    expect(domQuery('.fjs-container', result.container)).to.exist;
+  });
+
+
+  (singleStart ? it.only : it)('should render - sass', function() {
+
+    // given
+    insertCSS('carbon-styles.css', carbonSassStyles);
+
+    const toggle = document.createElement('button');
+    toggle.textContent = 'Toggle Theme';
+    toggle.style.position = 'absolute';
+    toggle.style.right = '10px';
+    toggle.style.top = '10px';
+    container.appendChild(toggle);
+
+    let theme = 'dark';
+
+    const data = {
+      creditor: 'John Doe Company',
+      amount: 456,
+      invoiceNumber: 'C-123',
+      approved: true,
+      approvedBy: 'John Doe',
+      mailto: [ 'regional-manager', 'approver' ],
+      product: 'camunda-cloud',
+      queriedDRIs: [
+        {
+          'label': 'John Doe',
+          'value': 'johnDoe'
+        },
+        {
+          'label': 'Anna Bell',
+          'value': 'annaBell'
+        },
+        {
+          'label': 'Nico Togin',
+          'value': 'incognito'
+        }
+      ],
+      tags: [ 'tag1', 'tag2', 'tag3' ],
+      readonly_tags: [ 'tag1', 'tag2', 'tag3' ],
+      readonly_checklist: [ 'option_1' ],
+      readonly_radio: 'option_1',
+      language: 'english'
+    };
+
+    const result = createFormView({
+      container,
+      schema,
+      data,
+      withGlobalFormStyling: false
+    });
+
+    toggle.addEventListener('click', () => {
+      toggleTheme(container);
+      theme = theme === 'dark' ? 'light' : 'dark';
+      createFormView({
+        theme,
+        container,
+        schema,
+        data,
+        withGlobalFormStyling: false
       }, result.rerender);
     });
 
