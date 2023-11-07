@@ -56,7 +56,7 @@ insertCSS('form-js.css', formCSS);
 const singleStart = isSingleStart('carbon-form');
 
 
-describe('FormCustomStyling', function() {
+describe('Carbon styles', function() {
 
   let container;
 
@@ -72,7 +72,7 @@ describe('FormCustomStyling', function() {
   });
 
 
-  (singleStart ? it.only : it)('should render', function() {
+  it('should render - styled-components (legacy)', function() {
 
     // given
     const toggle = document.createElement('button');
@@ -172,12 +172,13 @@ function createFormView(options = {}, renderFn = render) {
   const {
     container,
     theme = 'dark',
+    withGlobalFormStyling = true,
     ...restOptions
   } = options;
 
   return renderFn(
     <WithTheme theme={ themes[THEME_TOKENS[theme]] }>
-      <GlobalFormStyling></GlobalFormStyling>
+      { withGlobalFormStyling && <GlobalFormStyling></GlobalFormStyling> }
       <FormContainer { ...restOptions }></FormContainer>
     </WithTheme>,
     {

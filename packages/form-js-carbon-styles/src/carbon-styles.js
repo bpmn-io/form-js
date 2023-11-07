@@ -1,5 +1,7 @@
-// todo(pinussilvestrus): consider moving away from styled-components,
-// cf. https://github.com/bpmn-io/form-js/issues/633
+/**
+ * DEPRECATED: This file is deprecated and will be removed with one of the next releases.
+ */
+
 import { css, createGlobalStyle } from 'styled-components';
 import { rem } from '@carbon/elements';
 
