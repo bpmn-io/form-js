@@ -1,0 +1,15 @@
+@use '@carbon/styles' as * with (
+  $font-path: 'https://fonts.camunda.io'
+);
+@use '@carbon/styles/scss/themes';
+@use '@carbon/styles/scss/theme';
+
+@import '@bpmn-io/form-js-carbon-styles/src/carbon-styles';
+
+.cds--g10 {
+  @include theme.theme(themes.$g10);
+}
+
+.cds--g100 {
+  @include theme.theme(themes.$g100);
+}
