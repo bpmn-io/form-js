@@ -2,8 +2,6 @@
   "name": "@bpmn-io/form-js-carbon-styles",
   "version": "1.4.0",
   "description": "Custom carbon styles for form-js",
-  "main": "src/carbon-styles.js",
-  "types": "src/types/carbon-styles.d.ts",
   "scripts": {
     "all": "run-s test",
     "test": "karma start",
@@ -24,10 +22,6 @@
     "@carbon/elements": "^11.19.1",
     "@types/styled-components": "^5.1.26",
     "styled-components": "^6.0.0"
-  },
-  "peerDependencies": {
-    "@carbon/elements": ">=11",
-    "styled-components": ">=5"
   },
   "files": [
     "src"
