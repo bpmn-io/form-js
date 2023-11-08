@@ -659,6 +659,15 @@ describe('features/modeling', function() {
         }));
 
 
+        it('should NOT set empty row', inject(function(formFieldRegistry) {
+
+          // then
+          const formField = formFieldRegistry.get('Text_1');
+
+          expect(formField.layout.row).to.exist;
+        }));
+
+
         it('<undo>', inject(function(commandStack, formFieldRegistry) {
 
           // when
@@ -735,7 +744,6 @@ describe('features/modeling', function() {
 
         it('<do>', inject(function(formFieldRegistry) {
 
-
           // then
           expect(formFieldRegistry.getAll()).to.have.length(formFieldsLength);
 
@@ -747,6 +755,15 @@ describe('features/modeling', function() {
             sourceFormFieldIds[ 0 ],
             ...targetFormFieldIds
           ]);
+        }));
+
+
+        it('should NOT set empty row', inject(function(formFieldRegistry) {
+
+          // then
+          const formField = formFieldRegistry.get('GroupTextfield_1');
+
+          expect(formField.layout.row).to.exist;
         }));
 
 

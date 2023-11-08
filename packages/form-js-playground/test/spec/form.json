@@ -3,7 +3,32 @@
   "components": [
     {
       "type": "text",
-      "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
+      "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__.",
+      "layout": {
+        "row": "Row_1",
+        "columns": 10
+      }
+    },
+    {
+      "id": "Group_1",
+      "type": "group",
+      "label": "Supplementary Information",
+      "path": "invoiceDetails",
+      "showOutline": true,
+      "components": [
+        {
+          "id": "GroupTextfield_1",
+          "type": "textfield",
+          "key": "supplementaryInfo1",
+          "label": "Field 1"
+        },
+        {
+          "id": "GroupTextfield_2",
+          "type": "textfield",
+          "key": "supplementaryInfo2",
+          "label": "Field 2"
+        }
+      ]
     },
     {
       "key": "creditor",
