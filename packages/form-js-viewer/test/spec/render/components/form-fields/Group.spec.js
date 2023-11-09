@@ -120,7 +120,7 @@ describe('Group', () => {
     const { config } = Group;
     expect(config.type).to.eql('group');
     expect(config.label).to.eql('Group');
-    expect(config.group).to.eql('presentation');
+    expect(config.group).to.eql('container');
     expect(config.pathed).to.be.true;
 
     // when

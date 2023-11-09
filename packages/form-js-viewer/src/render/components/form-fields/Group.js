@@ -31,7 +31,7 @@ Group.config = {
   type: 'group',
   pathed: true,
   label: 'Group',
-  group: 'presentation',
+  group: 'container',
   create: (options = {}) => ({
     components: [],
     showOutline: true,
