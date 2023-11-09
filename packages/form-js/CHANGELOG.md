@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.5.0-alpha.0
+
+### General
+
+* `FIX`: properly focus select on click ([#878](https://github.com/bpmn-io/form-js/issues/878))
+
+### Playground
+
+* `FIX`: add proper tab index to JSON editors ([#884](https://github.com/bpmn-io/form-js/pull/884))
+
 ### JSON Schema
 
 * `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
