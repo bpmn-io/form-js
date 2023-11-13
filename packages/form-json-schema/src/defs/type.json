@@ -18,6 +18,7 @@
     "spacer",
     "group",
     "dynamiclist",
-    "separator"
+    "separator",
+    "table"
   ]
 }

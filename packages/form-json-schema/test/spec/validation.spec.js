@@ -257,6 +257,15 @@ describe('validation', function() {
 
     testForm('defaultValue-no-array');
 
+
+    testForm('columns-not-allowed');
+
+    testForm('columnsExpression-not-allowed');
+
+    testForm('rowCount-not-allowed');
+
+    testForm('rowCount-no-number');
+
   });
 
 

@@ -46,11 +46,11 @@ npm run test
 
 ## Schema compatibility notice
 
-This schena is currently only compatible with following [form-js](https://github.com/bpmn-io/form-js) schema versions.
+This schema is currently only compatible with following [form-js](https://github.com/bpmn-io/form-js) schema versions.
 
 | JSON schema version | form-js schema version |
 |---|---|
-| >= 0.2  | <= 12 |
+| >= 0.2  | <= 13 |
 
 ## License
 
