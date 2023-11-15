@@ -142,8 +142,7 @@
         "type": "dymamiclist",
         "components": []
       }
-    ]
-    ,
+    ],
     [
       {
         "label": "Create a dynamic table",
