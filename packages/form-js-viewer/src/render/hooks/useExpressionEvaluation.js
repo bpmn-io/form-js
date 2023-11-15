@@ -2,7 +2,7 @@ import useService from './useService';
 import useFilteredFormData from './useFilteredFormData';
 import LocalExpressionContext from '../context/LocalExpressionContext';
 import { useContext, useMemo } from 'preact/hooks';
-import { wrapExpressionContext } from '../../util';
+import { wrapExpressionContext } from '../../util/simple';
 
 /**
  * Evaluate a string reactively based on the expressionLanguage and form data.

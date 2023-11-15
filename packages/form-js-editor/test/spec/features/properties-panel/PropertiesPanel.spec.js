@@ -2441,6 +2441,54 @@ describe('properties panel', function() {
     });
 
 
+    describe('dynamiclist', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'dynamiclist');
+
+        bootstrapPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(container, [
+          'General',
+          'Condition',
+          'Layout',
+          'Appearance',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(container, 'General', [
+          'Group label',
+          'Path',
+          'Default number of items',
+          'Allow add/delete items',
+          'Disable collapse',
+          'Number of non-collapsing items'
+        ]);
+
+        expectGroupEntries(container, 'Condition', [
+          'Hide if'
+        ]);
+
+        expectGroupEntries(container, 'Layout', [
+          'Columns'
+        ]);
+
+        expectGroupEntries(container, 'Appearance', [
+          'Show outline',
+          'Vertical alignment'
+        ]);
+
+      });
+
+    });
+
+
     describe('textfield', function() {
 
       it('entries', function() {

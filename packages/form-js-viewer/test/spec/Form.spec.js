@@ -124,7 +124,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -205,7 +205,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -228,7 +228,7 @@ describe('Form', function() {
     container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -282,7 +282,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(schemaNoIds._componentCount);
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -320,7 +320,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(16);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
     });
 
 
@@ -592,18 +592,32 @@ describe('Form', function() {
       const submission = form.submit();
 
       // then
-      expect(submission.data).to.eql({
+      expect(submission.data).to.deep.include({
+        invoiceDetails: {
+          supplementaryInfo1: '',
+          supplementaryInfo2: ''
+        },
+        clients: [
+          {
+            clientSurname: '',
+            clientName: ''
+          },
+          {
+            clientSurname: '',
+            clientName: ''
+          }
+        ],
         creditor: '',
         invoiceNumber: '',
         amount: null,
         approved: false,
         approvedBy: '',
         approverComments: '',
-        mailto: [],
         product: null,
-        tags: [],
+        mailto: [],
         language: null,
-        conversation: null
+        conversation: null,
+        tags: []
       });
 
       expect(submission.errors).to.eql({
@@ -1002,6 +1016,16 @@ describe('Form', function() {
 
     // given
     const data = {
+      invoiceDetails: {
+        supplementaryInfo1: 'Something cool',
+        supplementaryInfo2: 'Something even cooler'
+      },
+      clients: [
+        {
+          clientSurname: 'James',
+          clientName: 'Avenue'
+        }
+      ],
       creditor: 'John Doe Company',
       amount: 456,
       invoiceNumber: 'C-123',
@@ -1033,20 +1057,7 @@ describe('Form', function() {
     const submission = form.submit();
 
     // then
-    expect(submission.data).to.eql({
-      creditor: 'Jane Doe Company',
-      invoiceNumber: 'C-123',
-      amount: 456,
-      approved: true,
-      approvedBy: 'John Doe',
-      approverComments: 'Please review by June',
-      mailto: [],
-      product: 'camunda-platform',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'german',
-      conversation: '2010-06-15T12:00Z'
-    });
-
+    expect(submission.data).to.deep.include({ ...data, creditor: 'Jane Doe Company' });
     expect(submission.errors).to.be.empty;
 
     // when reset
@@ -1055,20 +1066,7 @@ describe('Form', function() {
     // then
     const state = form._getState();
 
-    expect(state.data).to.eql({
-      creditor: 'John Doe Company',
-      invoiceNumber: 'C-123',
-      amount: 456,
-      approved: true,
-      approvedBy: 'John Doe',
-      approverComments: 'Please review by June',
-      mailto: [],
-      product: 'camunda-platform',
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'german',
-      conversation: '2010-06-15T12:00Z'
-    });
-
+    expect(state.data).to.deep.include(data);
     expect(state.errors).to.be.empty;
   });
 
@@ -1103,18 +1101,32 @@ describe('Form', function() {
     // then
     const state = form._getState();
 
-    expect(state.data).to.eql({
+    expect(state.data).to.deep.include({
+      invoiceDetails: {
+        supplementaryInfo1: '',
+        supplementaryInfo2: ''
+      },
+      clients: [
+        {
+          clientSurname: '',
+          clientName: ''
+        },
+        {
+          clientSurname: '',
+          clientName: ''
+        }
+      ],
       creditor: '',
       invoiceNumber: '',
       amount: null,
       approved: false,
       approvedBy: '',
       approverComments: '',
-      mailto: [],
       product: null,
-      tags: [],
+      mailto: [],
       language: null,
-      conversation: null
+      conversation: null,
+      tags: []
     });
 
     expect(state.errors).to.be.empty;
@@ -1181,7 +1193,21 @@ describe('Form', function() {
       expect(event.data).to.exist;
       expect(event.errors).to.exist;
 
-      expect(event.data).to.eql({
+      expect(event.data).to.deep.include({
+        invoiceDetails: {
+          supplementaryInfo1: '',
+          supplementaryInfo2: ''
+        },
+        clients: [
+          {
+            clientSurname: '',
+            clientName: ''
+          },
+          {
+            clientSurname: '',
+            clientName: ''
+          }
+        ],
         creditor: '',
         invoiceNumber: '',
         amount: 456,

@@ -1,4 +1,5 @@
 {
+  "_componentCount": 22,
   "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
@@ -34,6 +35,49 @@
       "type": "iframe",
       "label": "The bpmn-io web page",
       "url": "https://bpmn.io/"
+    },
+    {
+      "type": "group",
+      "label": "Supplementary Information",
+      "path": "invoiceDetails",
+      "showOutline": true,
+      "components": [
+        {
+          "id": "GroupTextfield_1",
+          "type": "textfield",
+          "key": "supplementaryInfo1",
+          "label": "Field 1"
+        },
+        {
+          "id": "GroupTextfield_2",
+          "type": "textfield",
+          "key": "supplementaryInfo2",
+          "label": "Field 2"
+        }
+      ]
+    },
+    {
+      "type": "dynamiclist",
+      "label": "Clients",
+      "path": "clients",
+      "showOutline": true,
+      "isRepeating": true,
+      "defaultRepetitions": 2,
+      "allowAddRemove": true,
+      "components": [
+        {
+          "id": "DynamicListTextField_1",
+          "type": "textfield",
+          "key": "clientSurname",
+          "label": "Surname"
+        },
+        {
+          "id": "DynamicListTextField_2",
+          "type": "textfield",
+          "key": "clientName",
+          "label": "Name"
+        }
+      ]
     },
     {
       "key": "creditor",

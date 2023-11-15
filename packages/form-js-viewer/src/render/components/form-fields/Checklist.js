@@ -33,7 +33,6 @@ export default function Checklist(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;

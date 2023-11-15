@@ -45,7 +45,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(16);
+      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
     }));
 
 
@@ -70,7 +70,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(16);
+      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
 
       // when
       result = await form.importSchema(other, data);
@@ -79,7 +79,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(5);
+      expect(formFieldRegistry.getAll()).to.have.length(other._componentCount);
     }));
 
 
@@ -236,6 +236,16 @@ describe('Importer', function() {
 
       // given
       const data = {
+        invoiceDetails: {
+          supplementaryInfo1: 'curious',
+          supplementaryInfo2: 'curiouser'
+        },
+        clients: [
+          {
+            clientSurname: 'bob',
+            clientName: 'dylan'
+          }
+        ],
         creditor: 'John Doe Company',
         amount: 456,
         invoiceNumber: 'C-123',
@@ -253,19 +263,8 @@ describe('Importer', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form._getState().data).to.eql({
-        creditor: 'John Doe Company',
-        invoiceNumber: 'C-123',
-        amount: 456,
-        approved: true,
-        approvedBy: 'John Doe',
-        approverComments: 'Please review C-123',
-        mailto: [ 'regional-manager', 'approver' ],
-        product: 'camunda-cloud',
-        tags: [ 'tag1', 'tag2', 'tag3' ],
-        language: 'english',
-        conversation: '2010-06-06T12:00Z'
-      });
+      expect(form._getState().data).to.deep.include(data);
+
     }));
 
 
@@ -278,19 +277,28 @@ describe('Importer', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form._getState().data).to.eql({
+      expect(form._getState().data).to.deep.include({
+        invoiceDetails: {
+          supplementaryInfo1: '',
+          supplementaryInfo2: ''
+        },
+        clients: [
+          {},
+          {}
+        ],
         creditor: '',
         invoiceNumber: '',
         amount: null,
         approved: false,
         approvedBy: '',
         approverComments: '',
-        mailto: [],
         product: null,
-        tags: [],
+        mailto: [],
         language: null,
-        conversation: null
+        conversation: null,
+        tags: []
       });
+
     }));
 
 

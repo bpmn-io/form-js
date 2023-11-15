@@ -23,7 +23,9 @@ const FormRenderContext = createContext({
 
     return <div class={ props.class } style={ props.style }>{ props.children }</div>;
   },
-  hoverInfo: {},
+  hoverInfo: {
+    cleanup: () => {}
+  },
 });
 
 export default FormRenderContext;

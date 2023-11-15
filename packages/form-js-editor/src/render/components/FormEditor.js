@@ -375,8 +375,6 @@ export default function FormEditor(props) {
     const onDetach = () => {
       if (dragulaInstance) {
         dragulaInstance.destroy();
-
-        debugger;
         eventBus.fire('dragula.destroyed');
       }
     };

@@ -7,7 +7,7 @@ import modelingModule from 'src/features/modeling';
 
 import schema from '../../../defaultValues.json';
 
-describe('features/modeling - ValuesSourceBehavior', function() {
+describe('features/modeling - OptionsSourceBehavior', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     additionalModules: [

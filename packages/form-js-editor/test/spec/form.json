@@ -1,4 +1,5 @@
 {
+  "_componentCount": 23,
   "$schema": "../../../form-json-schema/resources/schema.json",
   "id": "Form_1",
   "type": "default",
@@ -26,6 +27,30 @@
           "type": "textfield",
           "key": "supplementaryInfo2",
           "label": "Field 2"
+        }
+      ]
+    },
+    {
+      "id": "DynamicList_1",
+      "type": "dynamiclist",
+      "label": "Clients",
+      "path": "clients",
+      "showOutline": true,
+      "isRepeating": true,
+      "defaultRepetitions": 2,
+      "allowAddRemove": true,
+      "components": [
+        {
+          "id": "DynamicListTextField_1",
+          "type": "textfield",
+          "key": "clientSurname",
+          "label": "Surname"
+        },
+        {
+          "id": "DynamicListTextField_2",
+          "type": "textfield",
+          "key": "clientName",
+          "label": "Name"
         }
       ]
     },

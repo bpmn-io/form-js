@@ -32,7 +32,7 @@ DynamicList.config = {
   pathed: true,
   repeatable: true,
   label: 'Dynamic list',
-  group: 'presentation',
+  group: 'container',
   create: (options = {}) => ({
     components: [],
     showOutline: true,

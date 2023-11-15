@@ -30,7 +30,7 @@ describe('Importer', function() {
     // then
     expect(warnings).to.be.empty;
 
-    expect(formFieldRegistry.getAll()).to.have.length(20);
+    expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
   }));
 
 
@@ -40,7 +40,7 @@ describe('Importer', function() {
     await formEditor.importSchema(schema);
 
     // assume
-    expect(formFieldRegistry.getAll()).to.have.length(20);
+    expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
 
     // when
     const result = await formEditor.importSchema(other);

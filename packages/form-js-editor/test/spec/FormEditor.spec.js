@@ -80,7 +80,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -121,7 +121,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -144,7 +144,7 @@ describe('FormEditor', function() {
     container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
   });
 
 
@@ -256,7 +256,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(20);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
     });
 
 
@@ -1005,7 +1005,7 @@ describe('FormEditor', function() {
       // assume
       const formFieldRegistry = formEditor.get('formFieldRegistry');
 
-      expect(formFieldRegistry.getAll()).to.have.length(20);
+      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
 
       // when
       startDragging(container);
@@ -1013,7 +1013,7 @@ describe('FormEditor', function() {
       endDragging(container);
 
       // then
-      expect(formFieldRegistry.getAll()).to.have.length(21);
+      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount + 1);
 
       const selection = formEditor.get('selection');
 
@@ -1069,14 +1069,19 @@ describe('FormEditor', function() {
     it('should move form field into group', async function() {
 
       // given
-      formEditor = await createFormEditor({
+      let dragulaCreated = false;
+
+      await bootstrapFormEditor({
         schema: schemaGroup,
-        container
+        container,
+        bootstrapExecute: editor => {
+          editor.on('dragula.created', () => { dragulaCreated = true; });
+        }
       });
 
       const formFieldRegistry = formEditor.get('formFieldRegistry');
 
-      await expectDragulaCreated(formEditor);
+      expect(dragulaCreated).to.be.true;
 
       // assume
       expectLayout(formFieldRegistry.get('Textfield_1'), {

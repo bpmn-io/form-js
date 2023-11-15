@@ -1,7 +1,7 @@
 import useService from './useService.js';
 import useFilteredFormData from './useFilteredFormData.js';
 import LocalExpressionContext from '../context/LocalExpressionContext.js';
-import { wrapExpressionContext } from '../../util';
+import { wrapExpressionContext } from '../../util/simple';
 import { useContext, useMemo } from 'preact/hooks';
 
 /**

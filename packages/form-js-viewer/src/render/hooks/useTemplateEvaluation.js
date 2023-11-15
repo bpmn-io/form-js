@@ -2,7 +2,7 @@ import useService from './useService';
 import useFilteredFormData from './useFilteredFormData';
 import { useContext, useMemo } from 'preact/hooks';
 import LocalExpressionContext from '../context/LocalExpressionContext';
-import { wrapExpressionContext } from '../../util';
+import { wrapExpressionContext } from '../../util/simple';
 
 /**
  * Template a string reactively based on form data. If the string is not a template, it is returned as is.
