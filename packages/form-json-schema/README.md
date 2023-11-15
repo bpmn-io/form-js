@@ -50,7 +50,7 @@ This schema is currently only compatible with following [form-js](https://github
 
 | JSON schema version | form-js schema version |
 |---|---|
-| >= 0.2  | <= 13 |
+| >= 1.5.0  | <= 13 |
 
 ## License
 
