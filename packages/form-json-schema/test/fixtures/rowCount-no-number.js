@@ -4,7 +4,8 @@ export const form = {
     {
       type: 'table',
       key: 'table',
-      rowCount: true
+      rowCount: true,
+      columns: []
     }
   ]
 };

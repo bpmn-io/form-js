@@ -339,7 +339,7 @@
     {
       "if": {
         "not": {
-          "anyOf":[
+          "anyOf": [
             {
               "$ref": "../field-types/presentation-components.json"
             },
@@ -367,6 +367,29 @@
           "columnsExpression": false,
           "rowCount": false
         }
+      }
+    },
+    {
+      "if": {
+        "$ref": "../field-types/presentation-components.json"
+      },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "columns": true,
+              "rowCount": true,
+              "columnsExpression": false
+            }
+          },
+          {
+            "properties": {
+              "columns": false,
+              "rowCount": true,
+              "columnsExpression": true
+            }
+          }
+        ]
       }
     }
   ]
