@@ -380,14 +380,16 @@
               "columns": true,
               "rowCount": true,
               "columnsExpression": false
-            }
+            },
+            "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' should not exist together."
           },
           {
             "properties": {
               "columns": false,
               "rowCount": true,
               "columnsExpression": true
-            }
+            },
+            "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' not should exist together."
           }
         ]
       }
