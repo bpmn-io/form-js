@@ -232,6 +232,21 @@
     "properties": {
       "$id": "#/component/properties",
       "$ref": "properties.json"
+    },
+    "columns": {
+      "$id": "#/component/columns",
+      "$ref": "columns.json"
+    },
+    "columnsExpression": {
+      "$id": "#/component/columnsExpression",
+      "description": "Table columns can be configured with a FEEL expression defining the individual columns the table will render.",
+      "type": "string"
+    },
+    "rowCount": {
+      "$id": "#/component/rowCount",
+      "description": "Define the amount of rows a table will render.",
+      "type": "number",
+      "default": 10
     }
   },
   "required": [
