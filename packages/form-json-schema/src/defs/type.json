@@ -19,6 +19,7 @@
     "group",
     "dynamiclist",
     "separator",
+    "table",
     "iframe"
   ]
 }

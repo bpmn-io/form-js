@@ -149,6 +149,13 @@
         "type": "iframe",
         "url": "https://bpmn.io"
       }
+    ],
+    [
+      {
+        "label": "Create a dynamic table",
+        "type": "table",
+        "rowCount": 10
+      }
     ]
   ]
 }
