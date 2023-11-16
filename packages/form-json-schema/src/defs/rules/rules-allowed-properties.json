@@ -39,6 +39,9 @@
             },
             {
               "$ref": "../field-types/containers.json"
+            },
+            {
+              "$ref": "../field-types/presentation-components.json"
             }
           ]
         }
@@ -58,7 +61,6 @@
       "then": {
         "properties": {
           "description": false,
-          "key": false,
           "disabled": false,
           "readonly": false,
           "validate": false
@@ -332,6 +334,64 @@
           "verticalAlignment": false,
           "components": false
         }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "anyOf": [
+            {
+              "$ref": "../field-types/presentation-components.json"
+            },
+            {
+              "$ref": "../field-types/inputs.json"
+            }
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "key": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "$ref": "../field-types/presentation-components.json"
+        }
+      },
+      "then": {
+        "properties": {
+          "columns": false,
+          "columnsExpression": false,
+          "rowCount": false
+        }
+      }
+    },
+    {
+      "if": {
+        "$ref": "../field-types/presentation-components.json"
+      },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "columns": true,
+              "rowCount": true,
+              "columnsExpression": false
+            },
+            "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' should not exist together."
+          },
+          {
+            "properties": {
+              "columns": false,
+              "rowCount": true,
+              "columnsExpression": true
+            },
+            "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' not should exist together."
+          }
+        ]
       }
     }
   ]

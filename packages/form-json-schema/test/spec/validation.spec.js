@@ -228,6 +228,18 @@ describe('validation', function() {
 
     testForm('components-not-allowed');
 
+
+    testForm('columns-not-allowed');
+
+
+    testForm('columnsExpression-not-allowed');
+
+
+    testForm('rowCount-not-allowed');
+
+
+    testForm('columns-columnsExpression-exclusive');
+
   });
 
 
@@ -256,6 +268,9 @@ describe('validation', function() {
 
 
     testForm('defaultValue-no-array');
+
+
+    testForm('rowCount-no-number');
 
   });
 
