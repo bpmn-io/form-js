@@ -3,7 +3,14 @@
   "allOf": [
     {
       "if": {
-        "$ref": "../field-types/inputs.json"
+        "anyOf": [
+          {
+            "$ref": "../field-types/inputs.json"
+          },
+          {
+            "$ref": "../field-types/presentation-components.json"
+          }
+        ]
       },
       "then": {
         "required": [
