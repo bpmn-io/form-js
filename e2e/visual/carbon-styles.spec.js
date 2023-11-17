@@ -21,7 +21,7 @@ test('carbon styles', async ({ page, makeAxeBuilder }) => {
   });
 
   // when
-  await page.goto('/carbon');
+  await page.goto('/carbon/');
 
   await page.waitForSelector('#container', {
     state: 'visible'
