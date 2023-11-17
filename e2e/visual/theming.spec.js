@@ -21,7 +21,7 @@ test('theming - viewer', async ({ page, makeAxeBuilder }) => {
   });
 
   // when
-  await page.goto('/carbon');
+  await page.goto('/carbon/');
 
   await page.waitForSelector('#container', {
     state: 'visible'
@@ -61,7 +61,7 @@ test('theming - editor', async ({ page, makeAxeBuilder }) => {
   });
 
   // when
-  await page.goto('/carbon');
+  await page.goto('/carbon/');
 
   await page.waitForSelector('#container', {
     state: 'visible'
