@@ -6,5 +6,6 @@ export { OptionsGroups } from './OptionsGroups';
 export { CustomPropertiesGroup } from './CustomPropertiesGroup';
 export { AppearanceGroup } from './AppearanceGroup';
 export { LayoutGroup } from './LayoutGroup';
+export { SecurityAttributesGroup } from './SecurityAttributesGroup';
 export { ConditionGroup } from './ConditionGroup';
 export { TableHeaderGroups } from './TableHeaderGroups';
