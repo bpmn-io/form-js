@@ -105,6 +105,9 @@ describe('validation', function() {
   testForm('layout-empty-row');
 
 
+  testForm('iframe');
+
+
   describe('rules - required properties', function() {
 
 
