@@ -1,32 +1,42 @@
 import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
 
-import { get } from 'min-dash';
+import { get, isFunction } from 'min-dash';
 import { useService } from '../hooks';
 
-export default function SpacerEntry(props) {
+export default function HeightEntry(props) {
   const {
     editField,
     field,
-    id
+    id,
+    description,
+    isDefaultVisible,
   } = props;
 
   const entries = [];
 
   entries.push({
     id: id + '-height',
-    component: SpacerHeight,
+    component: Height,
+    description,
     isEdited: isNumberFieldEntryEdited,
     editField,
     field,
-    isDefaultVisible: (field) => field.type === 'spacer'
+    isDefaultVisible: (field) => {
+      if (isFunction(isDefaultVisible)) {
+        return isDefaultVisible(field);
+      }
+
+      return field.type === 'spacer';
+    }
   });
 
   return entries;
 }
 
-function SpacerHeight(props) {
+function Height(props) {
 
   const {
+    description,
     editField,
     field,
     id
@@ -46,6 +56,7 @@ function SpacerHeight(props) {
 
   return NumberFieldEntry({
     debounce,
+    description,
     label: 'Height',
     element: field,
     id,
