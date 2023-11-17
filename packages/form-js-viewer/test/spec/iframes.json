@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "type": "default",
+  "components": [
+    {
+      "type": "iframe",
+      "label": "The bpmn-io web page",
+      "url": "https://bpmn.io/",
+      "height": 400
+    },
+    {
+      "type": "iframe",
+      "label": "=projectPage",
+      "url": "https://bpmn.io/"
+    },
+    {
+      "type": "iframe",
+      "url": "https://{{url}}"
+    },
+    {
+      "type": "iframe",
+      "url": "=url + domain"
+    },
+    {
+      "type": "iframe",
+      "label": "{{page}}"
+    }
+  ]
+}

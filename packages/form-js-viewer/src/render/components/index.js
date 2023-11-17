@@ -6,6 +6,7 @@ import Datetime from './form-fields/Datetime';
 import FormComponent from './FormComponent';
 import FormField from './FormField';
 import Group from './form-fields/Group';
+import IFrame from './form-fields/IFrame';
 import Image from './form-fields/Image';
 import Numberfield from './form-fields/Number';
 import Radio from './form-fields/Radio';
@@ -36,6 +37,7 @@ export {
   FormComponent,
   FormField,
   Group,
+  IFrame,
   Image,
   Numberfield,
   Radio,
@@ -54,6 +56,7 @@ export const formFields = [
   Checklist,
   Default,
   Group,
+  IFrame,
   Image,
   Numberfield,
   Datetime,

@@ -18,6 +18,7 @@ import complexConditionExpressionSchema from '../complex-conditions.json';
 import validateSchema from '../validate.json';
 import groupsSchema from '../groups.json';
 import shipsExampleSchema from '../ships-example.json';
+import iframesSchema from '../iframes.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -181,6 +182,20 @@ describe('util/getSchemaVariables', () => {
       'number_expression',
       'textfield_expression',
     ]);
+  });
+
+
+  it('should include variables in iframes', () => {
+
+    const variables = getSchemaVariables(iframesSchema);
+
+    expect(variables).to.eql([
+      'projectPage',
+      'url',
+      'domain',
+      'page'
+    ]);
+
   });
 
 
