@@ -3617,6 +3617,7 @@ describe('properties panel', function() {
         // then
         expectGroups(container, [
           'General',
+          'Security attributes',
           'Layout',
           'Custom properties'
         ]);

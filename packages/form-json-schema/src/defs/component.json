@@ -277,6 +277,10 @@
       "$id": "#/component/dataSource",
       "description": "Specifies the data source which will populate the table component.",
       "type": "string"
+    },
+    "security": {
+      "$id": "#/component/security",
+      "$ref": "security.json"
     }
   },
   "required": [

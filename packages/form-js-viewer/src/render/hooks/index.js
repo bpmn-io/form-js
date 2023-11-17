@@ -1,5 +1,6 @@
 export { useCondition } from './useCondition';
 export { useOptionsAsync, LOAD_STATES } from './useOptionsAsync';
+export { useSecurityAttributesMap } from './useSecurityAttributesMap';
 export { useGetLabelCorrelation } from './useGetLabelCorrelation';
 export { useScrollIntoView } from './useScrollIntoView';
 export { useExpressionEvaluation } from './useExpressionEvaluation';

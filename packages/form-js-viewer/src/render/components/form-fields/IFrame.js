@@ -1,16 +1,12 @@
-import { useContext, useMemo } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 
-import { FormContext } from '../../context';
-
-import { useSingleLineTemplateEvaluation } from '../../hooks';
+import { useSingleLineTemplateEvaluation, useSecurityAttributesMap } from '../../hooks';
 import { sanitizeIFrameSource } from '../Sanitizer';
 
 import { Label } from '../Label';
 
-import {
-  formFieldClasses,
-  prefixId
-} from '../Util';
+import { formFieldClasses } from '../Util';
+
 
 const type = 'iframe';
 
@@ -21,14 +17,15 @@ export function IFrame(props) {
   const {
     field,
     disabled,
-    readonly
+    readonly,
+    domId
   } = props;
 
   const {
     height = DEFAULT_HEIGHT,
-    id,
     label,
-    url
+    url,
+    security = {}
   } = field;
 
   const evaluatedUrl = useSingleLineTemplateEvaluation(url, { debug: true });
@@ -37,10 +34,16 @@ export function IFrame(props) {
 
   const evaluatedLabel = useSingleLineTemplateEvaluation(label, { debug: true });
 
-  const { formId } = useContext(FormContext);
+  const [ sandbox, allow ] = useSecurityAttributesMap(security);
+  const [ iframeRefresh, setIframeRefresh ] = useState(0);
+
+  // forces re-render of iframe when sandbox or allow attributes change, as browsers do not do it automatically
+  useEffect(() => {
+    setIframeRefresh(count => count + 1);
+  }, [ sandbox, allow ]);
 
   return <div class={ formFieldClasses(type, { disabled, readonly }) }>
-    <Label id={ prefixId(id, formId) } label={ evaluatedLabel } />
+    <Label id={ domId } label={ evaluatedLabel } />
     {
       !evaluatedUrl && <IFramePlaceholder text="No content to show." />
     }
@@ -51,8 +54,12 @@ export function IFrame(props) {
           title={ evaluatedLabel }
           height={ height }
           class="fjs-iframe"
-          id={ prefixId(id, formId) }
-          sandbox="allow-scripts"
+          id={ domId }
+          sandbox={ sandbox }
+          key={ 'iframe-' + iframeRefresh }
+
+          /* @Note: JSX HTML attributes do not include <allow> */
+          { ...{ allow: allow } }
         />
     }
     {
@@ -75,6 +82,9 @@ IFrame.config = {
   label: 'iFrame',
   group: 'container',
   create: (options = {}) => ({
+    security: {
+      allowScripts: true
+    },
     ...options
   })
 };
