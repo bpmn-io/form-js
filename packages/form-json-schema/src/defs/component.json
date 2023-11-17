@@ -85,6 +85,11 @@
       "description": "Provides an alternative text to the image in case it cannot be displayed.",
       "type": "string"
     },
+    "url": {
+      "$id": "#/component/url",
+      "description": "Enter a URL to an external source.",
+      "type": "string"
+    },
     "subtype": {
       "$id": "#/component/subtype",
       "description": "Selects the type of the datetime component. This can either be date, time, or datetime. Defaults to date.",
@@ -169,7 +174,7 @@
     },
     "height": {
       "$id": "#/component/height",
-      "description": "The height of the spacer component.",
+      "description": "The height of a form component.",
       "type": "number"
     },
     "components": {

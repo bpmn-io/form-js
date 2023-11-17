@@ -30,7 +30,10 @@
             {
               "properties": {
                 "type": {
-                  "const": "button"
+                  "enum":[
+                    "button",
+                    "iframe"
+                  ]
                 }
               },
               "required": [
@@ -305,7 +308,10 @@
         "not": {
           "properties": {
             "type": {
-              "const": "spacer"
+              "enum": [
+                "spacer",
+                "iframe"
+              ]
             }
           },
           "required": [

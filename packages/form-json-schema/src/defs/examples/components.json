@@ -142,6 +142,13 @@
         "type": "dymamiclist",
         "components": []
       }
+    ],
+    [
+      {
+        "label": "Create an iframe",
+        "type": "iframe",
+        "url": "https://bpmn.io"
+      }
     ]
   ]
 }
