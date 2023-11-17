@@ -31,6 +31,11 @@
       ]
     },
     {
+      "type": "iframe",
+      "label": "The bpmn-io web page",
+      "url": "https://bpmn.io/"
+    },
+    {
       "key": "creditor",
       "label": "Creditor",
       "type": "textfield",
