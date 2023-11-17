@@ -1,11 +1,8 @@
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
 const IS_CI = !!process.env.CI;
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
-module.exports = defineConfig({
+export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
   forbidOnly: IS_CI,
