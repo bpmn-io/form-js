@@ -2,6 +2,8 @@ import { render } from '@testing-library/preact/pure';
 
 import { IFrame } from '../../../../../src/render/components/form-fields/IFrame';
 
+import { SECURITY_ATTRIBUTES_DEFINITIONS } from '../../../../../src';
+
 import {
   createFormContainer,
   expectNoViolations
@@ -278,6 +280,76 @@ describe('IFrame', function() {
   });
 
 
+  describe('security attributes', function() {
+
+    SECURITY_ATTRIBUTES_DEFINITIONS.forEach(definition => {
+
+      const {
+        attribute,
+        directive,
+        property
+      } = definition;
+
+      it(`should render ${ property }`, function() {
+
+        // when
+        const { container } = createIFrame({
+          field: {
+            ...defaultField,
+            security : {
+              [ property ]: true
+            }
+          }
+        });
+
+        // then
+        const formField = container.querySelector('.fjs-form-field');
+        const iframe = formField.querySelector('.fjs-iframe');
+
+        if (attribute === 'sandbox') {
+          expect(iframe.sandbox.item(0)).to.eql(directive);
+        } else {
+          expect(iframe.allow).to.eql(directive);
+        }
+      });
+
+    });
+
+
+    it('should render multiple security attributes', function() {
+
+      // when
+      const { container } = createIFrame({
+        field: {
+          ...defaultField,
+          security : {
+            allowSameOrigin: true,
+            fullscreen: true,
+            geolocation: true,
+            camera: false,
+            microphone: true,
+            allowForms: false,
+            allowModals: true,
+            allowPopups: false,
+            allowTopNavigation: true
+          }
+        }
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const iframe = formField.querySelector('.fjs-iframe');
+
+      expect(iframe.sandbox.length).to.eql(3);
+      expect(iframe.sandbox.item(0)).to.eql('allow-same-origin');
+      expect(iframe.sandbox.item(1)).to.eql('allow-modals');
+      expect(iframe.sandbox.item(2)).to.eql('allow-top-navigation');
+      expect(iframe.allow).to.eql('fullscreen; geolocation; microphone');
+    });
+
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
@@ -286,6 +358,33 @@ describe('IFrame', function() {
       this.timeout(10000);
 
       const { container } = createIFrame();
+
+      // then
+      await expectNoViolations(container);
+    });
+
+
+    it('should have no violations - security attributes', async function() {
+
+      // given
+      this.timeout(5000);
+
+      const { container } = createIFrame({
+        field: {
+          ...defaultField,
+          security : {
+            allowSameOrigin: true,
+            fullscreen: true,
+            geolocation: true,
+            camera: true,
+            microphone: true,
+            allowForms: true,
+            allowModals: true,
+            allowPopups: true,
+            allowTopNavigation: true
+          }
+        }
+      });
 
       // then
       await expectNoViolations(container);
@@ -300,7 +399,10 @@ describe('IFrame', function() {
 const defaultField = {
   label: 'An external document',
   url: IFRAME_URL,
-  type: 'iframe'
+  type: 'iframe',
+  security: {
+    allowScripts: true
+  }
 };
 
 function createIFrame({ services, ...restOptions } = {}) {

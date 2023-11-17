@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/component/security",
+  "type": "object",
+  "description": "Security related information of a form field.",
+  "properties": {
+    "allowSameOrigin": {
+      "$id": "/#component/security/allowSameOrigin",
+      "type": "boolean",
+      "description": "Allows the iframe content to be treated as being from the same origin."
+    },
+    "fullscreen": {
+      "$id": "/#component/security/fullscreen",
+      "type": "boolean",
+      "description": "Specifies the permissions policy set for the fullscreen directive."
+    },
+    "geolocation": {
+      "$id": "/#component/security/geolocation",
+      "type": "boolean",
+      "description": "Specifies the permissions policy set for the geolocation directive."
+    },
+    "camera": {
+      "$id": "/#component/security/camera",
+      "type": "boolean",
+      "description": "Specifies the permissions policy set for the camera directive."
+    },
+    "microphone": {
+      "$id": "/#component/security/microphone",
+      "type": "boolean",
+      "description": "Specifies the permissions policy set for the microphone directive."
+    },
+    "allowForms": {
+      "$id": "/#component/security/allowForms",
+      "type": "boolean",
+      "description": "Allows form submission."
+    },
+    "allowModals": {
+      "$id": "/#component/security/allowModals",
+      "type": "boolean",
+      "description": "Allows to open modal windows."
+    },
+    "allowPopups": {
+      "$id": "/#component/security/allowPopups",
+      "type": "boolean",
+      "description": "Allows to open popups."
+    },
+    "allowTopNavigation": {
+      "$id": "/#component/security/allowTopNavigation",
+      "type": "boolean",
+      "description": "Allows the iframe content to navigate its top-level browsing context."
+    }
+  }
+}

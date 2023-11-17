@@ -7,8 +7,9 @@ import {
   ConstraintsGroup,
   ValidationGroup,
   OptionsGroups,
+  TableHeaderGroups,
   LayoutGroup,
-  TableHeaderGroups
+  SecurityAttributesGroup
 } from './groups';
 
 import { hasEntryConfigured } from './Util';
@@ -63,6 +64,7 @@ export class PropertiesProvider {
         ...groups,
         GeneralGroup(field, editField, getService),
         ...TableHeaderGroups(field, editField),
+        SecurityAttributesGroup(field, editField),
         ConditionGroup(field, editField),
         LayoutGroup(field, editField),
         AppearanceGroup(field, editField),
