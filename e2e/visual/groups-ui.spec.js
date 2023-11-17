@@ -1,6 +1,6 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
-const schema = require('./fixtures/groups.json');
+import schema from './fixtures/groups.json';
 
 test('groups playground', async ({ page }) => {
 
