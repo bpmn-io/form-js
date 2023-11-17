@@ -1,8 +1,8 @@
-const { expect } = require('@playwright/test');
+import { expect } from '@playwright/test';
 
-const { test } = require('../test-fixtures');
+import { test } from '../test-fixtures';
 
-const schema = require('./fixtures/form.json');
+import schema from './fixtures/form.json';
 
 test('theming - viewer', async ({ page, makeAxeBuilder }) => {
 
@@ -21,7 +21,7 @@ test('theming - viewer', async ({ page, makeAxeBuilder }) => {
   });
 
   // when
-  await page.goto('/theming');
+  await page.goto('/theming/');
 
   await page.waitForSelector('#container', {
     state: 'visible'
@@ -61,7 +61,7 @@ test('theming - editor', async ({ page, makeAxeBuilder }) => {
   });
 
   // when
-  await page.goto('/theming');
+  await page.goto('/theming/');
 
   await page.waitForSelector('#container', {
     state: 'visible'
