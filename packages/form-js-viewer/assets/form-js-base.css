@@ -965,6 +965,27 @@
   margin: 4px 0;
 }
 
+.fjs-container .fjs-iframe {
+  margin: 4px 0;
+  width: 100%;
+  border: 1px solid var(--color-borders-readonly);
+}
+
+.fjs-container .fjs-iframe-placeholder {
+  margin: 4px 0;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  background: var(--color-background-readonly);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-borders-readonly);
+}
+
+.fjs-container .fjs-iframe-placeholder .fjs-iframe-placeholder-text {
+  display: flex;
+  align-items: center;
+}
+
 /**
 * Flatpickr style adjustments
 */

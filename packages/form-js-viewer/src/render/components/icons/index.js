@@ -13,6 +13,7 @@ import SpacerIcon from './Spacer.svg';
 import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
+import IFrameIcon from './IFrame.svg';
 import ImageIcon from './Image.svg';
 import GroupIcon from './Group.svg';
 
@@ -24,6 +25,7 @@ export const iconsByType = (type) => {
     columns: ColumnsIcon,
     datetime: DatetimeIcon,
     group: GroupIcon,
+    iframe: IFrameIcon,
     image: ImageIcon,
     number: NumberIcon,
     radio: RadioIcon,

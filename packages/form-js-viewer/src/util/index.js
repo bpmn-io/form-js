@@ -22,7 +22,8 @@ const EXPRESSION_PROPERTIES = [
   'validate.max',
   'validate.minLength',
   'validate.maxLength',
-  'valuesExpression'
+  'valuesExpression',
+  'url'
 ];
 
 const TEMPLATE_PROPERTIES = [
@@ -32,7 +33,8 @@ const TEMPLATE_PROPERTIES = [
   'description',
   'label',
   'source',
-  'text'
+  'text',
+  'url'
 ];
 
 

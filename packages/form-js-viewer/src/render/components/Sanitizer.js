@@ -45,6 +45,7 @@ const ALLOWED_ATTRIBUTES = [
 
 const ALLOWED_URI_PATTERN = /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i; // eslint-disable-line no-useless-escape
 const ALLOWED_IMAGE_SRC_PATTERN = /^(https?|data):.*/i; // eslint-disable-line no-useless-escape
+const ALLOWED_IFRAME_SRC_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
 const ATTR_WHITESPACE_PATTERN = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g; // eslint-disable-line no-control-regex
 
 const FORM_ELEMENT = document.createElement('form');
@@ -94,6 +95,20 @@ export function sanitizeImageSource(src) {
 
   return valid ? src : '';
 }
+
+/**
+ * Sanitizes an iframe source to ensure we only allow for links
+ * that start with http(s).
+ *
+ * @param {string} src
+ * @returns {string}
+ */
+export function sanitizeIFrameSource(src) {
+  const valid = ALLOWED_IFRAME_SRC_PATTERN.test(src);
+
+  return valid ? src : '';
+}
+
 
 /**
  * Recursively sanitize a HTML node, potentially
