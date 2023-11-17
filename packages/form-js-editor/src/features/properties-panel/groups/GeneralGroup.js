@@ -5,6 +5,8 @@ import {
   DefaultValueEntry,
   DisabledEntry,
   IdEntry,
+  IFrameUrlEntry,
+  IFrameHeightEntry,
   ImageSourceEntry,
   KeyEntry,
   PathEntry,
@@ -13,7 +15,7 @@ import {
   ReadonlyEntry,
   SelectEntries,
   TextEntry,
-  SpacerEntry,
+  HeightEntry,
   NumberEntries,
   DateTimeEntry
 } from '../entries';
@@ -32,7 +34,9 @@ export default function GeneralGroup(field, editField, getService) {
     ...ActionEntry({ field, editField }),
     ...DateTimeEntry({ field, editField }),
     ...TextEntry({ field, editField, getService }),
-    ...SpacerEntry({ field, editField }),
+    ...IFrameUrlEntry({ field, editField }),
+    ...IFrameHeightEntry({ field, editField }),
+    ...HeightEntry({ field, editField }),
     ...NumberEntries({ field, editField }),
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),

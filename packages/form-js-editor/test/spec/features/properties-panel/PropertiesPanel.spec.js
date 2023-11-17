@@ -31,6 +31,7 @@ import {
 import schema from '../../form.json';
 import defaultValuesSchema from '../../defaultValues.json';
 import redundantValuesSchema from '../../redundantValues.json';
+import iframeSchema from '../../../../../form-js-viewer/test/spec/iframes.json';
 
 import { insertStyles, setEditorValue } from '../../../TestHelper';
 
@@ -3537,6 +3538,92 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], undefined);
+        });
+
+      });
+
+    });
+
+
+    describe('iframe', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Layout',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Title',
+          'URL',
+          'Height',
+        ]);
+      });
+
+
+      describe('url', function() {
+
+        it('should update url', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const feelers = findFeelers('url', container);
+          expect(feelers.textContent).to.equal('https://bpmn.io/');
+
+          const input = feelers.querySelector('div[contenteditable="true"]');
+
+          // when
+          await setEditorValue(input, 'https://foo.png');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'url' ], 'https://foo.png');
+        });
+
+
+        it('should remove url', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          const feelers = findFeelers('url', container);
+          const input = feelers.querySelector('div[contenteditable="true"]');
+
+          // when
+          await setEditorValue(input, '');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'url' ], undefined);
         });
 
       });

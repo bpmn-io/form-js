@@ -51,7 +51,12 @@ export default function LabelEntry(props) {
       editField,
       field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => INPUTS.includes(field.type) || field.type === 'button' || field.type === 'group'
+      isDefaultVisible: (field) => (
+        INPUTS.includes(field.type) ||
+        field.type === 'button' ||
+        field.type === 'group' ||
+        field.type === 'iframe'
+      )
     }
   );
 
@@ -79,7 +84,7 @@ function Label(props) {
     return editField(field, path, value || '');
   };
 
-  const label = field.type === 'group' ? 'Group label' : 'Field label';
+  const label = getLabelText(field);
 
   return FeelTemplatingEntry({
     debounce,
@@ -157,4 +162,20 @@ function TimeLabel(props) {
     setValue,
     variables
   });
+}
+
+// helpers //////////
+
+function getLabelText(field) {
+  const { type } = field;
+
+  if (type === 'group') {
+    return 'Group label';
+  }
+
+  if (type === 'iframe') {
+    return 'Title';
+  }
+
+  return 'Field label';
 }

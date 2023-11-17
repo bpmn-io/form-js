@@ -1,5 +1,5 @@
 import { get } from 'min-dash';
-import { CheckboxEntry, isCheckboxEntryEdited } from '@bpmn-io/properties-panel';
+import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 export default function simpleBoolEntryFactory(options) {
   const {
@@ -8,6 +8,8 @@ export default function simpleBoolEntryFactory(options) {
     description,
     path,
     props,
+    getValue,
+    setValue,
     isDefaultVisible
   } = options;
 
@@ -24,8 +26,10 @@ export default function simpleBoolEntryFactory(options) {
     editField,
     description,
     component: SimpleBoolComponent,
-    isEdited: isCheckboxEntryEdited,
-    isDefaultVisible
+    isEdited: isToggleSwitchEntryEdited,
+    isDefaultVisible,
+    getValue,
+    setValue
   };
 }
 
@@ -36,19 +40,18 @@ const SimpleBoolComponent = (props) => {
     path,
     field,
     editField,
+    getValue = () => get(field, path, ''),
+    setValue = (value) => editField(field, path, value || false),
     description
   } = props;
 
-  const getValue = () => get(field, path, '');
-
-  const setValue = (value) => editField(field, path, value || false);
-
-  return CheckboxEntry({
+  return ToggleSwitchEntry({
     element: field,
     getValue,
     id,
     label,
     setValue,
+    inline: true,
     description
   });
 };
