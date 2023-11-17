@@ -38,6 +38,10 @@
       ]
     },
     {
+      "type": "iframe",
+      "label": "I am an iframe"
+    },
+    {
       "label": "I am a textfield",
       "type": "textfield",
       "id": "Field_1l0t1m5",
