@@ -38,7 +38,7 @@ export default class Dragging {
   }
 
   /**
-   * Calculcates position in form schema given the dropped place.
+   * Calculates position in form schema given the dropped place.
    *
    * @param { FormRow } targetRow
    * @param { any } targetFormField
