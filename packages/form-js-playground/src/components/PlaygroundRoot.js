@@ -143,7 +143,7 @@ export function PlaygroundRoot(props) {
 
     formEditor.on('formEditor.rendered', () => {
 
-      // notifiy interested parties after render
+      // notify interested parties after render
       emit('formPlayground.rendered');
     });
 
