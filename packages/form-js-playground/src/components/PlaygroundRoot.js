@@ -137,6 +137,27 @@ export function PlaygroundRoot(props) {
     paletteRef.current = formEditor.get('palette');
     propertiesPanelRef.current = formEditor.get('propertiesPanel');
 
+    formEditor.on('formField.add', ({ formField }) => {
+      const { initialDemoData, key } = formField;
+
+      if ([ initialDemoData, key ].includes(undefined)) {
+        return;
+      }
+
+      setData((currentData) => {
+        const newData = {
+          ...currentData,
+          [key]: initialDemoData,
+        };
+
+        dataEditorRef.current.setValue(
+          toString(newData)
+        );
+
+        return newData;
+      });
+    });
+
     formEditor.on('changed', () => {
       setSchema(formEditor.getSchema());
     });

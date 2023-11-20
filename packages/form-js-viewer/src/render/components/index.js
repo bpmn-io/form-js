@@ -16,6 +16,7 @@ import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
 import Textfield from './form-fields/Textfield';
 import Textarea from './form-fields/Textarea';
+import Table from './form-fields/Table';
 
 import Label from './Label';
 import Description from './Description';
@@ -45,7 +46,8 @@ export {
   Taglist,
   Text,
   Textfield,
-  Textarea
+  Textarea,
+  Table
 };
 
 export const formFields = [
@@ -64,7 +66,8 @@ export const formFields = [
   Taglist,
   Text,
   Textfield,
-  Textarea
+  Textarea,
+  Table
 ];
 
 export * from './icons';
