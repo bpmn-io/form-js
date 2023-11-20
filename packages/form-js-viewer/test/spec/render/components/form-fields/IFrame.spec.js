@@ -186,6 +186,21 @@ describe('IFrame', function() {
   });
 
 
+  it('should set <sandbox> attribute', function() {
+
+    // when
+    const { container } = createIFrame();
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    const iframe = formField.querySelector('.fjs-iframe');
+
+    expect(iframe.sandbox).to.exist;
+    expect(iframe.sandbox.item(0)).to.equal(null);
+  });
+
+
   it('should render iframe title (expression)', function() {
 
     // when
