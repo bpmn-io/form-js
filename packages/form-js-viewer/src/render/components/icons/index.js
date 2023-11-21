@@ -16,6 +16,7 @@ import TextareaIcon from './Textarea.svg';
 import IFrameIcon from './IFrame.svg';
 import ImageIcon from './Image.svg';
 import GroupIcon from './Group.svg';
+import TableIcon from './Table.svg';
 
 export const iconsByType = (type) => {
   return {
@@ -36,6 +37,7 @@ export const iconsByType = (type) => {
     text: TextIcon,
     textfield: TextfieldIcon,
     textarea: TextareaIcon,
+    table: TableIcon,
     default: FormIcon
   }[type];
 };
