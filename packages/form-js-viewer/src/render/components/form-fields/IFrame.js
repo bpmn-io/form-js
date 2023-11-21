@@ -12,7 +12,6 @@ import {
   prefixId
 } from '../Util';
 
-import { iconsByType } from '../icons';
 const type = 'iframe';
 
 const DEFAULT_HEIGHT = 300;
@@ -43,7 +42,10 @@ export default function IFrame(props) {
   return <div class={ formFieldClasses(type, { disabled, readonly }) }>
     <Label id={ prefixId(id, formId) } label={ evaluatedLabel } />
     {
-      safeUrl &&
+      !evaluatedUrl && <IFramePlaceholder text="No content to show." />
+    }
+    {
+      evaluatedUrl && safeUrl &&
         <iframe
           src={ safeUrl }
           title={ evaluatedLabel }
@@ -54,16 +56,16 @@ export default function IFrame(props) {
         />
     }
     {
-      !safeUrl && <IFramePlaceholder />
+      evaluatedUrl && !safeUrl && <IFramePlaceholder text="External content couldn't be loaded." />
     }
   </div>;
 }
 
-function IFramePlaceholder() {
-  const Icon = iconsByType(type);
+function IFramePlaceholder(props) {
+  const { text = 'iFrame' } = props;
 
   return <div class="fjs-iframe-placeholder">
-    <p class="fjs-iframe-placeholder-text"><Icon width="32" height="24" viewBox="0 0 56 56" />iFrame</p>
+    <p class="fjs-iframe-placeholder-text">{ text }</p>
   </div>;
 }
 
