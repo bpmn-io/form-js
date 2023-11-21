@@ -138,7 +138,10 @@ export function PlaygroundRoot(props) {
     propertiesPanelRef.current = formEditor.get('propertiesPanel');
 
     formEditor.on('formField.add', ({ formField }) => {
-      const { initialDemoData, id } = formField;
+      const formFields = formEditor.get('formFields');
+      const { config } = formFields.get(formField.type);
+      const { initialDemoData } = config;
+      const { id } = formField;
 
       if ([ initialDemoData, id ].includes(undefined)) {
         return;
