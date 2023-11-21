@@ -4,7 +4,6 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-// import { simpleBoolEntryFactory } from './factories';
 import { useMemo } from 'preact/hooks';
 
 
@@ -24,17 +23,6 @@ export default function TextEntry(props) {
       isDefaultVisible: (field) => field.type === 'text'
     }
   ];
-
-  // todo: skipped to make the release without too much risk
-  // if (templating.isTemplate(field.text)) {
-  //   entries.push(simpleBoolEntryFactory({
-  //     id: 'strict',
-  //     path: [ 'strict' ],
-  //     label: 'Strict templating',
-  //     description: 'Enforces types to be correct',
-  //     props
-  //   }));
-  // }
 
   return entries;
 }
