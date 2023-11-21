@@ -3,9 +3,9 @@ export const form = {
   components: [
     {
       type: 'table',
-      key: 'table',
       rowCount: true,
-      columns: []
+      columns: [],
+      dataSource: 'inputVariable'
     }
   ]
 };

@@ -30,7 +30,7 @@ export default function Text(props) {
     return sanitizeHTML(html);
   }, [ markdownRenderer, markdown ]);
 
-  const OverridenTargetLink = useMemo(() => BuildOverridenTargetLink(textLinkTarget), [ textLinkTarget ]);
+  const OverriddenTargetLink = useMemo(() => BuildOverriddenTargetLink(textLinkTarget), [ textLinkTarget ]);
 
   const componentOverrides = useMemo(() => {
 
@@ -39,11 +39,11 @@ export default function Text(props) {
     }
 
     if (textLinkTarget) {
-      return { 'a': OverridenTargetLink };
+      return { 'a': OverriddenTargetLink };
     }
 
     return {};
-  }, [ disableLinks, OverridenTargetLink, textLinkTarget ]);
+  }, [ disableLinks, OverriddenTargetLink, textLinkTarget ]);
 
   return <div class={ formFieldClasses(type) }>
     <Markup markup={ safeHtml } components={ componentOverrides } trim={ false } />
@@ -61,7 +61,7 @@ Text.config = {
   })
 };
 
-function BuildOverridenTargetLink(target) {
+function BuildOverriddenTargetLink(target) {
   return function({ children, ...rest }) {
     return <a { ...rest } target={ target }>{ children }</a>;
   };
