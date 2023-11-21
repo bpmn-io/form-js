@@ -134,7 +134,7 @@ Some _em_ **strong** [text](#text) \`code\`.
   });
 
 
-  it('should render markdown link (overriden target)', function() {
+  it('should render markdown link (overridden target)', function() {
 
     // given
     const text = '[forms](https://bpmn.io/)';

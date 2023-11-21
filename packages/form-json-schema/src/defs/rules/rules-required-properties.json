@@ -3,18 +3,32 @@
   "allOf": [
     {
       "if": {
-        "anyOf": [
-          {
-            "$ref": "../field-types/inputs.json"
-          },
-          {
-            "$ref": "../field-types/presentation-components.json"
-          }
-        ]
+        "$ref": "../field-types/inputs.json"
       },
       "then": {
         "required": [
           "key"
+        ]
+      }
+    },
+    {
+      "if": {
+        "$ref": "../field-types/presentation-components.json"
+      },
+      "then": {
+        "oneOf": [
+          {
+            "required": [
+              "dataSource",
+              "columns"
+            ]
+          },
+          {
+            "required": [
+              "dataSource",
+              "columnsExpression"
+            ]
+          }
         ]
       }
     }
