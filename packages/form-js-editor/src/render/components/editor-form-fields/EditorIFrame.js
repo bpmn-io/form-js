@@ -1,4 +1,5 @@
 import {
+  iconsByType,
   IFrame
 } from '@bpmn-io/form-js-viewer';
 
@@ -6,8 +7,13 @@ import {
 export default function EditorIFrame(props) {
   const { field } = props;
 
-  // remove url to display placeholder
-  return <IFrame { ...{ ...props, field: { ...field, url: null } } } />;
+  const Icon = iconsByType(field.type);
+
+  return (
+    <div class="fjs-iframe-placeholder">
+      <p class="fjs-iframe-placeholder-text"><Icon width="32" height="24" viewBox="0 0 56 56" />iFrame</p>
+    </div>
+  );
 
 }
 
