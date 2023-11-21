@@ -14,7 +14,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "noEmit": true
   },
   "include": [
     "packages/form-js-viewer/src",
