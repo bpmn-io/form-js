@@ -138,16 +138,16 @@ export function PlaygroundRoot(props) {
     propertiesPanelRef.current = formEditor.get('propertiesPanel');
 
     formEditor.on('formField.add', ({ formField }) => {
-      const { initialDemoData, key } = formField;
+      const { initialDemoData, id } = formField;
 
-      if ([ initialDemoData, key ].includes(undefined)) {
+      if ([ initialDemoData, id ].includes(undefined)) {
         return;
       }
 
       setData((currentData) => {
         const newData = {
           ...currentData,
-          [key]: initialDemoData,
+          [id]: initialDemoData,
         };
 
         dataEditorRef.current.setValue(
