@@ -4,6 +4,9 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+const HTTPS_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
+
+
 export default function IFrameUrlEntry(props) {
   const {
     editField,
@@ -44,6 +47,16 @@ function Url(props) {
     return editField(field, path, value);
   };
 
+  const validate = (value) => {
+    if (!value) {
+      return;
+    }
+
+    if (!HTTPS_PATTERN.test(value)) {
+      return 'For security reasons the URL must start with "https".';
+    }
+  };
+
   return FeelTemplatingEntry({
     debounce,
     element: field,
@@ -54,6 +67,7 @@ function Url(props) {
     setValue,
     singleLine: true,
     tooltip: getTooltip(),
+    validate,
     variables
   });
 }
