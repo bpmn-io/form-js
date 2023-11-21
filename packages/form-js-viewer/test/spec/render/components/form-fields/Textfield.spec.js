@@ -432,6 +432,106 @@ describe('Textfield', function() {
   });
 
 
+  describe('#sanitizeValue', function() {
+
+    it('should convert integers', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: 1 });
+      const sanitizedValue2 = sanitizeValue({ value: 0 });
+      const sanitizedValue3 = sanitizeValue({ value: -1 });
+
+      // then
+      expect(sanitizedValue1).to.equal('1');
+      expect(sanitizedValue2).to.equal('0');
+      expect(sanitizedValue3).to.equal('-1');
+
+    });
+
+
+    it('should convert booleans', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: true });
+      const sanitizedValue2 = sanitizeValue({ value: false });
+
+      // then
+      expect(sanitizedValue1).to.equal('true');
+      expect(sanitizedValue2).to.equal('false');
+
+    });
+
+
+    it('should convert floats', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: 1.1 });
+      const sanitizedValue2 = sanitizeValue({ value: 0.0 });
+      const sanitizedValue3 = sanitizeValue({ value: -1.1 });
+
+      // then
+      expect(sanitizedValue1).to.equal('1.1');
+      expect(sanitizedValue2).to.equal('0');
+      expect(sanitizedValue3).to.equal('-1.1');
+
+    });
+
+
+    it('should sanitize null', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue = sanitizeValue({ value: null });
+
+      // then
+      expect(sanitizedValue).to.equal('');
+
+    });
+
+
+    it('should sanitize undefined', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue = sanitizeValue({ value: undefined });
+
+      // then
+      expect(sanitizedValue).to.equal('');
+
+    });
+
+
+    it('should sanitize arrays', function() {
+
+      // given
+      const { sanitizeValue } = Textfield.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: [] });
+      const sanitizedValue2 = sanitizeValue({ value: [ 1, 2, 3 ] });
+
+      // then
+      expect(sanitizedValue1).to.equal('');
+      expect(sanitizedValue2).to.equal('');
+
+    });
+
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {

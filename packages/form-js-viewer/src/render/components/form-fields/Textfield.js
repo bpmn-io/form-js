@@ -1,4 +1,4 @@
-import { isArray, isObject } from 'min-dash';
+import { isArray, isObject, isNil } from 'min-dash';
 import { useContext } from 'preact/hooks';
 
 import { FormContext } from '../../context';
@@ -82,7 +82,7 @@ Textfield.config = {
   group: 'basic-input',
   emptyValue: '',
   sanitizeValue: ({ value }) => {
-    if (isArray(value) || isObject(value)) {
+    if (isArray(value) || isObject(value) || isNil(value)) {
       return '';
     }
 

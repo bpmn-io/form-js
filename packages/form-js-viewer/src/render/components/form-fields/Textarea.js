@@ -1,4 +1,4 @@
-import { isArray, isObject } from 'min-dash';
+import { isArray, isObject, isNil } from 'min-dash';
 import { useContext, useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 
 import { FormContext } from '../../context';
@@ -81,7 +81,7 @@ Textarea.config = {
   label: 'Text area',
   group: 'basic-input',
   emptyValue: '',
-  sanitizeValue: ({ value }) => (isArray(value) || isObject(value)) ? '' : String(value),
+  sanitizeValue: ({ value }) => (isArray(value) || isObject(value) || isNil(value)) ? '' : String(value),
   create: (options = {}) => ({ ...options })
 };
 
