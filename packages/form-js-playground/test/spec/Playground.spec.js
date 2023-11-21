@@ -164,6 +164,46 @@ describe('playground', function() {
   });
 
 
+  it('should append sample data', async function() {
+
+    // given
+    const attrs = {
+      id: 'table',
+      type: 'table',
+      dataSource: 'people',
+      columnsExpression: 'peopleColumns'
+    };
+
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    const editor = playground.getEditor();
+    const modeling = editor.get('modeling');
+
+    // when
+    await act(() => {
+      const { schema } = editor._getState();
+      modeling.addFormField(attrs, schema, 0);
+    });
+
+    // then
+    const dataEditor = playground.getDataEditor();
+
+    const inputData = JSON.parse(dataEditor.getValue());
+
+    expect(inputData).to.have.property('table');
+    expect(inputData.table).to.eql([
+      { id: 1, name: 'John Doe', date: '31.01.2023' },
+      { id: 2, name: 'Erika Muller', date: '20.02.2023' },
+      { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
+    ]);
+  });
+
+
   it('should NOT attach to empty parent', async function() {
 
     // given
