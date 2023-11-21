@@ -3626,6 +3626,31 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.have.been.calledWith(field, [ 'url' ], undefined);
         });
 
+
+        it('should show error', async function() {
+
+          // given
+          const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
+
+          createPropertiesPanel({
+            container,
+            field
+          });
+
+          const feelers = findFeelers('url', container);
+          expect(feelers.textContent).to.equal('https://bpmn.io/');
+
+          const input = feelers.querySelector('div[contenteditable="true"]');
+
+          // when
+          await setEditorValue(input, 'http://foo.png');
+
+          // then
+          const error = screen.getByText('For security reasons the URL must start with "https".');
+
+          expect(error).to.exist;
+        });
+
       });
 
     });
