@@ -242,6 +242,11 @@
       "description": "Define the amount of rows a table will render.",
       "type": "number",
       "default": 10
+    },
+    "dataSource": {
+      "$id": "#/component/dataSource",
+      "description": "Specifies the data source which will populate the table component.",
+      "type": "string"
     }
   },
   "required": [

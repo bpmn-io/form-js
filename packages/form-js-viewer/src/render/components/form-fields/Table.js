@@ -7,7 +7,7 @@ export default function Table(props) {
 
 Table.config = {
   type,
-  keyed: true,
+  keyed: false,
   label: 'Table',
   group: 'presentation',
   create: (options = {}) => ({

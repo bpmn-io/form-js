@@ -339,14 +339,7 @@
     {
       "if": {
         "not": {
-          "anyOf": [
-            {
-              "$ref": "../field-types/presentation-components.json"
-            },
-            {
-              "$ref": "../field-types/inputs.json"
-            }
-          ]
+          "$ref": "../field-types/inputs.json"
         }
       },
       "then": {
@@ -365,7 +358,8 @@
         "properties": {
           "columns": false,
           "columnsExpression": false,
-          "rowCount": false
+          "rowCount": false,
+          "dataSource": false
         }
       }
     },
@@ -379,7 +373,8 @@
             "properties": {
               "columns": true,
               "rowCount": true,
-              "columnsExpression": false
+              "columnsExpression": false,
+              "dataSource": true
             },
             "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' should not exist together."
           },
@@ -387,7 +382,8 @@
             "properties": {
               "columns": false,
               "rowCount": true,
-              "columnsExpression": true
+              "columnsExpression": true,
+              "dataSource": true
             },
             "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' not should exist together."
           }
