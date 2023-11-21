@@ -10,6 +10,7 @@ export default function HeightEntry(props) {
     id,
     description,
     isDefaultVisible,
+    defaultValue
   } = props;
 
   const entries = [];
@@ -21,6 +22,7 @@ export default function HeightEntry(props) {
     isEdited: isNumberFieldEntryEdited,
     editField,
     field,
+    defaultValue,
     isDefaultVisible: (field) => {
       if (isFunction(isDefaultVisible)) {
         return isDefaultVisible(field);
@@ -39,12 +41,13 @@ function Height(props) {
     description,
     editField,
     field,
-    id
+    id,
+    defaultValue = 60 // default value for spacer
   } = props;
 
   const debounce = useService('debounce');
 
-  const getValue = (e) => get(field, [ 'height' ]);
+  const getValue = (e) => get(field, [ 'height' ], defaultValue);
 
   const setValue = (value, error) => {
     if (error) {
