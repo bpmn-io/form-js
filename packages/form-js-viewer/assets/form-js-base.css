@@ -110,6 +110,7 @@
   --border-definition: 1px solid var(--color-borders);
   --border-definition-adornment: 1px solid var(--color-borders-adornment);
   --outline-definition: 1px solid var(--cds-focus, var(--color-borders));
+  --button-warning-outline-definition: 2px solid var(--color-warning);
   --border-definition-disabled: 1px solid var(--color-borders-disabled);
   --border-definition-readonly: 1px solid var(--color-borders-readonly);
 
@@ -1128,18 +1129,37 @@
   background: transparent;
   border: none;
   width: 32px;
-  color: var(--color-black);
+  color: var(--color-icon-base);
   align-items: center;
   justify-content: center;
+  padding: 0;
   margin-left: 1rem;
   margin-right: -1rem;
+}
+
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove:focus-visible {
+  outline: none;
+}
+
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove .fjs-repeat-row-remove-icon-container {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove:focus-visible .fjs-repeat-row-remove-icon-container {
+  outline: var(--button-warning-outline-definition);
 }
 
 .fjs-container .fjs-repeat-row-container:hover .fjs-repeat-render-footer-spacer {
   width: 24px;
 }
 
-.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove:hover {
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove:hover,
+.fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove:focus-visible {
   color: var(--color-warning);
 }
 
@@ -1148,13 +1168,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 8px;
+  padding: 12px 4px;
 }
 
 .fjs-container .fjs-repeat-render-footer button {
   background: none;
   border: none;
-  padding: 0;
+  padding: 4px;
   margin: 0;
   font-family: inherit;
   font-size: inherit;
