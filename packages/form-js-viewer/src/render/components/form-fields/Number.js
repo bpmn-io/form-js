@@ -234,13 +234,10 @@ Numberfield.config = {
   emptyValue: null,
   sanitizeValue: ({ value, formField }) => {
 
-    // null state is allowed
-    if (isNullEquivalentValue(value)) return null;
+    // invalid value types are sanitized to null
+    if (isNullEquivalentValue(value) || !isValidNumber(value)) return null;
 
-    // if data cannot be parsed as a valid number, go into invalid NaN state
-    if (!isValidNumber(value)) return 'NaN';
-
-    // otherwise parse to formatting type
+    // otherwise, we return a string or a number depending on the form field configuration
     return formField.serializeToString ? value.toString() : Number(value);
   },
   create: (options = {}) => ({

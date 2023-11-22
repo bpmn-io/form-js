@@ -907,6 +907,84 @@ describe('Number', function() {
   });
 
 
+  describe('#sanitizeValue', function() {
+
+    it('should sanitize valid number strings to numbers', function() {
+
+      // given
+      const { sanitizeValue } = Number.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: '123', formField: { serializeToString: false } });
+      const sanitizedValue2 = sanitizeValue({ value: '123.23', formField: { serializeToString: false } });
+      const sanitizedValue3 = sanitizeValue({ value: '0', formField: { serializeToString: false } });
+      const sanitizedValue4 = sanitizeValue({ value: '-1.1', formField: { serializeToString: false } });
+
+      // then
+      expect(sanitizedValue1).to.equal(123);
+      expect(sanitizedValue2).to.equal(123.23);
+      expect(sanitizedValue3).to.equal(0);
+      expect(sanitizedValue4).to.equal(-1.1);
+
+    });
+
+
+    it('should sanitize arrays and objects to null', function() {
+
+      // given
+      const { sanitizeValue } = Number.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: [], formField: { serializeToString: false } });
+      const sanitizedValue2 = sanitizeValue({ value: {}, formField: { serializeToString: false } });
+
+      // then
+      expect(sanitizedValue1).to.equal(null);
+      expect(sanitizedValue2).to.equal(null);
+
+    });
+
+
+    it('should sanitize invalid number strings to null', function() {
+
+      // given
+      const { sanitizeValue } = Number.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: 'abc', formField: { serializeToString: false } });
+      const sanitizedValue2 = sanitizeValue({ value: '123abc', formField: { serializeToString: false } });
+      const sanitizedValue3 = sanitizeValue({ value: 'abc123', formField: { serializeToString: false } });
+      const sanitizedValue4 = sanitizeValue({ value: '123.23abc', formField: { serializeToString: false } });
+      const sanitizedValue5 = sanitizeValue({ value: 'abc123.23', formField: { serializeToString: false } });
+
+      // then
+      expect(sanitizedValue1).to.equal(null);
+      expect(sanitizedValue2).to.equal(null);
+      expect(sanitizedValue3).to.equal(null);
+      expect(sanitizedValue4).to.equal(null);
+      expect(sanitizedValue5).to.equal(null);
+
+    });
+
+
+    it('should sanitize booleans to null', function() {
+
+      // given
+      const { sanitizeValue } = Number.config;
+
+      // when
+      const sanitizedValue1 = sanitizeValue({ value: true, formField: { serializeToString: false } });
+      const sanitizedValue2 = sanitizeValue({ value: false, formField: { serializeToString: false } });
+
+      // then
+      expect(sanitizedValue1).to.equal(null);
+      expect(sanitizedValue2).to.equal(null);
+
+    });
+
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
