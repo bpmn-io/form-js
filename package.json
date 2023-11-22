@@ -17,7 +17,7 @@
     "lerna-build-watch": "lerna run bundle:watch --stream --parallel --include-dependencies --scope",
     "lerna-publish": "lerna publish -m \"chore(project): publish %s\"",
     "lint": "eslint packages",
-    "lint:types": "tsc --noEmit --pretty",
+    "lint:types": "tsc --pretty",
     "postinstall": "lerna bootstrap --hoist",
     "reinstall": "npm ci",
     "release": "run-s distro test \"lerna-publish -- {@}\" --",
