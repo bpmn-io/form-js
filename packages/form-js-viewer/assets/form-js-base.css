@@ -1123,14 +1123,14 @@
 }
 
 .fjs-container .fjs-repeat-row-container .fjs-repeat-row-remove {
-	display: flex;
-	cursor: pointer;
-	background: transparent;
-	border: none;
-	width: 32px;
-	color: var(--color-black);
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 32px;
+  color: var(--color-black);
+  align-items: center;
+  justify-content: center;
   margin-left: 1rem;
   margin-right: -1rem;
 }

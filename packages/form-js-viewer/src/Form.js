@@ -487,11 +487,6 @@ export default class Form {
     const formFields = this.get('formFields');
     const pathRegistry = this.get('pathRegistry');
 
-    const {
-      customRoot,
-      customIndexes
-    } = options;
-
     function initializeFieldDataRecursively(initializedData, formField, indexes) {
       const { defaultValue, type, isRepeating } = formField;
       const { config: fieldConfig } = formFields.get(type);
@@ -553,15 +548,15 @@ export default class Form {
     }
 
     // allows definition of a specific subfield to generate the data for
-    const root = customRoot || formFieldRegistry.getForm();
-    const indexes = customIndexes || {};
-    const basePath = pathRegistry.getValuePath(root, { indexes }) || [];
+    const container = options.container || formFieldRegistry.getForm();
+    const indexes = options.indexes || {};
+    const basePath = pathRegistry.getValuePath(container, { indexes }) || [];
 
     // if indexing ahead of time, we must add this index to the data path at the end
-    const path = !isUndefined(indexes[root.id]) ? [ ...basePath, indexes[root.id] ] : basePath;
+    const path = !isUndefined(indexes[container.id]) ? [ ...basePath, indexes[container.id] ] : basePath;
 
     const workingData = clone(data);
-    initializeFieldDataRecursively(workingData, root, indexes);
+    initializeFieldDataRecursively(workingData, container, indexes);
     return get(workingData, path, {});
   }
 

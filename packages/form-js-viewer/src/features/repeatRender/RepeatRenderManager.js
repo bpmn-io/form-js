@@ -134,8 +134,8 @@ export default class RepeatRenderManager {
     const onAddItem = () => {
       const updatedValues = values.slice();
       const newItem = this._form._getInitializedFieldData(this._form._getState().data, {
-        customRoot : repeaterField,
-        customIndexes : { ...indexes, [ repeaterField.id ]: updatedValues.length }
+        container: repeaterField,
+        indexes: { ...indexes, [ repeaterField.id ]: updatedValues.length }
       });
 
       updatedValues.push(newItem);

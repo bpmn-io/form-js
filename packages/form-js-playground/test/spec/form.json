@@ -11,27 +11,6 @@
       }
     },
     {
-      "id": "Group_1",
-      "type": "group",
-      "label": "Supplementary Information",
-      "path": "invoiceDetails",
-      "showOutline": true,
-      "components": [
-        {
-          "id": "GroupTextfield_1",
-          "type": "textfield",
-          "key": "supplementaryInfo1",
-          "label": "Field 1"
-        },
-        {
-          "id": "GroupTextfield_2",
-          "type": "textfield",
-          "key": "supplementaryInfo2",
-          "label": "Field 2"
-        }
-      ]
-    },
-    {
       "type": "iframe",
       "label": "The bpmn-io web page",
       "url": "https://bpmn.io/"

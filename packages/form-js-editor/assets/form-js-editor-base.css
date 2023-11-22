@@ -335,12 +335,12 @@
 }
 
 .fjs-editor-container .fjs-empty-component {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 80px;
-	width: calc(100% - 4rem);
-	position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: calc(100% - 4rem);
+  position: absolute;
 }
 
 .fjs-editor-container .fjs-empty-component span {
@@ -460,7 +460,7 @@
 
 .fjs-editor-container .fjs-repeat-render-footer {
   font-size: var(--font-size-label);
-	background: var(--cds-field, var(--color-background-disabled));
+  background: var(--cds-field, var(--color-background-disabled));
   color: var(--cds-text-disabled, var(--color-grey-225-10-45));
   padding: 3px;
   display: flex;
