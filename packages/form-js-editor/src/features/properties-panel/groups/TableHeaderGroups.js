@@ -52,7 +52,7 @@ export function TableHeaderGroups(field, editField) {
 
 // helpers //////////
 
-const TOOLTIP_TEXT = `"Static" defines a constant, predefined set of form options.
+const TOOLTIP_TEXT = `"List of items" defines a constant, predefined set of form options.
 
 "Expression" defines options that are populated from a FEEL expression.
 `;
