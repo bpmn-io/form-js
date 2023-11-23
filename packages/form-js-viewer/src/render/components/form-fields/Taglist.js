@@ -1,10 +1,9 @@
-import { useContext, useMemo, useRef, useState } from 'preact/hooks';
+import { useMemo, useRef, useState } from 'preact/hooks';
 
 import { useService } from '../../hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 
-import { FormContext } from '../../context';
 import classNames from 'classnames';
 
 import XMarkIcon from './icons/XMark.svg';

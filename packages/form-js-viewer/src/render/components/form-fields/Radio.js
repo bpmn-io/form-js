@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../hooks/useCleanupSingleSelectValue';
 import classNames from 'classnames';
@@ -76,8 +76,6 @@ export default function Radio(props) {
     value,
     onChange: props.onChange
   });
-
-  const { formId } = useContext(FormContext);
 
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) } ref={ outerDivRef }>
     <Label

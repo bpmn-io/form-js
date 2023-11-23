@@ -1,6 +1,3 @@
-import { formFieldClasses } from '../Util';
-import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
-import { createEmptyOptions } from '../util/optionsUtil';
 import { useMemo } from 'preact/hooks';
 
 import Description from '../Description';
@@ -12,8 +9,7 @@ import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
 import SearchableSelect from './parts/SearchableSelect';
 import SimpleSelect from './parts/SimpleSelect';

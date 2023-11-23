@@ -1,7 +1,9 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useService } from '../../../hooks';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
+
+import classNames from 'classnames';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';

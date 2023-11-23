@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import classNames from 'classnames';
@@ -88,8 +88,6 @@ export default function Checklist(props) {
     onChange: props.onChange
   });
 
-  const { formId } = useContext(FormContext);
-
   return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) } ref={ outerDivRef }>
     <Label
       label={ label }
@@ -104,11 +102,11 @@ export default function Checklist(props) {
             id={ itemDomId }
             label={ o.label }
             class={ classNames({
-              'fjs-checked': values.includes(v.value)
+              'fjs-checked': values.includes(o.value)
             }) }
             required={ false }>
             <input
-              checked={ values.includes(v.value) }
+              checked={ values.includes(o.value) }
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }

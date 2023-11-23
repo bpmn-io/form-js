@@ -1,4 +1,6 @@
-import { useCallback, useContext, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
+import classNames from 'classnames';
+import { findIndex } from 'min-dash';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
 
