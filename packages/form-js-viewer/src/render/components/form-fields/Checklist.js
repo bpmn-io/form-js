@@ -1,5 +1,6 @@
 import { useContext, useRef } from 'preact/hooks';
-import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
+import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import classNames from 'classnames';
 import { FormContext } from '../../context';
 
@@ -9,7 +10,7 @@ import Label from '../Label';
 
 import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 
-import { createEmptyOptions } from '../util/valuesUtil';
+import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
   formFieldClasses,
@@ -27,7 +28,7 @@ export default function Checklist(props) {
     onFocus,
     field,
     readonly,
-    value = [],
+    value: values = [],
   } = props;
 
   const {
@@ -43,7 +44,7 @@ export default function Checklist(props) {
 
   const toggleCheckbox = (v) => {
 
-    let newValue = [ ...value ];
+    let newValue = [ ...values ];
 
     if (!newValue.includes(v)) {
       newValue.push(v);
@@ -76,9 +77,17 @@ export default function Checklist(props) {
   };
 
   const {
-    state: loadState,
-    values: options
-  } = useValuesAsync(field);
+    loadState,
+    options
+  } = useOptionsAsync(field);
+
+  useCleanupMultiSelectValues({
+    field,
+    loadState,
+    options,
+    values,
+    onChange: props.onChange
+  });
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
@@ -95,11 +104,11 @@ export default function Checklist(props) {
             key={ `${id}-${index}` }
             label={ v.label }
             class={ classNames({
-              'fjs-checked': value.includes(v.value)
+              'fjs-checked': values.includes(v.value)
             }) }
             required={ false }>
             <input
-              checked={ value.includes(v.value) }
+              checked={ values.includes(v.value) }
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }

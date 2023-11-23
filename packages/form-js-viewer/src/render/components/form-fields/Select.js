@@ -8,7 +8,7 @@ import Label from '../Label';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 
-import { createEmptyOptions } from '../util/valuesUtil';
+import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
   formFieldClasses,

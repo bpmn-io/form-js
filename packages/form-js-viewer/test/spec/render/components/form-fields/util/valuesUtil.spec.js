@@ -1,8 +1,8 @@
-import { normalizeValuesData } from '../../../../../../src/render/components/util/valuesUtil.js';
+import { normalizeOptionsData } from '../../../../../../src/render/components/util/optionsUtil.js';
 
-describe('valuesUtil', function() {
+describe('optionsUtil', function() {
 
-  describe('#normalizeValuesData', function() {
+  describe('#normalizeOptionsData', function() {
 
     it('should not alter fully defined value', function() {
 
@@ -10,7 +10,7 @@ describe('valuesUtil', function() {
       const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ];
 
       // when
-      const result = normalizeValuesData(values);
+      const result = normalizeOptionsData(values);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ]);
@@ -23,7 +23,7 @@ describe('valuesUtil', function() {
       const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, null ];
 
       // when
-      const result = normalizeValuesData(values);
+      const result = normalizeOptionsData(values);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ]);
@@ -36,7 +36,7 @@ describe('valuesUtil', function() {
       const values = [ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' }, undefined ];
 
       // when
-      const result = normalizeValuesData(values);
+      const result = normalizeOptionsData(values);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'Jessica' } ]);
@@ -49,7 +49,7 @@ describe('valuesUtil', function() {
       const values = [ { value: 'john' }, { value: 'jessica' } ];
 
       // when
-      const result = normalizeValuesData(values);
+      const result = normalizeOptionsData(values);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'john' }, { value: 'jessica', label: 'jessica' } ]);
@@ -62,7 +62,7 @@ describe('valuesUtil', function() {
       const valuesData = [ { label: 'John' }, { label: 'Jessica' } ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([]);
@@ -75,7 +75,7 @@ describe('valuesUtil', function() {
       const valuesData = [ 'john', 'jessica' ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'john' }, { value: 'jessica', label: 'jessica' } ]);
@@ -88,7 +88,7 @@ describe('valuesUtil', function() {
       const valuesData = [ { foo: 'bar' }, { value: 'john', label: 'John' } ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' } ]);
@@ -102,7 +102,7 @@ describe('valuesUtil', function() {
       const valuesData = [ { value: { foo: 'bar', bar: 'foo' }, label: 'myObject' }, { value: 'john', label: 'John' } ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: { foo: 'bar', bar: 'foo' }, label: 'myObject' }, { value: 'john', label: 'John' } ]);
@@ -116,7 +116,7 @@ describe('valuesUtil', function() {
       const valuesData = [ { value: { foo: 'bar', bar: 'foo' } }, { value: 'john', label: 'John' } ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' } ]);
@@ -130,7 +130,7 @@ describe('valuesUtil', function() {
       const valuesData = [ 1, 2 ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 1, label: '1' }, { value: 2, label: '2' } ]);
@@ -143,7 +143,7 @@ describe('valuesUtil', function() {
       const valuesData = [ 0 ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 0, label: '0' } ]);
@@ -156,7 +156,7 @@ describe('valuesUtil', function() {
       const valuesData = [ true, false ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: true, label: 'true' }, { value: false, label: 'false' } ]);
@@ -169,7 +169,7 @@ describe('valuesUtil', function() {
       const valuesData = [ { value: 'john', label: 'John' }, 'jessica', 1, true, false, null, undefined ];
 
       // when
-      const result = normalizeValuesData(valuesData);
+      const result = normalizeOptionsData(valuesData);
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'John' }, { value: 'jessica', label: 'jessica' }, { value: 1, label: '1' }, { value: true, label: 'true' }, { value: false, label: 'false' } ]);

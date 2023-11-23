@@ -1,5 +1,6 @@
 import { useContext, useRef } from 'preact/hooks';
-import useValuesAsync, { LOAD_STATES } from '../../hooks/useValuesAsync';
+import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
+import useCleanupSingleSelectValue from '../../hooks/useCleanupSingleSelectValue';
 import classNames from 'classnames';
 import { FormContext } from '../../context';
 
@@ -9,7 +10,7 @@ import Label from '../Label';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 
-import { createEmptyOptions } from '../util/valuesUtil';
+import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
   formFieldClasses,
@@ -65,9 +66,17 @@ export default function Radio(props) {
   };
 
   const {
-    state: loadState,
-    values: options
-  } = useValuesAsync(field);
+    loadState,
+    options
+  } = useOptionsAsync(field);
+
+  useCleanupSingleSelectValue({
+    field,
+    loadState,
+    options,
+    value,
+    onChange: props.onChange
+  });
 
   const { formId } = useContext(FormContext);
   const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
