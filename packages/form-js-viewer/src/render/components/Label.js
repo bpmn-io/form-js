@@ -13,7 +13,7 @@ export default function Label(props) {
   const evaluatedLabel = useSingleLineTemplateEvaluation(label || '', { debug: true });
 
   return (
-    <label for={ id } class={ classNames('fjs-form-field-label', { 'fjs-incollapsible-label': !collapseOnEmpty }, props['class']) }>
+    <label for={ id } title={ evaluatedLabel } class={ classNames('fjs-form-field-label', { 'fjs-incollapsible-label': !collapseOnEmpty }, props['class']) }>
       { props.children }
       { evaluatedLabel }
       {
