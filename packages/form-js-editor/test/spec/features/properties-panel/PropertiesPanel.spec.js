@@ -32,6 +32,7 @@ import schema from '../../form.json';
 import defaultValuesSchema from '../../defaultValues.json';
 import redundantValuesSchema from '../../redundantValues.json';
 import iframeSchema from '../../../../../form-js-viewer/test/spec/iframes.json';
+import tableSchema from '../../form-table.json';
 
 import { insertStyles, setEditorValue } from '../../../TestHelper';
 
@@ -3649,6 +3650,342 @@ describe('properties panel', function() {
           const error = screen.getByText('For security reasons the URL must start with "https".');
 
           expect(error).to.exist;
+        });
+
+      });
+
+    });
+
+
+    describe('table', function() {
+
+      it('entries static headers', function() {
+
+        // given
+        const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Headers source',
+          'Header items',
+          'Condition',
+          'Layout',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Table label',
+          'Data source',
+          'Pagination',
+          'Number of rows per page'
+        ]);
+
+        expectGroupEntries(result.container, 'Headers source', [
+          'Type'
+        ]);
+
+        expectGroupEntries(result.container, 'Header items', [
+          [ 'Label', 3 ],
+          [ 'Key', 3 ]
+        ]);
+      });
+
+
+      it('entries static headers', function() {
+
+        // given
+        const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
+
+        const result = createPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectGroups(result.container, [
+          'General',
+          'Headers source',
+          'Condition',
+          'Layout',
+          'Custom properties'
+        ]);
+
+        expectGroupEntries(result.container, 'General', [
+          'Table label',
+          'Data source',
+          'Pagination',
+          'Number of rows per page'
+        ]);
+
+        expectGroupEntries(result.container, 'Headers source', [
+          'Type',
+          'Expression'
+        ]);
+      });
+
+
+      describe('columns', function() {
+
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = {
+            label: 'Table',
+            type: 'table',
+            id: 'Field_0k6resc',
+            dataSource: 'Field_0k6resc',
+            columnsExpression: '=tableHeaders',
+          };
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            const { columnsExpression:_, ...renderedField } = field;
+            field = {
+              ...renderedField,
+              columns:[
+                {
+                  label:'Column',
+                  key:'inputVariable'
+                }
+              ]
+            };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          // when
+          fireEvent.input(input, { target: { value: 'static' } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const optionLabelInput = screen.getByLabelText('Label');
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(optionLabelInput);
+          });
+        });
+
+
+        it('should add value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          const group = findGroup(result.container, 'Header items');
+
+          // when
+          const addEntry = group.querySelector('.bio-properties-panel-add-entry');
+
+          fireEvent.click(addEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columns' ], [
+            ...field.columns,
+            {
+              label: 'Column',
+              key: 'inputVariable',
+            }
+          ]);
+        });
+
+
+        it('should remove value', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+          const result = createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          const group = findGroup(result.container, 'Header items');
+
+          // when
+          const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
+
+          fireEvent.click(removeEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columns' ], [
+            {
+              label: 'Name',
+              key: 'name'
+            },
+            {
+              label: 'Date',
+              key: 'date'
+            }
+          ]);
+        });
+
+
+        describe('validation', function() {
+
+          describe('key', function() {
+
+            it('should not be empty', function() {
+
+              // given
+              const editFieldSpy = spy();
+
+              const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+              createPropertiesPanel({
+                container,
+                editField: editFieldSpy,
+                field
+              });
+
+              // when
+              const input = screen.getByLabelText('Key', { selector: `#bio-properties-panel-${field.id}-columns-0-key` });
+
+              fireEvent.input(input, { target: { value: '' } });
+
+              // then
+              expect(editFieldSpy).to.not.have.been.called;
+
+              const error = screen.getByText('Must not be empty.');
+
+              expect(error).to.exist;
+            });
+
+          });
+
+        });
+
+      });
+
+
+      describe('dynamic options (columnsExpression)', function() {
+
+        it('should configure input source', function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+
+          expect(input.value).to.equal('static');
+
+          // when
+          fireEvent.input(input, { target: { value: 'expression' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            columnsExpression:'=',
+            columns: undefined
+          });
+        });
+
+
+        it('should configure columnsExpression', async function() {
+
+          // given
+          const editFieldSpy = spy();
+
+          const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
+
+          createPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field
+          });
+
+          // assume
+          const input = findTextbox(`${field.id}-columnsExpression`, container);
+
+          expect(input.textContent).to.equal('tableHeaders');
+
+          // when
+          await setEditorValue(input, 'newVal');
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columnsExpression' ], '=newVal');
+        });
+
+
+        it('should auto focus other entry', async function() {
+
+          // given
+          let field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
+
+          const eventBus = new eventBusMock();
+
+          const selection = {
+            get: () => field
+          };
+
+          const editField = () => {
+            const { columns:_, ...renderedField } = field;
+            field = { ...renderedField, columnsExpression: '=' };
+          };
+
+          createPropertiesPanel({
+            container,
+            editField,
+            eventBus,
+            field,
+            selection
+          });
+
+          // assume
+          const input = screen.getByLabelText('Type');
+          expect(input.value).to.equal('static');
+
+          // when
+          fireEvent.input(input, { target: { value: 'expression' } });
+          await act(() => eventBus.fire('changed'));
+
+          // then
+          const editor = findTextbox(`${field.id}-columnsExpression`, container);
+
+          await waitFor(() => {
+            expect(document.activeElement).to.eql(editor);
+          });
         });
 
       });
