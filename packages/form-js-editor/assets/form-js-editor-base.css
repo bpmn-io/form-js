@@ -68,7 +68,7 @@
     var(--cds-border-strong-01, var(--color-grey-225-10-55))
   );
   --cursor-palette-field: grab;
-  --palette-width: 246px;
+  --palette-width: 270px;
 }
 
 .fjs-properties-container {
@@ -620,7 +620,7 @@
 .fjs-palette-container .fjs-palette-group {
   display: flex;
   flex-direction: column;
-  width: 212px;
+  width: 236px;
   margin: auto;
 }
 
@@ -639,7 +639,7 @@
 }
 
 .fjs-palette-field {
-  height: 64px;
+  height: 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -656,7 +656,7 @@
 }
 
 .fjs-palette-container .fjs-palette-field {
-  width: 64px;
+  width: 72px;
 }
 
 .fjs-palette-container .fjs-palette-field:focus {
@@ -719,8 +719,8 @@
 }
 
 .fjs-editor-container .fjs-form-field-placeholder svg {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   vertical-align: middle;
   margin-top: -2px;
   margin-right: 2px;
