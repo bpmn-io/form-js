@@ -14,7 +14,7 @@ export function TableDataSourceEntry(props) {
 
   const entries = [];
   entries.push({
-    id: 'source',
+    id: 'dataSource',
     component: Source,
     editField: editField,
     field: field,
