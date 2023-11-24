@@ -3915,8 +3915,7 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            columnsExpression:'=',
-            columns: undefined
+            columnsExpression:'='
           });
         });
 

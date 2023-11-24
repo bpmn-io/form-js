@@ -71,7 +71,6 @@ function HeadersSourceSelect(props) {
     switch (value) {
     case OPTIONS.static.value:
       editField(field, {
-        columnsExpression: undefined,
         columns: [
           {
             label: 'Column',
@@ -83,7 +82,6 @@ function HeadersSourceSelect(props) {
     case OPTIONS.expression.value:
       editField(field, {
         columnsExpression: '=',
-        columns: undefined
       });
       break;
     }
