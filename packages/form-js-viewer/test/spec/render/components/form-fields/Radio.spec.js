@@ -296,7 +296,7 @@ describe('Radio', function() {
     // assume
     const { config } = Radio;
     expect(config.type).to.eql('radio');
-    expect(config.label).to.eql('Radio');
+    expect(config.label).to.eql('Radio group');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 

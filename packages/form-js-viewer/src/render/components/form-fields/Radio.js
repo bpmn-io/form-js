@@ -117,7 +117,7 @@ export default function Radio(props) {
 Radio.config = {
   type,
   keyed: true,
-  label: 'Radio',
+  label: 'Radio group',
   group: 'selection',
   emptyValue: null,
   sanitizeValue: sanitizeSingleSelectValue,
