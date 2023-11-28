@@ -146,7 +146,7 @@ export default class PathRegistry {
       result = result && callResult;
     }
 
-    if (field.components) {
+    if (Array.isArray(field.components)) {
       for (const child of field.components) {
         const callResult = this.executeRecursivelyOnFields(child, fn, clone(context));
         result = result && callResult;

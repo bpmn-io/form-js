@@ -1,5 +1,3 @@
-import { useMemo } from 'preact/hooks';
-
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
@@ -39,7 +37,7 @@ export default function Select(props) {
 
   const { required } = validate;
 
-  const selectProps = useMemo(() => ({
+  const selectProps = {
     domId,
     disabled,
     errors,
@@ -50,7 +48,7 @@ export default function Select(props) {
     onChange,
     readonly,
     'aria-describedby': errorMessageId,
-  }), [ disabled, errors, field, domId, value, onChange, onBlur, onFocus, readonly, errorMessageId ]);
+  };
 
   return <div
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
