@@ -18,7 +18,6 @@
     "lerna-publish": "lerna publish -m \"chore(project): publish %s\"",
     "lint": "eslint packages",
     "lint:types": "tsc --pretty",
-    "postinstall": "lerna bootstrap --hoist",
     "reinstall": "npm ci",
     "release": "run-s distro test \"lerna-publish -- {@}\" --",
     "test": "lerna run test",
