@@ -1,6 +1,6 @@
 import { get } from 'min-dash';
 import { useService } from '../../hooks';
-import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel'; // Assuming NumberFieldEntry exists similar to TextFieldEntry
+import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 export default function zeroPositiveIntegerEntryFactory(options) {
   const {
