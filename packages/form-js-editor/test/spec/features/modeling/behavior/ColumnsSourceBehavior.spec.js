@@ -16,7 +16,7 @@ describe('features/modeling - ColumnsSourceBehavior', function() {
   }));
 
 
-  it('should NOT remove values source properties', inject(function(formFieldRegistry, modeling) {
+  it('should NOT remove columns source properties', inject(function(formFieldRegistry, modeling) {
 
     // given
     const formField = formFieldRegistry.get('Field_0k6resc1');
