@@ -215,12 +215,12 @@ export default class Form {
       const { disabled, type, isRepeating } = field;
       const { config: fieldConfig } = formFields.get(type);
 
-      // Skip disabled fields
+      // (1) Skip disabled fields
       if (disabled) {
         return;
       }
 
-      // Validate the field
+      // (2) Validate the field
       const valuePath = pathRegistry.getValuePath(field, { indexes });
       const valueData = get(data, valuePath);
       const fieldErrors = validator.validateField(field, valueData);
@@ -229,22 +229,29 @@ export default class Form {
         set(errors, getErrorPath(field, indexes), fieldErrors);
       }
 
-      // Process parents
-      if (field.components) {
-        if (fieldConfig.repeatable && isRepeating) {
-          if (Array.isArray(valueData)) {
-            valueData.forEach((_, index) => {
-              field.components.forEach((component) => {
-                validateFieldRecursively(errors, component, { ...indexes, [field.id]: index });
-              });
-            });
-          }
+      // (3) Process parents
+      if (!Array.isArray(field.components)) {
+        return;
+      }
+
+      // (4a) Recurse repeatable parents both across the indexes of repetition and the children
+      if (fieldConfig.repeatable && isRepeating) {
+
+        if (!Array.isArray(valueData)) {
           return;
         }
 
-        // Recurse non-repeatable parents only across the children
-        field.components.forEach((component) => validateFieldRecursively(errors, component, indexes));
+        valueData.forEach((_, index) => {
+          field.components.forEach((component) => {
+            validateFieldRecursively(errors, component, { ...indexes, [field.id]: index });
+          });
+        });
+
+        return;
       }
+
+      // (4b) Recurse non-repeatable parents only across the children
+      field.components.forEach((component) => validateFieldRecursively(errors, component, indexes));
     }
 
     const workingErrors = {};
@@ -447,23 +454,30 @@ export default class Form {
       }
 
       // (2) Process parents
-      if (formField.components) {
+      if (!Array.isArray(formField.components)) {
+        return;
+      }
 
-        if (fieldConfig.repeatable && formField.isRepeating) {
-          const valueData = get(formData, pathRegistry.getValuePath(formField, { indexes }));
-          if (Array.isArray(valueData)) {
-            valueData.forEach((_, index) => {
-              formField.components.forEach((component) => {
-                collectSubmitDataRecursively(submitData, component, { ...indexes, [formField.id]: index });
-              });
-            });
-          }
+      // (3a) Recurse repeatable parents both across the indexes of repetition and the children
+      if (fieldConfig.repeatable && formField.isRepeating) {
+
+        const valueData = get(formData, pathRegistry.getValuePath(formField, { indexes }));
+
+        if (!Array.isArray(valueData)) {
           return;
         }
 
-        // Recurse non-repeatable parents only across the children
-        formField.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
+        valueData.forEach((_, index) => {
+          formField.components.forEach((component) => {
+            collectSubmitDataRecursively(submitData, component, { ...indexes, [formField.id]: index });
+          });
+        });
+
+        return;
       }
+
+      // (3b) Recurse non-repeatable parents only across the children
+      formField.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
     }
 
     const workingSubmitData = {};
@@ -508,43 +522,44 @@ export default class Form {
       }
 
       // (2) Process parents
-      if (formField.components) {
+      if (!Array.isArray(formField.components)) {
+        return;
+      }
 
-        if (fieldConfig.repeatable && isRepeating) {
+      if (fieldConfig.repeatable && isRepeating) {
 
-          // (a) Sanitize repeatable parents data if it is not an array
-          if (!valueData || !Array.isArray(valueData)) {
-            valueData = new Array(isUndefined(formField.defaultRepetitions) ? 1 : formField.defaultRepetitions).fill().map(_ => ({})) || [];
-          }
+        // (a) Sanitize repeatable parents data if it is not an array
+        if (!valueData || !Array.isArray(valueData)) {
+          valueData = new Array(isUndefined(formField.defaultRepetitions) ? 1 : formField.defaultRepetitions).fill().map(_ => ({})) || [];
+        }
 
-          // (b) Ensure all elements of the array are objects
-          valueData = valueData.map((val) => isObject(val) ? val : {});
+        // (b) Ensure all elements of the array are objects
+        valueData = valueData.map((val) => isObject(val) ? val : {});
 
-          // (c) Initialize field value in output data
-          set(initializedData, valuePath, valueData);
+        // (c) Initialize field value in output data
+        set(initializedData, valuePath, valueData);
 
-          // (d) If indexed ahead of time, recurse repeatable simply across the children
-          if (!isUndefined(indexes[formField.id])) {
-            formField.components.forEach(
-              (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes })
-            );
-
-            return;
-          }
-
-          // (e) Recurse repeatable parents both across the indexes of repetition and the children
-          valueData.forEach((_, index) => {
-            formField.components.forEach(
-              (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes, [formField.id]: index })
-            );
-          });
+        // (d) If indexed ahead of time, recurse repeatable simply across the children
+        if (!isUndefined(indexes[formField.id])) {
+          formField.components.forEach(
+            (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes })
+          );
 
           return;
         }
 
-        // (c) Recurse non-repeatable parents only across the children
-        formField.components.forEach((component) => initializeFieldDataRecursively(initializedData, component, indexes));
+        // (e1) Recurse repeatable parents both across the indexes of repetition and the children
+        valueData.forEach((_, index) => {
+          formField.components.forEach(
+            (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes, [formField.id]: index })
+          );
+        });
+
+        return;
       }
+
+      // (e2) Recurse non-repeatable parents only across the children
+      formField.components.forEach((component) => initializeFieldDataRecursively(initializedData, component, indexes));
     }
 
     // allows definition of a specific subfield to generate the data for
