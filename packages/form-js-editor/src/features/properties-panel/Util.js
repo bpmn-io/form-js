@@ -56,6 +56,9 @@ export function textToLabel(text) {
   return null;
 }
 
+/**
+  * @param {string} path
+  */
 export function isValidDotPath(path) {
   return /^\w+(\.\w+)*$/.test(path);
 }
@@ -97,4 +100,11 @@ export function hasValuesGroupsConfigured(formFieldDefinition) {
   }
 
   return propertiesPanelEntries.some(id => id === 'values');
+}
+
+/**
+  * @param {string} path
+  */
+export function hasIntegerPathSegment(path) {
+  return path.split('.').some(segment => /^\d+$/.test(segment));
 }
