@@ -91,7 +91,7 @@
     "css-loader": "^6.7.3",
     "del-cli": "^5.0.0",
     "diagram-js": "^12.0.0",
-    "didi": "^9.0.0",
+    "didi": "^10.0.0",
     "eslint": "^8.53.0",
     "eslint-plugin-bpmn-io": "^1.0.0",
     "eslint-plugin-import": "^2.29.0",

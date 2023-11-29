@@ -47,7 +47,7 @@
     "@carbon/grid": "^11.11.0",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
-    "didi": "^9.0.0",
+    "didi": "^10.0.0",
     "feelers": "^1.2.0",
     "feelin": "^2.3.0",
     "flatpickr": "^4.6.13",
