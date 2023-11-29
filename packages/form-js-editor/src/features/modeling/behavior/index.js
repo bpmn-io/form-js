@@ -3,6 +3,7 @@ import KeyBehavior from './KeyBehavior';
 import PathBehavior from './PathBehavior';
 import ValidateBehavior from './ValidateBehavior';
 import ValuesSourceBehavior from './ValuesSourceBehavior';
+import { ColumnsSourceBehavior } from './ColumnsSourceBehavior';
 
 export default {
   __init__: [
@@ -10,11 +11,13 @@ export default {
     'keyBehavior',
     'pathBehavior',
     'validateBehavior',
-    'valuesSourceBehavior'
+    'valuesSourceBehavior',
+    'columnsSourceBehavior'
   ],
   idBehavior: [ 'type', IdBehavior ],
   keyBehavior: [ 'type', KeyBehavior ],
   pathBehavior: [ 'type', PathBehavior ],
   validateBehavior: [ 'type', ValidateBehavior ],
-  valuesSourceBehavior: [ 'type', ValuesSourceBehavior ]
+  valuesSourceBehavior: [ 'type', ValuesSourceBehavior ],
+  columnsSourceBehavior: [ 'type', ColumnsSourceBehavior ]
 };

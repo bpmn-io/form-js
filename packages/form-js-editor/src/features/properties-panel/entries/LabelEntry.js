@@ -51,17 +51,13 @@ export default function LabelEntry(props) {
       editField,
       field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => (
-        INPUTS.includes(field.type) ||
-        field.type === 'button' ||
-        field.type === 'group' ||
-        field.type === 'iframe'
-      )
+      isDefaultVisible: (field) => [ ...INPUTS, 'button', 'group', 'table', 'iframe' ].includes(field.type)
     }
   );
 
   return entries;
 }
+
 
 function Label(props) {
   const {
@@ -84,7 +80,7 @@ function Label(props) {
     return editField(field, path, value || '');
   };
 
-  const label = getLabelText(field);
+  const label = getLabelText(field.type);
 
   return FeelTemplatingEntry({
     debounce,
@@ -166,16 +162,19 @@ function TimeLabel(props) {
 
 // helpers //////////
 
-function getLabelText(field) {
-  const { type } = field;
-
-  if (type === 'group') {
+/**
+ * @param {string} type
+ * @returns {string}
+ */
+function getLabelText(type) {
+  switch (type) {
+  case 'group':
     return 'Group label';
-  }
-
-  if (type === 'iframe') {
+  case 'table':
+    return 'Table label';
+  case 'iframe':
     return 'Title';
+  default:
+    return 'Field label';
   }
-
-  return 'Field label';
 }

@@ -1,0 +1,36 @@
+{
+    "$schema": "../../../form-json-schema/resources/schema.json",
+    "id": "Form_1",
+    "type": "default",
+    "components": [
+      {
+        "label": "static-headers-table",
+        "type": "table",
+        "rowCount": 10,
+        "columns": [
+          {
+            "label": "ID",
+            "key": "id"
+          },
+          {
+            "label": "Name",
+            "key": "name"
+          },
+          {
+            "label": "Date",
+            "key": "date"
+          }
+        ],
+        "id": "Field_0k6resc1",
+        "dataSource": "Field_0k6resc1"
+      },
+      {
+        "label": "dynamic-headers-table",
+        "type": "table",
+        "rowCount": 10,
+        "columnsExpression": "=tableHeaders",
+        "id": "Field_0k6resc2",
+        "dataSource": "Field_0k6resc2"
+      }
+    ]
+  }
