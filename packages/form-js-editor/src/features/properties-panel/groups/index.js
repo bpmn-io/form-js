@@ -7,3 +7,4 @@ export { default as CustomPropertiesGroup } from './CustomPropertiesGroup';
 export { default as AppearanceGroup } from './AppearanceGroup';
 export { default as LayoutGroup } from './LayoutGroup';
 export { ConditionGroup } from './ConditionGroup';
+export { TableHeaderGroups } from './TableHeaderGroups';

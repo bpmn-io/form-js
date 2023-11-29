@@ -17,7 +17,10 @@ import {
   TextEntry,
   HeightEntry,
   NumberEntries,
-  DateTimeEntry
+  DateTimeEntry,
+  TableDataSourceEntry,
+  PaginationEntry,
+  RowCountEntry
 } from '../entries';
 
 
@@ -42,7 +45,10 @@ export default function GeneralGroup(field, editField, getService) {
     ...AltTextEntry({ field, editField }),
     ...SelectEntries({ field, editField }),
     ...DisabledEntry({ field, editField }),
-    ...ReadonlyEntry({ field, editField })
+    ...ReadonlyEntry({ field, editField }),
+    ...TableDataSourceEntry({ field, editField }),
+    ...PaginationEntry({ field, editField }),
+    ...RowCountEntry({ field, editField })
   ];
 
   if (entries.length === 0) {
