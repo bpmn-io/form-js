@@ -1,8 +1,6 @@
-import { isUndefined } from 'min-dash';
+import { isString, get } from 'min-dash';
 
-import { get } from 'min-dash';
-
-import { INPUTS, isValidDotPath } from '../Util';
+import { INPUTS, hasIntegerPathSegment, isValidDotPath } from '../Util';
 
 import { useService } from '../hooks';
 
@@ -60,16 +58,15 @@ function Key(props) {
       return null;
     }
 
-    if (isUndefined(value) || !value.length) {
+    if (!isString(value) || value.length === 0) {
       return 'Must not be empty.';
     }
 
-    if (value && !isValidDotPath(value)) {
+    if (!isValidDotPath(value)) {
       return 'Must be a variable or a dot separated path.';
     }
 
-    const hasIntegerPathSegment = value.split('.').some(segment => /^\d+$/.test(segment));
-    if (hasIntegerPathSegment) {
+    if (hasIntegerPathSegment(value)) {
       return 'Must not contain numerical path segments.';
     }
 
