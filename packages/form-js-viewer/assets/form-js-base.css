@@ -13,6 +13,7 @@
   --color-grey-225-10-93: hsl(225, 10%, 93%);
   --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
+  --color-grey-0-0-88: hsl(0, 0%, 88%);
 
   --color-blue-219-100-53: hsl(219, 99%, 53%);
   --color-blue-219-100-53-05: hsla(219, 99%, 53%, 0.5);
@@ -52,10 +53,9 @@
   --color-background-inverted: var(--cds-background-inverse, var(--color-grey-225-10-90));
   --color-background-inverted-hover: var(--cds-background-inverse-hover, var(--color-grey-225-10-93));
   --color-background-active: var(--cds-background-active, var(--color-grey-225-10-75));
-  --color-layer: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-white)) 
-  );
+  --color-layer: var(--cds-layer,
+      var(--cds-layer-01, var(--color-white)));
+  --color-layer-accent: var(--cds-layer-accent, var(--color-grey-0-0-88));
 
   --color-icon-base: var(--cds-icon-primary, var(--color-black));
   --color-icon-inverted: var(--cds-icon-inverse, var(--color-black));
@@ -987,6 +987,112 @@
   justify-content: center;
   flex-wrap: wrap;
   overflow: hidden;
+}
+
+.fjs-container .fjs-table-outer-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fjs-container .fjs-table-middle-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  border: 1px solid var(--color-borders-group);
+  border-radius: 3px;
+}
+
+.fjs-container .fjs-table-middle-container.fjs-table-empty {
+  border: none;
+  color: var(--color-text-disabled);
+  padding-left: 16px;
+}
+
+.fjs-container .fjs-table-inner-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+}
+
+.fjs-container .fjs-table {
+  min-width: 100%;
+  overflow-y: auto;
+  border-collapse: collapse;
+}
+
+.fjs-container .fjs-table-head {
+  background-color: var(--color-layer-accent);
+}
+
+.fjs-container .fjs-table-th {
+  min-width: 120px;
+  cursor: pointer;
+
+}
+
+.fjs-container .fjs-table-th-label {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fjs-container .fjs-table-th:focus {
+  outline: var(--outline-definition);
+  outline-offset: -1px;
+}
+
+.fjs-container .fjs-table-th,
+.fjs-container .fjs-table-td {
+  text-align: left;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.fjs-container .fjs-table-body .fjs-table-tr:not(:last-child) {
+  border-bottom: 1px solid var(--color-borders-group);
+}
+
+.fjs-container .fjs-table-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-borders-group);
+}
+
+.fjs-container .fjs-table-nav-button {
+  border: unset;
+  background: unset;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--color-borders-group);
+}
+
+.fjs-container .fjs-table-nav-button:first-of-type {
+  margin-left: 16px;
+}
+
+.fjs-container .fjs-table-nav-button:focus {
+  outline: var(--outline-definition);
+  outline-offset: -1px;
+}
+
+.fjs-container .fjs-table-nav-button svg {
+  width: 16px;
+}
+
+.fjs-container .fjs-table-sort-icon-asc,
+.fjs-container .fjs-table-sort-icon-desc {
+  width: 16px;
 }
 
 /**
