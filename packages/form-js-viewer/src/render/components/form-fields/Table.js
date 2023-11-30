@@ -254,7 +254,7 @@ Table.config = {
 
     return {
       ...remainingOptions,
-      rowCount: 1,
+      rowCount: 10,
       columns: [
         {
           label: 'ID',
