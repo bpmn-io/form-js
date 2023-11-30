@@ -1,5 +1,6 @@
+import { useContext } from 'preact/hooks';
 import useService from './useService.js';
-import useFilteredFormData from './useFilteredFormData.js';
+import { FilteredFormDataContext } from '../context/FilteredFormDataContextProvider.js';
 
 /**
  * Retrieve readonly value of a form field, given it can be an
@@ -15,7 +16,7 @@ import useFilteredFormData from './useFilteredFormData.js';
 export default function useReadonly(formField, properties = {}) {
   const expressionLanguage = useService('expressionLanguage');
   const conditionChecker = useService('conditionChecker', false);
-  const filteredData = useFilteredFormData();
+  const filteredData = useContext(FilteredFormDataContext);
 
   const { readonly } = formField;
 

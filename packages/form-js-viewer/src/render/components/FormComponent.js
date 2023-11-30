@@ -4,6 +4,8 @@ import PoweredBy from './PoweredBy';
 
 import useService from '../hooks/useService';
 
+import { FilteredFormDataProvider } from '../context/FilteredFormDataContextProvider';
+
 const noop = () => {};
 
 export default function FormComponent(props) {
@@ -32,19 +34,21 @@ export default function FormComponent(props) {
   };
 
   return (
-    <form
-      class="fjs-form"
-      onSubmit={ handleSubmit }
-      onReset={ handleReset }
-      aria-label={ ariaLabel }
-      noValidate
-    >
-      <FormField
-        field={ schema }
-        onChange={ onChange }
-      />
+    <FilteredFormDataProvider>
+      <form
+        class="fjs-form"
+        onSubmit={ handleSubmit }
+        onReset={ handleReset }
+        aria-label={ ariaLabel }
+        noValidate
+      >
+        <FormField
+          field={ schema }
+          onChange={ onChange }
+        />
 
-      <PoweredBy />
-    </form>
+        <PoweredBy />
+      </form>
+    </FilteredFormDataProvider>
   );
 }

@@ -1,6 +1,6 @@
+import { FilteredFormDataContext } from '../context/FilteredFormDataContextProvider';
 import useService from './useService';
-import useFilteredFormData from './useFilteredFormData';
-import { useMemo } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
 
 /**
  * Template a string reactively based on form data. If the string is not a template, it is returned as is.
@@ -14,7 +14,7 @@ import { useMemo } from 'preact/hooks';
  *
  */
 export default function useTemplateEvaluation(value, options) {
-  const filteredData = useFilteredFormData();
+  const filteredData = useContext(FilteredFormDataContext);
   const templating = useService('templating');
 
   return useMemo(() => {

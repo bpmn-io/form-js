@@ -1,6 +1,6 @@
 import useService from './useService.js';
-import useFilteredFormData from './useFilteredFormData.js';
-import { useMemo } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
+import { FilteredFormDataContext } from '../context/FilteredFormDataContextProvider.js';
 
 /**
  * Evaluate if condition is met reactively based on the conditionChecker and form data.
@@ -11,7 +11,7 @@ import { useMemo } from 'preact/hooks';
  */
 export default function useCondition(condition) {
   const conditionChecker = useService('conditionChecker', false);
-  const filteredData = useFilteredFormData();
+  const filteredData = useContext(FilteredFormDataContext);
 
   return useMemo(() => {
     return conditionChecker ? conditionChecker.check(condition, filteredData) : null;

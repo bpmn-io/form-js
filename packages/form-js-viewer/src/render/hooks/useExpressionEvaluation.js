@@ -1,6 +1,6 @@
 import useService from './useService';
-import useFilteredFormData from './useFilteredFormData';
-import { useMemo } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
+import { FilteredFormDataContext } from '../context/FilteredFormDataContextProvider';
 
 /**
  * Evaluate a string reactively based on the expressionLanguage and form data.
@@ -11,7 +11,7 @@ import { useMemo } from 'preact/hooks';
  *
  */
 export default function useExpressionEvaluation(value) {
-  const formData = useFilteredFormData();
+  const formData = useContext(FilteredFormDataContext);
   const expressionLanguage = useService('expressionLanguage');
 
   return useMemo(() => {
