@@ -6,6 +6,8 @@ import {
 
 import { clone } from 'src/util';
 
+import { countComponents } from '../../helper';
+
 import schema from '../form.json';
 import other from '../other.json';
 import dynamicSchema from '../dynamic.json';
@@ -45,7 +47,7 @@ describe('Importer', function() {
       expect(err).not.to.exist;
       expect(warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
     }));
 
 
@@ -70,7 +72,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
 
       // when
       result = await form.importSchema(other, data);
@@ -79,7 +81,7 @@ describe('Importer', function() {
       expect(result.err).not.to.exist;
       expect(result.warnings).to.be.empty;
 
-      expect(formFieldRegistry.getAll()).to.have.length(other._componentCount);
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(other));
     }));
 
 

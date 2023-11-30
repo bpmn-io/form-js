@@ -33,6 +33,7 @@ import {
   insertCSS,
   insertTheme,
   isSingleStart,
+  countComponents
 } from '../TestHelper';
 
 import customCSS from './custom/custom.css';
@@ -124,7 +125,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -205,7 +206,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -228,7 +229,7 @@ describe('Form', function() {
     container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -282,7 +283,7 @@ describe('Form', function() {
       await form.importSchema(schemaNoIds, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(schemaNoIds._componentCount);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schemaNoIds));
 
       form.get('formFieldRegistry').forEach(field => {
         expect(field.id).to.exist;
@@ -320,7 +321,7 @@ describe('Form', function() {
       await form.importSchema(schema, data);
 
       // then
-      expect(form.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+      expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
     });
 
 

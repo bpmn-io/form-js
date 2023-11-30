@@ -19,6 +19,7 @@ import {
   insertStyles,
   insertTheme,
   isSingleStart,
+  countComponents,
   expectNoViolations
 } from '../TestHelper';
 
@@ -80,7 +81,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -121,7 +122,7 @@ describe('FormEditor', function() {
     });
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -144,7 +145,7 @@ describe('FormEditor', function() {
     container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
 
@@ -256,7 +257,7 @@ describe('FormEditor', function() {
       await formEditor.importSchema(schema);
 
       // then
-      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(schema._componentCount);
+      expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
     });
 
 
@@ -1005,7 +1006,7 @@ describe('FormEditor', function() {
       // assume
       const formFieldRegistry = formEditor.get('formFieldRegistry');
 
-      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
 
       // when
       startDragging(container);
@@ -1013,7 +1014,7 @@ describe('FormEditor', function() {
       endDragging(container);
 
       // then
-      expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount + 1);
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema) + 1);
 
       const selection = formEditor.get('selection');
 

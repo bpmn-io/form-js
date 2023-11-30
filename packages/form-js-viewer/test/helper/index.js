@@ -199,3 +199,12 @@ export async function expectNoViolations(node, options = {}) {
 
   expect(results.violations).to.be.empty;
 }
+
+export function countComponents(root) {
+
+  if (!Array.isArray(root.components)) {
+    return 1;
+  }
+
+  return root.components.reduce((count, component) => count + countComponents(component), 1);
+}

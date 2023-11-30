@@ -1,6 +1,7 @@
 import {
   bootstrapFormEditor,
   getFormEditor,
+  countComponents,
   inject
 } from 'test/TestHelper';
 
@@ -30,7 +31,7 @@ describe('Importer', function() {
     // then
     expect(warnings).to.be.empty;
 
-    expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
+    expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
   }));
 
 
@@ -40,7 +41,7 @@ describe('Importer', function() {
     await formEditor.importSchema(schema);
 
     // assume
-    expect(formFieldRegistry.getAll()).to.have.length(schema._componentCount);
+    expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
 
     // when
     const result = await formEditor.importSchema(other);

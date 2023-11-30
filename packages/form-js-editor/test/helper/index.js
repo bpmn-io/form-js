@@ -184,6 +184,15 @@ export async function setEditorValue(editor, value) {
 
 export { expectNoViolations } from '../../../form-js-viewer/test/helper';
 
+export function countComponents(root) {
+
+  if (!Array.isArray(root.components)) {
+    return 1;
+  }
+
+  return root.components.reduce((count, component) => count + countComponents(component), 1);
+}
+
 export const MockEditorContext = (props) => {
 
   const {
