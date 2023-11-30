@@ -1,8 +1,7 @@
 import useService from './useService.js';
-import useFilteredFormData from './useFilteredFormData.js';
 import LocalExpressionContext from '../context/LocalExpressionContext.js';
-import { wrapExpressionContext } from '../../util/simple';
-import { useContext, useMemo } from 'preact/hooks';
+import { buildExpressionContext } from '../../util/simple';
+import { useContext } from 'preact/hooks';
 
 /**
  * Retrieve readonly value of a form field, given it can be an
@@ -18,18 +17,7 @@ import { useContext, useMemo } from 'preact/hooks';
 export default function useReadonly(formField, properties = {}) {
   const expressionLanguage = useService('expressionLanguage');
   const conditionChecker = useService('conditionChecker', false);
-  const filteredData = useFilteredFormData();
-  const localContext = useContext(LocalExpressionContext);
-
-  const expressionContext = useMemo(() => {
-
-    if (localContext) {
-      return wrapExpressionContext(filteredData, localContext);
-    }
-
-    return filteredData;
-
-  }, [ filteredData, localContext ]);
+  const expressionContextInfo = useContext(LocalExpressionContext);
 
   const { readonly } = formField;
 
@@ -38,7 +26,7 @@ export default function useReadonly(formField, properties = {}) {
   }
 
   if (expressionLanguage && expressionLanguage.isExpression(readonly)) {
-    return conditionChecker ? conditionChecker.check(readonly, expressionContext) : false;
+    return conditionChecker ? conditionChecker.check(readonly, buildExpressionContext(expressionContextInfo)) : false;
   }
 
   return readonly || false;

@@ -35,6 +35,7 @@ export default function FormComponent(props) {
   const filteredFormData = useFilteredFormData();
 
   const localExpressionContext = useMemo(() => ({
+    data: filteredFormData,
     parent: null,
     this: filteredFormData,
     i: []

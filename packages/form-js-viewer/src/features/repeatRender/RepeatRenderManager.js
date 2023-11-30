@@ -10,7 +10,7 @@ import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg'
 import AddSvg from '../../render/components/form-fields/icons/Add.svg';
 import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 
-import { wrapExpressionContext } from '../../util';
+import { buildExpressionContext } from '../../util';
 import { useScrollIntoView } from '../../render/hooks';
 
 export default class RepeatRenderManager {
@@ -72,7 +72,7 @@ export default class RepeatRenderManager {
       });
     };
 
-    const parentExpressionContext = useContext(LocalExpressionContext);
+    const parentExpressionContextInfo = useContext(LocalExpressionContext);
 
     return (
       <>
@@ -82,19 +82,20 @@ export default class RepeatRenderManager {
             indexes: { ...(indexes || {}), [ repeaterField.id ]: index },
           };
 
-          const localExpressionContext = useMemo(() => ({
+          const localExpressionContextInfo = useMemo(() => ({
+            data: parentExpressionContextInfo.data,
             this: value,
-            parent: wrapExpressionContext(parentExpressionContext.this, parentExpressionContext),
-            i: [ ...parentExpressionContext.i , index + 1 ]
+            parent: buildExpressionContext(parentExpressionContextInfo),
+            i: [ ...parentExpressionContextInfo.i , index + 1 ]
           }), [ index, value ]);
 
           return !showRemove ?
-            <LocalExpressionContext.Provider value={ localExpressionContext }>
+            <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
               <RowsRenderer { ...elementProps } />
             </LocalExpressionContext.Provider> :
             <div class="fjs-repeat-row-container">
               <div class="fjs-repeat-row-rows">
-                <LocalExpressionContext.Provider value={ localExpressionContext }>
+                <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
                   <RowsRenderer { ...elementProps } />
                 </LocalExpressionContext.Provider>
               </div>

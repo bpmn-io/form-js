@@ -48,18 +48,22 @@ export function clone(data, replacer) {
 }
 
 /**
- * Wrap an expression context with additional local context.
- * A version of the local context with underscore-wrapped keys is also injected as fallback.
+ * Transform a LocalExpressionContext object into a usable FEEL context.
  *
- * @param {Object} baseContext - The context to wrap.
- * @param {Object} localContext - The local context object.
- * @returns {Object} The merged context object.
+ * @param {Object} context - The LocalExpressionContext object.
+ * @returns {Object} The usable FEEL context.
  */
-export function wrapExpressionContext(baseContext, localContext) {
+
+export function buildExpressionContext(context) {
+  const {
+    data,
+    ...specialContextKeys
+  } = context;
+
   return {
-    ...localContext,
-    ...baseContext,
-    ..._wrapObjectKeysWithUnderscores(localContext)
+    ...specialContextKeys,
+    ...data,
+    ..._wrapObjectKeysWithUnderscores(specialContextKeys)
   };
 }
 

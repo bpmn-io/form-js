@@ -15,9 +15,12 @@ export const MockFormContext = (props) => {
     formId
   };
 
+  const data = options.data || options.initialData || {};
+
   const localExpressionContext = {
+    data,
     parent: null,
-    this: options.data,
+    this: data,
     i: []
   };
 
