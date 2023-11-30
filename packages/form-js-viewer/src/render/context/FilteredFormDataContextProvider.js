@@ -19,8 +19,10 @@ export const FilteredFormDataProvider = ({ children }) => {
     setFilteredData({ ...initialDataDeep, ...newData });
   }, [ conditionChecker, dataDeep, initialDataDeep ]);
 
+  const filteredDataDeep = useDeepCompareState(filteredData, {});
+
   return (
-    <FilteredFormDataContext.Provider value={ filteredData }>
+    <FilteredFormDataContext.Provider value={ filteredDataDeep }>
       {children}
     </FilteredFormDataContext.Provider>
   );
