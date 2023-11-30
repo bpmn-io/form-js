@@ -1,0 +1,4143 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.3.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "7c840a4"
+  },
+  "schemaVersion": 12,
+  "components": [
+    {
+      "text": "# Risk evaluation",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0eisa6r",
+        "columns": null
+      },
+      "id": "Field_1gjw1nq"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0bhpy9d"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_054uswp"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0usjumm"
+        },
+        {
+          "text": "Total risk score is {{broken_access_control.likelihood * broken_access_control.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1j0zlka"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=broken_access_control.likelihood = null or broken_access_control.impact = null"
+          },
+          "id": "Field_1njplt0"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=broken_access_control.action != \"mitigate\""
+          },
+          "id": "Field_1wbnvyz"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=broken_access_control.action != \"mitigate\""
+          },
+          "id": "Field_1uwxtjo"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=broken_access_control.action != \"mitigate\""
+          },
+          "id": "Field_1d0oalk"
+        }
+      ],
+      "showOutline": true,
+      "label": "Risk <insert identifier>",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "broken_access_control",
+      "conditional": {
+        "hide": "=broken_access_control.present = \"no\""
+      },
+      "id": "Field_09lopqg"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0tqn36a"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1yazqs1"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0wdwk4d"
+        },
+        {
+          "text": "Total risk score is {{cryptographic_failure.likelihood * cryptographic_failure.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_0dbx7dg"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=cryptographic_failure.likelihood = null or cryptographic_failure.impact = null"
+          },
+          "id": "Field_1pu9eje"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=cryptographic_failure.action != \"mitigate\""
+          },
+          "id": "Field_0jeuzdu"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=cryptographic_failure.action != \"mitigate\""
+          },
+          "id": "Field_09mcdhr"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=cryptographic_failure.action != \"mitigate\""
+          },
+          "id": "Field_0kj9e83"
+        }
+      ],
+      "showOutline": true,
+      "label": "Risk <insert identifier>",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "cryptographic_failure",
+      "conditional": {
+        "hide": "=cryptographic_failure.present = \"no\""
+      },
+      "id": "Field_1tbe57m"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_1k5gvd2"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0ssaegb"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0vi15i9"
+        },
+        {
+          "text": "Total risk score is {{injection.likelihood * injection.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1xt722d"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=injection.likelihood = null or injection.impact = null"
+          },
+          "id": "Field_0g7kak0"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=injection.action != \"mitigate\""
+          },
+          "id": "Field_04n2v9w"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=injection.action != \"mitigate\""
+          },
+          "id": "Field_0ors60x"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=injection.action != \"mitigate\""
+          },
+          "id": "Field_1c4kdzl"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "injection",
+      "conditional": {
+        "hide": "=injection.present = \"no\""
+      },
+      "id": "Field_1yhkrbw"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_1ropwy9"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1gtntgr"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0jezu6c"
+        },
+        {
+          "text": "Total risk score is {{misconfiguration.likelihood * misconfiguration.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_10w8i0u"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=misconfiguration.likelihood = null or misconfiguration.impact = null"
+          },
+          "id": "Field_1tbouy7"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=misconfiguration.action != \"mitigate\""
+          },
+          "id": "Field_057a8ub"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=misconfiguration.action != \"mitigate\""
+          },
+          "id": "Field_190hi9c"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=misconfiguration.action != \"mitigate\""
+          },
+          "id": "Field_0fmhp9g"
+        }
+      ],
+      "showOutline": true,
+      "label": "Risk <insert identifier>",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "misconfiguration",
+      "conditional": {
+        "hide": "=misconfiguration.present = \"no\""
+      },
+      "id": "Field_19slzgf"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_1fhbypp"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0eocr3m"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_03hjagi"
+        },
+        {
+          "text": "Total risk score is {{authentication.likelihood * authentication.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1jde3bs"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=authentication.likelihood = null or authentication.impact = null"
+          },
+          "id": "Field_08c5met"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=authentication.action != \"mitigate\""
+          },
+          "id": "Field_17nhbpz"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=authentication.action != \"mitigate\""
+          },
+          "id": "Field_030lfgj"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=authentication.action != \"mitigate\""
+          },
+          "id": "Field_025pyyi"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "authentication",
+      "conditional": {
+        "hide": "=authentication.present = \"no\""
+      },
+      "id": "Field_03ey1ru"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0a4zlff"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0wcyahi"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0x9dnad"
+        },
+        {
+          "text": "Total risk score is {{monitoring_failures.likelihood * monitoring_failures.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_18rd0rg"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=monitoring_failures.likelihood = null or monitoring_failures.impact = null"
+          },
+          "id": "Field_1noyyez"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=monitoring_failures.action != \"mitigate\""
+          },
+          "id": "Field_1izte9j"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=monitoring_failures.action != \"mitigate\""
+          },
+          "id": "Field_05o85ro"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=monitoring_failures.action != \"mitigate\""
+          },
+          "id": "Field_1t8r9gx"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "monitoring_failures",
+      "conditional": {
+        "hide": "=monitoring_failures.present = \"no\""
+      },
+      "id": "Field_048suc5"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0vmktk9"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_07dbbxk"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0mjjj20"
+        },
+        {
+          "text": "Total risk score is {{ssrf.likelihood * ssrf.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1aoswax"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=ssrf.likelihood = null or ssrf.impact = null"
+          },
+          "id": "Field_03crzt1"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=ssrf.action != \"mitigate\""
+          },
+          "id": "Field_12noib8"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=ssrf.action != \"mitigate\""
+          },
+          "id": "Field_0an9vy4"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=ssrf.action != \"mitigate\""
+          },
+          "id": "Field_0aqz83w"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "ssrf",
+      "conditional": {
+        "hide": "=ssrf.present = \"no\""
+      },
+      "id": "Field_0u1nkdp"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0i6l6b9"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0ywvudq"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_1g9bdxr"
+        },
+        {
+          "text": "Total risk score is {{additional_1.likelihood * additional_1.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_0u510p0"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_1.likelihood = null or additional_1.impact = null"
+          },
+          "id": "Field_00azu1n"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_1.action != \"mitigate\""
+          },
+          "id": "Field_0eb3aep"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_1.action != \"mitigate\""
+          },
+          "id": "Field_1krzg1w"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_1.action != \"mitigate\""
+          },
+          "id": "Field_159qu1o"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_1",
+      "conditional": {
+        "hide": "=additional_1.present = \"no\""
+      },
+      "id": "Field_18174np"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_16mgpr0"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1jes4cw"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_1byyhkw"
+        },
+        {
+          "text": "Total risk score is {{additional_2.likelihood * additional_2.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_0ffs45k"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_2.likelihood = null or additional_2.impact = null"
+          },
+          "id": "Field_0k44sdm"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_2.action != \"mitigate\""
+          },
+          "id": "Field_0fknhcx"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_2.action != \"mitigate\""
+          },
+          "id": "Field_0treg1s"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_2.action != \"mitigate\""
+          },
+          "id": "Field_03ti381"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_2",
+      "conditional": {
+        "hide": "=additional_2.present = \"no\""
+      },
+      "id": "Field_13eshhf"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0r0f3ct"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_014yju7"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0458a0x"
+        },
+        {
+          "text": "Total risk score is {{additional_3.likelihood * additional_3.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1oipc7z"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_3.likelihood = null or additional_3.impact = null"
+          },
+          "id": "Field_1ry9nb9"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_3.action != \"mitigate\""
+          },
+          "id": "Field_0sa9vss"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_3.action != \"mitigate\""
+          },
+          "id": "Field_0c70g1f"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_3.action != \"mitigate\""
+          },
+          "id": "Field_04u1tg4"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_3",
+      "conditional": {
+        "hide": "=additional_3.present = \"no\""
+      },
+      "id": "Field_1g1oik8"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_14w0kry"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1ctv2wc"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0xd6o2i"
+        },
+        {
+          "text": "Total risk score is {{additional_4.likelihood * additional_4.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_12ia82g"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_4.likelihood = null or additional_4.impact = null"
+          },
+          "id": "Field_014diod"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_4.action != \"mitigate\""
+          },
+          "id": "Field_1qtzmyh"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_4.action != \"mitigate\""
+          },
+          "id": "Field_07u2pjg"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_4.action != \"mitigate\""
+          },
+          "id": "Field_0i4tqdm"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_4",
+      "conditional": {
+        "hide": "=additional_4.present = \"no\""
+      },
+      "id": "Field_1wu9sop"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_16fqxqy"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_13qopb6"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_14ik8ts"
+        },
+        {
+          "text": "Total risk score is {{additional_5.likelihood * additional_5.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_187rxi9"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_5.likelihood = null or additional_5.impact = null"
+          },
+          "id": "Field_0a2lqhi"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_5.action != \"mitigate\""
+          },
+          "id": "Field_15e85e5"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_5.action != \"mitigate\""
+          },
+          "id": "Field_1fzggjn"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_5.action != \"mitigate\""
+          },
+          "id": "Field_1tqc4sz"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_5",
+      "conditional": {
+        "hide": "=additional_5.present = \"no\""
+      },
+      "id": "Field_0n23t56"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_1yn3v4z"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0ucajo4"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0xk2h2u"
+        },
+        {
+          "text": "Total risk score is {{additional_6.likelihood * additional_6.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1bllckw"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_6.likelihood = null or additional_6.impact = null"
+          },
+          "id": "Field_0kwxy6c"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_6.action != \"mitigate\""
+          },
+          "id": "Field_0v3rqua"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_6.action != \"mitigate\""
+          },
+          "id": "Field_1x03rfu"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_6.action != \"mitigate\""
+          },
+          "id": "Field_0ivk7q5"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_6",
+      "conditional": {
+        "hide": "=additional_6.present = \"no\""
+      },
+      "id": "Field_0yjyzxt"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_1n3dryf"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0flm8kg"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_1dqdafm"
+        },
+        {
+          "text": "Total risk score is {{additional_7.likelihood * additional_7.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1t0vvh2"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_7.likelihood = null or additional_7.impact = null"
+          },
+          "id": "Field_1rfzenh"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_7.action != \"mitigate\""
+          },
+          "id": "Field_05qqrgk"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_7.action != \"mitigate\""
+          },
+          "id": "Field_04uzlc1"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_7.action != \"mitigate\""
+          },
+          "id": "Field_0b1n1wb"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_7",
+      "conditional": {
+        "hide": "=additional_7.present = \"no\""
+      },
+      "id": "Field_0wj7al9"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_110f86f"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1f73tec"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0apr4xi"
+        },
+        {
+          "text": "Total risk score is {{additional_8.likelihood * additional_8.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_08k4lho"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_8.likelihood = null or additional_8.impact = null"
+          },
+          "id": "Field_1e8tk5v"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_8.action != \"mitigate\""
+          },
+          "id": "Field_115i5fk"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_8.action != \"mitigate\""
+          },
+          "id": "Field_0jgjkmm"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_8.action != \"mitigate\""
+          },
+          "id": "Field_1jmolk6"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_8",
+      "conditional": {
+        "hide": "=additional_8.present = \"no\""
+      },
+      "id": "Field_0dqa0vm"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0ykz8a7"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1dydu0s"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0onr68d"
+        },
+        {
+          "text": "Total risk score is {{additional_9.likelihood * additional_9.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_0uss4uw"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_9.likelihood = null or additional_9.impact = null"
+          },
+          "id": "Field_0nten9r"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_9.action != \"mitigate\""
+          },
+          "id": "Field_0w15l9d"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_9.action != \"mitigate\""
+          },
+          "id": "Field_10zqzls"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_9.action != \"mitigate\""
+          },
+          "id": "Field_11y9y29"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_9",
+      "conditional": {
+        "hide": "=additional_9.present = \"no\""
+      },
+      "id": "Field_1my5ufg"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0gbbjtv"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_03k06yc"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_1b6syns"
+        },
+        {
+          "text": "Total risk score is {{additional_10.likelihood * additional_10.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1aj6vo8"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_10.likelihood = null or additional_10.impact = null"
+          },
+          "id": "Field_06rephp"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_10.action != \"mitigate\""
+          },
+          "id": "Field_165ni6r"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_10.action != \"mitigate\""
+          },
+          "id": "Field_1gedoik"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_10.action != \"mitigate\""
+          },
+          "id": "Field_0a56u2e"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_10",
+      "conditional": {
+        "hide": "=additional_10.present = \"no\""
+      },
+      "id": "Field_0fyjkac"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_089bai4"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_1mo0l6f"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_0cuzkhw"
+        },
+        {
+          "text": "Total risk score is {{additional_11.likelihood * additional_11.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_04t110g"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_11.likelihood = null or additional_11.impact = null"
+          },
+          "id": "Field_141b72s"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_11.action != \"mitigate\""
+          },
+          "id": "Field_10szyvq"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_11.action != \"mitigate\""
+          },
+          "id": "Field_1a488jm"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_11.action != \"mitigate\""
+          },
+          "id": "Field_03tr8bh"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_11",
+      "conditional": {
+        "hide": "=additional_11.present = \"no\""
+      },
+      "id": "Field_1kzciss"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_16xi1l8"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_02ffywl"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_07u4xqq"
+        },
+        {
+          "text": "Total risk score is {{additional_12.likelihood * additional_12.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_1fkmk98"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_12.likelihood = null or additional_12.impact = null"
+          },
+          "id": "Field_1e1yxks"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_12.action != \"mitigate\""
+          },
+          "id": "Field_0e2n5ef"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_12.action != \"mitigate\""
+          },
+          "id": "Field_0ekntx2"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_12.action != \"mitigate\""
+          },
+          "id": "Field_0o5dc8q"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_12",
+      "conditional": {
+        "hide": "=additional_12.present = \"no\""
+      },
+      "id": "Field_0h800ot"
+    },
+    {
+      "components": [
+        {
+          "label": "Risk description",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_1t7eowz",
+            "columns": null
+          },
+          "key": "text",
+          "id": "Field_0jny69q"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "likelihood",
+          "id": "Field_0nrq6k5"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact",
+          "type": "select",
+          "layout": {
+            "row": "Row_1g9e2tc",
+            "columns": null
+          },
+          "key": "impact",
+          "id": "Field_1jy7w2q"
+        },
+        {
+          "text": "Total risk score is {{additional_13.likelihood * additional_13.impact}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0mspret",
+            "columns": null
+          },
+          "id": "Field_19t4mu4"
+        },
+        {
+          "values": [
+            {
+              "label": "Accept",
+              "value": "accept"
+            },
+            {
+              "label": "Mitigate",
+              "value": "mitigate"
+            }
+          ],
+          "label": "Action",
+          "type": "radio",
+          "layout": {
+            "row": "Row_1gwyxg9",
+            "columns": null
+          },
+          "key": "action",
+          "conditional": {
+            "hide": "=additional_13.likelihood = null or additional_13.impact = null"
+          },
+          "id": "Field_08y36xa"
+        },
+        {
+          "label": "Planned mitigation",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_04met2o",
+            "columns": null
+          },
+          "key": "textarea_fm8ude",
+          "conditional": {
+            "hide": "=additional_13.action != \"mitigate\""
+          },
+          "id": "Field_1miiqmn"
+        },
+        {
+          "values": [
+            {
+              "label": "Rare",
+              "value": "1"
+            },
+            {
+              "label": "Unlikely",
+              "value": "2"
+            },
+            {
+              "label": "Possible",
+              "value": "4"
+            },
+            {
+              "label": "Likely",
+              "value": "8"
+            },
+            {
+              "label": "Almost certain",
+              "value": "16"
+            }
+          ],
+          "label": "Likelihood after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_likelihood",
+          "conditional": {
+            "hide": "=additional_13.action != \"mitigate\""
+          },
+          "id": "Field_072gxi9"
+        },
+        {
+          "values": [
+            {
+              "label": "Very Low",
+              "value": "1"
+            },
+            {
+              "label": "Low",
+              "value": "2"
+            },
+            {
+              "label": "Medium",
+              "value": "4"
+            },
+            {
+              "label": "High",
+              "value": "8"
+            },
+            {
+              "label": "Very High",
+              "value": "16"
+            }
+          ],
+          "label": "Impact after mitigation",
+          "type": "select",
+          "layout": {
+            "row": "Row_1ttbpg1",
+            "columns": null
+          },
+          "key": "mitigated_impact",
+          "conditional": {
+            "hide": "=additional_13.action != \"mitigate\""
+          },
+          "id": "Field_04kvn94"
+        }
+      ],
+      "showOutline": true,
+      "label": "< Placeholder risk summary >",
+      "type": "group",
+      "layout": {
+        "row": "Row_1og71vb",
+        "columns": null
+      },
+      "path": "additional_13",
+      "conditional": {
+        "hide": "=additional_13.present = \"no\""
+      },
+      "id": "Field_1aj6pmq"
+    }
+  ],
+  "type": "default",
+  "id": "risk-evaluation-and-treatment-0mj48w0"
+}
