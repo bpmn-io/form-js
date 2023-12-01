@@ -2,7 +2,7 @@ import { isDefined, isNumber, isObject, isString } from 'min-dash';
 import { useExpressionEvaluation } from '../../hooks';
 import { useEffect, useState } from 'preact/hooks';
 import Label from '../Label';
-import { prefixId } from '../Util';
+import { formFieldClasses, prefixId } from '../Util';
 import ArrowDownIcon from './icons/ArrowDown.svg';
 import ArrowUpIcon from './icons/ArrowUp.svg';
 import CaretLeftIcon from './icons/CaretLeft.svg';
@@ -98,7 +98,7 @@ export default function Table(props) {
   }
 
   return (
-    <div class="fjs-table-outer-container">
+    <div class={ formFieldClasses(type) }>
       {isString(label) && label.length > 0 ? (
         <Label id={ prefixId(id) } label={ label } />
       ) : null}
@@ -368,7 +368,7 @@ function DisabledTable(props) {
   ];
 
   return (
-    <div class="fjs-table-outer-container">
+    <div class={ formFieldClasses(type, { disabled: true }) }>
       {isString(label) && label.length > 0 ? (
         <Label id={ prefixId(id) } label={ label } />
       ) : null}

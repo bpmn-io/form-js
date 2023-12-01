@@ -989,14 +989,12 @@
   overflow: hidden;
 }
 
-.fjs-container .fjs-table-outer-container {
-  width: 100%;
+.fjs-container .fjs-form-field-table {
   display: flex;
   flex-direction: column;
 }
 
 .fjs-container .fjs-table-middle-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -1011,14 +1009,12 @@
 }
 
 .fjs-container .fjs-table-inner-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
   overflow-x: auto;
 }
 
 .fjs-container .fjs-table {
-  min-width: 100%;
   overflow-y: auto;
   border-collapse: collapse;
 }
