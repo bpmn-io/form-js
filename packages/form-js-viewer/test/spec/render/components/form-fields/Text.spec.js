@@ -278,7 +278,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql('<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><p>#foo,###bar</p></div></div>');
+    expect(formField.innerHTML).to.eql('<div class="markup"><div xmlns="http://www.w3.org/1999/xhtml"><p>["#foo", "###bar"]</p></div></div>');
   });
 
 

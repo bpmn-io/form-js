@@ -6,23 +6,30 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
-## 1.5.0-alpha.0
+## 1.5.0
 
 ### General
 
-* `FIX`: properly focus select on click ([#878](https://github.com/bpmn-io/form-js/issues/878))
+* `FEAT`: added a new `form-json-schema` package ([6690d2e2](https://github.com/bpmn-io/form-js/commit/6690d2e2835bd95302577d567379e89451a3ac57))
+* `FEAT`: introduced new SASS stylesheets to move away from styled-components ([633](https://github.com/bpmn-io/form-js/issues/633))
+* `FEAT`: support iFrame component ([#887](https://github.com/bpmn-io/form-js/issues/887))
+* `DEPS`: update to feelin@2.3 & feelers@1.2, bringing in new FEEL functionality ([4765bb24](https://github.com/bpmn-io/form-js/commit/4765bb2408aed0c02ae77c0449ade7a195f64b04))
+
+### Viewer
+
+* `FIX`: properly close dropdowns when opening other dropdowns ([#878](https://github.com/bpmn-io/form-js/issues/878))
+* `FIX`: improved input data sanitation ([#894](https://github.com/bpmn-io/form-js/issues/894)) 
+* `FIX`: ensure values not in options clear ([#817](https://github.com/bpmn-io/form-js/issues/817))
+
+### Editor
+
+* `FIX`: fixed an issue dragging rows into groups ([#861](https://github.com/bpmn-io/form-js/issues/861))
+* `FIX`: adjusted palette size ([#846](https://github.com/bpmn-io/form-js/issues/846))
+* `FIX`: renamed checklist and radio ([#846](https://github.com/bpmn-io/form-js/issues/846))
 
 ### Playground
 
-* `FIX`: add proper tab index to JSON editors ([#884](https://github.com/bpmn-io/form-js/pull/884))
-
-### JSON Schema
-
-* `FEAT`: initial release, moved from https://github.com/pinussilvestrus/form-json-schema
-
-### Carbon styles
-
-* `FEAT`: introduce Carbon styles as a SASS stylesheet ([#633](https://github.com/bpmn-io/form-js/issues/633))
+* `FIX`: add tabIndex to json editors ([ad6c00fb](https://github.com/bpmn-io/form-js/commit/ad6c00fb581943d4fb278f7dbcda02d5c544dfca))
 
 ### Breaking Changes
 

@@ -33,7 +33,7 @@ describe('core/FieldFactory', function() {
 
     it('Checklist', testCreate({
       type: 'checklist',
-      label: 'Checklist',
+      label: 'Checkbox group',
       keyed: true,
       defaults: {
         values: [
@@ -64,7 +64,7 @@ describe('core/FieldFactory', function() {
 
     it('Radio', testCreate({
       type: 'radio',
-      label: 'Radio',
+      label: 'Radio group',
       keyed: true,
       defaults: {
         values: [

@@ -130,7 +130,7 @@ export default function Checklist(props) {
 Checklist.config = {
   type,
   keyed: true,
-  label: 'Checklist',
+  label: 'Checkbox group',
   group: 'selection',
   emptyValue: [],
   sanitizeValue: sanitizeMultiSelectValue,
