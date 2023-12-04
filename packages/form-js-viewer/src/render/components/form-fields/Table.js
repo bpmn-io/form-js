@@ -111,7 +111,7 @@ export default function Table(props) {
           'Nothing to show.'
         ) : (
           <div class="fjs-table-inner-container">
-            <table class="fjs-table">
+            <table class="fjs-table" id={ prefixId(id) }>
               <thead class="fjs-table-head">
                 <tr class="fjs-table-tr">
                   {evaluatedColumns.map(({ key, label }) => {
@@ -374,7 +374,7 @@ function DisabledTable(props) {
       ) : null}
       <div class="fjs-table-middle-container">
         <div class="fjs-table-inner-container">
-          <table class={ classNames('fjs-table', 'fjs-disabled') }>
+          <table class={ classNames('fjs-table', 'fjs-disabled') } id={ prefixId(id) }>
             <thead class="fjs-table-head">
               <tr class="fjs-table-tr">
                 {mockColumns.map(({ key, label }) => (
