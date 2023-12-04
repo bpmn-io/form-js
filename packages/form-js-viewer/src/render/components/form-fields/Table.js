@@ -11,12 +11,6 @@ import classNames from 'classnames';
 
 const type = 'table';
 
-const INITIAL_DEMO_DATA = [
-  { id: 1, name: 'John Doe', date: '31.01.2023' },
-  { id: 2, name: 'Erika Muller', date: '20.02.2023' },
-  { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
-];
-
 /**
  * @typedef {('asc'|'desc')} Direction
  *
@@ -271,7 +265,11 @@ Table.config = {
       ],
     };
   },
-  initialDemoData: INITIAL_DEMO_DATA,
+  initialDemoData: [
+    { id: 1, name: 'John Doe', date: '31.01.2023' },
+    { id: 2, name: 'Erika Muller', date: '20.02.2023' },
+    { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
+  ],
 };
 
 // helpers /////////////////////////////
@@ -364,11 +362,10 @@ function DisabledTable(props) {
     field: { id, label },
   } = props;
   const mockColumns = [
-    { key: 'id', label: 'ID' },
-    { key: 'name', label: 'Name' },
-    { key: 'date', label: 'Date' },
+    { key: 'column1', label: 'Column 1' },
+    { key: 'column2', label: 'Column 2' },
+    { key: 'column3', label: 'Column 3' },
   ];
-  const [ mockRow ] = INITIAL_DEMO_DATA;
 
   return (
     <div class="fjs-table-outer-container">
@@ -389,11 +386,15 @@ function DisabledTable(props) {
             </thead>
             <tbody class="fjs-table-body">
               <tr class="fjs-table-tr">
-                {mockColumns.map(({ key }) => (
-                  <td key={ key } class="fjs-table-td">
-                    {mockRow[key]}
-                  </td>
-                ))}
+                <td class="fjs-table-td">
+                  Content
+                </td>
+                <td class="fjs-table-td">
+                  Content
+                </td>
+                <td class="fjs-table-td">
+                  Content
+                </td>
               </tr>
             </tbody>
           </table>
