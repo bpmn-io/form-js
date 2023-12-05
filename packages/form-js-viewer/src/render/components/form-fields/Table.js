@@ -80,17 +80,17 @@ export default function Table(props) {
       if (current === null || current.key !== key) {
         return {
           key,
-          direction: 'desc',
+          direction: 'asc',
         };
       }
 
-      if (current.direction === 'asc') {
+      if (current.direction === 'desc') {
         return null;
       }
 
       return {
         key,
-        direction: 'asc',
+        direction: 'desc',
       };
     });
   }

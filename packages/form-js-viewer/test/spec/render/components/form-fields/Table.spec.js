@@ -279,35 +279,35 @@ describe('Table', function() {
 
     fireEvent.click(headers[0]);
 
-    expect(container.querySelector('.fjs-table-sort-icon-desc')).to.exist;
-
-    const rowsSortedDesc = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
-
-    expect(rowsSortedDesc).to.have.length(1);
-
-    const [ secondRow ] = rowsSortedDesc;
-
-    expect(secondRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
-    expect(secondRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('2');
-
-    fireEvent.click(headers[0]);
-
-    expect(container.querySelector('.fjs-table-sort-icon-desc')).not.to.exist;
     expect(container.querySelector('.fjs-table-sort-icon-asc')).to.exist;
 
     const rowsSortedAsc = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
 
     expect(rowsSortedAsc).to.have.length(1);
 
-    const [ thirdRow ] = rowsSortedAsc;
+    const [ secondRow ] = rowsSortedAsc;
 
-    expect(thirdRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
-    expect(thirdRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('1');
+    expect(secondRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(secondRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('1');
 
     fireEvent.click(headers[0]);
 
-    expect(container.querySelector('.fjs-table-sort-icon-desc')).not.to.exist;
     expect(container.querySelector('.fjs-table-sort-icon-asc')).not.to.exist;
+    expect(container.querySelector('.fjs-table-sort-icon-desc')).to.exist;
+
+    const rowsSortedDesc = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
+
+    expect(rowsSortedDesc).to.have.length(1);
+
+    const [ thirdRow ] = rowsSortedDesc;
+
+    expect(thirdRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(thirdRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('2');
+
+    fireEvent.click(headers[0]);
+
+    expect(container.querySelector('.fjs-table-sort-icon-asc')).not.to.exist;
+    expect(container.querySelector('.fjs-table-sort-icon-desc')).not.to.exist;
 
     const finalUnsortedRows = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
 
