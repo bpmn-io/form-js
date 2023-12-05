@@ -26,11 +26,11 @@ const type = 'table';
  * @property {boolean} disabled
  * @property {Object} field
  * @property {string} field.id
- * @property {Array<Column>|void} field.columns
- * @property {string|void} field.columnsExpression
- * @property {string|void} field.label
- * @property {number|void} field.rowCount
- * @property {string|void} field.dataSource
+ * @property {Array<Column>} [field.columns]
+ * @property {string} [field.columnsExpression]
+ * @property {string} [field.label]
+ * @property {number} [field.rowCount]
+ * @property {string} [field.dataSource]
  *
  * @param {Props} props
  * @returns {import("preact").JSX.Element}
@@ -97,9 +97,7 @@ export default function Table(props) {
 
   return (
     <div class={ formFieldClasses(type) }>
-      {isString(label) && label.length > 0 ? (
-        <Label id={ prefixId(id) } label={ label } />
-      ) : null}
+      <Label id={ prefixId(id) } label={ label } />
       <div
         class={ classNames('fjs-table-middle-container', {
           'fjs-table-empty': evaluatedColumns.length === 0,
