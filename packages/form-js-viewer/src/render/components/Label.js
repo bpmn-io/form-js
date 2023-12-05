@@ -5,7 +5,7 @@ import { useSingleLineTemplateEvaluation } from '../hooks';
 
 /**
  * @typedef Props
- * @property {string} id
+ * @property {string} [id]
  * @property {string|undefined} label
  * @property {string} [class]
  * @property {boolean} [collapseOnEmpty]
