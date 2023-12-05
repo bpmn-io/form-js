@@ -18,17 +18,14 @@ export default function EditorTable(props) {
       { key: '3', label: 'Column 3' }
     ]
     : columns;
-  const prefixId = `fjs-form-${ id }`;
+  const prefixId = `fjs-form-${id}`;
 
   return (
     <div class={ editorFormFieldClasses('table', { disabled: true }) }>
       <Label id={ prefixId } label={ label } />
       <div class="fjs-table-middle-container">
         <div class="fjs-table-inner-container">
-          <table
-            class={ classNames('fjs-table', 'fjs-disabled') }
-            id={ prefixId }
-          >
+          <table class={ classNames('fjs-table', 'fjs-disabled') } id={ prefixId }>
             <thead class="fjs-table-head">
               <tr class="fjs-table-tr">
                 {editorColumns.map(({ key, label }) => (
