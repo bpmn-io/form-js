@@ -81,7 +81,7 @@ function Source(props) {
     debounce,
     description: 'Specify the source from which to populate the table',
     element: field,
-    feel: 'optional',
+    feel: 'required',
     getValue,
     id,
     label: 'Data source',
