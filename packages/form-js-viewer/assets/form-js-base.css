@@ -992,6 +992,7 @@
 .fjs-container .fjs-form-field-table {
   display: flex;
   flex-direction: column;
+  row-gap: 4px;
 }
 
 .fjs-container .fjs-table-middle-container {
