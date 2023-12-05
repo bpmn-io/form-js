@@ -219,8 +219,13 @@ Table.config = {
   label: 'Table',
   group: 'presentation',
   create: (options = {}) => {
-    let { id, columnsExpression, columns, rowCount, ...remainingOptions } =
-      options;
+    const {
+      id,
+      columnsExpression,
+      columns,
+      rowCount,
+      ...remainingOptions
+    } = options;
 
     if (isDefined(id) && isNumber(rowCount)) {
       remainingOptions['rowCount'] = rowCount;
