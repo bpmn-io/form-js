@@ -23,7 +23,6 @@ const type = 'table';
  * @property {string} key
  *
  * @typedef Props
- * @property {boolean} disabled
  * @property {Object} field
  * @property {string} field.id
  * @property {Array<Column>} [field.columns]
@@ -36,7 +35,7 @@ const type = 'table';
  * @returns {import("preact").JSX.Element}
  */
 export default function Table(props) {
-  const { field, disabled } = props;
+  const { field } = props;
   const {
     columns = [],
     columnsExpression,
@@ -70,9 +69,6 @@ export default function Table(props) {
     setCurrentPage(0);
   }, [ rowCount, sortBy ]);
 
-  if (disabled) {
-    return <DisabledTable { ...props } />;
-  }
 
   /** @param {string} key */
   function toggleSortBy(key) {
@@ -352,55 +348,4 @@ function getHeaderAriaLabel(sortBy, key, label) {
   }
 
   return `Click to sort by ${label} ascending`;
-}
-
-/**
- * @param {Props} props
- * @returns {import("preact").JSX.Element}
- */
-function DisabledTable(props) {
-  const {
-    field: { id, label },
-  } = props;
-  const mockColumns = [
-    { key: 'column1', label: 'Column 1' },
-    { key: 'column2', label: 'Column 2' },
-    { key: 'column3', label: 'Column 3' },
-  ];
-
-  return (
-    <div class={ formFieldClasses(type, { disabled: true }) }>
-      {isString(label) && label.length > 0 ? (
-        <Label id={ prefixId(id) } label={ label } />
-      ) : null}
-      <div class="fjs-table-middle-container">
-        <div class="fjs-table-inner-container">
-          <table class={ classNames('fjs-table', 'fjs-disabled') } id={ prefixId(id) }>
-            <thead class="fjs-table-head">
-              <tr class="fjs-table-tr">
-                {mockColumns.map(({ key, label }) => (
-                  <th key={ key } class="fjs-table-th">
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody class="fjs-table-body">
-              <tr class="fjs-table-tr">
-                <td class="fjs-table-td">
-                  Content
-                </td>
-                <td class="fjs-table-td">
-                  Content
-                </td>
-                <td class="fjs-table-td">
-                  Content
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
 }
