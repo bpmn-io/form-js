@@ -16,7 +16,7 @@ export class TableDataSourceBehavior extends CommandInterceptor {
 
       context.formField = {
         ...formField,
-        dataSource: formField.id
+        dataSource: `=${formField.id}`
       };
     }, true);
   }

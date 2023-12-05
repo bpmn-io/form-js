@@ -53,9 +53,7 @@ export default function Table(props) {
     columns,
   );
   const columnKeys = evaluatedColumns.map(({ key }) => key);
-  const evaluatedDataSource = useExpressionEvaluation(
-    dataSource.startsWith('=') ? dataSource : `=${dataSource}`,
-  );
+  const evaluatedDataSource = useExpressionEvaluation(dataSource);
   const data = Array.isArray(evaluatedDataSource) ? evaluatedDataSource : [];
   const sortedData =
     sortBy === null
