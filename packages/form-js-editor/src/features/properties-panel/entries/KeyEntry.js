@@ -84,8 +84,8 @@ function Key(props) {
 
     // unclaim temporarily to avoid self-conflicts
     pathRegistry.unclaimPath(oldPath);
-    const canClaim = pathRegistry.canClaimPath(newPath, true);
-    pathRegistry.claimPath(oldPath, true);
+    const canClaim = pathRegistry.canClaimPath(newPath, { isClosed: true, claimerId: field.id });
+    pathRegistry.claimPath(oldPath, { isClosed: true });
 
     return canClaim ? null : 'Must not conflict with other key/path assignments.';
   };

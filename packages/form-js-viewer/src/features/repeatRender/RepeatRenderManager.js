@@ -25,7 +25,7 @@ export default class RepeatRenderManager {
   }
 
   /**
-   * Checks whether a field should be repeatable.
+   * Checks whether a field is currently repeating its children.
    *
    * @param {string} id - The id of the field to check
    * @returns {boolean} - True if repeatable, false otherwise

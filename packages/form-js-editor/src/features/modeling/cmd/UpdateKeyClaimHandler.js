@@ -24,7 +24,7 @@ export default class UpdateKeyClaimHandler {
     const valuePath = this._pathRegistry.getValuePath(formField, options);
 
     if (claiming) {
-      this._pathRegistry.claimPath(valuePath, true);
+      this._pathRegistry.claimPath(valuePath, { isClosed: true });
     } else {
       this._pathRegistry.unclaimPath(valuePath);
     }
@@ -42,7 +42,7 @@ export default class UpdateKeyClaimHandler {
     if (claiming) {
       this._pathRegistry.unclaimPath(valuePath);
     } else {
-      this._pathRegistry.claimPath(valuePath, true);
+      this._pathRegistry.claimPath(valuePath, { isClosed: true });
     }
   }
 }

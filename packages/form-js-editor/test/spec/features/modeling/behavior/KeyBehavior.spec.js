@@ -52,7 +52,7 @@ describe('features/modeling - KeyBehavior', function() {
 
     // then
     expect(pathRegistry.canClaimPath([ oldKey ])).to.be.true;
-    expect(pathRegistry.canClaimPath([ 'user' ], true)).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'user' ], { isClosed: true })).to.be.false;
     expect(pathRegistry.canClaimPath([ 'user' ])).to.be.true;
     expect(pathRegistry.canClaimPath([ 'user', 'creditor' ])).to.be.false;
   }));

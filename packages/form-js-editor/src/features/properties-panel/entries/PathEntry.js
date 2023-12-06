@@ -91,9 +91,9 @@ function Path(props) {
       }
     };
 
-    const canClaim = pathRegistry.executeRecursivelyOnFields(field, ({ field, isClosed }) => {
+    const canClaim = pathRegistry.executeRecursivelyOnFields(field, ({ field, isClosed, isRepeatable }) => {
       const path = pathRegistry.getValuePath(field, options);
-      return pathRegistry.canClaimPath(path, isClosed);
+      return pathRegistry.canClaimPath(path, { isClosed, isRepeatable, claimerId: field.id });
     });
 
     if (!canClaim) {

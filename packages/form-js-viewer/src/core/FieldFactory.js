@@ -1,3 +1,5 @@
+import { getAncestryList } from '../util';
+
 export default class FieldFactory {
 
   /**
@@ -41,14 +43,24 @@ export default class FieldFactory {
     // ensure that we can claim the path
 
     const parent = _parent && this._formFieldRegistry.get(_parent);
-
     const parentPath = parent && this._pathRegistry.getValuePath(parent) || [];
+    const knownAncestorIds = getAncestryList(_parent, this._formFieldRegistry);
 
-    if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, ...key.split('.') ], true)) {
+    if (config.keyed && key && !this._pathRegistry.canClaimPath([ ...parentPath, ...key.split('.') ],
+      {
+        isClosed: true,
+        knownAncestorIds
+      })
+    ) {
       throw new Error(`binding path '${ [ ...parentPath, key ].join('.') }' is already claimed`);
     }
 
-    if (config.pathed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ], false)) {
+    if (config.pathed && path && !this._pathRegistry.canClaimPath([ ...parentPath, ...path.split('.') ],
+      {
+        isRepeatable: config.repeatable,
+        knownAncestorIds
+      })
+    ) {
       throw new Error(`binding path '${ [ ...parentPath, ...path.split('.') ].join('.') }' is already claimed`);
     }
 
@@ -65,6 +77,7 @@ export default class FieldFactory {
 
     if (config.keyed) {
       this._ensureKey(field);
+      this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), { isClosed: true, claimerId: field.id, knownAncestorIds: getAncestryList(_parent, this._formFieldRegistry) });
     }
 
     if (config.pathed) {
@@ -73,7 +86,7 @@ export default class FieldFactory {
       }
 
       if (field.path) {
-        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), false);
+        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), { isRepeatable: config.repeatable, claimerId: field.id, knownAncestorIds: getAncestryList(_parent, this._formFieldRegistry) });
       }
     }
 
@@ -101,8 +114,6 @@ export default class FieldFactory {
     if (!field.key) {
       field.key = this._getUniqueKeyPath(field);
     }
-
-    this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), true);
   }
 
   _enforceDefaultPath(field) {
