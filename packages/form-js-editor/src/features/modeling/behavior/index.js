@@ -4,6 +4,7 @@ import PathBehavior from './PathBehavior';
 import ValidateBehavior from './ValidateBehavior';
 import ValuesSourceBehavior from './ValuesSourceBehavior';
 import { ColumnsSourceBehavior } from './ColumnsSourceBehavior';
+import { TableDataSourceBehavior } from './TableDataSourceBehavior';
 
 export default {
   __init__: [
@@ -12,12 +13,14 @@ export default {
     'pathBehavior',
     'validateBehavior',
     'valuesSourceBehavior',
-    'columnsSourceBehavior'
+    'columnsSourceBehavior',
+    'tableDataSourceBehavior'
   ],
   idBehavior: [ 'type', IdBehavior ],
   keyBehavior: [ 'type', KeyBehavior ],
   pathBehavior: [ 'type', PathBehavior ],
   validateBehavior: [ 'type', ValidateBehavior ],
   valuesSourceBehavior: [ 'type', ValuesSourceBehavior ],
-  columnsSourceBehavior: [ 'type', ColumnsSourceBehavior ]
+  columnsSourceBehavior: [ 'type', ColumnsSourceBehavior ],
+  tableDataSourceBehavior: [ 'type', TableDataSourceBehavior ]
 };
