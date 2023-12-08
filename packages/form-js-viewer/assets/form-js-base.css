@@ -71,6 +71,7 @@
     var(--cds-border-strong-01, var(--color-grey-225-10-55))
   );
   --color-borders-group: var(--cds-border-subtle, var(--color-grey-225-10-85));
+  --color-borders-table: var(--color-borders-group);
   --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
   --color-borders-adornment: var(
     --cds-border-subtle, 
@@ -798,6 +799,27 @@
   pointer-events: none;
   cursor: default;
 }
+
+.fjs-container .fjs-form-field-text table {
+  border-collapse: collapse;
+  width: auto;
+}
+
+.fjs-container .fjs-form-field-text table,
+.fjs-container .fjs-form-field-text th,
+.fjs-container .fjs-form-field-text td {
+  border: 1px solid var(--color-borders-table); 
+  padding: 8px;
+}
+
+.fjs-container .fjs-form-field-text th {
+  font-weight: bold; 
+}
+
+.fjs-container .fjs-form-field-text td {
+  white-space: nowrap;
+}
+
 
 .fjs-container .fjs-taglist-anchor,
 .fjs-container .fjs-select-anchor,
