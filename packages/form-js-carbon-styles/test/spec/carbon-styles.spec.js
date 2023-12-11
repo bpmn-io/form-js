@@ -177,7 +177,25 @@ describe('Carbon styles', function() {
       readonly_tags: [ 'tag1', 'tag2', 'tag3' ],
       readonly_checklist: [ 'option_1' ],
       readonly_radio: 'option_1',
-      language: 'english'
+      language: 'english',
+      tableSource: [
+        {
+          id: '1',
+          name: 'John Doe',
+          age: 30
+        },
+        {
+          id: '2',
+          name: 'Anna Bell',
+          age: 25
+
+        },
+        {
+          id: '3',
+          name: 'Nico Togin',
+          age: 40
+        }
+      ]
     };
 
     const result = createFormView({

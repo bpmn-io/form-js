@@ -492,8 +492,7 @@
     letter-spacing: var(--cds-label-01-letter-spacing);
   }
 
-  .fjs-form-field:not(.fjs-form-field-checkbox, .fjs-form-field-group)
-    .fjs-form-field-label:first-child {
+  .fjs-form-field:not(.fjs-form-field-checkbox, .fjs-form-field-group, .fjs-form-field-table) .fjs-form-field-label:first-child {
     margin: 0;
     margin-bottom: var(--cds-spacing-03);
   }
@@ -1214,5 +1213,103 @@
 
   .fjs-iframe {
     border-color: var(--cds-border-subtle);
+  }
+}
+
+// Table styles ////////////
+
+.fjs-container {
+  .fjs-form-field-table {
+    row-gap: var(--cds-spacing-04);
+  }
+
+  .fjs-form-field.fjs-form-field-table .fjs-form-field-label {
+    color: var(--cds-text-secondary);
+    font-size: var(--cds-label-02-font-size);
+    font-weight: var(--cds-label-02-font-weight);
+    line-height: var(--cds-label-02-line-height);
+    letter-spacing: var(--cds-label-02-letter-spacing);
+    margin-bottom: 0;
+  }
+
+  .fjs-table-th {
+    color: var(--cds-color-primary);
+    font-size: var(--cds-heading-compact-01-font-size);
+    font-weight: var(--cds-heading-compact-01-font-weight);
+    line-height: var(--cds-heading-compact-01-line-height);
+    letter-spacing: var(--cds-heading-compact-01-letter-spacing);
+
+    &:focus {
+      outline: 2px solid var(--cds-focus);
+      outline-offset: -2px;
+    }
+  }
+
+  .fjs-table-tr,
+  .fjs-table-nav {
+    block-size: rem(24px);
+  }
+
+  .fjs-table-td,
+  .fjs-table-th {
+    vertical-align: middle;
+  }
+
+  .fjs-table-middle-container.fjs-table-empty {
+    background-color: transparent;
+    color: var(--cds-text-secondary);
+    padding-left: var(--cds-spacing-05);
+    font-size: var(--cds-heading-compact-01-font-size);
+    font-weight: var(--cds-heading-compact-01-font-weight);
+    line-height: var(--cds-heading-compact-01-line-height);
+    letter-spacing: var(--cds-heading-compact-01-letter-spacing);
+  }
+
+  .fjs-table-middle-container {
+    border-radius: 0;
+    background-color: var(--cds-layer);
+  }
+
+  .fjs-table-body .fjs-table-tr:hover {
+    background-color: var(--cds-layer-hover);
+  }
+
+  .fjs-table-nav {
+    color: var(--cds-text-primary);
+    font-size: var(--cds-label-01-font-size);
+    font-weight: var(--cds-label-01-font-weight);
+    line-height: var(--cds-label-01-line-height);
+    letter-spacing: var(--cds-label-01-letter-spacing);
+  }
+
+  .fjs-table-nav-button {
+    color: var(--cds-text-primary);
+
+    &:disabled {
+      color: var(--cds-text-disabled);
+    }
+
+    &:focus {
+      outline: 2px solid var(--cds-focus);
+      outline-offset: -2px;
+    }
+  }
+
+  // To be removed when this issue is fixed upstream: https://github.com/carbon-design-system/carbon/issues/14597
+
+  .fjs-table-body .fjs-table-tr:not(:last-child) {
+    border-bottom: 1px solid var(--cds-border-subtle-02);
+  }
+
+  .fjs-table-middle-container {
+    border: 1px solid var(--cds-border-subtle-02);
+  }
+
+  .fjs-table-nav {
+    border-top: 1px solid var(--cds-border-subtle-02);
+  }
+
+  .fjs-table-nav-button {
+    border-left: 1px solid var(--cds-border-subtle-02);
   }
 }
