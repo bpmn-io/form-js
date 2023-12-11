@@ -36,13 +36,13 @@ export default class ConditionChecker {
       throw new Error('form field registry has no form');
     }
 
-    this._pathRegistry.executeRecursivelyOnFields(form, ({ field, isClosed, context }) => {
+    this._pathRegistry.executeRecursivelyOnFields(form, ({ field, isClosed, isRepeatable, context }) => {
       const { conditional: condition } = field;
 
       context.isHidden = context.isHidden || (condition && this._checkHideCondition(condition, data));
 
-      // only clear the leaf nodes, as groups may both point to the same path
-      if (context.isHidden && isClosed) {
+      // if a field is a leaf node (or repeatable, as they behave similarly), and hidden, we need to clear the value from the data from each index
+      if (context.isHidden && (isClosed || isRepeatable)) {
         this._clearObjectValueRecursively(getFilterPath(field), newProperties);
       }
     });

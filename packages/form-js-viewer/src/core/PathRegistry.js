@@ -183,12 +183,17 @@ export default class PathRegistry {
       result = result && callResult;
     }
 
+    // stop executing if false is specifically returned
+    if (result === false) {
+      return result;
+    }
+
     if (Array.isArray(field.components)) {
       for (const child of field.components) {
         const callResult = this.executeRecursivelyOnFields(child, fn, clone(context));
         result = result && callResult;
 
-        // only stop executing if false is specifically returned, not if undefined
+        // stop executing if false is specifically returned
         if (result === false) {
           return result;
         }
