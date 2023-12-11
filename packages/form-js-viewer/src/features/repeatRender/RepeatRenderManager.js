@@ -54,7 +54,9 @@ export default class RepeatRenderManager {
     const values = get(data, dataPath) || [];
 
     const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
-    const isCollapsed = sharedRepeatState.isCollapsed && values.length > nonCollapsedItems;
+    const collapseEnabled = !repeaterField.disableCollapse && (values.length > nonCollapsedItems);
+    const isCollapsed = collapseEnabled && sharedRepeatState.isCollapsed;
+
     const hasChildren = repeaterField.components && repeaterField.components.length > 0;
     const showRemove = repeaterField.allowAddRemove && hasChildren;
 
@@ -123,7 +125,7 @@ export default class RepeatRenderManager {
 
     const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
     const collapseEnabled = !repeaterField.disableCollapse && (values.length > nonCollapsedItems);
-    const isCollapsed = sharedRepeatState.isCollapsed;
+    const isCollapsed = collapseEnabled && sharedRepeatState.isCollapsed;
 
     const hasChildren = repeaterField.components && repeaterField.components.length > 0;
     const showAdd = repeaterField.allowAddRemove && hasChildren;
