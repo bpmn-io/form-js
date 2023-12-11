@@ -1,7 +1,7 @@
 export const form = {
   type: 'default',
   components: [],
-  schemaVersion: 14
+  schemaVersion: 15
 };
 
 export const errors = [
@@ -9,7 +9,7 @@ export const errors = [
     instancePath: '/schemaVersion',
     schemaPath: '#/properties/schemaVersion/maximum',
     keyword: 'maximum',
-    params: { comparison: '<=', limit: 13 },
-    message: 'must be <= 13'
+    params: { comparison: '<=', limit: 14 },
+    message: 'must be <= 14'
   }
 ];

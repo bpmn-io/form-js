@@ -23,7 +23,9 @@ const EXPRESSION_PROPERTIES = [
   'validate.minLength',
   'validate.maxLength',
   'valuesExpression',
-  'url'
+  'url',
+  'dataSource',
+  'columnsExpression'
 ];
 
 const TEMPLATE_PROPERTIES = [
