@@ -625,6 +625,27 @@
       "label": "submit",
       "type": "button",
       "id": "Field_1ydujqa"
+    },
+    {
+      "label": "A table",
+      "type": "table",
+      "rowCount": 10,
+      "id": "Field_0kx5fbn",
+      "dataSource": "=tableSource",
+      "columns": [
+        {
+          "key": "id",
+          "label": "ID"
+        },
+        {
+          "key": "name",
+          "label": "Name"
+        },
+        {
+          "key": "age",
+          "label": "Age"
+        }
+      ]
     }
   ],
   "type": "default",
