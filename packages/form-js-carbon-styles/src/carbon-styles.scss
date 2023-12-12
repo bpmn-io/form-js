@@ -401,6 +401,17 @@
         padding: 2px 0px;
       }
     }
+
+    &.fjs-form-field-dynamiclist button.fjs-repeat-render-add,
+    &.fjs-form-field-dynamiclist button .fjs-repeat-row-remove-icon-container {
+      color: var(--cds-text-on-color-disabled);
+
+      &:hover {
+        color: var(--cds-text-on-color-disabled);
+        background-color: transparent;
+        cursor: not-allowed;
+      }
+    }
   }
 }
 
@@ -1311,5 +1322,52 @@
 
   .fjs-table-nav-button {
     border-left: 1px solid var(--cds-border-subtle-02);
+  }
+}
+
+// Dynamic lists ////////////
+
+
+.fjs-container .fjs-form-field-dynamiclist {
+  .fjs-repeat-row-container .fjs-repeat-row-remove-icon-container {
+    border-radius: 0;
+    color: var(--cds-button-danger-secondary);
+    min-width: rem(40);
+    min-height: rem(40);
+
+    &:hover {
+      color: var(--cds-text-on-color);
+      background-color: var(--cds-button-danger-hover);
+    }
+  }
+
+  .fjs-repeat-row-container .fjs-repeat-row-remove:focus-visible .fjs-repeat-row-remove-icon-container {
+    outline: 2px solid var(--cds-focus);
+    outline-offset: 1px;
+    border-radius: 0;
+  }
+
+  .fjs-repeat-render-footer {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 0;
+  }
+
+  .fjs-repeat-render-add,
+  .fjs-repeat-render-collapse {
+    min-height: rem(40);
+    padding-inline-end: rem(15);
+
+    &:focus {
+      outline: 2px solid var(--cds-focus);
+      outline-offset: 1px;
+      border: none;
+      border-radius: 0;
+    }
+
+    &:hover {
+      color: var(--cds-link-primary-hover);
+      background-color: var(--cds-background-hover);
+    }
   }
 }
