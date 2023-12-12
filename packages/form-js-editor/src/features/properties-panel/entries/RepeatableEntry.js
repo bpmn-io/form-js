@@ -1,4 +1,4 @@
-import { zeroPositiveIntegerEntryFactory, simpleBoolEntryFactory } from './factories';
+import { simpleRangeIntegerEntryFactory, simpleBoolEntryFactory } from './factories';
 
 export default function RepeatableEntry(props) {
   const {
@@ -17,10 +17,12 @@ export default function RepeatableEntry(props) {
   }
 
   const entries = [
-    zeroPositiveIntegerEntryFactory({
+    simpleRangeIntegerEntryFactory({
       id: 'defaultRepetitions',
       path: [ 'defaultRepetitions' ],
       label: 'Default number of items',
+      min: 0,
+      max: 20,
       props
     }),
     simpleBoolEntryFactory({
@@ -38,10 +40,11 @@ export default function RepeatableEntry(props) {
   ];
 
   if (!field.disableCollapse) {
-    const nonCollapseItemsEntry = zeroPositiveIntegerEntryFactory({
+    const nonCollapseItemsEntry = simpleRangeIntegerEntryFactory({
       id: 'nonCollapsedItems',
       path: [ 'nonCollapsedItems' ],
       label: 'Number of non-collapsing items',
+      min: 1,
       props
     });
 
