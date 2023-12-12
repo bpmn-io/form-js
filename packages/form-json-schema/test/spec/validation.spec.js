@@ -278,6 +278,12 @@ describe('validation', function() {
 
     testForm('rowCount-no-number');
 
+
+    testForm('dynamic-list-properties');
+
+
+    testForm('dynamic-list-properties-not-allowed');
+
   });
 
 
