@@ -195,12 +195,12 @@
     },
     "showOutline": {
       "$id": "#/component/showOutline",
-      "description": "Groups and dynamic lists can have a visual outline.",
+      "description": "Outlines groups and dynamic lists.",
       "type": "boolean"
     },
     "verticalAlignment": {
       "$id": "#/component/verticalAlignment",
-      "description": "Groups and dynamic lists can be vertical aligned.",
+      "description": "Sets the alignment of the form field children. This can either be start, center, or end. Defaults to start.",
       "type": "string",
       "default": "start",
       "enum": [
@@ -208,6 +208,31 @@
         "center",
         "end"
       ]
+    },
+    "isRepeating": {
+      "$id": "#/component/isRepeating",
+      "description": "Defines whether the list should currently be repeating its children.",
+      "type": "boolean"
+    },
+    "allowAddRemove": {
+      "$id": "#/component/allowAddRemove",
+      "description": "Allow adding and removing items from a list.",
+      "type": "boolean"
+    },
+    "defaultRepetitions": {
+      "$id": "#/component/defaultRepetitions",
+      "description": "Default number of repetitions a dynamic list will render with, if no data is provided. Defaults to 1.",
+      "type": "number"
+    },
+    "disableCollapse": {
+      "$id": "#/component/disableCollapse",
+      "description": "Disable the ability of a list can be collapsed.",
+      "type": "boolean"
+    },
+    "nonCollapsedItems": {
+      "$id": "#/component/nonCollapsedItems",
+      "description": "Number of items that will be rendered when a list is collapsed. Defaults to 5.",
+      "type": "number"
     },
     "validate": {
       "$id": "#/component/validate",
