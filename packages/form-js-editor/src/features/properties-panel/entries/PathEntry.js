@@ -87,7 +87,7 @@ function Path(props) {
     // Check for path collisions
     const options = {
       replacements: {
-        [field.id]: [ value ]
+        [field.id]: value.split('.')
       }
     };
 
