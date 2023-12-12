@@ -3610,19 +3610,19 @@ describe('properties panel', function() {
         // given
         const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
-        const result = createPropertiesPanel({
+        bootstrapPropertiesPanel({
           container,
           field
         });
 
         // then
-        expectGroups(result.container, [
+        expectGroups(container, [
           'General',
           'Layout',
           'Custom properties'
         ]);
 
-        expectGroupEntries(result.container, 'General', [
+        expectGroupEntries(container, 'General', [
           'Title',
           'URL',
           'Height',
@@ -3639,7 +3639,7 @@ describe('properties panel', function() {
 
           const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
@@ -3667,7 +3667,7 @@ describe('properties panel', function() {
 
           const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
@@ -3690,7 +3690,7 @@ describe('properties panel', function() {
           // given
           const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             field
           });
@@ -3721,13 +3721,13 @@ describe('properties panel', function() {
         // given
         const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-        const result = createPropertiesPanel({
+        bootstrapPropertiesPanel({
           container,
           field
         });
 
         // then
-        expectGroups(result.container, [
+        expectGroups(container, [
           'General',
           'Headers source',
           'Header items',
@@ -3736,18 +3736,18 @@ describe('properties panel', function() {
           'Custom properties'
         ]);
 
-        expectGroupEntries(result.container, 'General', [
+        expectGroupEntries(container, 'General', [
           'Table label',
           'Data source',
           'Pagination',
           'Number of rows per page'
         ]);
 
-        expectGroupEntries(result.container, 'Headers source', [
+        expectGroupEntries(container, 'Headers source', [
           'Type'
         ]);
 
-        expectGroupEntries(result.container, 'Header items', [
+        expectGroupEntries(container, 'Header items', [
           [ 'Label', 3 ],
           [ 'Key', 3 ]
         ]);
@@ -3759,13 +3759,13 @@ describe('properties panel', function() {
         // given
         const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
 
-        const result = createPropertiesPanel({
+        bootstrapPropertiesPanel({
           container,
           field
         });
 
         // then
-        expectGroups(result.container, [
+        expectGroups(container, [
           'General',
           'Headers source',
           'Condition',
@@ -3773,14 +3773,14 @@ describe('properties panel', function() {
           'Custom properties'
         ]);
 
-        expectGroupEntries(result.container, 'General', [
+        expectGroupEntries(container, 'General', [
           'Table label',
           'Data source',
           'Pagination',
           'Number of rows per page'
         ]);
 
-        expectGroupEntries(result.container, 'Headers source', [
+        expectGroupEntries(container, 'Headers source', [
           'Type',
           'Expression'
         ]);
@@ -3788,7 +3788,6 @@ describe('properties panel', function() {
 
 
       describe('columns', function() {
-
 
         it('should auto focus other entry', async function() {
 
@@ -3801,7 +3800,7 @@ describe('properties panel', function() {
             columnsExpression: '=tableHeaders',
           };
 
-          const eventBus = new eventBusMock();
+          const eventBus = new EventBusMock();
 
           const selection = {
             get: () => field
@@ -3820,12 +3819,14 @@ describe('properties panel', function() {
             };
           };
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField,
-            eventBus,
             field,
-            selection
+            services: {
+              eventBus,
+              selection
+            }
           });
 
           // assume
@@ -3851,13 +3852,13 @@ describe('properties panel', function() {
 
           const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-          const result = createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
           });
 
-          const group = findGroup(result.container, 'Header items');
+          const group = findGroup(container, 'Header items');
 
           // when
           const addEntry = group.querySelector('.bio-properties-panel-add-entry');
@@ -3882,13 +3883,13 @@ describe('properties panel', function() {
 
           const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-          const result = createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
           });
 
-          const group = findGroup(result.container, 'Header items');
+          const group = findGroup(container, 'Header items');
 
           // when
           const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
@@ -3920,7 +3921,7 @@ describe('properties panel', function() {
 
               const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-              createPropertiesPanel({
+              bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
                 field
@@ -3955,7 +3956,7 @@ describe('properties panel', function() {
 
           const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
@@ -3984,7 +3985,7 @@ describe('properties panel', function() {
 
           const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field
@@ -4009,7 +4010,7 @@ describe('properties panel', function() {
           // given
           let field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
-          const eventBus = new eventBusMock();
+          const eventBus = new EventBusMock();
 
           const selection = {
             get: () => field
@@ -4020,12 +4021,14 @@ describe('properties panel', function() {
             field = { ...renderedField, columnsExpression: '=' };
           };
 
-          createPropertiesPanel({
+          bootstrapPropertiesPanel({
             container,
             editField,
-            eventBus,
             field,
-            selection
+            services: {
+              eventBus,
+              selection
+            }
           });
 
           // assume
