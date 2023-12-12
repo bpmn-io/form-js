@@ -101,7 +101,7 @@ export default class RepeatRenderManager {
                   <RowsRenderer { ...elementProps } />
                 </LocalExpressionContext.Provider>
               </div>
-              <button class="fjs-repeat-row-remove" aria-label={ `Remove list item ${index + 1}` } onClick={ () => onDeleteItem(index) }>
+              <button class="fjs-repeat-row-remove" type="button" aria-label={ `Remove list item ${index + 1}` } onClick={ () => onDeleteItem(index) }>
                 <div class="fjs-repeat-row-remove-icon-container">
                   <DeleteSvg />
                 </div>
@@ -164,12 +164,12 @@ export default class RepeatRenderManager {
 
     return <div className="fjs-repeat-render-footer" style={ repeaterField.allowAddRemove ? { marginRight: 32 } : { justifyContent: 'center' } }>
       {
-        showAdd ? <button class="fjs-repeat-render-add" ref={ addButtonRef } onClick={ onAddItem }>
+        showAdd ? <button class="fjs-repeat-render-add" type="button" ref={ addButtonRef } onClick={ onAddItem }>
           <><AddSvg /> { 'Add new' }</>
         </button> : null
       }
       {
-        collapseEnabled ? <button class="fjs-repeat-render-collapse" onClick={ toggle }>
+        collapseEnabled ? <button class="fjs-repeat-render-collapse" type="button" onClick={ toggle }>
           {
             isCollapsed
               ? <><ExpandSvg /> { `Expand all (${values.length})` }</>
