@@ -183,8 +183,8 @@ export default class PathRegistry {
       result = result && callResult;
     }
 
-    // stop executing if false is specifically returned
-    if (result === false) {
+    // stop executing if false is specifically returned or if preventing recursion
+    if (result === false || context.preventRecursion) {
       return result;
     }
 

@@ -1,6 +1,6 @@
 import { unaryTest } from 'feelin';
 import { get, isString, set, values, isObject } from 'min-dash';
-import { clone } from '../../util';
+import { buildExpressionContext, clone } from '../../util';
 
 /**
  * @typedef {object} Condition
@@ -17,37 +17,108 @@ export default class ConditionChecker {
   /**
    * For given data, remove properties based on condition.
    *
-   * @param {Object<string, any>} properties
    * @param {Object<string, any>} data
+   * @param {Object<string, any>} contextData
    * @param {Object} [options]
    * @param {Function} [options.getFilterPath]
+   * @param {boolean} [options.leafNodeDeletionOnly]
    */
-  applyConditions(properties, data = {}, options = {}) {
+  applyConditions(data, contextData = {}, options = {}) {
 
-    const newProperties = clone(properties);
+    const workingData = clone(data);
 
     const {
-      getFilterPath = (field) => this._pathRegistry.getValuePath(field)
+      getFilterPath = (field, indexes) => this._pathRegistry.getValuePath(field, { indexes }),
+      leafNodeDeletionOnly = false
     } = options;
 
+    const _applyConditionsWithinScope = (rootField, scopeContext, startHidden = false) => {
+
+      const {
+        indexes = {},
+        expressionIndexes = [],
+        scopeData = contextData,
+        parentScopeData = null
+      } = scopeContext;
+
+      this._pathRegistry.executeRecursivelyOnFields(rootField, ({ field, isClosed, isRepeatable, context }) => {
+
+        const {
+          conditional,
+          components,
+          id
+        } = field;
+
+        // build the expression context in the right format
+        const localExpressionContext = buildExpressionContext({
+          this: scopeData,
+          data: contextData,
+          i: expressionIndexes,
+          parent: parentScopeData
+        });
+
+        context.isHidden = startHidden || context.isHidden || (conditional && this._checkHideCondition(conditional, localExpressionContext));
+
+        // if a field is repeatable and visible, we need to implement custom recursion on its children
+        if (isRepeatable && (!context.isHidden || leafNodeDeletionOnly)) {
+
+          // prevent the regular recursion behavior of executeRecursivelyOnFields
+          context.preventRecursion = true;
+
+          const repeaterValuePath = this._pathRegistry.getValuePath(field, { indexes });
+          const repeaterValue = get(contextData, repeaterValuePath);
+
+          // quit early if there are no children or data associated with the repeater
+          if (!Array.isArray(repeaterValue) || !repeaterValue.length || !Array.isArray(components) || !components.length) {
+            return;
+          }
+
+          for (let i = 0; i < repeaterValue.length; i++) {
+
+            // create a new scope context for each index
+            const newScopeContext = {
+              indexes: { ...indexes, [id]: i },
+              expressionIndexes: [ ...expressionIndexes, i + 1 ],
+              scopeData: repeaterValue[i],
+              parentScopeData: scopeData
+            };
+
+            // for each child component, apply conditions within the new repetition scope
+            components.forEach(component => {
+              _applyConditionsWithinScope(component, newScopeContext, context.isHidden);
+            });
+
+          }
+
+        }
+
+        // if we have a hidden repeatable field, and the data structure allows, we clear it directly at the root and stop recursion
+        if (context.isHidden && !leafNodeDeletionOnly && isRepeatable) {
+          context.preventRecursion = true;
+          this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
+        }
+
+        // for simple leaf fields, we always clear
+        if (context.isHidden && isClosed) {
+          this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
+        }
+
+      });
+
+    };
+
+    // apply conditions starting with the root of the form
     const form = this._formFieldRegistry.getForm();
 
     if (!form) {
       throw new Error('form field registry has no form');
     }
 
-    this._pathRegistry.executeRecursivelyOnFields(form, ({ field, isClosed, isRepeatable, context }) => {
-      const { conditional: condition } = field;
-
-      context.isHidden = context.isHidden || (condition && this._checkHideCondition(condition, data));
-
-      // if a field is a leaf node (or repeatable, as they behave similarly), and hidden, we need to clear the value from the data from each index
-      if (context.isHidden && (isClosed || isRepeatable)) {
-        this._clearObjectValueRecursively(getFilterPath(field), newProperties);
-      }
+    _applyConditionsWithinScope(form, {
+      scopeData: contextData
     });
 
-    return newProperties;
+    return workingData;
   }
 
   /**
@@ -96,7 +167,7 @@ export default class ConditionChecker {
     return result === true;
   }
 
-  _clearObjectValueRecursively(valuePath, obj) {
+  _cleanlyClearDataAtPath(valuePath, obj) {
     const workingValuePath = [ ...valuePath ];
     let recurse = false;
 
@@ -104,8 +175,16 @@ export default class ConditionChecker {
       set(obj, workingValuePath, undefined);
       workingValuePath.pop();
       const parentObject = get(obj, workingValuePath);
-      recurse = isObject(parentObject) && !values(parentObject).length && !!workingValuePath.length;
+      recurse = !!workingValuePath.length && (this._isEmptyObject(parentObject) || this._isEmptyArray(parentObject));
     } while (recurse);
+  }
+
+  _isEmptyObject(parentObject) {
+    return isObject(parentObject) && !values(parentObject).length;
+  }
+
+  _isEmptyArray(parentObject) {
+    return Array.isArray(parentObject) && (!parentObject.length || parentObject.every(item => item === undefined));
   }
 }
 

@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "components": [
+    {
+      "label": "Hide List",
+      "type": "checkbox",
+      "key": "hideList",
+      "id": "HideList_x"
+    },
+    {
+      "label": "List",
+      "type": "dynamiclist",
+      "path": "list",
+      "id": "List_x",
+      "conditional": {
+        "hide": "=this.hideList"
+      },
+      "isRepeating": true,
+      "components": [
+        {
+          "label": "Element",
+          "type": "number",
+          "key": "element",
+          "id": "Element_x",
+          "conditional": {
+            "hide": "=this.hideElement"
+          },
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Hide Element",
+          "type": "checkbox",
+          "key": "hideElement",
+          "id": "HideElement_x"
+        }
+      ]
+    }
+  ],
+  "type": "default",
+  "id": "Form_0k71hbi",
+  "exporter": {},
+  "schemaVersion": 15
+}

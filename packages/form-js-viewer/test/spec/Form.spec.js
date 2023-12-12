@@ -16,6 +16,7 @@ import customButtonModule from './custom';
 
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
+import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -714,6 +715,69 @@ describe('Form', function() {
         container,
         data: initialData,
         schema: conditionErrorsSchema
+      });
+
+      // when
+      const errors = form.validate();
+
+      // then
+      expect(errors).to.be.empty;
+    });
+
+
+    it('should NOT add errors for hidden dynamic list elements', async function() {
+
+      // given
+      const initialData = {
+        hideList: false,
+        list: [
+          {
+            element: null,
+            hideElement: true
+          },
+          {
+            element: null,
+            hideElement: false
+          },
+        ]
+      };
+
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema: conditionErrorsDynamicListSchema
+      });
+
+      // when
+      const errors = form.validate();
+
+      // then
+      expect(errors['Element_x'][0]).to.be.undefined;
+      expect(errors['Element_x'][1]).to.not.be.empty;
+    });
+
+
+    it('should NOT add errors for fully hidden dynamic list', async function() {
+
+      // given
+      const initialData = {
+        hideList: true,
+        list: [
+          {
+            element: null,
+            hideElement: true
+          },
+          {
+            element: null,
+            hideElement: false
+          },
+        ]
+      };
+
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema: conditionErrorsDynamicListSchema
       });
 
       // when

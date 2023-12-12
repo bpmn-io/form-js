@@ -256,7 +256,7 @@ export default class Form {
 
     const workingErrors = {};
     validateFieldRecursively(workingErrors, formFieldRegistry.getForm());
-    const filteredErrors = this._applyConditions(workingErrors, data, { getFilterPath: getErrorPath });
+    const filteredErrors = this._applyConditions(workingErrors, data, { getFilterPath: getErrorPath, leafNodeDeletionOnly: true });
     this._setState({ errors: filteredErrors });
 
     return filteredErrors;
