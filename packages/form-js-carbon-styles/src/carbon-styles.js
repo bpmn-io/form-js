@@ -390,7 +390,7 @@ const LABEL_DESCRIPTION_ERROR_STYLES = css`
       letter-spacing: var(--cds-label-01-letter-spacing);
     }
 
-    .fjs-form-field:not(.fjs-form-field-checkbox, .fjs-form-field-group)
+    .fjs-form-field:not(.fjs-form-field-checkbox, .fjs-form-field-grouplike)
       .fjs-form-field-label:first-child {
       margin: 0;
       margin-bottom: var(--cds-spacing-03);

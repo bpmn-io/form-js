@@ -30,6 +30,30 @@
       ]
     },
     {
+      "id": "DynamicList_1",
+      "type": "dynamiclist",
+      "label": "Clients",
+      "path": "clients",
+      "showOutline": true,
+      "isRepeating": true,
+      "defaultRepetitions": 2,
+      "allowAddRemove": true,
+      "components": [
+        {
+          "id": "DynamicListTextField_1",
+          "type": "textfield",
+          "key": "clientSurname",
+          "label": "Surname"
+        },
+        {
+          "id": "DynamicListTextField_2",
+          "type": "textfield",
+          "key": "clientName",
+          "label": "Name"
+        }
+      ]
+    },
+    {
       "id": "Textfield_1",
       "key": "creditor",
       "label": "Creditor",

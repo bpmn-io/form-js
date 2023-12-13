@@ -1,24 +1,19 @@
 import { isArray, isObject, isNil } from 'min-dash';
-import { useContext, useEffect, useLayoutEffect, useRef } from 'preact/hooks';
-
-import { FormContext } from '../../context';
+import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
+import { formFieldClasses } from '../Util';
 
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
-import {
-  formFieldClasses,
-  prefixId
-} from '../Util';
-
 const type = 'textarea';
-
 
 export default function Textarea(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -28,7 +23,6 @@ export default function Textarea(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;
@@ -52,18 +46,15 @@ export default function Textarea(props) {
     autoSizeTextarea(textareaRef.current);
   }, []);
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
-
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
-      id={ prefixId(id, formId) }
+      id={ domId }
       label={ label }
       required={ required } />
     <textarea class="fjs-textarea"
       disabled={ disabled }
       readonly={ readonly }
-      id={ prefixId(id, formId) }
+      id={ domId }
       onInput={ onInput }
       onBlur={ () => onBlur && onBlur() }
       onFocus={ () => onFocus && onFocus() }

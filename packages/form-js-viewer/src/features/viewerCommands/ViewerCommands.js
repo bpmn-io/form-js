@@ -21,10 +21,11 @@ export default class ViewerCommands {
     };
   }
 
-  updateFieldValidation(field, value) {
+  updateFieldValidation(field, value, indexes) {
     const context = {
       field,
-      value
+      value,
+      indexes
     };
 
     this._commandStack.execute('formField.validation.update', context);

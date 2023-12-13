@@ -4,6 +4,10 @@ import {
   merge
 } from 'min-dash';
 
+import { FormEditorContext } from '../../src/render/context';
+
+import { createMockInjector } from './mocks';
+
 import { act } from 'preact/test-utils';
 
 import TestContainer from 'mocha-test-container-support';
@@ -179,3 +183,31 @@ export async function setEditorValue(editor, value) {
 }
 
 export { expectNoViolations } from '../../../form-js-viewer/test/helper';
+
+export function countComponents(root) {
+
+  if (!Array.isArray(root.components)) {
+    return 1;
+  }
+
+  return root.components.reduce((count, component) => count + countComponents(component), 1);
+}
+
+export const MockEditorContext = (props) => {
+
+  const {
+    services,
+    options
+  } = props;
+
+  const formEditorContext = {
+    getService: (type, strict) => createMockInjector(services, options).get(type, strict),
+  };
+
+  return (
+    <FormEditorContext.Provider value={ formEditorContext }>
+      { props.children }
+    </FormEditorContext.Provider>
+  );
+
+};

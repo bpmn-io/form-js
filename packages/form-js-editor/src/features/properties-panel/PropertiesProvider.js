@@ -6,7 +6,7 @@ import {
   SerializationGroup,
   ConstraintsGroup,
   ValidationGroup,
-  ValuesGroups,
+  OptionsGroups,
   LayoutGroup,
   TableHeaderGroups
 } from './groups';
@@ -67,7 +67,7 @@ export default class PropertiesProvider {
         LayoutGroup(field, editField),
         AppearanceGroup(field, editField),
         SerializationGroup(field, editField),
-        ...ValuesGroups(field, editField, getService),
+        ...OptionsGroups(field, editField, getService),
         ConstraintsGroup(field, editField),
         ValidationGroup(field, editField),
         CustomPropertiesGroup(field, editField)

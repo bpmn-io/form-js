@@ -1,5 +1,5 @@
 import { isArray } from 'min-dash';
-import { clone } from '../util';
+import { clone, getAncestryList } from '../util';
 
 /**
  * The PathRegistry class manages a hierarchical structure of paths associated with form fields.
@@ -33,39 +33,70 @@ import { clone } from '../util';
  *   ]
  */
 export default class PathRegistry {
-  constructor(formFieldRegistry, formFields) {
+  constructor(formFieldRegistry, formFields, injector) {
     this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;
+    this._injector = injector;
     this._dataPaths = [];
   }
 
-  canClaimPath(path, closed = false) {
+  canClaimPath(path, options = {}) {
+
+    const {
+      isClosed = false,
+      isRepeatable = false,
+      skipAncestryCheck = false,
+      claimerId = null,
+      knownAncestorIds = []
+    } = options;
 
     let node = { children: this._dataPaths };
 
+    // (1) if we reach a leaf node, we cannot claim it, if we reach an open node, we can
+    // if we reach a repeatable node, we need to ensure that the claimer is (or will be) an ancestor of the repeater
     for (const segment of path) {
 
       node = _getNextSegment(node, segment);
 
-      // if no node at that path, we can claim it no matter what
       if (!node) {
         return true;
       }
 
-      // if we reach a leaf node, definitely not claimable
+      if (node.isRepeatable && !skipAncestryCheck) {
+
+        if (!(claimerId || knownAncestorIds.length)) {
+          throw new Error('cannot claim a path that contains a repeater without specifying a claimerId or knownAncestorIds');
+        }
+
+        const isValidRepeatClaim =
+          knownAncestorIds.includes(node.repeaterId) ||
+          claimerId && getAncestryList(claimerId, this._formFieldRegistry).includes(node.repeaterId);
+
+        if (!isValidRepeatClaim) {
+          return false;
+        }
+      }
+
       if (node.children === null) {
         return false;
       }
 
     }
 
-    // if after all segments we reach a node with children, we can claim it only openly
-    return !closed;
+    // (2) if the path lands in the middle of the tree, we can only claim an open, non-repeatable path
+    return !(isClosed || isRepeatable);
   }
 
-  claimPath(path, closed = false) {
+  claimPath(path, options = {}) {
 
-    if (!this.canClaimPath(path, closed)) {
+    const {
+      isClosed = false,
+      isRepeatable = false,
+      claimerId = null,
+      knownAncestorIds = []
+    } = options;
+
+    if (!this.canClaimPath(path, { isClosed, isRepeatable, claimerId, knownAncestorIds })) {
       throw new Error(`cannot claim path '${ path.join('.') }'`);
     }
 
@@ -86,9 +117,16 @@ export default class PathRegistry {
       node = child;
     }
 
-    if (closed) {
+    if (isClosed) {
       node.children = null;
     }
+
+    // add some additional info when we make a repeatable path claim
+    if (isRepeatable) {
+      node.isRepeatable = true;
+      node.repeaterId = claimerId;
+    }
+
   }
 
   unclaimPath(path) {
@@ -137,20 +175,25 @@ export default class PathRegistry {
     const formFieldConfig = this._formFields.get(field.type).config;
 
     if (formFieldConfig.keyed) {
-      const callResult = fn({ field, isClosed: true, context });
+      const callResult = fn({ field, isClosed: true, isRepeatable: false, context });
       return result && callResult;
     }
     else if (formFieldConfig.pathed) {
-      const callResult = fn({ field, isClosed: false, context });
+      const callResult = fn({ field, isClosed: false, isRepeatable: formFieldConfig.repeatable, context });
       result = result && callResult;
     }
 
-    if (field.components) {
+    // stop executing if false is specifically returned or if preventing recursion
+    if (result === false || context.preventRecursion) {
+      return result;
+    }
+
+    if (Array.isArray(field.components)) {
       for (const child of field.components) {
         const callResult = this.executeRecursivelyOnFields(child, fn, clone(context));
         result = result && callResult;
 
-        // only stop executing if false is specifically returned, not if undefined
+        // stop executing if false is specifically returned
         if (result === false) {
           return result;
         }
@@ -166,6 +209,7 @@ export default class PathRegistry {
    * @param {Object} field - The field object with properties: `key`, `path`, `id`, and optionally `_parent`.
    * @param {Object} [options={}] - Configuration options.
    * @param {Object} [options.replacements={}] - A map of field IDs to alternative path arrays.
+   * @param {Object} [options.indexes=null] - A map of parent IDs to the index of the field within said parent, leave null to get an unindexed path.
    * @param {Object} [options.cutoffNode] - The ID of the parent field at which to stop generating the path.
    *
    * @returns {(Array<string>|undefined)} An array of strings representing the binding path, or undefined if not determinable.
@@ -173,6 +217,7 @@ export default class PathRegistry {
   getValuePath(field, options = {}) {
     const {
       replacements = {},
+      indexes = null,
       cutoffNode = null
     } = options;
 
@@ -181,6 +226,7 @@ export default class PathRegistry {
     const hasReplacement = Object.prototype.hasOwnProperty.call(replacements, field.id);
     const formFieldConfig = this._formFields.get(field.type).config;
 
+    // uses path overrides instead of true path to calculate a potential value path
     if (hasReplacement) {
       const replacement = replacements[field.id];
 
@@ -200,6 +246,12 @@ export default class PathRegistry {
       localValuePath = field.path.split('.');
     }
 
+    // add potential indexes of repeated fields
+    if (indexes) {
+      localValuePath = this._addIndexes(localValuePath, field, indexes);
+    }
+
+    // if parent exists and isn't cutoff node, add parent's value path
     if (field._parent && field._parent !== cutoffNode) {
       const parent = this._formFieldRegistry.get(field._parent);
       return [ ...(this.getValuePath(parent, options) || []), ...localValuePath ];
@@ -211,6 +263,17 @@ export default class PathRegistry {
   clear() {
     this._dataPaths = [];
   }
+
+  _addIndexes(localValuePath, field, indexes) {
+
+    const repeatRenderManager = this._injector.get('repeatRenderManager', false);
+
+    if (repeatRenderManager && repeatRenderManager.isFieldRepeating(field._parent)) {
+      return [ indexes[field._parent], ...localValuePath ];
+    }
+
+    return localValuePath;
+  }
 }
 
 const _getNextSegment = (node, segment) => {
@@ -218,4 +281,4 @@ const _getNextSegment = (node, segment) => {
   return null;
 };
 
-PathRegistry.$inject = [ 'formFieldRegistry', 'formFields' ];
+PathRegistry.$inject = [ 'formFieldRegistry', 'formFields', 'injector' ];

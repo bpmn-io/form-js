@@ -24,15 +24,15 @@ export default class UpdatePathClaimHandler {
     const valuePaths = [];
 
     if (claiming) {
-      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
+      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed, isRepeatable }) => {
         const valuePath = this._pathRegistry.getValuePath(field, options);
-        valuePaths.push({ valuePath, isClosed });
-        this._pathRegistry.claimPath(valuePath, isClosed);
+        valuePaths.push({ valuePath, isClosed, isRepeatable, claimerId: field.id });
+        this._pathRegistry.claimPath(valuePath, { isClosed, isRepeatable, claimerId: field.id });
       });
     } else {
-      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
+      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed, isRepeatable }) => {
         const valuePath = this._pathRegistry.getValuePath(field, options);
-        valuePaths.push({ valuePath, isClosed });
+        valuePaths.push({ valuePath, isClosed, isRepeatable, claimerId: field.id });
         this._pathRegistry.unclaimPath(valuePath);
       });
     }
@@ -52,8 +52,12 @@ export default class UpdatePathClaimHandler {
         this._pathRegistry.unclaimPath(valuePath);
       });
     } else {
-      valuePaths.forEach(({ valuePath, isClosed }) => {
-        this._pathRegistry.claimPath(valuePath, isClosed);
+      valuePaths.forEach(({ valuePath, isClosed, isRepeatable, claimerId }) => {
+        this._pathRegistry.claimPath(valuePath, {
+          isClosed,
+          isRepeatable,
+          claimerId
+        });
       });
     }
   }

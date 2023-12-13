@@ -1,28 +1,24 @@
 import { useContext } from 'preact/hooks';
-import Grid from './parts/Grid';
-import { FormContext, FormRenderContext } from '../../context';
-import { formFieldClasses, prefixId } from '../Util';
+import { FormRenderContext } from '../../context';
+import { formFieldClasses } from '../Util';
 import Label from '../Label';
 import classNames from 'classnames';
+import ChildrenRenderer from './parts/ChildrenRenderer';
 
 export default function Group(props) {
 
-  const { field } = props;
-  const { label, id, type, showOutline } = field;
-  const { formId } = useContext(FormContext);
-
-  const {
-    Empty,
-  } = useContext(FormRenderContext);
+  const { field, domId } = props;
+  const { label, type, showOutline } = field;
+  const { Empty } = useContext(FormRenderContext);
 
   const fullProps = { ...props, Empty };
 
   return (
-    <div className={ classNames(formFieldClasses(type), { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ prefixId(id, formId) }>
+    <div className={ classNames(formFieldClasses(type), 'fjs-form-field-grouplike' , { 'fjs-outlined' : showOutline }) } role="group" aria-labelledby={ domId }>
       <Label
-        id={ prefixId(id, formId) }
+        id={ domId }
         label={ label } />
-      <Grid { ...fullProps } />
+      <ChildrenRenderer { ...fullProps } />
     </div>
   );
 }

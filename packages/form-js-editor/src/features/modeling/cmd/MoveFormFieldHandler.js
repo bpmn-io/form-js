@@ -112,8 +112,12 @@ export default class MoveFormFieldHandler {
       get(schema, targetPath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
       // (7) Reregister form field (and children) from path registry
-      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
-        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), isClosed);
+      this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed, isRepeatable }) => {
+        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), {
+          isClosed,
+          isRepeatable,
+          claimerId: field.id
+        });
       });
     }
 

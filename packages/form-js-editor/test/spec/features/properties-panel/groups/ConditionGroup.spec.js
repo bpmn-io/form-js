@@ -6,7 +6,7 @@ import {
 
 import { ConditionGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 
 import { INPUTS } from '../../../../../src/features/properties-panel/Util';
 
@@ -135,10 +135,11 @@ function renderConditionGroup(options) {
 
   const groups = [ ConditionGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    <MockPropertiesPanelContext options={ options }>
+      <TestPropertiesPanel field={ field } groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function changeInput(element, value) {

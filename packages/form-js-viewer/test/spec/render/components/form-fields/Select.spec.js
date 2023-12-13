@@ -11,7 +11,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -44,27 +44,29 @@ describe('Select', function() {
       expect(formField).to.exist;
       expect(formField.classList.contains('fjs-form-field-select')).to.be.true;
 
-      const select = formField.querySelector('.fjs-input-group');
+      const inputGroup = formField.querySelector('.fjs-input-group');
 
-      expect(select).to.exist;
-      expect(select.id).to.equal('fjs-form-foo-Select_1');
+      expect(inputGroup).to.exist;
 
-      const display = select.querySelector('.fjs-select-display');
+      const display = inputGroup.querySelector('.fjs-select-display');
 
       expect(display).to.exist;
       expect(display.innerText).to.equal('German');
 
-      const cross = select.querySelector('.fjs-select-cross');
+      const cross = inputGroup.querySelector('.fjs-select-cross');
       expect(cross).to.exist;
 
-      const arrow = select.querySelector('.fjs-select-arrow');
+      const arrow = inputGroup.querySelector('.fjs-select-arrow');
       expect(arrow).to.exist;
 
       const label = container.querySelector('label');
-
       expect(label).to.exist;
       expect(label.textContent).to.equal('Language');
-      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1-search');
+      expect(label.htmlFor).to.equal('test-select');
+
+      const input = container.querySelector('input');
+      expect(input).to.exist;
+      expect(input.id).to.equal('test-select');
     });
 
 
@@ -181,12 +183,16 @@ describe('Select', function() {
       const options = { container: container.querySelector('.fjs-form') };
 
       const { rerender } = render(
-        WithFormContext(<Select { ...props } value={ 'german' } />, options)
+        <MockFormContext options={ options }>
+          <Select { ...props } value={ 'german' } />
+        </MockFormContext>
         , options);
 
       // when
       rerender(
-        WithFormContext(<Select { ...props } value={ 'english' } />, options)
+        <MockFormContext options={ options }>
+          <Select { ...props } value={ 'english' } />
+        </MockFormContext>
         , options);
 
       // then
@@ -416,16 +422,22 @@ describe('Select', function() {
         // given
         const onChangeSpy = spy();
 
+        const options = [
+          ...expressionFieldInitialData.list1,
+          ...expressionFieldInitialData.list2
+        ];
+
         const { container } = createSelect({
           onChange: onChangeSpy,
           value: 'value2',
-          isExpression: () => true,
-          evaluateExpression: () => [
-            ...expressionFieldInitialData.list1,
-            ...expressionFieldInitialData.list2
-          ],
           field: expressionField,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options
+            }
+          }
         });
 
         const select = container.querySelector('.fjs-input-group');
@@ -458,10 +470,14 @@ describe('Select', function() {
         const { container } = createSelect({
           onChange: onChangeSpy,
           value: 'value2',
-          isExpression: () => true,
-          evaluateExpression: () => options,
           field: expressionField,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options
+            }
+          }
         });
 
         const select = container.querySelector('.fjs-input-group');
@@ -492,10 +508,14 @@ describe('Select', function() {
         let result = createSelect({
           onChange: onChangeSpy,
           value: 'value2',
-          isExpression: () => true,
-          evaluateExpression: () => options,
           field: expressionField,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options
+            }
+          }
         });
 
         const select = result.container.querySelector('.fjs-input-group');
@@ -516,8 +536,12 @@ describe('Select', function() {
 
         createSelect({
           field: expressionField,
-          isExpression: () => true,
-          evaluateExpression: () => options
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options
+            }
+          }
         }, result.rerender);
 
         // then
@@ -545,10 +569,14 @@ describe('Select', function() {
         let result = createSelect({
           onChange: onChangeSpy,
           value: 'value2',
-          isExpression: () => true,
-          evaluateExpression: () => options,
           field: expressionField,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options,
+            }
+          }
         });
 
         const select = result.container.querySelector('.fjs-input-group');
@@ -568,7 +596,12 @@ describe('Select', function() {
         createSelect({
           field: dynamicField,
           isExpression: () => false,
-          initialData: dynamicFieldInitialData
+          initialData: dynamicFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => false
+            }
+          }
         }, result.rerender);
 
         // assume
@@ -579,13 +612,17 @@ describe('Select', function() {
 
         // and when
         createSelect({
+          initialData: expressionFieldInitialData,
           field: {
             ...expressionField,
             valuesExpression: '='
           },
-          isExpression: () => true,
-          evaluateExpression: () => null,
-          initialData: expressionFieldInitialData
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => null,
+            }
+          }
         }, result.rerender);
 
         // assume
@@ -594,9 +631,13 @@ describe('Select', function() {
         // and when
         createSelect({
           field: expressionField,
-          isExpression: () => true,
-          evaluateExpression: () => options,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options,
+            }
+          }
         }, result.rerender);
 
         // expect
@@ -614,16 +655,22 @@ describe('Select', function() {
         // given
         const onChangeSpy = spy();
 
+        const options = [
+          ...expressionFieldInitialData.list1,
+          ...expressionFieldInitialData.list2
+        ];
+
         const { container } = createSelect({
           onChange: onChangeSpy,
           value: 'value1',
-          isExpression: () => true,
-          evaluateExpression: () => [
-            ...expressionFieldInitialData.list1,
-            ...expressionFieldInitialData.list2
-          ],
           field: expressionField,
-          initialData: expressionFieldInitialData
+          initialData: expressionFieldInitialData,
+          services: {
+            expressionLanguage: {
+              isExpression: () => true,
+              evaluate: () => options
+            }
+          }
         });
 
         // when
@@ -659,27 +706,29 @@ describe('Select', function() {
       expect(formField).to.exist;
       expect(formField.classList.contains('fjs-form-field-select')).to.be.true;
 
-      const select = formField.querySelector('.fjs-input-group');
+      const inputGroup = formField.querySelector('.fjs-input-group');
 
-      expect(select).to.exist;
-      expect(select.id).to.equal('fjs-form-foo-Select_1');
+      expect(inputGroup).to.exist;
 
       const filter = container.querySelector('input[type="text"]');
 
       expect(filter).to.exist;
       expect(filter.value).to.equal('German');
 
-      const cross = select.querySelector('.fjs-select-cross');
+      const cross = inputGroup.querySelector('.fjs-select-cross');
       expect(cross).to.exist;
 
-      const arrow = select.querySelector('.fjs-select-arrow');
+      const arrow = inputGroup.querySelector('.fjs-select-arrow');
       expect(arrow).to.exist;
 
       const label = container.querySelector('label');
-
       expect(label).to.exist;
       expect(label.textContent).to.equal('Language');
-      expect(label.htmlFor).to.equal('fjs-form-foo-Select_1-search');
+      expect(label.htmlFor).to.equal('test-select');
+
+      const input = container.querySelector('input');
+      expect(input).to.exist;
+      expect(input.id).to.equal('test-select');
     });
 
 
@@ -790,13 +839,18 @@ describe('Select', function() {
 
       const options = { container: container.querySelector('.fjs-form') };
 
+
       const { rerender } = render(
-        WithFormContext(<Select { ...props } value={ 'german' } />, options)
+        <MockFormContext options={ options }>
+          <Select { ...props } value={ 'german' } />
+        </MockFormContext>
         , options);
 
       // when
       rerender(
-        WithFormContext(<Select { ...props } value={ 'english' } />, options)
+        <MockFormContext options={ options }>
+          <Select { ...props } value={ 'english' } />
+        </MockFormContext>
         , options);
 
       // then
@@ -831,8 +885,12 @@ describe('Select', function() {
 
       // when
       const eventBusFireSpy = spy();
+      const eventBus = {
+        fire: eventBusFireSpy
+      };
+
       const field = { ...defaultField, searchable: true };
-      const { container } = createSelect({ field, eventBusFire: eventBusFireSpy });
+      const { container } = createSelect({ field, services: { eventBus } });
 
       const filterInput = container.querySelector('input[type="text"]');
       fireEvent.focus(filterInput);
@@ -1243,34 +1301,35 @@ const expressionFieldInitialData = {
   ]
 };
 
-function createSelect(options = {}, renderFn = render) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    searchable = false,
-    onBlur,
-    onFocus,
-    onChange = () => {},
-    value
-  } = options;
+function createSelect({ services, ...restOptions } = {}, renderFn = render) {
 
-  return renderFn(WithFormContext(
-    <Select
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onBlur={ onBlur }
-      onFocus={ onFocus }
-      onChange={ onChange }
-      searchable={ searchable }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-select',
+    field: defaultField,
+    searchable: false,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return renderFn(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Select
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        domId={ options.domId }
+        field={ options.field }
+        onBlur={ options.onBlur }
+        onFocus={ options.onFocus }
+        onChange={ options.onChange }
+        searchable={ options.searchable }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }
 
 function getSelectValues(container) {

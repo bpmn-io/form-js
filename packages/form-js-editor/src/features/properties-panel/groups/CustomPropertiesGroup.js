@@ -52,7 +52,7 @@ export default function CustomPropertiesGroup(field, editField) {
       return editField(field, [ 'properties' ], removeKey(properties, key));
     };
 
-    const id = `${ field.id }-property-${ index }`;
+    const id = `property-${ index }`;
 
     return {
       autoFocusEntry: id + '-key',

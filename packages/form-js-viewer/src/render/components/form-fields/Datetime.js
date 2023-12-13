@@ -23,6 +23,7 @@ export default function Datetime(props) {
   const {
     disabled,
     errors = [],
+    domId,
     onBlur,
     onFocus,
     field,
@@ -151,12 +152,11 @@ export default function Datetime(props) {
   const errorMessageId = allErrors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
 
   const datePickerProps = {
-    id,
     label: dateLabel,
     collapseLabelOnEmpty: !timeLabel,
     onDateTimeBlur,
     onDateTimeFocus,
-    formId,
+    domId: `${domId}-date`,
     required,
     disabled,
     disallowPassedDates,
@@ -165,13 +165,13 @@ export default function Datetime(props) {
     setDate,
     'aria-describedby': errorMessageId
   };
+
   const timePickerProps = {
-    id,
     label: timeLabel,
     collapseLabelOnEmpty: !dateLabel,
     onDateTimeBlur,
     onDateTimeFocus,
-    formId,
+    domId: `${domId}-time`,
     required,
     disabled,
     readonly,

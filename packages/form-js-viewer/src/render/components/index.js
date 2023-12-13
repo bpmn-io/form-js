@@ -13,6 +13,7 @@ import Radio from './form-fields/Radio';
 import Select from './form-fields/Select';
 import Separator from './form-fields/Separator';
 import Spacer from './form-fields/Spacer';
+import DynamicList from './form-fields/DynamicList';
 import Taglist from './form-fields/Taglist';
 import Text from './form-fields/Text';
 import Textfield from './form-fields/Textfield';
@@ -39,6 +40,7 @@ export {
   FormField,
   Group,
   IFrame,
+  DynamicList,
   Image,
   Numberfield,
   Radio,
@@ -59,6 +61,7 @@ export const formFields = [
   Default,
   Group,
   IFrame,
+  DynamicList,
   Image,
   Numberfield,
   Datetime,
@@ -66,6 +69,7 @@ export const formFields = [
   Select,
   Spacer,
   Separator,
+  DynamicList,
   Taglist,
   Text,
   Textfield,

@@ -10,7 +10,11 @@
       }
     },
     {
-      "id": "Group_1",
+      "type": "iframe",
+      "label": "The bpmn-io web page",
+      "url": "https://bpmn.io/"
+    },
+    {
       "type": "group",
       "label": "Supplementary Information",
       "path": "invoiceDetails",
@@ -31,9 +35,27 @@
       ]
     },
     {
-      "type": "iframe",
-      "label": "The bpmn-io web page",
-      "url": "https://bpmn.io/"
+      "type": "dynamiclist",
+      "label": "Clients",
+      "path": "clients",
+      "showOutline": true,
+      "isRepeating": true,
+      "defaultRepetitions": 2,
+      "allowAddRemove": true,
+      "components": [
+        {
+          "id": "DynamicListTextField_1",
+          "type": "textfield",
+          "key": "clientSurname",
+          "label": "Surname"
+        },
+        {
+          "id": "DynamicListTextField_2",
+          "type": "textfield",
+          "key": "clientName",
+          "label": "Name"
+        }
+      ]
     },
     {
       "key": "creditor",

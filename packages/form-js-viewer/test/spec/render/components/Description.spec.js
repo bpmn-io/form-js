@@ -9,7 +9,7 @@ import {
   expectNoViolations
 } from '../../../TestHelper';
 
-import { WithFormContext } from './form-fields/helper';
+import { MockFormContext } from './helper';
 
 let container;
 
@@ -104,17 +104,15 @@ describe('Description', function() {
       // Firefox + Ubuntu has problems with the description element on its own
       // cf. https://github.com/bpmn-io/form-js/pull/824
       const result =
-        render(WithFormContext(
-          <>
+        render(
+          <MockFormContext>
             <label for="foo">Foo</label>
             <input id="foo" />
             <Description
               id="foo"
               description="This a description" />
-          </>
-        ), {
-          container
-        });
+          </MockFormContext>
+          , { container });
 
       // then
       await expectNoViolations(result.container);
@@ -126,22 +124,22 @@ describe('Description', function() {
 
 // helpers //////////
 
-function createDescription(options = {}) {
-  const {
-    description,
-    id,
-    initialData
-  } = options;
+function createDescription({ services, ...restOptions }) {
 
-  return render(WithFormContext(
-    <Description
-      id={ id }
-      description={ description } />,
+  const options = {
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Description
+        id={ options.id }
+        description={ options.description } />
+    </MockFormContext>,
     {
-      ...options,
-      initialData
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

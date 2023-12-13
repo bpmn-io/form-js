@@ -7,7 +7,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -1225,25 +1225,30 @@ const datetimeField = {
   timeInterval: 15
 };
 
-function createDatetime(options = {}) {
-  const {
-    disabled,
-    readonly,
-    field = dateField,
-    value,
-    onChange = () => {},
-    errors
-  } = options;
+function createDatetime({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Datetime
-      disabled={ disabled }
-      readonly={ readonly }
-      field={ field }
-      value={ value }
-      onChange={ onChange }
-      errors={ errors } />,
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-datetime',
+    field: dateField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Datetime
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        field={ options.field }
+        value={ options.value }
+        domId={ options.domId }
+        onBlur={ options.onBlur }
+        onChange={ options.onChange }
+        errors={ options.errors } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

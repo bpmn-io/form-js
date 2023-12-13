@@ -7,7 +7,7 @@ import { FormFields } from '@bpmn-io/form-js-viewer';
 
 import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from './helper';
+import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
 
 describe('PropertiesPanelHeaderProvider', function() {
@@ -80,7 +80,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const label = container.querySelector('.bio-properties-panel-header-type');
@@ -108,7 +108,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const customIcon = container.querySelector('.custom-icon');
@@ -135,7 +135,7 @@ describe('PropertiesPanelHeaderProvider', function() {
       const field = { type: 'custom' };
 
       // when
-      const { container } = renderHeader({ field, formFields });
+      const { container } = renderHeader({ field, services: { formFields } });
 
       // then
       const customIcon = container.querySelector('.fjs-field-icon-image');
@@ -150,16 +150,18 @@ describe('PropertiesPanelHeaderProvider', function() {
 
 // helpers /////////
 
-function renderHeader(options) {
-  const {
-    field,
-    formFields
-  } = options;
+function renderHeader({ services, ...restOptions }) {
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    headerProvider: PropertiesPanelHeaderProvider
-  }), {
-    formFields
-  }));
+  const defaultField = { type: 'textfield' };
+
+  const options = {
+    field: defaultField,
+    ...restOptions
+  };
+
+  return render(
+    <MockPropertiesPanelContext options={ options } services={ services }>
+      <TestPropertiesPanel field={ options.field } headerProvider={ PropertiesPanelHeaderProvider } />
+    </MockPropertiesPanelContext>
+  );
 }

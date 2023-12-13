@@ -30,7 +30,19 @@ module.exports = function(karma) {
       `test/distro/${variant}.js`
     ],
 
-    reporters: [ 'progress' ],
+    reporters: [ 'spec' ],
+
+    specReporter: {
+      maxLogLines: 10,
+      suppressSummary: true,
+      suppressErrorSummary: false,
+      suppressFailed: false,
+      suppressPassed: false,
+      suppressSkipped: true,
+      showBrowser: false,
+      showSpecTiming: false,
+      failFast: false
+    },
 
     browsers,
 

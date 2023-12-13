@@ -24,9 +24,9 @@ describe('features/modeling - PathBehavior', function() {
           sourceIndex = parent.components.indexOf(group);
 
     // then
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails' ], true)).to.be.false;
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails', 'supplementaryInfo1' ], true)).to.be.false;
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails', 'supplementaryInfo2' ], true)).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails' ], { isClosed: true })).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails', 'supplementaryInfo1' ], { isClosed: true })).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails', 'supplementaryInfo2' ], { isClosed: true })).to.be.false;
 
     // but when
     modeling.removeFormField(
@@ -56,13 +56,13 @@ describe('features/modeling - PathBehavior', function() {
     );
 
     // then
-    expect(pathRegistry.canClaimPath([ oldPath ], true)).to.be.true;
-    expect(pathRegistry.canClaimPath([ oldPath, 'supplementaryInfo1' ], true)).to.be.true;
-    expect(pathRegistry.canClaimPath([ oldPath, 'supplementaryInfo2' ], true)).to.be.true;
+    expect(pathRegistry.canClaimPath([ oldPath ], { isClosed: true })).to.be.true;
+    expect(pathRegistry.canClaimPath([ oldPath, 'supplementaryInfo1' ], { isClosed: true })).to.be.true;
+    expect(pathRegistry.canClaimPath([ oldPath, 'supplementaryInfo2' ], { isClosed: true })).to.be.true;
 
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails2' ], true)).to.be.false;
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails2', 'supplementaryInfo1' ], true)).to.be.false;
-    expect(pathRegistry.canClaimPath([ 'invoiceDetails2', 'supplementaryInfo2' ], true)).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails2' ], { isClosed: true })).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails2', 'supplementaryInfo1' ], { isClosed: true })).to.be.false;
+    expect(pathRegistry.canClaimPath([ 'invoiceDetails2', 'supplementaryInfo2' ], { isClosed: true })).to.be.false;
   }));
 
 });

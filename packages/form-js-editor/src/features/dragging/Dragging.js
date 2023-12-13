@@ -1,6 +1,7 @@
 import dragula from '@bpmn-io/draggle';
 
 import { set as setCursor } from '../../render/util/Cursor';
+import { getAncestryList } from '@bpmn-io/form-js-viewer';
 
 export const DRAG_CONTAINER_CLS = 'fjs-drag-container';
 export const DROP_CONTAINER_VERTICAL_CLS = 'fjs-drop-container-vertical';
@@ -111,13 +112,13 @@ export default class Dragging {
 
         if (targetParentPath.join('.') !== currentParentPath.join('.')) {
 
-          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed }) => {
+          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed, isRepeatable }) => {
             const options = {
               cutoffNode: currentParentFormField.id,
             };
 
             const fieldPath = this._pathRegistry.getValuePath(field, options);
-            return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], isClosed);
+            return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], { isClosed, isRepeatable, knownAncestorIds: getAncestryList(targetParentId, this._formFieldRegistry) });
           });
 
           if (!isDropAllowedByPathRegistry) {

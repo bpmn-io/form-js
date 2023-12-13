@@ -26,7 +26,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(schema);
 
-    expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
+    expect(variables).to.eql([ 'invoiceDetails', 'clients', 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
   });
 
 
@@ -34,7 +34,7 @@ describe('util/getSchemaVariables', () => {
 
     const variables = getSchemaVariables(schema, { inputs: false });
 
-    expect(variables).to.eql([ 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
+    expect(variables).to.eql([ 'invoiceDetails', 'clients', 'creditor', 'invoiceNumber', 'amount', 'approved', 'approvedBy', 'approverComments', 'product', 'mailto', 'language', 'conversation', 'tags' ]);
   });
 
 

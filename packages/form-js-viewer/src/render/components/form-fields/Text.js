@@ -9,7 +9,6 @@ import {
 
 const type = 'text';
 
-
 export default function Text(props) {
 
   const form = useService('form');

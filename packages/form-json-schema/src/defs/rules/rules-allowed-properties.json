@@ -345,6 +345,29 @@
     {
       "if": {
         "not": {
+          "properties": {
+            "type": {
+              "const": "dynamiclist"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "isRepeating": false,
+          "defaultRepetitions": false,
+          "allowAddRemove": false,
+          "disableCollapse": false,
+          "nonCollapsedItems": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
           "$ref": "../field-types/inputs.json"
         }
       },

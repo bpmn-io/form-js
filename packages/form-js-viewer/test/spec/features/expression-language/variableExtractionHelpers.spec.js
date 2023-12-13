@@ -1,4 +1,4 @@
-import { getFlavouredFeelVariableNames } from '../../../../src/features/expression-language/variableExtractionHelpers';
+import { getFlavouredFeelVariableNames } from '../../../../src/features/expressionLanguage/variableExtractionHelpers';
 
 describe('getFlavouredFeelVariableNames', () => {
 

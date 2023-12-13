@@ -5,7 +5,7 @@ import {
 
 import { AppearanceGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
 
@@ -224,10 +224,11 @@ function renderAppearanceGroup(options) {
 
   const groups = [ AppearanceGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    <MockPropertiesPanelContext options={ options }>
+      <TestPropertiesPanel field={ field } groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function findFeelers(id, container) {

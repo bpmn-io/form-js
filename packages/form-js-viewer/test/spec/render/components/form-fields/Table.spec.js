@@ -7,7 +7,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -122,6 +122,7 @@ describe('Table', function() {
         date: '2020-01-02'
       }
     ];
+
     const { container } = createTable({
       initialData: {
         data: DATA
@@ -131,8 +132,12 @@ describe('Table', function() {
         columns: MOCK_COLUMNS,
         dataSource: '=data'
       },
-      isExpression: () => true,
-      evaluateExpression: () => DATA
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => DATA
+        }
+      }
     });
 
     // then
@@ -188,8 +193,12 @@ describe('Table', function() {
         dataSource: '=data',
         rowCount: 1
       },
-      isExpression: () => true,
-      evaluateExpression: () => DATA
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => DATA
+        }
+      }
     });
 
     // then
@@ -261,8 +270,12 @@ describe('Table', function() {
         dataSource: '=data',
         rowCount: 1
       },
-      isExpression: () => true,
-      evaluateExpression: () => DATA
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => DATA
+        }
+      }
     });
 
     // then
@@ -460,20 +473,21 @@ const defaultField = {
   type: 'table'
 };
 
-function createTable(options = {}) {
-  const {
-    field = defaultField,
-    isExpression = () => false
-  } = options;
+function createTable({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Table
-      field={ field } />,
-    {
-      ...options,
-      isExpression
+  const options = {
+    field: defaultField,
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Table
+        field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

@@ -6,7 +6,7 @@ import {
 
 import { ValidationGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
 
@@ -720,10 +720,13 @@ function renderValidationGroup(options) {
 
   const groups = [ ValidationGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    <MockPropertiesPanelContext>
+      <TestPropertiesPanel
+        field={ field }
+        groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function findInput(id, container) {

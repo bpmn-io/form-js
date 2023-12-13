@@ -191,5 +191,20 @@ export async function expectNoViolations(node, options = {}) {
   });
 
   expect(results.passes).to.be.not.empty;
+
+  // log violations for ease of debugging
+  if (results.violations.length) {
+    console.log(JSON.stringify(results.violations, null, 2));
+  }
+
   expect(results.violations).to.be.empty;
+}
+
+export function countComponents(root) {
+
+  if (!Array.isArray(root.components)) {
+    return 1;
+  }
+
+  return root.components.reduce((count, component) => count + countComponents(component), 1);
 }

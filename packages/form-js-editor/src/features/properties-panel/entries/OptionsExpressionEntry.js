@@ -1,10 +1,10 @@
 import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
 import { useService, useVariables } from '../hooks';
-import { VALUES_SOURCES, VALUES_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
+import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 
-export default function ValuesExpressionEntry(props) {
+export default function OptionsExpressionEntry(props) {
   const {
     editField,
     field,
@@ -14,7 +14,7 @@ export default function ValuesExpressionEntry(props) {
   return [
     {
       id: id + '-expression',
-      component: ValuesExpression,
+      component: OptionsExpression,
       isEdited: isFeelEntryEdited,
       editField,
       field
@@ -22,7 +22,7 @@ export default function ValuesExpressionEntry(props) {
   ];
 }
 
-function ValuesExpression(props) {
+function OptionsExpression(props) {
   const {
     editField,
     field,
@@ -33,7 +33,7 @@ function ValuesExpression(props) {
 
   const variables = useVariables().map(name => ({ name }));
 
-  const path = VALUES_SOURCES_PATHS[VALUES_SOURCES.EXPRESSION];
+  const path = OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.EXPRESSION];
 
   const schema = '[\n  {\n    "label": "dollar",\n    "value": "$"\n  }\n]';
 

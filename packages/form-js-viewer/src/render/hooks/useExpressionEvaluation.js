@@ -1,26 +1,24 @@
 import useService from './useService';
-import useFilteredFormData from './useFilteredFormData';
-import { useMemo } from 'preact/hooks';
+import LocalExpressionContext from '../context/LocalExpressionContext';
+import { useContext, useMemo } from 'preact/hooks';
+import { buildExpressionContext } from '../../util/simple';
 
 /**
  * Evaluate a string reactively based on the expressionLanguage and form data.
  * If the string is not an expression, it is returned as is.
- * Memoised to minimize re-renders.
+ * The function is memoized to minimize re-renders.
  *
- * @param {string} value
- *
+ * @param {string} value - The string to evaluate.
+ * @returns {any} - Evaluated value or the original value if not an expression.
  */
 export default function useExpressionEvaluation(value) {
-  const formData = useFilteredFormData();
   const expressionLanguage = useService('expressionLanguage');
+  const expressionContextInfo = useContext(LocalExpressionContext);
 
   return useMemo(() => {
-
     if (expressionLanguage && expressionLanguage.isExpression(value)) {
-      return expressionLanguage.evaluate(value, formData);
+      return expressionLanguage.evaluate(value, buildExpressionContext(expressionContextInfo));
     }
-
     return value;
-
-  }, [ expressionLanguage, formData, value ]);
+  }, [ expressionLanguage, expressionContextInfo, value ]);
 }

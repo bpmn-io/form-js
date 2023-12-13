@@ -9,7 +9,7 @@ import {
   expectNoViolations
 } from '../../../TestHelper';
 
-import { WithFormContext } from './form-fields/helper';
+import { MockFormContext } from './helper';
 
 let container;
 
@@ -149,24 +149,24 @@ describe('Label', function() {
 
 // helpers //////////
 
-function createLabel(options = {}, children = null) {
-  const {
-    id,
-    initialData,
-    label,
-    required
-  } = options;
+function createLabel({ services, ...restOptions }, children = null) {
 
-  return render(WithFormContext(
-    <Label
-      id={ id }
-      label={ label }
-      required={ required }>{ children }</Label>,
-    {
-      ...options,
-      initialData
+  const options = {
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Label
+        id={ options.id }
+        label={ options.label }
+        required={ options.required }>
+        {children}
+      </Label>
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

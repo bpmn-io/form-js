@@ -9,7 +9,7 @@ import { LayoutGroup } from '../../../../../src/features/properties-panel/groups
 
 import { AUTO_OPTION_VALUE } from '../../../../../src/features/properties-panel/entries/ColumnsEntry';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 
 describe('LayoutGroup', function() {
@@ -192,10 +192,13 @@ function renderLayoutGroup(options) {
 
   const groups = [ LayoutGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  }), services));
+  return render(
+    <MockPropertiesPanelContext services={ services }>
+      <TestPropertiesPanel
+        field={ field }
+        groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function findSelect(id, container) {
