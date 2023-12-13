@@ -9,7 +9,8 @@ export function simpleRangeIntegerEntryFactory(options) {
     path,
     props,
     min,
-    max
+    max,
+    defaultValue
   } = options;
 
   const {
@@ -25,6 +26,7 @@ export function simpleRangeIntegerEntryFactory(options) {
     editField,
     min,
     max,
+    defaultValue,
     component: SimpleRangeIntegerEntry,
     isEdited: isNumberFieldEntryEdited
   };
@@ -38,14 +40,15 @@ const SimpleRangeIntegerEntry = (props) => {
     field,
     editField,
     min,
-    max
+    max,
+    defaultValue
   } = props;
 
   const debounce = useService('debounce');
 
   const getValue = () => {
-    const value = get(field, path, min);
-    return Number.isInteger(value) ? value : min;
+    const value = get(field, path, defaultValue);
+    return Number.isInteger(value) ? value : defaultValue;
   };
 
   const setValue = (value) => {

@@ -45,6 +45,7 @@ export default function RepeatableEntry(props) {
       path: [ 'nonCollapsedItems' ],
       label: 'Number of non-collapsing items',
       min: 1,
+      defaultValue: 5,
       props
     });
 
