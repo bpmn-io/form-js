@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.0
+
+### General
+
+* `FEAT`: add dynamic list component ([#796](https://github.com/bpmn-io/form-js/issues/796))
+* `FEAT`: add table component ([#888](https://github.com/bpmn-io/form-js/issues/888))
+* `DEPS`: update to feelin@3 ([0fdf5e19](https://github.com/bpmn-io/form-js/commit/0fdf5e19f45a614cb5cc123f9aa264003641634f))
+
 ## 1.5.0
 
 ### General
