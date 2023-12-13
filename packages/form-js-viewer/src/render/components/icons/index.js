@@ -10,6 +10,7 @@ import RadioIcon from './Radio.svg';
 import SelectIcon from './Select.svg';
 import SeparatorIcon from './Separator.svg';
 import SpacerIcon from './Spacer.svg';
+import DynamicListIcon from './DynamicList.svg';
 import TextIcon from './Text.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
@@ -33,6 +34,7 @@ export const iconsByType = (type) => {
     select: SelectIcon,
     separator: SeparatorIcon,
     spacer: SpacerIcon,
+    dynamiclist: DynamicListIcon,
     taglist: TaglistIcon,
     text: TextIcon,
     textfield: TextfieldIcon,

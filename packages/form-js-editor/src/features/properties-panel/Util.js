@@ -63,6 +63,13 @@ export function isValidDotPath(path) {
   return /^\w+(\.\w+)*$/.test(path);
 }
 
+export const LABELED_NON_INPUTS = [
+  'button',
+  'group',
+  'dynamiclist',
+  'iframe'
+];
+
 export const INPUTS = [
   'checkbox',
   'checklist',
@@ -75,7 +82,7 @@ export const INPUTS = [
   'textarea'
 ];
 
-export const VALUES_INPUTS = [
+export const OPTIONS_INPUTS = [
   'checklist',
   'radio',
   'select',
@@ -92,7 +99,7 @@ export function hasEntryConfigured(formFieldDefinition, entryId) {
   return propertiesPanelEntries.some(id => id === entryId);
 }
 
-export function hasValuesGroupsConfigured(formFieldDefinition) {
+export function hasOptionsGroupsConfigured(formFieldDefinition) {
   const { propertiesPanelEntries = [] } = formFieldDefinition;
 
   if (!propertiesPanelEntries.length) {

@@ -9,7 +9,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 let container;
 
@@ -64,9 +64,9 @@ describe('Group', () => {
         id: 'Group_1',
         path: 'userInfo',
         label: 'User Info',
-        type: 'group',
-        components: []
-      }
+        type: 'group'
+      },
+      children: []
     });
 
     // then
@@ -186,15 +186,25 @@ const defaultField = {
   ]
 };
 
-function createGroup(options = {}) {
-  const {
-    field = defaultField,
-  } = options;
+function createGroup({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Group field={ field } />,
-    { ...options, children: field.components }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-group',
+    field: defaultField,
+    children: defaultField.components,
+    container,
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Group
+        domId={ options.domId }
+        field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

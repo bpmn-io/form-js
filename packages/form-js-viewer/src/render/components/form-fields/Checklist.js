@@ -1,8 +1,7 @@
-import { useContext, useRef } from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import classNames from 'classnames';
-import { FormContext } from '../../context';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -13,8 +12,7 @@ import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
 
 const type = 'checklist';
@@ -24,6 +22,8 @@ export default function Checklist(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -33,7 +33,6 @@ export default function Checklist(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;
@@ -89,32 +88,31 @@ export default function Checklist(props) {
     onChange: props.onChange
   });
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
-
   return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) } ref={ outerDivRef }>
     <Label
       label={ label }
       required={ required } />
     {
-      loadState == LOAD_STATES.LOADED && options.map((v, index) => {
+      loadState == LOAD_STATES.LOADED && options.map((o, index) => {
+
+        const itemDomId = `${domId}-${index}`;
+
         return (
           <Label
-            id={ prefixId(`${id}-${index}`, formId) }
-            key={ `${id}-${index}` }
-            label={ v.label }
+            id={ itemDomId }
+            label={ o.label }
             class={ classNames({
-              'fjs-checked': values.includes(v.value)
+              'fjs-checked': values.includes(o.value)
             }) }
             required={ false }>
             <input
-              checked={ values.includes(v.value) }
+              checked={ values.includes(o.value) }
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }
-              id={ prefixId(`${id}-${index}`, formId) }
+              id={ itemDomId }
               type="checkbox"
-              onClick={ () => toggleCheckbox(v.value) }
+              onClick={ () => toggleCheckbox(o.value) }
               onBlur={ onCheckboxBlur }
               onFocus={ onCheckboxFocus }
               aria-describedby={ errorMessageId } />

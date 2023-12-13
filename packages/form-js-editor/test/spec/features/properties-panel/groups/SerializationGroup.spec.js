@@ -6,7 +6,7 @@ import {
 
 import { SerializationGroup } from '../../../../../src/features/properties-panel/groups';
 
-import { WithPropertiesPanelContext, WithPropertiesPanel } from '../helper';
+import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { set } from 'min-dash';
 
@@ -186,10 +186,13 @@ function renderSerializationGroup(options) {
 
   const groups = [ SerializationGroup(field, editField) ];
 
-  return render(WithPropertiesPanelContext(WithPropertiesPanel({
-    field,
-    groups
-  })));
+  return render(
+    <MockPropertiesPanelContext>
+      <TestPropertiesPanel
+        field={ field }
+        groups={ groups } />
+    </MockPropertiesPanelContext>
+  );
 }
 
 function findInput(id, container) {

@@ -1,25 +1,19 @@
 import { isArray, isObject, isNil } from 'min-dash';
-import { useContext } from 'preact/hooks';
-
-import { FormContext } from '../../context';
+import { formFieldClasses } from '../Util';
 
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 import InputAdorner from './parts/TemplatedInputAdorner';
 
-import {
-  formFieldClasses,
-  prefixId
-} from '../Util';
-
 const type = 'textfield';
-
 
 export default function Textfield(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -29,7 +23,6 @@ export default function Textfield(props) {
 
   const {
     description,
-    id,
     label,
     appearance = {},
     validate = {}
@@ -49,12 +42,9 @@ export default function Textfield(props) {
     });
   };
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
-
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
-      id={ prefixId(id, formId) }
+      id={ domId }
       label={ label }
       required={ required } />
     <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
@@ -62,7 +52,7 @@ export default function Textfield(props) {
         class="fjs-input"
         disabled={ disabled }
         readOnly={ readonly }
-        id={ prefixId(id, formId) }
+        id={ domId }
         onInput={ onChange }
         onBlur={ () => onBlur && onBlur() }
         onFocus={ () => onFocus && onFocus() }

@@ -39,7 +39,19 @@ module.exports = function(karma) {
       'NODE_ENV'
     ],
 
-    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+    reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
+
+    specReporter: {
+      maxLogLines: 10,
+      suppressSummary: true,
+      suppressErrorSummary: false,
+      suppressFailed: false,
+      suppressPassed: false,
+      suppressSkipped: true,
+      showBrowser: false,
+      showSpecTiming: false,
+      failFast: false
+    },
 
     coverageReporter: {
       reporters: [

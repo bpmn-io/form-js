@@ -6,7 +6,7 @@ import {
 
 import Number from '../../../../../src/render/components/form-fields/Number';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 import {
   createFormContainer,
@@ -1105,25 +1105,30 @@ const stepField = {
   increment: 0.25
 };
 
-function createNumberField(options = {}) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createNumberField({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Number
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-number',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Number
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        domId={ options.domId }
+        field={ options.field }
+        onChange={ options.onChange }
+        onBlur={ options.onBlur }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

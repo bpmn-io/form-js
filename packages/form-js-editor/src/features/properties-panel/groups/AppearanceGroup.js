@@ -1,12 +1,16 @@
 import {
-  AdornerEntry
+  AdornerEntry,
+  GroupAppearanceEntry,
+  LayouterAppearanceEntry
 } from '../entries';
 
 
-export default function AppearanceGroup(field, editField) {
+export default function AppearanceGroup(field, editField, getService) {
 
   const entries = [
-    ...AdornerEntry({ field, editField })
+    ...AdornerEntry({ field, editField }),
+    ...GroupAppearanceEntry({ field, editField }),
+    ...LayouterAppearanceEntry({ field, editField })
   ];
 
   if (!entries.length) {

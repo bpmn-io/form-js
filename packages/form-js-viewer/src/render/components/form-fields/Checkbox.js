@@ -1,24 +1,21 @@
-import { useContext } from 'preact/hooks';
-
-import { FormContext } from '../../context';
-
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
+
 import classNames from 'classnames';
 
 const type = 'checkbox';
-
 
 export default function Checkbox(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -28,7 +25,6 @@ export default function Checkbox(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;
@@ -42,12 +38,9 @@ export default function Checkbox(props) {
     });
   };
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
-
   return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value }) }>
     <Label
-      id={ prefixId(id, formId) }
+      id={ domId }
       label={ label }
       required={ required }>
       <input
@@ -55,7 +48,7 @@ export default function Checkbox(props) {
         class="fjs-input"
         disabled={ disabled }
         readOnly={ readonly }
-        id={ prefixId(id, formId) }
+        id={ domId }
         type="checkbox"
         onChange={ onChange }
         onBlur={ () => onBlur && onBlur() }

@@ -10,7 +10,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -45,13 +45,13 @@ describe('Textarea', function() {
 
     expect(textarea).to.exist;
     expect(textarea.value).to.equal('This is a sample comment in a text area /nIt includes a line break');
-    expect(textarea.id).to.equal('fjs-form-foo-Textarea_1');
+    expect(textarea.id).to.equal('test-textarea');
 
     const label = container.querySelector('label');
 
     expect(label).to.exist;
     expect(label.textContent).to.equal('Approver Comments');
-    expect(label.htmlFor).to.equal('fjs-form-foo-Textarea_1');
+    expect(label.htmlFor).to.equal('test-textarea');
   });
 
 
@@ -424,25 +424,21 @@ const defaultField = {
   type: 'textarea'
 };
 
-function createTextarea(options = {}) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createTextarea({ services, ...restOptions } = {}) {
+  const options = {
+    domId: 'test-textarea',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
 
-  return render(WithFormContext(
-    <Textarea
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Textarea { ...options } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

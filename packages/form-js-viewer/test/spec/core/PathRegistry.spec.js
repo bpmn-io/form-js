@@ -39,10 +39,10 @@ describe('PathRegistry', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
-      localPathRegistry.claimPath(path, false);
+      localPathRegistry.claimPath(path);
 
       // when
-      const canClaim = localPathRegistry.canClaimPath(path, true);
+      const canClaim = localPathRegistry.canClaimPath(path, { isClosed: true });
 
       // then
       expect(canClaim).to.be.false;
@@ -53,10 +53,10 @@ describe('PathRegistry', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
-      localPathRegistry.claimPath(path, true);
+      localPathRegistry.claimPath(path, { isClosed: true });
 
       // when
-      const canClaim = localPathRegistry.canClaimPath(path, true);
+      const canClaim = localPathRegistry.canClaimPath(path, { isClosed: true });
 
       // then
       expect(canClaim).to.be.false;
@@ -67,10 +67,38 @@ describe('PathRegistry', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
-      localPathRegistry.claimPath(path, true);
+      localPathRegistry.claimPath(path, { isClosed: true });
 
       // when
-      const canClaim = localPathRegistry.canClaimPath(path, false);
+      const canClaim = localPathRegistry.canClaimPath(path);
+
+      // then
+      expect(canClaim).to.be.false;
+    });
+
+
+    it('should NOT allow path claim when unavailable (repeatable over open)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+      localPathRegistry.claimPath(path);
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path, { isRepeatable: true });
+
+      // then
+      expect(canClaim).to.be.false;
+    });
+
+
+    it('should NOT allow path claim when unavailable (repeatable over closed)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+      localPathRegistry.claimPath(path, { isClosed: true });
+
+      // when
+      const canClaim = localPathRegistry.canClaimPath(path, { isRepeatable: true });
 
       // then
       expect(canClaim).to.be.false;
@@ -87,10 +115,10 @@ describe('PathRegistry', function() {
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, false);
+      localPathRegistry.claimPath(path);
 
       // then
-      expect(() => localPathRegistry.claimPath(path, false)).to.not.throw();
+      expect(() => localPathRegistry.claimPath(path)).to.not.throw();
     });
 
 
@@ -100,63 +128,88 @@ describe('PathRegistry', function() {
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, true);
+      localPathRegistry.claimPath(path, { isClosed: true });
 
       // then
-      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
+      expect(() => localPathRegistry.claimPath(path, { isClosed: true })).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
-    it('should throw error if a closed path would clash with an open path', function() {
+    it('should throw error if a closed path is opened on an open path', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, false);
+      localPathRegistry.claimPath(path);
 
       // then
-      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
+      expect(() => localPathRegistry.claimPath(path, { isClosed: true })).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
-    it('should throw an error if a closed path would clash with an open path (2)', function() {
+    it('should throw error if an open path is opened on a closed path', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, false);
+      localPathRegistry.claimPath(path, { isClosed: true });
 
       // then
-      expect(() => localPathRegistry.claimPath(path, true)).to.throw('cannot claim path \'foo.bar\'');
+      expect(() => localPathRegistry.claimPath(path)).to.throw('cannot claim path \'foo.bar\'');
     });
 
 
-    it('should NOT throw an error if a closed path is a subpath of an open path', function() {
+    it('should NOT throw an error if a closed subpath is opened on an open path', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, false);
+      localPathRegistry.claimPath(path);
 
       // then
-      expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], true)).to.not.throw();
+      expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], { isClosed: true })).to.not.throw();
     });
 
 
-    it('should claim, unclaim and claim again without issue (closed)', function() {
+    it('should throw an error if a closed subpath is opened on a closed path', function() {
 
       // given
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, false);
-      localPathRegistry.unclaimPath(path);
+      localPathRegistry.claimPath(path, { isClosed: true });
 
       // then
-      expect(() => localPathRegistry.claimPath(path, false)).to.not.throw();
+      expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], { isClosed: true })).to.throw('cannot claim path \'foo.bar.baz\'');
+    });
+
+
+    it('should throw an error if a closed subpath is opened on a repeatable path (not an ancestor)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, { isRepeatable: true });
+
+      // then
+      expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], { isClosed: true, claimerId: 'id_foo' })).to.throw('cannot claim path \'foo.bar.baz\'');
+    });
+
+
+    it('should not throw an error if a closed subpath is opened on a repeatable path (ancestor)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, { isRepeatable: true, claimerId: 'foo' });
+
+      // then
+      expect(() => localPathRegistry.claimPath([ 'foo', 'bar', 'baz' ], { isClosed: true, knownAncestorIds: [ 'foo' ] })).to.not.throw();
     });
 
 
@@ -166,11 +219,39 @@ describe('PathRegistry', function() {
       const path = [ 'foo', 'bar' ];
 
       // when
-      localPathRegistry.claimPath(path, true);
+      localPathRegistry.claimPath(path);
       localPathRegistry.unclaimPath(path);
 
       // then
-      expect(() => localPathRegistry.claimPath(path, true)).to.not.throw();
+      expect(() => localPathRegistry.claimPath(path)).to.not.throw();
+    });
+
+
+    it('should claim, unclaim and claim again without issue (closed)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, { isClosed: true });
+      localPathRegistry.unclaimPath(path);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, { isClosed: true })).to.not.throw();
+    });
+
+
+    it('should claim, unclaim and claim again without issue (repeatable)', function() {
+
+      // given
+      const path = [ 'foo', 'bar' ];
+
+      // when
+      localPathRegistry.claimPath(path, { isRepeatable: true });
+      localPathRegistry.unclaimPath(path);
+
+      // then
+      expect(() => localPathRegistry.claimPath(path, { isRepeatable: true })).to.not.throw();
     });
 
   });

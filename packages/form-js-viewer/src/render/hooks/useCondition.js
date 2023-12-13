@@ -1,6 +1,7 @@
 import useService from './useService.js';
-import useFilteredFormData from './useFilteredFormData.js';
-import { useMemo } from 'preact/hooks';
+import { useContext, useMemo } from 'preact/hooks';
+import LocalExpressionContext from '../context/LocalExpressionContext.js';
+import { buildExpressionContext } from '../../util/simple';
 
 /**
  * Evaluate if condition is met reactively based on the conditionChecker and form data.
@@ -11,9 +12,9 @@ import { useMemo } from 'preact/hooks';
  */
 export default function useCondition(condition) {
   const conditionChecker = useService('conditionChecker', false);
-  const filteredData = useFilteredFormData();
+  const expressionContextInfo = useContext(LocalExpressionContext);
 
   return useMemo(() => {
-    return conditionChecker ? conditionChecker.check(condition, filteredData) : null;
-  }, [ conditionChecker, condition, filteredData ]);
+    return conditionChecker ? conditionChecker.check(condition, buildExpressionContext(expressionContextInfo)) : null;
+  }, [ conditionChecker, condition, expressionContextInfo ]);
 }

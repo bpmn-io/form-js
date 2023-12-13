@@ -5,6 +5,7 @@ import { useMemo } from 'preact/hooks';
  * Returns the conditionally filtered data of a form reactively.
  * Memoised to minimize re-renders
  *
+ * Warning: costly operation, use with care
  */
 export default function useFilteredFormData() {
   const { initialData, data } = useService('form')._getState();

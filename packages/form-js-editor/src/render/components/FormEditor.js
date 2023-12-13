@@ -65,17 +65,27 @@ function ContextPad(props) {
   );
 }
 
-function Empty() { return null; }
+function Empty(props) {
+  if (props.field.type === 'default') {
+    return <div class="fjs-empty-editor">
+      <div class="fjs-empty-editor-card">
+        <EmptyFormIcon />
+        <h2>Build your form</h2>
+        <span>Drag and drop components here to start designing.</span>
+        <span>Use the preview window to test your form.</span>
+      </div>
+    </div>;
+  }
 
-function EmptyRoot(props) {
-  return <div class="fjs-empty-editor">
-    <div class="fjs-empty-editor-card">
-      <EmptyFormIcon />
-      <h2>Build your form</h2>
-      <span>Drag and drop components here to start designing.</span>
-      <span>Use the preview window to test your form.</span>
-    </div>
-  </div>;
+  if (props.field.type === 'group') {
+    return <div class="fjs-empty-component"><span>Drag and drop components here.</span></div>;
+  }
+
+  if (props.field.type === 'dynamiclist') {
+    return <div class="fjs-empty-component"><span>Drag and drop components here <br /> to create a repeatable list item.</span></div>;
+  }
+
+  return null;
 }
 
 function Element(props) {
@@ -86,7 +96,7 @@ function Element(props) {
         modeling = useService('modeling'),
         selection = useService('selection');
 
-  const { hoveredId, setHoveredId } = useContext(FormRenderContext);
+  const { hoverInfo } = useContext(FormRenderContext);
 
   const { field } = props;
 
@@ -97,6 +107,8 @@ function Element(props) {
   } = field;
 
   const ref = useRef();
+
+  const [ hovered, setHovered ] = useState(false);
 
   function scrollIntoView({ selection }) {
     if (!selection || selection.id !== id || !ref.current) {
@@ -132,23 +144,31 @@ function Element(props) {
     ref.current.focus();
   }
 
-  const classes = [];
+  const isSelected = selection.isSelected(field);
 
-  if (props.class) {
-    classes.push(...props.class.split(' '));
-  }
+  const classString = useMemo(() => {
 
-  if (selection.isSelected(field)) {
-    classes.push('fjs-editor-selected');
-  }
+    const classes = [];
 
-  if (showOutline) {
-    classes.push('fjs-outlined');
-  }
+    if (props.class) {
+      classes.push(...props.class.split(' '));
+    }
 
-  if (hoveredId === field.id) {
-    classes.push('fjs-editor-hovered');
-  }
+    if (isSelected) {
+      classes.push('fjs-editor-selected');
+    }
+
+    if (showOutline) {
+      classes.push('fjs-outlined');
+    }
+
+    if (hovered) {
+      classes.push('fjs-editor-hovered');
+    }
+
+    return classes.join(' ');
+
+  }, [ hovered, isSelected, props.class, showOutline ]);
 
   const onRemove = (event) => {
     event.stopPropagation();
@@ -169,7 +189,7 @@ function Element(props) {
 
   return (
     <div
-      class={ classes.join(' ') }
+      class={ classString }
       data-id={ id }
       data-field-type={ type }
       tabIndex={ type === 'default' ? -1 : 0 }
@@ -177,9 +197,12 @@ function Element(props) {
       onKeyPress={ onKeyPress }
       onMouseOver={
         (e) => {
+          if (hoverInfo.cleanup) {
+            hoverInfo.cleanup();
+          }
 
-          // @ts-ignore
-          setHoveredId(field.id);
+          setHovered(true);
+          hoverInfo.cleanup = () => setHovered(false);
           e.stopPropagation();
         }
       }
@@ -267,6 +290,7 @@ function Row(props) {
       </span>
       <div
         class={ classes.join(' ') }
+        style={ props.style }
         data-row-id={ id }>
         { props.children }
       </div>
@@ -351,7 +375,6 @@ export default function FormEditor(props) {
     const onDetach = () => {
       if (dragulaInstance) {
         dragulaInstance.destroy();
-
         eventBus.fire('dragula.destroyed');
       }
     };
@@ -407,18 +430,14 @@ export default function FormEditor(props) {
     eventBus.fire('formEditor.rendered');
   }, []);
 
-  const [ hoveredId, setHoveredId ] = useState(null);
-
   const formRenderContext = useMemo(() => ({
     Children,
     Column,
     Element,
     Empty,
-    EmptyRoot,
     Row,
-    hoveredId,
-    setHoveredId
-  }), [ hoveredId ]);
+    hoverInfo: {}
+  }), []);
 
   const formContext = useMemo(() => ({
     getService(type, strict = true) {

@@ -1,10 +1,11 @@
 import Ids from 'ids';
-import { get, isString, isUndefined, set } from 'min-dash';
+import { get, isObject, isString, isUndefined, set } from 'min-dash';
 
 import {
   ExpressionLanguageModule,
   MarkdownModule,
-  ViewerCommandsModule
+  ViewerCommandsModule,
+  RepeatRenderModule
 } from './features';
 
 import core from './core';
@@ -136,7 +137,7 @@ export default class Form {
           warnings
         } = this.get('importer').importSchema(schema);
 
-        const initializedData = this._initializeFieldData(clone(data));
+        const initializedData = this._getInitializedFieldData(clone(data));
 
         this._setState({
           data: initializedData,
@@ -201,32 +202,61 @@ export default class Form {
    * @returns {Errors}
    */
   validate() {
-    const formFieldRegistry = this.get('formFieldRegistry'),
+    const formFields = this.get('formFields'),
+          formFieldRegistry = this.get('formFieldRegistry'),
           pathRegistry = this.get('pathRegistry'),
           validator = this.get('validator');
 
     const { data } = this._getState();
 
-    const getErrorPath = (field) => [ field.id ];
+    const getErrorPath = (field, indexes) => [ field.id, ...Object.values(indexes || {}) ];
 
-    const errors = formFieldRegistry.getAll().reduce((errors, field) => {
-      const {
-        disabled
-      } = field;
+    function validateFieldRecursively(errors, field, indexes) {
+      const { disabled, type, isRepeating } = field;
+      const { config: fieldConfig } = formFields.get(type);
 
+      // (1) Skip disabled fields
       if (disabled) {
-        return errors;
+        return;
       }
 
-      const value = get(data, pathRegistry.getValuePath(field));
+      // (2) Validate the field
+      const valuePath = pathRegistry.getValuePath(field, { indexes });
+      const valueData = get(data, valuePath);
+      const fieldErrors = validator.validateField(field, valueData);
 
-      const fieldErrors = validator.validateField(field, value);
+      if (fieldErrors.length) {
+        set(errors, getErrorPath(field, indexes), fieldErrors);
+      }
 
-      return set(errors, getErrorPath(field), fieldErrors.length ? fieldErrors : undefined);
-    }, /** @type {Errors} */ ({}));
+      // (3) Process parents
+      if (!Array.isArray(field.components)) {
+        return;
+      }
 
-    const filteredErrors = this._applyConditions(errors, data, { getFilterPath: getErrorPath });
+      // (4a) Recurse repeatable parents both across the indexes of repetition and the children
+      if (fieldConfig.repeatable && isRepeating) {
 
+        if (!Array.isArray(valueData)) {
+          return;
+        }
+
+        valueData.forEach((_, index) => {
+          field.components.forEach((component) => {
+            validateFieldRecursively(errors, component, { ...indexes, [field.id]: index });
+          });
+        });
+
+        return;
+      }
+
+      // (4b) Recurse non-repeatable parents only across the children
+      field.components.forEach((component) => validateFieldRecursively(errors, component, indexes));
+    }
+
+    const workingErrors = {};
+    validateFieldRecursively(workingErrors, formFieldRegistry.getForm());
+    const filteredErrors = this._applyConditions(workingErrors, data, { getFilterPath: getErrorPath, leafNodeDeletionOnly: true });
     this._setState({ errors: filteredErrors });
 
     return filteredErrors;
@@ -334,11 +364,12 @@ export default class Form {
   /**
    * @internal
    *
-   * @param { { add?: boolean, field: any, remove?: number, value?: any } } update
+   * @param { { add?: boolean, field: any, indexes: object, remove?: number, value?: any } } update
    */
   _update(update) {
     const {
       field,
+      indexes,
       value
     } = update;
 
@@ -352,9 +383,11 @@ export default class Form {
 
     const fieldErrors = validator.validateField(field, value);
 
-    set(data, pathRegistry.getValuePath(field), value);
+    const valuePath = pathRegistry.getValuePath(field, { indexes });
 
-    set(errors, [ field.id ], fieldErrors.length ? fieldErrors : undefined);
+    set(data, valuePath, value);
+
+    set(errors, [ field.id, ...Object.values(indexes || {}) ], fieldErrors.length ? fieldErrors : undefined);
 
     this._setState({
       data: clone(data),
@@ -388,7 +421,8 @@ export default class Form {
     return [
       ExpressionLanguageModule,
       MarkdownModule,
-      ViewerCommandsModule
+      ViewerCommandsModule,
+      RepeatRenderModule
     ];
   }
 
@@ -403,34 +437,52 @@ export default class Form {
    * @internal
    */
   _getSubmitData() {
-
-    const formFieldRegistry = this.get('formFieldRegistry'),
-          pathRegistry = this.get('pathRegistry'),
-          formFields = this.get('formFields');
+    const formFieldRegistry = this.get('formFieldRegistry');
+    const formFields = this.get('formFields');
+    const pathRegistry = this.get('pathRegistry');
     const formData = this._getState().data;
 
-    const submitData = formFieldRegistry.getAll().reduce((previous, field) => {
-      const {
-        disabled,
-        type
-      } = field;
-
+    function collectSubmitDataRecursively(submitData, formField, indexes) {
+      const { disabled, type } = formField;
       const { config: fieldConfig } = formFields.get(type);
 
-      // do not submit disabled form fields or routing fields
-      if (disabled || !fieldConfig.keyed) {
-        return previous;
+      // (1) Process keyed fields
+      if (!disabled && fieldConfig.keyed) {
+        const valuePath = pathRegistry.getValuePath(formField, { indexes });
+        const value = get(formData, valuePath);
+        set(submitData, valuePath, value);
       }
 
-      const valuePath = pathRegistry.getValuePath(field);
+      // (2) Process parents
+      if (!Array.isArray(formField.components)) {
+        return;
+      }
 
-      const value = get(formData, valuePath);
-      return set(previous, valuePath, value);
-    }, {});
+      // (3a) Recurse repeatable parents both across the indexes of repetition and the children
+      if (fieldConfig.repeatable && formField.isRepeating) {
 
-    const filteredSubmitData = this._applyConditions(submitData, formData);
+        const valueData = get(formData, pathRegistry.getValuePath(formField, { indexes }));
 
-    return filteredSubmitData;
+        if (!Array.isArray(valueData)) {
+          return;
+        }
+
+        valueData.forEach((_, index) => {
+          formField.components.forEach((component) => {
+            collectSubmitDataRecursively(submitData, component, { ...indexes, [formField.id]: index });
+          });
+        });
+
+        return;
+      }
+
+      // (3b) Recurse non-repeatable parents only across the children
+      formField.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
+    }
+
+    const workingSubmitData = {};
+    collectSubmitDataRecursively(workingSubmitData, formFieldRegistry.getForm(), {});
+    return this._applyConditions(workingSubmitData, formData);
   }
 
   /**
@@ -444,39 +496,83 @@ export default class Form {
   /**
    * @internal
    */
-  _initializeFieldData(data) {
-    const formFieldRegistry = this.get('formFieldRegistry'),
-          formFields = this.get('formFields'),
-          pathRegistry = this.get('pathRegistry');
+  _getInitializedFieldData(data, options = {}) {
+    const formFieldRegistry = this.get('formFieldRegistry');
+    const formFields = this.get('formFields');
+    const pathRegistry = this.get('pathRegistry');
 
-    return formFieldRegistry.getAll().reduce((initializedData, formField) => {
-      const {
-        defaultValue,
-        type
-      } = formField;
+    function initializeFieldDataRecursively(initializedData, formField, indexes) {
+      const { defaultValue, type, isRepeating } = formField;
+      const { config: fieldConfig } = formFields.get(type);
 
-      // try to get value from data
-      // if unavailable - try to get default value from form field
-      // if unavailable - get empty value from form field
+      const valuePath = pathRegistry.getValuePath(formField, { indexes });
+      let valueData = get(data, valuePath);
 
-      const valuePath = pathRegistry.getValuePath(formField);
+      // (1) Process keyed fields
+      if (fieldConfig.keyed) {
 
-      if (valuePath) {
-
-        const { config: fieldConfig } = formFields.get(type);
-        let valueData = get(data, valuePath);
-
+        // (a) Retrieve and sanitize data from input
         if (!isUndefined(valueData) && fieldConfig.sanitizeValue) {
           valueData = fieldConfig.sanitizeValue({ formField, data, value: valueData });
         }
 
+        // (b) Initialize field value in output data
         const initializedFieldValue = !isUndefined(valueData) ? valueData : (!isUndefined(defaultValue) ? defaultValue : fieldConfig.emptyValue);
-
-        return set(initializedData, valuePath, initializedFieldValue);
+        set(initializedData, valuePath, initializedFieldValue);
       }
 
-      return initializedData;
+      // (2) Process parents
+      if (!Array.isArray(formField.components)) {
+        return;
+      }
 
-    }, data);
+      if (fieldConfig.repeatable && isRepeating) {
+
+        // (a) Sanitize repeatable parents data if it is not an array
+        if (!valueData || !Array.isArray(valueData)) {
+          valueData = new Array(isUndefined(formField.defaultRepetitions) ? 1 : formField.defaultRepetitions).fill().map(_ => ({})) || [];
+        }
+
+        // (b) Ensure all elements of the array are objects
+        valueData = valueData.map((val) => isObject(val) ? val : {});
+
+        // (c) Initialize field value in output data
+        set(initializedData, valuePath, valueData);
+
+        // (d) If indexed ahead of time, recurse repeatable simply across the children
+        if (!isUndefined(indexes[formField.id])) {
+          formField.components.forEach(
+            (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes })
+          );
+
+          return;
+        }
+
+        // (e1) Recurse repeatable parents both across the indexes of repetition and the children
+        valueData.forEach((_, index) => {
+          formField.components.forEach(
+            (component) => initializeFieldDataRecursively(initializedData, component, { ...indexes, [formField.id]: index })
+          );
+        });
+
+        return;
+      }
+
+      // (e2) Recurse non-repeatable parents only across the children
+      formField.components.forEach((component) => initializeFieldDataRecursively(initializedData, component, indexes));
+    }
+
+    // allows definition of a specific subfield to generate the data for
+    const container = options.container || formFieldRegistry.getForm();
+    const indexes = options.indexes || {};
+    const basePath = pathRegistry.getValuePath(container, { indexes }) || [];
+
+    // if indexing ahead of time, we must add this index to the data path at the end
+    const path = !isUndefined(indexes[container.id]) ? [ ...basePath, indexes[container.id] ] : basePath;
+
+    const workingData = clone(data);
+    initializeFieldDataRecursively(workingData, container, indexes);
+    return get(workingData, path, {});
   }
+
 }

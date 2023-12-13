@@ -42,6 +42,30 @@
       "label": "I am an iframe"
     },
     {
+      "id": "DynamicList_1a82jj2",
+      "type": "dynamiclist",
+      "label": "Clients",
+      "path": "clients",
+      "showOutline": true,
+      "isRepeating": true,
+      "defaultRepetitions": 2,
+      "allowAddRemove": true,
+      "components": [
+        {
+          "id": "DynamicListTextField_1",
+          "type": "textfield",
+          "key": "clientSurname",
+          "label": "Surname"
+        },
+        {
+          "id": "DynamicListTextField_2",
+          "type": "textfield",
+          "key": "clientName",
+          "label": "Name"
+        }
+      ]
+    },
+    {
       "label": "I am a textfield",
       "type": "textfield",
       "id": "Field_1l0t1m5",

@@ -9,7 +9,7 @@ import Palette, {
 
 import { expectNoViolations, insertStyles } from '../../../TestHelper';
 
-import { WithFormEditorContext } from '../properties-panel/helper';
+import { MockEditorContext } from '../../../helper';
 
 insertStyles();
 
@@ -191,8 +191,10 @@ describe('palette', function() {
 
       const result = createPalette({
         container,
-        modeling: { addFormField: spy },
-        formEditor: { _getState: () => ({ schema }) }
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) }
+        }
       });
 
       const entry = result.container.querySelector('[data-field-type="textfield"]');
@@ -220,8 +222,10 @@ describe('palette', function() {
 
       const result = createPalette({
         container,
-        modeling: { addFormField: spy },
-        formEditor: { _getState: () => ({ schema }) }
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) }
+        }
       });
 
       const entry = result.container.querySelector('[data-field-type="textfield"]');
@@ -286,7 +290,7 @@ describe('palette', function() {
       formFields.register('custom', extension);
 
       // given
-      const result = createPalette({ container, formFields });
+      const result = createPalette({ container, services: { formFields } });
 
       const paletteEntries = collectPaletteEntries(formFields);
 
@@ -317,7 +321,7 @@ describe('palette', function() {
       formFields.register('custom', extension);
 
       // given
-      const result = createPalette({ container, formFields });
+      const result = createPalette({ container, services: { formFields } });
 
       // then
       expect(result.container.querySelector('.custom-icon')).to.exist;
@@ -340,7 +344,7 @@ describe('palette', function() {
       formFields.register('custom', extension);
 
       // given
-      const result = createPalette({ container, formFields });
+      const result = createPalette({ container, services: { formFields } });
 
       const iconImage = result.container.querySelector('.fjs-field-icon-image');
 
@@ -356,14 +360,13 @@ describe('palette', function() {
 
 // helper ///////////////
 
-function createPalette(options = {}) {
-  const {
-    container,
-    ...rest
-  } = options;
+function createPalette({ services, container, ...restOptions } = {}) {
+
 
   return render(
-    WithFormEditorContext(<Palette />, rest),
+    <MockEditorContext options={ restOptions } services={ services }>
+      <Palette />
+    </MockEditorContext>,
     {
       container
     }

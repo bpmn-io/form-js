@@ -7,7 +7,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const IFRAME_URL = 'https://bpmn.io/';
 
@@ -303,20 +303,24 @@ const defaultField = {
   type: 'iframe'
 };
 
-function createIFrame(options = {}) {
-  const {
-    field = defaultField,
-    isExpression = () => false
-  } = options;
+function createIFrame({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <IFrame
-      field={ field } />,
-    {
-      ...options,
-      isExpression
+  const options = {
+    domId: 'test-iframe',
+    field: defaultField,
+    container,
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <IFrame
+        domId={ options.domId }
+        field={ options.field } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
     }
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  );
 }

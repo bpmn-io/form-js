@@ -1,25 +1,18 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useService } from '../../../hooks';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
 
-import { FormContext } from '../../../context';
+import classNames from 'classnames';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
 import AngelUpIcon from '../icons/AngelUp.svg';
-
-import {
-  prefixId,
-} from '../../Util';
-
-import classNames from 'classnames';
-
 import DropdownList from './DropdownList';
 
 export default function SearchableSelect(props) {
   const {
-    id,
+    domId,
     disabled,
     errors,
     onBlur,
@@ -29,7 +22,6 @@ export default function SearchableSelect(props) {
     value
   } = props;
 
-  const { formId } = useContext(FormContext);
   const [ filter, setFilter ] = useState('');
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const [ shouldApplyFilter, setShouldApplyFilter ] = useState(true);
@@ -145,14 +137,14 @@ export default function SearchableSelect(props) {
   }, [ onBlur, valueLabel ]);
 
   return <>
-    <div id={ prefixId(`${id}`, formId) }
+    <div
       class={ classNames('fjs-input-group', { 'disabled': disabled, 'readonly': readonly }, { 'hasErrors': errors.length }) }>
       <input
         disabled={ disabled }
         readOnly={ readonly }
         class="fjs-input"
         ref={ searchbarRef }
-        id={ prefixId(`${id}-search`, formId) }
+        id={ domId }
         onChange={ onInputChange }
         type="text"
         value={ filter }

@@ -1,18 +1,18 @@
-import ConditionChecker from '../../../../src/features/expression-language/ConditionChecker';
+import ConditionChecker from '../../../../src/features/expressionLanguage/ConditionChecker';
 import PathRegistry from '../../../../src/core/PathRegistry';
 import FormFields from '../../../../src/render/FormFields';
 
 describe('ConditionChecker', function() {
 
   let conditionChecker,
-      fields = [],
+      form = {},
       fireSpy;
 
   beforeEach(function() {
     fireSpy = sinon.spy();
     conditionChecker = new ConditionChecker(
-      { getAll: () => fields },
-      new PathRegistry({}, new FormFields()),
+      { getForm: () => form },
+      new PathRegistry({}, new FormFields(), { get: () => {} }),
       { fire: fireSpy }
     );
   });
@@ -129,27 +129,25 @@ describe('ConditionChecker', function() {
     it('should filter out properties for which condition is not met', function() {
 
       // given
-      fields = [
-        {
-          type: 'default',
-          components: [
-            {
-              key: 'foo',
-              type: 'textfield',
-              conditional: {
-                hide: '=2 + 2 = 4'
-              }
-            },
-            {
-              key: 'bar',
-              type: 'textfield',
-              conditional: {
-                hide: '=2 + 2 = 5'
-              }
+      form = {
+        type: 'default',
+        components: [
+          {
+            key: 'foo',
+            type: 'textfield',
+            conditional: {
+              hide: '=2 + 2 = 4'
             }
-          ]
-        }
-      ];
+          },
+          {
+            key: 'bar',
+            type: 'textfield',
+            conditional: {
+              hide: '=2 + 2 = 5'
+            }
+          }
+        ]
+      };
 
       const properties = {
         foo: 'FOO',
@@ -169,27 +167,26 @@ describe('ConditionChecker', function() {
     it('should filter out properties for which condition is not met (with data)', function() {
 
       // given
-      fields = [
-        {
-          type: 'default',
-          components: [
-            {
-              key: 'foo',
-              type: 'textfield',
-              conditional: {
-                hide: '=2 + 2 = 4'
-              }
-            },
-            {
-              key: 'bar',
-              type: 'textfield',
-              conditional: {
-                hide: '=2 + 2 = 5'
-              }
+      form =
+      {
+        type: 'default',
+        components: [
+          {
+            key: 'foo',
+            type: 'textfield',
+            conditional: {
+              hide: '=2 + 2 = 4'
             }
-          ]
-        }
-      ];
+          },
+          {
+            key: 'bar',
+            type: 'textfield',
+            conditional: {
+              hide: '=2 + 2 = 5'
+            }
+          }
+        ]
+      };
 
       const properties = {
         foo: 'FOO',

@@ -102,7 +102,7 @@ export default class FormLayouter {
       components
     } = formField;
 
-    if (type !== 'default' && type !== 'group' || !components) {
+    if (![ 'default', 'group', 'dynamiclist' ].includes(type) || !components) {
       return;
     }
 

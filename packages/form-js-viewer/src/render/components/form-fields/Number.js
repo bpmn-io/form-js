@@ -1,8 +1,6 @@
 import Big from 'big.js';
 import classNames from 'classnames';
-import { useCallback, useContext, useMemo, useRef, useState } from 'preact/hooks';
-
-import { FormContext } from '../../context';
+import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -13,8 +11,7 @@ import AngelDownIcon from './icons/AngelDown.svg';
 import AngelUpIcon from './icons/AngelUp.svg';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
 
 import {
@@ -25,11 +22,12 @@ import {
 
 const type = 'number';
 
-
 export default function Numberfield(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
+    domId,
     onBlur,
     onFocus,
     field,
@@ -40,7 +38,6 @@ export default function Numberfield(props) {
 
   const {
     description,
-    id,
     label,
     appearance = {},
     validate = {},
@@ -175,12 +172,9 @@ export default function Numberfield(props) {
     }
   };
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
-
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
-      id={ prefixId(id, formId) }
+      id={ domId }
       label={ label }
       required={ required } />
     <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
@@ -190,7 +184,7 @@ export default function Numberfield(props) {
           class="fjs-input"
           disabled={ disabled }
           readOnly={ readonly }
-          id={ prefixId(id, formId) }
+          id={ domId }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
           onBlur={ () => onBlur && onBlur() }

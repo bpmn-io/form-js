@@ -10,7 +10,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -260,25 +260,30 @@ const defaultField = {
   description: 'checkbox'
 };
 
-function createCheckbox(options = {}) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createCheckbox({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Checkbox
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-checkbox',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Checkbox
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        domId={ options.domId }
+        field={ options.field }
+        onChange={ options.onChange }
+        onBlur={ options.onBlur }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

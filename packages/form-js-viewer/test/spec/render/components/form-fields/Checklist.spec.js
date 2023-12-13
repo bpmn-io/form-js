@@ -10,7 +10,7 @@ import {
   expectNoViolations
 } from '../../../../TestHelper';
 
-import { WithFormContext } from './helper';
+import { MockFormContext } from '../helper';
 
 const spy = sinon.spy;
 
@@ -44,9 +44,9 @@ describe('Checklist', function() {
     const inputs = container.querySelectorAll('input[type="checkbox"]');
 
     expect(inputs).to.have.length(3);
-    expect(inputs[ 0 ].id).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(inputs[ 1 ].id).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(inputs[ 2 ].id).to.equal('fjs-form-foo-Checklist_1-2');
+    expect(inputs[ 0 ].id).to.equal('test-checklist-0');
+    expect(inputs[ 1 ].id).to.equal('test-checklist-1');
+    expect(inputs[ 2 ].id).to.equal('test-checklist-2');
 
     expect(inputs[ 0 ].checked).to.be.true;
     expect(inputs[ 1 ].checked).to.be.false;
@@ -56,9 +56,9 @@ describe('Checklist', function() {
 
     expect(labels).to.have.length(4);
     expect(labels[ 0 ].textContent).to.equal('Email data to');
-    expect(labels[ 1 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(labels[ 2 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(labels[ 3 ].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
+    expect(labels[ 1 ].htmlFor).to.equal('test-checklist-0');
+    expect(labels[ 2 ].htmlFor).to.equal('test-checklist-1');
+    expect(labels[ 3 ].htmlFor).to.equal('test-checklist-2');
   });
 
 
@@ -101,9 +101,9 @@ describe('Checklist', function() {
     const inputs = container.querySelectorAll('input[type="checkbox"]');
 
     expect(inputs).to.have.length(3);
-    expect(inputs[0].id).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(inputs[1].id).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(inputs[2].id).to.equal('fjs-form-foo-Checklist_1-2');
+    expect(inputs[0].id).to.equal('test-checklist-0');
+    expect(inputs[1].id).to.equal('test-checklist-1');
+    expect(inputs[2].id).to.equal('test-checklist-2');
 
     expect(inputs[0].checked).to.be.true;
     expect(inputs[1].checked).to.be.false;
@@ -113,9 +113,9 @@ describe('Checklist', function() {
 
     expect(labels).to.have.length(4);
     expect(labels[0].textContent).to.equal('Email data to');
-    expect(labels[1].htmlFor).to.equal('fjs-form-foo-Checklist_1-0');
-    expect(labels[2].htmlFor).to.equal('fjs-form-foo-Checklist_1-1');
-    expect(labels[3].htmlFor).to.equal('fjs-form-foo-Checklist_1-2');
+    expect(labels[1].htmlFor).to.equal('test-checklist-0');
+    expect(labels[2].htmlFor).to.equal('test-checklist-1');
+    expect(labels[3].htmlFor).to.equal('test-checklist-2');
   });
 
 
@@ -419,26 +419,30 @@ const dynamicFieldInitialData = {
   ]
 };
 
-function createChecklist(options = {}) {
-  const {
-    disabled,
-    readonly,
-    errors,
-    field = defaultField,
-    onChange = () => {},
-    value
-  } = options;
+function createChecklist({ services, ...restOptions } = {}) {
 
-  return render(WithFormContext(
-    <Checklist
-      disabled={ disabled }
-      readonly={ readonly }
-      errors={ errors }
-      field={ field }
-      onChange={ onChange }
-      value={ value } />,
-    options
-  ), {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+  const options = {
+    domId: 'test-checklist',
+    field: defaultField,
+    onChange: () => {},
+    ...restOptions
+  };
+
+  return render(
+    <MockFormContext
+      services={ services }
+      options={ options }>
+      <Checklist
+        disabled={ options.disabled }
+        readonly={ options.readonly }
+        errors={ options.errors }
+        domId={ options.domId }
+        field={ options.field }
+        onChange={ options.onChange }
+        onBlur={ options.onBlur }
+        value={ options.value } />
+    </MockFormContext>, {
+      container: options.container || container.querySelector('.fjs-form')
+    }
+  );
 }

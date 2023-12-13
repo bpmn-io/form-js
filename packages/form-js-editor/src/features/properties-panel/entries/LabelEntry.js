@@ -51,7 +51,7 @@ export default function LabelEntry(props) {
       editField,
       field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => [ ...INPUTS, 'button', 'group', 'table', 'iframe' ].includes(field.type)
+      isDefaultVisible: (field) => [ ...INPUTS, 'button', 'group', 'table', 'iframe', 'dynamiclist' ].includes(field.type)
     }
   );
 
@@ -169,6 +169,7 @@ function TimeLabel(props) {
 function getLabelText(type) {
   switch (type) {
   case 'group':
+  case 'dynamiclist':
     return 'Group label';
   case 'table':
     return 'Table label';

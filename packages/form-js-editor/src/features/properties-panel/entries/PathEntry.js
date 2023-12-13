@@ -10,7 +10,8 @@ import { isValidDotPath } from '../Util';
 export default function PathEntry(props) {
   const {
     editField,
-    field
+    field,
+    getService
   } = props;
 
   const {
@@ -19,7 +20,9 @@ export default function PathEntry(props) {
 
   const entries = [];
 
-  if (type === 'group') {
+  const formFieldDefinition = getService('formFields').get(type);
+
+  if (formFieldDefinition && formFieldDefinition.config.pathed) {
     entries.push({
       id: 'path',
       component: Path,
@@ -41,6 +44,8 @@ function Path(props) {
 
   const debounce = useService('debounce');
   const pathRegistry = useService('pathRegistry');
+  const fieldConfig = useService('formFields').get(field.type).config;
+  const isRepeating = fieldConfig.repeatable && field.isRepeating;
 
   const path = [ 'path' ];
 
@@ -58,34 +63,50 @@ function Path(props) {
 
   const validate = (value) => {
 
-    if (!value || value === field.path) {
+    if (!value && isRepeating) {
+      return 'Must not be empty';
+    }
+
+    // Early return for empty value in non-repeating cases or if the field path hasn't changed
+    if (!value && !isRepeating || value === field.path) {
       return null;
     }
 
-    if (value && !isValidDotPath(value)) {
-      return 'Must be empty, a variable or a dot separated path';
+    // Validate dot-separated path format
+    if (!isValidDotPath(value)) {
+      const msg = isRepeating ? 'Must be a variable or a dot-separated path' : 'Must be empty, a variable or a dot-separated path';
+      return msg;
     }
 
-    const hasIntegerPathSegment = value && value.split('.').some(segment => /^\d+$/.test(segment));
+    // Check for integer segments in the path
+    const hasIntegerPathSegment = value.split('.').some(segment => /^\d+$/.test(segment));
     if (hasIntegerPathSegment) {
       return 'Must not contain numerical path segments.';
     }
 
-    const options = value && {
+    // Check for path collisions
+    const options = {
       replacements: {
-        [ field.id ]: [ value ]
+        [field.id]: value.split('.')
       }
-    } || {};
+    };
 
-    const canClaim = pathRegistry.executeRecursivelyOnFields(field, ({ field, isClosed }) => {
+    const canClaim = pathRegistry.executeRecursivelyOnFields(field, ({ field, isClosed, isRepeatable }) => {
       const path = pathRegistry.getValuePath(field, options);
-      return pathRegistry.canClaimPath(path, isClosed);
+      return pathRegistry.canClaimPath(path, { isClosed, isRepeatable, claimerId: field.id });
     });
 
     if (!canClaim) {
-      return 'Must not cause two binding paths to colide';
+      return 'Must not cause two binding paths to collide';
     }
+
+    // If all checks pass
+    return null;
   };
+
+  const tooltip = isRepeating
+    ? 'Routes the children of this component into a form variable, may be left empty to route at the root level.'
+    : 'Routes the children of this component into a form variable.';
 
   return TextFieldEntry({
     debounce,
@@ -94,7 +115,7 @@ function Path(props) {
     getValue,
     id,
     label: 'Path',
-    tooltip: 'Routes the children of this component into a form variable, may be left empty to route at the root level.',
+    tooltip,
     setValue,
     validate
   });

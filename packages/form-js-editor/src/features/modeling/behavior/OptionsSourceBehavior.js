@@ -3,11 +3,11 @@ import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 import { get } from 'min-dash';
 
 import {
-  VALUES_SOURCES,
-  VALUES_SOURCES_PATHS
+  OPTIONS_SOURCES,
+  OPTIONS_SOURCES_PATHS
 } from '@bpmn-io/form-js-viewer';
 
-export default class ValuesSourceBehavior extends CommandInterceptor {
+export default class OptionsSourceBehavior extends CommandInterceptor {
   constructor(eventBus) {
     super(eventBus);
 
@@ -27,17 +27,17 @@ export default class ValuesSourceBehavior extends CommandInterceptor {
       }
 
       // clean up value sources that are not to going to be set
-      Object.values(VALUES_SOURCES).forEach(source => {
-        const path = VALUES_SOURCES_PATHS[source];
+      Object.values(OPTIONS_SOURCES).forEach(source => {
+        const path = OPTIONS_SOURCES_PATHS[source];
         if (get(properties, path) == undefined) {
-          newProperties[VALUES_SOURCES_PATHS[source]] = undefined;
+          newProperties[OPTIONS_SOURCES_PATHS[source]] = undefined;
         }
       });
 
       // clean up default value
       if (
-        get(properties, VALUES_SOURCES_PATHS[VALUES_SOURCES.EXPRESSION]) !== undefined ||
-        get(properties, VALUES_SOURCES_PATHS[VALUES_SOURCES.INPUT]) !== undefined
+        get(properties, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.EXPRESSION]) !== undefined ||
+        get(properties, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.INPUT]) !== undefined
       ) {
         newProperties['defaultValue'] = undefined;
       }
@@ -50,12 +50,12 @@ export default class ValuesSourceBehavior extends CommandInterceptor {
   }
 }
 
-ValuesSourceBehavior.$inject = [ 'eventBus' ];
+OptionsSourceBehavior.$inject = [ 'eventBus' ];
 
 // helper ///////////////////
 
 function isValuesSourceUpdate(properties) {
-  return Object.values(VALUES_SOURCES_PATHS).some(path => {
+  return Object.values(OPTIONS_SOURCES_PATHS).some(path => {
     return get(properties, path) !== undefined;
   });
 }

@@ -1,14 +1,12 @@
-import { useContext, useMemo, useRef, useState } from 'preact/hooks';
+import { useMemo, useRef, useState } from 'preact/hooks';
 
 import { useService } from '../../hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 
-import { FormContext } from '../../context';
 import classNames from 'classnames';
 
 import XMarkIcon from './icons/XMark.svg';
-
 import DropdownList from './parts/DropdownList';
 import Description from '../Description';
 import Errors from '../Errors';
@@ -20,8 +18,7 @@ import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 
 import {
-  formFieldClasses,
-  prefixId
+  formFieldClasses
 } from '../Util';
 
 const type = 'taglist';
@@ -30,7 +27,9 @@ export default function Taglist(props) {
   const {
     disabled,
     errors = [],
+    errorMessageId,
     onFocus,
+    domId,
     onBlur,
     field,
     readonly,
@@ -39,15 +38,12 @@ export default function Taglist(props) {
 
   const {
     description,
-    id,
     label,
     validate = {}
   } = field;
 
   const { required } = validate;
 
-  const { formId } = useContext(FormContext);
-  const errorMessageId = errors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
   const [ filter, setFilter ] = useState('');
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
@@ -188,7 +184,7 @@ export default function Taglist(props) {
     <Label
       label={ label }
       required={ required }
-      id={ prefixId(`${id}-search`, formId) } />
+      id={ domId } />
     { (!disabled && !readonly && !!values.length) && <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={ onSkipToSearch } /> }
     <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
       { loadState === LOAD_STATES.LOADED &&
@@ -221,7 +217,7 @@ export default function Taglist(props) {
         readOnly={ readonly }
         class="fjs-taglist-input"
         ref={ inputRef }
-        id={ prefixId(`${id}-search`, formId) }
+        id={ domId }
         onChange={ onInputChange }
         type="text"
         value={ filter }

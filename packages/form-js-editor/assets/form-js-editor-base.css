@@ -268,6 +268,7 @@
 
 .fjs-editor-container .fjs-form > .fjs-element {
   border: none;
+  outline: none;
 }
 
 .fjs-editor-container .fjs-form-field:not(.fjs-powered-by) {
@@ -288,29 +289,31 @@
   border-color: var(--color-children-hover-border);
 }
 
-.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"] {
+.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"],
+  .fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="dynamiclist"] {
   margin-left: -6px;
 }
 
-.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="group"] {
+.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="group"],
+.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="dynamiclist"] {
   margin-right: -6px;
 }
 
-.fjs-editor-container .fjs-form-field-group,
-.fjs-editor-container .fjs-form-field-group .fjs-form-field-group .fjs-form-field-group {
+.fjs-editor-container .fjs-form-field-grouplike,
+.fjs-editor-container .fjs-form-field-grouplike .fjs-form-field-grouplike .fjs-form-field-grouplike {
   margin: 1px 6px;
   padding: 0px;
 }
 
-.fjs-editor-container .fjs-form-field-group.fjs-outlined {
+.fjs-editor-container .fjs-form-field-grouplike.fjs-outlined {
   outline: none;
 }
 
-.fjs-editor-container .fjs-form-field-group .cds--grid {
+.fjs-editor-container .fjs-form-field-grouplike .cds--grid {
   padding: 0 2rem;
 }
 
-.fjs-editor-container .fjs-form-field-group > label {
+.fjs-editor-container .fjs-form-field-grouplike > label {
   margin-top: 6px;
 }
 
@@ -329,6 +332,19 @@
 .fjs-editor-container .fjs-drag-container,
 .fjs-editor-container .fjs-drop-container-vertical {
   user-select: none;
+}
+
+.fjs-editor-container .fjs-empty-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: calc(100% - 4rem);
+  position: absolute;
+}
+
+.fjs-editor-container .fjs-empty-component span {
+  color: var(--cds-text-disabled, var(--color-grey-225-10-55));
 }
 
 .fjs-editor-container .fjs-empty-editor {
@@ -440,6 +456,21 @@
   height: 1px;
   position: absolute;
   top: 0;
+}
+
+.fjs-editor-container .fjs-repeat-render-footer {
+  font-size: var(--font-size-label);
+  background: var(--cds-field, var(--color-background-disabled));
+  color: var(--cds-text-disabled, var(--color-grey-225-10-45));
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 5px 3px 5px;
+}
+
+.fjs-editor-container .fjs-repeat-render-footer svg {
+  margin-right: 4px;
 }
 
 /* do not show resize handles on small screens */
