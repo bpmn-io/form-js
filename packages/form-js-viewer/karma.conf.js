@@ -131,4 +131,6 @@ module.exports = function(karma) {
   }
 
   karma.set(config);
+
+  process.env.TZ = 'Europe/Berlin';
 };
