@@ -12,6 +12,7 @@ import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 
 import { buildExpressionContext } from '../../util';
 import { useScrollIntoView } from '../../render/hooks';
+import classNames from 'classnames';
 
 export default class RepeatRenderManager {
 
@@ -115,7 +116,7 @@ export default class RepeatRenderManager {
   RepeatFooter(props) {
 
     const addButtonRef = useRef(null);
-    const { useSharedState, indexes, field: repeaterField } = props;
+    const { useSharedState, indexes, field: repeaterField, readonly, disabled } = props;
     const [ sharedRepeatState, setSharedRepeatState ] = useSharedState;
 
     const { data } = this._form._getState();
@@ -162,9 +163,14 @@ export default class RepeatRenderManager {
       offset: 20
     }, [ shouldScroll ]);
 
-    return <div className="fjs-repeat-render-footer" style={ repeaterField.allowAddRemove ? { marginRight: 32 } : { justifyContent: 'center' } }>
+    return <div
+      className={
+        classNames('fjs-repeat-render-footer', {
+          'fjs-remove-allowed':repeaterField.allowAddRemove
+        }) }
+    >
       {
-        showAdd ? <button class="fjs-repeat-render-add" type="button" ref={ addButtonRef } onClick={ onAddItem }>
+        showAdd ? <button readOnly={ readonly } disabled={ disabled || readonly } class="fjs-repeat-render-add" type="button" ref={ addButtonRef } onClick={ onAddItem }>
           <><AddSvg /> { 'Add new' }</>
         </button> : null
       }
