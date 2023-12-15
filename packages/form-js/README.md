@@ -8,7 +8,7 @@
 
 ## Usage
 
-This library exports a [form viewer](./packages/form-js-viewer), [editor](./packages/form-js-editor) and [playground](./packages/form-js-playground).
+This library exports a [form viewer](../form-js-viewer), [editor](../form-js-editor) and [playground](../form-js-playground).
 
 ### Display a form <a id="viewer" />
 
