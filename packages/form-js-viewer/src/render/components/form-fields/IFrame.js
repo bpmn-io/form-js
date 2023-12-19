@@ -52,7 +52,7 @@ export default function IFrame(props) {
           height={ height }
           class="fjs-iframe"
           id={ prefixId(id, formId) }
-          sandbox=""
+          sandbox="allow-scripts"
         />
     }
     {
