@@ -197,7 +197,7 @@ describe('IFrame', function() {
     const iframe = formField.querySelector('.fjs-iframe');
 
     expect(iframe.sandbox).to.exist;
-    expect(iframe.sandbox.item(0)).to.equal(null);
+    expect(iframe.sandbox.item(0)).to.equal('allow-scripts');
   });
 
 
