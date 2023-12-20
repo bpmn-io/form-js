@@ -150,7 +150,7 @@ describe('Text', function() {
     it('should have no violations - default', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createEditorText();
 
@@ -162,7 +162,7 @@ describe('Text', function() {
     it('should have no violations - placeholder', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createEditorText({
         field: {

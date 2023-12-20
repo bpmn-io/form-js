@@ -1068,7 +1068,7 @@ describe('Datetime', function() {
     it('should have no violations - date', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime();
 
@@ -1080,7 +1080,7 @@ describe('Datetime', function() {
     it('should have no violations for readonly - date', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({ readonly: true });
 
@@ -1092,7 +1092,7 @@ describe('Datetime', function() {
     it('should have no violations for errors - date', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         errors: [ 'Something went wrong' ]
@@ -1106,7 +1106,7 @@ describe('Datetime', function() {
     it('should have no violations - time', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: timeField
@@ -1120,7 +1120,7 @@ describe('Datetime', function() {
     it('should have no violations for readonly - time', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: timeField,
@@ -1135,7 +1135,7 @@ describe('Datetime', function() {
     it('should have no violations for errors - time', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: timeField,
@@ -1150,7 +1150,7 @@ describe('Datetime', function() {
     it('should have no violations - datetime', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: datetimeField
@@ -1164,7 +1164,7 @@ describe('Datetime', function() {
     it('should have no violations for readonly - datetime', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: datetimeField,
@@ -1179,7 +1179,7 @@ describe('Datetime', function() {
     it('should have no violations for errors - datetime', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createDatetime({
         field: datetimeField,

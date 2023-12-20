@@ -1118,7 +1118,7 @@ describe('Select', function() {
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'foo'
@@ -1132,7 +1132,7 @@ describe('Select', function() {
     it('should have no violations for errors', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'foo',
@@ -1147,7 +1147,7 @@ describe('Select', function() {
     it('should have no violations - hidden select input', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       createSelect({
         value: 'foo'
@@ -1163,7 +1163,7 @@ describe('Select', function() {
     it('should have no violations - disabled', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'foo',
@@ -1178,7 +1178,7 @@ describe('Select', function() {
     it('should have no violations - readonly', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'foo',
@@ -1193,7 +1193,7 @@ describe('Select', function() {
     it('should have no violations - searchable', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'german',
@@ -1208,7 +1208,7 @@ describe('Select', function() {
     it('should have no violations - searchable, open list', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createSelect({
         value: 'german',

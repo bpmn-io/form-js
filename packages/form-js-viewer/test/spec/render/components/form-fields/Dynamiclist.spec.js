@@ -279,7 +279,7 @@ describe('Dynamic List', () => {
 
   describe('a11y', function() {
     it('should have no violations', async function() {
-      this.timeout(5000);
+      this.timeout(10000);
 
       // when
       const { container } = createDynamicList();

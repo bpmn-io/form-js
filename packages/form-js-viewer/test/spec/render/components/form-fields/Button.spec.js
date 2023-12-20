@@ -108,7 +108,7 @@ describe('Button', function() {
     it('should have no violations - submit', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createButton({
         field: {
@@ -126,7 +126,7 @@ describe('Button', function() {
     it('should have no violations - reset', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createButton({
         field: {

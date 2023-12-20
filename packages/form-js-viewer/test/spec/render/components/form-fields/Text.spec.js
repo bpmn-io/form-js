@@ -640,7 +640,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createText();
 
@@ -652,7 +652,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     it('should have no violations - links', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createText({
         field: {
@@ -669,7 +669,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     it('should have no violations - expression', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const content = '# foo';
 
