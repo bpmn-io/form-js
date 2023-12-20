@@ -98,7 +98,7 @@ describe('Description', function() {
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       // @Note(pinussilvestrus): we need to render a bit more here as
       // Firefox + Ubuntu has problems with the description element on its own

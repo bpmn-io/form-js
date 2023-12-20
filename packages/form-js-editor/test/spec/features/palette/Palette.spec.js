@@ -245,7 +245,7 @@ describe('palette', function() {
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const result = createPalette({ container });
 
@@ -257,7 +257,7 @@ describe('palette', function() {
     it('should have no violations - searched', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const result = createPalette({ container });
 

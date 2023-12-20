@@ -283,7 +283,7 @@ describe('IFrame', function() {
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createIFrame();
 

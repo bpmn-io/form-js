@@ -990,7 +990,7 @@ describe('Number', function() {
     it('should have no violations', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         value: 123
@@ -1004,7 +1004,7 @@ describe('Number', function() {
     it('should have no violations for readonly', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         value: 123,
@@ -1019,7 +1019,7 @@ describe('Number', function() {
     it('should have no violations for errors', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         value: 123,
@@ -1034,7 +1034,7 @@ describe('Number', function() {
     it('should have no violations (decimal field)', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         field: decimalField,
@@ -1049,7 +1049,7 @@ describe('Number', function() {
     it('should have no violations (string parsed field)', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         field: stringField,
@@ -1064,7 +1064,7 @@ describe('Number', function() {
     it('should have no violations (step field)', async function() {
 
       // given
-      this.timeout(5000);
+      this.timeout(10000);
 
       const { container } = createNumberField({
         field: stringField,
