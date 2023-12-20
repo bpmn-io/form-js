@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.1
+
+* `FIX`: allow scripts in iframes by default ([#954](https://github.com/bpmn-io/form-js/issues/954))
+
 ## 1.6.0
 
 ### General
