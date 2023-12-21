@@ -10,6 +10,10 @@ export function createMockInjector(services = {}, options = {}) {
   return injector;
 }
 
+const VIEWER_CONFIG = {
+  debounce: false
+};
+
 function _createMockModule(services, options) {
 
   return {
@@ -21,6 +25,8 @@ function _createMockModule(services, options) {
     formFieldRegistry: [ 'value', services.formFieldRegistry || new FormFieldRegistryMock(options) ],
     pathRegistry: [ 'value', services.pathRegistry || new PathRegistryMock(options) ],
     eventBus: [ 'value', services.eventBus || new EventBusMock(options) ],
+    debounce: [ 'value', services.debounce || (fn => fn) ],
+    config: [ 'value', services.config || VIEWER_CONFIG ],
 
     // using actual implementations in testing
     formFields: services.formFields ? [ 'value', services.formFields ] : [ 'type', FormFields ],

@@ -6,6 +6,8 @@ import Errors from '../Errors';
 import Label from '../Label';
 import InputAdorner from './parts/TemplatedInputAdorner';
 
+import useFlushDebounce from '../../hooks/useFlushDebounce';
+
 const type = 'textfield';
 
 export default function Textfield(props) {
@@ -35,11 +37,20 @@ export default function Textfield(props) {
 
   const { required } = validate;
 
-  const onChange = ({ target }) => {
+  const [ onInputChange, flushOnChange ] = useFlushDebounce(({ target }) => {
     props.onChange({
       field,
       value: target.value
     });
+  }, [ props.onChange ]);
+
+  const onInputBlur = () => {
+    flushOnChange && flushOnChange();
+    onBlur && onBlur();
+  };
+
+  const onInputFocus = () => {
+    onFocus && onFocus();
   };
 
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
@@ -53,9 +64,9 @@ export default function Textfield(props) {
         disabled={ disabled }
         readOnly={ readonly }
         id={ domId }
-        onInput={ onChange }
-        onBlur={ () => onBlur && onBlur() }
-        onFocus={ () => onFocus && onFocus() }
+        onInput={ onInputChange }
+        onBlur={ onInputBlur }
+        onFocus={ onInputFocus }
         type="text"
         value={ value }
         aria-describedby={ errorMessageId } />

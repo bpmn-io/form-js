@@ -63,7 +63,7 @@ describe('Form', function() {
 
   const bootstrapForm = ({ bootstrapExecute = () => {}, ...options }) => {
     return act(async () => {
-      form = await createForm(options);
+      form = await createForm({ debounce: false, ...options });
       bootstrapExecute(form);
     });
   };

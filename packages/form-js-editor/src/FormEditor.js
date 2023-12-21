@@ -248,13 +248,14 @@ export default class FormEditor {
    */
   _createInjector(options, container) {
     const {
-      additionalModules = [],
       modules = this._getModules(),
-      renderer = {}
+      additionalModules = [],
+      renderer = {},
+      ...config
     } = options;
 
-    const config = {
-      ...options,
+    const enrichedConfig = {
+      ...config,
       renderer: {
         ...renderer,
         container
@@ -262,7 +263,7 @@ export default class FormEditor {
     };
 
     return createInjector([
-      { config: [ 'value', config ] },
+      { config: [ 'value', enrichedConfig ] },
       { formEditor: [ 'value', this ] },
       core,
       ...modules,
