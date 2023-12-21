@@ -335,18 +335,20 @@ export default class Form {
    */
   _createInjector(options, container) {
     const {
+      modules = this._getModules(),
       additionalModules = [],
-      modules = this._getModules()
+      ...config
     } = options;
 
-    const config = {
+    const enrichedConfig = {
+      ...config,
       renderer: {
         container
       }
     };
 
     return createInjector([
-      { config: [ 'value', config ] },
+      { config: [ 'value', enrichedConfig ] },
       { form: [ 'value', this ] },
       core,
       ...modules,

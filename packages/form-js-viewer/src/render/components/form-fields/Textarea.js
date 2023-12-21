@@ -1,5 +1,8 @@
 import { isArray, isObject, isNil } from 'min-dash';
+
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
+import useFlushDebounce from '../../hooks/useFlushDebounce';
+
 import { formFieldClasses } from '../Util';
 
 import Description from '../Description';
@@ -28,14 +31,22 @@ export default function Textarea(props) {
   } = field;
 
   const { required } = validate;
-
   const textareaRef = useRef();
 
-  const onInput = ({ target }) => {
+  const [ onInputChange, flushOnChange ] = useFlushDebounce(({ target }) => {
     props.onChange({
       field,
       value: target.value
     });
+  }, [ props.onChange ]);
+
+  const onInputBlur = () => {
+    flushOnChange && flushOnChange();
+    onBlur && onBlur();
+  };
+
+  const onInputFocus = () => {
+    onFocus && onFocus();
   };
 
   useLayoutEffect(() => {
@@ -55,9 +66,9 @@ export default function Textarea(props) {
       disabled={ disabled }
       readonly={ readonly }
       id={ domId }
-      onInput={ onInput }
-      onBlur={ () => onBlur && onBlur() }
-      onFocus={ () => onFocus && onFocus() }
+      onInput={ onInputChange }
+      onBlur={ onInputBlur }
+      onFocus={ onInputFocus }
       value={ value }
       ref={ textareaRef }
       aria-describedby={ errorMessageId } />

@@ -1,6 +1,8 @@
 import Big from 'big.js';
 import classNames from 'classnames';
+
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
+import useFlushDebounce from '../../hooks/useFlushDebounce';
 
 import Description from '../Description';
 import Errors from '../Errors';
@@ -32,8 +34,7 @@ export default function Numberfield(props) {
     onFocus,
     field,
     value,
-    readonly,
-    onChange
+    readonly
   } = props;
 
   const {
@@ -56,6 +57,19 @@ export default function Numberfield(props) {
   const inputRef = useRef();
 
   const [ stringValueCache, setStringValueCache ] = useState('');
+
+  const [ onChangeDebounced, flushOnChange ] = useFlushDebounce((params) => {
+    props.onChange(params);
+  }, [ props.onChange ]);
+
+  const onInputBlur = () => {
+    flushOnChange && flushOnChange();
+    onBlur && onBlur();
+  };
+
+  const onInputFocus = () => {
+    onFocus && onFocus();
+  };
 
   // checks whether the value currently in the form data is practically different from the one in the input field cache
   // this allows us to guarantee the field always displays valid form data, but without auto-simplifying values like 1.000 to 1
@@ -82,7 +96,7 @@ export default function Numberfield(props) {
 
     if (isNullEquivalentValue(stringValue)) {
       setStringValueCache('');
-      onChange({ field, value: null });
+      onChangeDebounced({ field, value: null });
       return;
     }
 
@@ -96,14 +110,14 @@ export default function Numberfield(props) {
 
     if (isNaN(Number(stringValue))) {
       setStringValueCache('NaN');
-      onChange({ field, value: 'NaN' });
+      onChangeDebounced({ field, value: 'NaN' });
       return;
     }
 
     setStringValueCache(stringValue);
-    onChange({ field, value: serializeToString ? stringValue : Number(stringValue) });
+    onChangeDebounced({ field, value: serializeToString ? stringValue : Number(stringValue) });
 
-  }, [ field, onChange, serializeToString ]);
+  }, [ field, onChangeDebounced, serializeToString ]);
 
   const increment = () => {
     if (readonly) {
@@ -187,8 +201,8 @@ export default function Numberfield(props) {
           id={ domId }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
-          onBlur={ () => onBlur && onBlur() }
-          onFocus={ () => onFocus && onFocus() }
+          onBlur={ onInputBlur }
+          onFocus={ onInputFocus }
 
           // @ts-ignore
           onInput={ (e) => setValue(e.target.value) }

@@ -27,10 +27,10 @@ export function createForm(options) {
   const {
     data,
     schema,
-    ...rest
+    ...formOptions
   } = options;
 
-  const form = new Form(rest);
+  const form = new Form(formOptions);
 
   return form.importSchema(schema, data).then(function() {
     return form;
