@@ -33,7 +33,9 @@ export function PlaygroundRoot(props) {
     editorProperties = {},
     viewerAdditionalModules = [],
     editorAdditionalModules = [],
-    propertiesPanel: propertiesPanelConfig = {}
+    propertiesPanel: propertiesPanelConfig = {},
+    onInit: onPlaygroundInit,
+    onStateChanged
   } = props;
 
   const {
@@ -66,7 +68,7 @@ export function PlaygroundRoot(props) {
 
   // pipe to playground API
   useEffect(() => {
-    props.onInit({
+    onPlaygroundInit({
       attachDataContainer: (node) => dataEditorRef.current.attachTo(node),
       attachEditorContainer: (node) => formEditorRef.current.attachTo(node),
       attachFormContainer: (node) => formRef.current.attachTo(node),
@@ -82,7 +84,7 @@ export function PlaygroundRoot(props) {
       setSchema: setInitialSchema,
       saveSchema: () => formEditorRef.current.saveSchema()
     });
-  });
+  }, [ onPlaygroundInit ]);
 
   useEffect(() => {
     setInitialSchema(props.schema || {});
@@ -230,11 +232,11 @@ export function PlaygroundRoot(props) {
   }, [ resultData ]);
 
   useEffect(() => {
-    props.onStateChanged({
+    onStateChanged && onStateChanged({
       schema,
       data
     });
-  }, [ schema, data ]);
+  }, [ onStateChanged, schema, data ]);
 
   const handleDownload = useCallback(() => {
 
