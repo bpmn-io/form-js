@@ -5,16 +5,21 @@ import { useMemo, useState } from 'preact/hooks';
 export default (props) => {
   const [ fills, setFills ] = useState([]);
 
+  const {
+    onSetFill,
+    onRemoveFill
+  } = props;
+
   const fillContext = useMemo(() => ({
     addFill: (fill) => {
       setFills((fills) => [ ...fills.filter((f) => f.id !== fill.id), fill ]);
-      props.onSetFill && props.onSetFill(fill);
+      onSetFill && onSetFill(fill);
     },
     removeFill: (id) => {
       setFills((fills) => fills.filter((f) => f.id !== id));
-      props.onRemoveFill && props.onRemoveFill(id);
+      onRemoveFill && onRemoveFill(id);
     }
-  }), []);
+  }), [ onRemoveFill, onSetFill ]);
 
   const slotContext = useMemo(() => ({ fills }), [ fills ]);
 
