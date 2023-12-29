@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from 'preact/hooks';
 import { useService } from '../../hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
+import { useGetLabelCorrelation } from '../../hooks/useGetLabelCorrelation';
 
 import classNames from 'classnames';
 
@@ -13,7 +14,8 @@ import Errors from '../Errors';
 import Label from '../Label';
 import SkipLink from './parts/SkipLink';
 
-import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
+import { sanitizeMultiSelectValue, hasEqualValue } from '../util/sanitizerUtil';
+import isEqual from 'lodash/isEqual';
 
 import { createEmptyOptions } from '../util/optionsUtil';
 
@@ -64,8 +66,7 @@ export default function Taglist(props) {
     onChange: props.onChange
   });
 
-  // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
-  const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]:  options[x] }))), [ options ]);
+  const getLabelCorrelation = useGetLabelCorrelation(options);
 
   const hasOptionsLeft = useMemo(() => options.length > values.length, [ options.length, values.length ]);
 
@@ -74,14 +75,19 @@ export default function Taglist(props) {
     if (loadState !== LOAD_STATES.LOADED) {
       return [];
     }
-    return options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())) && !values.includes(o.value));
+
+    const isValidFilteredOption = (option) => {
+      const filterMatches = option.label.toLowerCase().includes(filter.toLowerCase());
+      return filterMatches && !hasEqualValue(option.value, values);
+    };
+
+    return options.filter(isValidFilteredOption);
   }, [ filter, options, JSON.stringify(values), loadState ]);
 
 
   const selectValue = (value) => {
-    if (filter) {
-      setFilter('');
-    }
+
+    setFilter('');
 
     // Ensure values cannot be double selected due to latency
     if (values.at(-1) === value) {
@@ -92,7 +98,8 @@ export default function Taglist(props) {
   };
 
   const deselectValue = (value) => {
-    props.onChange({ value: values.filter((v) => v != value), field });
+    const newValues = values.filter((v) => !isEqual(v, value));
+    props.onChange({ value: newValues, field });
   };
 
   const onInputChange = ({ target }) => {
@@ -194,7 +201,7 @@ export default function Taglist(props) {
               return (
                 <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) } onMouseDown={ (e) => e.preventDefault() }>
                   <span class="fjs-taglist-tag-label">
-                    { valueToOptionMap[v] ? valueToOptionMap[v].label : undefined }
+                    { getLabelCorrelation(v) }
                   </span>
                   { (!disabled && !readonly) && <button
                     type="button"

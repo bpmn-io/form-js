@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
+import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
 import { useService } from '../../../hooks';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
 
@@ -24,7 +25,7 @@ export default function SearchableSelect(props) {
 
   const [ filter, setFilter ] = useState('');
   const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
-  const [ shouldApplyFilter, setShouldApplyFilter ] = useState(true);
+  const [ isFilterActive, setIsFilterActive ] = useState(true);
   const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
   const searchbarRef = useRef();
   const eventBus = useService('eventBus');
@@ -42,23 +43,26 @@ export default function SearchableSelect(props) {
     onChange: props.onChange
   });
 
-  // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
-  const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]: options[x] }))), [ options ]);
+  const getLabelCorrelation = useGetLabelCorrelation(options);
 
-  const valueLabel = useMemo(() => value && valueToOptionMap[value] && valueToOptionMap[value].label || '', [ value, valueToOptionMap ]);
+  const label = useMemo(() => value && getLabelCorrelation(value), [ value, getLabelCorrelation ]);
 
   // whenever we change the underlying value, set the label to it
-  useEffect(() => { setFilter(valueLabel); }, [ valueLabel ]);
+  useEffect(() => { setFilter(label); }, [ label ]);
 
   const filteredOptions = useMemo(() => {
 
-    if (loadState === LOAD_STATES.LOADED) {
-      return shouldApplyFilter ? options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase()))) : options;
+    if (loadState !== LOAD_STATES.LOADED) {
+      return [];
     }
 
-    return [];
+    if (!filter || !isFilterActive) {
+      return options;
+    }
 
-  }, [ filter, loadState, options, shouldApplyFilter ]);
+    return options.filter((o) => o.label && o.value && (o.label.toLowerCase().includes(filter.toLowerCase())));
+
+  }, [ filter, loadState, options, isFilterActive ]);
 
   const setValue = useCallback((option) => {
     setFilter(option && option.label || '');
@@ -87,7 +91,7 @@ export default function SearchableSelect(props) {
   const onInputChange = ({ target }) => {
     setIsEscapeClose(false);
     setIsDropdownExpanded(true);
-    setShouldApplyFilter(true);
+    setIsFilterActive(true);
     setFilter(target.value || '');
     eventBus.fire('formField.search', { formField: field, value: target.value || '' });
   };
@@ -101,7 +105,7 @@ export default function SearchableSelect(props) {
     case 'ArrowDown': {
       if (!isDropdownExpanded) {
         setIsDropdownExpanded(true);
-        setShouldApplyFilter(false);
+        setIsFilterActive(false);
       }
 
       keyDownEvent.preventDefault();
@@ -121,7 +125,7 @@ export default function SearchableSelect(props) {
   const onInputMouseDown = useCallback(() => {
     setIsEscapeClose(false);
     setIsDropdownExpanded(true);
-    setShouldApplyFilter(false);
+    setIsFilterActive(false);
   }, []);
 
   const onInputFocus = useCallback(() => {
@@ -132,9 +136,9 @@ export default function SearchableSelect(props) {
 
   const onInputBlur = useCallback(() => {
     setIsDropdownExpanded(false);
-    setFilter(valueLabel);
+    setFilter(label);
     onBlur && onBlur();
-  }, [ onBlur, valueLabel ]);
+  }, [ onBlur, label ]);
 
   return <>
     <div
