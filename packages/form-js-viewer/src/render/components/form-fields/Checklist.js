@@ -2,12 +2,13 @@ import { useRef } from 'preact/hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import classNames from 'classnames';
+import isEqual from 'lodash/isEqual';
 
 import Description from '../Description';
 import Errors from '../Errors';
 import Label from '../Label';
 
-import { sanitizeMultiSelectValue } from '../util/sanitizerUtil';
+import { sanitizeMultiSelectValue, hasEqualValue } from '../util/sanitizerUtil';
 
 import { createEmptyOptions } from '../util/optionsUtil';
 
@@ -41,19 +42,15 @@ export default function Checklist(props) {
 
   const { required } = validate;
 
-  const toggleCheckbox = (v) => {
+  const toggleCheckbox = (toggledValue) => {
 
-    let newValue = [ ...values ];
-
-    if (!newValue.includes(v)) {
-      newValue.push(v);
-    } else {
-      newValue = newValue.filter(x => x != v);
-    }
+    const newValues = hasEqualValue(toggledValue, values)
+      ? values.filter(value => !isEqual(value, toggledValue))
+      : [ ...values, toggledValue ];
 
     props.onChange({
       field,
-      value: newValue,
+      value: newValues,
     });
   };
 
@@ -96,17 +93,18 @@ export default function Checklist(props) {
       loadState == LOAD_STATES.LOADED && options.map((o, index) => {
 
         const itemDomId = `${domId}-${index}`;
+        const isChecked = hasEqualValue(o.value, values);
 
         return (
           <Label
             id={ itemDomId }
             label={ o.label }
             class={ classNames({
-              'fjs-checked': values.includes(o.value)
+              'fjs-checked': isChecked
             }) }
             required={ false }>
             <input
-              checked={ values.includes(o.value) }
+              checked={ isChecked }
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }

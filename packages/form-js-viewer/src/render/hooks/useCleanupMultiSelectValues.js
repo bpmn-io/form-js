@@ -1,5 +1,6 @@
 import { useEffect } from 'preact/hooks';
 import { LOAD_STATES } from './useOptionsAsync';
+import { hasEqualValue } from '../components/util/sanitizerUtil';
 
 export default function(props) {
 
@@ -18,12 +19,13 @@ export default function(props) {
       return;
     }
 
-    const hasValuesNotInOptions = values.some(v => !options.map(o => o.value).includes(v));
+    const optionValues = options.map(o => o.value);
+    const hasValuesNotInOptions = values.some(v => !hasEqualValue(v, optionValues));
 
     if (hasValuesNotInOptions) {
       onChange({
         field,
-        value: values.filter(v => options.map(o => o.value).includes(v))
+        value: values.filter(v => hasEqualValue(v, optionValues))
       });
     }
 
