@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.2
+
+* `FIX`: improved performance through viewer debounce ([#958](https://github.com/bpmn-io/form-js/issues/958))
+* `FIX`: properly handle all formats of options sources ([#960](https://github.com/bpmn-io/form-js/issues/960))
+
 ## 1.6.1
 
 * `FIX`: allow scripts in iframes by default ([#954](https://github.com/bpmn-io/form-js/issues/954))
