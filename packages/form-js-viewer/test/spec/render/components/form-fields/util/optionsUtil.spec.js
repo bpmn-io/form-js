@@ -43,7 +43,7 @@ describe('optionsUtil', function() {
     });
 
 
-    it('should add label if not provided', function() {
+    it('should add label if not provided and value is string', function() {
 
       // given
       const options = [ { value: 'john' }, { value: 'jessica' } ];
@@ -56,10 +56,50 @@ describe('optionsUtil', function() {
     });
 
 
+    it('should add label if not provided and value is number', function() {
+
+      // given
+      const options = [ { value: 1 }, { value: 2 } ];
+
+      // when
+      const result = normalizeOptionsData(options);
+
+      // then
+      expect(result).to.eql([ { value: 1, label: '1' }, { value: 2, label: '2' } ]);
+    });
+
+
+    it('should not add label if not provided and value is object', function() {
+
+      // given
+      const options = [ { value: { foo: 'bar' } }, { value: { bar: 'foo' } } ];
+
+      // when
+      const result = normalizeOptionsData(options);
+
+      // then
+      expect(result).to.eql([]);
+
+    });
+
+
     it('should ignore optionsData without value', function() {
 
       // given
       const optionsData = [ { label: 'John' }, { label: 'Jessica' } ];
+
+      // when
+      const result = normalizeOptionsData(optionsData);
+
+      // then
+      expect(result).to.eql([]);
+    });
+
+
+    it('should ignore optionsData with null, undefined, empty string or empty object as value', function() {
+
+      // given
+      const optionsData = [ { label: 'null', value: null }, { label: 'undefined', value: undefined }, { label: 'empty string', value: '' }, { label: 'empty object', value: {} } ];
 
       // when
       const result = normalizeOptionsData(optionsData);
@@ -79,6 +119,20 @@ describe('optionsUtil', function() {
 
       // then
       expect(result).to.eql([ { value: 'john', label: 'john' }, { value: 'jessica', label: 'jessica' } ]);
+    });
+
+
+    it('should convert integer definitions to value/label objects', function() {
+
+      // given
+      const optionsData = [ 1, 2 ];
+
+      // when
+      const result = normalizeOptionsData(optionsData);
+
+      // then
+      expect(result).to.eql([ { value: 1, label: '1' }, { value: 2, label: '2' } ]);
+
     });
 
 

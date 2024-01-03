@@ -1,4 +1,4 @@
-import { get } from 'min-dash';
+import { get, isObject, isString, isNil } from 'min-dash';
 
 // parses the options data from the provided form field and form data
 export function getOptionsData(formField, formData) {
@@ -8,44 +8,62 @@ export function getOptionsData(formField, formData) {
 
 // transforms the provided options into a normalized format, trimming invalid options
 export function normalizeOptionsData(optionsData) {
-  return optionsData.filter(_isOptionSomething).map(v => _normalizeOptionsData(v)).filter(v => v);
+  return optionsData.filter(_isAllowedValue).map(_normalizeOption).filter(o => !isNil(o));
 }
 
-function _normalizeOptionsData(optionData) {
+/**
+ * Converts the provided option to a normalized format.
+ * If the option is not valid, null is returned.
+ *
+ * @param {object} option
+ * @param {string} option.label
+ * @param {*} option.value
+ *
+ * @returns
+ */
+function _normalizeOption(option) {
 
-  if (_isAllowedOption(optionData)) {
-
-    // if a primitive is provided, use it as label and value
-    return { value: optionData, label: `${ optionData }` };
+  // (1) simple primitive case, use it as both label and value
+  if (_isAllowedPrimitive(option)) {
+    return { value: option, label: `${ option }` };
   }
 
-  if (typeof (optionData) === 'object') {
-    if (!optionData.label && _isAllowedOption(optionData.value)) {
+  if (isObject(option)) {
 
-      // if no label is provided, use the value as label
-      return { value: optionData.value, label: `${ optionData.value }` };
+    const isValidLabel = _isValidLabel(option.label);
+
+    // (2) no label provided, but value is a simple primitive, use it as label and value
+    if (!isValidLabel && _isAllowedPrimitive(option.value)) {
+      return { value: option.value, label: `${ option.value }` };
     }
 
-    if (_isOptionSomething(optionData.value) && _isAllowedOption(optionData.label)) {
-
-      // if both value and label are provided, use them as is, in this scenario, the value may also be an object
-      return optionData;
+    // (3) both label and value are provided, use them as is
+    if (isValidLabel && _isAllowedValue(option.value)) {
+      return option;
     }
   }
+
 
   return null;
 }
 
-function _isAllowedOption(option) {
-  return _isReadableType(option) && _isOptionSomething(option);
+function _isAllowedPrimitive(value) {
+  const isAllowedPrimitiveType = [ 'number', 'string', 'boolean' ].includes(typeof(value));
+  const isValid = value || value === 0 || value === false;
+
+  return isAllowedPrimitiveType && isValid;
 }
 
-function _isReadableType(option) {
-  return [ 'number', 'string', 'boolean' ].includes(typeof(option));
+function _isValidLabel(label) {
+  return label && isString(label);
 }
 
-function _isOptionSomething(option) {
-  return option || option === 0 || option === false;
+function _isAllowedValue(value) {
+  if (isObject(value)) {
+    return Object.keys(value).length > 0;
+  }
+
+  return _isAllowedPrimitive(value);
 }
 
 export function createEmptyOptions(options = {}) {

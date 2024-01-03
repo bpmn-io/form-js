@@ -46,6 +46,8 @@ describe('Radio', function() {
     expect(inputs).to.have.length(2);
     expect(inputs[ 0 ].id).to.equal('test-radio-0');
     expect(inputs[ 1 ].id).to.equal('test-radio-1');
+    expect(inputs[ 0 ].checked).to.be.true;
+    expect(inputs[ 1 ].checked).to.be.false;
 
     const labels = container.querySelectorAll('label');
 
@@ -97,6 +99,8 @@ describe('Radio', function() {
     expect(inputs).to.have.length(2);
     expect(inputs[0].id).to.equal('test-radio-0');
     expect(inputs[1].id).to.equal('test-radio-1');
+    expect(inputs[0].checked).to.be.true;
+    expect(inputs[1].checked).to.be.false;
 
     const labels = container.querySelectorAll('label');
 
@@ -104,6 +108,22 @@ describe('Radio', function() {
     expect(labels[0].textContent).to.equal('Product');
     expect(labels[1].htmlFor).to.equal('test-radio-0');
     expect(labels[2].htmlFor).to.equal('test-radio-1');
+  });
+
+
+  it('should render selection properly when using object values', function() {
+
+    // when
+    const { container } = createRadio({
+      value: { a: 1, b: 2 },
+      field: dynamicField,
+      initialData: objectDynamicFieldInitialData
+    });
+
+    // then
+    const inputs = container.querySelectorAll('input[type="radio"]');
+    expect(inputs[0].checked).to.be.false;
+    expect(inputs[1].checked).to.be.true;
   });
 
 
@@ -411,6 +431,19 @@ const dynamicFieldInitialData = {
     {
       label: 'Dynamic Value 2',
       value: 'dynamicValue2'
+    }
+  ]
+};
+
+const objectDynamicFieldInitialData = {
+  dynamicValues: [
+    {
+      label: 'Dynamic Value 1',
+      value: { a: 2, b: 1 }
+    },
+    {
+      label: 'Dynamic Value 2',
+      value: { a: 1, b: 2 }
     }
   ]
 };

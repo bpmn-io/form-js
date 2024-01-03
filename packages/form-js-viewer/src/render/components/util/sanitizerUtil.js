@@ -1,3 +1,4 @@
+import isEqual from 'lodash/isEqual';
 import { DATETIME_SUBTYPES } from '../../../util/constants/DatetimeConstants';
 import { isDateInputInformationMatching, isDateTimeInputInformationSufficient, isInvalidDateString, parseIsoTime } from './dateTimeUtil';
 import { getOptionsData, normalizeOptionsData } from './optionsUtil';
@@ -19,6 +20,15 @@ export function sanitizeDateTimePickerValue(options) {
   return value;
 }
 
+export function hasEqualValue(value, array) {
+
+  if (!Array.isArray(array)) {
+    return false;
+  }
+
+  return array.some(element => isEqual(value, element));
+}
+
 export function sanitizeSingleSelectValue(options) {
   const {
     formField,
@@ -28,7 +38,7 @@ export function sanitizeSingleSelectValue(options) {
 
   try {
     const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
-    return validValues.includes(value) ? value : null;
+    return hasEqualValue(value, validValues) ? value : null;
   } catch (error) {
 
     // use default value in case of formatting error
@@ -46,7 +56,7 @@ export function sanitizeMultiSelectValue(options) {
 
   try {
     const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
-    return value.filter(v => validValues.includes(v));
+    return value.filter(v => hasEqualValue(v, validValues));
   } catch (error) {
 
     // use default value in case of formatting error

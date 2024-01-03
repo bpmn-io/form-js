@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { findIndex } from 'min-dash';
 import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
+import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
@@ -38,10 +39,9 @@ export default function SimpleSelect(props) {
     onChange: props.onChange
   });
 
-  // We cache a map of option values to their index so that we don't need to search the whole options array every time to correlate the label
-  const valueToOptionMap = useMemo(() => Object.assign({}, ...options.map((o, x) => ({ [o.value]: options[x] }))), [ options ]);
+  const getLabelCorrelation = useGetLabelCorrelation(options);
 
-  const valueLabel = useMemo(() => value && valueToOptionMap[value] && valueToOptionMap[value].label || '', [ value, valueToOptionMap ]);
+  const valueLabel = useMemo(() => value && getLabelCorrelation(value), [ value, getLabelCorrelation ]);
 
   const setValue = useCallback((option) => {
     props.onChange({ value: option && option.value || null, field });

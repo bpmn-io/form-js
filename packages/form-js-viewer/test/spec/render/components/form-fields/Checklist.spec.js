@@ -16,7 +16,6 @@ const spy = sinon.spy;
 
 let container;
 
-
 describe('Checklist', function() {
 
   beforeEach(function() {
@@ -108,6 +107,80 @@ describe('Checklist', function() {
     expect(inputs[0].checked).to.be.true;
     expect(inputs[1].checked).to.be.false;
     expect(inputs[2].checked).to.be.false;
+
+    const labels = container.querySelectorAll('label');
+
+    expect(labels).to.have.length(4);
+    expect(labels[0].textContent).to.equal('Email data to');
+    expect(labels[1].htmlFor).to.equal('test-checklist-0');
+    expect(labels[2].htmlFor).to.equal('test-checklist-1');
+    expect(labels[3].htmlFor).to.equal('test-checklist-2');
+  });
+
+
+  it('should render dynamically with simplified values', function() {
+
+    // when
+    const { container } = createChecklist({
+      value: [ 'dynamicValue1' ],
+      field: dynamicField,
+      initialData: dynamicFieldInitialDataSimplified
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.classList.contains('fjs-form-field-checklist')).to.be.true;
+
+    const inputs = container.querySelectorAll('input[type="checkbox"]');
+    expect(inputs).to.have.length(3);
+    expect(inputs[0].id).to.equal('test-checklist-0');
+    expect(inputs[1].id).to.equal('test-checklist-1');
+    expect(inputs[2].id).to.equal('test-checklist-2');
+
+    expect(inputs[0].checked).to.be.true;
+    expect(inputs[1].checked).to.be.false;
+    expect(inputs[2].checked).to.be.false;
+
+    const labels = container.querySelectorAll('label');
+
+    expect(labels).to.have.length(4);
+    expect(labels[0].textContent).to.equal('Email data to');
+    expect(labels[1].htmlFor).to.equal('test-checklist-0');
+    expect(labels[2].htmlFor).to.equal('test-checklist-1');
+    expect(labels[3].htmlFor).to.equal('test-checklist-2');
+  });
+
+
+  it('should render dynamically with object values', function() {
+
+    // when
+    const { container } = createChecklist({
+      value: [ {
+        id: 'user3',
+        name: 'User 3',
+        email: 'user3@email.com'
+      } ],
+      field: dynamicField,
+      initialData: dynamicFieldInitialDataObjectValues
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+
+    expect(formField).to.exist;
+    expect(formField.classList.contains('fjs-form-field-checklist')).to.be.true;
+
+    const inputs = container.querySelectorAll('input[type="checkbox"]');
+    expect(inputs).to.have.length(3);
+    expect(inputs[0].id).to.equal('test-checklist-0');
+    expect(inputs[1].id).to.equal('test-checklist-1');
+    expect(inputs[2].id).to.equal('test-checklist-2');
+
+    expect(inputs[0].checked).to.be.false;
+    expect(inputs[1].checked).to.be.false;
+    expect(inputs[2].checked).to.be.true;
 
     const labels = container.querySelectorAll('label');
 
@@ -260,6 +333,70 @@ describe('Checklist', function() {
     });
 
 
+    it('should handle change simplified values', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createChecklist({
+        onChange: onChangeSpy,
+        value: [ 'dynamicValue1' ],
+        field: dynamicField,
+        initialData: dynamicFieldInitialDataSimplified
+      });
+
+      // when
+      const input = container.querySelectorAll('input[type="checkbox"]')[1];
+
+      fireEvent.click(input);
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: [ 'dynamicValue1', 'dynamicValue2' ]
+      });
+
+    });
+
+
+    it('should handle change object values', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createChecklist({
+        onChange: onChangeSpy,
+        value: [ {
+          id: 'user3',
+          name: 'User 3',
+          email: 'user3@email.com'
+        } ],
+        field: dynamicField,
+        initialData: dynamicFieldInitialDataObjectValues
+      });
+
+      // when
+      const input = container.querySelectorAll('input[type="checkbox"]')[1];
+
+      fireEvent.click(input);
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: [ {
+          id: 'user3',
+          name: 'User 3',
+          email: 'user3@email.com'
+        }, {
+          id: 'user2',
+          name: 'User 2',
+          email: 'user2@email.com'
+        } ]
+      });
+
+    });
+
+
     it('should handle toggle', function() {
 
       // given
@@ -282,6 +419,36 @@ describe('Checklist', function() {
         field: dynamicField,
         value: []
       });
+    });
+
+
+    it('should handle toggle object values', function() {
+
+      // given
+      const onChangeSpy = spy();
+
+      const { container } = createChecklist({
+        onChange: onChangeSpy,
+        value: [ {
+          id: 'user3',
+          name: 'User 3',
+          email: 'user3@email.com'
+        } ],
+        field: dynamicField,
+        initialData: dynamicFieldInitialDataObjectValues
+      });
+
+      // when
+      const input = container.querySelectorAll('input[type="checkbox"]')[2];
+
+      fireEvent.click(input, { target: { checked: false } });
+
+      // then
+      expect(onChangeSpy).to.have.been.calledWith({
+        field: dynamicField,
+        value: []
+      });
+
     });
 
   });
@@ -415,6 +582,43 @@ const dynamicFieldInitialData = {
     {
       label: 'Dynamic Value 3',
       value: 'dynamicValue3'
+    }
+  ]
+};
+
+const dynamicFieldInitialDataSimplified = {
+  dynamicValues: [
+    'dynamicValue1',
+    'dynamicValue2',
+    'dynamicValue3'
+  ]
+};
+
+const dynamicFieldInitialDataObjectValues = {
+  dynamicValues: [
+    {
+      label: 'User 1',
+      value: {
+        id: 'user1',
+        name: 'User 1',
+        email: 'user1@email.com'
+      }
+    },
+    {
+      label: 'User 2',
+      value: {
+        id: 'user2',
+        name: 'User 2',
+        email: 'user2@email.com'
+      }
+    },
+    {
+      label: 'User 3',
+      value: {
+        id: 'user3',
+        name: 'User 3',
+        email: 'user3@email.com'
+      }
     }
   ]
 };

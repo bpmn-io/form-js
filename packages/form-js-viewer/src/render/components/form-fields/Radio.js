@@ -1,4 +1,5 @@
 import { useRef } from 'preact/hooks';
+import isEqual from 'lodash/isEqual';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupSingleSelectValue from '../../hooks/useCleanupSingleSelectValue';
 import classNames from 'classnames';
@@ -85,16 +86,17 @@ export default function Radio(props) {
       loadState == LOAD_STATES.LOADED && options.map((option, index) => {
 
         const itemDomId = `${domId}-${index}`;
+        const isChecked = isEqual(option.value, value);
 
         return (
           <Label
             id={ itemDomId }
             key={ index }
             label={ option.label }
-            class={ classNames({ 'fjs-checked': option.value === value }) }
+            class={ classNames({ 'fjs-checked': isChecked }) }
             required={ false }>
             <input
-              checked={ option.value === value }
+              checked={ isChecked }
               class="fjs-input"
               disabled={ disabled }
               readOnly={ readonly }
