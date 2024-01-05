@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.3
+
+* `FIX`: revert broken debouncing on number field ([#958](https://github.com/bpmn-io/form-js/issues/958))
+
 ## 1.6.2
 
 * `FIX`: improved performance through viewer debounce ([#958](https://github.com/bpmn-io/form-js/issues/958))
