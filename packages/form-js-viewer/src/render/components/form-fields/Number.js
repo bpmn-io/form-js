@@ -187,8 +187,8 @@ export default function Numberfield(props) {
           id={ domId }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
-          onBlur={ () => onBlur && onBlur() }
-          onFocus={ () => onFocus && onFocus() }
+          onBlur={ onBlur }
+          onFocus={ onFocus }
 
           // @ts-ignore
           onInput={ (e) => setValue(e.target.value) }
