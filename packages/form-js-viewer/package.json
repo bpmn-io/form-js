@@ -52,7 +52,7 @@
     "feelin": "^3.0.0",
     "flatpickr": "^4.6.13",
     "ids": "^1.0.0",
-    "lodash.isequal": "^4.5.0",
+    "lodash": "^4.5.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",
     "preact-markup": "^2.1.1",
