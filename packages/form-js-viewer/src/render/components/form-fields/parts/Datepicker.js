@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import CalendarIcon from '../icons/Calendar.svg';
 import InputAdorner from './InputAdorner';
 import Label from '../../Label';
+import { useDeepCompareState } from '../../../hooks';
 
 export default function Datepicker(props) {
 
@@ -18,7 +19,7 @@ export default function Datepicker(props) {
     required,
     disabled,
     disallowPassedDates,
-    date,
+    date: dateObject,
     readonly,
     setDate
   } = props;
@@ -30,6 +31,9 @@ export default function Datepicker(props) {
   const [ isInputDirty, setIsInputDirty ] = useState(false);
   const [ forceFocusCalendar, setForceFocusCalendar ] = useState(false);
 
+  // ensures we render based on date value instead of reference
+  const date = useDeepCompareState(dateObject, null);
+
   // shorts the date value back to the source
   useEffect(() => {
 
@@ -38,7 +42,7 @@ export default function Datepicker(props) {
     flatpickrInstance.setDate(date, true);
     setIsInputDirty(false);
 
-  }, [ flatpickrInstance, date.toString() ]);
+  }, [ flatpickrInstance, date ]);
 
   useEffect(() => {
 
