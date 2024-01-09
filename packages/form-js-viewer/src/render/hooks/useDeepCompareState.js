@@ -17,7 +17,7 @@ export default function useDeepCompareState(value, defaultValue) {
 
   const [ state, setState ] = useState(defaultValue);
 
-  const previous = usePrevious(value, defaultValue, [ value ]);
+  const previous = usePrevious(value, defaultValue);
 
   const changed = !isEqual(previous, value);
 

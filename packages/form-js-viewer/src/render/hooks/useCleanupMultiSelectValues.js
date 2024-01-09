@@ -10,10 +10,10 @@ export default function(props) {
     options,
     loadState,
     onChange,
-    values: valuesArray
+    values
   } = props;
 
-  const values = useDeepCompareState(valuesArray, []);
+  const memoizedValues = useDeepCompareState(values, []);
 
   // ensures that the values are always a subset of the possible options
   useEffect(() => {
@@ -23,15 +23,15 @@ export default function(props) {
     }
 
     const optionValues = options.map(o => o.value);
-    const hasValuesNotInOptions = values.some(v => !hasEqualValue(v, optionValues));
+    const hasValuesNotInOptions = memoizedValues.some(v => !hasEqualValue(v, optionValues));
 
     if (hasValuesNotInOptions) {
       onChange({
         field,
-        value: values.filter(v => hasEqualValue(v, optionValues))
+        value: memoizedValues.filter(v => hasEqualValue(v, optionValues))
       });
     }
 
-  }, [ field, options, onChange, values, loadState ]);
+  }, [ field, options, onChange, memoizedValues, loadState ]);
 
 }
