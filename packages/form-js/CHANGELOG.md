@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.4
+
+* `FIX`: explicitly depend on lodash ([#971](https://github.com/bpmn-io/form-js/pull/971))
+
 ## 1.6.3
 
 * `FIX`: revert broken debouncing on number field ([#958](https://github.com/bpmn-io/form-js/issues/958))
