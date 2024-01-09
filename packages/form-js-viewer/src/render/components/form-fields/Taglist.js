@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'preact/hooks';
 
-import { useService } from '../../hooks';
+import { useDeepCompareState, useService } from '../../hooks';
 import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
 import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
 import { useGetLabelCorrelation } from '../../hooks/useGetLabelCorrelation';
@@ -35,7 +35,7 @@ export default function Taglist(props) {
     onBlur,
     field,
     readonly,
-    value : values = []
+    value
   } = props;
 
   const {
@@ -58,6 +58,9 @@ export default function Taglist(props) {
     options
   } = useOptionsAsync(field);
 
+  // ensures we render based on array content instead of reference
+  const values = useDeepCompareState(value || [], []);
+
   useCleanupMultiSelectValues({
     field,
     loadState,
@@ -70,7 +73,6 @@ export default function Taglist(props) {
 
   const hasOptionsLeft = useMemo(() => options.length > values.length, [ options.length, values.length ]);
 
-  // Usage of stringify is necessary here because we want this effect to only trigger when there is a value change to the array
   const filteredOptions = useMemo(() => {
     if (loadState !== LOAD_STATES.LOADED) {
       return [];
@@ -82,7 +84,7 @@ export default function Taglist(props) {
     };
 
     return options.filter(isValidFilteredOption);
-  }, [ filter, options, JSON.stringify(values), loadState ]);
+  }, [ filter, options, values, loadState ]);
 
 
   const selectValue = (value) => {

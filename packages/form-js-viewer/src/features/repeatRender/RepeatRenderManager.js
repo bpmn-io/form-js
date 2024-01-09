@@ -80,10 +80,10 @@ export default class RepeatRenderManager {
     return (
       <>
         {displayValues.map((value, index) => {
-          const elementProps = {
+          const elementProps = useMemo(() => ({
             ...restProps,
-            indexes: { ...(indexes || {}), [ repeaterField.id ]: index },
-          };
+            indexes: { ...(indexes || {}), [ repeaterField.id ]: index }
+          }), [ index ]);
 
           const localExpressionContextInfo = useMemo(() => ({
             data: parentExpressionContextInfo.data,
