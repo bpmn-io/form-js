@@ -1,6 +1,7 @@
 import { useEffect } from 'preact/hooks';
 import { LOAD_STATES } from './useOptionsAsync';
 import { hasEqualValue } from '../components/util/sanitizerUtil';
+import useDeepCompareState from './useDeepCompareState';
 
 export default function(props) {
 
@@ -9,10 +10,12 @@ export default function(props) {
     options,
     loadState,
     onChange,
-    values
+    values: valuesArray
   } = props;
 
-  // Ensures that the values are always a subset of the possible options
+  const values = useDeepCompareState(valuesArray, []);
+
+  // ensures that the values are always a subset of the possible options
   useEffect(() => {
 
     if (loadState !== LOAD_STATES.LOADED) {
@@ -29,6 +32,6 @@ export default function(props) {
       });
     }
 
-  }, [ field, options, onChange, JSON.stringify(values), loadState ]);
+  }, [ field, options, onChange, values, loadState ]);
 
 }

@@ -77,7 +77,7 @@ export default function FormField(props) {
     if (viewerCommands && initialValue) {
       viewerCommands.updateFieldValidation(field, initialValue, indexes);
     }
-  }, [ viewerCommands, field, initialValue, JSON.stringify(indexes) ]);
+  }, [ viewerCommands, field, initialValue, indexes ]);
 
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
