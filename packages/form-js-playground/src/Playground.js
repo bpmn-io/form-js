@@ -29,7 +29,7 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
 /**
  * @param {FormPlaygroundOptions} options
  */
-export default function Playground(options) {
+export function Playground(options) {
 
   const {
     container: parent,

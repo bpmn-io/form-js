@@ -6,8 +6,7 @@ import { EditorState, Compartment } from '@codemirror/state';
 import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { indentWithTab } from '@codemirror/commands';
-
-import autocompletion from './autocompletion/index';
+import { autocompletionExtension } from './autocompletion/index';
 import { variablesFacet } from './autocompletion/VariablesFacet';
 
 import {
@@ -70,7 +69,7 @@ export function JSONEditor(options = {}) {
         placeholderLinterExtension,
         lintGutter(),
         autocompletionConf.of(variablesFacet.of(variables)),
-        autocompletion(),
+        autocompletionExtension(),
         keymap.of([ indentWithTab ]),
         editorPlaceholder ? placeholder(editorPlaceholder) : [],
         ...extensions
