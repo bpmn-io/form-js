@@ -3,7 +3,7 @@ import {
   inject
 } from '../../../../TestHelper';
 
-import modelingModule from 'src/features/modeling';
+import { ModelingModule } from 'src/features/modeling';
 
 import schema from '../../../defaultValues.json';
 
@@ -11,7 +11,7 @@ describe('features/modeling - OptionsSourceBehavior', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     additionalModules: [
-      modelingModule
+      ModelingModule
     ]
   }));
 

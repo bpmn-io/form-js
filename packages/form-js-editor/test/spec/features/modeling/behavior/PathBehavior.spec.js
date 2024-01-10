@@ -3,7 +3,7 @@ import {
   inject
 } from '../../../../TestHelper';
 
-import modelingModule from 'src/features/modeling';
+import { ModelingModule } from 'src/features/modeling';
 
 import schema from '../../../form.json';
 
@@ -12,7 +12,7 @@ describe('features/modeling - PathBehavior', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     additionalModules: [
-      modelingModule
+      ModelingModule
     ]
   }));
 

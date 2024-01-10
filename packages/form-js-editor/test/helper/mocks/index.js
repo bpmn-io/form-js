@@ -2,7 +2,7 @@
 import { Injector } from 'didi';
 import { isUndefined } from 'min-dash';
 
-import EditorFormFields from '../../../src/render/EditorFormFields';
+import { EditorFormFields } from '../../../src/render/EditorFormFields';
 
 const EDITOR_CONFIG = {
   propertiesPanel: {
