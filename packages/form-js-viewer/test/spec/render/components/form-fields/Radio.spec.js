@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Radio from '../../../../../src/render/components/form-fields/Radio';
+import { Radio } from '../../../../../src/render/components/form-fields/Radio';
 
 import {
   createFormContainer,

@@ -4,7 +4,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Number from '../../../../../src/render/components/form-fields/Number';
+import { Numberfield } from '../../../../../src/render/components/form-fields/Number';
 
 import { MockFormContext } from '../helper';
 
@@ -883,7 +883,7 @@ describe('Number', function() {
   it('#create', function() {
 
     // assume
-    const { config } = Number;
+    const { config } = Numberfield;
     expect(config.type).to.eql('number');
     expect(config.label).to.eql('Number');
     expect(config.group).to.eql('basic-input');
@@ -912,7 +912,7 @@ describe('Number', function() {
     it('should sanitize valid number strings to numbers', function() {
 
       // given
-      const { sanitizeValue } = Number.config;
+      const { sanitizeValue } = Numberfield.config;
 
       // when
       const sanitizedValue1 = sanitizeValue({ value: '123', formField: { serializeToString: false } });
@@ -932,7 +932,7 @@ describe('Number', function() {
     it('should sanitize arrays and objects to null', function() {
 
       // given
-      const { sanitizeValue } = Number.config;
+      const { sanitizeValue } = Numberfield.config;
 
       // when
       const sanitizedValue1 = sanitizeValue({ value: [], formField: { serializeToString: false } });
@@ -948,7 +948,7 @@ describe('Number', function() {
     it('should sanitize invalid number strings to null', function() {
 
       // given
-      const { sanitizeValue } = Number.config;
+      const { sanitizeValue } = Numberfield.config;
 
       // when
       const sanitizedValue1 = sanitizeValue({ value: 'abc', formField: { serializeToString: false } });
@@ -970,7 +970,7 @@ describe('Number', function() {
     it('should sanitize booleans to null', function() {
 
       // given
-      const { sanitizeValue } = Number.config;
+      const { sanitizeValue } = Numberfield.config;
 
       // when
       const sanitizedValue1 = sanitizeValue({ value: true, formField: { serializeToString: false } });
@@ -1118,7 +1118,7 @@ function createNumberField({ services, ...restOptions } = {}) {
     <MockFormContext
       services={ services }
       options={ options }>
-      <Number
+      <Numberfield
         disabled={ options.disabled }
         readonly={ options.readonly }
         errors={ options.errors }

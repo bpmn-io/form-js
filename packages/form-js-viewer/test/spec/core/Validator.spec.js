@@ -1,7 +1,5 @@
 import EventBus from 'diagram-js/lib/core/EventBus';
-
-import Validator from '../../../src/core/Validator';
-
+import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
 
 

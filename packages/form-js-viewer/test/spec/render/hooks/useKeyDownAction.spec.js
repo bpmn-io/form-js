@@ -4,7 +4,7 @@ import {
   cleanup
 } from '@testing-library/preact/pure';
 
-import useKeyDownAction from '../../../../src/render/hooks/useKeyDownAction';
+import { useKeyDownAction } from '../../../../src/render/hooks/useKeyDownAction';
 
 const spy = sinon.spy;
 let root;

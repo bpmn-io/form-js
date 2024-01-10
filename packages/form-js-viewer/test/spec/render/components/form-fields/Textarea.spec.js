@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Textarea from '../../../../../src/render/components/form-fields/Textarea';
+import { Textarea } from '../../../../../src/render/components/form-fields/Textarea';
 
 import {
   createFormContainer,

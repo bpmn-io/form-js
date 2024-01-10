@@ -2,7 +2,7 @@ import {
   render,
 } from '@testing-library/preact/pure';
 
-import useCleanupSingleSelectValue from '../../../../src/render/hooks/useCleanupSingleSelectValue';
+import { useCleanupSingleSelectValue } from '../../../../src/render/hooks/useCleanupSingleSelectValue';
 
 const spy = sinon.spy;
 let root;

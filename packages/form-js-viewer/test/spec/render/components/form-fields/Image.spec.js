@@ -1,6 +1,6 @@
 import { render } from '@testing-library/preact/pure';
 
-import Image from '../../../../../src/render/components/form-fields/Image';
+import { Image } from '../../../../../src/render/components/form-fields/Image';
 
 import {
   createFormContainer,

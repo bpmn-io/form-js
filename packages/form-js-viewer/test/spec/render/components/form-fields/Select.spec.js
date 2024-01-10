@@ -4,7 +4,7 @@ import {
   screen
 } from '@testing-library/preact/pure';
 
-import Select from '../../../../../src/render/components/form-fields/Select';
+import { Select } from '../../../../../src/render/components/form-fields/Select';
 
 import {
   createFormContainer,

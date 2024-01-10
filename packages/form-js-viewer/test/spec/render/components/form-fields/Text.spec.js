@@ -1,6 +1,6 @@
 import { render } from '@testing-library/preact/pure';
 
-import Text from '../../../../../src/render/components/form-fields/Text';
+import { Text } from '../../../../../src/render/components/form-fields/Text';
 
 import {
   createFormContainer,

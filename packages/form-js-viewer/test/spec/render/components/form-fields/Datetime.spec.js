@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/preact/pure';
 
-import Datetime from '../../../../../src/render/components/form-fields/Datetime';
+import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
 
 import {
   createFormContainer,
