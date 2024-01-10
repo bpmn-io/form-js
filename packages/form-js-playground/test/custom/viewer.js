@@ -1,4 +1,3 @@
-
 import {
   Errors,
   FormContext,
@@ -93,7 +92,7 @@ class CustomFormFields {
   }
 }
 
-export default {
+export const CustomFormFieldsModule = {
   __init__: [ 'customFormFields' ],
   customFormFields: [ 'type', CustomFormFields ]
 };
