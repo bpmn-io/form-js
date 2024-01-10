@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { isString } from 'min-dash';
 
-export default function InputAdorner(props) {
+export function InputAdorner(props) {
 
   const {
     pre,

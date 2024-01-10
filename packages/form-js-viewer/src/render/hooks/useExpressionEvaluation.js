@@ -1,5 +1,5 @@
-import useService from './useService';
-import LocalExpressionContext from '../context/LocalExpressionContext';
+import { useService } from './useService';
+import { LocalExpressionContext } from '../context/LocalExpressionContext';
 import { useContext, useMemo } from 'preact/hooks';
 import { buildExpressionContext } from '../../util/simple';
 
@@ -11,7 +11,7 @@ import { buildExpressionContext } from '../../util/simple';
  * @param {string} value - The string to evaluate.
  * @returns {any} - Evaluated value or the original value if not an expression.
  */
-export default function useExpressionEvaluation(value) {
+export function useExpressionEvaluation(value) {
   const expressionLanguage = useService('expressionLanguage');
   const expressionContextInfo = useContext(LocalExpressionContext);
 

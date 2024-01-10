@@ -1,6 +1,6 @@
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
 
 import {
   formFieldClasses
@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 const type = 'checkbox';
 
-export default function Checkbox(props) {
+export function Checkbox(props) {
   const {
     disabled,
     errors = [],

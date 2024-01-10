@@ -2,7 +2,7 @@ import { formFieldClasses } from '../Util';
 
 const type = 'button';
 
-export default function Button(props) {
+export function Button(props) {
   const {
     disabled,
     onFocus,

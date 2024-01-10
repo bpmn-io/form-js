@@ -1,6 +1,6 @@
-import MarkdownRenderer from './MarkdownRenderer';
+import { MarkdownRenderer } from './MarkdownRenderer';
 
-export default {
+export const MarkdownRendererModule = {
   __init__: [ 'markdownRenderer' ],
   markdownRenderer: [ 'type', MarkdownRenderer ],
 };

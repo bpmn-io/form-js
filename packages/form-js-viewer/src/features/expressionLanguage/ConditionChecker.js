@@ -7,7 +7,7 @@ import { buildExpressionContext, clone } from '../../util';
  * @property {string} [hide]
  */
 
-export default class ConditionChecker {
+export class ConditionChecker {
   constructor(formFieldRegistry, pathRegistry, eventBus) {
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;

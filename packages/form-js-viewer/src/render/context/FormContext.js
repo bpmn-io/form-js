@@ -8,9 +8,7 @@ import { createContext } from 'preact';
  */
 function getService(type, strict) {}
 
-const FormContext = createContext({
+export const FormContext = createContext({
   getService,
   formId: null
 });
-
-export default FormContext;

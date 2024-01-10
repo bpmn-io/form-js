@@ -1,9 +1,9 @@
 import { useEffect } from 'preact/hooks';
 import { LOAD_STATES } from './useOptionsAsync';
 import { hasEqualValue } from '../components/util/sanitizerUtil';
-import useDeepCompareState from './useDeepCompareState';
+import { useDeepCompareState } from './useDeepCompareState';
 
-export default function(props) {
+export function useCleanupMultiSelectValue(props) {
 
   const {
     field,

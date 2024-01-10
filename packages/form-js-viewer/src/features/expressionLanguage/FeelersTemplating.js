@@ -2,7 +2,7 @@ import { parser as feelersParser, buildSimpleTree, evaluate as evaluateFeelers }
 import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
-export default class FeelersTemplating {
+export class FeelersTemplating {
 
   constructor() { }
 

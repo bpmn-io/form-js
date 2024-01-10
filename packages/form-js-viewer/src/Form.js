@@ -3,12 +3,12 @@ import { get, isObject, isString, isUndefined, set } from 'min-dash';
 
 import {
   ExpressionLanguageModule,
-  MarkdownModule,
+  MarkdownRendererModule,
   ViewerCommandsModule,
   RepeatRenderModule
 } from './features';
 
-import core from './core';
+import { CoreModule } from './core';
 
 import { clone, createFormContainer, createInjector } from './util';
 
@@ -40,7 +40,7 @@ const ids = new Ids([ 32, 36, 1 ]);
 /**
  * The form.
  */
-export default class Form {
+export class Form {
 
   /**
    * @constructor
@@ -350,7 +350,7 @@ export default class Form {
     return createInjector([
       { config: [ 'value', enrichedConfig ] },
       { form: [ 'value', this ] },
-      core,
+      CoreModule,
       ...modules,
       ...additionalModules
     ]);
@@ -422,7 +422,7 @@ export default class Form {
   _getModules() {
     return [
       ExpressionLanguageModule,
-      MarkdownModule,
+      MarkdownRendererModule,
       ViewerCommandsModule,
       RepeatRenderModule
     ];

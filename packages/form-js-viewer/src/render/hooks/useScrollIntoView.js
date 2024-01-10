@@ -13,7 +13,7 @@ import { useEffect } from 'preact/hooks';
  * @param {Number} [scrollOptions.offset=0] - An offset that is added to the scroll position.
  * @param {Boolean} [scrollOptions.scrollIfVisible=false] - Whether to scroll even if the element is visible.
  */
-export default function useScrollIntoView(targetRef, deps, scrollOptions = null, flagRefs = []) {
+export function useScrollIntoView(targetRef, deps, scrollOptions = null, flagRefs = []) {
   useEffect(() => {
 
     // return early if flags are not raised, or component is not mounted

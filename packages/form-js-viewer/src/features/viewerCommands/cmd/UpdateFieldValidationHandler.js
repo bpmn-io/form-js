@@ -1,7 +1,7 @@
 import { set } from 'min-dash';
 import { clone } from '../../../util';
 
-export default class UpdateFieldValidationHandler {
+export class UpdateFieldValidationHandler {
 
   constructor(form, validator) {
     this._form = form;

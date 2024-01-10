@@ -8,10 +8,10 @@ import { FormContext } from '../../context';
 
 import { DATETIME_SUBTYPES, DATETIME_SUBTYPE_PATH, DATE_LABEL_PATH } from '../../../util/constants/DatetimeConstants';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Datepicker from './parts/Datepicker';
-import Timepicker from './parts/Timepicker';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Datepicker } from './parts/Datepicker';
+import { Timepicker } from './parts/Timepicker';
 
 import { formFieldClasses, prefixId } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
@@ -19,7 +19,7 @@ import { parseIsoTime, serializeDate, serializeDateTime, serializeTime } from '.
 
 const type = 'datetime';
 
-export default function Datetime(props) {
+export function Datetime(props) {
   const {
     disabled,
     errors = [],

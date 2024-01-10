@@ -1,4 +1,4 @@
-import Form from './Form';
+import { Form } from './Form';
 
 export { FormFieldRegistry, FormLayouter, Importer, FieldFactory, PathRegistry } from './core';
 export * from './render';

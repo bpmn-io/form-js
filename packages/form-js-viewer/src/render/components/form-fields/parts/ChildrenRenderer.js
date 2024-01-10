@@ -1,12 +1,12 @@
 import { useContext, useState } from 'preact/hooks';
 
-import useService from '../../../hooks/useService';
+import { useService } from '../../../hooks/useService';
 
-import FormField from '../../FormField';
+import { FormField } from '../../FormField';
 
 import { FormRenderContext } from '../../../context';
 
-export default function ChildrenRenderer(props) {
+export function ChildrenRenderer(props) {
 
   const {
     Children

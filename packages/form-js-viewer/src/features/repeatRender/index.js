@@ -1,6 +1,6 @@
-import RepeatRenderManager from './RepeatRenderManager';
+import { RepeatRenderManager } from './RepeatRenderManager';
 
-export default {
+export const RepeatRenderModule = {
   __init__: [ 'repeatRenderManager' ],
   repeatRenderManager: [ 'type', RepeatRenderManager ],
 };

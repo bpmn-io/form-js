@@ -1,7 +1,7 @@
 import { useSingleLineTemplateEvaluation } from '../hooks';
 
 
-export default function Description(props) {
+export function Description(props) {
   const { description } = props;
 
   const evaluatedDescription = useSingleLineTemplateEvaluation(description || '', { debug: true });

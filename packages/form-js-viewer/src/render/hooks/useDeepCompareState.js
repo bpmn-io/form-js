@@ -3,7 +3,7 @@ import {
   useState
 } from 'preact/hooks';
 
-import usePrevious from './usePrevious';
+import { usePrevious } from './usePrevious';
 import isEqual from 'lodash/isEqual';
 
 /**
@@ -13,7 +13,7 @@ import isEqual from 'lodash/isEqual';
  * @param {any} defaultValue - The initial default value for the state.
  * @returns {any} - Returns the current state.
  */
-export default function useDeepCompareState(value, defaultValue) {
+export function useDeepCompareState(value, defaultValue) {
 
   const [ state, setState ] = useState(defaultValue);
 

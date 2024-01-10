@@ -5,7 +5,7 @@ import { FormContext } from '../../context';
 import { useSingleLineTemplateEvaluation } from '../../hooks';
 import { sanitizeIFrameSource } from '../Sanitizer';
 
-import Label from '../Label';
+import { Label } from '../Label';
 
 import {
   formFieldClasses,
@@ -17,7 +17,7 @@ const type = 'iframe';
 const DEFAULT_HEIGHT = 300;
 
 
-export default function IFrame(props) {
+export function IFrame(props) {
   const {
     field,
     disabled,

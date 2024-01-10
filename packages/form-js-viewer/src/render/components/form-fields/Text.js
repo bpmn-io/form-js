@@ -9,7 +9,7 @@ import {
 
 const type = 'text';
 
-export default function Text(props) {
+export function Text(props) {
 
   const form = useService('form');
   const { textLinkTarget } = form._getState().properties;
