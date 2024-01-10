@@ -1,4 +1,4 @@
-import PropertiesPanel from './PropertiesPanel';
+import { PropertiesPanel } from './PropertiesPanel';
 
 import {
   render
@@ -13,7 +13,7 @@ const DEFAULT_PRIORITY = 1000;
 
 /**
  * @typedef { { parent: Element } } PropertiesPanelConfig
- * @typedef { import('../../core/EventBus').default } EventBus
+ * @typedef { import('../../core/EventBus').EventBus } EventBus
  * @typedef { import('../../types').Injector } Injector
  * @typedef { { getGroups: ({ formField, editFormField }) => ({ groups}) => Array } } PropertiesProvider
  */
@@ -23,7 +23,7 @@ const DEFAULT_PRIORITY = 1000;
  * @param {Injector} injector
  * @param {EventBus} eventBus
  */
-export default class PropertiesPanelRenderer {
+export class PropertiesPanelRenderer {
 
   constructor(propertiesPanelConfig, injector, eventBus) {
     const {

@@ -6,12 +6,12 @@ import {
   updatePath
 } from './Util';
 
-export default class AddFormFieldHandler {
+export class AddFormFieldHandler {
 
   /**
    * @constructor
-   * @param { import('../../../FormEditor').default } formEditor
-   * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../../../FormEditor').FormEditor } formEditor
+   * @param { import('../../../core/FormFieldRegistry').FormFieldRegistry } formFieldRegistry
    */
   constructor(formEditor, formFieldRegistry) {
     this._formEditor = formEditor;

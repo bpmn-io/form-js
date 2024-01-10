@@ -5,7 +5,7 @@ import {
 import { FormPropertiesPanelContext } from '../context';
 
 
-export default function(type, strict) {
+export function useService(type, strict) {
   const {
     getService
   } = useContext(FormPropertiesPanelContext);

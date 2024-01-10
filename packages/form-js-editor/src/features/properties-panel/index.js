@@ -1,13 +1,13 @@
-import PropertiesPanelModule from './PropertiesPanelRenderer';
-import PropertiesProvider from './PropertiesProvider';
+import { PropertiesPanelRenderer } from './PropertiesPanelRenderer';
+import { PropertiesProvider } from './PropertiesProvider';
 
 import { FeelPopupModule } from '@bpmn-io/properties-panel';
 
-export default {
+export const PropertiesPanelModule = {
   __depends__: [
     FeelPopupModule
   ],
   __init__: [ 'propertiesPanel', 'propertiesProvider' ],
-  propertiesPanel: [ 'type', PropertiesPanelModule ],
+  propertiesPanel: [ 'type', PropertiesPanelRenderer ],
   propertiesProvider: [ 'type', PropertiesProvider ]
 };

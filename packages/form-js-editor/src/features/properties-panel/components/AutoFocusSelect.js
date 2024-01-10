@@ -10,7 +10,7 @@ import {
 import { useService } from '../hooks';
 
 
-export default function AutoFocusSelectEntry(props) {
+export function AutoFocusSelectEntry(props) {
   const {
     autoFocusEntry,
     element,

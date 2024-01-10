@@ -5,7 +5,7 @@ import { useService } from '../hooks';
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 
-export default function CustomValueEntry(props) {
+export function CustomValueEntry(props) {
   const {
     editField,
     field,

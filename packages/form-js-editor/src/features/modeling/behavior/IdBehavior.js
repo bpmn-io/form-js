@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-export default class IdBehavior extends CommandInterceptor {
+export class IdBehavior extends CommandInterceptor {
   constructor(eventBus, modeling) {
     super(eventBus);
 

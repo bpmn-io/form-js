@@ -3,8 +3,7 @@ import { get } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
-
-export default function OptionsExpressionEntry(props) {
+export function OptionsExpressionEntry(props) {
   const {
     editField,
     field,

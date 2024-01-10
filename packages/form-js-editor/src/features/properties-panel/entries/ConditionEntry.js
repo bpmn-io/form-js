@@ -3,7 +3,7 @@ import { get } from 'min-dash';
 
 import { useService, useVariables } from '../hooks';
 
-export default function ConditionEntry(props) {
+export function ConditionEntry(props) {
   const {
     editField,
     field

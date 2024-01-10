@@ -5,7 +5,7 @@ import { INPUTS } from '../Util';
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 
-export default function DisabledEntry(props) {
+export function DisabledEntry(props) {
   const {
     editField,
     field

@@ -7,7 +7,7 @@ import { Fill, Slot } from '../slot-fill';
  * A functional component that holds all injected renderers.
  * @returns {any} The rendered component.
  */
-export default () => {
+export const InjectedRendersRoot = () => {
 
   const renderInjector = useService('renderInjector');
 

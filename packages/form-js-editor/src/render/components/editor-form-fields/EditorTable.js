@@ -6,7 +6,7 @@ import classNames from 'classnames';
  * @param {import('@bpmn-io/form-js-viewer/src/render/components/form-fields/Table').Props} props
  * @returns {import("preact").JSX.Element}
  */
-export default function EditorTable(props) {
+export function EditorTable(props) {
   const { columnsExpression, columns, id, label } = props.field;
   const shouldUseMockColumns =
     (typeof columnsExpression === 'string' && columnsExpression.length > 0) ||

@@ -1,4 +1,4 @@
-export default class UpdatePathClaimHandler {
+export class UpdatePathClaimHandler {
 
   /**
    * @constructor

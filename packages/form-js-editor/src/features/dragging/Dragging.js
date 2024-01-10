@@ -17,16 +17,16 @@ export const ERROR_DROP_CLS = 'fjs-error-drop';
  * @typedef { { id: String, components: Array<any> } } FormRow
  */
 
-export default class Dragging {
+export class Dragging {
 
   /**
    * @constructor
    *
-   * @param { import('../../core/FormFieldRegistry').default } formFieldRegistry
-   * @param { import('../../core/FormLayouter').default } formLayouter
-   * @param { import('../../core/FormLayoutValidator').default } formLayoutValidator
-   * @param { import('../../core/EventBus').default } eventBus
-   * @param { import('../modeling/Modeling').default } modeling
+   * @param { import('../../core/FormFieldRegistry').FormFieldRegistry } formFieldRegistry
+   * @param { import('../../core/FormLayouter').FormLayouter } formLayouter
+   * @param { import('../../core/FormLayoutValidator').FormLayoutValidator } formLayoutValidator
+   * @param { import('../../core/EventBus').EventBus } eventBus
+   * @param { import('../modeling/Modeling').Modeling } modeling
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    */
   constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry) {

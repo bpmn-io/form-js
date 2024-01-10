@@ -3,13 +3,13 @@ export const MAX_COLUMNS = 16;
 export const MIN_COLUMNS = 2;
 export const MAX_FIELDS_PER_ROW = 4;
 
-export default class FormLayoutValidator {
+export class FormLayoutValidator {
 
   /**
    * @constructor
    *
-   * @param { import('./FormLayouter').default } formLayouter
-   * @param { import('./FormFieldRegistry').default } formFieldRegistry
+   * @param { import('./FormLayouter').FormLayouter } formLayouter
+   * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
    */
   constructor(formLayouter, formFieldRegistry) {
     this._formLayouter = formLayouter;

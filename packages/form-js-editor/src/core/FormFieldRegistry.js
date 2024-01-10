@@ -3,7 +3,7 @@ import {
 } from '@bpmn-io/form-js-viewer';
 
 
-export default class FormFieldRegistry extends BaseFieldRegistry {
+export class FormFieldRegistry extends BaseFieldRegistry {
 
   /**
    * Updates a form fields id.

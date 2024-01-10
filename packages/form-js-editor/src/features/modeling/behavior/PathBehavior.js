@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-export default class PathBehavior extends CommandInterceptor {
+export class PathBehavior extends CommandInterceptor {
   constructor(eventBus, modeling, formFields) {
     super(eventBus);
 

@@ -1,13 +1,12 @@
-import Modeling from './Modeling';
-
-import FormLayoutUpdater from './FormLayoutUpdater';
-
-import behaviorModule from './behavior';
 import commandModule from 'diagram-js/lib/command';
 
-export default {
+import { BehaviorModule } from './behavior';
+import { FormLayoutUpdater } from './FormLayoutUpdater';
+import { Modeling } from './Modeling';
+
+export const ModelingModule = {
   __depends__: [
-    behaviorModule,
+    BehaviorModule,
     commandModule
   ],
   __init__: [ 'formLayoutUpdater', 'modeling' ],

@@ -7,7 +7,7 @@ import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-pane
 import { isValidDotPath } from '../Util';
 
 
-export default function PathEntry(props) {
+export function PathEntry(props) {
   const {
     editField,
     field,

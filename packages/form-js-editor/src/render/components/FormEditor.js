@@ -21,15 +21,15 @@ import {
 
 import classNames from 'classnames';
 
-import useService from '../hooks/useService';
+import { useService } from '../hooks/useService';
 
 import { DragAndDropContext } from '../context';
 
 import { DeleteIcon, DraggableIcon } from './icons';
 
-import ModularSection from './ModularSection';
-import Palette, { collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
-import InjectedRendersRoot from '../../features/render-injection/components/InjectedRendersRoot';
+import { ModularSection } from './ModularSection';
+import { Palette, collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
+import { InjectedRendersRoot } from '../../features/render-injection/components/InjectedRendersRoot';
 
 import { SlotFillRoot } from '../../features/render-injection/slot-fill';
 
@@ -321,7 +321,7 @@ function Column(props) {
   );
 }
 
-export default function FormEditor() {
+export function FormEditor() {
   const dragging = useService('dragging'),
         eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
