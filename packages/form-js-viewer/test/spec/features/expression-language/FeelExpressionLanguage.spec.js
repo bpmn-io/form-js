@@ -1,4 +1,4 @@
-import FeelExpressionLanguage from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
+import { FeelExpressionLanguage } from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
 
 describe('FeelExpressionLanguage', function() {
 

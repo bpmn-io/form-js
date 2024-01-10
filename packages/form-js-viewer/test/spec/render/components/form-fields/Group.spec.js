@@ -2,7 +2,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Group from '../../../../../src/render/components/form-fields/Group';
+import { Group } from '../../../../../src/render/components/form-fields/Group';
 
 import {
   createFormContainer,

@@ -2,7 +2,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Description from '../../../../src/render/components/Description';
+import { Description } from '../../../../src/render/components/Description';
 
 import {
   createFormContainer,

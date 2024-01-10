@@ -4,7 +4,7 @@ import {
   screen
 } from '@testing-library/preact/pure';
 
-import Taglist from '../../../../../src/render/components/form-fields/Taglist';
+import { Taglist } from '../../../../../src/render/components/form-fields/Taglist';
 
 import {
   createFormContainer,

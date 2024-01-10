@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/preact/pure';
 
-import Table from '../../../../../src/render/components/form-fields/Table';
+import { Table } from '../../../../../src/render/components/form-fields/Table';
 
 import {
   createFormContainer,

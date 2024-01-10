@@ -7,11 +7,11 @@ import {
   classes
 } from 'min-dom';
 
-import FormField from 'src/render/components/FormField';
+import { FormField } from 'src/render/components/FormField';
 
-import Textfield from 'src/render/components/form-fields/Textfield';
+import { Textfield } from 'src/render/components/form-fields/Textfield';
 
-import UpdateFieldValidationHandler from 'src/features/viewerCommands/cmd/UpdateFieldValidationHandler';
+import { UpdateFieldValidationHandler } from 'src/features/viewerCommands/cmd/UpdateFieldValidationHandler';
 
 import { MockFormContext } from './helper';
 

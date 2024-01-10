@@ -1,6 +1,6 @@
 import { render } from '@testing-library/preact/pure';
 
-import Spacer from '../../../../../src/render/components/form-fields/Spacer';
+import { Spacer } from '../../../../../src/render/components/form-fields/Spacer';
 
 import {
   createFormContainer

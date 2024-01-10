@@ -2,7 +2,7 @@ import {
   render,
 } from '@testing-library/preact/pure';
 
-import useCleanupMultiSelectValues from '../../../../src/render/hooks/useCleanupMultiSelectValues';
+import { useCleanupMultiSelectValue } from '../../../../src/render/hooks/useCleanupMultiSelectValue';
 
 const spy = sinon.spy;
 let root;
@@ -111,7 +111,7 @@ const noPlatformOptions = [
 
 function TestComponent({ onChangeSpy, options, values }) {
 
-  useCleanupMultiSelectValues({
+  useCleanupMultiSelectValue({
     field: 'foo',
     loadState: 'loaded',
     onChange: onChangeSpy,

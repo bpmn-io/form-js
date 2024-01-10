@@ -12,7 +12,7 @@ import {
 
 import { spy } from 'sinon';
 
-import customButtonModule from './custom';
+import { CustomFormFieldsModule } from './custom';
 
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
@@ -1063,7 +1063,7 @@ describe('Form', function() {
       data,
       schema: customFieldSchema,
       additionalModules: [
-        customButtonModule
+        CustomFormFieldsModule
       ]
     });
 
