@@ -2,7 +2,7 @@ import { get } from 'min-dash';
 import { useService } from '../../hooks';
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
-export default function simpleStringEntryFactory(options) {
+export function simpleStringEntryFactory(options) {
   const {
     id,
     label,

@@ -4,7 +4,8 @@ import { get } from 'min-dash';
 
 import Big from 'big.js';
 
-export default function NumberSerializationEntry(props) {
+
+export function NumberSerializationEntry(props) {
   const {
     editField,
     field

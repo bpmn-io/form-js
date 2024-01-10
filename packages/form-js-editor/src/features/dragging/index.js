@@ -1,6 +1,6 @@
-import Dragging from './Dragging';
+import { Dragging } from './Dragging';
 
-export default {
+export const DraggingModule = {
   __init__: [ 'dragging' ],
   dragging: [ 'type', Dragging ]
 };

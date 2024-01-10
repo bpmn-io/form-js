@@ -1,6 +1,6 @@
 import { Fragment } from 'preact';
 import { useContext, useMemo } from 'preact/hooks';
-import SlotContext from './SlotContext';
+import { SlotContext } from './SlotContext';
 
 /**
  * Functional component for rendering slot fills.
@@ -13,7 +13,7 @@ import SlotContext from './SlotContext';
  * @param {number} props.limit Limit on the number of slot fills to render
  * @returns {Array} Array of rendered slot fills, grouped and separated as specified
  */
-export default (props) => {
+export const Slot = (props) => {
   const {
     name,
     fillRoot = FillFragment,

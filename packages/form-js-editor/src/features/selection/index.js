@@ -1,7 +1,7 @@
-import Selection from './Selection';
-import SelectionBehavior from './SelectionBehavior';
+import { Selection } from './Selection';
+import { SelectionBehavior } from './SelectionBehavior';
 
-export default {
+export const SelectionModule = {
   __init__: [ 'selection', 'selectionBehavior' ],
   selection: [ 'type', Selection ],
   selectionBehavior: [ 'type', SelectionBehavior ]

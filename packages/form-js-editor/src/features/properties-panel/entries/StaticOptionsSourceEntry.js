@@ -1,9 +1,9 @@
 import { isUndefined, without } from 'min-dash';
 import { arrayAdd } from '../Util';
-import ValueEntry from './ValueEntry';
+import { ValueEntry } from './ValueEntry';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
-export default function StaticOptionsSourceEntry(props) {
+export function StaticOptionsSourceEntry(props) {
   const {
     editField,
     field,

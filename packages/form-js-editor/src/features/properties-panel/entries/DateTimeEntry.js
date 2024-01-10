@@ -15,7 +15,7 @@ import {
 
 import { get } from 'min-dash';
 
-export default function DateTimeEntry(props) {
+export function DateTimeEntry(props) {
   const {
     editField,
     field

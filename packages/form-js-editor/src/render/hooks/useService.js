@@ -5,7 +5,7 @@ import {
 import { FormEditorContext } from '../context';
 
 
-export default function(type, strict) {
+export function useService(type, strict) {
   const {
     getService
   } = useContext(FormEditorContext);

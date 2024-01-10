@@ -7,7 +7,7 @@ import { useService, useVariables } from '../hooks';
 import { FeelToggleSwitchEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 
-export default function ReadonlyEntry(props) {
+export function ReadonlyEntry(props) {
   const {
     editField,
     field

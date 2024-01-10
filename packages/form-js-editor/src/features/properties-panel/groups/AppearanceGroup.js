@@ -5,7 +5,7 @@ import {
 } from '../entries';
 
 
-export default function AppearanceGroup(field, editField, getService) {
+export function AppearanceGroup(field, editField, getService) {
 
   const entries = [
     ...AdornerEntry({ field, editField }),

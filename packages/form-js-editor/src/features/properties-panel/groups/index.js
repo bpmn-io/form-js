@@ -1,10 +1,10 @@
-export { default as GeneralGroup } from './GeneralGroup';
-export { default as SerializationGroup } from './SerializationGroup';
-export { default as ConstraintsGroup } from './ConstraintsGroup';
-export { default as ValidationGroup } from './ValidationGroup';
-export { default as OptionsGroups } from './OptionsGroups';
-export { default as CustomPropertiesGroup } from './CustomPropertiesGroup';
-export { default as AppearanceGroup } from './AppearanceGroup';
-export { default as LayoutGroup } from './LayoutGroup';
+export { GeneralGroup } from './GeneralGroup';
+export { SerializationGroup } from './SerializationGroup';
+export { ConstraintsGroup } from './ConstraintsGroup';
+export { ValidationGroup } from './ValidationGroup';
+export { OptionsGroups } from './OptionsGroups';
+export { CustomPropertiesGroup } from './CustomPropertiesGroup';
+export { AppearanceGroup } from './AppearanceGroup';
+export { LayoutGroup } from './LayoutGroup';
 export { ConditionGroup } from './ConditionGroup';
 export { TableHeaderGroups } from './TableHeaderGroups';

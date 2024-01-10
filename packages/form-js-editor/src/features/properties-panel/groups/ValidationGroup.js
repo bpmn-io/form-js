@@ -32,7 +32,7 @@ const VALIDATION_TYPE_OPTIONS = {
   },
 };
 
-export default function ValidationGroup(field, editField) {
+export function ValidationGroup(field, editField) {
   const { type } = field;
   const validate = get(field, [ 'validate' ], {});
   const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate.validationType);

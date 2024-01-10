@@ -12,7 +12,7 @@ import { MIN_COLUMNS } from '../../../core/FormLayoutValidator';
 
 export const AUTO_OPTION_VALUE = '';
 
-export default function ColumnsEntry(props) {
+export function ColumnsEntry(props) {
   const {
     editField,
     field

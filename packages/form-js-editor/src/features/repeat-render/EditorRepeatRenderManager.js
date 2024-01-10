@@ -1,6 +1,6 @@
 import RepeatSvg from '../../render/components/icons/Repeat.svg';
 
-export default class RepeatRenderManager {
+export class EditorRepeatRenderManager {
 
   constructor(formFields, formFieldRegistry) {
     this._formFields = formFields;
@@ -31,4 +31,4 @@ export default class RepeatRenderManager {
 
 }
 
-RepeatRenderManager.$inject = [ 'formFields', 'formFieldRegistry' ];
+EditorRepeatRenderManager.$inject = [ 'formFields', 'formFieldRegistry' ];

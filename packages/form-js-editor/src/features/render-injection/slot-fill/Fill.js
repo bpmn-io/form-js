@@ -1,7 +1,7 @@
-import FillContext from './FillContext';
+import { FillContext } from './FillContext';
 import { useContext, useEffect, useRef } from 'preact/compat';
 
-export default (props) => {
+export const Fill = (props) => {
 
   const uid = useRef(Symbol('fill_uid'));
   const fillContext = useContext(FillContext);

@@ -1,7 +1,5 @@
 import { createContext } from 'preact';
 
-const DragAndDropContext = createContext({
+export const DragAndDropContext = createContext({
   drake: null
 });
-
-export default DragAndDropContext;

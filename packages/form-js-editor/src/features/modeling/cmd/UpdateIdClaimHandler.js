@@ -1,8 +1,8 @@
-export default class UpdateIdClaimHandler {
+export class UpdateIdClaimHandler {
 
   /**
    * @constructor
-   * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../../../core/FormFieldRegistry').FormFieldRegistry } formFieldRegistry
    */
   constructor(formFieldRegistry) {
     this._formFieldRegistry = formFieldRegistry;

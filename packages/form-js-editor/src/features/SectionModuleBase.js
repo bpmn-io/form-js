@@ -6,7 +6,7 @@
  *
  * @class SectionModuleBase
  */
-export default class SectionModuleBase {
+export class SectionModuleBase {
 
   /**
    * Create a SectionModuleBase instance.

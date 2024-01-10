@@ -24,7 +24,7 @@ import {
 } from '../entries';
 
 
-export default function GeneralGroup(field, editField, getService) {
+export function GeneralGroup(field, editField, getService) {
 
   const entries = [
     ...IdEntry({ field, editField }),

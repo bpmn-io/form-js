@@ -4,7 +4,7 @@ import { useService, useVariables } from '../hooks';
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
 
-export default function LabelEntry(props) {
+export function LabelEntry(props) {
   const {
     field,
     editField

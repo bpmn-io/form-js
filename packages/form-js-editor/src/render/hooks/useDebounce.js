@@ -3,12 +3,12 @@ import {
   useEffect
 } from 'preact/hooks';
 
-import useService from './useService';
+import { useService } from './useService';
 
 /**
  * @param {Function} fn - function to debounce
  */
-export default function useDebounce(fn) {
+export function useDebounce(fn) {
 
   const debounce = useService('debounce');
 
