@@ -1,6 +1,6 @@
 import { createContext } from 'preact';
 
-const FormRenderContext = createContext({
+export const FormRenderContext = createContext({
   Empty: (props) => {
     return null;
   },
@@ -27,5 +27,3 @@ const FormRenderContext = createContext({
     cleanup: () => {}
   },
 });
-
-export default FormRenderContext;

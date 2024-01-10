@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import { normalizeOptionsData } from '../components/util/optionsUtil';
-import { useExpressionEvaluation, useDeepCompareState, useService } from './index';
+import { useExpressionEvaluation } from './useExpressionEvaluation';
+import { useDeepCompareState } from './useDeepCompareState';
+import { useService } from './useService';
 
 /**
  * @enum { String }
@@ -23,7 +25,7 @@ export const LOAD_STATES = {
  * @param {Object} field - The form field to handle options for
  * @return {OptionsGetter} optionsGetter - A options getter object providing loading state and options
  */
-export default function(field) {
+export function useOptionsAsync(field) {
   const {
     valuesExpression: optionsExpression,
     valuesKey: optionsKey,

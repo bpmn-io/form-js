@@ -15,7 +15,7 @@ import ImagePlaceholder from './icons/ImagePlaceholder.svg';
 const type = 'image';
 
 
-export default function Image(props) {
+export function Image(props) {
   const {
     field
   } = props;

@@ -1,4 +1,4 @@
-export default function Errors(props) {
+export function Errors(props) {
   const { errors, id } = props;
 
   if (!errors.length) {

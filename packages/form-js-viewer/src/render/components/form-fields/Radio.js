@@ -1,12 +1,12 @@
 import { useRef } from 'preact/hooks';
 import isEqual from 'lodash/isEqual';
-import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
-import useCleanupSingleSelectValue from '../../hooks/useCleanupSingleSelectValue';
+import { useOptionsAsync, LOAD_STATES } from '../../hooks/useOptionsAsync';
+import { useCleanupSingleSelectValue } from '../../hooks/useCleanupSingleSelectValue';
 import classNames from 'classnames';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 
@@ -19,7 +19,7 @@ import {
 const type = 'radio';
 
 
-export default function Radio(props) {
+export function Radio(props) {
   const {
     disabled,
     errors = [],

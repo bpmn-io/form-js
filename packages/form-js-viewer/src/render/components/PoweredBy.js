@@ -42,7 +42,7 @@ function Link(props) {
   );
 }
 
-export default function PoweredBy(props) {
+export function PoweredBy(props) {
 
   const [ open, setOpen ] = useState(false);
 

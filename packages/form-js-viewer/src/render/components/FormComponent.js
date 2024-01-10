@@ -1,13 +1,13 @@
-import FormField from './FormField';
-import PoweredBy from './PoweredBy';
-import LocalExpressionContext from '../context/LocalExpressionContext';
+import { FormField } from './FormField';
+import { PoweredBy } from './PoweredBy';
+import { LocalExpressionContext } from '../context/LocalExpressionContext';
 
 import { useMemo } from 'preact/hooks';
 import { useFilteredFormData, useService } from '../hooks';
 
 const noop = () => {};
 
-export default function FormComponent(props) {
+export function FormComponent(props) {
   const form = useService('form');
 
   const { schema, properties } = form._getState();

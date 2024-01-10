@@ -1,4 +1,4 @@
-import useTemplateEvaluation from './useTemplateEvaluation';
+import { useTemplateEvaluation } from './useTemplateEvaluation';
 import { useMemo } from 'preact/hooks';
 
 /**
@@ -13,7 +13,7 @@ import { useMemo } from 'preact/hooks';
  * @param {Function} [options.buildDebugString]
  *
  */
-export default function useSingleLineTemplateEvaluation(value, options = {}) {
+export function useSingleLineTemplateEvaluation(value, options = {}) {
   const evaluatedTemplate = useTemplateEvaluation(value, options);
   return useMemo(() => evaluatedTemplate && evaluatedTemplate.split('\n')[0], [ evaluatedTemplate ]);
 }

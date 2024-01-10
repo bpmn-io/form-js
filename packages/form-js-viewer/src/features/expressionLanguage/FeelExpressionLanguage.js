@@ -2,7 +2,7 @@ import { evaluate } from 'feelin';
 import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
-export default class FeelExpressionLanguage {
+export class FeelExpressionLanguage {
   constructor(eventBus) {
     this._eventBus = eventBus;
   }

@@ -1,6 +1,6 @@
 import { formFields } from './components';
 
-export default class FormFields {
+export class FormFields {
   constructor() {
     this._formFields = {};
 

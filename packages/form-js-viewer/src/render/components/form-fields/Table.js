@@ -1,13 +1,14 @@
 import { isDefined, isNumber, isObject, isString } from 'min-dash';
 import { useExpressionEvaluation } from '../../hooks';
 import { useEffect, useState } from 'preact/hooks';
-import Label from '../Label';
 import { formFieldClasses, prefixId } from '../Util';
+import classNames from 'classnames';
+
+import { Label } from '../Label';
 import ArrowDownIcon from './icons/ArrowDown.svg';
 import ArrowUpIcon from './icons/ArrowUp.svg';
 import CaretLeftIcon from './icons/CaretLeft.svg';
 import CaretRightIcon from './icons/CaretRight.svg';
-import classNames from 'classnames';
 
 const type = 'table';
 
@@ -34,7 +35,7 @@ const type = 'table';
  * @param {Props} props
  * @returns {import("preact").JSX.Element}
  */
-export default function Table(props) {
+export function Table(props) {
   const { field } = props;
   const {
     columns = [],

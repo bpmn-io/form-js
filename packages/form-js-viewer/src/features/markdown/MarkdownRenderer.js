@@ -3,7 +3,7 @@ import showdown from 'showdown';
 // bootstrap showdown to support github flavored markdown
 showdown.setFlavor('github');
 
-export default class MarkdownRenderer {
+export class MarkdownRenderer {
 
   constructor() {
     this._converter = new showdown.Converter();

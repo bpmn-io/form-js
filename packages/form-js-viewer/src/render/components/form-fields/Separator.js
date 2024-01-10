@@ -2,7 +2,7 @@ import { formFieldClasses } from '../Util';
 
 const type = 'separator';
 
-export default function Separator() {
+export function Separator() {
 
   return (
     <div class={ formFieldClasses(type) }>

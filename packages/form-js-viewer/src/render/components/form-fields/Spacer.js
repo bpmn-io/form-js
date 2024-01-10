@@ -2,7 +2,7 @@ import { formFieldClasses } from '../Util';
 
 const type = 'spacer';
 
-export default function Spacer(props) {
+export function Spacer(props) {
   const { field } = props;
   const { height = 60 } = field;
 

@@ -21,7 +21,7 @@ import { groupBy, flatten } from 'min-dash';
  *  ]
  *
  */
-export default class FormLayouter {
+export class FormLayouter {
 
   constructor(eventBus) {
 
