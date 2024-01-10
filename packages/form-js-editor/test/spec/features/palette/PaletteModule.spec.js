@@ -14,7 +14,7 @@ import {
   createFormEditor
 } from '../../../../src';
 
-import paletteModule from '../../../../src/features/palette';
+import { PaletteModule } from '../../../../src/features/palette';
 
 import schema from '../../form.json';
 
@@ -47,7 +47,7 @@ describe('features/palette', function() {
   async function createEditor(schema, options = {}) {
     const {
       additionalModules = [
-        paletteModule
+        PaletteModule
       ]
     } = options;
 

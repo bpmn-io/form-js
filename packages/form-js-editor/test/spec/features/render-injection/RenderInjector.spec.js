@@ -12,7 +12,7 @@ import {
   createFormEditor
 } from '../../../../src';
 
-import renderInjectionModule from '../../../../src/features/render-injection';
+import { RenderInjectionModule } from '../../../../src/features/render-injection';
 
 import schema from '../../form.json';
 
@@ -42,7 +42,7 @@ describe('features/render-injection', function() {
   async function createEditor(schema, options = {}) {
     const {
       additionalModules = [
-        renderInjectionModule,
+        RenderInjectionModule,
         ExtensionModule
       ]
     } = options;

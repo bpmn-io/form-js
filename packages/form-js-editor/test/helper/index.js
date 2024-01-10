@@ -12,7 +12,7 @@ import { act } from 'preact/test-utils';
 
 import TestContainer from 'mocha-test-container-support';
 
-import FormEditor from '../../src/FormEditor';
+import { FormEditor } from '../../src/FormEditor';
 
 let OPTIONS, FORM_EDITOR;
 

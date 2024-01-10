@@ -14,7 +14,7 @@ import {
   createFormEditor
 } from '../../../../src';
 
-import propertiesPanelModule from '../../../../src/features/properties-panel';
+import { PropertiesPanelModule } from '../../../../src/features/properties-panel';
 
 import schema from '../../form.json';
 
@@ -47,7 +47,7 @@ describe('features/propertiesPanel', function() {
   async function createEditor(schema, options = {}) {
     const {
       additionalModules = [
-        propertiesPanelModule,
+        PropertiesPanelModule,
         ...options.additionalModules || []
       ]
     } = options;
