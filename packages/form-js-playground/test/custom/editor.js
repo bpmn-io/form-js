@@ -140,7 +140,7 @@ function Step(props) {
 }
 
 
-export default {
+export const CustomPropertiesProviderModule = {
   __init__: [ 'customPropertiesProvider' ],
   customPropertiesProvider: [ 'type', CustomPropertiesProvider ]
 };

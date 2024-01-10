@@ -1,10 +1,9 @@
 import { autocompletion } from '@codemirror/autocomplete';
+import { variablesFacet } from './VariablesFacet';
 
 import { syntaxTree } from '@codemirror/language';
 
-import { variablesFacet } from './VariablesFacet';
-
-export default function() {
+export function autocompletionExtension() {
   return [
     autocompletion({
       override: [
