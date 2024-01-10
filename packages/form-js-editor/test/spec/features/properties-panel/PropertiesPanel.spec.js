@@ -8,12 +8,11 @@ import {
 
 import { query as domQuery } from 'min-dom';
 
-import PropertiesPanel from '../../../../src/features/properties-panel/PropertiesPanel';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_DEFAULTS } from '@bpmn-io/form-js-viewer';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomPropertiesGroup';
 
-import PropertiesProvider from '../../../../src/features/properties-panel/PropertiesProvider';
-
+import { PropertiesProvider } from '../../../../src/features/properties-panel/PropertiesProvider';
+import { PropertiesPanel } from '../../../../src/features/properties-panel/PropertiesPanel';
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
 import {

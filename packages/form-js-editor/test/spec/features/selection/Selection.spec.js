@@ -3,7 +3,7 @@ import {
   inject
 } from '../../../TestHelper';
 
-import selectionModule from 'src/features/selection';
+import { SelectionModule } from 'src/features/selection';
 
 const { spy } = sinon;
 
@@ -29,7 +29,7 @@ describe('features/selection', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
-      selectionModule
+      SelectionModule
     ]
   }));
 
