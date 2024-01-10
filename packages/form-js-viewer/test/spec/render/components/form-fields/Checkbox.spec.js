@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Checkbox from '../../../../../src/render/components/form-fields/Checkbox';
+import { Checkbox } from '../../../../../src/render/components/form-fields/Checkbox';
 
 import {
   createFormContainer,

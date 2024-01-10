@@ -1,6 +1,6 @@
 import { render } from '@testing-library/preact/pure';
 
-import Separator from '../../../../../src/render/components/form-fields/Separator';
+import { Separator } from '../../../../../src/render/components/form-fields/Separator';
 
 import {
   createFormContainer

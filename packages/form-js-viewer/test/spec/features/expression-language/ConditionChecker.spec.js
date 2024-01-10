@@ -1,6 +1,6 @@
-import ConditionChecker from '../../../../src/features/expressionLanguage/ConditionChecker';
-import PathRegistry from '../../../../src/core/PathRegistry';
-import FormFields from '../../../../src/render/FormFields';
+import { ConditionChecker } from '../../../../src/features/expressionLanguage/ConditionChecker';
+import { PathRegistry } from '../../../../src/core/PathRegistry';
+import { FormFields } from '../../../../src/render/FormFields';
 
 describe('ConditionChecker', function() {
 

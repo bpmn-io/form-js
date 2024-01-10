@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Textfield from '../../../../../src/render/components/form-fields/Textfield';
+import { Textfield } from '../../../../../src/render/components/form-fields/Textfield';
 
 import {
   createFormContainer,

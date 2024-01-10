@@ -2,7 +2,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import Label from '../../../../src/render/components/Label';
+import { Label } from '../../../../src/render/components/Label';
 
 import {
   createFormContainer,
