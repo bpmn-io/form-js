@@ -1,8 +1,8 @@
-import InputAdorner from './InputAdorner';
+import { InputAdorner } from './InputAdorner';
 
 import { useSingleLineTemplateEvaluation } from '../../../hooks';
 
-export default function TemplatedInputAdorner(props) {
+export function TemplatedInputAdorner(props) {
 
   const {
     pre,

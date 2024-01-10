@@ -3,7 +3,7 @@
 
 import { get } from 'min-dash';
 import { useContext, useMemo, useRef } from 'preact/hooks';
-import LocalExpressionContext from '../../render/context/LocalExpressionContext';
+import { LocalExpressionContext } from '../../render/context/LocalExpressionContext';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
 import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg';
@@ -14,7 +14,7 @@ import { buildExpressionContext } from '../../util';
 import { useScrollIntoView } from '../../render/hooks';
 import classNames from 'classnames';
 
-export default class RepeatRenderManager {
+export class RepeatRenderManager {
 
   constructor(form, formFields, formFieldRegistry, pathRegistry) {
     this._form = form;

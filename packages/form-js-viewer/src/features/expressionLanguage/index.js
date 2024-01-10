@@ -1,8 +1,8 @@
-import FeelExpressionLanguage from './FeelExpressionLanguage';
-import FeelersTemplating from './FeelersTemplating';
-import ConditionChecker from './ConditionChecker';
+import { FeelExpressionLanguage } from './FeelExpressionLanguage';
+import { FeelersTemplating } from './FeelersTemplating';
+import { ConditionChecker } from './ConditionChecker';
 
-export default {
+export const ExpressionLanguageModule = {
   __init__: [ 'expressionLanguage', 'templating', 'conditionChecker' ],
   expressionLanguage: [ 'type', FeelExpressionLanguage ],
   templating: [ 'type', FeelersTemplating ],

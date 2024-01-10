@@ -1,5 +1,5 @@
-import FormFields from './FormFields';
-import Renderer from './Renderer';
+import { FormFields } from './FormFields';
+import { Renderer } from './Renderer';
 
 export { FormFields };
 
@@ -11,7 +11,7 @@ export {
   useTemplateEvaluation
 } from './hooks';
 
-export default {
+export const RenderModule = {
   __init__: [ 'formFields', 'renderer' ],
   formFields: [ 'type', FormFields ],
   renderer: [ 'type', Renderer ]

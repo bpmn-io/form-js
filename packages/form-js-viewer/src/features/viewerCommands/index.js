@@ -1,8 +1,8 @@
 import commandModule from 'diagram-js/lib/command';
 
-import ViewerCommands from './ViewerCommands';
+import { ViewerCommands } from './ViewerCommands';
 
-export default {
+export const ViewerCommandsModule = {
   __depends__: [
     commandModule
   ],

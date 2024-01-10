@@ -1,31 +1,30 @@
 import { useMemo, useRef, useState } from 'preact/hooks';
 
-import { useDeepCompareState, useService } from '../../hooks';
-import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
-import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
-import { useGetLabelCorrelation } from '../../hooks/useGetLabelCorrelation';
-
-import classNames from 'classnames';
+import {
+  useDeepCompareState,
+  useService,
+  useOptionsAsync,
+  useCleanupMultiSelectValue,
+  useGetLabelCorrelation,
+  LOAD_STATES
+} from '../../hooks';
 
 import XMarkIcon from './icons/XMark.svg';
-import DropdownList from './parts/DropdownList';
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
-import SkipLink from './parts/SkipLink';
+import { DropdownList } from './parts/DropdownList';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
+import { SkipLink } from './parts/SkipLink';
 
-import { sanitizeMultiSelectValue, hasEqualValue } from '../util/sanitizerUtil';
+import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
-
+import { sanitizeMultiSelectValue, hasEqualValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
-
-import {
-  formFieldClasses
-} from '../Util';
+import { formFieldClasses } from '../Util';
 
 const type = 'taglist';
 
-export default function Taglist(props) {
+export function Taglist(props) {
   const {
     disabled,
     errors = [],
@@ -61,7 +60,7 @@ export default function Taglist(props) {
   // ensures we render based on array content instead of reference
   const values = useDeepCompareState(value || [], []);
 
-  useCleanupMultiSelectValues({
+  useCleanupMultiSelectValue({
     field,
     loadState,
     options,

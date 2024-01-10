@@ -1,12 +1,12 @@
 import { useRef } from 'preact/hooks';
-import useOptionsAsync, { LOAD_STATES } from '../../hooks/useOptionsAsync';
-import useCleanupMultiSelectValues from '../../hooks/useCleanupMultiSelectValues';
+import { useOptionsAsync, LOAD_STATES } from '../../hooks/useOptionsAsync';
+import { useCleanupMultiSelectValue } from '../../hooks/useCleanupMultiSelectValue';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
 
 import { sanitizeMultiSelectValue, hasEqualValue } from '../util/sanitizerUtil';
 
@@ -19,7 +19,7 @@ import {
 const type = 'checklist';
 
 
-export default function Checklist(props) {
+export function Checklist(props) {
   const {
     disabled,
     errors = [],
@@ -77,7 +77,7 @@ export default function Checklist(props) {
     options
   } = useOptionsAsync(field);
 
-  useCleanupMultiSelectValues({
+  useCleanupMultiSelectValue({
     field,
     loadState,
     options,

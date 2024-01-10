@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'preact/hooks';
-import useService from './useService';
+import { useService } from './useService';
 
-function useFlushDebounce(func) {
+export function useFlushDebounce(func) {
 
   const timeoutRef = useRef(null);
   const lastArgsRef = useRef(null);
@@ -46,5 +46,3 @@ function useFlushDebounce(func) {
 
   return [ debounceFunc, flushFunc ];
 }
-
-export default useFlushDebounce;

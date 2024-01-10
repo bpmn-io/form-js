@@ -32,7 +32,7 @@ import { clone, getAncestryList } from '../util';
  *     }
  *   ]
  */
-export default class PathRegistry {
+export class PathRegistry {
   constructor(formFieldRegistry, formFields, injector) {
     this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;

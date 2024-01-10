@@ -1,16 +1,16 @@
 import { isArray, isObject, isNil } from 'min-dash';
 import { formFieldClasses } from '../Util';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
-import InputAdorner from './parts/TemplatedInputAdorner';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
+import { TemplatedInputAdorner } from './parts/TemplatedInputAdorner';
 
-import useFlushDebounce from '../../hooks/useFlushDebounce';
+import { useFlushDebounce } from '../../hooks/useFlushDebounce';
 
 const type = 'textfield';
 
-export default function Textfield(props) {
+export function Textfield(props) {
   const {
     disabled,
     errors = [],
@@ -58,7 +58,7 @@ export default function Textfield(props) {
       id={ domId }
       label={ label }
       required={ required } />
-    <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
+    <TemplatedInputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
       <input
         class="fjs-input"
         disabled={ disabled }
@@ -70,7 +70,7 @@ export default function Textfield(props) {
         type="text"
         value={ value }
         aria-describedby={ errorMessageId } />
-    </InputAdorner>
+    </TemplatedInputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } id={ errorMessageId } />
   </div>;

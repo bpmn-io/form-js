@@ -15,7 +15,7 @@ import { gridColumnClasses, prefixId } from './Util';
 const noop = () => false;
 
 
-export default function FormField(props) {
+export function FormField(props) {
   const {
     field,
     indexes,

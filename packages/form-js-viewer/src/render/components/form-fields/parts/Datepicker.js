@@ -1,14 +1,15 @@
 import flatpickr from 'flatpickr';
+import CalendarIcon from '../icons/Calendar.svg';
+
 import { ENTER_KEYDOWN_EVENT, focusRelevantFlatpickerDay } from '../../util/dateTimeUtil';
 import { getLocaleReadableDateFormat, getLocaleDateFlatpickrConfig } from '../../util/localisationUtil';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-
-import CalendarIcon from '../icons/Calendar.svg';
-import InputAdorner from './InputAdorner';
-import Label from '../../Label';
 import { useDeepCompareState } from '../../../hooks';
 
-export default function Datepicker(props) {
+import { InputAdorner } from './InputAdorner';
+import { Label } from '../../Label';
+
+export function Datepicker(props) {
 
   const {
     label,

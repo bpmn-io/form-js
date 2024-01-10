@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import { useCallback } from 'preact/hooks';
 
-export default function SkipLink(props) {
+export function SkipLink(props) {
 
   const {
     className,

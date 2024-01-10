@@ -1,20 +1,16 @@
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
+import { SearchableSelect } from './parts/SearchableSelect';
+import { SimpleSelect } from './parts/SimpleSelect';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
-
 import { createEmptyOptions } from '../util/optionsUtil';
-
-import {
-  formFieldClasses
-} from '../Util';
-import SearchableSelect from './parts/SearchableSelect';
-import SimpleSelect from './parts/SimpleSelect';
+import { formFieldClasses } from '../Util';
 
 const type = 'select';
 
-export default function Select(props) {
+export function Select(props) {
   const {
     disabled,
     errors = [],

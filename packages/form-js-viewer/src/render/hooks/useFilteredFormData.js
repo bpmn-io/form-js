@@ -1,4 +1,4 @@
-import useService from './useService.js';
+import { useService } from './useService.js';
 import { useMemo } from 'preact/hooks';
 
 /**
@@ -7,7 +7,7 @@ import { useMemo } from 'preact/hooks';
  *
  * Warning: costly operation, use with care
  */
-export default function useFilteredFormData() {
+export function useFilteredFormData() {
   const { initialData, data } = useService('form')._getState();
   const conditionChecker = useService('conditionChecker', false);
 

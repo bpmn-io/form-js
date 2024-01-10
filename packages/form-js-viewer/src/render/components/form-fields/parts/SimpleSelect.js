@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
 import classNames from 'classnames';
 import { findIndex } from 'min-dash';
-import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
-import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
+import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
+import { useCleanupSingleSelectValue } from '../../../hooks/useCleanupSingleSelectValue';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
 import AngelUpIcon from '../icons/AngelUp.svg';
-import DropdownList from './DropdownList';
+import { DropdownList } from './DropdownList';
 
-export default function SimpleSelect(props) {
+export function SimpleSelect(props) {
   const {
     domId,
     disabled,

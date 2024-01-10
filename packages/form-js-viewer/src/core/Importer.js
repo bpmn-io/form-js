@@ -1,13 +1,13 @@
 import { clone } from '../util';
 
-export default class Importer {
+export class Importer {
 
   /**
    * @constructor
-   * @param { import('./FormFieldRegistry').default } formFieldRegistry
-   * @param { import('./PathRegistry').default } pathRegistry
-   * @param { import('./FieldFactory').default } fieldFactory
-   * @param { import('./FormLayouter').default } formLayouter
+   * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
+   * @param { import('./PathRegistry').PathRegistry } pathRegistry
+   * @param { import('./FieldFactory').FieldFactory } fieldFactory
+   * @param { import('./FormLayouter').FormLayouter } formLayouter
    */
   constructor(formFieldRegistry, pathRegistry, fieldFactory, formLayouter) {
     this._formFieldRegistry = formFieldRegistry;

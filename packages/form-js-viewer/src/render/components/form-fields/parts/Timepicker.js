@@ -3,11 +3,11 @@ import { formatTime, parseInputTime } from '../../util/dateTimeUtil';
 import { isNumber } from 'min-dash';
 
 import ClockIcon from '../icons/Clock.svg';
-import DropdownList from './DropdownList';
-import InputAdorner from './InputAdorner';
-import Label from '../../Label';
+import { DropdownList } from './DropdownList';
+import { InputAdorner } from './InputAdorner';
+import { Label } from '../../Label';
 
-export default function Timepicker(props) {
+export function Timepicker(props) {
 
   const {
     label,

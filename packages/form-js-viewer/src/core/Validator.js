@@ -12,7 +12,7 @@ const VALIDATE_FEEL_PROPERTIES = [
   'maxLength'
 ];
 
-export default class Validator {
+export class Validator {
 
   constructor(expressionLanguage, conditionChecker, form) {
     this._expressionLanguage = expressionLanguage;

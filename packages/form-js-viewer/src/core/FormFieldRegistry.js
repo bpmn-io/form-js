@@ -1,6 +1,6 @@
 import Ids from 'ids';
 
-export default class FormFieldRegistry {
+export class FormFieldRegistry {
   constructor(eventBus) {
     this._eventBus = eventBus;
 
