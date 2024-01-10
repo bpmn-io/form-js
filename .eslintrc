@@ -22,6 +22,14 @@
       ]
     }]
   },
+  "overrides": [
+    {
+      "files": [ "packages/**/src/**/*.js" ],
+      "rules": {
+        "import/no-default-export": "error"
+      }
+    }
+  ],
   "plugins": [
     "import"
   ]
