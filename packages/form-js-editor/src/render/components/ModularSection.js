@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 import { useService } from '../hooks';
 
-export default (props) => {
+export const ModularSection = (props) => {
   const {
     rootClass,
     RootElement,

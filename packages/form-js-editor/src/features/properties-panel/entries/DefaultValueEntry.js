@@ -17,7 +17,7 @@ import { countDecimals, INPUTS, isValidNumber, OPTIONS_INPUTS } from '../Util';
 
 export const EMPTY_OPTION = null;
 
-export default function DefaultOptionEntry(props) {
+export function DefaultValueEntry(props) {
   const {
     editField,
     field
@@ -42,7 +42,7 @@ export default function DefaultOptionEntry(props) {
 
   }
 
-  const defaultOptions = {
+  const defaulValueBase = {
     editField,
     field,
     id: 'defaultValue',
@@ -50,21 +50,21 @@ export default function DefaultOptionEntry(props) {
   };
 
   entries.push({
-    ...defaultOptions,
+    ...defaulValueBase,
     component: DefaultValueCheckbox,
     isEdited: isSelectEntryEdited,
     isDefaultVisible: isDefaultVisible((field) => field.type === 'checkbox')
   });
 
   entries.push({
-    ...defaultOptions,
+    ...defaulValueBase,
     component: DefaultValueNumber,
     isEdited: isTextFieldEntryEdited,
     isDefaultVisible: isDefaultVisible((field) => field.type === 'number')
   });
 
   entries.push({
-    ...defaultOptions,
+    ...defaulValueBase,
     component: DefaultValueSingleSelect,
     isEdited: isSelectEntryEdited,
     isDefaultVisible: isDefaultVisible((field) => field.type === 'radio' || field.type === 'select')
@@ -73,14 +73,14 @@ export default function DefaultOptionEntry(props) {
   // todo(Skaiir): implement a multiselect equivalent (cf. https://github.com/bpmn-io/form-js/issues/265)
 
   entries.push({
-    ...defaultOptions,
+    ...defaulValueBase,
     component: DefaultValueTextfield,
     isEdited: isTextFieldEntryEdited,
     isDefaultVisible: isDefaultVisible((field) => field.type === 'textfield')
   });
 
   entries.push({
-    ...defaultOptions,
+    ...defaulValueBase,
     component: DefaultValueTextarea,
     isEdited: isTextAreaEntryEdited,
     isDefaultVisible: isDefaultVisible((field) => field.type === 'textarea')

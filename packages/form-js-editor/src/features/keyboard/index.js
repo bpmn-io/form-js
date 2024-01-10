@@ -1,8 +1,8 @@
 import KeyboardModule from 'diagram-js/lib/features/keyboard';
 
-import FormEditorKeyboardBindings from './FormEditorKeyboardBindings';
+import { FormEditorKeyboardBindings } from './FormEditorKeyboardBindings';
 
-export default {
+export const FormEditorKeyboardModule = {
   __depends__: [
     KeyboardModule
   ],

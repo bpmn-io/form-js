@@ -3,7 +3,7 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 import { get, set } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 
-export default function AdornerEntry(props) {
+export function AdornerEntry(props) {
   const {
     editField,
     field

@@ -4,7 +4,7 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export default function SourceEntry(props) {
+export function ImageSourceEntry(props) {
   const {
     editField,
     field

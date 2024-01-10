@@ -1,15 +1,15 @@
 import { render } from 'preact';
 import { useState } from 'preact/hooks';
 
-import FormEditor from './components/FormEditor';
+import { FormEditor } from './components/FormEditor';
 
 import { FormEditorContext } from './context';
 
 /**
  * @typedef { { container: Element, compact?: boolean } } RenderConfig
  * @typedef { import('didi').Injector } Injector
- * @typedef { import('../core/EventBus').default } EventBus
- * @typedef { import('../FormEditor').default } FormEditor
+ * @typedef { import('../core/EventBus').EventBus } EventBus
+ * @typedef { import('../FormEditor').FormEditor } FormEditor
  */
 
 /**
@@ -18,7 +18,7 @@ import { FormEditorContext } from './context';
  * @param {FormEditor} formEditor
  * @param {Injector} injector
  */
-export default class Renderer {
+export class Renderer {
   constructor(renderConfig, eventBus, formEditor, injector) {
 
     const {

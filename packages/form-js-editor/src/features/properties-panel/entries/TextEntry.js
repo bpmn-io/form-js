@@ -7,7 +7,7 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 import { useMemo } from 'preact/hooks';
 
 
-export default function TextEntry(props) {
+export function TextEntry(props) {
   const {
     editField,
     field

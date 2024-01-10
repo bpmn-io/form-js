@@ -7,7 +7,7 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 const HTTPS_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
 
 
-export default function IFrameUrlEntry(props) {
+export function IFrameUrlEntry(props) {
   const {
     editField,
     field

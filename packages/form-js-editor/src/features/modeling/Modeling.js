@@ -1,15 +1,15 @@
-import AddFormFieldHandler from './cmd/AddFormFieldHandler';
-import EditFormFieldHandler from './cmd/EditFormFieldHandler';
-import MoveFormFieldHandler from './cmd/MoveFormFieldHandler';
-import RemoveFormFieldHandler from './cmd/RemoveFormFieldHandler';
-import UpdateIdClaimHandler from './cmd/UpdateIdClaimHandler';
-import UpdateKeyClaimHandler from './cmd/UpdateKeyClaimHandler';
-import UpdatePathClaimHandler from './cmd/UpdatePathClaimHandler';
+import { AddFormFieldHandler } from './cmd/AddFormFieldHandler';
+import { EditFormFieldHandler } from './cmd/EditFormFieldHandler';
+import { MoveFormFieldHandler } from './cmd/MoveFormFieldHandler';
+import { RemoveFormFieldHandler } from './cmd/RemoveFormFieldHandler';
+import { UpdateIdClaimHandler } from './cmd/UpdateIdClaimHandler';
+import { UpdateKeyClaimHandler } from './cmd/UpdateKeyClaimHandler';
+import { UpdatePathClaimHandler } from './cmd/UpdatePathClaimHandler';
 
 import { isObject } from 'min-dash';
 
 
-export default class Modeling {
+export class Modeling {
   constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
     this._commandStack = commandStack;
     this._formEditor = formEditor;

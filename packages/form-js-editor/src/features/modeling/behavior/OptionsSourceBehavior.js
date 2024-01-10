@@ -7,7 +7,7 @@ import {
   OPTIONS_SOURCES_PATHS
 } from '@bpmn-io/form-js-viewer';
 
-export default class OptionsSourceBehavior extends CommandInterceptor {
+export class OptionsSourceBehavior extends CommandInterceptor {
   constructor(eventBus) {
     super(eventBus);
 

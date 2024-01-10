@@ -1,7 +1,7 @@
 
 import { simpleBoolEntryFactory } from './factories';
 
-export default function SelectEntries(props) {
+export function SelectEntries(props) {
   const entries = [
     simpleBoolEntryFactory({
       id: 'searchable',

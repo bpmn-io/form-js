@@ -3,7 +3,7 @@ import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-
 import { get, isFunction } from 'min-dash';
 import { useService } from '../hooks';
 
-export default function HeightEntry(props) {
+export function HeightEntry(props) {
   const {
     editField,
     field,

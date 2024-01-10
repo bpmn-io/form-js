@@ -1,6 +1,6 @@
 import { simpleSelectEntryFactory } from './factories';
 
-export default function LayouterAppearanceEntry(props) {
+export function LayouterAppearanceEntry(props) {
   const {
     field
   } = props;

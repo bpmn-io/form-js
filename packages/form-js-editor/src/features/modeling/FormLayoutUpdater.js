@@ -5,7 +5,7 @@ import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 import { clone } from '@bpmn-io/form-js-viewer';
 
 
-export default class FormLayoutUpdater extends CommandInterceptor {
+export class FormLayoutUpdater extends CommandInterceptor {
 
   constructor(eventBus, formLayouter, modeling, formEditor) {
     super(eventBus);

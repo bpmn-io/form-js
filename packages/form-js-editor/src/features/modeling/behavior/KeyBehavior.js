@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-export default class KeyBehavior extends CommandInterceptor {
+export class KeyBehavior extends CommandInterceptor {
   constructor(eventBus, modeling, formFields) {
     super(eventBus);
 

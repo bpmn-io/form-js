@@ -1,11 +1,11 @@
-import SectionModuleBase from '../SectionModuleBase';
+import { SectionModuleBase } from '../SectionModuleBase';
 
 /**
  * Manages the rendering of visual plugins.
  * @constructor
  * @param {Object} eventBus - Event bus for the application.
  */
-export default class RenderInjector extends SectionModuleBase {
+export class RenderInjector extends SectionModuleBase {
 
   constructor(eventBus) {
     super(eventBus, 'renderInjector');

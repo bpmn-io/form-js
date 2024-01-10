@@ -8,8 +8,6 @@ import { createContext } from 'preact';
  */
 function getService(type, strict) {}
 
-const PropertiesPanelContext = createContext({
+export const FormPropertiesPanelContext = createContext({
   getService
 });
-
-export default PropertiesPanelContext;

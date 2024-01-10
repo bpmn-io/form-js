@@ -1,6 +1,6 @@
 import { ColumnsEntry } from '../entries';
 
-export default function LayoutGroup(field, editField) {
+export function LayoutGroup(field, editField) {
   const { type } = field;
 
   if (type === 'default') {

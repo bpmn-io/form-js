@@ -1,4 +1,4 @@
-export default class SelectionBehavior {
+export class SelectionBehavior {
   constructor(eventBus, selection) {
     eventBus.on([
       'commandStack.formField.add.postExecuted',

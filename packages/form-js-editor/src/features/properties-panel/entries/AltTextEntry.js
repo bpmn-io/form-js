@@ -4,7 +4,7 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export default function AltTextEntry(props) {
+export function AltTextEntry(props) {
   const {
     editField,
     field

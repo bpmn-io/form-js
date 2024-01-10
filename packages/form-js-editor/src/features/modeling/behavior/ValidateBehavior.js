@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-export default class ValidateBehavior extends CommandInterceptor {
+export class ValidateBehavior extends CommandInterceptor {
   constructor(eventBus) {
     super(eventBus);
 

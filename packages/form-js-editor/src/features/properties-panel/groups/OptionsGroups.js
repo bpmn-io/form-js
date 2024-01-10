@@ -14,7 +14,7 @@ import {
   hasOptionsGroupsConfigured
 } from '../Util';
 
-export default function OptionsGroups(field, editField, getService) {
+export function OptionsGroups(field, editField, getService) {
   const {
     type
   } = field;

@@ -1,6 +1,6 @@
 import { isString } from 'min-dash';
 
-export default class EditorTemplating {
+export class EditorTemplating {
 
   // same rules as viewer templating
   isTemplate(value) { return isString(value) && (value.startsWith('=') || /{{/.test(value)); }

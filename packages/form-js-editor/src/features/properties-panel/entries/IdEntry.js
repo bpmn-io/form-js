@@ -5,7 +5,7 @@ import { useService } from '../hooks';
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 
-export default function IdEntry(props) {
+export function IdEntry(props) {
   const {
     editField,
     field

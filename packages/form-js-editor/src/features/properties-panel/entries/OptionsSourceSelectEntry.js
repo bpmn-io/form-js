@@ -11,7 +11,7 @@ import {
 } from '@bpmn-io/form-js-viewer';
 
 
-export default function OptionsSourceSelectEntry(props) {
+export function OptionsSourceSelectEntry(props) {
   const {
     editField,
     field,

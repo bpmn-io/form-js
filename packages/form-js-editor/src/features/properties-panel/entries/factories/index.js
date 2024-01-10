@@ -1,5 +1,5 @@
-export { default as simpleStringEntryFactory } from './simpleStringEntryFactory';
-export { default as simpleBoolEntryFactory } from './simpleBoolEntryFactory';
-export { default as zeroPositiveIntegerEntryFactory } from './zeroPositiveIntegerEntryFactory';
-export { default as simpleSelectEntryFactory } from './simpleSelectEntryFactory';
+export { simpleStringEntryFactory } from './simpleStringEntryFactory';
+export { simpleBoolEntryFactory } from './simpleBoolEntryFactory';
+export { zeroPositiveIntegerEntryFactory } from './zeroPositiveIntegerEntryFactory';
+export { simpleSelectEntryFactory } from './simpleSelectEntryFactory';
 export { simpleRangeIntegerEntryFactory } from './simpleRangeIntegerEntryFactory';

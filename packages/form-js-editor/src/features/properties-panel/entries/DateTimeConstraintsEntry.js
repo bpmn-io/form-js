@@ -4,7 +4,7 @@ import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '
 
 import { get } from 'min-dash';
 
-export default function DateTimeConstraintsEntry(props) {
+export function DateTimeConstraintsEntry(props) {
   const {
     editField,
     field,

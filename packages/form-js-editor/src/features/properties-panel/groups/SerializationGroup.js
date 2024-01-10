@@ -1,14 +1,14 @@
 import {
   NumberSerializationEntry,
-  DateTimeSerializationEntry
+  DateTimeFormatEntry
 } from '../entries';
 
 
-export default function SerializationGroup(field, editField) {
+export function SerializationGroup(field, editField) {
 
   const entries = [
     ...NumberSerializationEntry({ field, editField }),
-    ...DateTimeSerializationEntry({ field, editField })
+    ...DateTimeFormatEntry({ field, editField })
   ];
 
   if (!entries.length) {
