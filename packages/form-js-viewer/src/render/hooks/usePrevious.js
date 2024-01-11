@@ -1,13 +1,15 @@
 import {
-  useEffect,
-  useRef
+  useState
 } from 'preact/hooks';
 
-
 export function usePrevious(value, defaultValue = null) {
-  const ref = useRef(defaultValue);
+  const [ current, setCurrent ] = useState(value);
+  const [ previous, setPrevious ] = useState(defaultValue);
 
-  useEffect(() => ref.current = value, [ value ]);
+  if (value !== current) {
+    setPrevious(current);
+    setCurrent(value);
+  }
 
-  return ref.current;
+  return previous;
 }
