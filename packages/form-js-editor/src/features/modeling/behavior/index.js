@@ -1,12 +1,12 @@
-import IdBehavior from './IdBehavior';
-import KeyBehavior from './KeyBehavior';
-import PathBehavior from './PathBehavior';
-import ValidateBehavior from './ValidateBehavior';
-import OptionsSourceBehavior from './OptionsSourceBehavior';
+import { IdBehavior } from './IdBehavior';
+import { KeyBehavior } from './KeyBehavior';
+import { PathBehavior } from './PathBehavior';
+import { ValidateBehavior } from './ValidateBehavior';
+import { OptionsSourceBehavior } from './OptionsSourceBehavior';
 import { ColumnsSourceBehavior } from './ColumnsSourceBehavior';
 import { TableDataSourceBehavior } from './TableDataSourceBehavior';
 
-export default {
+export const BehaviorModule = {
   __init__: [
     'idBehavior',
     'keyBehavior',

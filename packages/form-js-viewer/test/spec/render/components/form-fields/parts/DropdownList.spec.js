@@ -3,7 +3,7 @@ import {
   render
 } from '@testing-library/preact/pure';
 
-import DropdownList from '../../../../../../src/render/components/form-fields/parts/DropdownList';
+import { DropdownList } from '../../../../../../src/render/components/form-fields/parts/DropdownList';
 
 import {
   createFormContainer,

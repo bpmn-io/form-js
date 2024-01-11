@@ -8,7 +8,7 @@ import axe from 'axe-core';
 
 import TestContainer from 'mocha-test-container-support';
 
-import Form from '../../src/Form';
+import { Form } from '../../src/Form';
 
 let OPTIONS, FORM;
 

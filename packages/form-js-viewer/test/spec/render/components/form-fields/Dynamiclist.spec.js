@@ -1,5 +1,5 @@
 import { render } from '@testing-library/preact/pure';
-import DynamicList from '../../../../../src/render/components/form-fields/DynamicList';
+import { DynamicList } from '../../../../../src/render/components/form-fields/DynamicList';
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 import { MockFormContext } from '../helper';
 

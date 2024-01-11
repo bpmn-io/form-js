@@ -13,7 +13,7 @@ import {
 
 import { hasEntryConfigured } from './Util';
 
-export default class PropertiesProvider {
+export class PropertiesProvider {
   constructor(propertiesPanel, injector) {
     this._injector = injector;
     propertiesPanel.registerProvider(this);

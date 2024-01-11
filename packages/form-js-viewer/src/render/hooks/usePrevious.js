@@ -4,7 +4,7 @@ import {
 } from 'preact/hooks';
 
 
-export default function usePrevious(value, defaultValue = null) {
+export function usePrevious(value, defaultValue = null) {
   const ref = useRef(defaultValue);
 
   useEffect(() => ref.current = value, [ value ]);

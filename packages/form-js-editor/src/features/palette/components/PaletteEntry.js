@@ -1,6 +1,6 @@
 import { useService } from '../../../render/hooks';
 
-export default function PaletteEntry(props) {
+export function PaletteEntry(props) {
   const {
     type,
     label,

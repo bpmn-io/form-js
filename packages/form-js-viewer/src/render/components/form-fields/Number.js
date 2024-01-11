@@ -2,10 +2,10 @@ import Big from 'big.js';
 import classNames from 'classnames';
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
-import InputAdorner from './parts/TemplatedInputAdorner';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
+import { TemplatedInputAdorner } from './parts/TemplatedInputAdorner';
 
 import AngelDownIcon from './icons/AngelDown.svg';
 import AngelUpIcon from './icons/AngelUp.svg';
@@ -22,7 +22,7 @@ import {
 
 const type = 'number';
 
-export default function Numberfield(props) {
+export function Numberfield(props) {
   const {
     disabled,
     errors = [],
@@ -177,7 +177,7 @@ export default function Numberfield(props) {
       id={ domId }
       label={ label }
       required={ required } />
-    <InputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
+    <TemplatedInputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
       <div class={ classNames('fjs-vertical-group', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }, { 'hasErrors': errors.length }) }>
         <input
           ref={ inputRef }
@@ -214,7 +214,7 @@ export default function Numberfield(props) {
             tabIndex={ -1 }><AngelDownIcon /></button>
         </div>
       </div>
-    </InputAdorner>
+    </TemplatedInputAdorner>
     <Description description={ description } />
     <Errors errors={ errors } id={ errorMessageId } />
   </div>;

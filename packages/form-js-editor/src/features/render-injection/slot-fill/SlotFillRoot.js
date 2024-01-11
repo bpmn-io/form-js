@@ -1,10 +1,10 @@
-import FillContext from './FillContext';
-import SlotContext from './SlotContext';
+import { FillContext } from './FillContext';
+import { SlotContext } from './SlotContext';
 import { useMemo, useState } from 'preact/hooks';
 
 const noop = () => {};
 
-export default (props) => {
+export const SlotFillRoot = (props) => {
   const [ fills, setFills ] = useState([]);
 
   const {

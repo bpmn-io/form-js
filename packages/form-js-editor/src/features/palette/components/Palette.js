@@ -6,20 +6,11 @@ import {
 } from 'preact/hooks';
 
 import { useService } from '../../../render/hooks';
-
-import {
-  Slot
-} from '../../render-injection/slot-fill';
-
-import {
-  CloseIcon,
-  SearchIcon,
-  iconsByType
-} from '../../../render/components/icons';
-
-import PaletteEntry from './PaletteEntry';
-
 import { sanitizeImageSource } from '@bpmn-io/form-js-viewer';
+
+import { CloseIcon, SearchIcon, iconsByType } from '../../../render/components/icons';
+import { Slot } from '../../render-injection/slot-fill';
+import { PaletteEntry } from './PaletteEntry';
 
 /**
  * @typedef { import('@bpmn-io/form-js-viewer').FormFields } FormFields
@@ -56,7 +47,7 @@ export const PALETTE_GROUPS = [
   }
 ];
 
-export default function Palette(props) {
+export function Palette(props) {
 
   const formFields = useService('formFields');
 

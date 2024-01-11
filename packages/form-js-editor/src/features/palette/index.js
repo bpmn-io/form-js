@@ -1,5 +1,5 @@
-import PaletteModule from './PaletteModule';
+import { PaletteRenderer } from './PaletteRenderer';
 
-export default {
-  palette: [ 'type', PaletteModule ]
+export const PaletteModule = {
+  palette: [ 'type', PaletteRenderer ]
 };

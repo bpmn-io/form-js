@@ -8,12 +8,12 @@ import {
   updateRow
 } from './Util';
 
-export default class MoveFormFieldHandler {
+export class MoveFormFieldHandler {
 
   /**
    * @constructor
-   * @param { import('../../../FormEditor').default } formEditor
-   * @param { import('../../../core/FormFieldRegistry').default } formFieldRegistry
+   * @param { import('../../../FormEditor').FormEditor } formEditor
+   * @param { import('../../../core/FormFieldRegistry').FormFieldRegistry } formFieldRegistry
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
    * @param { import('@bpmn-io/form-js-viewer').FormLayouter } formLayouter
    */

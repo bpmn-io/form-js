@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import useOptionsAsync, { LOAD_STATES } from '../../../hooks/useOptionsAsync';
+import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
-import { useService } from '../../../hooks';
-import useCleanupSingleSelectValue from '../../../hooks/useCleanupSingleSelectValue';
+import { useService, useCleanupSingleSelectValue } from '../../../hooks';
 
 import classNames from 'classnames';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
 import AngelUpIcon from '../icons/AngelUp.svg';
-import DropdownList from './DropdownList';
+import { DropdownList } from './DropdownList';
 
-export default function SearchableSelect(props) {
+export function SearchableSelect(props) {
   const {
     domId,
     disabled,

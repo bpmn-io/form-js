@@ -1,6 +1,6 @@
-import HeightEntry from './HeightEntry';
+import { HeightEntry } from './HeightEntry';
 
-export default function IFrameHeightEntry(props) {
+export function IFrameHeightEntry(props) {
   return [
     ...HeightEntry({
       ...props,

@@ -1,7 +1,7 @@
 import { get } from 'min-dash';
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
-export default function simpleBoolEntryFactory(options) {
+export function simpleBoolEntryFactory(options) {
   const {
     id,
     label,

@@ -1,11 +1,11 @@
+import classNames from 'classnames';
 import { useContext } from 'preact/hooks';
 import { FormRenderContext } from '../../context';
 import { formFieldClasses } from '../Util';
-import Label from '../Label';
-import classNames from 'classnames';
-import ChildrenRenderer from './parts/ChildrenRenderer';
+import { Label } from '../Label';
+import { ChildrenRenderer } from './parts/ChildrenRenderer';
 
-export default function Group(props) {
+export function Group(props) {
 
   const { field, domId } = props;
   const { label, type, showOutline } = field;

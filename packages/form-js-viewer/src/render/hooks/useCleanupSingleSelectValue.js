@@ -2,7 +2,7 @@ import { useEffect } from 'preact/hooks';
 import { LOAD_STATES } from './useOptionsAsync';
 import { hasEqualValue } from '../components/util/sanitizerUtil';
 
-export default function(props) {
+export function useCleanupSingleSelectValue(props) {
 
   const {
     field,

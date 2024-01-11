@@ -1,15 +1,14 @@
 import { render } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 
-import FormComponent from './components/FormComponent';
-
+import { FormComponent } from './components/FormComponent';
 import { FormContext } from './context';
 
 /**
  * @typedef { { container } } Config
  * @typedef { import('didi').Injector } Injector
- * @typedef { import('../core/EventBus').default } EventBus
- * @typedef { import('../Form').default } Form
+ * @typedef { import('../core/EventBus').EventBus } EventBus
+ * @typedef { import('../Form').Form } Form
  */
 
 /**
@@ -18,7 +17,7 @@ import { FormContext } from './context';
  * @param {Form} form
  * @param {Injector} injector
  */
-export default function Renderer(config, eventBus, form, injector) {
+export function Renderer(config, eventBus, form, injector) {
 
   const App = () => {
     const [ state, setState ] = useState(form._getState());

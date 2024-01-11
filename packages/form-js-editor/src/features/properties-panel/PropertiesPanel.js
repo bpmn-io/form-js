@@ -1,4 +1,4 @@
-import { PropertiesPanel } from '@bpmn-io/properties-panel';
+import { PropertiesPanel as BasePropertiesPanel } from '@bpmn-io/properties-panel';
 
 import {
   useCallback,
@@ -14,7 +14,7 @@ import { FormPropertiesPanelContext } from './context';
 import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
 
-export default function FormPropertiesPanel(props) {
+export function PropertiesPanel(props) {
   const {
     eventBus,
     getProviders,
@@ -100,7 +100,7 @@ export default function FormPropertiesPanel(props) {
       onBlurCapture={ onBlur }
     >
       <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
-        <PropertiesPanel
+        <BasePropertiesPanel
           element={ selectedFormField }
           eventBus={ eventBus }
           groups={ groups }

@@ -1,4 +1,4 @@
-import FormEditor from './FormEditor';
+import { FormEditor } from './FormEditor';
 
 import { schemaVersion } from '@bpmn-io/form-js-viewer';
 

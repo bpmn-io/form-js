@@ -1,6 +1,6 @@
-import useService from './useService';
+import { useService } from './useService';
 import { useContext, useMemo } from 'preact/hooks';
-import LocalExpressionContext from '../context/LocalExpressionContext';
+import { LocalExpressionContext } from '../context/LocalExpressionContext';
 import { buildExpressionContext } from '../../util/simple';
 
 /**
@@ -14,7 +14,7 @@ import { buildExpressionContext } from '../../util/simple';
  * @param {Function} [options.buildDebugString]
  *
  */
-export default function useTemplateEvaluation(value, options = {}) {
+export function useTemplateEvaluation(value, options = {}) {
   const templating = useService('templating');
   const expressionContextInfo = useContext(LocalExpressionContext);
 

@@ -5,7 +5,7 @@ import {
 
 import { editorFormFieldClasses } from '../Util';
 
-export default function EditorIFrame(props) {
+export function EditorIFrame(props) {
   const { field } = props;
 
   const Icon = iconsByType(field.type);

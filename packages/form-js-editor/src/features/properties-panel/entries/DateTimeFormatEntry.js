@@ -4,7 +4,7 @@ import { DATETIME_SUBTYPES, TIME_SERIALISING_FORMATS, TIME_SERIALISINGFORMAT_LAB
 
 import { get } from 'min-dash';
 
-export default function DateTimeFormatEntry(props) {
+export function DateTimeFormatEntry(props) {
   const {
     editField,
     field

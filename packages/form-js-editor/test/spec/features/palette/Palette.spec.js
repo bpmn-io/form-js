@@ -2,7 +2,8 @@ import { render, fireEvent } from '@testing-library/preact/pure';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
-import Palette, {
+import {
+  Palette,
   collectPaletteEntries,
   PALETTE_GROUPS
 } from '../../../../src/features/palette/components/Palette';

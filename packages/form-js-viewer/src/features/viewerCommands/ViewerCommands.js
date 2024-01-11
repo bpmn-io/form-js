@@ -1,6 +1,6 @@
-import UpdateFieldValidationHandler from './cmd/UpdateFieldValidationHandler';
+import { UpdateFieldValidationHandler } from './cmd/UpdateFieldValidationHandler';
 
-export default class ViewerCommands {
+export class ViewerCommands {
   constructor(commandStack, eventBus) {
     this._commandStack = commandStack;
 

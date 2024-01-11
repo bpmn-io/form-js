@@ -1,4 +1,4 @@
-export default class UpdateKeyClaimHandler {
+export class UpdateKeyClaimHandler {
 
   /**
    * @constructor

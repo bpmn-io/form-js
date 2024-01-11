@@ -5,7 +5,7 @@ import { get } from 'min-dash';
 import { useService } from '../hooks';
 import { countDecimals, isValidNumber } from '../Util';
 
-export default function NumberEntries(props) {
+export function NumberEntries(props) {
   const {
     editField,
     field,

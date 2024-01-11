@@ -1,2 +1,2 @@
-export { default as DragAndDropContext } from './DragAndDropContext';
-export { default as FormEditorContext } from './FormEditorContext';
+export { DragAndDropContext } from './DragAndDropContext';
+export { FormEditorContext } from './FormEditorContext';

@@ -2,7 +2,7 @@
  * Get the ancestry list of a form field.
  *
  * @param {string} formFieldId
- * @param {import('../core/FormFieldRegistry').default} formFieldRegistry
+ * @param {import('../core/FormFieldRegistry').FormFieldRegistry} formFieldRegistry
  *
  * @return {Array<string>} ancestry list
  */

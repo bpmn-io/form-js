@@ -1,8 +1,8 @@
 import { useContext } from 'preact/hooks';
 import { FormRenderContext } from '../../context';
-import ChildrenRenderer from './parts/ChildrenRenderer';
+import { ChildrenRenderer } from './parts/ChildrenRenderer';
 
-export default function FormComponent(props) {
+export function Default(props) {
 
   const {
     Empty,
@@ -13,7 +13,7 @@ export default function FormComponent(props) {
   return <ChildrenRenderer { ...fullProps } />;
 }
 
-FormComponent.config = {
+Default.config = {
   type: 'default',
   keyed: false,
   label: null,

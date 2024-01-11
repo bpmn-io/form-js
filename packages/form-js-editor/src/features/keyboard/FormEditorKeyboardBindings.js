@@ -11,7 +11,7 @@ import {
 
 const LOW_PRIORITY = 500;
 
-export default class FormEditorKeyboardBindings {
+export class FormEditorKeyboardBindings {
   constructor(eventBus, keyboard) {
     eventBus.on('editorActions.init', LOW_PRIORITY, (event) => {
       const { editorActions } = event;

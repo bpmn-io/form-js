@@ -1,17 +1,17 @@
 import { isArray, isObject, isNil } from 'min-dash';
 
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
-import useFlushDebounce from '../../hooks/useFlushDebounce';
+import { useFlushDebounce } from '../../hooks/useFlushDebounce';
 
 import { formFieldClasses } from '../Util';
 
-import Description from '../Description';
-import Errors from '../Errors';
-import Label from '../Label';
+import { Description } from '../Description';
+import { Errors } from '../Errors';
+import { Label } from '../Label';
 
 const type = 'textarea';
 
-export default function Textarea(props) {
+export function Textarea(props) {
   const {
     disabled,
     errors = [],

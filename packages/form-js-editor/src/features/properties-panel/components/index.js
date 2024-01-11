@@ -1,1 +1,1 @@
-export { default as AutoFocusSelectEntry } from './AutoFocusSelect';
+export { AutoFocusSelectEntry } from './AutoFocusSelect';

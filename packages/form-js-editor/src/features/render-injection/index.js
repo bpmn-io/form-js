@@ -1,6 +1,6 @@
-import RenderInjector from './RenderInjector';
+import { RenderInjector } from './RenderInjector';
 
-export default {
+export const RenderInjectionModule = {
   __init__: [ 'renderInjector' ],
   renderInjector: [ 'type', RenderInjector ],
 };

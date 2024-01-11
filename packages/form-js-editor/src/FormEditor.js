@@ -1,21 +1,20 @@
-import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import Ids from 'ids';
+import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import { isString, set } from 'min-dash';
 
-import core from './core';
+import { CoreModule } from './core';
+import { EditorActionsModule } from './features/editor-actions';
+import { EditorExpressionLanguageModule } from './features/expression-language';
+import { FormEditorKeyboardModule } from './features/keyboard';
+import { DraggingModule } from './features/dragging';
+import { ModelingModule } from './features/modeling';
+import { SelectionModule } from './features/selection';
+import { PaletteModule } from './features/palette';
+import { PropertiesPanelModule } from './features/properties-panel';
+import { RenderInjectionModule } from './features/render-injection';
+import { RepeatRenderModule } from './features/repeat-render';
 
-import EditorActionsModule from './features/editor-actions';
-import DraggingModule from './features/dragging';
-import KeyboardModule from './features/keyboard';
-import ModelingModule from './features/modeling';
-import SelectionModule from './features/selection';
-import PaletteModule from './features/palette';
-import PropertiesPanelModule from './features/properties-panel';
-import RenderInjectionModule from './features/render-injection';
-import RepeatRenderManagerModule from './features/repeat-render';
-import ExpressionLanguageModule from './features/expression-language';
-
-import { MarkdownModule } from '@bpmn-io/form-js-viewer';
+import { MarkdownRendererModule } from '@bpmn-io/form-js-viewer';
 
 const ids = new Ids([ 32, 36, 1 ]);
 
@@ -40,7 +39,7 @@ const ids = new Ids([ 32, 36, 1 ]);
 /**
  * The form editor.
  */
-export default class FormEditor {
+export class FormEditor {
 
   /**
    * @constructor
@@ -265,7 +264,7 @@ export default class FormEditor {
     return createInjector([
       { config: [ 'value', enrichedConfig ] },
       { formEditor: [ 'value', this ] },
-      core,
+      CoreModule,
       ...modules,
       ...additionalModules
     ]);
@@ -304,15 +303,15 @@ export default class FormEditor {
     return [
       ModelingModule,
       EditorActionsModule,
+      FormEditorKeyboardModule,
       DraggingModule,
-      KeyboardModule,
       SelectionModule,
       PaletteModule,
-      ExpressionLanguageModule,
-      MarkdownModule,
+      EditorExpressionLanguageModule,
+      MarkdownRendererModule,
       PropertiesPanelModule,
       RenderInjectionModule,
-      RepeatRenderManagerModule
+      RepeatRenderModule
     ];
   }
 

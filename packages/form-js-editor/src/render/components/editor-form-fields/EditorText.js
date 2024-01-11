@@ -4,7 +4,7 @@ import { useService } from '../../hooks';
 
 import { iconsByType } from '../icons';
 
-export default function EditorText(props) {
+export function EditorText(props) {
 
   const { type, text = '' } = props.field;
 

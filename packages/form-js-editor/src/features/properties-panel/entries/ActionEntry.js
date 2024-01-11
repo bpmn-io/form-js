@@ -3,7 +3,7 @@ import { get } from 'min-dash';
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 
-export default function ActionEntry(props) {
+export function ActionEntry(props) {
   const {
     editField,
     field

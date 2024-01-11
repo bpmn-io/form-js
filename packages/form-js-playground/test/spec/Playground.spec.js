@@ -19,8 +19,8 @@ import otherSchema from './other-form.json';
 import rowsSchema from './rows-form.json';
 import customSchema from './custom.json';
 
-import customViewerModule from '../custom/viewer';
-import customEditorModule from '../custom/editor';
+import { CustomFormFieldsModule } from '../custom/viewer';
+import { CustomPropertiesProviderModule } from '../custom/editor';
 import customStyles from '../custom/styles.css';
 
 import {
@@ -152,10 +152,10 @@ describe('playground', function() {
       schema: customSchema,
       data,
       additionalModules: [
-        customViewerModule
+        CustomFormFieldsModule
       ],
       editorAdditionalModules: [
-        customEditorModule
+        CustomPropertiesProviderModule
       ]
     });
 

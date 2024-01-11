@@ -1,3 +1,3 @@
-export { default as useService } from './useService';
-export { default as usePrevious } from './usePrevious';
-export { default as useDebounce } from './useDebounce';
+export { useService } from './useService';
+export { usePrevious } from './usePrevious';
+export { useDebounce } from './useDebounce';

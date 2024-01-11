@@ -1,6 +1,6 @@
 import { getAncestryList } from '../util';
 
-export default class FieldFactory {
+export class FieldFactory {
 
   /**
    * @constructor

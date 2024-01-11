@@ -15,7 +15,7 @@ import { useSingleLineTemplateEvaluation } from '../hooks';
  * @param {Props} props
  * @returns {import("preact").JSX.Element}
  */
-export default function Label(props) {
+export function Label(props) {
   const {
     id,
     label,

@@ -1,7 +1,7 @@
 import EditorActions from 'diagram-js/lib/features/editor-actions/EditorActions';
 
 
-export default class FormEditorActions extends EditorActions {
+export class FormEditorActions extends EditorActions {
   constructor(eventBus, injector) {
     super(eventBus, injector);
 

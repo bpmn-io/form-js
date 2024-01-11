@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'preact/hooks';
-import useKeyDownAction from '../../../hooks/useKeyDownAction';
+import { useKeyDownAction } from '../../../hooks/useKeyDownAction';
 
 const DEFAULT_LABEL_GETTER = (value) => value;
 const NOOP = () => {};
 
-export default function DropdownList(props) {
+export function DropdownList(props) {
 
   const {
     listenerElement = window,

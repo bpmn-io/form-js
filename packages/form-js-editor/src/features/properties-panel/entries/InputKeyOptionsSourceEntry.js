@@ -4,7 +4,7 @@ import { useService } from '../hooks';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 
-export default function InputKeyOptionsSourceEntry(props) {
+export function InputKeyOptionsSourceEntry(props) {
   const {
     editField,
     field,

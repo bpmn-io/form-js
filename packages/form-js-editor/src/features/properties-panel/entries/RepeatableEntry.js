@@ -1,6 +1,6 @@
 import { simpleRangeIntegerEntryFactory, simpleBoolEntryFactory } from './factories';
 
-export default function RepeatableEntry(props) {
+export function RepeatableEntry(props) {
   const {
     field,
     getService

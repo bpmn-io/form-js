@@ -4,9 +4,9 @@ import {
   inject
 } from 'test/TestHelper';
 
-import formEditorActionsModule from 'src/features/editor-actions';
-import keyboardModule from 'src/features/keyboard';
-import modelingModule from 'src/features/modeling';
+import { EditorActionsModule } from 'src/features/editor-actions';
+import { FormEditorKeyboardModule } from 'src/features/keyboard';
+import { ModelingModule } from 'src/features/modeling';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents';
 
@@ -22,9 +22,9 @@ describe('features/editor-actions', function() {
 
   beforeEach(bootstrapFormEditor(schema, {
     modules: [
-      modelingModule,
-      formEditorActionsModule,
-      keyboardModule
+      ModelingModule,
+      EditorActionsModule,
+      FormEditorKeyboardModule
     ]
   }));
 

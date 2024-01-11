@@ -1,4 +1,4 @@
-export default class Selection {
+export class Selection {
   constructor(eventBus) {
     this._eventBus = eventBus;
     this._selection = null;

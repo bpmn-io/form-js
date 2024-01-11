@@ -7,7 +7,7 @@ import {
 
 import { CustomValueEntry } from '../entries';
 
-export default function CustomPropertiesGroup(field, editField) {
+export function CustomPropertiesGroup(field, editField) {
   const {
     properties = {},
     type
