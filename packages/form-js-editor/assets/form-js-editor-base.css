@@ -341,10 +341,17 @@
   height: 80px;
   width: calc(100% - 4rem);
   position: absolute;
+  container-type: size;
 }
 
-.fjs-editor-container .fjs-empty-component span {
+.fjs-editor-container .fjs-empty-component .fjs-empty-component-text {
   color: var(--cds-text-disabled, var(--color-grey-225-10-55));
+}
+
+@container (width < 100px) {
+  .fjs-empty-component-text {
+    display: none;
+  }
 }
 
 .fjs-editor-container .fjs-empty-editor {
