@@ -4,11 +4,11 @@ const usePrevious = (value, initialValue) => {
   const ref = useRef(initialValue);
   useEffect(() => {
     ref.current = value;
-  });
+  }, [ value ]);
   return ref.current;
 };
 
-export function useEffectDebugger(effectHook, dependencies, dependencyNames = [], effectName = 'noname') {
+export function useEffectDebugger(effect, dependencies, dependencyNames = [], effectName = 'noname') {
   const previousDeps = usePrevious(dependencies, []);
 
   const changedDeps = dependencies.reduce((accum, dependency, index) => {
@@ -30,7 +30,7 @@ export function useEffectDebugger(effectHook, dependencies, dependencyNames = []
     console.log('[use-effect-debugger] (' + effectName + ') ', changedDeps);
   }
 
-  useEffect(effectHook, dependencies);
+  useEffect(effect, [ effect, ...dependencies ]);
 }
 
 export function useCallbackDebugger(callback, dependencies, dependencyNames = [], callbackName = 'noname') {
@@ -55,5 +55,5 @@ export function useCallbackDebugger(callback, dependencies, dependencyNames = []
     console.log('[use-callback-debugger] (' + callbackName + ') ', changedDeps);
   }
 
-  return useCallback(callback, dependencies);
+  return useCallback(callback, [ callback, ...dependencies ]);
 }

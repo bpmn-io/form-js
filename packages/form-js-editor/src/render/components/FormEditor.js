@@ -110,24 +110,25 @@ function Element(props) {
 
   const [ hovered, setHovered ] = useState(false);
 
-  function scrollIntoView({ selection }) {
-    if (!selection || selection.id !== id || !ref.current) {
-      return;
-    }
-
-    const elementBounds = ref.current.getBoundingClientRect(),
-          containerBounds = formEditor._container.getBoundingClientRect();
-
-    if (elementBounds.top < 0 || elementBounds.top > containerBounds.bottom) {
-      ref.current.scrollIntoView();
-    }
-  }
-
   useEffect(() => {
+
+    function scrollIntoView({ selection }) {
+      if (!selection || selection.id !== id || !ref.current) {
+        return;
+      }
+
+      const elementBounds = ref.current.getBoundingClientRect(),
+            containerBounds = formEditor._container.getBoundingClientRect();
+
+      if (elementBounds.top < 0 || elementBounds.top > containerBounds.bottom) {
+        ref.current.scrollIntoView();
+      }
+    }
+
     eventBus.on('selection.changed', scrollIntoView);
 
     return () => eventBus.off('selection.changed', scrollIntoView);
-  }, [ id ]);
+  }, [ eventBus, formEditor._container, id ]);
 
   useLayoutEffect(() => {
     if (selection.isSelected(field)) {
@@ -320,7 +321,7 @@ function Column(props) {
   );
 }
 
-export default function FormEditor(props) {
+export default function FormEditor() {
   const dragging = useService('dragging'),
         eventBus = useService('eventBus'),
         formEditor = useService('formEditor'),
@@ -339,6 +340,8 @@ export default function FormEditor(props) {
 
   const [ , setSelection ] = useState(schema);
 
+  const [ hasInitialized, setHasInitialized ] = useState(false);
+
   useEffect(() => {
     function handleSelectionChanged(event) {
       setSelection(event.selection || schema);
@@ -346,12 +349,14 @@ export default function FormEditor(props) {
 
     eventBus.on('selection.changed', handleSelectionChanged);
 
-    setSelection(selection.get() || schema);
-
     return () => {
       eventBus.off('selection.changed', handleSelectionChanged);
     };
-  }, [ schema, selection ]);
+  }, [ eventBus, schema ]);
+
+  useEffect(() => {
+    setSelection(selection.get() || schema);
+  }, [ selection, schema ]);
 
   const [ drake, setDrake ] = useState(null);
 
@@ -424,11 +429,17 @@ export default function FormEditor(props) {
 
   // fire event after render to notify interested parties
   useEffect(() => {
+
+    if (hasInitialized) {
+      return;
+    }
+
+    setHasInitialized(true);
     eventBus.fire('rendered');
 
     // keep deprecated event to ensure backward compatibility
     eventBus.fire('formEditor.rendered');
-  }, []);
+  }, [ eventBus, hasInitialized ]);
 
   const formRenderContext = useMemo(() => ({
     Children,
@@ -523,69 +534,69 @@ function CreatePreview(props) {
 
   const formFields = useService('formFields');
 
-  function handleCloned(clone, original, type) {
-
-    const fieldType = clone.dataset.fieldType;
-
-    // (1) field preview
-    if (fieldType) {
-
-      const paletteEntry = findPaletteEntry(fieldType, formFields);
-
-      if (!paletteEntry) {
-        return;
-      }
-
-      const { label } = paletteEntry;
-
-      const Icon = getPaletteIcon(paletteEntry);
-
-      clone.innerHTML = '';
-
-      clone.class = 'gu-mirror';
-      clone.classList.add('fjs-field-preview-container');
-
-      if (original.classList.contains('fjs-palette-field')) {
-
-        // default to auto columns when creating from palette
-        clone.classList.add('cds--col');
-      }
-
-      // todo(pinussilvestrus): dragula, how to mitigate cursor position
-      // https://github.com/bevacqua/dragula/issues/285
-      render(
-        <FieldDragPreview label={ label } Icon={ Icon } />,
-        clone
-      );
-    } else {
-
-      // (2) row preview
-
-      // remove elements from copy (context pad, row dragger, ...)
-      [
-        'fjs-context-pad',
-        'fjs-row-dragger',
-        'fjs-debug-columns'
-      ].forEach(cls => {
-        const cloneNode = clone.querySelectorAll('.' + cls);
-        cloneNode.length && cloneNode.forEach(e => e.remove());
-      });
-
-      // mirror grid
-      clone.classList.add('cds--grid');
-      clone.classList.add('cds--grid--condensed');
-    }
-  }
-
   useEffect(() => {
     if (!drake) {
       return;
     }
 
+    function handleCloned(clone, original, type) {
+
+      const fieldType = clone.dataset.fieldType;
+
+      // (1) field preview
+      if (fieldType) {
+
+        const paletteEntry = findPaletteEntry(fieldType, formFields);
+
+        if (!paletteEntry) {
+          return;
+        }
+
+        const { label } = paletteEntry;
+
+        const Icon = getPaletteIcon(paletteEntry);
+
+        clone.innerHTML = '';
+
+        clone.class = 'gu-mirror';
+        clone.classList.add('fjs-field-preview-container');
+
+        if (original.classList.contains('fjs-palette-field')) {
+
+          // default to auto columns when creating from palette
+          clone.classList.add('cds--col');
+        }
+
+        // todo(pinussilvestrus): dragula, how to mitigate cursor position
+        // https://github.com/bevacqua/dragula/issues/285
+        render(
+          <FieldDragPreview label={ label } Icon={ Icon } />,
+          clone
+        );
+      } else {
+
+        // (2) row preview
+
+        // remove elements from copy (context pad, row dragger, ...)
+        [
+          'fjs-context-pad',
+          'fjs-row-dragger',
+          'fjs-debug-columns'
+        ].forEach(cls => {
+          const cloneNode = clone.querySelectorAll('.' + cls);
+          cloneNode.length && cloneNode.forEach(e => e.remove());
+        });
+
+        // mirror grid
+        clone.classList.add('cds--grid');
+        clone.classList.add('cds--grid--condensed');
+      }
+    }
+
     drake.on('cloned', handleCloned);
 
     return () => drake.off('cloned', handleCloned);
-  }, [ drake ]);
+  }, [ drake, formFields ]);
 
   return null;
 }

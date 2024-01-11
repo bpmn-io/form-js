@@ -53,7 +53,7 @@ export default function SimpleSelect(props) {
     ds.displayCross = ds.componentReady && value !== null && value !== undefined;
     ds.displayDropdown = !disabled && !readonly && isDropdownExpanded;
     return ds;
-  }, [ disabled, isDropdownExpanded, loadState, value ]);
+  }, [ disabled, isDropdownExpanded, loadState, readonly, value ]);
 
   const onMouseDown = useCallback((e) => {
     const input = inputRef.current;

@@ -42,7 +42,7 @@ export default function Textfield(props) {
       field,
       value: target.value
     });
-  }, [ props.onChange ]);
+  });
 
   const onInputBlur = () => {
     flushOnChange && flushOnChange();

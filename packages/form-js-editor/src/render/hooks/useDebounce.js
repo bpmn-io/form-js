@@ -5,14 +5,16 @@ import {
 
 import useService from './useService';
 
-
-export default function useDebounce(fn, dependencies = []) {
+/**
+ * @param {Function} fn - function to debounce
+ */
+export default function useDebounce(fn) {
 
   const debounce = useService('debounce');
 
   const callback = useMemo(() => {
     return debounce(fn);
-  }, dependencies);
+  }, [ debounce, fn ]);
 
   // cleanup async side-effect if callback #flush is provided.
   useEffect(() => {

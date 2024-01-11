@@ -38,7 +38,7 @@ export default function Textarea(props) {
       field,
       value: target.value
     });
-  }, [ props.onChange ]);
+  });
 
   const onInputBlur = () => {
     flushOnChange && flushOnChange();

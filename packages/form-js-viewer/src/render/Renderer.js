@@ -34,7 +34,7 @@ export default function Renderer(config, eventBus, form, injector) {
       setState(newState);
     });
 
-    const onChange = useCallback((update) => form._update(update), [ form ]);
+    const onChange = useCallback((update) => form._update(update), []);
 
     const { properties } = state;
 
@@ -44,9 +44,9 @@ export default function Renderer(config, eventBus, form, injector) {
       if (!readOnly) {
         form.submit();
       }
-    }, [ form, readOnly ]);
+    }, [ readOnly ]);
 
-    const onReset = useCallback(() => form.reset(), [ form ]);
+    const onReset = useCallback(() => form.reset(), []);
 
     const { schema } = state;
 

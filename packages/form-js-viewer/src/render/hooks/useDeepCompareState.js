@@ -4,6 +4,7 @@ import {
 } from 'preact/hooks';
 
 import usePrevious from './usePrevious';
+import isEqual from 'lodash/isEqual';
 
 /**
  * A custom hook to manage state changes with deep comparison.
@@ -16,9 +17,9 @@ export default function useDeepCompareState(value, defaultValue) {
 
   const [ state, setState ] = useState(defaultValue);
 
-  const previous = usePrevious(value, defaultValue, [ value ]);
+  const previous = usePrevious(value, defaultValue);
 
-  const changed = !compare(previous, value);
+  const changed = !isEqual(previous, value);
 
   useEffect(() => {
     if (changed) {
@@ -27,11 +28,4 @@ export default function useDeepCompareState(value, defaultValue) {
   }, [ changed, value ]);
 
   return state;
-
-}
-
-// helpers //////////////////////////
-
-function compare(a, b) {
-  return JSON.stringify(a) === JSON.stringify(b);
 }
