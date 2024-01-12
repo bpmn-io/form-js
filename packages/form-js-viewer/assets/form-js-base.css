@@ -1070,6 +1070,7 @@
   text-align: left;
   height: 32px;
   padding: 0 16px;
+  vertical-align: center;
 }
 
 .fjs-container .fjs-table-body .fjs-table-tr:not(:last-child) {
