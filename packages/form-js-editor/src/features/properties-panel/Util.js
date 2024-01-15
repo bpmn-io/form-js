@@ -67,7 +67,8 @@ export const LABELED_NON_INPUTS = [
   'button',
   'group',
   'dynamiclist',
-  'iframe'
+  'iframe',
+  'table'
 ];
 
 export const INPUTS = [

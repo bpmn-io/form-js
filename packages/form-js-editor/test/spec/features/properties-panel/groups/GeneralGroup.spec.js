@@ -115,6 +115,21 @@ describe('GeneralGroup', function() {
     });
 
 
+    it('should NOT render for datetime', function() {
+
+      // given
+      const field = { type: 'datetime' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const labelInput = findFeelers('label', container);
+
+      expect(labelInput).to.not.exist;
+    });
+
+
     it('should render for button', function() {
 
       // given

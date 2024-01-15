@@ -1,4 +1,4 @@
-import { INPUTS } from '../Util';
+import { INPUTS, LABELED_NON_INPUTS } from '../Util';
 import { DATETIME_SUBTYPES, DATE_LABEL_PATH, TIME_LABEL_PATH } from '@bpmn-io/form-js-viewer';
 import { useService, useVariables } from '../hooks';
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
@@ -44,6 +44,10 @@ export function LabelEntry(props) {
     }
   );
 
+  const isSimplyLabled = (field) => {
+    return [ ...INPUTS.filter(input => input !== 'datetime'), ...LABELED_NON_INPUTS ].includes(field.type);
+  };
+
   entries.push(
     {
       id: 'label',
@@ -51,7 +55,7 @@ export function LabelEntry(props) {
       editField,
       field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => [ ...INPUTS, 'button', 'group', 'table', 'iframe', 'dynamiclist' ].includes(field.type)
+      isDefaultVisible: isSimplyLabled
     }
   );
 
