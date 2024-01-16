@@ -65,24 +65,34 @@ function ContextPad(props) {
   );
 }
 
-function Empty(props) {
-  if (props.field.type === 'default') {
-    return <div class="fjs-empty-editor">
+function EmptyGroup() {
+  return (
+    <div class="fjs-empty-component">
+      <span class="fjs-empty-component-text">Drag and drop components here.</span>
+    </div>
+  );
+}
+
+function EmptyForm() {
+  return (
+    <div class="fjs-empty-editor">
       <div class="fjs-empty-editor-card">
         <EmptyFormIcon />
         <h2>Build your form</h2>
         <span>Drag and drop components here to start designing.</span>
         <span>Use the preview window to test your form.</span>
       </div>
-    </div>;
+    </div>
+  );
+}
+
+function Empty(props) {
+  if ([ 'group', 'dynamiclist' ].includes(props.field.type)) {
+    return <EmptyGroup />;
   }
 
-  if (props.field.type === 'group') {
-    return <div class="fjs-empty-component"><span>Drag and drop components here.</span></div>;
-  }
-
-  if (props.field.type === 'dynamiclist') {
-    return <div class="fjs-empty-component"><span>Drag and drop components here <br /> to create a repeatable list item.</span></div>;
+  if (props.field.type === 'default') {
+    return <EmptyForm />;
   }
 
   return null;
