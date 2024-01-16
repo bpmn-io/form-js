@@ -3710,6 +3710,31 @@ describe('properties panel', function() {
 
       });
 
+
+      it('should NOT show error for expressions', async function() {
+
+        // given
+        const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
+
+        bootstrapPropertiesPanel({
+          container,
+          field
+        });
+
+        const feelers = findFeelers('url', container);
+        expect(feelers.textContent).to.equal('https://bpmn.io/');
+
+        const input = feelers.querySelector('div[contenteditable="true"]');
+
+        // when
+        await setEditorValue(input, '=url');
+
+        // then
+        const error = screen.queryByText('For security reasons the URL must start with "https".');
+
+        expect(error).not.to.exist;
+      });
+
     });
 
 
