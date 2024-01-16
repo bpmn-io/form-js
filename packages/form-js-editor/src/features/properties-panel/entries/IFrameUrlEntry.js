@@ -48,7 +48,7 @@ function Url(props) {
   };
 
   const validate = (value) => {
-    if (!value) {
+    if (!value || value.startsWith('=')) {
       return;
     }
 
