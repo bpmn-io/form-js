@@ -56,18 +56,25 @@ const getSelectArrowStyles = ({ arrowRightPosition, color }) => css`
 
 const MARKDOWN_STYLES = css`
   .fjs-container .fjs-form-field.fjs-form-field-text .markup {
-    & {
+    font-size: var(--cds-body-long-01-font-size);
+    font-weight: var(--cds-body-long-01-font-weight);
+    line-height: var(--cds-body-long-01-line-height);
+    letter-spacing: var(--cds-body-long-01-letter-spacing);
+
+    & p {
       font-size: var(--cds-body-long-01-font-size);
       font-weight: var(--cds-body-long-01-font-weight);
       line-height: var(--cds-body-long-01-line-height);
       letter-spacing: var(--cds-body-long-01-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
-
+  
     & h1 {
       font-size: var(--cds-productive-heading-06-font-size);
       font-weight: var(--cds-productive-heading-06-font-weight);
       line-height: var(--cds-productive-heading-06-line-height);
       letter-spacing: var(--cds-productive-heading-06-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & h2 {
@@ -75,6 +82,7 @@ const MARKDOWN_STYLES = css`
       font-weight: var(--cds-productive-heading-05-font-weight);
       line-height: var(--cds-productive-heading-05-line-height);
       letter-spacing: var(--cds-productive-heading-05-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & h3 {
@@ -82,24 +90,31 @@ const MARKDOWN_STYLES = css`
       font-weight: var(--cds-productive-heading-04-font-weight);
       line-height: var(--cds-productive-heading-04-line-height);
       letter-spacing: var(--cds-productive-heading-04-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
+
     & h4 {
       font-size: var(--cds-productive-heading-03-font-size);
       font-weight: var(--cds-productive-heading-03-font-weight);
       line-height: var(--cds-productive-heading-03-line-height);
       letter-spacing: var(--cds-productive-heading-03-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
+
     & h5 {
       font-size: var(--cds-productive-heading-02-font-size);
       font-weight: var(--cds-productive-heading-02-font-weight);
       line-height: var(--cds-productive-heading-02-line-height);
       letter-spacing: var(--cds-productive-heading-02-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
+
     & h6 {
       font-size: var(--cds-productive-heading-01-font-size);
       font-weight: var(--cds-productive-heading-01-font-weight);
       line-height: var(--cds-productive-heading-01-line-height);
       letter-spacing: var(--cds-productive-heading-01-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & code {
@@ -109,6 +124,7 @@ const MARKDOWN_STYLES = css`
       line-height: var(--cds-code-02-line-height);
       letter-spacing: var(--cds-code-02-letter-spacing);
       white-space: pre-wrap;
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & blockquote {
@@ -117,6 +133,7 @@ const MARKDOWN_STYLES = css`
       font-weight: var(--cds-quotation-02-font-weight);
       line-height: var(--cds-quotation-02-line-height);
       letter-spacing: var(--cds-quotation-02-letter-spacing);
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & ul,
@@ -126,6 +143,7 @@ const MARKDOWN_STYLES = css`
       border: 0;
       margin: 0;
       list-style: none;
+      margin-bottom: var(--cds-spacing-05);
     }
 
     & ul {
@@ -155,6 +173,14 @@ const MARKDOWN_STYLES = css`
         left: calc(-1 * var(--cds-spacing-05));
         content: counter(item) '.';
       }
+    }
+
+    pre {
+      margin-bottom: var(--cds-spacing-05);
+    }
+  
+    div > :last-child {
+      margin-bottom: 0;
     }
   }
 `;
