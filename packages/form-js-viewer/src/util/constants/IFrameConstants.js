@@ -13,7 +13,7 @@ export const SECURITY_ATTRIBUTES_DEFINITIONS = [
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-same-origin',
     property: 'allowSameOrigin',
-    label: 'Storage and cookies'
+    label: 'Allow same origin'
   },
   {
     attribute: ALLOW_ATTRIBUTE,
@@ -62,5 +62,11 @@ export const SECURITY_ATTRIBUTES_DEFINITIONS = [
     directive: 'allow-top-navigation',
     property: 'allowTopNavigation',
     label: 'Top level navigation'
+  },
+  {
+    attribute: SANDBOX_ATTRIBUTE,
+    directive: 'allow-storage-access-by-user-activation',
+    property: 'allowStorageAccessByUserActivation',
+    label: 'Storage access by user'
   }
 ];

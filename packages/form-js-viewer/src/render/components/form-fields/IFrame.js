@@ -59,7 +59,7 @@ export function IFrame(props) {
           key={ 'iframe-' + iframeRefresh }
 
           /* @Note: JSX HTML attributes do not include <allow> */
-          { ...{ allow: allow } }
+          { ...{ allow } }
         />
     }
     {
