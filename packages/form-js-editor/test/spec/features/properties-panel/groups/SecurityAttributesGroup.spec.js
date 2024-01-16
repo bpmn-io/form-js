@@ -24,7 +24,7 @@ describe('SecurityAttributesGroup', function() {
     renderSecurityAttributesGroup({ field });
 
     // then
-    expect(findGroup('appearance', document.body)).to.not.exist;
+    expect(findGroup('securityAttributes', document.body)).to.not.exist;
   });
 
   SECURITY_ATTRIBUTES_DEFINITIONS.forEach(({ property }) => {
@@ -108,7 +108,7 @@ function renderSecurityAttributesGroup(options) {
     services
   } = options;
 
-  const groups = [ SecurityAttributesGroup(field, editField) ];
+  const groups = [ SecurityAttributesGroup(field, editField) ].filter(group => group);
 
   return render(
     <MockPropertiesPanelContext services={ services }>
