@@ -468,7 +468,7 @@
 .fjs-editor-container .fjs-repeat-render-footer {
   font-size: var(--font-size-label);
   background: var(--cds-field, var(--color-background-disabled));
-  color: var(--cds-text-disabled, var(--color-grey-225-10-45));
+  color: var(--color-text-light);
   padding: 3px;
   display: flex;
   align-items: center;

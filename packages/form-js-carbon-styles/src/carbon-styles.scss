@@ -1241,7 +1241,7 @@
 // iFrame styles ////////////
 
 .fjs-container {
-  .fjs-iframe-placeholder {
+  .fjs-iframe-placeholder, .fjs-image-placeholder {
     background-color: var(--cds-layer);
     border-color: var(--cds-border-subtle);
     color: var(--cds-text-helper);
