@@ -2,6 +2,8 @@ import { useContext, useMemo } from 'preact/hooks';
 
 import { FormContext } from '../../context';
 
+import { iconsByType } from '../icons';
+
 import { useSingleLineTemplateEvaluation } from '../../hooks';
 import { sanitizeImageSource } from '../Sanitizer';
 
@@ -9,8 +11,6 @@ import {
   formFieldClasses,
   prefixId
 } from '../Util';
-
-import ImagePlaceholder from './icons/ImagePlaceholder.svg';
 
 const type = 'image';
 
@@ -26,6 +26,8 @@ export function Image(props) {
     source
   } = field;
 
+  const Icon = iconsByType(field.type);
+
   const evaluatedImageSource = useSingleLineTemplateEvaluation(source, { debug: true });
 
   const safeSource = useMemo(() => sanitizeImageSource(evaluatedImageSource), [ evaluatedImageSource ]);
@@ -35,21 +37,22 @@ export function Image(props) {
   const { formId } = useContext(FormContext);
 
   return <div class={ formFieldClasses(type) }>
-    <div class="fjs-image-container">
-      {
-        safeSource &&
+    {
+      safeSource && <div class="fjs-image-container">
         <img
           alt={ altText }
           src={ safeSource }
           class="fjs-image"
           id={ prefixId(id, formId) } />
-      }
-      { !safeSource &&
-        <div class="fjs-image-placeholder">
-          <ImagePlaceholder alt="This is an image placeholder" />
-        </div>
-      }
-    </div>
+      </div>
+    }
+    {
+      !safeSource && <div class="fjs-image-placeholder">
+        <span class="fjs-image-placeholder-inner">
+          <Icon alt="This is an image placeholder" width="32" height="32" viewBox="0 0 56 56" />
+        </span>
+      </div>
+    }
   </div>;
 }
 
