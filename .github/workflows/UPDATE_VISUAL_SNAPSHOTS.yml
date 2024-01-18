@@ -30,10 +30,7 @@ jobs:
       run: npm run start:visual-preview
     - name: Run Playwright tests
       run: npm run test:visual -- --update-snapshots
-    - name: Overwrite Playwright snapshots
-      run: |
-          git config user.name '${{ secrets.BPMN_IO_USERNAME }}'
-          git config user.email '${{ secrets.BPMN_IO_EMAIL }}'
-          git add -A
-          git commit -m "chore(CI): updated snapshots" || echo "No changes to commit"
-          git push
+    - name: Commit screenshots
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "chore: updated snapshots"
