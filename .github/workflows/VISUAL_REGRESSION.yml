@@ -26,16 +26,6 @@ jobs:
       - name: Run Playwright tests
         if: github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/master'
         run: npm run test:visual
-      - name: Overwrite Playwright snapshots
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
-        run: |
-          npm run test:visual -- --update-snapshots
-          git config user.name '${{ secrets.BPMN_IO_USERNAME }}'
-          git config user.email '${{ secrets.BPMN_IO_EMAIL }}'
-          git add -A
-          git commit -m "chore(CI): updated snapshots [skip ci]" || echo "No changes to commit"
-          git push
-
       - uses: actions/upload-artifact@v4
         if: always()
         with:
