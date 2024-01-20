@@ -1,6 +1,7 @@
 import Big from 'big.js';
 import classNames from 'classnames';
-import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useFlushDebounce, usePrevious } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -32,8 +33,7 @@ export function Numberfield(props) {
     onFocus,
     field,
     value,
-    readonly,
-    onChange
+    readonly
   } = props;
 
   const {
@@ -42,7 +42,6 @@ export function Numberfield(props) {
     appearance = {},
     validate = {},
     decimalDigits,
-    serializeToString = false,
     increment: incrementValue
   } = field;
 
@@ -55,21 +54,75 @@ export function Numberfield(props) {
 
   const inputRef = useRef();
 
-  const [ stringValueCache, setStringValueCache ] = useState('');
+  const [ cachedValue, setCachedValue ] = useState(value);
+  const [ displayValue, setDisplayValue ] = useState(value);
 
-  // checks whether the value currently in the form data is practically different from the one in the input field cache
-  // this allows us to guarantee the field always displays valid form data, but without auto-simplifying values like 1.000 to 1
-  const cacheValueMatchesState = useMemo(() => Numberfield.config.sanitizeValue({ value, formField: field }) === Numberfield.config.sanitizeValue({ value: stringValueCache, formField: field }), [ stringValueCache, value, field ]);
+  const sanitize = useCallback((value) => Numberfield.config.sanitizeValue({ value, formField: field }), [ field ]);
 
-  const displayValue = useMemo(() => {
+  const [ debouncedOnChange, flushOnChange ] = useFlushDebounce(props.onChange);
 
-    if (value === 'NaN') return 'NaN';
-    if (stringValueCache === '-') return '-';
-    return cacheValueMatchesState ? stringValueCache : ((value || value === 0) ? Big(value).toFixed() : '');
+  const previousCachedValue = usePrevious(value);
 
-  }, [ stringValueCache, value, cacheValueMatchesState ]);
+  useEffect(() => {
+    if (previousCachedValue !== cachedValue) {
+      debouncedOnChange({ field, value: cachedValue });
+    }
+  }, [ debouncedOnChange, cachedValue, field, previousCachedValue ]);
 
-  const arrowIncrementValue = useMemo(() => {
+  const onInputBlur = () => {
+    flushOnChange && flushOnChange();
+    onBlur && onBlur();
+  };
+
+  const onInputFocus = () => {
+    onFocus && onFocus();
+  };
+
+  // all value changes must go through this function
+  const setValue = useCallback((stringValue) => {
+
+    if (isNullEquivalentValue(stringValue)) {
+      setDisplayValue('');
+      setCachedValue(null);
+      return;
+    }
+
+    // converts automatically for countries where the comma is used as a decimal separator
+    stringValue = stringValue.replaceAll(',', '.');
+
+    if (stringValue === '-') {
+      setDisplayValue('-');
+      return;
+    }
+
+    // provides feedback for invalid numbers entered via pasting as opposed to just ignoring the paste
+    if (isNaN(Number(stringValue))) {
+      setDisplayValue('NaN');
+      setCachedValue(null);
+      return;
+    }
+
+    setDisplayValue(stringValue);
+    setCachedValue(sanitize(stringValue));
+
+  }, [ sanitize ]);
+
+  // when external changes occur independently of the input, we update the display and cache values of the component
+
+  const previousValue = usePrevious(value);
+
+  useEffect(() => {
+    const outerValueChanged = previousValue != value;
+    const outerValueEqualsCache = sanitize(value) === sanitize(cachedValue);
+
+    if (outerValueChanged && !outerValueEqualsCache) {
+      setValue(value && value.toString() || '');
+    }
+
+  }, [ cachedValue, previousValue, sanitize, setValue, value ]);
+
+  // caches the value an increment/decrement operation will be based on
+  const incrementAmount = useMemo(() => {
 
     if (incrementValue) return Big(incrementValue);
     if (decimalDigits) return Big(`1e-${decimalDigits}`);
@@ -77,44 +130,16 @@ export function Numberfield(props) {
 
   }, [ decimalDigits, incrementValue ]);
 
-
-  const setValue = useCallback((stringValue) => {
-
-    if (isNullEquivalentValue(stringValue)) {
-      setStringValueCache('');
-      onChange({ field, value: null });
-      return;
-    }
-
-    // treat commas as dots
-    stringValue = stringValue.replaceAll(',', '.');
-
-    if (stringValue === '-') {
-      setStringValueCache('-');
-      return;
-    }
-
-    if (isNaN(Number(stringValue))) {
-      setStringValueCache('NaN');
-      onChange({ field, value: 'NaN' });
-      return;
-    }
-
-    setStringValueCache(stringValue);
-    onChange({ field, value: serializeToString ? stringValue : Number(stringValue) });
-
-  }, [ field, onChange, serializeToString ]);
-
   const increment = () => {
     if (readonly) {
       return;
     }
 
-    const base = isValidNumber(value) ? Big(value) : Big(0);
-    const stepFlooredValue = base.minus(base.mod(arrowIncrementValue));
+    const base = isValidNumber(cachedValue) ? Big(cachedValue) : Big(0);
+    const stepFlooredValue = base.minus(base.mod(incrementAmount));
 
     // note: toFixed() behaves differently in big.js
-    setValue(stepFlooredValue.plus(arrowIncrementValue).toFixed());
+    setValue(stepFlooredValue.plus(incrementAmount).toFixed());
   };
 
   const decrement = () => {
@@ -122,18 +147,18 @@ export function Numberfield(props) {
       return;
     }
 
-    const base = isValidNumber(value) ? Big(value) : Big(0);
-    const offset = base.mod(arrowIncrementValue);
+    const base = isValidNumber(cachedValue) ? Big(cachedValue) : Big(0);
+    const offset = base.mod(incrementAmount);
 
     if (offset.cmp(0) === 0) {
 
       // if we're already on a valid step, decrement
-      setValue(base.minus(arrowIncrementValue).toFixed());
+      setValue(base.minus(incrementAmount).toFixed());
     }
     else {
 
       // otherwise floor to the step
-      const stepFlooredValue = base.minus(base.mod(arrowIncrementValue));
+      const stepFlooredValue = base.minus(base.mod(incrementAmount));
       setValue(stepFlooredValue.toFixed());
     }
   };
@@ -141,8 +166,8 @@ export function Numberfield(props) {
   const onKeyDown = (e) => {
 
     // delete the NaN state all at once on backspace or delete
-    if (value === 'NaN' && (e.code === 'Backspace' || e.code === 'Delete')) {
-      setValue(null);
+    if (displayValue === 'NaN' && (e.code === 'Backspace' || e.code === 'Delete')) {
+      setValue('');
       e.preventDefault();
       return;
     }
@@ -187,14 +212,15 @@ export function Numberfield(props) {
           id={ domId }
           onKeyDown={ onKeyDown }
           onKeyPress={ onKeyPress }
-          onBlur={ onBlur }
-          onFocus={ onFocus }
+          onBlur={ onInputBlur }
+          onFocus={ onInputFocus }
 
           // @ts-ignore
-          onInput={ (e) => setValue(e.target.value) }
+          onInput={ (e) => setValue(e.target.value, true) }
+          onPaste={ (e) => displayValue === 'NaN' && e.preventDefault() }
           type="text"
           autoComplete="off"
-          step={ arrowIncrementValue }
+          step={ incrementAmount }
           value={ displayValue }
           aria-describedby={ errorMessageId } />
         <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>

@@ -12,6 +12,10 @@ export function isValidNumber(value) {
 
 export function willKeyProduceValidNumber(key, previousValue, caretIndex, selectionWidth, decimalDigits) {
 
+  if (previousValue === 'NaN') {
+    return false;
+  }
+
   // Dot and comma are both treated as dot
   previousValue = previousValue.replace(',', '.');
   const isFirstDot = !previousValue.includes('.') && (key === '.' || key === ',');
