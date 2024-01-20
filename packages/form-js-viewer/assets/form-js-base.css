@@ -1013,6 +1013,10 @@
   overflow: hidden;
 }
 
+.fjs-container .fjs-iframe-placeholder .fjs-iframe-placeholder-text {
+  font-size: var(--font-size-label);
+}
+
 .fjs-container .fjs-form-field-table {
   display: flex;
   flex-direction: column;
