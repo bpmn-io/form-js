@@ -8,6 +8,7 @@ export { useKeyDownAction } from './useKeyDownAction';
 export { useReadonly } from './useReadonly';
 export { useService } from './useService';
 export { usePrevious } from './usePrevious';
+export { useFlushDebounce } from './useFlushDebounce';
 export { useDeepCompareState } from './useDeepCompareState';
 export { useSingleLineTemplateEvaluation } from './useSingleLineTemplateEvaluation';
 export { useTemplateEvaluation } from './useTemplateEvaluation';
