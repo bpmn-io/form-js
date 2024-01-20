@@ -675,9 +675,10 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: '12.25a' } });
 
       // then
+      expect(input.value).to.equal('NaN');
       expect(onChangeSpy).to.have.been.calledWith({
         field: stringField,
-        value: 'NaN'
+        value: null
       });
 
     });
