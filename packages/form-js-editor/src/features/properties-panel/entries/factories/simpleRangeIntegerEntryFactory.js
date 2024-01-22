@@ -1,6 +1,9 @@
 import { get } from 'min-dash';
 import { useService } from '../../hooks';
-import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { isValidNumber } from '../../Util';
+
+import Big from 'big.js';
 
 export function simpleRangeIntegerEntryFactory(options) {
   const {
@@ -9,8 +12,7 @@ export function simpleRangeIntegerEntryFactory(options) {
     path,
     props,
     min,
-    max,
-    defaultValue
+    max
   } = options;
 
   const {
@@ -26,9 +28,8 @@ export function simpleRangeIntegerEntryFactory(options) {
     editField,
     min,
     max,
-    defaultValue,
     component: SimpleRangeIntegerEntry,
-    isEdited: isNumberFieldEntryEdited
+    isEdited: isTextFieldEntryEdited
   };
 }
 
@@ -39,31 +40,38 @@ const SimpleRangeIntegerEntry = (props) => {
     path,
     field,
     editField,
-    min,
-    max,
-    defaultValue
+    min = Number.MIN_SAFE_INTEGER,
+    max = Number.MAX_SAFE_INTEGER
   } = props;
 
   const debounce = useService('debounce');
 
   const getValue = () => {
-    const value = get(field, path, defaultValue);
-    return Number.isInteger(value) ? value : defaultValue;
+    const value = get(field, path);
+    const isValid = isValidNumber(value) && Number.isInteger(value);
+    return isValid ? value : null;
   };
 
-  const setValue = (value) => {
-    editField(field, path, value);
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
+    editField(field, path, Number(value));
   };
 
-  return NumberFieldEntry({
+  return TextFieldEntry({
     debounce,
     label,
     element: field,
-    step: 1,
-    min,
-    max,
     getValue,
     id,
-    setValue
+    setValue,
+    validate: (value) => {
+      if (value === undefined || value === null || value === '') { return; }
+      if (!Number.isInteger(Number(value))) { return 'Should be an integer.'; }
+      if (Big(value).cmp(min) < 0) { return `Should be at least ${min}.`; }
+      if (Big(value).cmp(max) > 0) { return `Should be at most ${max}.`; }
+    }
   });
 };

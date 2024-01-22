@@ -1,9 +1,9 @@
 import { NumberFieldEntry, isNumberFieldEntryEdited, TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-
-import Big from 'big.js';
 import { get } from 'min-dash';
 import { useService } from '../hooks';
 import { countDecimals, isValidNumber } from '../Util';
+
+import Big from 'big.js';
 
 export function NumberEntries(props) {
   const {
