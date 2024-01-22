@@ -21,7 +21,7 @@ export function RepeatableEntry(props) {
       id: 'defaultRepetitions',
       path: [ 'defaultRepetitions' ],
       label: 'Default number of items',
-      min: 0,
+      min: 1,
       max: 20,
       props
     }),
