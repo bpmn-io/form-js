@@ -1,6 +1,6 @@
 import Big from 'big.js';
 import classNames from 'classnames';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
 import { useFlushDebounce, usePrevious } from '../../hooks';
 
 import { Description } from '../Description';
@@ -63,11 +63,9 @@ export function Numberfield(props) {
 
   const previousCachedValue = usePrevious(value);
 
-  useEffect(() => {
-    if (previousCachedValue !== cachedValue) {
-      debouncedOnChange({ field, value: cachedValue });
-    }
-  }, [ debouncedOnChange, cachedValue, field, previousCachedValue ]);
+  if (previousCachedValue !== cachedValue) {
+    debouncedOnChange({ field, value: cachedValue });
+  }
 
   const onInputBlur = () => {
     flushOnChange && flushOnChange();
@@ -108,18 +106,13 @@ export function Numberfield(props) {
   }, [ sanitize ]);
 
   // when external changes occur independently of the input, we update the display and cache values of the component
-
   const previousValue = usePrevious(value);
+  const outerValueChanged = previousValue != value;
+  const outerValueEqualsCache = sanitize(value) === sanitize(cachedValue);
 
-  useEffect(() => {
-    const outerValueChanged = previousValue != value;
-    const outerValueEqualsCache = sanitize(value) === sanitize(cachedValue);
-
-    if (outerValueChanged && !outerValueEqualsCache) {
-      setValue(value && value.toString() || '');
-    }
-
-  }, [ cachedValue, previousValue, sanitize, setValue, value ]);
+  if (outerValueChanged && !outerValueEqualsCache) {
+    setValue(value && value.toString() || '');
+  }
 
   // caches the value an increment/decrement operation will be based on
   const incrementAmount = useMemo(() => {
