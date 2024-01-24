@@ -67,7 +67,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./tasklist/client
         run: yarn playwright form-js-integration
-      - uses: actions/upload-artifact@c320f57948d137eb8c7f8e781ddcc0f61b04e834
+      - uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8
         if: always()
         with:
           name: playwright-report
