@@ -98,7 +98,7 @@ The `@bpmn-io/form-js-carbon-styles` deprecates the `carbon-styles.js` styled co
 
 ### Playground
 
-`FEAT`: provide `additionalModules` to both viewer and editor ([#776](https://github.com/bpmn-io/form-js/pull/776))
+* `FEAT`: provide `additionalModules` to both viewer and editor ([#776](https://github.com/bpmn-io/form-js/pull/776))
 
 ## 1.3.3
 
@@ -358,7 +358,6 @@ The missing styles are included in the general style exports (`form-js.css`, `fo
 
 * `FIX`: use defined `validationType` for custom `validate` ([#537](https://github.com/bpmn-io/form-js/pull/537))
 
-
 ## 0.12.0
 
 ### General
@@ -438,13 +437,11 @@ The missing styles are included in the general style exports (`form-js.css`, `fo
 * `FEAT`: allow `h6` elements in text view ([#412](https://github.com/bpmn-io/form-js/issues/412))
 * `FIX`: hidden fields do not affect other fields ([#431](https://github.com/bpmn-io/form-js/issues/431))
 
-
 ## 0.10.0-alpha.3
 
 ### General
 
 * `FIX`: remove ES2020 syntax ([#448](https://github.com/bpmn-io/form-js/pull/448))
-
 
 ## 0.10.0-alpha.2
 
@@ -458,11 +455,9 @@ The missing styles are included in the general style exports (`form-js.css`, `fo
 * `DEPS`: update to `diagram-js@11` ([`6e2d5a1d`](https://github.com/bpmn-io/form-js/commit/6e2d5a1d15fcd8a3c8c2b9787adcc637e46c552b))
 * `DEPS`: update to `@bpmn-io/properties-panel@1` ([`fdda226f`](https://github.com/bpmn-io/form-js/commit/fdda226ff986532f6058a37dc647ac296ff3e8f4))
 
-
 ### Editor
 
 * `FEAT`: validate `valuesKey` in properties panel ([#428](https://github.com/bpmn-io/form-js/issues/428))
-
 
 ## 0.10.0-alpha.1
 
@@ -495,7 +490,6 @@ The missing styles are included in the general style exports (`form-js.css`, `fo
 
 * `FEAT`: enable JSON validation ([#386](https://github.com/bpmn-io/form-js/pull/386))
 * `FEAT`: emit `formPlayground.inputDataError` ([`7341834b`](https://github.com/bpmn-io/form-js/commit/7341834bae4635970138f962583445867a89654e))
-
 
 ## 0.9.9
 
@@ -553,13 +547,11 @@ _Re-release of 0.9.2._
 
 * `CHORE`: upgrade to `properties-panel@0.21.0` ([b914b2f3](https://github.com/bpmn-io/form-js/commit/b914b2f3b862c0c9f2828f29e93ed2bbd076941c))
 
-
 ## 0.9.1
 
 ### Viewer
 
 * `FIX`: increase description color contrast ([#334](https://github.com/bpmn-io/form-js/issues/334))
-
 
 ## 0.9.0
 
@@ -573,7 +565,6 @@ _Re-release of 0.9.2._
 * `FEAT`: emit `formPlayground.init` after full initialization ([`dbb174c6`](https://github.com/bpmn-io/form-js/commit/dbb174c63a28e00bf3c9336192b5d5c46135867f))
 * `FEAT`: allow to configure `exporter` ([#331](https://github.com/bpmn-io/form-js/issues/331))
 * `FEAT`: make initial schema optional ([`e041c24a`](https://github.com/bpmn-io/form-js/commit/e041c24a86f3a5dc75ebba2cf5ac3ce724d65384))
-
 
 ## 0.8.0
 
