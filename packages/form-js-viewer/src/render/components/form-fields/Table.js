@@ -23,14 +23,16 @@ const type = 'table';
  * @property {string} label
  * @property {string} key
  *
+ * @typedef Field
+ * @property {string} id
+ * @property {Array<Column>} [columns]
+ * @property {string} [columnsExpression]
+ * @property {string} [label]
+ * @property {number} [rowCount]
+ * @property {string} [dataSource]
+ *
  * @typedef Props
- * @property {Object} field
- * @property {string} field.id
- * @property {Array<Column>} [field.columns]
- * @property {string} [field.columnsExpression]
- * @property {string} [field.label]
- * @property {number} [field.rowCount]
- * @property {string} [field.dataSource]
+ * @property {Field} field
  *
  * @param {Props} props
  * @returns {import("preact").JSX.Element}
@@ -263,11 +265,30 @@ Table.config = {
       ],
     };
   },
-  initialDemoData: [
-    { id: 1, name: 'John Doe', date: '31.01.2023' },
-    { id: 2, name: 'Erika Muller', date: '20.02.2023' },
-    { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
-  ],
+
+  /**
+   *
+   * @param {Field} field
+   */
+  generateInitialDemoData: (field) => {
+    const demoData = [
+      { id: 1, name: 'John Doe', date: '31.01.2023' },
+      { id: 2, name: 'Erika Muller', date: '20.02.2023' },
+      { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
+    ];
+    const demoDataKeys = Object.keys(demoData[0]);
+    const { columns, id, dataSource } = field;
+
+    if (!Array.isArray(columns) || columns.length === 0 || dataSource !== `=${id}`) {
+      return;
+    }
+
+    if (!columns.map(({ key })=>key).every(key => demoDataKeys.includes(key))) {
+      return;
+    }
+
+    return demoData;
+  }
 };
 
 // helpers /////////////////////////////

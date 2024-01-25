@@ -60,7 +60,8 @@ export default [
       '@codemirror/language',
       'codemirror',
       'classnames',
-      'min-dom'
+      'min-dom',
+      'min-dash'
     ],
     onwarn
   },

@@ -170,8 +170,21 @@ describe('playground', function() {
     const attrs = {
       id: 'table',
       type: 'table',
-      dataSource: 'people',
-      columnsExpression: 'peopleColumns'
+      dataSource: '=table',
+      columns: [
+        {
+          key: 'id',
+          label: 'ID'
+        },
+        {
+          key: 'name',
+          label: 'Name'
+        },
+        {
+          key: 'date',
+          label: 'Date'
+        }
+      ]
     };
 
     await act(() => {
@@ -201,6 +214,38 @@ describe('playground', function() {
       { id: 2, name: 'Erika Muller', date: '20.02.2023' },
       { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
     ]);
+  });
+
+  it('should not append sample data', async function() {
+
+    // given
+    const attrs = {
+      id: 'table',
+      type: 'table',
+      dataSource: '=table',
+      columnsExpression: '=peopleColumns'
+    };
+
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema
+      });
+    });
+
+    const editor = playground.getEditor();
+    const modeling = editor.get('modeling');
+
+    // when
+    await act(() => {
+      const { schema } = editor._getState();
+      modeling.addFormField(attrs, schema, 0);
+    });
+
+    // then
+    const dataEditor = playground.getDataEditor();
+
+    expect(dataEditor.getValue()).to.be.empty;
   });
 
 
