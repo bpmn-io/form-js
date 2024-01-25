@@ -1,6 +1,5 @@
 import {
-  sanitizeHTML,
-  sanitizeImageSource
+  sanitizeHTML
 } from '../../../../src/render/components/Sanitizer';
 
 
@@ -44,23 +43,6 @@ describe('Sanitizer', function() {
 
       // then
       expect(sanitized).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><p>foo</p></div>');
-    });
-
-  });
-
-
-  describe('#sanitizeImageSource', function() {
-
-    it('should sanitize image source', function() {
-
-      // given
-      const src = 'javascript:alert(\'foo\')';
-
-      // when
-      const sanitized = sanitizeImageSource(src);
-
-      // then
-      expect(sanitized).to.equal('');
     });
 
   });

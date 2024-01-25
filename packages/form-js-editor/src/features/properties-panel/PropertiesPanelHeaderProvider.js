@@ -8,6 +8,11 @@ import { getPaletteIcon } from '../palette/components/Palette';
 
 import { useService } from './hooks';
 
+const headerlessTypes = [
+  'spacer',
+  'separator',
+  'html'
+];
 
 export const PropertiesPanelHeaderProvider = {
 
@@ -16,7 +21,7 @@ export const PropertiesPanelHeaderProvider = {
       type
     } = field;
 
-    if (type === 'spacer') {
+    if (headerlessTypes.includes(type)) {
       return '';
     }
 

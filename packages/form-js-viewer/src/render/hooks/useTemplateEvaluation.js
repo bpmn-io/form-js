@@ -11,6 +11,7 @@ import { buildExpressionContext } from '../../util/simple';
  * @param {Object} options
  * @param {boolean} [options.debug = false]
  * @param {boolean} [options.strict = false]
+ * @param {Function} [options.sanitizer]
  * @param {Function} [options.buildDebugString]
  *
  */

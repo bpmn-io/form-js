@@ -1,4 +1,4 @@
-import { sanitizeDateTimePickerValue } from '../../../../../../src/render/components/util/sanitizerUtil.js';
+import { sanitizeDateTimePickerValue, sanitizeImageSource, escapeHTML } from '../../../../../../src/render/components/util/sanitizerUtil.js';
 
 describe('sanitizerUtil', function() {
 
@@ -40,4 +40,65 @@ describe('sanitizerUtil', function() {
     }
 
   });
+
+
+  describe('#sanitizeImageSource', function() {
+
+    it('should sanitize image source', function() {
+
+      // given
+      const src = 'javascript:alert(\'foo\')';
+
+      // when
+      const sanitized = sanitizeImageSource(src);
+
+      // then
+      expect(sanitized).to.equal('');
+    });
+
+  });
+
+
+  describe('#escapeHTML', function() {
+
+    it('should escape HTML', function() {
+
+      // given
+      const html = '<b>foo</b>';
+
+      // when
+      const escaped = escapeHTML(html);
+
+      // then
+      expect(escaped).to.equal('&lt;b&gt;foo&lt;/b&gt;');
+    });
+
+
+    it('should escape HTML injection', function() {
+
+      // given
+      const html = '<img src=x onerror=alert(1)//>';
+
+      // when
+      const escaped = escapeHTML(html);
+
+      // then
+      expect(escaped).to.equal('&lt;img src=x onerror=alert(1)//&gt;');
+    });
+
+
+    it('should escape CSS special characters ({};:)', function() {
+
+      // given
+      const html = '} * { display: none;';
+
+      // when
+      const escaped = escapeHTML(html);
+
+      // then
+      expect(escaped).to.equal('&#125; * &#123; display&#58; none&#59;');
+    });
+
+  });
+
 });

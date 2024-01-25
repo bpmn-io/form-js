@@ -4,7 +4,7 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export function TextEntry(props) {
+export function HtmlEntry(props) {
   const {
     editField,
     field
@@ -12,19 +12,19 @@ export function TextEntry(props) {
 
   const entries = [
     {
-      id: 'text',
-      component: Text,
+      id: 'content',
+      component: Content,
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => field.type === 'text'
+      isDefaultVisible: (field) => field.type === 'html'
     }
   ];
 
   return entries;
 }
 
-function Text(props) {
+function Content(props) {
   const {
     editField,
     field,
@@ -35,7 +35,7 @@ function Text(props) {
 
   const variables = useVariables().map(name => ({ name }));
 
-  const path = [ 'text' ];
+  const path = [ 'content' ];
 
   const getValue = () => {
     return get(field, path, '');
@@ -45,17 +45,28 @@ function Text(props) {
     return editField(field, path, value || '');
   };
 
+  const validate = (value) => {
+
+    // allow empty state
+    if (value === undefined || value === null || value === '') { return null; }
+
+    // allow expressions
+    if (value.startsWith('=')) { return null; }
+
+  };
+
   return FeelTemplatingEntry({
     debounce,
     description,
     element: field,
     getValue,
     id,
-    label: 'Text',
-    hostLanguage: 'markdown',
+    label: 'Content',
+    hostLanguage: 'html',
+    validate,
     setValue,
     variables
   });
 }
 
-const description = <>Supports markdown and templating. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/" target="_blank">Learn more</a></>;
+const description = <>Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/" target="_blank">Learn more</a></>;
