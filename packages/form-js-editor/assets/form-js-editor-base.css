@@ -773,6 +773,12 @@
   background: repeating-linear-gradient( 45deg, #ffffff, #ffffff 10px, #f5f5f5 10px, #f5f5f5 20px);
 }
 
+
+.fjs-editor-container .fjs-form-field-html,
+.fjs-editor-container .fjs-form-field-text {
+  min-height: 30px;
+}
+
 .fjs-editor-container .fjs-form-field-separator hr {
   margin: 10px 2px;
 }

@@ -59,7 +59,8 @@ export default [
       'flatpickr',
       'showdown',
       '@carbon/grid',
-      'feelers'
+      'feelers',
+      'dompurify'
     ],
     plugins: pgl([
       copy({

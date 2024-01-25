@@ -13,6 +13,7 @@ export { IFrameHeightEntry } from './IFrameHeightEntry';
 export { IFrameUrlEntry } from './IFrameUrlEntry';
 export { ImageSourceEntry } from './ImageSourceEntry';
 export { TextEntry } from './TextEntry';
+export { HtmlEntry } from './HtmlEntry';
 export { HeightEntry } from './HeightEntry';
 export { NumberEntries } from './NumberEntries';
 export { NumberSerializationEntry } from './NumberSerializationEntry';

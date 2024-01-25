@@ -6,7 +6,15 @@
       "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__.",
       "layout": {
         "row": "Row_1",
-        "columns": 10
+        "columns": 8
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h1>My HTML</h1><p style='color: green'>My styled HTML content</p>",
+      "layout": {
+        "row": "Row_1",
+        "columns": 8
       }
     },
     {

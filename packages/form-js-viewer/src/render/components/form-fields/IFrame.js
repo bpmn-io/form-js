@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 
 import { useSingleLineTemplateEvaluation, useSecurityAttributesMap } from '../../hooks';
-import { sanitizeIFrameSource } from '../Sanitizer';
+import { sanitizeIFrameSource } from '../util/sanitizerUtil';
 
 import { Label } from '../Label';
 

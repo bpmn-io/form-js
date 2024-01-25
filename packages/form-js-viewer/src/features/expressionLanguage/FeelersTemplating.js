@@ -54,6 +54,7 @@ export class FeelersTemplating {
    * @param {boolean} [options.debug = false]
    * @param {boolean} [options.strict = false]
    * @param {Function} [options.buildDebugString]
+   * @param {Function} [options.sanitizer]
    *
    * @returns
    */
@@ -62,10 +63,11 @@ export class FeelersTemplating {
     const {
       debug = false,
       strict = false,
-      buildDebugString = (err) => ' {{⚠}} '
+      buildDebugString = (err) => ' {{⚠}} ',
+      sanitizer = (value) => value
     } = options;
 
-    return evaluateFeelers(template, context, { debug, strict, buildDebugString });
+    return evaluateFeelers(template, context, { debug, strict, buildDebugString, sanitizer });
   }
 
 

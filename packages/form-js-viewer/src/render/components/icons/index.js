@@ -12,6 +12,7 @@ import SeparatorIcon from './Separator.svg';
 import SpacerIcon from './Spacer.svg';
 import DynamicListIcon from './DynamicList.svg';
 import TextIcon from './Text.svg';
+import HTMLIcon from './HTML.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
 import IFrameIcon from './IFrame.svg';
@@ -37,6 +38,7 @@ export const iconsByType = (type) => {
     dynamiclist: DynamicListIcon,
     taglist: TaglistIcon,
     text: TextIcon,
+    html: HTMLIcon,
     textfield: TextfieldIcon,
     textarea: TextareaIcon,
     table: TableIcon,
