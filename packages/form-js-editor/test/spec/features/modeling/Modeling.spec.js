@@ -884,9 +884,8 @@ describe('features/modeling', function() {
 
     describe('group', function() {
 
-      const sourceIndex = 1;
-
       let formFieldIds,
+          sourceIndex,
           groupFieldCount,
           formFieldsLength;
 
@@ -898,6 +897,8 @@ describe('features/modeling', function() {
         const parent = formFieldRegistry.get('Form_1');
 
         const group = formFieldRegistry.get('Group_1');
+
+        sourceIndex = parent.components.indexOf(group);
 
         groupFieldCount = group.components.length + 1;
 
@@ -920,8 +921,8 @@ describe('features/modeling', function() {
         const parent = formFieldRegistry.get('Form_1');
 
         expect(parent.components.map(({ id }) => id)).to.eql([
-          formFieldIds[ 0 ],
-          ...formFieldIds.slice(2)
+          ...formFieldIds.slice(0, sourceIndex),
+          ...formFieldIds.slice(sourceIndex + 1)
         ]);
       }));
 
@@ -952,8 +953,8 @@ describe('features/modeling', function() {
         const parent = formFieldRegistry.get('Form_1');
 
         expect(parent.components.map(({ id }) => id)).to.eql([
-          formFieldIds[ 0 ],
-          ...formFieldIds.slice(2)
+          ...formFieldIds.slice(0, sourceIndex),
+          ...formFieldIds.slice(sourceIndex + 1)
         ]);
       }));
 

@@ -784,28 +784,31 @@
   list-style-type: none;
 }
 
+.fjs-container .fjs-form-field-html,
 .fjs-container .fjs-form-field-text {
   overflow-wrap: break-word;
 }
 
+.fjs-container .fjs-form-field-html a,
 .fjs-container .fjs-form-field-text a {
   color: var(--color-accent);
 }
 
-.fjs-container .fjs-form-field-text a {
-  color: var(--color-accent);
-}
-
+.fjs-container .fjs-form-field-html .fjs-disabled-link,
 .fjs-container .fjs-form-field-text .fjs-disabled-link {
   pointer-events: none;
   cursor: default;
 }
 
+.fjs-container .fjs-form-field-html table,
 .fjs-container .fjs-form-field-text table {
   border-collapse: collapse;
   width: auto;
 }
 
+.fjs-container .fjs-form-field-html table,
+.fjs-container .fjs-form-field-html th,
+.fjs-container .fjs-form-field-html td,
 .fjs-container .fjs-form-field-text table,
 .fjs-container .fjs-form-field-text th,
 .fjs-container .fjs-form-field-text td {
@@ -813,14 +816,15 @@
   padding: 8px;
 }
 
+.fjs-container .fjs-form-field-html th,
 .fjs-container .fjs-form-field-text th {
   font-weight: bold; 
 }
 
+.fjs-container .fjs-form-field-html td,
 .fjs-container .fjs-form-field-text td {
   white-space: nowrap;
 }
-
 
 .fjs-container .fjs-taglist-anchor,
 .fjs-container .fjs-select-anchor,

@@ -9,6 +9,11 @@
       "text": "# Invoice\n\nLorem _ipsum_ __dolor__ `sit`.\n\nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n\nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
     },
     {
+      "id": "Html_1",
+      "type": "html",
+      "content": "<h1>My HTML</h1><p style='color: green'>My styled HTML content</p>"
+    },
+    {
       "id": "Group_1",
       "type": "group",
       "label": "Supplementary Information",

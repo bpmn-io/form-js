@@ -7,6 +7,11 @@
       "id": "Field_1bbbwwg"
     },
     {
+      "type": "html",
+      "content": "<p style='color: green; font-size: 24px'>Some big green text</p>",
+      "id": "Field_1bbbwwh"
+    },
+    {
       "id": "Group_1a82jj2",
       "label": "I am a group",
       "showOutline": true,
@@ -680,5 +685,5 @@
     "name": "Camunda Modeler",
     "version": "5.7.0-nightly.20230103"
   },
-  "schemaVersion": 9
+  "schemaVersion": 15
 }

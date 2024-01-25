@@ -3,6 +3,9 @@ import { DATETIME_SUBTYPES } from '../../../util/constants/DatetimeConstants';
 import { isDateInputInformationMatching, isDateTimeInputInformationSufficient, isInvalidDateString, parseIsoTime } from './dateTimeUtil';
 import { getOptionsData, normalizeOptionsData } from './optionsUtil';
 
+const ALLOWED_IMAGE_SRC_PATTERN = /^(https?|data):.*/i; // eslint-disable-line no-useless-escape
+const ALLOWED_IFRAME_SRC_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
+
 export function sanitizeDateTimePickerValue(options) {
   const {
     formField,
@@ -65,4 +68,51 @@ export function sanitizeMultiSelectValue(options) {
   }
 }
 
+/**
+ * Sanitizes an image source to ensure we only allow for data URI and links
+ * that start with http(s).
+ *
+ * Note: Most browsers anyway do not support script execution in <img> elements.
+ *
+ * @param {string} src
+ * @returns {string}
+ */
+export function sanitizeImageSource(src) {
+  const valid = ALLOWED_IMAGE_SRC_PATTERN.test(src);
 
+  return valid ? src : '';
+}
+
+/**
+ * Sanitizes an iframe source to ensure we only allow for links
+ * that start with http(s).
+ *
+ * @param {string} src
+ * @returns {string}
+ */
+export function sanitizeIFrameSource(src) {
+  const valid = ALLOWED_IFRAME_SRC_PATTERN.test(src);
+
+  return valid ? src : '';
+}
+
+/**
+ * Escapes HTML and returns pure text.
+ * @param {string} html
+ * @returns {string}
+ */
+export function escapeHTML(html) {
+  const escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+    '{': '&#123;',
+    '}': '&#125;',
+    ':': '&#58;',
+    ';': '&#59;'
+  };
+
+  return html.replace(/[&<>"'{};:]/g, match => escapeMap[match]);
+}

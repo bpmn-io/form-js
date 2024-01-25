@@ -1,12 +1,16 @@
 {
   "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
-    {
+  {
       "type": "text",
       "text": "# Invoice\n\nLorem _ipsum_ __dolor__ `sit`.\n\nA list of BPMN symbols:\n\n* Start Event\n* Task\n\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__."
     },
     {
-      "type": "group",
+      "type": "html",
+      "content": "<h1>My HTML</h1><p style='color: green'>My styled HTML content</p>"
+    },
+    {
+    "type": "group",
       "label": "Supplementary Information",
       "path": "invoiceDetails",
       "showOutline": true,

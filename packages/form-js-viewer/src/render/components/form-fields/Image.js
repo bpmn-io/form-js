@@ -5,7 +5,7 @@ import { FormContext } from '../../context';
 import { iconsByType } from '../icons';
 
 import { useSingleLineTemplateEvaluation } from '../../hooks';
-import { sanitizeImageSource } from '../Sanitizer';
+import { sanitizeImageSource } from '../util/sanitizerUtil';
 
 import {
   formFieldClasses,
