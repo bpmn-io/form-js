@@ -14,6 +14,7 @@ import { Spacer } from './form-fields/Spacer';
 import { DynamicList } from './form-fields/DynamicList';
 import { Taglist } from './form-fields/Taglist';
 import { Text } from './form-fields/Text';
+import { Html } from './form-fields/Html';
 import { Textfield } from './form-fields/Textfield';
 import { Textarea } from './form-fields/Textarea';
 import { Table } from './form-fields/Table';
@@ -49,6 +50,7 @@ export {
   Spacer,
   Taglist,
   Text,
+  Html,
   Textfield,
   Textarea,
   Table
@@ -59,22 +61,23 @@ export const formFields = [
   Checkbox,
   Checklist,
   Default,
-  Group,
-  IFrame,
   DynamicList,
-  Image,
   Numberfield,
   Datetime,
   Radio,
   Select,
-  Spacer,
-  Separator,
-  DynamicList,
   Taglist,
-  Text,
   Textfield,
   Textarea,
-  Table
+  Text,
+  Image,
+  Table,
+  Html,
+  Spacer,
+  Separator,
+  Group,
+  DynamicList,
+  IFrame
 ];
 
 export * from './icons';
