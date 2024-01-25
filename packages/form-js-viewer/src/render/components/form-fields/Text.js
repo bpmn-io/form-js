@@ -1,7 +1,7 @@
-import Markup from 'preact-markup';
-import { useMemo } from 'preact/hooks';
+import { useCallback, useMemo } from 'preact/hooks';
 import { useService, useTemplateEvaluation } from '../../hooks';
 import { sanitizeHTML } from '../Sanitizer';
+import { RawHTMLRenderer } from './parts/RawHTMLRenderer';
 
 import {
   formFieldClasses
@@ -23,29 +23,37 @@ export function Text(props) {
   // feelers => pure markdown
   const markdown = useTemplateEvaluation(text, { debug: true, strict });
 
-  // markdown => safe HTML
-  const safeHtml = useMemo(() => {
-    const html = markdownRenderer.render(markdown);
-    return sanitizeHTML(html);
-  }, [ markdownRenderer, markdown ]);
+  // markdown => html
+  const html = useMemo(() => markdownRenderer.render(markdown), [ markdownRenderer, markdown ]);
 
-  const OverriddenTargetLink = useMemo(() => BuildOverriddenTargetLink(textLinkTarget), [ textLinkTarget ]);
+  const sanitizeAndTransformLinks = useCallback((unsafeHtml) => {
 
-  const componentOverrides = useMemo(() => {
+    const html = sanitizeHTML(unsafeHtml);
 
-    if (disableLinks) {
-      return { 'a': DisabledLink };
-    }
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
 
-    if (textLinkTarget) {
-      return { 'a': OverriddenTargetLink };
-    }
+    const links = tempDiv.querySelectorAll('a');
 
-    return {};
-  }, [ disableLinks, OverriddenTargetLink, textLinkTarget ]);
+    links.forEach(link => {
+
+      if (disableLinks) {
+        link.setAttribute('class', 'fjs-disabled-link');
+        link.setAttribute('tabIndex', '-1');
+      }
+
+      if (textLinkTarget) {
+        link.setAttribute('target', textLinkTarget);
+      }
+
+    });
+
+    return tempDiv.innerHTML;
+
+  }, [ disableLinks, textLinkTarget ]);
 
   return <div class={ formFieldClasses(type) }>
-    <Markup markup={ safeHtml } components={ componentOverrides } trim={ false } />
+    <RawHTMLRenderer html={ html } transform={ sanitizeAndTransformLinks } sanitize={ false } sanitizeStyleTags={ false } />
   </div>;
 }
 
@@ -59,11 +67,3 @@ Text.config = {
     ...options
   })
 };
-
-function BuildOverriddenTargetLink(target) {
-  return function({ children, ...rest }) {
-    return <a { ...rest } target={ target }>{ children }</a>;
-  };
-}
-
-function DisabledLink({ children, ...rest }) { return <a { ...rest } class="fjs-disabled-link" tabIndex={ -1 }>{ children }</a>; }
