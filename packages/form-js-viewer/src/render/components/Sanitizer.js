@@ -70,9 +70,10 @@ export function sanitizeHTML(html) {
   const element = doc.body.firstChild;
 
   if (element) {
-    sanitizeNode(/** @type Element */ (element));
 
-    return new XMLSerializer().serializeToString(element);
+    sanitizeNode(/** @type Element */ (element));
+    return /** @type Element */ (element).innerHTML;
+
   } else {
 
     // handle the case that document parsing

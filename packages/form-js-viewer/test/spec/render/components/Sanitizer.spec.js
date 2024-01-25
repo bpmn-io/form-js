@@ -17,7 +17,7 @@ describe('Sanitizer', function() {
       const sanitized = sanitizeHTML(html);
 
       // then
-      expect(sanitized).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"></div>');
+      expect(sanitized).to.equal('');
     });
 
 
@@ -30,7 +30,7 @@ describe('Sanitizer', function() {
       const sanitized = sanitizeHTML(html);
 
       // then
-      expect(sanitized).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><h1>test</h1></div>');
+      expect(sanitized).to.equal('<h1>test</h1>');
     });
 
 
@@ -43,7 +43,7 @@ describe('Sanitizer', function() {
       const sanitized = sanitizeHTML(html);
 
       // then
-      expect(sanitized).to.equal('<div xmlns="http://www.w3.org/1999/xhtml"><p>foo</p></div>');
+      expect(sanitized).to.equal('<p>foo</p>');
     });
 
   });

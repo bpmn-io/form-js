@@ -55,7 +55,6 @@ export default [
       'preact/jsx-runtime',
       'preact/hooks',
       'preact/compat',
-      'preact-markup',
       'flatpickr',
       'showdown',
       '@carbon/grid',

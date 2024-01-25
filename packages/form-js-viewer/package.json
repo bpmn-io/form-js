@@ -56,7 +56,6 @@
     "lodash": "^4.5.0",
     "min-dash": "^4.0.0",
     "preact": "^10.5.14",
-    "preact-markup": "^2.1.1",
     "showdown": "^2.1.0"
   },
   "sideEffects": [
