@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'preact/hooks';
-
+import { isFunction } from 'min-dash';
 import download from 'downloadjs';
 
 import classNames from 'classnames';
@@ -142,8 +142,14 @@ export function PlaygroundRoot(props) {
     formEditor.on('formField.add', ({ formField }) => {
       const formFields = formEditor.get('formFields');
       const { config } = formFields.get(formField.type);
-      const { initialDemoData } = config;
+      const { generateInitialDemoData } = config;
       const { id } = formField;
+
+      if (!isFunction(generateInitialDemoData)) {
+        return;
+      }
+
+      const initialDemoData = generateInitialDemoData(formField);
 
       if ([ initialDemoData, id ].includes(undefined)) {
         return;
