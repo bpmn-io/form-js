@@ -48,12 +48,12 @@
   "dependencies": {
     "@bpmn-io/draggle": "^4.0.0",
     "@bpmn-io/form-js-viewer": "^1.6.4",
-    "@bpmn-io/properties-panel": "^3.13.0",
+    "@bpmn-io/properties-panel": "^3.17.0",
     "array-move": "^3.0.1",
     "big.js": "^6.2.1",
     "ids": "^1.0.0",
-    "min-dash": "^4.0.0",
-    "min-dom": "^4.0.0",
+    "min-dash": "^4.2.1",
+    "min-dom": "^4.1.0",
     "preact": "^10.5.14"
   },
   "sideEffects": [
