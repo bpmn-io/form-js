@@ -5,6 +5,7 @@ import { useService } from '../hooks';
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import { isValidDotPath } from '../Util';
+import { useCallback } from 'preact/hooks';
 
 
 export function PathEntry(props) {
@@ -61,7 +62,7 @@ function Path(props) {
     return editField(field, path, value);
   };
 
-  const validate = (value) => {
+  const validate = useCallback((value) => {
 
     if (!value && isRepeating) {
       return 'Must not be empty';
@@ -102,7 +103,7 @@ function Path(props) {
 
     // If all checks pass
     return null;
-  };
+  }, [ field, isRepeating, pathRegistry ]);
 
   const tooltip = isRepeating
     ? 'Routes the children of this component into a form variable, may be left empty to route at the root level.'

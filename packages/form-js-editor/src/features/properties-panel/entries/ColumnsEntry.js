@@ -8,6 +8,7 @@ import {
 } from '@bpmn-io/properties-panel';
 
 import { MIN_COLUMNS } from '../../../core/FormLayoutValidator';
+import { useCallback } from 'preact/hooks';
 
 
 export const AUTO_OPTION_VALUE = '';
@@ -41,9 +42,9 @@ function Columns(props) {
   const debounce = useService('debounce');
   const formLayoutValidator = useService('formLayoutValidator');
 
-  const validate = (value) => {
+  const validate = useCallback((value) => {
     return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
-  };
+  }, [ field, formLayoutValidator ]);
 
   const setValue = (value, error) => {
 

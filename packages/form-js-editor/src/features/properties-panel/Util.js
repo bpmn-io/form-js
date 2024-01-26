@@ -27,6 +27,11 @@ export function countDecimals(number) {
   return num.toFixed().split('.')[1].length || 0;
 }
 
+/**
+ *
+ * @param {unknown} value
+ * @returns {boolean}
+ */
 export function isValidNumber(value) {
   return (typeof value === 'number' || typeof value === 'string') && value !== '' && !isNaN(Number(value));
 }

@@ -65,10 +65,27 @@ function Height(props) {
     id,
     getValue,
     setValue,
-    validate: (value) => {
-      if (value === undefined || value === null) return;
-      if (value < 1) return 'Should be greater than zero.';
-      if (!Number.isInteger(value)) return 'Should be an integer.';
-    }
+    validate
   });
 }
+
+// helpers //////////
+
+/**
+  * @param {number|void} value
+  * @returns {string|null}
+  */
+const validate = (value) => {
+  if (typeof value !== 'number') {
+    return null;
+  }
+
+  if (!Number.isInteger(value)) {
+    return 'Should be an integer.';
+  }
+
+  if (value < 1) {
+    return 'Should be greater than zero.';
+  }
+};
+

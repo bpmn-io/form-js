@@ -51,31 +51,6 @@ function RowCount(props) {
     editField(field, path, value);
   };
 
-  /**
-   * @param {string|void} value
-   * @returns {string|null}
-   */
-  const validate = (value) => {
-
-    if (isNil(value)) {
-      return null;
-    }
-
-    if (!isNumber(value)) {
-      return 'Must be number';
-    }
-
-    if (!Number.isInteger(value)) {
-      return 'Should be an integer.';
-    }
-
-    if (value < 1) {
-      return 'Should be greater than zero.';
-    }
-
-    return null;
-  };
-
   return NumberFieldEntry({
     debounce,
     label: 'Number of rows per page',
@@ -86,3 +61,31 @@ function RowCount(props) {
     validate
   });
 }
+
+
+// helpers //////////
+
+/**
+   * @param {string|void} value
+   * @returns {string|null}
+   */
+const validate = (value) => {
+
+  if (isNil(value)) {
+    return null;
+  }
+
+  if (!isNumber(value)) {
+    return 'Must be number';
+  }
+
+  if (!Number.isInteger(value)) {
+    return 'Should be an integer.';
+  }
+
+  if (value < 1) {
+    return 'Should be greater than zero.';
+  }
+
+  return null;
+};

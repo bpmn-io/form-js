@@ -14,6 +14,7 @@ import Big from 'big.js';
 import { useService } from '../hooks';
 
 import { countDecimals, INPUTS, isValidNumber, OPTIONS_INPUTS } from '../Util';
+import { useCallback } from 'preact/hooks';
 
 export const EMPTY_OPTION = null;
 
@@ -178,6 +179,22 @@ function DefaultValueNumber(props) {
 
   const decimalDigitsSet = decimalDigits || decimalDigits === 0;
 
+  const validate = useCallback(
+    (value) => {
+      if (value === undefined || value === null) {
+        return;
+      }
+
+      if (!isValidNumber(value)) {
+        return 'Should be a valid number';
+      }
+      if (decimalDigitsSet && countDecimals(value) > decimalDigits) {
+        return `Should not contain more than ${decimalDigits} decimal digits`;
+      }
+    },
+    [ decimalDigitsSet, decimalDigits ],
+  );
+
   return TextFieldEntry({
     debounce,
     label,
@@ -185,11 +202,7 @@ function DefaultValueNumber(props) {
     getValue,
     id,
     setValue,
-    validate: (value) => {
-      if (value === undefined || value === null) return;
-      if (!isValidNumber(value)) return 'Should be a valid number';
-      if (decimalDigitsSet && countDecimals(value) > decimalDigits) return `Should not contain more than ${decimalDigits} decimal digits`;
-    }
+    validate
   });
 }
 

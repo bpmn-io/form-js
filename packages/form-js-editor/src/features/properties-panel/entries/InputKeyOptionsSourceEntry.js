@@ -1,5 +1,5 @@
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
-import { get, isUndefined } from 'min-dash';
+import { get } from 'min-dash';
 import { useService } from '../hooks';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
@@ -50,18 +50,6 @@ function InputValuesKey(props) {
     editField(field, path, value || '');
   };
 
-  const validate = (value) => {
-    if (isUndefined(value) || !value.length) {
-      return 'Must not be empty.';
-    }
-
-    if (/\s/.test(value)) {
-      return 'Must not contain spaces.';
-    }
-
-    return null;
-  };
-
   return TextFieldEntry({
     debounce,
     description: 'Define which input property to populate the values from',
@@ -74,3 +62,22 @@ function InputValuesKey(props) {
     validate
   });
 }
+
+
+// helpers //////////
+
+/**
+  * @param {string|void} value
+  * @returns {string|null}
+  */
+const validate = (value) => {
+  if (typeof value !== 'string' || value.length === 0) {
+    return 'Must not be empty.';
+  }
+
+  if (/\s/.test(value)) {
+    return 'Must not contain spaces.';
+  }
+
+  return null;
+};

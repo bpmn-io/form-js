@@ -17,8 +17,7 @@ export function ColumnEntry(props) {
     editField,
     field,
     idPrefix,
-    index,
-    validateFactory
+    index
   } = props;
 
   const entries = [
@@ -28,8 +27,7 @@ export function ColumnEntry(props) {
       field,
       id: idPrefix + '-label',
       idPrefix,
-      index,
-      validateFactory
+      index
     },
     {
       component: Key,
@@ -37,8 +35,7 @@ export function ColumnEntry(props) {
       field,
       id: idPrefix + '-key',
       idPrefix,
-      index,
-      validateFactory
+      index
     }
   ];
 
