@@ -281,6 +281,11 @@
     "security": {
       "$id": "#/component/security",
       "$ref": "security.json"
+    },
+    "content": {
+      "$id": "#/component/content",
+      "description": "The content of a custom component.",
+      "type": "string"
     }
   },
   "required": [

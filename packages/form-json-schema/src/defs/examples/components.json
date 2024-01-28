@@ -8,6 +8,12 @@
     ],
     [
       {
+        "content": "<h1>HTML</h1>",
+        "type": "html"
+      }
+    ],
+    [
+      {
         "label": "Create a text field",
         "type": "textfield",
         "key": "textfield"

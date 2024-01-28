@@ -418,6 +418,25 @@
           }
         ]
       }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "html"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "then": {
+        "properties": {
+          "content": false
+        }
+      }
     }
   ]
 }

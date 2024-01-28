@@ -121,6 +121,9 @@ describe('validation', function() {
     testForm('text-not-allowed');
 
 
+    testForm('content-not-allowed');
+
+
     testForm('label-not-allowed');
 
 
