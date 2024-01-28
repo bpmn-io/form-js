@@ -752,6 +752,10 @@
   margin: 0px 12px 6px
 }
 
+.fjs-properties-container .fjs-properties-panel .cm-editor {
+  max-height: 400px;
+}
+
 /**
  * Editor Form Fields
  */
