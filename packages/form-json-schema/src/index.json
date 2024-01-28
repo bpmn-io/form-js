@@ -25,7 +25,7 @@
       "description": "The schema version of a form",
       "type": "integer",
       "minimum": 1,
-      "maximum": 14
+      "maximum": 15
     },
     "executionPlatform": {
       "$id": "#/executionPlatform",
