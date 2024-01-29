@@ -1,6 +1,5 @@
 import { useCallback } from 'preact/hooks';
-import { useService, useTemplateEvaluation } from '../../hooks';
-import { RawHTMLRenderer } from './parts/RawHTMLRenderer';
+import { useService, useTemplateEvaluation, useDangerousHTMLWrapper } from '../../hooks';
 import { escapeHTML } from '../util/sanitizerUtil';
 
 import {
@@ -70,9 +69,14 @@ export function Html(props) {
 
   }, [ disableLinks, styleScopeId, textLinkTarget ]);
 
-  return <div id={ styleScopeId } class={ formFieldClasses(type) }>
-    <RawHTMLRenderer html={ html } transform={ transform } sanitize={ true } sanitizeStyleTags={ false } />
-  </div>;
+  const dangerouslySetInnerHTML = useDangerousHTMLWrapper({
+    html,
+    transform,
+    sanitize: true,
+    sanitizeStyleTags: false
+  });
+
+  return <div id={ styleScopeId } class={ formFieldClasses(type) } dangerouslySetInnerHTML={ dangerouslySetInnerHTML }></div>;
 }
 
 Html.config = {
