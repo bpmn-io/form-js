@@ -29,7 +29,7 @@ describe('Html', function() {
     // then
     const formField = container.querySelector('.fjs-form-field');
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql(`<div>${defaultField.content}</div>`);
+    expect(formField.innerHTML).to.eql(defaultField.content);
   });
 
 
@@ -46,11 +46,11 @@ describe('Html', function() {
     // then
     const formField = container.querySelector('.fjs-form-field');
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql(`<div>${content}</div>`);
+    expect(formField.innerHTML).to.eql(content);
   });
 
 
-  it('should ignore style tags', function() {
+  it('should allow style tags and apply styles', function() {
 
     // given
     const content = `
@@ -73,8 +73,8 @@ describe('Html', function() {
     const styledDiv = formField.querySelector('.test-style');
     expect(styledDiv).to.exist;
 
-    // Checking that the style defined in <style> tag is not applied
-    expect(styledDiv.style.color).not.to.equal('red');
+    const computedStyle = window.getComputedStyle(styledDiv);
+    expect(computedStyle.color).to.equal('rgb(255, 0, 0)');
   });
 
 
@@ -117,7 +117,7 @@ describe('Html', function() {
     const formField = container.querySelector('.fjs-form-field');
     expect(formField).to.exist;
 
-    expect(formField.innerHTML).to.eql('<div>foo <span>bar</span></div>');
+    expect(formField.innerHTML).to.eql('foo <span>bar</span>');
   });
 
 
@@ -142,7 +142,7 @@ describe('Html', function() {
     const formField = container.querySelector('.fjs-form-field');
     expect(formField).to.exist;
 
-    expect(formField.innerHTML).to.eql('<div>foo <span>&lt;script&gt;alert("foo")&lt;/script&gt;</span></div>');
+    expect(formField.innerHTML).to.eql('foo <span>&lt;script&gt;alert("foo")&lt;/script&gt;</span>');
   });
 
 });
