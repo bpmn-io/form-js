@@ -267,7 +267,9 @@ Table.config = {
   },
 
   /**
+   * @experimental
    *
+   * A function that generates demo data for a new field on the form playground.
    * @param {Field} field
    */
   generateInitialDemoData: (field) => {
