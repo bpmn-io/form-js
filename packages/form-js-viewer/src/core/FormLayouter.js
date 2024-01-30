@@ -1,6 +1,6 @@
 import Ids from 'ids';
 
-import { groupBy, flatten } from 'min-dash';
+import { groupBy } from 'min-dash';
 
 
 /**
@@ -158,5 +158,5 @@ function groupByRow(components, ids) {
  * @returns {Array<FormRow>}
  */
 function allRows(formRows) {
-  return flatten(formRows.map(c => c.rows));
+  return formRows.map(r => r.rows).flat();
 }
