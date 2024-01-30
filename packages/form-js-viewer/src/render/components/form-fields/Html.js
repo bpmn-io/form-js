@@ -1,10 +1,12 @@
 import { useCallback } from 'preact/hooks';
 import { useService, useTemplateEvaluation, useDangerousHTMLWrapper } from '../../hooks';
 import { escapeHTML } from '../util/sanitizerUtil';
+import { wrapCSSStyles } from '../util/domUtil';
 
 import {
   formFieldClasses
 } from '../Util';
+import classNames from 'classnames';
 
 const type = 'html';
 
@@ -17,7 +19,7 @@ export function Html(props) {
 
   const { content = '', strict = false } = field;
 
-  const styleScopeId = `${domId}-style-scope`;
+  const styleScope = `${domId}-style-scope`;
 
   // we escape HTML within the template evaluation to prevent clickjacking attacks
   const html = useTemplateEvaluation(content, { debug: true, strict, sanitizer: escapeHTML });
@@ -45,29 +47,11 @@ export function Html(props) {
     });
 
     // (2) scope styles to the root div
-
-    const styleTags = tempDiv.querySelectorAll('style');
-
-    styleTags.forEach(styleTag => {
-      const scopedCss = styleTag.textContent
-        .split('}')
-        .map(rule => {
-          if (!rule.trim()) return '';
-          const [ selector, styles ] = rule.split('{');
-          const scopedSelector = selector
-            .split(',')
-            .map(sel => `#${styleScopeId} ${sel.trim()}`)
-            .join(', ');
-          return `${scopedSelector} { ${styles}`;
-        })
-        .join('}');
-
-      styleTag.textContent = scopedCss;
-    });
+    wrapCSSStyles(tempDiv, `.${styleScope}`);
 
     return tempDiv.innerHTML;
 
-  }, [ disableLinks, styleScopeId, textLinkTarget ]);
+  }, [ disableLinks, styleScope, textLinkTarget ]);
 
   const dangerouslySetInnerHTML = useDangerousHTMLWrapper({
     html,
@@ -76,7 +60,7 @@ export function Html(props) {
     sanitizeStyleTags: false
   });
 
-  return <div id={ styleScopeId } class={ formFieldClasses(type) } dangerouslySetInnerHTML={ dangerouslySetInnerHTML }></div>;
+  return <div class={ classNames(formFieldClasses(type), styleScope) } dangerouslySetInnerHTML={ dangerouslySetInnerHTML }></div>;
 }
 
 Html.config = {
