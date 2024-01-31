@@ -97,10 +97,10 @@ export class Form {
 
   clear() {
 
-    // clear form services
+    // clear diagram services (e.g. EventBus)
     this._emit('diagram.clear');
 
-    // clear diagram services (e.g. EventBus)
+    // clear form services
     this._emit('form.clear');
   }
 
