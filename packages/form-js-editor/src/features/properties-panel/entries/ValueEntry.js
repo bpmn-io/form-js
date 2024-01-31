@@ -6,7 +6,7 @@ import {
 import { useService } from '../hooks';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
-import { useCallback } from 'preact/hooks';
+import { useMemo } from 'preact/hooks';
 
 
 export function ValueEntry(props) {
@@ -66,7 +66,7 @@ function Label(props) {
     return get(field, [ 'values', index, 'label' ]);
   };
 
-  const validate = useCallback(
+  const validate = useMemo(
     () =>
       validateFactory(
         get(field, [ 'values', index, 'label' ]),
@@ -110,7 +110,7 @@ function Value(props) {
     return get(field, [ 'values', index, 'value' ]);
   };
 
-  const validate = useCallback(
+  const validate = useMemo(
     () =>
       validateFactory(
         get(field, [ 'values', index, 'value' ]),

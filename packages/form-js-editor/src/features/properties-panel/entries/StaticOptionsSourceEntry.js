@@ -1,4 +1,4 @@
-import { isUndefined, without } from 'min-dash';
+import { without } from 'min-dash';
 import { arrayAdd } from '../Util';
 import { ValueEntry } from './ValueEntry';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
@@ -35,7 +35,7 @@ export function StaticOptionsSourceEntry(props) {
         return;
       }
 
-      if (isUndefined(value) || !value.length) {
+      if (typeof value !== 'string' || value.length === 0) {
         return 'Must not be empty.';
       }
 
