@@ -33,7 +33,7 @@ export function Textarea(props) {
   const { required } = validate;
   const textareaRef = useRef();
 
-  const [ onInputChange, flushOnChange ] = useFlushDebounce(({ target }) => {
+  const [ onChange, flushOnChange ] = useFlushDebounce(({ target }) => {
     props.onChange({
       field,
       value: target.value
@@ -47,6 +47,11 @@ export function Textarea(props) {
 
   const onInputFocus = () => {
     onFocus && onFocus();
+  };
+
+  const onInputChange = (event) => {
+    onChange({ target: event.target });
+    autoSizeTextarea(textareaRef.current);
   };
 
   useLayoutEffect(() => {
