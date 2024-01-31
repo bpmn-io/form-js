@@ -3,7 +3,7 @@ import { get } from 'min-dash';
 import { useService } from '../hooks';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
-import { useCallback } from 'preact/hooks';
+import { useMemo } from 'preact/hooks';
 
 
 export function CustomValueEntry(props) {
@@ -64,7 +64,7 @@ function Key(props) {
     return Object.keys(get(field, [ 'properties' ]))[ index ];
   };
 
-  const validate = useCallback(
+  const validate = useMemo(
     () => validateFactory(Object.keys(get(field, [ 'properties' ]))[index]),
     [ validateFactory, field, index ],
   );
