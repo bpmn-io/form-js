@@ -1,4 +1,4 @@
-import { get, isUndefined } from 'min-dash';
+import { get } from 'min-dash';
 
 import { useService } from '../hooks';
 
@@ -51,7 +51,7 @@ function Id(props) {
   };
 
   const validate = useCallback((value) => {
-    if (isUndefined(value) || !value.length) {
+    if (typeof value !== 'string' || value.length === 0) {
       return 'Must not be empty.';
     }
 
