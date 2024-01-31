@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
 
 import { get } from 'min-dash';
 
@@ -43,6 +43,10 @@ export function FormField(props) {
 
   const { formId } = useContext(FormContext);
 
+  // track whether we should trigger initial validation on certain actions, e.g. field blur
+  // disabled straight away, if viewerCommands are not available
+  const [ initialValidationTrigger, setInitialValidationTrigger ] = useState(!!viewerCommands);
+
   const FormFieldComponent = formFields.get(field.type);
 
   if (!FormFieldComponent) {
@@ -62,26 +66,57 @@ export function FormField(props) {
     properties.disabled || field.disabled || false
   );
 
+  // ensures the initial validation behavior can be re-triggered upon form reset
+  useEffect(() => {
+
+    if (!viewerCommands) {
+      return;
+    }
+
+    const resetValidation = () => {
+      setInitialValidationTrigger(true);
+    };
+
+    eventBus.on('import.done', resetValidation);
+    eventBus.on('reset', resetValidation);
+
+    return () => {
+      eventBus.off('import.done', resetValidation);
+      eventBus.off('reset', resetValidation);
+    };
+
+  }, [ eventBus, viewerCommands ]);
+
+  useEffect(() => {
+
+    if (initialValidationTrigger && initialValue) {
+      setInitialValidationTrigger(false);
+      viewerCommands.updateFieldValidation(field, initialValue, indexes);
+    }
+
+  }, [ viewerCommands, field, initialValue, initialValidationTrigger, indexes ]);
+
   const onBlur = useCallback(() => {
-    if (viewerCommands) {
+
+    if (initialValidationTrigger) {
+      setInitialValidationTrigger(false);
       viewerCommands.updateFieldValidation(field, value, indexes);
     }
+
     eventBus.fire('formField.blur', { formField: field });
-  }, [ eventBus, viewerCommands, field, value, indexes ]);
+
+  }, [ eventBus, field, indexes, value, viewerCommands, initialValidationTrigger ]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
   }, [ eventBus, field ]);
 
-  useEffect(() => {
-    if (viewerCommands && initialValue) {
-      viewerCommands.updateFieldValidation(field, initialValue, indexes);
-    }
-  }, [ viewerCommands, field, initialValue, indexes ]);
-
   const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
   const onChangeIndexed = useCallback((update) => {
+
+    // any data change will trigger validation
+    setInitialValidationTrigger(false);
 
     // add indexes of the keyed field to the update, if any
     onChange(FormFieldComponent.config.keyed ? { ...update, indexes } : update);
