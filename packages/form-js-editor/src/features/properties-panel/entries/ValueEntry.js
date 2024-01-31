@@ -6,6 +6,7 @@ import {
 import { useService } from '../hooks';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import { useMemo } from 'preact/hooks';
 
 
 export function ValueEntry(props) {
@@ -65,6 +66,15 @@ function Label(props) {
     return get(field, [ 'values', index, 'label' ]);
   };
 
+  const validate = useMemo(
+    () =>
+      validateFactory(
+        get(field, [ 'values', index, 'label' ]),
+        (entry) => entry.label,
+      ),
+    [ field, index, validateFactory ],
+  );
+
   return TextFieldEntry({
     debounce,
     element: field,
@@ -72,7 +82,7 @@ function Label(props) {
     id,
     label: 'Label',
     setValue,
-    validate: validateFactory(getValue(), (entry) => entry.label)
+    validate
   });
 }
 
@@ -100,6 +110,15 @@ function Value(props) {
     return get(field, [ 'values', index, 'value' ]);
   };
 
+  const validate = useMemo(
+    () =>
+      validateFactory(
+        get(field, [ 'values', index, 'value' ]),
+        (entry) => entry.value,
+      ),
+    [ field, index, validateFactory ],
+  );
+
   return TextFieldEntry({
     debounce,
     element: field,
@@ -107,6 +126,6 @@ function Value(props) {
     id,
     label: 'Value',
     setValue,
-    validate: validateFactory(getValue(), (entry) => entry.value)
+    validate
   });
 }

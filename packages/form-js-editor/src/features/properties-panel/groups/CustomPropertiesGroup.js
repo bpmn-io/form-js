@@ -1,9 +1,6 @@
 import { ListGroup } from '@bpmn-io/properties-panel';
 
-import {
-  has,
-  isUndefined
-} from 'min-dash';
+import { has } from 'min-dash';
 
 import { CustomValueEntry } from '../entries';
 
@@ -35,7 +32,7 @@ export function CustomPropertiesGroup(field, editField) {
         return;
       }
 
-      if (isUndefined(value) || !value.length) {
+      if (typeof value !== 'string' || value.length === 0) {
         return 'Must not be empty.';
       }
 

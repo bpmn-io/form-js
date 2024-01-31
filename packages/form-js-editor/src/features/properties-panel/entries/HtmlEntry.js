@@ -45,15 +45,7 @@ function Content(props) {
     return editField(field, path, value || '');
   };
 
-  const validate = (value) => {
 
-    // allow empty state
-    if (value === undefined || value === null || value === '') { return null; }
-
-    // allow expressions
-    if (value.startsWith('=')) { return null; }
-
-  };
 
   return FeelTemplatingEntry({
     debounce,
@@ -69,4 +61,22 @@ function Content(props) {
   });
 }
 
+// helpers //////////
+
 const description = <>Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/" target="_blank">Learn more</a></>;
+
+/**
+  * @param {string|void} value
+  * @returns {string|null}
+  */
+const validate = (value) => {
+
+  // allow empty state
+  if (typeof value !== 'string' || value === '') {
+    return null;
+  }
+
+  // allow expressions
+  if (value.startsWith('=')) { return null; }
+
+};

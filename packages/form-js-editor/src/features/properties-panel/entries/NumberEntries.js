@@ -4,6 +4,7 @@ import { useService } from '../hooks';
 import { countDecimals, isValidNumber } from '../Util';
 
 import Big from 'big.js';
+import { useCallback } from 'preact/hooks';
 
 export function NumberEntries(props) {
   const {
@@ -63,11 +64,7 @@ function NumberDecimalDigits(props) {
     getValue,
     id,
     setValue,
-    validate: (value) => {
-      if (value === undefined || value === null) return;
-      if (value < 0) return 'Should be greater than or equal to zero.';
-      if (!Number.isInteger(value)) return 'Should be an integer.';
-    }
+    validate: validateNumberEntries
   });
 
 }
@@ -111,6 +108,35 @@ function NumberArrowStep(props) {
 
   const decimalDigitsSet = decimalDigits || decimalDigits === 0;
 
+  const validate = useCallback(
+    (value) => {
+      if (value === undefined || value === null) {
+        return;
+      }
+
+      if (!isValidNumber(value)) {
+        return 'Should be a valid number.';
+      }
+
+      if (Big(value).cmp(0) <= 0) {
+        return 'Should be greater than zero.';
+      }
+
+      if (decimalDigitsSet) {
+        const minimumValue = Big(`1e-${decimalDigits}`);
+
+        if (Big(value).cmp(minimumValue) < 0) {
+          return `Should be at least ${minimumValue.toString()}.`;
+        }
+
+        if (countDecimals(value) > decimalDigits) {
+          return `Should not contain more than ${decimalDigits} decimal digits.`;
+        }
+      }
+    },
+    [ decimalDigitsSet, decimalDigits ],
+  );
+
   return TextFieldEntry({
     debounce,
     label: 'Increment',
@@ -118,22 +144,26 @@ function NumberArrowStep(props) {
     getValue,
     id,
     setValue,
-    validate: (value) => {
-
-      if (value === undefined || value === null) return;
-
-      if (!isValidNumber(value)) return 'Should be a valid number.';
-
-      if (Big(value).cmp(0) <= 0) return 'Should be greater than zero.';
-
-      if (decimalDigitsSet) {
-        const minimumValue = Big(`1e-${decimalDigits}`);
-
-        if (Big(value).cmp(minimumValue) < 0) return `Should be at least ${minimumValue.toString()}.`;
-        if (countDecimals(value) > decimalDigits) return `Should not contain more than ${decimalDigits} decimal digits.`;
-
-      }
-    }
+    validate
   });
-
 }
+
+// helpers //////////
+
+/**
+ * @param {number|void} value
+ * @returns {string|void}
+ */
+const validateNumberEntries = (value) => {
+  if (typeof value !== 'number') {
+    return;
+  }
+
+  if (!Number.isInteger(value)) {
+    return 'Should be an integer.';
+  }
+
+  if (value < 0) {
+    return 'Should be greater than or equal to zero.';
+  }
+};

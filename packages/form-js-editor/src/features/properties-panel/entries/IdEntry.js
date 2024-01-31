@@ -1,8 +1,9 @@
-import { get, isUndefined } from 'min-dash';
+import { get } from 'min-dash';
 
 import { useService } from '../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { useCallback } from 'preact/hooks';
 
 
 export function IdEntry(props) {
@@ -49,8 +50,8 @@ function Id(props) {
     return editField(field, path, value);
   };
 
-  const validate = (value) => {
-    if (isUndefined(value) || !value.length) {
+  const validate = useCallback((value) => {
+    if (typeof value !== 'string' || value.length === 0) {
       return 'Must not be empty.';
     }
 
@@ -61,7 +62,7 @@ function Id(props) {
     }
 
     return validateId(value) || null;
-  };
+  }, [ formFieldRegistry, field ]);
 
   return TextFieldEntry({
     debounce,

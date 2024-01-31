@@ -5,6 +5,7 @@ import { hasIntegerPathSegment, isValidDotPath } from '../Util';
 import { useService } from '../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { useCallback } from 'preact/hooks';
 
 
 export function KeyEntry(props) {
@@ -57,7 +58,7 @@ function Key(props) {
     return editField(field, path, value);
   };
 
-  const validate = (value) => {
+  const validate = useCallback((value) => {
 
     if (value === field.key) {
       return null;
@@ -88,7 +89,7 @@ function Key(props) {
     pathRegistry.claimPath(oldPath, { isClosed: true, claimerId: field.id });
 
     return canClaim ? null : 'Must not conflict with other key/path assignments.';
-  };
+  }, [ field, pathRegistry ]);
 
   return TextFieldEntry({
     debounce,

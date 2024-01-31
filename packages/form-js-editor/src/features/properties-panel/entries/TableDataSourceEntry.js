@@ -51,32 +51,6 @@ function Source(props) {
     editField(field, path, value);
   };
 
-  /**
-   * @param {string|void} value
-   * @returns {string|null}
-   */
-  const validate = (value) => {
-
-    if (!isString(value) || value.length === 0) {
-      return 'Must not be empty.';
-    }
-
-    if (value.startsWith('=')) {
-      return null;
-    }
-
-    if (!isValidDotPath(value)) {
-      return 'Must be a variable or a dot separated path.';
-    }
-
-    if (hasIntegerPathSegment(value)) {
-      return 'Must not contain numerical path segments.';
-    }
-
-    return null;
-  };
-
-
   return FeelTemplatingEntry({
     debounce,
     description: 'Specify the source from which to populate the table',
@@ -92,3 +66,31 @@ function Source(props) {
     validate,
   });
 }
+
+
+// helper ////////////////
+
+/**
+   * @param {string|void} value
+   * @returns {string|null}
+   */
+const validate = (value) => {
+
+  if (!isString(value) || value.length === 0) {
+    return 'Must not be empty.';
+  }
+
+  if (value.startsWith('=')) {
+    return null;
+  }
+
+  if (!isValidDotPath(value)) {
+    return 'Must be a variable or a dot separated path.';
+  }
+
+  if (hasIntegerPathSegment(value)) {
+    return 'Must not contain numerical path segments.';
+  }
+
+  return null;
+};

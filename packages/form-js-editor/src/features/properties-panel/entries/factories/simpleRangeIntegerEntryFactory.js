@@ -4,6 +4,7 @@ import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-pane
 import { isValidNumber } from '../../Util';
 
 import Big from 'big.js';
+import { useCallback } from 'preact/hooks';
 
 export function simpleRangeIntegerEntryFactory(options) {
   const {
@@ -60,6 +61,13 @@ const SimpleRangeIntegerEntry = (props) => {
     editField(field, path, Number(value));
   };
 
+  const validate = useCallback((value) => {
+    if (value === undefined || value === null || value === '') { return; }
+    if (!Number.isInteger(Number(value))) { return 'Should be an integer.'; }
+    if (Big(value).cmp(min) < 0) { return `Should be at least ${min}.`; }
+    if (Big(value).cmp(max) > 0) { return `Should be at most ${max}.`; }
+  }, [ min, max ]);
+
   return TextFieldEntry({
     debounce,
     label,
@@ -67,11 +75,6 @@ const SimpleRangeIntegerEntry = (props) => {
     getValue,
     id,
     setValue,
-    validate: (value) => {
-      if (value === undefined || value === null || value === '') { return; }
-      if (!Number.isInteger(Number(value))) { return 'Should be an integer.'; }
-      if (Big(value).cmp(min) < 0) { return `Should be at least ${min}.`; }
-      if (Big(value).cmp(max) > 0) { return `Should be at most ${max}.`; }
-    }
+    validate
   });
 };

@@ -54,19 +54,6 @@ function ColumnsExpression(props) {
     editField(field, PATH, value);
   };
 
-  /**
-   * @param {string|void} value
-   * @returns {string|null}
-   */
-  const validate = (value) => {
-
-    if (!isString(value) || value.length === 0 || value === '=') {
-      return 'Must not be empty.';
-    }
-
-    return null;
-  };
-
   const schema = '[\n  {\n    "key": "column_1",\n    "label": "Column 1"\n  }\n]';
 
   const tooltip = <div>
@@ -90,3 +77,19 @@ function ColumnsExpression(props) {
     validate,
   });
 }
+
+
+// helpers //////////
+
+/**
+   * @param {string|void} value
+   * @returns {string|null}
+   */
+const validate = (value) => {
+
+  if (!isString(value) || value.length === 0 || value === '=') {
+    return 'Must not be empty.';
+  }
+
+  return null;
+};

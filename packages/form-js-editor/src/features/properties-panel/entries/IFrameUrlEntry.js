@@ -47,16 +47,6 @@ function Url(props) {
     return editField(field, path, value);
   };
 
-  const validate = (value) => {
-    if (!value || value.startsWith('=')) {
-      return;
-    }
-
-    if (!HTTPS_PATTERN.test(value)) {
-      return 'For security reasons the URL must start with "https".';
-    }
-  };
-
   return FeelTemplatingEntry({
     debounce,
     element: field,
@@ -89,3 +79,17 @@ function getTooltip() {
     </>
   );
 }
+
+/**
+  * @param {string|void} value
+  * @returns {string|null}
+  */
+const validate = (value) => {
+  if (!value || value.startsWith('=')) {
+    return;
+  }
+
+  if (!HTTPS_PATTERN.test(value)) {
+    return 'For security reasons the URL must start with "https".';
+  }
+};
