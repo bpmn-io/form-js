@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.7.0-alpha.0
+
+* `FEAT`: implement HTML component and cleanup Text component ([#999](https://github.com/bpmn-io/form-js/pull/999))
+* `FIX`: repeatable entry parameters now validate with errors ([#1000](https://github.com/bpmn-io/form-js/pull/1000))
+* `FIX`: show iframe title in editor ([#991](https://github.com/bpmn-io/form-js/pull/991))
+* `FIX`: prevent demo data from being created on edited tables ([#1005](https://github.com/bpmn-io/form-js/pull/1005))
+* `DEPS`: update to diagram-js@13.4.0, min-dash@4.2.1, min-dom@4.1.0, @bpmn-io/properties-panel@3.18.0 ([#1008](https://github.com/bpmn-io/form-js/pull/1008)) ([#1016](https://github.com/bpmn-io/form-js/pull/1016))
+
 ## 1.6.4
 
 * `FIX`: explicitly depend on lodash ([#971](https://github.com/bpmn-io/form-js/pull/971))
