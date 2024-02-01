@@ -6,6 +6,12 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.7.0
+
+* `FIX`: resize textarea on input changes ([#1011](https://github.com/bpmn-io/form-js/issues/1011))
+* `FIX`: synchronize field validation properly ([#1009](https://github.com/bpmn-io/form-js/issues/1009))
+* `DEPS`: @bpmn-io/properties-panel@3.18.1 ([a4e9b6d](https://github.com/bpmn-io/form-js/commit/a4e9b6dbd3f6f01e9f88d04b43f77f94b745403d))
+
 ## 1.7.0-alpha.0
 
 * `FEAT`: implement HTML component and cleanup Text component ([#999](https://github.com/bpmn-io/form-js/pull/999))
