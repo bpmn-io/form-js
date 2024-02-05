@@ -24,7 +24,7 @@ jobs:
       - name: Start server
         run: npm run start:visual-preview
       - name: Run Playwright tests
-        if: github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/master'
+        if: github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/main'
         run: npm run test:visual
       - uses: actions/upload-artifact@v4
         if: always()

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - '*'
-      - '!master'
+      - '!main'
 
 jobs:
   Exec:
@@ -24,7 +24,7 @@ jobs:
           repository: camunda/tasklist
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
           path: tasklist
-          ref: "master"
+          ref: "main"
       - name: Setup form-js cache
         uses: actions/setup-node@d86ebcd40b3cb50b156bfa44dd277faf38282d12
         with:
