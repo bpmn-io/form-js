@@ -41,13 +41,12 @@ function Height(props) {
     description,
     editField,
     field,
-    id,
-    defaultValue = 60 // default value for spacer
+    id
   } = props;
 
   const debounce = useService('debounce');
 
-  const getValue = (e) => get(field, [ 'height' ], defaultValue);
+  const getValue = (e) => get(field, [ 'height' ], null);
 
   const setValue = (value, error) => {
     if (error) {
@@ -77,7 +76,7 @@ function Height(props) {
   */
 const validate = (value) => {
   if (typeof value !== 'number') {
-    return null;
+    return 'A number is required.';
   }
 
   if (!Number.isInteger(value)) {
