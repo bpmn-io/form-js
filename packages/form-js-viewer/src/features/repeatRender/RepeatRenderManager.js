@@ -79,36 +79,19 @@ export class RepeatRenderManager {
 
     return (
       <>
-        {displayValues.map((value, index) => {
-          const elementProps = useMemo(() => ({
-            ...restProps,
-            indexes: { ...(indexes || {}), [ repeaterField.id ]: index }
-          }), [ index ]);
-
-          const localExpressionContextInfo = useMemo(() => ({
-            data: parentExpressionContextInfo.data,
-            this: value,
-            parent: buildExpressionContext(parentExpressionContextInfo),
-            i: [ ...parentExpressionContextInfo.i , index + 1 ]
-          }), [ index, value ]);
-
-          return !showRemove ?
-            <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
-              <RowsRenderer { ...elementProps } />
-            </LocalExpressionContext.Provider> :
-            <div class="fjs-repeat-row-container">
-              <div class="fjs-repeat-row-rows">
-                <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
-                  <RowsRenderer { ...elementProps } />
-                </LocalExpressionContext.Provider>
-              </div>
-              <button class="fjs-repeat-row-remove" type="button" aria-label={ `Remove list item ${index + 1}` } onClick={ () => onDeleteItem(index) }>
-                <div class="fjs-repeat-row-remove-icon-container">
-                  <DeleteSvg />
-                </div>
-              </button>
-            </div>;
-        })}
+        {displayValues.map((value, index) =>
+          <RepetitionScaffold
+            key={ index }
+            index={ index }
+            value={ value }
+            parentExpressionContextInfo={ parentExpressionContextInfo }
+            repeaterField={ repeaterField }
+            RowsRenderer={ RowsRenderer }
+            indexes={ indexes }
+            onDeleteItem={ onDeleteItem }
+            showRemove={ showRemove }
+            { ...restProps } />
+        )}
       </>
     );
   }
@@ -195,5 +178,64 @@ export class RepeatRenderManager {
   }
 
 }
+
+/**
+ * Individual repetition of a repeated field and context scaffolding.
+ *
+ * @param {Object} props
+ * @param {number} props.index
+ * @param {Object} props.value
+ * @param {Object} props.parentExpressionContextInfo
+ * @param {Object} props.repeaterField
+ * @param {Function} props.RowsRenderer
+ * @param {Object} props.indexes
+ * @param {Function} props.onDeleteItem
+ * @param {boolean} props.showRemove
+ */
+
+const RepetitionScaffold = (props) => {
+
+  const {
+    index,
+    value,
+    parentExpressionContextInfo,
+    repeaterField,
+    RowsRenderer,
+    indexes,
+    onDeleteItem,
+    showRemove,
+    ...restProps
+  } = props;
+
+  const elementProps = useMemo(() => ({
+    ...restProps,
+    indexes: { ...(indexes || {}), [ repeaterField.id ]: index }
+  }), [ index, indexes, repeaterField.id, restProps ]);
+
+  const localExpressionContextInfo = useMemo(() => ({
+    data: parentExpressionContextInfo.data,
+    this: value,
+    parent: buildExpressionContext(parentExpressionContextInfo),
+    i: [ ...parentExpressionContextInfo.i , index + 1 ]
+  }), [ index, parentExpressionContextInfo, value ]);
+
+  return !showRemove ?
+    <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
+      <RowsRenderer { ...elementProps } />
+    </LocalExpressionContext.Provider> :
+    <div class="fjs-repeat-row-container">
+      <div class="fjs-repeat-row-rows">
+        <LocalExpressionContext.Provider value={ localExpressionContextInfo }>
+          <RowsRenderer { ...elementProps } />
+        </LocalExpressionContext.Provider>
+      </div>
+      <button class="fjs-repeat-row-remove" type="button" aria-label={ `Remove list item ${index + 1}` } onClick={ () => onDeleteItem(index) }>
+        <div class="fjs-repeat-row-remove-icon-container">
+          <DeleteSvg />
+        </div>
+      </button>
+    </div>;
+
+};
 
 RepeatRenderManager.$inject = [ 'form', 'formFields', 'formFieldRegistry', 'pathRegistry' ];
