@@ -150,6 +150,7 @@ export function Datetime(props) {
   }, []);
 
   const errorMessageId = allErrors.length === 0 ? undefined : `${prefixId(id, formId)}-error-message`;
+  const descriptionId = `${prefixId(id, formId)}-description`;
 
   const datePickerProps = {
     label: dateLabel,
@@ -163,7 +164,7 @@ export function Datetime(props) {
     date: dateTime.date,
     readonly,
     setDate,
-    'aria-describedby': errorMessageId
+    'aria-describedby': [ descriptionId, errorMessageId ].join(' ')
   };
 
   const timePickerProps = {
@@ -179,7 +180,7 @@ export function Datetime(props) {
     timeInterval,
     time: dateTime.time,
     setTime,
-    'aria-describedby': errorMessageId
+    'aria-describedby': [ descriptionId, errorMessageId ].join(' ')
   };
 
   return <div class={ formFieldClasses(type, { errors: allErrors, disabled, readonly }) }>
@@ -188,7 +189,7 @@ export function Datetime(props) {
       { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
       { useTimePicker && <Timepicker { ...timePickerProps } /> }
     </div>
-    <Description description={ description } />
+    <Description id={ descriptionId } description={ description } />
     <Errors errors={ allErrors } id={ errorMessageId } />
   </div>;
 }

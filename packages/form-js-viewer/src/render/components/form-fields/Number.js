@@ -27,7 +27,6 @@ export function Numberfield(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -190,9 +189,12 @@ export function Numberfield(props) {
     }
   };
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
-      id={ domId }
+      htmlFor={ domId }
       label={ label }
       required={ required } />
     <TemplatedInputAdorner disabled={ disabled } readonly={ readonly } pre={ prefixAdorner } post={ suffixAdorner }>
@@ -215,7 +217,9 @@ export function Numberfield(props) {
           autoComplete="off"
           step={ incrementAmount }
           value={ displayValue }
-          aria-describedby={ errorMessageId } />
+          aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
+          required={ required }
+          aria-invalid={ errors.length > 0 } />
         <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
           <button
@@ -234,8 +238,8 @@ export function Numberfield(props) {
         </div>
       </div>
     </TemplatedInputAdorner>
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 

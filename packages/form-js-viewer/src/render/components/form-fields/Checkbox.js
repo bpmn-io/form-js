@@ -14,7 +14,6 @@ export function Checkbox(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -38,9 +37,12 @@ export function Checkbox(props) {
     });
   };
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value }) }>
     <Label
-      id={ domId }
+      htmlFor={ domId }
       label={ label }
       required={ required }>
       <input
@@ -53,10 +55,12 @@ export function Checkbox(props) {
         onChange={ onChange }
         onBlur={ () => onBlur && onBlur() }
         onFocus={ () => onFocus && onFocus() }
-        aria-describedby={ errorMessageId } />
+        required={ required }
+        aria-invalid={ errors.length > 0 }
+        aria-describedby={ [ descriptionId, errorMessageId ].join(' ') } />
     </Label>
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 

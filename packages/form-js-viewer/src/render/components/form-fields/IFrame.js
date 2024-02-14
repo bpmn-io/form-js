@@ -43,7 +43,7 @@ export function IFrame(props) {
   }, [ sandbox, allow ]);
 
   return <div class={ formFieldClasses(type, { disabled, readonly }) }>
-    <Label id={ domId } label={ evaluatedLabel } />
+    <Label htmlFor={ domId } label={ evaluatedLabel } />
     {
       !evaluatedUrl && <IFramePlaceholder text="No content to show." />
     }

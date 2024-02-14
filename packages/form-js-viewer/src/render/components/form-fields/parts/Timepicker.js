@@ -151,7 +151,7 @@ export function Timepicker(props) {
 
   return <div class="fjs-datetime-subsection">
     <Label
-      id={ domId }
+      htmlFor={ domId }
       label={ label }
       collapseOnEmpty={ collapseLabelOnEmpty }
       required={ required } />

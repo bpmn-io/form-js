@@ -14,7 +14,6 @@ export function Select(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -33,6 +32,9 @@ export function Select(props) {
 
   const { required } = validate;
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   const selectProps = {
     domId,
     disabled,
@@ -43,7 +45,9 @@ export function Select(props) {
     value,
     onChange,
     readonly,
-    'aria-describedby': errorMessageId,
+    required,
+    'aria-invalid': errors.length > 0,
+    'aria-describedby': [ descriptionId, errorMessageId ].join(' '),
   };
 
   return <div
@@ -58,12 +62,12 @@ export function Select(props) {
     }
   >
     <Label
-      id={ domId }
+      htmlFor={ domId }
       label={ label }
       required={ required } />
     { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 

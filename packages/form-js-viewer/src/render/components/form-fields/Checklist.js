@@ -23,7 +23,6 @@ export function Checklist(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -85,6 +84,9 @@ export function Checklist(props) {
     onChange: props.onChange
   });
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div class={ classNames(formFieldClasses(type, { errors, disabled, readonly })) } ref={ outerDivRef }>
     <Label
       label={ label }
@@ -97,7 +99,7 @@ export function Checklist(props) {
 
         return (
           <Label
-            id={ itemDomId }
+            htmlFor={ itemDomId }
             label={ o.label }
             class={ classNames({
               'fjs-checked': isChecked
@@ -113,13 +115,15 @@ export function Checklist(props) {
               onClick={ () => toggleCheckbox(o.value) }
               onBlur={ onCheckboxBlur }
               onFocus={ onCheckboxFocus }
-              aria-describedby={ errorMessageId } />
+              required={ required }
+              aria-invalid={ errors.length > 0 }
+              aria-describedby={ [ descriptionId, errorMessageId ].join(' ') } />
           </Label>
         );
       })
     }
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 

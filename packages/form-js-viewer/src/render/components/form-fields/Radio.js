@@ -23,7 +23,6 @@ export function Radio(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -78,6 +77,9 @@ export function Radio(props) {
     onChange: props.onChange
   });
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) } ref={ outerDivRef }>
     <Label
       label={ label }
@@ -90,7 +92,7 @@ export function Radio(props) {
 
         return (
           <Label
-            id={ itemDomId }
+            htmlFor={ itemDomId }
             key={ index }
             label={ option.label }
             class={ classNames({ 'fjs-checked': isChecked }) }
@@ -105,13 +107,15 @@ export function Radio(props) {
               onClick={ () => onChange(option.value) }
               onBlur={ onRadioBlur }
               onFocus={ onRadioFocus }
-              aria-describedby={ errorMessageId } />
+              aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
+              required={ required }
+              aria-invalid={ errors.length > 0 } />
           </Label>
         );
       })
     }
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 
