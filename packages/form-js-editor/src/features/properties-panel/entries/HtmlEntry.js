@@ -63,7 +63,7 @@ function Content(props) {
 
 // helpers //////////
 
-const description = <>Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/" target="_blank">Learn more</a></>;
+const description = <>Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component. <a href="https://docs.camunda.io/docs/next/components/modeler/forms/form-element-library/forms-element-library-html/" target="_blank">Learn more</a></>;
 
 /**
   * @param {string|void} value
