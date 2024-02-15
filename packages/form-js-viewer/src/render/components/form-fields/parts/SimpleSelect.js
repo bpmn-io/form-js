@@ -56,7 +56,13 @@ export function SimpleSelect(props) {
   }, [ disabled, isDropdownExpanded, loadState, readonly, value ]);
 
   const onMouseDown = useCallback((e) => {
+
     const input = inputRef.current;
+
+    if (disabled || !input) {
+      return;
+    }
+
     setIsDropdownExpanded(!isDropdownExpanded);
 
     if (isDropdownExpanded) {
@@ -66,7 +72,7 @@ export function SimpleSelect(props) {
     }
 
     e.preventDefault();
-  }, [ isDropdownExpanded ]);
+  }, [ disabled, isDropdownExpanded ]);
 
   const initialFocusIndex = useMemo(() => value && findIndex(options, (o) => o.value === value) || 0, [ options, value ]);
 
