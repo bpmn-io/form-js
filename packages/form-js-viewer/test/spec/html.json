@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "type": "default",
+  "components": [
+    {
+      "type": "html",
+      "content": "<h1>{{heading}}</h1>\n<p>{{description}}</p>"
+    }
+  ]
+}
