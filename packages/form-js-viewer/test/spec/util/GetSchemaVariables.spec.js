@@ -19,6 +19,7 @@ import validateSchema from '../validate.json';
 import groupsSchema from '../groups.json';
 import shipsExampleSchema from '../ships-example.json';
 import iframesSchema from '../iframes.json';
+import htmlSchema from '../html.json';
 
 describe('util/getSchemaVariables', () => {
 
@@ -194,6 +195,18 @@ describe('util/getSchemaVariables', () => {
       'url',
       'domain',
       'page'
+    ]);
+
+  });
+
+
+  it('should include variables in html', () => {
+
+    const variables = getSchemaVariables(htmlSchema);
+
+    expect(variables).to.eql([
+      'heading',
+      'description'
     ]);
 
   });

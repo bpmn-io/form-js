@@ -32,6 +32,7 @@ const TEMPLATE_PROPERTIES = [
   'label',
   'source',
   'text',
+  'content',
   'url'
 ];
 
