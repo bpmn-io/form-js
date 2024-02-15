@@ -28,7 +28,6 @@ export function Taglist(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     onFocus,
     domId,
     onBlur,
@@ -177,6 +176,9 @@ export function Taglist(props) {
 
   const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div
     ref={ focusScopeRef }
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
@@ -192,7 +194,7 @@ export function Taglist(props) {
     <Label
       label={ label }
       required={ required }
-      id={ domId } />
+      htmlFor={ domId } />
     { (!disabled && !readonly && !!values.length) && <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={ onSkipToSearch } /> }
     <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
       { loadState === LOAD_STATES.LOADED &&
@@ -235,7 +237,9 @@ export function Taglist(props) {
         onMouseDown={ () => setIsEscapeClose(false) }
         onFocus={ onInputFocus }
         onBlur={ onInputBlur }
-        aria-describedby={ errorMessageId } />
+        aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
+        required={ required }
+        aria-invalid={ errors.length > 0 } />
     </div>
     <div class="fjs-taglist-anchor">
       { shouldDisplayDropdown && <DropdownList
@@ -245,8 +249,8 @@ export function Taglist(props) {
         emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
         listenerElement={ inputRef.current } /> }
     </div>
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 

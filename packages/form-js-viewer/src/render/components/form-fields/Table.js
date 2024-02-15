@@ -96,7 +96,7 @@ export function Table(props) {
 
   return (
     <div class={ formFieldClasses(type) }>
-      <Label id={ prefixId(id) } label={ label } />
+      <Label htmlFor={ prefixId(id) } label={ label } />
       <div
         class={ classNames('fjs-table-middle-container', {
           'fjs-table-empty': evaluatedColumns.length === 0,

@@ -15,7 +15,6 @@ export function Textarea(props) {
   const {
     disabled,
     errors = [],
-    errorMessageId,
     domId,
     onBlur,
     onFocus,
@@ -62,9 +61,12 @@ export function Textarea(props) {
     autoSizeTextarea(textareaRef.current);
   }, []);
 
+  const descriptionId = `${domId}-description`;
+  const errorMessageId = `${domId}-error-message`;
+
   return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
     <Label
-      id={ domId }
+      htmlFor={ domId }
       label={ label }
       required={ required } />
     <textarea class="fjs-textarea"
@@ -76,9 +78,11 @@ export function Textarea(props) {
       onFocus={ onInputFocus }
       value={ value }
       ref={ textareaRef }
-      aria-describedby={ errorMessageId } />
-    <Description description={ description } />
-    <Errors errors={ errors } id={ errorMessageId } />
+      aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
+      required={ required }
+      aria-invalid={ errors.length > 0 } />
+    <Description id={ descriptionId } description={ description } />
+    <Errors id={ errorMessageId } errors={ errors } />
   </div>;
 }
 
