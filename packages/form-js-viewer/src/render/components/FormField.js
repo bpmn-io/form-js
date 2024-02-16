@@ -98,6 +98,8 @@ export function FormField(props) {
 
   const onBlur = useCallback(() => {
 
+    const value = get(data, valuePath);
+
     if (initialValidationTrigger) {
       setInitialValidationTrigger(false);
       viewerCommands.updateFieldValidation(field, value, indexes);
@@ -105,7 +107,7 @@ export function FormField(props) {
 
     eventBus.fire('formField.blur', { formField: field });
 
-  }, [ eventBus, field, indexes, value, viewerCommands, initialValidationTrigger ]);
+  }, [ eventBus, field, indexes, viewerCommands, initialValidationTrigger, data, valuePath ]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
