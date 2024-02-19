@@ -47,7 +47,7 @@ export function SearchableSelect(props) {
   const label = useMemo(() => value && getLabelCorrelation(value), [ value, getLabelCorrelation ]);
 
   // whenever we change the underlying value, set the label to it
-  useEffect(() => { setFilter(label); }, [ label ]);
+  useEffect(() => { setFilter(label || ''); }, [ label ]);
 
   const filteredOptions = useMemo(() => {
 
@@ -135,7 +135,7 @@ export function SearchableSelect(props) {
 
   const onInputBlur = useCallback(() => {
     setIsDropdownExpanded(false);
-    setFilter(label);
+    setFilter(label || '');
     onBlur && onBlur();
   }, [ onBlur, label ]);
 
