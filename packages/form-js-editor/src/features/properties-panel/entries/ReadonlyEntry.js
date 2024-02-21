@@ -13,16 +13,22 @@ export function ReadonlyEntry(props) {
     field
   } = props;
 
+  const {
+    disabled
+  } = field;
+
   const entries = [];
 
-  entries.push({
-    id: 'readonly',
-    component: Readonly,
-    editField: editField,
-    field: field,
-    isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type)
-  });
+  if (!disabled) {
+    entries.push({
+      id: 'readonly',
+      component: Readonly,
+      editField: editField,
+      field: field,
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: (field) => INPUTS.includes(field.type)
+    });
+  }
 
   return entries;
 }
