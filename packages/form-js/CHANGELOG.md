@@ -6,6 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.7.1
+
+* `FEAT`: fields announce their descriptions and labels properly ([#1043](https://github.com/bpmn-io/form-js/pull/1043))
+* `FIX`: ensure searchable select filter is cleared with options ([#1056](https://github.com/bpmn-io/form-js/pull/1056))
+* `FIX`: ensure repeatRenderManager passes down props correctly ([#1033](https://github.com/bpmn-io/form-js/pull/1033))
+* `FIX`: prevent blur event from having value of out sync ([#1052](https://github.com/bpmn-io/form-js/pull/1052))
+* `FIX`: ensure simpleSelect mouseDown event deactivates normally ([#1046](https://github.com/bpmn-io/form-js/pull/1046))
+* `FIX`: ensure html content variables are included in getSchemaVariables ([#1048](https://github.com/bpmn-io/form-js/pull/1048))
+* `FIX`: validate instead of automatically resetting height entries ([#1034](https://github.com/bpmn-io/form-js/pull/1034))
+* `FIX`: fix HTML component link ([#1039](https://github.com/bpmn-io/form-js/pull/1039))
+
 ## 1.7.0
 
 * `FIX`: resize textarea on input changes ([#1011](https://github.com/bpmn-io/form-js/issues/1011))
