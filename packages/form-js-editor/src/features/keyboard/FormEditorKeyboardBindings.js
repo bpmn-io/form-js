@@ -1,13 +1,6 @@
-import {
-  isCmd,
-  isKey,
-  isShift
-} from 'diagram-js/lib/features/keyboard/KeyboardUtil';
+import { isCmd, isKey, isShift } from 'diagram-js/lib/features/keyboard/KeyboardUtil';
 
-import {
-  KEYS_REDO,
-  KEYS_UNDO
-} from 'diagram-js/lib/features/keyboard/KeyboardBindings';
+import { KEYS_REDO, KEYS_UNDO } from 'diagram-js/lib/features/keyboard/KeyboardBindings';
 
 const LOW_PRIORITY = 500;
 
@@ -21,7 +14,6 @@ export class FormEditorKeyboardBindings {
   }
 
   registerBindings(keyboard, editorActions) {
-
     function addListener(action, fn) {
       if (editorActions.isRegistered(action)) {
         keyboard.addListener(fn);
@@ -52,8 +44,7 @@ export class FormEditorKeyboardBindings {
         return true;
       }
     });
-
   }
 }
 
-FormEditorKeyboardBindings.$inject = [ 'eventBus', 'keyboard' ];
+FormEditorKeyboardBindings.$inject = ['eventBus', 'keyboard'];

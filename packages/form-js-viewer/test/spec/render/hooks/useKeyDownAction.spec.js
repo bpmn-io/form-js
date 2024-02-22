@@ -1,26 +1,19 @@
-import {
-  fireEvent,
-  render,
-  cleanup
-} from '@testing-library/preact/pure';
+import { fireEvent, render, cleanup } from '@testing-library/preact/pure';
 
 import { useKeyDownAction } from '../../../../src/render/hooks/useKeyDownAction';
 
 const spy = sinon.spy;
 let root;
 
-describe('useKeyDownAction', function() {
-
-  beforeEach(() => root = document.createElement('div'));
+describe('useKeyDownAction', function () {
+  beforeEach(() => (root = document.createElement('div')));
 
   afterEach(() => root.remove());
 
-
-  it('should subscribe to key event', function() {
-
+  it('should subscribe to key event', function () {
     // given
     var keydownActionSpy = spy();
-    render(<TestComponent keydownActionSpy={ keydownActionSpy } />, root);
+    render(<TestComponent keydownActionSpy={keydownActionSpy} />, root);
 
     // when
     fireEvent.keyDown(root, { key: 'ArrowUp', code: 'ArrowUp' });
@@ -29,15 +22,12 @@ describe('useKeyDownAction', function() {
 
     // then
     expect(keydownActionSpy).to.have.been.calledTwice;
-
   });
 
-
-  it('should unsubscribe after cleanup', function() {
-
+  it('should unsubscribe after cleanup', function () {
     // given
     var keydownActionSpy = spy();
-    render(<TestComponent keydownActionSpy={ keydownActionSpy } />, root);
+    render(<TestComponent keydownActionSpy={keydownActionSpy} />, root);
     cleanup();
 
     // when
@@ -47,10 +37,8 @@ describe('useKeyDownAction', function() {
 
     // then
     expect(keydownActionSpy).to.not.have.been.called;
-
   });
 });
-
 
 const TestComponent = ({ keydownActionSpy }) => {
   useKeyDownAction('ArrowUp', keydownActionSpy, root);

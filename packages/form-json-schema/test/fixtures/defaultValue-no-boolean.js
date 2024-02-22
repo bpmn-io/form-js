@@ -4,9 +4,9 @@ export const form = {
     {
       type: 'checkbox',
       key: 'checkbox',
-      defaultValue: 'foo'
-    }
-  ]
+      defaultValue: 'foo',
+    },
+  ],
 };
 
 export const errors = [
@@ -15,13 +15,13 @@ export const errors = [
     schemaPath: '#/properties/components/items/allOf/2/allOf/0/then/properties/defaultValue/type',
     keyword: 'type',
     params: { type: 'boolean' },
-    message: 'must be boolean'
+    message: 'must be boolean',
   },
   {
     instancePath: '/components/0',
     schemaPath: '#/properties/components/items/allOf/2/allOf/0/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
-    message: 'must match "then" schema'
-  }
+    message: 'must match "then" schema',
+  },
 ];

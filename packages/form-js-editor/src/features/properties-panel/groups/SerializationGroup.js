@@ -1,15 +1,7 @@
-import {
-  NumberSerializationEntry,
-  DateTimeFormatEntry
-} from '../entries';
-
+import { NumberSerializationEntry, DateTimeFormatEntry } from '../entries';
 
 export function SerializationGroup(field, editField) {
-
-  const entries = [
-    ...NumberSerializationEntry({ field, editField }),
-    ...DateTimeFormatEntry({ field, editField })
-  ];
+  const entries = [...NumberSerializationEntry({ field, editField }), ...DateTimeFormatEntry({ field, editField })];
 
   if (!entries.length) {
     return null;
@@ -18,6 +10,6 @@ export function SerializationGroup(field, editField) {
   return {
     id: 'serialization',
     label: 'Serialization',
-    entries
+    entries,
   };
 }

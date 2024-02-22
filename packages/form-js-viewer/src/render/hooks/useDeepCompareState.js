@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState
-} from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 import { usePrevious } from './usePrevious';
 import isEqual from 'lodash/isEqual';
@@ -14,8 +11,7 @@ import isEqual from 'lodash/isEqual';
  * @returns {any} - Returns the current state.
  */
 export function useDeepCompareState(value, defaultValue) {
-
-  const [ state, setState ] = useState(defaultValue);
+  const [state, setState] = useState(defaultValue);
 
   const previous = usePrevious(value, defaultValue);
 
@@ -25,7 +21,7 @@ export function useDeepCompareState(value, defaultValue) {
     if (changed) {
       setState(value);
     }
-  }, [ changed, value ]);
+  }, [changed, value]);
 
   return state;
 }

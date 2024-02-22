@@ -4,26 +4,18 @@ import download from 'downloadjs';
 
 import classNames from 'classnames';
 
-import {
-  Form,
-  getSchemaVariables
-} from '@bpmn-io/form-js-viewer';
+import { Form, getSchemaVariables } from '@bpmn-io/form-js-viewer';
 
-import {
-  FormEditor
-} from '@bpmn-io/form-js-editor';
+import { FormEditor } from '@bpmn-io/form-js-editor';
 
 import { EmbedModal } from './EmbedModal';
 import { JSONEditor } from './JSONEditor';
 import { Section } from './Section';
 
-
 import './FileDrop.css';
 import './PlaygroundRoot.css';
 
-
 export function PlaygroundRoot(props) {
-
   const {
     additionalModules = [], // goes into both editor + viewer
     actions: actionsConfig = {},
@@ -35,12 +27,10 @@ export function PlaygroundRoot(props) {
     editorAdditionalModules = [],
     propertiesPanel: propertiesPanelConfig = {},
     onInit: onPlaygroundInit,
-    onStateChanged
+    onStateChanged,
   } = props;
 
-  const {
-    display: displayActions = true
-  } = actionsConfig;
+  const { display: displayActions = true } = actionsConfig;
 
   const paletteContainerRef = useRef();
   const editorContainerRef = useRef();
@@ -56,15 +46,15 @@ export function PlaygroundRoot(props) {
   const resultViewRef = useRef();
   const propertiesPanelRef = useRef();
 
-  const [ showEmbed, setShowEmbed ] = useState(false);
+  const [showEmbed, setShowEmbed] = useState(false);
 
-  const [ initialData ] = useState(props.data || undefined);
-  const [ initialSchema, setInitialSchema ] = useState(props.schema);
+  const [initialData] = useState(props.data || undefined);
+  const [initialSchema, setInitialSchema] = useState(props.schema);
 
-  const [ data, setData ] = useState(props.data || {});
-  const [ schema, setSchema ] = useState(props.schema);
+  const [data, setData] = useState(props.data || {});
+  const [schema, setSchema] = useState(props.schema);
 
-  const [ resultData, setResultData ] = useState({});
+  const [resultData, setResultData] = useState({});
 
   // pipe to playground API
   useEffect(() => {
@@ -82,59 +72,53 @@ export function PlaygroundRoot(props) {
       getResultView: () => resultViewRef.current,
       getSchema: () => formEditorRef.current.getSchema(),
       setSchema: setInitialSchema,
-      saveSchema: () => formEditorRef.current.saveSchema()
+      saveSchema: () => formEditorRef.current.saveSchema(),
     });
-  }, [ onPlaygroundInit ]);
+  }, [onPlaygroundInit]);
 
   useEffect(() => {
     setInitialSchema(props.schema || {});
-  }, [ props.schema ]);
+  }, [props.schema]);
 
   useEffect(() => {
-    const dataEditor = dataEditorRef.current = new JSONEditor({
+    const dataEditor = (dataEditorRef.current = new JSONEditor({
       value: toString(data),
       contentAttributes: { 'aria-label': 'Form Input', tabIndex: 0 },
-      placeholder: createDataEditorPlaceholder()
-    });
+      placeholder: createDataEditorPlaceholder(),
+    }));
 
-    const resultView = resultViewRef.current = new JSONEditor({
+    const resultView = (resultViewRef.current = new JSONEditor({
       readonly: true,
       value: toString(resultData),
-      contentAttributes: { 'aria-label': 'Form Output', tabIndex: 0 }
-    });
+      contentAttributes: { 'aria-label': 'Form Output', tabIndex: 0 },
+    }));
 
-    const form = formRef.current = new Form({
-      additionalModules: [
-        ...additionalModules,
-        ...viewerAdditionalModules
-      ],
+    const form = (formRef.current = new Form({
+      additionalModules: [...additionalModules, ...viewerAdditionalModules],
       properties: {
         ...viewerProperties,
-        'ariaLabel': 'Form Preview'
-      }
-    });
+        ariaLabel: 'Form Preview',
+      },
+    }));
 
-    const formEditor = formEditorRef.current = new FormEditor({
+    const formEditor = (formEditorRef.current = new FormEditor({
       renderer: {
-        compact: true
+        compact: true,
       },
       palette: {
-        parent: paletteContainerRef.current
+        parent: paletteContainerRef.current,
       },
       propertiesPanel: {
         parent: propertiesPanelContainerRef.current,
-        ...propertiesPanelConfig
+        ...propertiesPanelConfig,
       },
       exporter: exporterConfig,
       properties: {
         ...editorProperties,
-        'ariaLabel': 'Form Definition'
+        ariaLabel: 'Form Definition',
       },
-      additionalModules: [
-        ...additionalModules,
-        ...editorAdditionalModules
-      ]
-    });
+      additionalModules: [...additionalModules, ...editorAdditionalModules],
+    }));
 
     paletteRef.current = formEditor.get('palette');
     propertiesPanelRef.current = formEditor.get('propertiesPanel');
@@ -151,7 +135,7 @@ export function PlaygroundRoot(props) {
 
       const initialDemoData = generateInitialDemoData(formField);
 
-      if ([ initialDemoData, id ].includes(undefined)) {
+      if ([initialDemoData, id].includes(undefined)) {
         return;
       }
 
@@ -161,9 +145,7 @@ export function PlaygroundRoot(props) {
           [id]: initialDemoData,
         };
 
-        dataEditorRef.current.setValue(
-          toString(newData)
-        );
+        dataEditorRef.current.setValue(toString(newData));
 
         return newData;
       });
@@ -174,7 +156,6 @@ export function PlaygroundRoot(props) {
     });
 
     formEditor.on('formEditor.rendered', () => {
-
       // notify interested parties after render
       emit('formPlayground.rendered');
     });
@@ -183,11 +164,10 @@ export function PlaygroundRoot(props) {
       setResultData(form._getSubmitData());
     });
 
-    dataEditor.on('changed', event => {
+    dataEditor.on('changed', (event) => {
       try {
         setData(JSON.parse(event.value));
       } catch (error) {
-
         // notify interested about input data error
         emit('formPlayground.inputDataError', error);
       }
@@ -213,41 +193,41 @@ export function PlaygroundRoot(props) {
 
   useEffect(() => {
     dataEditorRef.current.setValue(toString(initialData));
-  }, [ initialData ]);
+  }, [initialData]);
 
   useEffect(() => {
     if (initialSchema) {
       formEditorRef.current.importSchema(initialSchema);
       dataEditorRef.current.setVariables(getSchemaVariables(initialSchema));
     }
-  }, [ initialSchema ]);
+  }, [initialSchema]);
 
   useEffect(() => {
     if (schema && dataContainerRef.current) {
       const variables = getSchemaVariables(schema);
       dataEditorRef.current.setVariables(variables);
     }
-  }, [ schema ]);
+  }, [schema]);
 
   useEffect(() => {
     schema && formRef.current.importSchema(schema, data);
-  }, [ schema, data ]);
+  }, [schema, data]);
 
   useEffect(() => {
     resultViewRef.current.setValue(toString(resultData));
-  }, [ resultData ]);
+  }, [resultData]);
 
   useEffect(() => {
-    onStateChanged && onStateChanged({
-      schema,
-      data
-    });
-  }, [ onStateChanged, schema, data ]);
+    onStateChanged &&
+      onStateChanged({
+        schema,
+        data,
+      });
+  }, [onStateChanged, schema, data]);
 
   const handleDownload = useCallback(() => {
-
     download(JSON.stringify(schema, null, '  '), 'form.json', 'text/json');
-  }, [ schema ]);
+  }, [schema]);
 
   const hideEmbedModal = useCallback(() => {
     setShowEmbed(false);
@@ -258,54 +238,45 @@ export function PlaygroundRoot(props) {
   }, []);
 
   return (
-    <div class={ classNames(
-      'fjs-container',
-      'fjs-pgl-root'
-    ) }>
+    <div class={classNames('fjs-container', 'fjs-pgl-root')}>
       <div class="fjs-pgl-modals">
-        { showEmbed ? <EmbedModal schema={ schema } data={ data } onClose={ hideEmbedModal } /> : null }
+        {showEmbed ? <EmbedModal schema={schema} data={data} onClose={hideEmbedModal} /> : null}
       </div>
-      <div class="fjs-pgl-palette-container" ref={ paletteContainerRef } />
+      <div class="fjs-pgl-palette-container" ref={paletteContainerRef} />
       <div class="fjs-pgl-main">
-
         <Section name="Form Definition">
-
-          {
-            displayActions && <Section.HeaderItem>
-              <button
-                class="fjs-pgl-button"
-                title="Download form definition"
-                onClick={ handleDownload }
-              >Download</button>
+          {displayActions && (
+            <Section.HeaderItem>
+              <button class="fjs-pgl-button" title="Download form definition" onClick={handleDownload}>
+                Download
+              </button>
             </Section.HeaderItem>
-          }
+          )}
 
-          {
-            displayActions && <Section.HeaderItem>
-              <button
-                class="fjs-pgl-button"
-                onClick={ showEmbedModal }
-              >Embed</button>
+          {displayActions && (
+            <Section.HeaderItem>
+              <button class="fjs-pgl-button" onClick={showEmbedModal}>
+                Embed
+              </button>
             </Section.HeaderItem>
-          }
+          )}
 
-          <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
+          <div ref={editorContainerRef} class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Preview">
-          <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
+          <div ref={formContainerRef} class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Input">
-          <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
+          <div ref={dataContainerRef} class="fjs-pgl-text-container"></div>
         </Section>
         <Section name="Form Output">
-          <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
+          <div ref={resultContainerRef} class="fjs-pgl-text-container"></div>
         </Section>
       </div>
-      <div class="fjs-pgl-properties-container" ref={ propertiesPanelContainerRef } />
+      <div class="fjs-pgl-properties-container" ref={propertiesPanelContainerRef} />
     </div>
   );
 }
-
 
 // helpers ///////////////
 
@@ -316,7 +287,8 @@ function toString(obj) {
 function createDataEditorPlaceholder() {
   const element = document.createElement('p');
 
-  element.innerHTML = 'Use this panel to simulate the form input, such as process variables.\nThis helps to test the form by populating the preview.\n\n' +
+  element.innerHTML =
+    'Use this panel to simulate the form input, such as process variables.\nThis helps to test the form by populating the preview.\n\n' +
     'Follow the JSON format like this:\n\n' +
     '{\n  "variable": "value"\n}';
 

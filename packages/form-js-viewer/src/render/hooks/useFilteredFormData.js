@@ -14,6 +14,5 @@ export function useFilteredFormData() {
   return useMemo(() => {
     const newData = conditionChecker ? conditionChecker.applyConditions(data, data) : data;
     return { ...initialData, ...newData };
-  }, [ conditionChecker, data, initialData ]);
-
+  }, [conditionChecker, data, initialData]);
 }

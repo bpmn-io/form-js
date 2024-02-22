@@ -4,24 +4,21 @@ import { get, set } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 
 export function AdornerEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [];
 
   const onChange = (key) => {
     return (value) => {
-      const appearance = get(field, [ 'appearance' ], {});
+      const appearance = get(field, ['appearance'], {});
 
-      editField(field, [ 'appearance' ], set(appearance, [ key ], value));
+      editField(field, ['appearance'], set(appearance, [key], value));
     };
   };
 
   const getValue = (key) => {
     return () => {
-      return get(field, [ 'appearance', key ]);
+      return get(field, ['appearance', key]);
     };
   };
 
@@ -33,7 +30,7 @@ export function AdornerEntry(props) {
     field,
     onChange,
     getValue,
-    isDefaultVisible: (field) => [ 'number', 'textfield' ].includes(field.type)
+    isDefaultVisible: (field) => ['number', 'textfield'].includes(field.type),
   });
 
   entries.push({
@@ -44,23 +41,18 @@ export function AdornerEntry(props) {
     field,
     onChange,
     getValue,
-    isDefaultVisible: (field) => [ 'number', 'textfield' ].includes(field.type)
+    isDefaultVisible: (field) => ['number', 'textfield'].includes(field.type),
   });
 
   return entries;
 }
 
 function PrefixAdorner(props) {
-  const {
-    field,
-    id,
-    onChange,
-    getValue
-  } = props;
+  const { field, id, onChange, getValue } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelTemplatingEntry({
     debounce,
@@ -71,21 +63,16 @@ function PrefixAdorner(props) {
     label: 'Prefix',
     setValue: onChange('prefixAdorner'),
     singleLine: true,
-    variables
+    variables,
   });
 }
 
 function SuffixAdorner(props) {
-  const {
-    field,
-    id,
-    onChange,
-    getValue
-  } = props;
+  const { field, id, onChange, getValue } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelTemplatingEntry({
     debounce,
@@ -95,6 +82,6 @@ function SuffixAdorner(props) {
     label: 'Suffix',
     setValue: onChange('suffixAdorner'),
     singleLine: true,
-    variables
+    variables,
   });
 }

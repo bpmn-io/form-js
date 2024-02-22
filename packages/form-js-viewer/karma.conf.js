@@ -11,25 +11,17 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
-module.exports = function(karma) {
-
+module.exports = function (karma) {
   const config = {
+    frameworks: ['webpack', 'mocha', 'sinon-chai'],
 
-    frameworks: [
-      'webpack',
-      'mocha',
-      'sinon-chai'
-    ],
-
-    files: [
-      suite
-    ],
+    files: [suite],
 
     preprocessors: {
-      [ suite ]: [ 'webpack', 'env' ]
+      [suite]: ['webpack', 'env'],
     },
 
-    reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
+    reporters: ['spec'].concat(coverage ? 'coverage' : []),
 
     specReporter: {
       maxLogLines: 10,
@@ -40,13 +32,11 @@ module.exports = function(karma) {
       suppressSkipped: true,
       showBrowser: false,
       showSpecTiming: false,
-      failFast: false
+      failFast: false,
     },
 
     coverageReporter: {
-      reporters: [
-        { type: 'lcov', subdir: '.' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }],
     },
 
     browsers,
@@ -57,37 +47,27 @@ module.exports = function(karma) {
     webpack: {
       mode: 'development',
       resolve: {
-        mainFields: [
-          'module',
-          'browser',
-          'main'
-        ],
-        modules: [
-          'node_modules',
-          __dirname
-        ],
+        mainFields: ['module', 'browser', 'main'],
+        modules: ['node_modules', __dirname],
         alias: {
-          'react': 'preact/compat',
-          'react-dom': 'preact/compat'
-        }
+          react: 'preact/compat',
+          'react-dom': 'preact/compat',
+        },
       },
       module: {
         rules: [
           {
             test: /\.js$/,
             enforce: 'pre',
-            use: [ 'source-map-loader' ]
+            use: ['source-map-loader'],
           },
           {
             test: /\.s[ac]ss$/i,
-            use: [
-              'css-loader',
-              'sass-loader'
-            ],
+            use: ['css-loader', 'sass-loader'],
           },
           {
             test: /\.css$/,
-            use: 'raw-loader'
+            use: 'raw-loader',
           },
           {
             test: /\.m?js$/,
@@ -96,33 +76,37 @@ module.exports = function(karma) {
               loader: 'babel-loader',
               options: {
                 plugins: [
-                  [ '@babel/plugin-transform-react-jsx', {
-                    'importSource': 'preact',
-                    'runtime': 'automatic'
-                  } ],
-                  '@babel/plugin-transform-react-jsx-source'
+                  [
+                    '@babel/plugin-transform-react-jsx',
+                    {
+                      importSource: 'preact',
+                      runtime: 'automatic',
+                    },
+                  ],
+                  '@babel/plugin-transform-react-jsx-source',
                 ].concat(
-                  coverage ? [
-                    [
-                      'istanbul', {
-                        include: [
-                          'src/**'
-                        ]
-                      }
-                    ]
-                  ] : []
-                )
-              }
-            }
+                  coverage
+                    ? [
+                        [
+                          'istanbul',
+                          {
+                            include: ['src/**'],
+                          },
+                        ],
+                      ]
+                    : [],
+                ),
+              },
+            },
           },
           {
             test: /\.svg$/,
-            use: [ '@svgr/webpack' ]
-          }
-        ]
+            use: ['@svgr/webpack'],
+          },
+        ],
       },
-      devtool: 'eval-source-map'
-    }
+      devtool: 'eval-source-map',
+    },
   };
 
   if (singleStart) {

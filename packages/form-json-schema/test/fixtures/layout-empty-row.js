@@ -6,10 +6,10 @@ export const form = {
       key: 'firstName',
       layout: {
         row: null,
-        columns: 12
-      }
-    }
-  ]
+        columns: 12,
+      },
+    },
+  ],
 };
 
 export const errors = null;

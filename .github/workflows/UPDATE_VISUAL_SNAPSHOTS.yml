@@ -13,24 +13,24 @@ jobs:
       options: --user 1001:1000
 
     steps:
-    - name: Check out repository code
-      uses: actions/checkout@v4
-    - name: Setup NPM cache
-      uses: actions/setup-node@v4
-      with:
-        node-version: "20"
-        cache: "npm"
-    - name: Install node dependencies
-      run: npm ci
-    - name: Build frontend
-      run: npm run build
-    - name: Build mock website
-      run: npm run build:e2e
-    - name: Start server
-      run: npm run start:visual-preview
-    - name: Run Playwright tests
-      run: npm run test:visual -- --update-snapshots
-    - name: Commit screenshots
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: "chore: updated snapshots"
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup NPM cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install node dependencies
+        run: npm ci
+      - name: Build frontend
+        run: npm run build
+      - name: Build mock website
+        run: npm run build:e2e
+      - name: Start server
+        run: npm run start:visual-preview
+      - name: Run Playwright tests
+        run: npm run test:visual -- --update-snapshots
+      - name: Commit screenshots
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: updated snapshots'

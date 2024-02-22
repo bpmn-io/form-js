@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 export function arrayAdd(array, index, item) {
-  const copy = [ ...array ];
+  const copy = [...array];
 
   copy.splice(index, 0, item);
 
@@ -9,7 +9,7 @@ export function arrayAdd(array, index, item) {
 }
 
 export function arrayRemove(array, index) {
-  const copy = [ ...array ];
+  const copy = [...array];
 
   copy.splice(index, 1);
 
@@ -17,9 +17,8 @@ export function arrayRemove(array, index) {
 }
 
 export function prefixId(id) {
-  return `fjs-properties-panel-${ id }`;
+  return `fjs-properties-panel-${id}`;
 }
-
 
 export function countDecimals(number) {
   const num = Big(number);
@@ -45,11 +44,9 @@ export function stopPropagation(listener) {
 }
 
 export function textToLabel(text) {
-
   if (typeof text != 'string') return null;
 
   for (const line of text.split('\n')) {
-
     const displayLine = line.trim();
 
     // we use the first non-whitespace line in the text as label
@@ -62,19 +59,13 @@ export function textToLabel(text) {
 }
 
 /**
-  * @param {string} path
-  */
+ * @param {string} path
+ */
 export function isValidDotPath(path) {
   return /^\w+(\.\w+)*$/.test(path);
 }
 
-export const LABELED_NON_INPUTS = [
-  'button',
-  'group',
-  'dynamiclist',
-  'iframe',
-  'table'
-];
+export const LABELED_NON_INPUTS = ['button', 'group', 'dynamiclist', 'iframe', 'table'];
 
 export const INPUTS = [
   'checkbox',
@@ -85,15 +76,10 @@ export const INPUTS = [
   'select',
   'taglist',
   'textfield',
-  'textarea'
+  'textarea',
 ];
 
-export const OPTIONS_INPUTS = [
-  'checklist',
-  'radio',
-  'select',
-  'taglist'
-];
+export const OPTIONS_INPUTS = ['checklist', 'radio', 'select', 'taglist'];
 
 export function hasEntryConfigured(formFieldDefinition, entryId) {
   const { propertiesPanelEntries = [] } = formFieldDefinition;
@@ -102,7 +88,7 @@ export function hasEntryConfigured(formFieldDefinition, entryId) {
     return false;
   }
 
-  return propertiesPanelEntries.some(id => id === entryId);
+  return propertiesPanelEntries.some((id) => id === entryId);
 }
 
 export function hasOptionsGroupsConfigured(formFieldDefinition) {
@@ -112,12 +98,12 @@ export function hasOptionsGroupsConfigured(formFieldDefinition) {
     return false;
   }
 
-  return propertiesPanelEntries.some(id => id === 'values');
+  return propertiesPanelEntries.some((id) => id === 'values');
 }
 
 /**
-  * @param {string} path
-  */
+ * @param {string} path
+ */
 export function hasIntegerPathSegment(path) {
-  return path.split('.').some(segment => /^\d+$/.test(segment));
+  return path.split('.').some((segment) => /^\d+$/.test(segment));
 }

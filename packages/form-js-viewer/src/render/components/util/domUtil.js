@@ -8,10 +8,10 @@
  */
 function wrapCSSStyles(rootNode, prefix) {
   const styleTags = rootNode.querySelectorAll('style');
-  styleTags.forEach(styleTag => {
+  styleTags.forEach((styleTag) => {
     const topLevelRules = extractTopLevelRules(styleTag.textContent);
     const scopedCss = topLevelRules
-      .map(rule => {
+      .map((rule) => {
         const { selector, styles } = splitRule(rule);
         const scopedSelector = scopeSelector(selector, prefix);
         return `${scopedSelector} ${styles}`;
@@ -45,7 +45,7 @@ function extractTopLevelRules(cssString) {
     cursor++;
   }
 
-  return topLevelRules.map(rule => rule.trim());
+  return topLevelRules.map((rule) => rule.trim());
 }
 
 function splitRule(rule) {
@@ -58,7 +58,7 @@ function splitRule(rule) {
 function scopeSelector(selector, prefix) {
   return selector
     .split(',')
-    .map(sel => `${prefix} ${sel.trim()}`)
+    .map((sel) => `${prefix} ${sel.trim()}`)
     .join(', ');
 }
 

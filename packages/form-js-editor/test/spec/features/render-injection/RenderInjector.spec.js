@@ -4,13 +4,9 @@ import { useEffect } from 'preact/hooks';
 
 import { waitFor } from '@testing-library/preact/pure';
 
-import {
-  insertStyles
-} from '../../../TestHelper';
+import { insertStyles } from '../../../TestHelper';
 
-import {
-  createFormEditor
-} from '../../../../src';
+import { createFormEditor } from '../../../../src';
 
 import { RenderInjectionModule } from '../../../../src/features/render-injection';
 
@@ -18,12 +14,10 @@ import schema from '../../form.json';
 
 insertStyles();
 
-
-describe('features/render-injection', function() {
-
+describe('features/render-injection', function () {
   let formEditor, formContainer;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const container = TestContainer.get(this);
 
     formContainer = document.createElement('div');
@@ -31,7 +25,7 @@ describe('features/render-injection', function() {
     container.appendChild(formContainer);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     const container = TestContainer.get(this);
 
     container.removeChild(formContainer);
@@ -40,28 +34,21 @@ describe('features/render-injection', function() {
   });
 
   async function createEditor(schema, options = {}) {
-    const {
-      additionalModules = [
-        RenderInjectionModule,
-        ExtensionModule
-      ]
-    } = options;
+    const { additionalModules = [RenderInjectionModule, ExtensionModule] } = options;
 
     formEditor = await createFormEditor({
       schema,
       renderer: {
-        container: formContainer
+        container: formContainer,
       },
       additionalModules,
-      ...options
+      ...options,
     });
 
     return { formEditor };
   }
 
-
-  it('should inject renderered component', async function() {
-
+  it('should inject renderered component', async function () {
     // when
     const spy = sinon.spy();
     const result = await createEditor(schema);
@@ -77,9 +64,7 @@ describe('features/render-injection', function() {
     });
   });
 
-
-  it('should detach renderer', async function() {
-
+  it('should detach renderer', async function () {
     // when
     const attachSpy = sinon.spy();
     const detachSpy = sinon.spy();
@@ -98,7 +83,6 @@ describe('features/render-injection', function() {
       expect(attachSpy).to.have.been.calledOnce;
     });
 
-
     // when
     renderInjector.detachRenderer('example-extension');
 
@@ -107,9 +91,7 @@ describe('features/render-injection', function() {
 
     // then
     expect(detachSpy).to.have.been.calledOnce;
-
   });
-
 });
 
 // helper /////////
@@ -120,15 +102,14 @@ class ExampleExtension {
   }
 }
 
-ExampleExtension.$inject = [ 'renderInjector' ];
+ExampleExtension.$inject = ['renderInjector'];
 
 const ExtensionModule = {
-  __init__: [ 'exampleExtension' ],
-  'exampleExtension': [ 'type', ExampleExtension ],
+  __init__: ['exampleExtension'],
+  exampleExtension: ['type', ExampleExtension],
 };
 
 function ExtensionComponent(props) {
-
   const { useService } = props;
 
   const eventBus = useService('eventBus');
@@ -139,7 +120,7 @@ function ExtensionComponent(props) {
     return () => {
       eventBus.fire('extension.detached');
     };
-  }, [ eventBus ]);
+  }, [eventBus]);
 
   return <div id="extension">I am an example</div>;
 }

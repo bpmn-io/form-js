@@ -12,32 +12,35 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     external: [
       '@bpmn-io/form-js-viewer',
       '@bpmn-io/form-js-editor',
       '@bpmn-io/form-js-playground',
-      '@bpmn-io/form-js-carbon-styles'
+      '@bpmn-io/form-js-carbon-styles',
     ],
     plugins: [
       copy({
         targets: [
-          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*[!light].css', dest: 'dist/assets', },
-          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/flatpickr/*.css', dest: 'dist/assets/flatpickr', },
+          { src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/**/*[!light].css', dest: 'dist/assets' },
+          {
+            src: '../../node_modules/@bpmn-io/form-js-viewer/dist/assets/flatpickr/*.css',
+            dest: 'dist/assets/flatpickr',
+          },
           { src: '../../node_modules/@bpmn-io/form-js-editor/dist/assets/**/*.css', dest: 'dist/assets' },
           { src: '../../node_modules/@bpmn-io/form-js-playground/dist/assets/**/*.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/form-js-carbon-styles/src/carbon-styles.scss', dest: 'dist/assets' }
-        ]
-      })
+          { src: '../../node_modules/@bpmn-io/form-js-carbon-styles/src/carbon-styles.scss', dest: 'dist/assets' },
+        ],
+      }),
     ],
-    onwarn
+    onwarn,
   },
   {
     input: 'src/editor.js',
@@ -45,14 +48,11 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./editor'].umd,
-        name: 'FormEditor'
-      }
+        name: 'FormEditor',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ],
-    onwarn
+    plugins: [resolve(), commonjs()],
+    onwarn,
   },
   {
     input: 'src/viewer.js',
@@ -60,14 +60,11 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./viewer'].umd,
-        name: 'FormViewer'
-      }
+        name: 'FormViewer',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ],
-    onwarn
+    plugins: [resolve(), commonjs()],
+    onwarn,
   },
   {
     input: 'src/playground.js',
@@ -75,19 +72,15 @@ export default [
       {
         format: 'umd',
         file: pkg.exports['./playground'].umd,
-        name: 'FormPlayground'
-      }
+        name: 'FormPlayground',
+      },
     ],
-    plugins: [
-      resolve(),
-      commonjs()
-    ],
-    onwarn
-  }
+    plugins: [resolve(), commonjs()],
+    onwarn,
+  },
 ];
 
 function onwarn(warning, warn) {
-
   // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
   if (warning.code === 'CIRCULAR_DEPENDENCY') {
     if (warning.message.includes('luxon')) {

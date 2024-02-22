@@ -1,15 +1,8 @@
 {
   "properties": {
     "type": {
-      "enum": [
-        "checklist",
-        "radio",
-        "select",
-        "taglist"
-      ]
+      "enum": ["checklist", "radio", "select", "taglist"]
     }
   },
-  "required": [
-    "type"
-  ]
+  "required": ["type"]
 }

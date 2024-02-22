@@ -1,12 +1,8 @@
 {
   "properties": {
     "type": {
-      "enum": [
-        "table"
-      ]
+      "enum": ["table"]
     }
   },
-  "required": [
-    "type"
-  ]
+  "required": ["type"]
 }

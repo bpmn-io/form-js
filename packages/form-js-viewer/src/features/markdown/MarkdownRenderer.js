@@ -4,7 +4,6 @@ import showdown from 'showdown';
 showdown.setFlavor('github');
 
 export class MarkdownRenderer {
-
   constructor() {
     this._converter = new showdown.Converter();
   }
