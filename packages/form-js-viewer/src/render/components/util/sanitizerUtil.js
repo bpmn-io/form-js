@@ -1,7 +1,7 @@
 import isEqual from 'lodash/isEqual';
 import { DATETIME_SUBTYPES } from '../../../util/constants/DatetimeConstants';
 import { isDateInputInformationMatching, isDateTimeInputInformationSufficient, isInvalidDateString, parseIsoTime } from './dateTimeUtil';
-import { getOptionsData, normalizeOptionsData } from './optionsUtil';
+import { getSimpleOptionsData, normalizeOptionsData } from './optionsUtil';
 
 const ALLOWED_IMAGE_SRC_PATTERN = /^(https?|data):.*/i; // eslint-disable-line no-useless-escape
 const ALLOWED_IFRAME_SRC_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
@@ -39,8 +39,19 @@ export function sanitizeSingleSelectValue(options) {
     value
   } = options;
 
+  const {
+    valuesExpression: optionsExpression
+  } = formField;
+
   try {
-    const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
+
+    // if options are expression evaluated, we don't need to sanitize the value against the options
+    // and defer to the field's internal validation
+    if (optionsExpression) {
+      return value;
+    }
+
+    const validValues = normalizeOptionsData(getSimpleOptionsData(formField, data)).map(v => v.value);
     return hasEqualValue(value, validValues) ? value : null;
   } catch (error) {
 
@@ -57,8 +68,19 @@ export function sanitizeMultiSelectValue(options) {
     value
   } = options;
 
+  const {
+    valuesExpression: optionsExpression
+  } = formField;
+
   try {
-    const validValues = normalizeOptionsData(getOptionsData(formField, data)).map(v => v.value);
+
+    // if options are expression evaluated, we don't need to sanitize the values against the options
+    // and defer to the field's internal validation
+    if (optionsExpression) {
+      return value;
+    }
+
+    const validValues = normalizeOptionsData(getSimpleOptionsData(formField, data)).map(v => v.value);
     return value.filter(v => hasEqualValue(v, validValues));
   } catch (error) {
 
