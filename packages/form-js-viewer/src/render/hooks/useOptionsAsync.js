@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useMemo } from 'preact/hooks';
 import { normalizeOptionsData } from '../components/util/optionsUtil';
 import { useExpressionEvaluation } from './useExpressionEvaluation';
-import { useDeepCompareState } from './useDeepCompareState';
+import { useDeepCompareMemoize } from './useDeepCompareMemoize';
 import { useService } from './useService';
 
 /**
@@ -32,20 +32,16 @@ export function useOptionsAsync(field) {
     values: staticOptions
   } = field;
 
-  const [ optionsGetter, setOptionsGetter ] = useState({ options: [], error: undefined, loadState: LOAD_STATES.LOADING });
   const initialData = useService('form')._getState().initialData;
-
   const expressionEvaluation = useExpressionEvaluation(optionsExpression);
-  const evaluatedOptions = useDeepCompareState(expressionEvaluation || [], []);
+  const evaluatedOptions = useDeepCompareMemoize(expressionEvaluation || []);
 
-  useEffect(() => {
-
+  const optionsGetter = useMemo(() => {
     let options = [];
 
     // dynamic options
     if (optionsKey !== undefined) {
-      const keyedOptions = (initialData || {})[ optionsKey ];
-
+      const keyedOptions = (initialData || {})[optionsKey];
       if (keyedOptions && Array.isArray(keyedOptions)) {
         options = keyedOptions;
       }
@@ -55,21 +51,16 @@ export function useOptionsAsync(field) {
       options = Array.isArray(staticOptions) ? staticOptions : [];
 
     // expression
-    } else if (optionsExpression) {
+    } else if (optionsExpression && evaluatedOptions && Array.isArray(evaluatedOptions)) {
+      options = evaluatedOptions;
 
-      if (evaluatedOptions && Array.isArray(evaluatedOptions)) {
-        options = evaluatedOptions;
-      }
+    // error case
     } else {
-      setOptionsGetter(buildErrorState('No options source defined in the form definition'));
-      return;
+      return buildErrorState('No options source defined in the form definition');
     }
 
     // normalize data to support primitives and partially defined objects
-    options = normalizeOptionsData(options);
-
-    setOptionsGetter(buildLoadedState(options));
-
+    return buildLoadedState(normalizeOptionsData(options));
   }, [ optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions ]);
 
   return optionsGetter;

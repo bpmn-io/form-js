@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'preact/hooks';
 
 import {
-  useDeepCompareState,
+  useDeepCompareMemoize,
   useService,
   useOptionsAsync,
   useCleanupMultiSelectValue,
@@ -57,7 +57,7 @@ export function Taglist(props) {
   } = useOptionsAsync(field);
 
   // ensures we render based on array content instead of reference
-  const values = useDeepCompareState(value || [], []);
+  const values = useDeepCompareMemoize(value || []);
 
   useCleanupMultiSelectValue({
     field,
