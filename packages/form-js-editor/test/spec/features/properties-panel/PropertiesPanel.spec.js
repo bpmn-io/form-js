@@ -364,7 +364,8 @@ describe('properties panel', function() {
           'Field description',
           'Key',
           'Default value',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Validation', [
@@ -433,7 +434,8 @@ describe('properties panel', function() {
           'Field description',
           'Key',
           'Default value',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Options source', [
@@ -929,7 +931,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -976,7 +979,8 @@ describe('properties panel', function() {
           'Field label',
           'Field description',
           'Key',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Options source', [
@@ -1204,7 +1208,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -1247,7 +1252,8 @@ describe('properties panel', function() {
           'Field label',
           'Field description',
           'Key',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Options source', [
@@ -1513,7 +1519,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -1655,7 +1662,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -1705,7 +1713,8 @@ describe('properties panel', function() {
           'Key',
           'Subtype',
           'Use 24h',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Serialization', [
@@ -1753,7 +1762,8 @@ describe('properties panel', function() {
           'Key',
           'Default value',
           'Searchable',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Options source', [
@@ -2176,7 +2186,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -2319,7 +2330,8 @@ describe('properties panel', function() {
             'Field label',
             'Field description',
             'Key',
-            'Disabled'
+            'Disabled',
+            'Read only'
           ]);
 
           expectGroupEntries(container, 'Options source', [
@@ -2513,7 +2525,8 @@ describe('properties panel', function() {
           'Field description',
           'Key',
           'Default value',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Validation', [
@@ -2821,7 +2834,8 @@ describe('properties panel', function() {
           'Default value',
           'Decimal digits',
           'Increment',
-          'Disabled'
+          'Disabled',
+          'Read only'
         ]);
 
         expectGroupEntries(container, 'Serialization', [
@@ -3005,7 +3019,6 @@ describe('properties panel', function() {
         });
 
       });
-
 
       describe('validation', function() {
 
@@ -3450,6 +3463,27 @@ describe('properties panel', function() {
             expect(error).to.exist;
 
           });
+
+        });
+
+      });
+
+      describe('read only', function() {
+
+        it('should not render when disabled', function() {
+
+          // given
+          const field = schema.components.find(({ key }) => key === 'amount');
+          field.disabled = true;
+
+          bootstrapPropertiesPanel({
+            container,
+            field
+          });
+
+          // then
+          const readOnlyElement = screen.queryByLabelText('Read only');
+          expect(readOnlyElement).to.not.exist;
 
         });
 
