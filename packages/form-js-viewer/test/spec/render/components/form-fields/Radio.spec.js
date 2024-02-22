@@ -344,6 +344,48 @@ describe('Radio', function() {
     });
   });
 
+  describe('#sanitizeValue', function() {
+
+    it('should sanitize value if options are not contained (static)', function() {
+
+      // given
+      const { sanitizeValue } = Radio.config;
+
+      // when
+      const sanitizedValue = sanitizeValue({ value: 'camunda-not-platform', data: {}, formField: defaultField });
+
+      // then
+      expect(sanitizedValue).to.equal(null);
+    });
+
+
+    it('should sanitize value if options are not contained (dynamic)', function() {
+
+      // given
+      const { sanitizeValue } = Radio.config;
+
+      // when
+      const sanitizedValue = sanitizeValue({ value: 'dynamicValue3', data: dynamicFieldInitialData, formField: dynamicField });
+
+      // then
+      expect(sanitizedValue).to.equal(null);
+    });
+
+
+    it('should not try to sanitize value if options are expression evaluated', function() {
+
+      // given
+      const { sanitizeValue } = Radio.config;
+
+      // when
+      const sanitizedValue = sanitizeValue({ value: 'camunda-not-platform', data: {}, formField: { ...defaultField, valuesExpression: '=someExpression' } });
+
+      // then
+      expect(sanitizedValue).to.equal('camunda-not-platform');
+    });
+
+  });
+
 
   describe('a11y', function() {
 

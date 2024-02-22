@@ -1,14 +1,63 @@
 import { get, isObject, isString, isNil } from 'min-dash';
 
-// parses the options data from the provided form field and form data
-export function getOptionsData(formField, formData) {
-  const { valuesKey: optionsKey, values: staticOptions } = formField;
+/**
+ * Returns the options data for the provided if they can be simply determined, ignoring expression defined options.
+ *
+ * @param {object} formField
+ * @param {object} formData
+ */
+function getSimpleOptionsData(formField, formData) {
+
+  const {
+    valuesExpression: optionsExpression,
+    valuesKey: optionsKey,
+    values: staticOptions
+  } = formField;
+
+  if (optionsExpression) {
+    return null;
+  }
+
   return optionsKey ? get(formData, [ optionsKey ]) : staticOptions;
 }
 
-// transforms the provided options into a normalized format, trimming invalid options
-export function normalizeOptionsData(optionsData) {
+/**
+ * Normalizes the provided options data to a format that can be used by the select components.
+ * If the options data is not valid, it is filtered out.
+ *
+ * @param {any[]} optionsData
+ *
+ * @returns {object[]}
+ */
+function normalizeOptionsData(optionsData) {
   return optionsData.filter(_isAllowedValue).map(_normalizeOption).filter(o => !isNil(o));
+}
+
+/**
+ * Creates an options object with default values if no options are provided.
+ *
+ * @param {object} options
+ *
+ * @returns {object}
+ */
+function createEmptyOptions(options = {}) {
+
+  const defaults = {};
+
+  // provide default options if valuesKey and valuesExpression are not set
+  if (!options.valuesKey && !options.valuesExpression) {
+    defaults.values = [
+      {
+        label: 'Value',
+        value: 'value'
+      }
+    ];
+  }
+
+  return {
+    ...defaults,
+    ...options
+  };
 }
 
 /**
@@ -43,7 +92,6 @@ function _normalizeOption(option) {
     }
   }
 
-
   return null;
 }
 
@@ -66,22 +114,4 @@ function _isAllowedValue(value) {
   return _isAllowedPrimitive(value);
 }
 
-export function createEmptyOptions(options = {}) {
-
-  const defaults = {};
-
-  // provide default options if valuesKey and valuesExpression are not set
-  if (!options.valuesKey && !options.valuesExpression) {
-    defaults.values = [
-      {
-        label: 'Value',
-        value: 'value'
-      }
-    ];
-  }
-
-  return {
-    ...defaults,
-    ...options
-  };
-}
+export { getSimpleOptionsData, normalizeOptionsData, createEmptyOptions };
