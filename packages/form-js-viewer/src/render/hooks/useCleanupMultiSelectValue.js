@@ -1,7 +1,7 @@
 import { useEffect } from 'preact/hooks';
 import { LOAD_STATES } from './useOptionsAsync';
 import { hasEqualValue } from '../components/util/sanitizerUtil';
-import { useDeepCompareState } from './useDeepCompareState';
+import { useDeepCompareMemoize } from './useDeepCompareMemoize';
 
 export function useCleanupMultiSelectValue(props) {
 
@@ -13,7 +13,7 @@ export function useCleanupMultiSelectValue(props) {
     values
   } = props;
 
-  const memoizedValues = useDeepCompareState(values, []);
+  const memoizedValues = useDeepCompareMemoize(values || []);
 
   // ensures that the values are always a subset of the possible options
   useEffect(() => {

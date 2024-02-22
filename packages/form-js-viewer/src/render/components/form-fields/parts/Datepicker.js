@@ -4,7 +4,7 @@ import CalendarIcon from '../icons/Calendar.svg';
 import { ENTER_KEYDOWN_EVENT, focusRelevantFlatpickerDay } from '../../util/dateTimeUtil';
 import { getLocaleReadableDateFormat, getLocaleDateFlatpickrConfig } from '../../util/localisationUtil';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-import { useDeepCompareState } from '../../../hooks';
+import { useDeepCompareMemoize } from '../../../hooks';
 
 import { InputAdorner } from './InputAdorner';
 import { Label } from '../../Label';
@@ -33,7 +33,7 @@ export function Datepicker(props) {
   const [ forceFocusCalendar, setForceFocusCalendar ] = useState(false);
 
   // ensures we render based on date value instead of reference
-  const date = useDeepCompareState(dateObject, null);
+  const date = useDeepCompareMemoize(dateObject);
 
   // shorts the date value back to the source
   useEffect(() => {

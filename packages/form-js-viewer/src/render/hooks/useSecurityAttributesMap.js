@@ -1,7 +1,7 @@
 import { get } from 'min-dash';
 import { SECURITY_ATTRIBUTES_DEFINITIONS, SANDBOX_ATTRIBUTE } from '../../util/constants';
 import { useMemo } from 'preact/hooks';
-import { useDeepCompareState } from './useDeepCompareState';
+import { useDeepCompareMemoize } from './useDeepCompareMemoize';
 
 /**
  * A custom hook to build up security attributes from form configuration.
@@ -11,7 +11,7 @@ import { useDeepCompareState } from './useDeepCompareState';
  */
 export function useSecurityAttributesMap(security) {
 
-  const securityMemoized = useDeepCompareState(security);
+  const securityMemoized = useDeepCompareMemoize(security);
 
   const sandbox = useMemo(() =>
     SECURITY_ATTRIBUTES_DEFINITIONS
