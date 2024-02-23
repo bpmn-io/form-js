@@ -1700,16 +1700,16 @@ describe('Form', function() {
       // then
       expect(rows).to.eql([
         {
-          id: 'Row_1',
-          components: [ 'Textfield_1', 'Number_1' ]
+          rowId: 'Row_1',
+          fieldIds: [ 'Textfield_1', 'Number_1' ]
         },
         {
-          id: 'Row_2',
-          components: [ 'Textfield_2', 'Checkbox_1' ]
+          rowId: 'Row_2',
+          fieldIds: [ 'Textfield_2', 'Checkbox_1' ]
         },
         {
-          id: 'Row_3',
-          components: [ 'Textarea_1' ]
+          rowId: 'Row_3',
+          fieldIds: [ 'Textarea_1' ]
         }
       ]);
     });

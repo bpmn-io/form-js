@@ -1,11 +1,12 @@
 import Ids from 'ids';
-
 import { groupBy } from 'min-dash';
+import { fuzzyDivide } from '../util/math';
 
+export const TOTAL_COLUMNS_PER_ROW = 16;
 
 /**
- * @typedef { { id: String, components: Array<String> } } FormRow
- * @typedef { { formFieldId: String, rows: Array<FormRow> } } FormRows
+ * @typedef { { rowId: String, fieldIds: Array<String> } } FormRow
+ * @typedef { { parentId: String, rows: Array<FormRow> } } FormRowContext
  */
 
 /**
@@ -13,76 +14,133 @@ import { groupBy } from 'min-dash';
  *
  *  [
  *    {
- *      formFieldId: 'FormField_1',
+ *      parentId: 'FormField_1',
  *      rows: [
- *        { id: 'Row_1', components: [ 'Text_1', 'Textdield_1', ... ]  }
+ *        { rowId: 'Row_1', fieldIds: [ 'Text_1', 'Textdield_1', ... ]  }
  *      ]
  *    }
  *  ]
+ *
+ * Also maintains computed column sizes for automatically sized columns.
  *
  */
 export class FormLayouter {
 
   constructor(eventBus) {
 
-    /** @type Array<FormRows>  */
-    this._rows = [];
+    /** @type Array<FormRowContext>  */
+    this._rowContexts = [];
+    this._computedAutoColumns = {};
     this._ids = new Ids([ 32, 36, 1 ]);
 
     this._eventBus = eventBus;
   }
 
   /**
+   * Adds a row to a given parent.
+   *
    * @param {FormRow} row
    */
-  addRow(formFieldId, row) {
-    let rowsPerComponent = this._rows.find(r => r.formFieldId === formFieldId);
+  addRow(fieldId, row) {
 
-    if (!rowsPerComponent) {
-      rowsPerComponent = {
-        formFieldId,
+    let fieldRowContext = this._rowContexts.find(c => c.parentId === fieldId);
+
+    // if row context does not exist, create it
+    if (!fieldRowContext) {
+
+      fieldRowContext = {
+        parentId: fieldId,
         rows: []
       };
 
-      this._rows.push(rowsPerComponent);
+      this._rowContexts.push(fieldRowContext);
     }
 
-    rowsPerComponent.rows.push(row);
+    fieldRowContext.rows.push(row);
   }
 
   /**
-   * @param {String} id
-   * @returns {FormRow}
+   * Gets a row by its id.
+   *
+   * @param {String} rowId - The ID of the row to get.
+   * @returns {FormRow} - The row with the given ID, or null if not found.
    */
-  getRow(id) {
-    const rows = allRows(this._rows);
-    return rows.find(r => r.id === id);
+  getRow(rowId) {
+    return allRows(this._rowContexts).find(r => r.rowId === rowId);
   }
 
   /**
-   * @param {any} formField
-   * @returns {FormRow}
+   * Gets the row containing a given field.
+   *
+   * @param {any} formField - The field to get the row for.
+   * @returns {FormRow} - The row containing the given field, or null if not found.
    */
   getRowForField(formField) {
-    return allRows(this._rows).find(r => {
-      const { components } = r;
-
-      return components.includes(formField.id);
-    });
+    return allRows(this._rowContexts).find(row => row.fieldIds.includes(formField.id));
   }
 
   /**
-   * @param {String} formFieldId
+   * Get all rows for a given parent.
+   *
+   * @param {String} parentId - The ID of the parent of the rows.
    * @returns { Array<FormRow> }
    */
-  getRows(formFieldId) {
-    const rowsForField = this._rows.find(r => formFieldId === r.formFieldId);
+  getRows(parentId) {
+    const rowContext = this._rowContexts.find(c => parentId === c.parentId);
 
-    if (!rowsForField) {
+    if (!rowContext) {
       return [];
     }
 
-    return rowsForField.rows;
+    return rowContext.rows;
+  }
+
+  /**
+   * Get the field at a relative position to a given field in the same row.
+   *
+   * @param {String} fieldId - The ID of the reference field.
+   * @param {Number} position - The relative position from the reference field. Negative value for fields before, positive for fields after.
+   * @returns {String|null} - The ID of the field at the relative position, or null if out of bounds.
+   */
+  getFieldAtRelativePosition(fieldId, position) {
+    const row = this.getRowForField({ id: fieldId });
+
+    // If the row doesn't exist, return null
+    if (!row) {
+      return null;
+    }
+
+    const { fieldIds } = row;
+    const idx = fieldIds.indexOf(fieldId);
+
+    // Calculate the new index by adding the position to the current index
+    const newIdx = idx + position;
+
+    // Check if the new index is within the bounds of the row
+    if (newIdx < 0 || newIdx >= fieldIds.length) {
+      return null;
+    }
+
+    // Return the field ID at the new index
+    return fieldIds[newIdx];
+  }
+
+  /**
+   * Get the column size for a given field.
+   *
+   * @param {any} field - The field to get the column size for.
+   * @returns {number} - The column size for the given field.
+   *
+   */
+  getFieldColumnSize(field) {
+
+    const { layout } = field;
+
+    if (layout && layout.columns) {
+      return layout.columns;
+    }
+
+    return this._computedAutoColumns[field.id];
   }
 
   /**
@@ -113,20 +171,24 @@ export class FormLayouter {
 
       // (2) add fields to rows
       this.addRow(formField.id, {
-        id: id,
-        components: components.map(c => c.id)
+        rowId: id,
+        fieldIds: components.map(c => c.id)
       });
+
+      computeAutoColumns(components, this._computedAutoColumns);
+
     });
 
     // (3) traverse through nested components
     components.forEach(field => this.calculateLayout(field));
 
     // (4) fire event to notify interested parties
-    this._eventBus.fire('form.layoutCalculated', { rows: this._rows });
+    this._eventBus.fire('form.layoutCalculated', { rows: this._rowContexts });
   }
 
   clear() {
-    this._rows = [];
+    this._rowContexts = [];
+    this._computedAutoColumns = {};
     this._ids.clear();
 
     // fire event to notify interested parties
@@ -154,9 +216,39 @@ function groupByRow(components, ids) {
 }
 
 /**
- * @param {Array<FormRows>} formRows
+ * @param {Array<FormRowContext>} rowContexts
  * @returns {Array<FormRow>}
  */
-function allRows(formRows) {
-  return formRows.map(r => r.rows).flat();
+function allRows(rowContexts) {
+  return rowContexts.map(r => r.rows).flat();
+}
+
+/**
+ * @param {Array<any>} components - The components to compute auto columns for.
+ * @param {Object<string, number>} computedAutoColumns - The computed auto columns dictionary to add to.
+ */
+function computeAutoColumns(components, computedAutoColumns) {
+
+  const autoColumnComponents = components.filter(c => {
+    const { layout } = c;
+
+    return !layout || !layout.columns;
+  });
+
+  const sumOfDefinedColumns = components.reduce((sum, c) => {
+    const { layout } = c;
+
+    if (layout && layout.columns) {
+      return sum + layout.columns;
+    }
+
+    return sum;
+  }, 0);
+
+  const autoColumnSizes = fuzzyDivide(TOTAL_COLUMNS_PER_ROW - sumOfDefinedColumns, autoColumnComponents.length);
+
+  autoColumnComponents.forEach((c, idx) => {
+    computedAutoColumns[c.id] = autoColumnSizes[idx];
+  });
+
 }

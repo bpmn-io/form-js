@@ -92,19 +92,19 @@ function RowsRenderer(props) {
   return <> {
     rows.map(row => {
       const {
-        components = []
+        fieldIds = []
       } = row;
 
-      if (!components.length) {
+      if (!fieldIds.length) {
         return null;
       }
 
       return (
         <Row row={ row } class="fjs-layout-row cds--row" style={ { alignItems: verticalAlignment } }>
           {
-            components.map(childId => {
+            fieldIds.map(fieldId => {
 
-              const childField = formFieldRegistry.get(childId);
+              const childField = formFieldRegistry.get(fieldId);
 
               if (!childField) {
                 return null;
@@ -113,7 +113,7 @@ function RowsRenderer(props) {
               return (
                 <FormField
                   { ...props }
-                  key={ childId }
+                  key={ fieldId }
                   field={ childField }
                   indexes={ indexes } />
               );

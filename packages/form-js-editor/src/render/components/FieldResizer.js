@@ -19,7 +19,7 @@ const COLUMNS_REGEX = /^cds--col(-lg)?/;
 
 const ELEMENT_RESIZING_CLS = 'fjs-element-resizing';
 
-const GRID_OFFSET_PX = 16;
+export const TOTAL_COLUMNS_PER_ROW = 16;
 
 export function FieldResizer(props) {
 
@@ -30,38 +30,63 @@ export function FieldResizer(props) {
 
   const ref = useRef(null);
 
+  const formLayouter = useService('formLayouter');
   const formLayoutValidator = useService('formLayoutValidator');
+  const formFieldRegistry = useService('formFieldRegistry');
   const modeling = useService('modeling');
-
-  // we can't use state as we need to
-  // manipulate this inside dragging events
-  const context = useRef({
-    startColumns: 0,
-    newColumns: 0
-  });
+  const dragContext = useRef(null);
 
   const onResize = throttle((_, delta) => {
     const { x: dx } = delta;
 
-    const { layout = {} } = field;
-
-    const newColumns = calculateNewColumns(
+    const deltaColumns = calculateDeltaColumns(
       ref.current,
-      layout.columns || context.current.startColumns,
       dx,
       position
     );
 
-    const errorMessage = formLayoutValidator.validateField(field, newColumns);
+    // validate main and possibly side field
+    const fieldChanges = [];
 
-    if (!errorMessage) {
+    const main = dragContext.current.main;
+    const mainStartColumns = main.field.layout.columns || main.startColumns;
+    const mainComputedColumns = mainStartColumns + deltaColumns;
 
-      context.current.newColumns = newColumns;
+    if (deltaColumns) {
+      fieldChanges.push({
+        field: main.field,
+        columns: mainComputedColumns
+      });
+    }
 
-      // make visual updates to preview change
-      const columnNode = ref.current.closest('.fjs-layout-column');
-      removeMatching(columnNode, COLUMNS_REGEX);
-      columnNode.classList.add(`cds--col-lg-${newColumns}`);
+    const side = dragContext.current.side;
+    let sideComputedColumns;
+
+    if (side) {
+      const sideStartColumns = side.field.layout.columns || side.startColumns;
+      sideComputedColumns = sideStartColumns - deltaColumns;
+
+      if (deltaColumns) {
+        fieldChanges.push({
+          field: side.field,
+          columns: sideComputedColumns
+        });
+      }
+    }
+
+    const validationErrors = formLayoutValidator.validateChanges(fieldChanges);
+
+    if (validationErrors) {
+      return;
+    }
+
+    // make resizing updates if validation passed
+    main.newColumns = deltaColumns ? mainComputedColumns : null;
+    updateColumnWidth(main.columnNode, mainComputedColumns);
+
+    if (side) {
+      side.newColumns = deltaColumns ? sideComputedColumns : null;
+      updateColumnWidth(side.columnNode, sideComputedColumns);
     }
   });
 
@@ -70,33 +95,72 @@ export function FieldResizer(props) {
     const target = getElementNode(field);
     const parent = getParent(target);
 
-    // initialize drag handler
+    // initialize the main drag context
+    const columnNode = getColumnNode(target);
+    const startWidth = columnNode.getBoundingClientRect().width;
+
+    dragContext.current = {
+      main: {
+        startColumns: asColumns(startWidth, parent),
+        newColumns: null,
+        columnNode,
+        field
+      }
+    };
+
+    // set visual cues for resizing
+    setResizing(target, position);
+
+    // if a side field is involved, initialize its drag context
+    const sideFieldId = formLayouter.getFieldAtRelativePosition(field.id, position === 'left' ? -1 : 1);
+
+    if (sideFieldId) {
+
+      const sideField = formFieldRegistry.get(sideFieldId);
+
+      if (sideField) {
+        const sideElement = getElementNode(sideField);
+        const sideColumnNode = getColumnNode(sideElement);
+        const sideStartWidth = sideColumnNode.getBoundingClientRect().width;
+
+        dragContext.current.side = {
+          startColumns: asColumns(sideStartWidth, parent),
+          newColumns: null,
+          columnNode: sideColumnNode,
+          field: sideField
+        };
+      }
+    }
+
+    // initialize drag handler with the `onResize` function
     const onDragStart = createDragger(onResize);
     onDragStart(event);
-
-    // mitigate auto columns on the grid that
-    // has a offset of 16px (1rem) to both side
-    const columnNode = getColumnNode(target);
-    const startWidth = columnNode.getBoundingClientRect().width + GRID_OFFSET_PX;
-    context.current.startColumns = asColumns(startWidth, parent);
-
-    setResizing(target, position);
   };
 
   const onResizeEnd = () => {
-    const { layout = {} } = field;
 
-    if (context.current.newColumns) {
-      modeling.editFormField(field, 'layout', {
-        ...layout,
-        columns: context.current.newColumns
-      });
-    }
-
+    // remove resizing classes
     const target = getElementNode(field);
     unsetResizing(target, position);
 
-    context.current.newColumns = null;
+    // apply changes to the form field layout
+    const main = dragContext.current.main;
+    if (main.newColumns) {
+      modeling.editFormField(main.field, 'layout', {
+        ...main.field.layout,
+        columns: main.newColumns
+      });
+    }
+
+    const side = dragContext.current.side;
+    if (side && side.newColumns) {
+      modeling.editFormField(side.field, 'layout', {
+        ...side.field.layout,
+        columns: side.newColumns
+      });
+    }
+
+    dragContext.current = null;
   };
 
   if (field.type === 'default') {
@@ -121,15 +185,15 @@ export function FieldResizer(props) {
 
 // helper //////
 
-function asColumns(width, parent) {
-  const totalWidth = parent.getBoundingClientRect().width;
-
-  const oneColumn = (1 / 16) * totalWidth;
-
-  return Math.round(width / oneColumn);
+function asColumns(width, row) {
+  const rowWidth = row.getBoundingClientRect().width;
+  const columnWidth = (1 / TOTAL_COLUMNS_PER_ROW) * rowWidth;
+  const columnCount = Math.round(width / columnWidth);
+  const columnCountClamped = Math.min(Math.max(-TOTAL_COLUMNS_PER_ROW, columnCount), TOTAL_COLUMNS_PER_ROW);
+  return columnCountClamped;
 }
 
-function calculateNewColumns(node, currentColumns, deltaX, position) {
+function calculateDeltaColumns(node, deltaX, position) {
   const parent = getParent(node);
 
   // invert delta if we are resizing from the left
@@ -139,7 +203,12 @@ function calculateNewColumns(node, currentColumns, deltaX, position) {
 
   const deltaColumns = asColumns(deltaX, parent);
 
-  return currentColumns + deltaColumns;
+  return deltaColumns;
+}
+
+function updateColumnWidth(node, columns) {
+  removeMatching(node, COLUMNS_REGEX);
+  node.classList.add(`cds--col-lg-${columns}`);
 }
 
 function getParent(node) {
