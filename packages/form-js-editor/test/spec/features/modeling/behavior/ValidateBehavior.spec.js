@@ -1,85 +1,62 @@
-import {
-  bootstrapFormEditor,
-  inject
-} from '../../../../TestHelper';
+import { bootstrapFormEditor, inject } from '../../../../TestHelper';
 
 import { ModelingModule } from 'src/features/modeling';
 
 import schema from '../../../form.json';
 
+describe('features/modeling - ValidateBehavior', function () {
+  beforeEach(
+    bootstrapFormEditor(schema, {
+      additionalModules: [ModelingModule],
+    }),
+  );
 
-describe('features/modeling - ValidateBehavior', function() {
-
-  beforeEach(bootstrapFormEditor(schema, {
-    additionalModules: [
-      ModelingModule
-    ]
-  }));
-
-
-  it('should NOT remove custom validate properties', inject(function(formFieldRegistry, modeling) {
-
+  it('should NOT remove custom validate properties', inject(function (formFieldRegistry, modeling) {
     // given
     const formField = formFieldRegistry.get('Textfield_2');
 
     // when
-    modeling.editFormField(
-      formField,
-      'validate',
-      {
-        ...formField.validate,
-        minLength: 2
-      }
-    );
+    modeling.editFormField(formField, 'validate', {
+      ...formField.validate,
+      minLength: 2,
+    });
 
     // then
     const { validate } = formField;
 
     expect(validate).to.eql({
       pattern: '^C-[0-9]+$',
-      minLength: 2
+      minLength: 2,
     });
   }));
 
-
-  it('should remove custom validate properties', inject(function(formFieldRegistry, modeling) {
-
+  it('should remove custom validate properties', inject(function (formFieldRegistry, modeling) {
     // given
     const formField = formFieldRegistry.get('Textfield_2');
 
     // when
-    modeling.editFormField(
-      formField,
-      'validate',
-      {
-        ...formField.validate,
-        validationType: 'email'
-      }
-    );
+    modeling.editFormField(formField, 'validate', {
+      ...formField.validate,
+      validationType: 'email',
+    });
 
     // then
     const { validate } = formField;
 
     expect(validate.pattern).to.not.exist;
     expect(validate).to.eql({
-      validationType: 'email'
+      validationType: 'email',
     });
   }));
 
-
-  it('undo', inject(function(formFieldRegistry, modeling, commandStack) {
-
+  it('undo', inject(function (formFieldRegistry, modeling, commandStack) {
     // given
     const formField = formFieldRegistry.get('Textfield_2');
 
-    modeling.editFormField(
-      formField,
-      'validate',
-      {
-        ...formField.validate,
-        validationType: 'email'
-      }
-    );
+    modeling.editFormField(formField, 'validate', {
+      ...formField.validate,
+      validationType: 'email',
+    });
 
     // when
     commandStack.undo();
@@ -88,24 +65,18 @@ describe('features/modeling - ValidateBehavior', function() {
     const { validate } = formField;
 
     expect(validate).to.eql({
-      pattern: '^C-[0-9]+$'
+      pattern: '^C-[0-9]+$',
     });
   }));
 
-
-  it('redo', inject(function(formFieldRegistry, modeling, commandStack) {
-
+  it('redo', inject(function (formFieldRegistry, modeling, commandStack) {
     // given
     const formField = formFieldRegistry.get('Textfield_2');
 
-    modeling.editFormField(
-      formField,
-      'validate',
-      {
-        ...formField.validate,
-        validationType: 'email'
-      }
-    );
+    modeling.editFormField(formField, 'validate', {
+      ...formField.validate,
+      validationType: 'email',
+    });
 
     // when
     commandStack.undo();
@@ -116,9 +87,7 @@ describe('features/modeling - ValidateBehavior', function() {
 
     expect(validate.pattern).to.not.exist;
     expect(validate).to.eql({
-      validationType: 'email'
+      validationType: 'email',
     });
-
   }));
-
 });

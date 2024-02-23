@@ -4,12 +4,8 @@ import { INPUTS } from '../Util';
 
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
-
 export function DisabledEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [];
 
@@ -19,20 +15,16 @@ export function DisabledEntry(props) {
     editField: editField,
     field: field,
     isEdited: isToggleSwitchEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type)
+    isDefaultVisible: (field) => INPUTS.includes(field.type),
   });
 
   return entries;
 }
 
 function Disabled(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
-  const path = [ 'disabled' ];
+  const path = ['disabled'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -49,6 +41,6 @@ function Disabled(props) {
     label: 'Disabled',
     tooltip: 'Field cannot be edited by the end-user, and the data is not submitted. Takes precedence over read only.',
     inline: true,
-    setValue
+    setValue,
   });
 }

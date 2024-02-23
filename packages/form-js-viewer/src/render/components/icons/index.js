@@ -42,6 +42,6 @@ export const iconsByType = (type) => {
     textfield: TextfieldIcon,
     textarea: TextareaIcon,
     table: TableIcon,
-    default: FormIcon
+    default: FormIcon,
   }[type];
 };

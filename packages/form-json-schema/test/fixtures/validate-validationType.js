@@ -5,36 +5,36 @@ export const form = {
       type: 'textfield',
       key: 'field_email',
       validate: {
-        validationType: 'email'
-      }
+        validationType: 'email',
+      },
     },
     {
       type: 'textfield',
       key: 'field_phone',
       validate: {
-        validationType: 'phone'
-      }
+        validationType: 'phone',
+      },
     },
     {
       type: 'textfield',
       key: 'field_custom',
       validate: {
-        validationType: 'custom'
-      }
+        validationType: 'custom',
+      },
     },
     {
       type: 'textfield',
       key: 'field_empty',
       validate: {
-        validationType: ''
-      }
+        validationType: '',
+      },
     },
     {
       type: 'textfield',
       key: 'field_undefined',
-      validate: {}
-    }
-  ]
+      validate: {},
+    },
+  ],
 };
 
 export const errors = null;

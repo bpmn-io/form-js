@@ -1,15 +1,8 @@
 import { get } from 'min-dash';
 
-import {
-  arrayAdd,
-  arrayMove,
-  arrayRemove,
-  updatePath,
-  updateRow
-} from './Util';
+import { arrayAdd, arrayMove, arrayRemove, updatePath, updateRow } from './Util';
 
 export class MoveFormFieldHandler {
-
   /**
    * @constructor
    * @param { import('../../../FormEditor').FormEditor } formEditor
@@ -29,40 +22,29 @@ export class MoveFormFieldHandler {
   }
 
   revert(context) {
-    let {
-      sourceFormField,
-      targetFormField,
-      sourceIndex,
-      targetIndex,
-      sourceRow,
-      targetRow
-    } = context;
+    let { sourceFormField, targetFormField, sourceIndex, targetIndex, sourceRow, targetRow } = context;
 
-    this.moveFormField({
-      sourceFormField: targetFormField,
-      targetFormField: sourceFormField,
-      sourceIndex: targetIndex,
-      targetIndex: sourceIndex,
-      sourceRow: targetRow,
-      targetRow: sourceRow
-    }, true);
+    this.moveFormField(
+      {
+        sourceFormField: targetFormField,
+        targetFormField: sourceFormField,
+        sourceIndex: targetIndex,
+        targetIndex: sourceIndex,
+        sourceRow: targetRow,
+        targetRow: sourceRow,
+      },
+      true,
+    );
   }
 
   moveFormField(context, revert) {
-    let {
-      sourceFormField,
-      targetFormField,
-      sourceIndex,
-      targetIndex,
-      targetRow
-    } = context;
+    let { sourceFormField, targetFormField, sourceIndex, targetIndex, targetRow } = context;
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField._path, 'components' ];
+    const sourcePath = [...sourceFormField._path, 'components'];
 
     if (sourceFormField.id === targetFormField.id) {
-
       if (revert) {
         if (sourceIndex > targetIndex) {
           sourceIndex--;
@@ -73,7 +55,7 @@ export class MoveFormFieldHandler {
         }
       }
 
-      const formField = get(schema, [ ...sourcePath, sourceIndex ]);
+      const formField = get(schema, [...sourcePath, sourceIndex]);
 
       // (1) Add to row or create new one
       updateRow(formField, targetRow ? targetRow.id : this._formLayouter.nextRowId());
@@ -83,9 +65,8 @@ export class MoveFormFieldHandler {
 
       // (3) Update internal paths of new form field and its siblings (and their children)
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
-
     } else {
-      const formField = get(schema, [ ...sourcePath, sourceIndex ]);
+      const formField = get(schema, [...sourcePath, sourceIndex]);
 
       // (1) Deregister form field (and children) from path registry
       this._pathRegistry.executeRecursivelyOnFields(formField, ({ field }) => {
@@ -100,7 +81,7 @@ export class MoveFormFieldHandler {
       // (3) Update internal paths of siblings (and their children)
       get(schema, sourcePath).forEach((formField, index) => updatePath(this._formFieldRegistry, formField, index));
 
-      const targetPath = [ ...targetFormField._path, 'components' ];
+      const targetPath = [...targetFormField._path, 'components'];
 
       // (4) Add to row or create new one
       updateRow(formField, targetRow ? targetRow.id : this._formLayouter.nextRowId());
@@ -116,7 +97,7 @@ export class MoveFormFieldHandler {
         this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), {
           isClosed,
           isRepeatable,
-          claimerId: field.id
+          claimerId: field.id,
         });
       });
     }
@@ -126,4 +107,4 @@ export class MoveFormFieldHandler {
   }
 }
 
-MoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry', 'pathRegistry', 'formLayouter' ];
+MoveFormFieldHandler.$inject = ['formEditor', 'formFieldRegistry', 'pathRegistry', 'formLayouter'];

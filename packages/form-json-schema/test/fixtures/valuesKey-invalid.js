@@ -4,9 +4,9 @@ export const form = {
     {
       type: 'select',
       key: 'select',
-      valuesKey: 'foo bar'
-    }
-  ]
+      valuesKey: 'foo bar',
+    },
+  ],
 };
 
 export const errors = [
@@ -15,6 +15,6 @@ export const errors = [
     schemaPath: '#/properties/components/items/properties/valuesKey/pattern',
     keyword: 'pattern',
     params: { pattern: '^[^\\s]*$' },
-    message: 'must match pattern "^[^\\s]*$"'
-  }
+    message: 'must match pattern "^[^\\s]*$"',
+  },
 ];

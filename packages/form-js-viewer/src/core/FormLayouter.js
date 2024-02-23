@@ -2,7 +2,6 @@ import Ids from 'ids';
 
 import { groupBy } from 'min-dash';
 
-
 /**
  * @typedef { { id: String, components: Array<String> } } FormRow
  * @typedef { { formFieldId: String, rows: Array<FormRow> } } FormRows
@@ -22,12 +21,10 @@ import { groupBy } from 'min-dash';
  *
  */
 export class FormLayouter {
-
   constructor(eventBus) {
-
     /** @type Array<FormRows>  */
     this._rows = [];
-    this._ids = new Ids([ 32, 36, 1 ]);
+    this._ids = new Ids([32, 36, 1]);
 
     this._eventBus = eventBus;
   }
@@ -36,12 +33,12 @@ export class FormLayouter {
    * @param {FormRow} row
    */
   addRow(formFieldId, row) {
-    let rowsPerComponent = this._rows.find(r => r.formFieldId === formFieldId);
+    let rowsPerComponent = this._rows.find((r) => r.formFieldId === formFieldId);
 
     if (!rowsPerComponent) {
       rowsPerComponent = {
         formFieldId,
-        rows: []
+        rows: [],
       };
 
       this._rows.push(rowsPerComponent);
@@ -56,7 +53,7 @@ export class FormLayouter {
    */
   getRow(id) {
     const rows = allRows(this._rows);
-    return rows.find(r => r.id === id);
+    return rows.find((r) => r.id === id);
   }
 
   /**
@@ -64,7 +61,7 @@ export class FormLayouter {
    * @returns {FormRow}
    */
   getRowForField(formField) {
-    return allRows(this._rows).find(r => {
+    return allRows(this._rows).find((r) => {
       const { components } = r;
 
       return components.includes(formField.id);
@@ -76,7 +73,7 @@ export class FormLayouter {
    * @returns { Array<FormRow> }
    */
   getRows(formFieldId) {
-    const rowsForField = this._rows.find(r => formFieldId === r.formFieldId);
+    const rowsForField = this._rows.find((r) => formFieldId === r.formFieldId);
 
     if (!rowsForField) {
       return [];
@@ -96,30 +93,25 @@ export class FormLayouter {
    * @param {any} formField
    */
   calculateLayout(formField) {
+    const { type, components } = formField;
 
-    const {
-      type,
-      components
-    } = formField;
-
-    if (![ 'default', 'group', 'dynamiclist' ].includes(type) || !components) {
+    if (!['default', 'group', 'dynamiclist'].includes(type) || !components) {
       return;
     }
 
     // (1) calculate rows order (by component order)
     const rowsInOrder = groupByRow(components, this._ids);
 
-    Object.entries(rowsInOrder).forEach(([ id, components ]) => {
-
+    Object.entries(rowsInOrder).forEach(([id, components]) => {
       // (2) add fields to rows
       this.addRow(formField.id, {
         id: id,
-        components: components.map(c => c.id)
+        components: components.map((c) => c.id),
       });
     });
 
     // (3) traverse through nested components
-    components.forEach(field => this.calculateLayout(field));
+    components.forEach((field) => this.calculateLayout(field));
 
     // (4) fire event to notify interested parties
     this._eventBus.fire('form.layoutCalculated', { rows: this._rows });
@@ -134,14 +126,12 @@ export class FormLayouter {
   }
 }
 
-FormLayouter.$inject = [ 'eventBus' ];
-
+FormLayouter.$inject = ['eventBus'];
 
 // helpers //////
 
 function groupByRow(components, ids) {
-  return groupBy(components, c => {
-
+  return groupBy(components, (c) => {
     // mitigate missing row by creating new (handle legacy)
     const { layout } = c;
 
@@ -158,5 +148,5 @@ function groupByRow(components, ids) {
  * @returns {Array<FormRow>}
  */
 function allRows(formRows) {
-  return formRows.map(r => r.rows).flat();
+  return formRows.map((r) => r.rows).flat();
 }

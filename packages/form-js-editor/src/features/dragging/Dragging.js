@@ -18,7 +18,6 @@ export const ERROR_DROP_CLS = 'fjs-error-drop';
  */
 
 export class Dragging {
-
   /**
    * @constructor
    *
@@ -47,7 +46,6 @@ export class Dragging {
    * @returns { number }
    */
   getTargetIndex(targetRow, targetFormField, sibling) {
-
     /** @type HTMLElement */
     const siblingFormFieldNode = sibling && sibling.querySelector('.fjs-element');
     const siblingFormField = siblingFormFieldNode && this._formFieldRegistry.get(siblingFormFieldNode.dataset.id);
@@ -62,9 +60,7 @@ export class Dragging {
       return (
         getFormFieldIndex(
           targetFormField,
-          this._formFieldRegistry.get(
-            targetRow.components[targetRow.components.length - 1],
-          ),
+          this._formFieldRegistry.get(targetRow.components[targetRow.components.length - 1]),
         ) + 1
       );
     }
@@ -92,8 +88,7 @@ export class Dragging {
         if (rowError) {
           return rowError;
         }
-      }
-      else {
+      } else {
         targetParentId = target.dataset.id;
       }
 
@@ -111,15 +106,21 @@ export class Dragging {
         const currentParentPath = this._pathRegistry.getValuePath(currentParentFormField);
 
         if (targetParentPath.join('.') !== currentParentPath.join('.')) {
+          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(
+            formField,
+            ({ field, isClosed, isRepeatable }) => {
+              const options = {
+                cutoffNode: currentParentFormField.id,
+              };
 
-          const isDropAllowedByPathRegistry = this._pathRegistry.executeRecursivelyOnFields(formField, ({ field, isClosed, isRepeatable }) => {
-            const options = {
-              cutoffNode: currentParentFormField.id,
-            };
-
-            const fieldPath = this._pathRegistry.getValuePath(field, options);
-            return this._pathRegistry.canClaimPath([ ...targetParentPath, ...fieldPath ], { isClosed, isRepeatable, knownAncestorIds: getAncestryList(targetParentId, this._formFieldRegistry) });
-          });
+              const fieldPath = this._pathRegistry.getValuePath(field, options);
+              return this._pathRegistry.canClaimPath([...targetParentPath, ...fieldPath], {
+                isClosed,
+                isRepeatable,
+                knownAncestorIds: getAncestryList(targetParentId, this._formFieldRegistry),
+              });
+            },
+          );
 
           if (!isDropAllowedByPathRegistry) {
             return 'Drop not allowed by path registry';
@@ -145,7 +146,7 @@ export class Dragging {
       sourceIndex,
       targetIndex,
       sourceRow,
-      targetRow
+      targetRow,
     );
   }
 
@@ -153,7 +154,7 @@ export class Dragging {
     const type = element.dataset.fieldType;
 
     let attrs = {
-      type
+      type,
     };
 
     attrs = {
@@ -163,8 +164,8 @@ export class Dragging {
         row: targetRow ? targetRow.id : this._formLayouter.nextRowId(),
 
         // enable auto columns
-        columns: null
-      }
+        columns: null,
+      },
     };
 
     this._modeling.addFormField(attrs, targetFormField, targetIndex);
@@ -184,28 +185,18 @@ export class Dragging {
 
       const siblingRowNode = sibling && sibling.querySelector('.fjs-layout-row');
       const siblingRow = siblingRowNode && this._formLayouter.getRow(siblingRowNode.dataset.rowId);
-      const siblingFormField = sibling && this._formFieldRegistry.get(
-        siblingRow.components[0]
-      );
+      const siblingFormField = sibling && this._formFieldRegistry.get(siblingRow.components[0]);
 
       const sourceIndex = getFormFieldIndex(sourceFormField, formField);
-      const targetIndex = (
-        siblingRowNode ? getFormFieldIndex(targetFormField, siblingFormField) : targetFormField.components.length
-      ) + index;
+      const targetIndex =
+        (siblingRowNode ? getFormFieldIndex(targetFormField, siblingFormField) : targetFormField.components.length) +
+        index;
 
-      this._modeling.moveFormField(
-        formField,
-        sourceFormField,
-        targetFormField,
-        sourceIndex,
-        targetIndex,
-        row,
-        row);
+      this._modeling.moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex, row, row);
     });
   }
 
   handleElementDrop(el, target, source, sibling, drake) {
-
     // (1) detect drop target
     const targetFormField = this._formFieldRegistry.get(getFormParent(target).dataset.id);
 
@@ -240,14 +231,10 @@ export class Dragging {
    * @param { { container: Array<string>, direction: string, mirrorContainer: string } } options
    */
   createDragulaInstance(options) {
-
-    const {
-      container,
-      mirrorContainer
-    } = options || {};
+    const { container, mirrorContainer } = options || {};
 
     let dragulaOptions = {
-      direction: function(el, target) {
+      direction: function (el, target) {
         if (isRow(target)) {
           return 'horizontal';
         }
@@ -256,13 +243,14 @@ export class Dragging {
       },
       mirrorContainer,
       isContainer(el) {
-        return container.some(cls => el.classList.contains(cls));
+        return container.some((cls) => el.classList.contains(cls));
       },
       moves(el, source, handle) {
-        return !handle.classList.contains(DRAG_NO_MOVE_CLS) && (
-          el.classList.contains(DRAG_MOVE_CLS) ||
-          el.classList.contains(DRAG_COPY_CLS) ||
-          el.classList.contains(DRAG_ROW_MOVE_CLS)
+        return (
+          !handle.classList.contains(DRAG_NO_MOVE_CLS) &&
+          (el.classList.contains(DRAG_MOVE_CLS) ||
+            el.classList.contains(DRAG_COPY_CLS) ||
+            el.classList.contains(DRAG_ROW_MOVE_CLS))
         );
       },
       copy(el) {
@@ -270,7 +258,6 @@ export class Dragging {
       },
 
       accepts: (el, target) => {
-
         unsetDropNotAllowed(target);
 
         // allow dropping rows only between rows
@@ -282,7 +269,6 @@ export class Dragging {
         const validationError = this.validateDrop(el, target);
 
         if (validationError) {
-
           // set error feedback to row
           setDropNotAllowed(target);
         }
@@ -290,7 +276,7 @@ export class Dragging {
         return !target.classList.contains(DRAG_NO_DROP_CLS);
       },
       slideFactorX: 10,
-      slideFactorY: 5
+      slideFactorY: 5,
     };
 
     const dragulaInstance = dragula(dragulaOptions);
@@ -330,11 +316,9 @@ export class Dragging {
       if (isDragRow(el)) {
         this.handleRowDrop(el, target, source, sibling);
       } else {
-
         // (2) handle form field drop
         this.handleElementDrop(el, target, source, sibling, dragulaInstance);
       }
-
     });
 
     this.emit('dragula.created', dragulaInstance);
@@ -347,15 +331,7 @@ export class Dragging {
   }
 }
 
-Dragging.$inject = [
-  'formFieldRegistry',
-  'formLayouter',
-  'formLayoutValidator',
-  'eventBus',
-  'modeling',
-  'pathRegistry'
-];
-
+Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry'];
 
 // helper //////////
 

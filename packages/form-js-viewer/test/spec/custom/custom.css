@@ -1,10 +1,10 @@
-.fjs-container .fjs-button.custom-button[type=submit] {
+.fjs-container .fjs-button.custom-button[type='submit'] {
   color: var(--color-text-inverted);
   background-color: #10ad73;
   border-color: #10ad73;
 }
 
-.fjs-container .fjs-button.custom-button[type=reset] {
+.fjs-container .fjs-button.custom-button[type='reset'] {
   color: #10ad73;
   background-color: transparent;
   border-color: #10ad73;

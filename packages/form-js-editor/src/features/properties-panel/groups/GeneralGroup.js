@@ -21,12 +21,10 @@ import {
   DateTimeEntry,
   TableDataSourceEntry,
   PaginationEntry,
-  RowCountEntry
+  RowCountEntry,
 } from '../entries';
 
-
 export function GeneralGroup(field, editField, getService) {
-
   const entries = [
     ...IdEntry({ field, editField }),
     ...LabelEntry({ field, editField }),
@@ -50,7 +48,7 @@ export function GeneralGroup(field, editField, getService) {
     ...ReadonlyEntry({ field, editField }),
     ...TableDataSourceEntry({ field, editField }),
     ...PaginationEntry({ field, editField }),
-    ...RowCountEntry({ field, editField })
+    ...RowCountEntry({ field, editField }),
   ];
 
   if (entries.length === 0) {
@@ -60,6 +58,6 @@ export function GeneralGroup(field, editField, getService) {
   return {
     id: 'general',
     label: 'General',
-    entries
+    entries,
   };
 }

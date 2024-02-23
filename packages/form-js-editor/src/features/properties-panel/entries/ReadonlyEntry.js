@@ -6,16 +6,10 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelToggleSwitchEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-
 export function ReadonlyEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
-  const {
-    disabled
-  } = field;
+  const { disabled } = field;
 
   const entries = [];
 
@@ -26,7 +20,7 @@ export function ReadonlyEntry(props) {
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => INPUTS.includes(field.type)
+      isDefaultVisible: (field) => INPUTS.includes(field.type),
     });
   }
 
@@ -34,17 +28,13 @@ export function ReadonlyEntry(props) {
 }
 
 function Readonly(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'readonly' ];
+  const path = ['readonly'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -63,6 +53,6 @@ function Readonly(props) {
     label: 'Read only',
     tooltip: 'Field cannot be edited by the end-user, but the data will still be submitted.',
     setValue,
-    variables
+    variables,
   });
 }

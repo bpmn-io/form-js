@@ -8,7 +8,7 @@ export function editorFormFieldClasses(type, { disabled = false } = {}) {
   }
 
   return classNames('fjs-form-field', `fjs-form-field-${type}`, {
-    'fjs-disabled': disabled
+    'fjs-disabled': disabled,
   });
 }
 
@@ -29,14 +29,12 @@ export function editorFormFieldClasses(type, { disabled = false } = {}) {
  * @return {Function} drag start callback function
  */
 export function createDragger(fn) {
-
   let self;
 
   let startX, startY;
 
   /** drag start */
   function onDragStart(event) {
-
     self = this;
 
     startX = event.clientX;
@@ -58,7 +56,7 @@ export function createDragger(fn) {
   function onDrag(event) {
     const delta = {
       x: event.clientX - startX,
-      y: event.clientY - startY
+      y: event.clientY - startY,
     };
 
     // call provided fn with event, delta
@@ -87,8 +85,7 @@ export function throttle(fn) {
   let lastArgs = [];
   let lastThis = undefined;
 
-  return function(...args) {
-
+  return function (...args) {
     lastArgs = args;
     lastThis = this;
 
@@ -100,11 +97,10 @@ export function throttle(fn) {
 
     fn.apply(lastThis, lastArgs);
 
-    window.requestAnimationFrame(function() {
+    window.requestAnimationFrame(function () {
       lastArgs = lastThis = active = undefined;
     });
   };
-
 }
 
 function preventDefault(event) {

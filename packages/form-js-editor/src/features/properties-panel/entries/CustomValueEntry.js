@@ -5,15 +5,8 @@ import { useService } from '../hooks';
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
 import { useMemo } from 'preact/hooks';
 
-
 export function CustomValueEntry(props) {
-  const {
-    editField,
-    field,
-    idPrefix,
-    index,
-    validateFactory
-  } = props;
+  const { editField, field, idPrefix, index, validateFactory } = props;
 
   const entries = [
     {
@@ -23,7 +16,7 @@ export function CustomValueEntry(props) {
       id: idPrefix + '-key',
       idPrefix,
       index,
-      validateFactory
+      validateFactory,
     },
     {
       component: Value,
@@ -32,21 +25,15 @@ export function CustomValueEntry(props) {
       id: idPrefix + '-value',
       idPrefix,
       index,
-      validateFactory
-    }
+      validateFactory,
+    },
   ];
 
   return entries;
 }
 
 function Key(props) {
-  const {
-    editField,
-    field,
-    id,
-    index,
-    validateFactory
-  } = props;
+  const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
 
@@ -55,20 +42,19 @@ function Key(props) {
       return;
     }
 
-    const properties = get(field, [ 'properties' ]);
-    const key = Object.keys(properties)[ index ];
+    const properties = get(field, ['properties']);
+    const key = Object.keys(properties)[index];
     return editField(field, 'properties', updateKey(properties, key, value));
   };
 
   const getValue = () => {
-    return Object.keys(get(field, [ 'properties' ]))[ index ];
+    return Object.keys(get(field, ['properties']))[index];
   };
 
   const validate = useMemo(
-    () => validateFactory(Object.keys(get(field, [ 'properties' ]))[index]),
-    [ validateFactory, field, index ],
+    () => validateFactory(Object.keys(get(field, ['properties']))[index]),
+    [validateFactory, field, index],
   );
-
 
   return TextFieldEntry({
     debounce,
@@ -77,31 +63,25 @@ function Key(props) {
     id,
     label: 'Key',
     setValue,
-    validate
+    validate,
   });
 }
 
 function Value(props) {
-  const {
-    editField,
-    field,
-    id,
-    index,
-    validateFactory
-  } = props;
+  const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
 
   const setValue = (value) => {
-    const properties = get(field, [ 'properties' ]);
-    const key = Object.keys(properties)[ index ];
+    const properties = get(field, ['properties']);
+    const key = Object.keys(properties)[index];
     editField(field, 'properties', updateValue(properties, key, value));
   };
 
   const getValue = () => {
-    const properties = get(field, [ 'properties' ]);
-    const key = Object.keys(properties)[ index ];
-    return get(field, [ 'properties', key ]);
+    const properties = get(field, ['properties']);
+    const key = Object.keys(properties)[index];
+    return get(field, ['properties', key]);
   };
 
   return TextFieldEntry({
@@ -111,10 +91,9 @@ function Value(props) {
     id,
     label: 'Value',
     setValue,
-    validate: validateFactory(getValue())
+    validate: validateFactory(getValue()),
   });
 }
-
 
 // helpers //////////
 
@@ -130,7 +109,7 @@ function Value(props) {
 function updateValue(properties, key, value) {
   return {
     ...properties,
-    [ key ]: value
+    [key]: value,
   };
 }
 
@@ -145,11 +124,11 @@ function updateValue(properties, key, value) {
  */
 function updateKey(properties, oldKey, newKey) {
   return Object.entries(properties).reduce((newProperties, entry) => {
-    const [ key, value ] = entry;
+    const [key, value] = entry;
 
     return {
       ...newProperties,
-      [ key === oldKey ? newKey : key ]: value
+      [key === oldKey ? newKey : key]: value,
     };
   }, {});
 }

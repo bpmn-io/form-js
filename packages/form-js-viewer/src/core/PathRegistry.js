@@ -41,13 +41,12 @@ export class PathRegistry {
   }
 
   canClaimPath(path, options = {}) {
-
     const {
       isClosed = false,
       isRepeatable = false,
       skipAncestryCheck = false,
       claimerId = null,
-      knownAncestorIds = []
+      knownAncestorIds = [],
     } = options;
 
     let node = { children: this._dataPaths };
@@ -55,7 +54,6 @@ export class PathRegistry {
     // (1) if we reach a leaf node, we cannot claim it, if we reach an open node, we can
     // if we reach a repeatable node, we need to ensure that the claimer is (or will be) an ancestor of the repeater
     for (const segment of path) {
-
       node = _getNextSegment(node, segment);
 
       if (!node) {
@@ -63,14 +61,15 @@ export class PathRegistry {
       }
 
       if (node.isRepeatable && !skipAncestryCheck) {
-
         if (!(claimerId || knownAncestorIds.length)) {
-          throw new Error('cannot claim a path that contains a repeater without specifying a claimerId or knownAncestorIds');
+          throw new Error(
+            'cannot claim a path that contains a repeater without specifying a claimerId or knownAncestorIds',
+          );
         }
 
         const isValidRepeatClaim =
           knownAncestorIds.includes(node.repeaterId) ||
-          claimerId && getAncestryList(claimerId, this._formFieldRegistry).includes(node.repeaterId);
+          (claimerId && getAncestryList(claimerId, this._formFieldRegistry).includes(node.repeaterId));
 
         if (!isValidRepeatClaim) {
           return false;
@@ -80,7 +79,6 @@ export class PathRegistry {
       if (node.children === null) {
         return false;
       }
-
     }
 
     // (2) if the path lands in the middle of the tree, we can only claim an open, non-repeatable path
@@ -88,29 +86,21 @@ export class PathRegistry {
   }
 
   claimPath(path, options = {}) {
-
-    const {
-      isClosed = false,
-      isRepeatable = false,
-      claimerId = null,
-      knownAncestorIds = []
-    } = options;
+    const { isClosed = false, isRepeatable = false, claimerId = null, knownAncestorIds = [] } = options;
 
     if (!this.canClaimPath(path, { isClosed, isRepeatable, claimerId, knownAncestorIds })) {
-      throw new Error(`cannot claim path '${ path.join('.') }'`);
+      throw new Error(`cannot claim path '${path.join('.')}'`);
     }
 
     let node = { children: this._dataPaths };
 
     for (const segment of path) {
-
       let child = _getNextSegment(node, segment);
 
       if (!child) {
         child = { segment, claimCount: 1, children: [] };
         node.children.push(child);
-      }
-      else {
+      } else {
         child.claimCount++;
       }
 
@@ -126,17 +116,15 @@ export class PathRegistry {
       node.isRepeatable = true;
       node.repeaterId = claimerId;
     }
-
   }
 
   unclaimPath(path) {
-
     // verification Pass
     let node = { children: this._dataPaths };
     for (const segment of path) {
       const child = _getNextSegment(node, segment);
       if (!child) {
-        throw new Error(`no open path found for '${ path.join('.') }'`);
+        throw new Error(`no open path found for '${path.join('.')}'`);
       }
       node = child;
     }
@@ -169,7 +157,6 @@ export class PathRegistry {
    * @returns {boolean} Success status based on function execution.
    */
   executeRecursivelyOnFields(field, fn, context = {}) {
-
     let result = true;
 
     const formFieldConfig = this._formFields.get(field.type).config;
@@ -177,8 +164,7 @@ export class PathRegistry {
     if (formFieldConfig.keyed) {
       const callResult = fn({ field, isClosed: true, isRepeatable: false, context });
       return result && callResult;
-    }
-    else if (formFieldConfig.pathed) {
+    } else if (formFieldConfig.pathed) {
       const callResult = fn({ field, isClosed: false, isRepeatable: formFieldConfig.repeatable, context });
       result = result && callResult;
     }
@@ -215,11 +201,7 @@ export class PathRegistry {
    * @returns {(Array<string>|undefined)} An array of strings representing the binding path, or undefined if not determinable.
    */
   getValuePath(field, options = {}) {
-    const {
-      replacements = {},
-      indexes = null,
-      cutoffNode = null
-    } = options;
+    const { replacements = {}, indexes = null, cutoffNode = null } = options;
 
     let localValuePath = [];
 
@@ -237,9 +219,8 @@ export class PathRegistry {
       } else if (Array.isArray(replacement)) {
         localValuePath = replacement;
       } else {
-        throw new Error(`replacements for field ${ field.id } must be a string, array or null/undefined`);
+        throw new Error(`replacements for field ${field.id} must be a string, array or null/undefined`);
       }
-
     } else if (formFieldConfig.keyed) {
       localValuePath = field.key.split('.');
     } else if (formFieldConfig.pathed && field.path) {
@@ -254,7 +235,7 @@ export class PathRegistry {
     // if parent exists and isn't cutoff node, add parent's value path
     if (field._parent && field._parent !== cutoffNode) {
       const parent = this._formFieldRegistry.get(field._parent);
-      return [ ...(this.getValuePath(parent, options) || []), ...localValuePath ];
+      return [...(this.getValuePath(parent, options) || []), ...localValuePath];
     }
 
     return localValuePath;
@@ -265,11 +246,10 @@ export class PathRegistry {
   }
 
   _addIndexes(localValuePath, field, indexes) {
-
     const repeatRenderManager = this._injector.get('repeatRenderManager', false);
 
     if (repeatRenderManager && repeatRenderManager.isFieldRepeating(field._parent)) {
-      return [ indexes[field._parent], ...localValuePath ];
+      return [indexes[field._parent], ...localValuePath];
     }
 
     return localValuePath;
@@ -277,8 +257,10 @@ export class PathRegistry {
 }
 
 const _getNextSegment = (node, segment) => {
-  if (isArray(node.children)) { return node.children.find((node) => node.segment === segment) || null; }
+  if (isArray(node.children)) {
+    return node.children.find((node) => node.segment === segment) || null;
+  }
   return null;
 };
 
-PathRegistry.$inject = [ 'formFieldRegistry', 'formFields', 'injector' ];
+PathRegistry.$inject = ['formFieldRegistry', 'formFields', 'injector'];

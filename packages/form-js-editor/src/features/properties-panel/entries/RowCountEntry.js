@@ -4,13 +4,10 @@ import { get, isNumber, isNil } from 'min-dash';
 
 import { useService } from '../hooks';
 
-const path = [ 'rowCount' ];
+const path = ['rowCount'];
 
 export function RowCountEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [];
 
@@ -20,19 +17,14 @@ export function RowCountEntry(props) {
     isEdited: isNumberFieldEntryEdited,
     editField,
     field,
-    isDefaultVisible: (field) => field.type === 'table' && isNumber(get(field, path))
+    isDefaultVisible: (field) => field.type === 'table' && isNumber(get(field, path)),
   });
 
   return entries;
 }
 
 function RowCount(props) {
-
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
@@ -58,19 +50,17 @@ function RowCount(props) {
     id,
     getValue,
     setValue,
-    validate
+    validate,
   });
 }
-
 
 // helpers //////////
 
 /**
-   * @param {string|void} value
-   * @returns {string|null}
-   */
+ * @param {string|void} value
+ * @returns {string|null}
+ */
 const validate = (value) => {
-
   if (isNil(value)) {
     return null;
   }

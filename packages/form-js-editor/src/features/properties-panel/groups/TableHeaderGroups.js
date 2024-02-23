@@ -1,39 +1,29 @@
 import { get, isArray } from 'min-dash';
 
-import {
-  ColumnsExpressionEntry,
-  HeadersSourceSelectEntry,
-  StaticColumnsSourceEntry
-} from '../entries';
+import { ColumnsExpressionEntry, HeadersSourceSelectEntry, StaticColumnsSourceEntry } from '../entries';
 
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 export function TableHeaderGroups(field, editField) {
-  const {
-    type,
-    id: fieldId
-  } = field;
+  const { type, id: fieldId } = field;
 
   if (type !== 'table') {
     return [];
   }
 
-  const areStaticColumnsEnabled = isArray(get(field, [ 'columns' ]));
+  const areStaticColumnsEnabled = isArray(get(field, ['columns']));
 
   /**
-    * @type {Array<Group>}
-    */
+   * @type {Array<Group>}
+   */
   const groups = [
     {
       id: `${fieldId}-columnsSource`,
       label: 'Headers source',
       tooltip: TOOLTIP_TEXT,
       component: Group,
-      entries: [
-        ...HeadersSourceSelectEntry({ field, editField }),
-        ...ColumnsExpressionEntry({ field, editField })
-      ]
-    }
+      entries: [...HeadersSourceSelectEntry({ field, editField }), ...ColumnsExpressionEntry({ field, editField })],
+    },
   ];
 
   if (areStaticColumnsEnabled) {
@@ -43,7 +33,7 @@ export function TableHeaderGroups(field, editField) {
       id,
       label: 'Header items',
       component: ListGroup,
-      ...StaticColumnsSourceEntry({ field, editField, id })
+      ...StaticColumnsSourceEntry({ field, editField, id }),
     });
   }
 

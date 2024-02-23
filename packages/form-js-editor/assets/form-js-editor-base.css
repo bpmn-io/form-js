@@ -13,10 +13,7 @@
   --color-dragula-background: var(--cds-highlight, var(--color-blue-205-100-95));
   --color-dragula-border: var(--cds-border-interactive, var(--color-blue-205-100-45));
   --color-dragula-mirror-background: var(--cds-background, var(--color-white));
-  --color-dragula-mirror-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-90))
-  );
+  --color-dragula-mirror-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-90)));
   --color-dragula-error-background: var(--color-red-360-100-92);
   --color-dragula-error-border: var(--cds-text-error, var(--color-red-360-100-45));
 }
@@ -24,43 +21,22 @@
 .fjs-palette-container {
   --color-palette-text: var(--cds-text-primary, var(--color-grey-225-10-15));
   --color-palette-container-background: var(--cds-background, var(--color-grey-225-10-95));
-  --color-palette-container-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-80))
-  );
+  --color-palette-container-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-80)));
   --color-palette-header: var(--cds-text-primary, var(--color-text));
   --color-palette-header-background: var(--cds-background, var(--color-grey-225-10-95));
-  --color-palette-header-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-85))
-  );
+  --color-palette-header-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-85)));
   --color-palette-search: var(--color-palette-text);
   --color-palette-search-icon: var(--cds-icon-secondary, var(--color-grey-225-10-35));
   --color-palette-search-icon-hover: var(--cds-icon-primary, var(--color-grey-225-10-15));
-  --color-palette-search-background: var(
-    --cds-field,
-    var(--cds-field-01, var(--color-white))
-  );
-  --color-palette-search-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-75))
-  );
-  --color-palette-search-focus-background: var(
-    --cds-field,
-    var(--cds-field-01, var(--color-blue-205-100-95))
-  );
+  --color-palette-search-background: var(--cds-field, var(--cds-field-01, var(--color-white)));
+  --color-palette-search-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
+  --color-palette-search-focus-background: var(--cds-field, var(--cds-field-01, var(--color-blue-205-100-95)));
   --color-palette-search-focus-border: var(--cds-focus, var(--color-blue-205-100-50));
   --color-palette-search-clear-focus-border: var(--cds-focus, var(--color-grey-225-10-50));
   --color-palette-group-title: var(--color-palette-text);
   --color-palette-field: var(--color-palette-text);
-  --color-palette-field-background: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-white))
-  );
-  --color-palette-field-border: var(
-    --cds-border-subtle,
-    var(--cds-border-subtle-01, var(--color-grey-225-10-93))
-  );
+  --color-palette-field-background: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
+  --color-palette-field-border: var(--cds-border-subtle, var(--cds-border-subtle-01, var(--color-grey-225-10-93)));
   --color-palette-field-focus: var(--cds-border-interactive, var(--color-blue-205-100-45));
   --color-palette-field-hover-background: var(--cds-background-hover, var(--color-grey-225-10-90));
   --color-palette-field-hover-border: var(
@@ -89,39 +65,21 @@
   --link-color: var(--cds-text-primary, var(--color-blue-205-100-50));
 
   --description-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-  --description-code-background-color: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-grey-225-10-97))
-  );
-  --description-code-border-color: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-85))
-  );
+  --description-code-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-97)));
+  --description-code-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-85)));
   --description-list-item-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
 
   --placeholder-color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
-  --placeholder-background-color: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-grey-225-10-95))
-  );
+  --placeholder-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
 
-  --header-background-color: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-grey-225-10-95))
-  );
+  --header-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
   --header-icon-fill-color: var(--cds-icon-primary, var(--color-grey-225-10-15));
   --header-bottom-border-color: var(--color-grey-225-10-75);
 
   --group-background-color: var(--cds-background, var(--color-white));
-  --group-bottom-border-color: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-75))
-  );
+  --group-bottom-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
 
-  --sticky-group-background-color: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-grey-225-10-95))
-  );
+  --sticky-group-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
   --sticky-group-bottom-border-color: var(
     --cds-border-strong,
     var(--cds-border-strong-01, var(--color-grey-225-10-75))
@@ -136,43 +94,25 @@
   --remove-entry-hover-background-color: var(--color-red-360-100-92);
 
   --arrow-fill-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
-  --arrow-hover-background-color: var(
-    --cds-layer, 
-    var(--cds-layer-01, var(--color-grey-225-10-95))
-  );
+  --arrow-hover-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
 
   --dot-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
 
   --list-badge-color: var(--cds-text-inverse, var(--color-white));
   --list-badge-background-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
 
-  --input-background-color: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-grey-225-10-97))
-  );
-  --input-border-color: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-75))
-  );
+  --input-background-color: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-97)));
+  --input-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
 
-  --input-focus-background-color: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-blue-205-100-95))
-  );
+  --input-focus-background-color: var(--cds-field, var(--cds-field-01, var(--color-blue-205-100-95)));
   --input-focus-border-color: var(--cds-focus, var(--color-blue-205-100-50));
 
-  --input-error-background-color: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-red-360-100-97))
-  );
+  --input-error-background-color: var(--cds-field, var(--cds-field-01, var(--color-red-360-100-97)));
   --input-error-border-color: var(--cds-text-error, var(--color-red-360-100-45));
-  --input-error-focus-border-color:  var(--cds-text-error, var(--color-red-360-100-45));
+  --input-error-focus-border-color: var(--cds-text-error, var(--color-red-360-100-45));
 
   --input-disabled-color: var(--cds-text-disabled, var(--color-grey-225-10-55));
-  --input-disabled-background-color: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-grey-225-10-97))
-  );
+  --input-disabled-background-color: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-97)));
   --input-disabled-border-color: var(--cds-border-disabled, var(--color-grey-225-10-90));
 
   --toggle-switch-on-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
@@ -289,13 +229,13 @@
   border-color: var(--color-children-hover-border);
 }
 
-.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"],
-  .fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="dynamiclist"] {
+.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type='group'],
+.fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type='dynamiclist'] {
   margin-left: -6px;
 }
 
-.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="group"],
-.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type="dynamiclist"] {
+.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type='group'],
+.fjs-editor-container .fjs-layout-column:last-child > .fjs-element[data-field-type='dynamiclist'] {
   margin-right: -6px;
 }
 
@@ -482,7 +422,7 @@
 
 /* do not show resize handles on small screens */
 @media (max-width: 66rem) {
-  .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle  {
+  .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle {
     display: none !important;
   }
 }
@@ -513,7 +453,6 @@
 .fjs-cursor-not-allowed {
   cursor: not-allowed;
 }
-
 
 /**
  * Context Pad
@@ -577,7 +516,7 @@
   user-select: none;
 }
 
-.fjs-palette-container .fjs-palette-footer { 
+.fjs-palette-container .fjs-palette-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -686,7 +625,7 @@
   border: none;
   font-family: inherit;
   user-select: none;
-  color: var( --color-palette-field);
+  color: var(--color-palette-field);
   background-color: var(--color-palette-field-background);
   outline: solid 1px var(--color-palette-field-border);
   outline-offset: 0px;
@@ -749,7 +688,7 @@
 }
 
 .fjs-properties-container .fjs-properties-panel .fjs-properties-panel-detached-description {
-  margin: 0px 12px 6px
+  margin: 0px 12px 6px;
 }
 
 .fjs-properties-container .fjs-properties-panel .cm-editor {
@@ -774,9 +713,8 @@
 
 .fjs-editor-container .fjs-form-field-spacer {
   min-height: 30px;
-  background: repeating-linear-gradient( 45deg, #ffffff, #ffffff 10px, #f5f5f5 10px, #f5f5f5 20px);
+  background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f5f5f5 10px, #f5f5f5 20px);
 }
-
 
 .fjs-editor-container .fjs-form-field-html,
 .fjs-editor-container .fjs-form-field-text {
@@ -859,7 +797,7 @@
   margin: 0 auto;
 }
 
-.fjs-field-preview  .fjs-field-preview-text {
+.fjs-field-preview .fjs-field-preview-text {
   text-align: center;
 }
 

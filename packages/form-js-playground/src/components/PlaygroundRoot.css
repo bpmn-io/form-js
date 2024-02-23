@@ -97,7 +97,7 @@
   font-size: 1rem;
   margin: 0;
   line-height: 2em;
-  padding: .2em .5em;
+  padding: 0.2em 0.5em;
   border-bottom: solid 1px var(--color-section-header-border-bottom);
 }
 
@@ -115,7 +115,7 @@
 }
 
 .fjs-pgl-modal .fjs-pgl-modal-backdrop {
-  background: rgba(0 0 0 / .5);
+  background: rgba(0 0 0 / 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -179,7 +179,7 @@
 }
 
 .fjs-pgl-text-container > .cm-editor {
-  font-size: .9em;
+  font-size: 0.9em;
   height: 100%;
   position: absolute !important;
   top: 0;

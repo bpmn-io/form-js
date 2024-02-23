@@ -35,7 +35,7 @@ Find a complete component reference in the [Camunda Platform documentation](http
       "validate": {
         "pattern": "^C-[0-9]+$"
       },
-       "layout": {
+      "layout": {
         "columns": 8,
         "row": "Row_1"
       }

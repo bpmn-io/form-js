@@ -4,14 +4,7 @@ import { get, isFunction } from 'min-dash';
 import { useService } from '../hooks';
 
 export function HeightEntry(props) {
-  const {
-    editField,
-    field,
-    id,
-    description,
-    isDefaultVisible,
-    defaultValue
-  } = props;
+  const { editField, field, id, description, isDefaultVisible, defaultValue } = props;
 
   const entries = [];
 
@@ -29,31 +22,25 @@ export function HeightEntry(props) {
       }
 
       return field.type === 'spacer';
-    }
+    },
   });
 
   return entries;
 }
 
 function Height(props) {
-
-  const {
-    description,
-    editField,
-    field,
-    id
-  } = props;
+  const { description, editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const getValue = (e) => get(field, [ 'height' ], null);
+  const getValue = (e) => get(field, ['height'], null);
 
   const setValue = (value, error) => {
     if (error) {
       return;
     }
 
-    editField(field, [ 'height' ], value);
+    editField(field, ['height'], value);
   };
 
   return NumberFieldEntry({
@@ -64,16 +51,16 @@ function Height(props) {
     id,
     getValue,
     setValue,
-    validate
+    validate,
   });
 }
 
 // helpers //////////
 
 /**
-  * @param {number|void} value
-  * @returns {string|null}
-  */
+ * @param {number|void} value
+ * @returns {string|null}
+ */
 const validate = (value) => {
   if (typeof value !== 'number') {
     return 'A number is required.';
@@ -87,4 +74,3 @@ const validate = (value) => {
     return 'Should be greater than zero.';
   }
 };
-

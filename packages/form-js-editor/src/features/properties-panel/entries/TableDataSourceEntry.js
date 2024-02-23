@@ -7,10 +7,7 @@ import { useService, useVariables } from '../hooks';
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 export function TableDataSourceEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [];
   entries.push({
@@ -19,27 +16,22 @@ export function TableDataSourceEntry(props) {
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => field.type === 'table'
+    isDefaultVisible: (field) => field.type === 'table',
   });
 
   return entries;
 }
 
 function Source(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'dataSource' ];
+  const path = ['dataSource'];
 
   const getValue = () => {
-
     return get(field, path, field.id);
   };
 
@@ -59,7 +51,8 @@ function Source(props) {
     getValue,
     id,
     label: 'Data source',
-    tooltip: 'Enter a form input variable that contains the data for the table or define an expression to populate the data dynamically.',
+    tooltip:
+      'Enter a form input variable that contains the data for the table or define an expression to populate the data dynamically.',
     setValue,
     singleLine: true,
     variables,
@@ -67,15 +60,13 @@ function Source(props) {
   });
 }
 
-
 // helper ////////////////
 
 /**
-   * @param {string|void} value
-   * @returns {string|null}
-   */
+ * @param {string|void} value
+ * @returns {string|null}
+ */
 const validate = (value) => {
-
   if (!isString(value) || value.length === 0) {
     return 'Must not be empty.';
   }

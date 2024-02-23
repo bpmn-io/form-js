@@ -1,5 +1,4 @@
 export class UpdatePathClaimHandler {
-
   /**
    * @constructor
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
@@ -9,16 +8,12 @@ export class UpdatePathClaimHandler {
   }
 
   execute(context) {
-    const {
-      claiming,
-      formField,
-      path
-    } = context;
+    const { claiming, formField, path } = context;
 
     const options = {
       replacements: {
-        [ formField.id ]: path
-      }
+        [formField.id]: path,
+      },
     };
 
     const valuePaths = [];
@@ -42,13 +37,10 @@ export class UpdatePathClaimHandler {
   }
 
   revert(context) {
-    const {
-      claiming,
-      valuePaths
-    } = context;
+    const { claiming, valuePaths } = context;
 
     if (claiming) {
-      valuePaths.forEach(({ valuePath })=> {
+      valuePaths.forEach(({ valuePath }) => {
         this._pathRegistry.unclaimPath(valuePath);
       });
     } else {
@@ -56,11 +48,11 @@ export class UpdatePathClaimHandler {
         this._pathRegistry.claimPath(valuePath, {
           isClosed,
           isRepeatable,
-          claimerId
+          claimerId,
         });
       });
     }
   }
 }
 
-UpdatePathClaimHandler.$inject = [ 'pathRegistry' ];
+UpdatePathClaimHandler.$inject = ['pathRegistry'];

@@ -4,80 +4,80 @@ export const form = {
     {
       type: 'textfield',
       key: 'textfield_readonly_expression',
-      readonly: '=foo'
+      readonly: '=foo',
     },
     {
       type: 'textfield',
       key: 'textfield_label_expression',
-      label: '=foo'
+      label: '=foo',
     },
     {
       type: 'textfield',
       key: 'textfield_description_expression',
-      description: '=foo'
+      description: '=foo',
     },
     {
       type: 'image',
-      alt: '=foo'
+      alt: '=foo',
     },
     {
       type: 'image',
-      source: '=foo'
+      source: '=foo',
     },
     {
       type: 'textfield',
       key: 'textfield_prefix_expression',
       appearance: {
-        prefix: '=foo'
-      }
+        prefix: '=foo',
+      },
     },
     {
       type: 'textfield',
       key: 'textfield_suffix_expression',
       appearance: {
-        suffix: '=foo'
-      }
+        suffix: '=foo',
+      },
     },
     {
       type: 'textfield',
       key: 'textfield_hide_expression',
       conditional: {
-        hide: '=foo'
-      }
+        hide: '=foo',
+      },
     },
     {
       type: 'text',
-      text: '=text'
+      text: '=text',
     },
     {
       type: 'textfield',
       key: 'textfield_minLength_expression',
       validate: {
-        minLength: '=foo'
-      }
+        minLength: '=foo',
+      },
     },
     {
       type: 'textfield',
       key: 'textfield_maxLength_expression',
       validate: {
-        maxLength: '=foo'
-      }
+        maxLength: '=foo',
+      },
     },
     {
       type: 'number',
       key: 'number_max_expression',
       validate: {
-        max: '=foo'
-      }
+        max: '=foo',
+      },
     },
     {
       type: 'number',
       key: 'number_min_expression',
       validate: {
-        min: '=foo'
-      }
-    }
-  ]
+        min: '=foo',
+      },
+    },
+  ],
 };
 
 export const errors = null;

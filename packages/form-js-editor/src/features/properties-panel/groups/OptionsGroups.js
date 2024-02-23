@@ -2,22 +2,17 @@ import {
   OptionsSourceSelectEntry,
   StaticOptionsSourceEntry,
   InputKeyOptionsSourceEntry,
-  OptionsExpressionEntry
+  OptionsExpressionEntry,
 } from '../entries';
 
 import { getOptionsSource, OPTIONS_SOURCES } from '@bpmn-io/form-js-viewer';
 
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
-import {
-  OPTIONS_INPUTS,
-  hasOptionsGroupsConfigured
-} from '../Util';
+import { OPTIONS_INPUTS, hasOptionsGroupsConfigured } from '../Util';
 
 export function OptionsGroups(field, editField, getService) {
-  const {
-    type
-  } = field;
+  const { type } = field;
 
   const formFields = getService('formFields');
 
@@ -39,8 +34,8 @@ export function OptionsGroups(field, editField, getService) {
       label: 'Options source',
       tooltip: getValuesTooltip(),
       component: Group,
-      entries: OptionsSourceSelectEntry({ ...context, id })
-    }
+      entries: OptionsSourceSelectEntry({ ...context, id }),
+    },
   ];
 
   const valuesSource = getOptionsSource(field);
@@ -51,7 +46,7 @@ export function OptionsGroups(field, editField, getService) {
       id,
       label: 'Dynamic options',
       component: Group,
-      entries: InputKeyOptionsSourceEntry({ ...context, id })
+      entries: InputKeyOptionsSourceEntry({ ...context, id }),
     });
   } else if (valuesSource === OPTIONS_SOURCES.STATIC) {
     const id = 'staticOptions';
@@ -59,7 +54,7 @@ export function OptionsGroups(field, editField, getService) {
       id,
       label: 'Static options',
       component: ListGroup,
-      ...StaticOptionsSourceEntry({ ...context, id })
+      ...StaticOptionsSourceEntry({ ...context, id }),
     });
   } else if (valuesSource === OPTIONS_SOURCES.EXPRESSION) {
     const id = 'optionsExpression';
@@ -67,7 +62,7 @@ export function OptionsGroups(field, editField, getService) {
       id,
       label: 'Options expression',
       component: Group,
-      entries: OptionsExpressionEntry({ ...context, id })
+      entries: OptionsExpressionEntry({ ...context, id }),
     });
   }
 
@@ -77,7 +72,9 @@ export function OptionsGroups(field, editField, getService) {
 // helpers //////////
 
 function getValuesTooltip() {
-  return '"Static" defines a constant, predefined set of form options.\n\n' +
-  '"Input data" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.\n\n' +
-  '"Expression" defines options that are populated from a FEEL expression.';
+  return (
+    '"Static" defines a constant, predefined set of form options.\n\n' +
+    '"Input data" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.\n\n' +
+    '"Expression" defines options that are populated from a FEEL expression.'
+  );
 }

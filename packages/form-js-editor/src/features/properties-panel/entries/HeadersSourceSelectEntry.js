@@ -4,30 +4,25 @@ import { AutoFocusSelectEntry } from '../components';
 
 import { get, isString, isArray } from 'min-dash';
 
-
 const OPTIONS = {
   static: {
     label: 'List of items',
-    value: 'static'
+    value: 'static',
   },
   expression: {
     label: 'Expression',
-    value: 'expression'
-  }
+    value: 'expression',
+  },
 };
 
 const SELECT_OPTIONS = Object.values(OPTIONS);
 
-const COLUMNS_PATH = [ 'columns' ];
+const COLUMNS_PATH = ['columns'];
 
-const COLUMNS_EXPRESSION_PATH = [ 'columnsExpression' ];
+const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
 
 export function HeadersSourceSelectEntry(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   return [
     {
@@ -35,18 +30,13 @@ export function HeadersSourceSelectEntry(props) {
       component: HeadersSourceSelect,
       isEdited: isSelectEntryEdited,
       editField,
-      field
-    }
+      field,
+    },
   ];
 }
 
 function HeadersSourceSelect(props) {
-
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   /**
    * @returns {string|void}
@@ -69,26 +59,25 @@ function HeadersSourceSelect(props) {
    */
   const setValue = (value) => {
     switch (value) {
-    case OPTIONS.static.value:
-      editField(field, {
-        columns: [
-          {
-            label: 'Column',
-            key: 'inputVariable'
-          }
-        ]
-      });
-      break;
-    case OPTIONS.expression.value:
-      editField(field, {
-        columnsExpression: '=',
-      });
-      break;
+      case OPTIONS.static.value:
+        editField(field, {
+          columns: [
+            {
+              label: 'Column',
+              key: 'inputVariable',
+            },
+          ],
+        });
+        break;
+      case OPTIONS.expression.value:
+        editField(field, {
+          columnsExpression: '=',
+        });
+        break;
     }
   };
 
   const getValuesSourceOptions = () => {
-
     return SELECT_OPTIONS;
   };
 
@@ -99,7 +88,7 @@ function HeadersSourceSelect(props) {
     getOptions: getValuesSourceOptions,
     getValue,
     id,
-    setValue
+    setValue,
   });
 }
 

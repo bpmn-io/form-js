@@ -4,9 +4,9 @@ export const form = {
     {
       type: 'number',
       key: 'number',
-      defaultValue: true
-    }
-  ]
+      defaultValue: true,
+    },
+  ],
 };
 
 export const errors = [
@@ -14,14 +14,14 @@ export const errors = [
     instancePath: '/components/0/defaultValue',
     schemaPath: '#/properties/components/items/allOf/2/allOf/2/then/properties/defaultValue/type',
     keyword: 'type',
-    params: { type: [ 'number', 'string' ] },
-    message: 'must be number,string'
+    params: { type: ['number', 'string'] },
+    message: 'must be number,string',
   },
   {
     instancePath: '/components/0',
     schemaPath: '#/properties/components/items/allOf/2/allOf/2/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
-    message: 'must match "then" schema'
-  }
+    message: 'must match "then" schema',
+  },
 ];

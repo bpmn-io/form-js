@@ -2,17 +2,11 @@ import TestContainer from 'mocha-test-container-support';
 
 import { act } from '@testing-library/preact/pure';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import { query as domQuery } from 'min-dom';
 
-import {
-  insertStyles
-} from '../../../TestHelper';
+import { insertStyles } from '../../../TestHelper';
 
-import {
-  createFormEditor
-} from '../../../../src';
+import { createFormEditor } from '../../../../src';
 
 import { PaletteModule } from '../../../../src/features/palette';
 
@@ -20,12 +14,10 @@ import schema from '../../form.json';
 
 insertStyles();
 
-
-describe('features/palette', function() {
-
+describe('features/palette', function () {
   let formEditor, formContainer, paletteContainer;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const container = TestContainer.get(this);
 
     paletteContainer = document.createElement('div');
@@ -35,7 +27,7 @@ describe('features/palette', function() {
     container.appendChild(formContainer);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     const container = TestContainer.get(this);
 
     container.removeChild(paletteContainer);
@@ -45,30 +37,24 @@ describe('features/palette', function() {
   });
 
   async function createEditor(schema, options = {}) {
-    const {
-      additionalModules = [
-        PaletteModule
-      ]
-    } = options;
+    const { additionalModules = [PaletteModule] } = options;
 
     formEditor = await createFormEditor({
       schema,
       renderer: {
-        container: formContainer
+        container: formContainer,
       },
       additionalModules,
       palette: {
-        parent: paletteContainer
+        parent: paletteContainer,
       },
-      ...options
+      ...options,
     });
 
     return { formEditor };
   }
 
-
-  it('should render on <formEditor.rendered>', async function() {
-
+  it('should render on <formEditor.rendered>', async function () {
     // given
     await act(async () => {
       const result = await createEditor(schema);
@@ -84,9 +70,7 @@ describe('features/palette', function() {
     expect(domQuery('.fjs-palette', paletteContainer)).to.exist;
   });
 
-
-  it('should attach', async function() {
-
+  it('should attach', async function () {
     // given
     const node = document.createElement('div');
     document.body.appendChild(node);
@@ -115,9 +99,7 @@ describe('features/palette', function() {
     document.body.removeChild(node);
   });
 
-
-  it('should attach when section rendered late', async function() {
-
+  it('should attach when section rendered late', async function () {
     // given
     const node = document.createElement('div');
     document.body.appendChild(node);
@@ -154,9 +136,7 @@ describe('features/palette', function() {
     document.body.removeChild(node);
   });
 
-
-  it('should detach', async function() {
-
+  it('should detach', async function () {
     // given
     let formEditor;
 
@@ -181,11 +161,8 @@ describe('features/palette', function() {
     expect(domQuery('.fjs-palette', paletteContainer)).to.not.exist;
   });
 
-
-  describe('event emitting', function() {
-
-    it('should fire <palette.rendered>', async function() {
-
+  describe('event emitting', function () {
+    it('should fire <palette.rendered>', async function () {
       // given
       let formEditor;
 
@@ -212,9 +189,7 @@ describe('features/palette', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <palette.attach>', async function() {
-
+    it('should fire <palette.attach>', async function () {
       // given
       const { formEditor } = await createEditor(schema);
 
@@ -235,9 +210,7 @@ describe('features/palette', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <palette.detach>', async function() {
-
+    it('should fire <palette.detach>', async function () {
       // given
       const { formEditor } = await createEditor(schema);
 
@@ -258,9 +231,7 @@ describe('features/palette', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <palette.destroyed>', async function() {
-
+    it('should fire <palette.destroyed>', async function () {
       // given
       const node = document.createElement('div');
       document.body.appendChild(node);
@@ -288,7 +259,5 @@ describe('features/palette', function() {
       // then
       expect(spy).to.have.been.called;
     });
-
   });
-
 });

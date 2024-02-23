@@ -6,7 +6,7 @@ import {
   useOptionsAsync,
   useCleanupMultiSelectValue,
   useGetLabelCorrelation,
-  LOAD_STATES
+  LOAD_STATES,
 } from '../../hooks';
 
 import XMarkIcon from './icons/XMark.svg';
@@ -25,36 +25,20 @@ import { formFieldClasses } from '../Util';
 const type = 'taglist';
 
 export function Taglist(props) {
-  const {
-    disabled,
-    errors = [],
-    onFocus,
-    domId,
-    onBlur,
-    field,
-    readonly,
-    value
-  } = props;
+  const { disabled, errors = [], onFocus, domId, onBlur, field, readonly, value } = props;
 
-  const {
-    description,
-    label,
-    validate = {}
-  } = field;
+  const { description, label, validate = {} } = field;
 
   const { required } = validate;
 
-  const [ filter, setFilter ] = useState('');
-  const [ isDropdownExpanded, setIsDropdownExpanded ] = useState(false);
-  const [ isEscapeClosed, setIsEscapeClose ] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
+  const [isEscapeClosed, setIsEscapeClose] = useState(false);
   const focusScopeRef = useRef();
   const inputRef = useRef();
   const eventBus = useService('eventBus');
 
-  const {
-    loadState,
-    options
-  } = useOptionsAsync(field);
+  const { loadState, options } = useOptionsAsync(field);
 
   // ensures we render based on array content instead of reference
   const values = useDeepCompareState(value || [], []);
@@ -64,12 +48,12 @@ export function Taglist(props) {
     loadState,
     options,
     values,
-    onChange: props.onChange
+    onChange: props.onChange,
   });
 
   const getLabelCorrelation = useGetLabelCorrelation(options);
 
-  const hasOptionsLeft = useMemo(() => options.length > values.length, [ options.length, values.length ]);
+  const hasOptionsLeft = useMemo(() => options.length > values.length, [options.length, values.length]);
 
   const filteredOptions = useMemo(() => {
     if (loadState !== LOAD_STATES.LOADED) {
@@ -82,11 +66,9 @@ export function Taglist(props) {
     };
 
     return options.filter(isValidFilteredOption);
-  }, [ filter, options, values, loadState ]);
-
+  }, [filter, options, values, loadState]);
 
   const selectValue = (value) => {
-
     setFilter('');
 
     // Ensure values cannot be double selected due to latency
@@ -94,7 +76,7 @@ export function Taglist(props) {
       return;
     }
 
-    props.onChange({ value: [ ...values, value ], field });
+    props.onChange({ value: [...values, value], field });
   };
 
   const deselectValue = (value) => {
@@ -109,27 +91,25 @@ export function Taglist(props) {
   };
 
   const onInputKeyDown = (e) => {
-
     switch (e.key) {
-    case 'ArrowUp':
-    case 'ArrowDown':
-
-      // We do not want the cursor to seek in the search field when we press up and down
-      e.preventDefault();
-      break;
-    case 'Backspace':
-      if (!filter && values.length) {
-        deselectValue(values[values.length - 1]);
-      }
-      break;
-    case 'Escape':
-      setIsEscapeClose(true);
-      break;
-    case 'Enter':
-      if (isEscapeClosed) {
-        setIsEscapeClose(false);
-      }
-      break;
+      case 'ArrowUp':
+      case 'ArrowDown':
+        // We do not want the cursor to seek in the search field when we press up and down
+        e.preventDefault();
+        break;
+      case 'Backspace':
+        if (!filter && values.length) {
+          deselectValue(values[values.length - 1]);
+        }
+        break;
+      case 'Escape':
+        setIsEscapeClose(true);
+        break;
+      case 'Enter':
+        if (isEscapeClosed) {
+          setIsEscapeClose(false);
+        }
+        break;
     }
   };
 
@@ -174,84 +154,88 @@ export function Taglist(props) {
     inputRef.current.focus();
   };
 
-  const shouldDisplayDropdown = useMemo(() => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed, [ disabled, isDropdownExpanded, isEscapeClosed, loadState ]);
+  const shouldDisplayDropdown = useMemo(
+    () => !disabled && loadState === LOAD_STATES.LOADED && isDropdownExpanded && !isEscapeClosed,
+    [disabled, isDropdownExpanded, isEscapeClosed, loadState],
+  );
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
-  return <div
-    ref={ focusScopeRef }
-    class={ formFieldClasses(type, { errors, disabled, readonly }) }
-    onKeyDown={
-      (event) => {
+  return (
+    <div
+      ref={focusScopeRef}
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      onKeyDown={(event) => {
         if (event.key === 'Enter') {
           event.stopPropagation();
           event.preventDefault();
         }
-      }
-    }
-  >
-    <Label
-      label={ label }
-      required={ required }
-      htmlFor={ domId } />
-    { (!disabled && !readonly && !!values.length) && <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={ onSkipToSearch } /> }
-    <div class={ classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
-      { loadState === LOAD_STATES.LOADED &&
-        <div class="fjs-taglist-tags">
-          {
-            values.map((v) => {
+      }}>
+      <Label label={label} required={required} htmlFor={domId} />
+      {!disabled && !readonly && !!values.length && (
+        <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={onSkipToSearch} />
+      )}
+      <div class={classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
+        {loadState === LOAD_STATES.LOADED && (
+          <div class="fjs-taglist-tags">
+            {values.map((v) => {
               return (
-                <div class={ classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) } onMouseDown={ (e) => e.preventDefault() }>
-                  <span class="fjs-taglist-tag-label">
-                    { getLabelCorrelation(v) }
-                  </span>
-                  { (!disabled && !readonly) && <button
-                    type="button"
-                    title="Remove tag"
-                    class="fjs-taglist-tag-remove"
-                    onFocus={ onElementFocus }
-                    onBlur={ onElementBlur }
-                    onClick={ (event) => onTagRemoveClick(event, v) }>
-
-                    <XMarkIcon />
-                  </button> }
+                <div
+                  class={classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}
+                  onMouseDown={(e) => e.preventDefault()}>
+                  <span class="fjs-taglist-tag-label">{getLabelCorrelation(v)}</span>
+                  {!disabled && !readonly && (
+                    <button
+                      type="button"
+                      title="Remove tag"
+                      class="fjs-taglist-tag-remove"
+                      onFocus={onElementFocus}
+                      onBlur={onElementBlur}
+                      onClick={(event) => onTagRemoveClick(event, v)}>
+                      <XMarkIcon />
+                    </button>
+                  )}
                 </div>
               );
-            })
-          }
-        </div>
-      }
-      <input
-        disabled={ disabled }
-        readOnly={ readonly }
-        class="fjs-taglist-input"
-        ref={ inputRef }
-        id={ domId }
-        onChange={ onInputChange }
-        type="text"
-        value={ filter }
-        placeholder={ (disabled || readonly) ? undefined : 'Search' }
-        autoComplete="off"
-        onKeyDown={ onInputKeyDown }
-        onMouseDown={ () => setIsEscapeClose(false) }
-        onFocus={ onInputFocus }
-        onBlur={ onInputBlur }
-        aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
-        required={ required }
-        aria-invalid={ errors.length > 0 } />
+            })}
+          </div>
+        )}
+        <input
+          disabled={disabled}
+          readOnly={readonly}
+          class="fjs-taglist-input"
+          ref={inputRef}
+          id={domId}
+          onChange={onInputChange}
+          type="text"
+          value={filter}
+          placeholder={disabled || readonly ? undefined : 'Search'}
+          autoComplete="off"
+          onKeyDown={onInputKeyDown}
+          onMouseDown={() => setIsEscapeClose(false)}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
+          aria-describedby={[descriptionId, errorMessageId].join(' ')}
+          required={required}
+          aria-invalid={errors.length > 0}
+        />
+      </div>
+      <div class="fjs-taglist-anchor">
+        {shouldDisplayDropdown && (
+          <DropdownList
+            values={filteredOptions}
+            getLabel={(o) => o.label}
+            onValueSelected={(o) => selectValue(o.value)}
+            emptyListMessage={hasOptionsLeft ? 'No results' : 'All values selected'}
+            listenerElement={inputRef.current}
+          />
+        )}
+      </div>
+      <Description id={descriptionId} description={description} />
+      <Errors id={errorMessageId} errors={errors} />
     </div>
-    <div class="fjs-taglist-anchor">
-      { shouldDisplayDropdown && <DropdownList
-        values={ filteredOptions }
-        getLabel={ (o) => o.label }
-        onValueSelected={ (o) => selectValue(o.value) }
-        emptyListMessage={ hasOptionsLeft ? 'No results' : 'All values selected' }
-        listenerElement={ inputRef.current } /> }
-    </div>
-    <Description id={ descriptionId } description={ description } />
-    <Errors id={ errorMessageId } errors={ errors } />
-  </div>;
+  );
 }
 
 Taglist.config = {
@@ -261,5 +245,5 @@ Taglist.config = {
   group: 'selection',
   emptyValue: [],
   sanitizeValue: sanitizeMultiSelectValue,
-  create: createEmptyOptions
+  create: createEmptyOptions,
 };

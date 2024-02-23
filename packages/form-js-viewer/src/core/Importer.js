@@ -1,7 +1,6 @@
 import { clone } from '../util';
 
 export class Importer {
-
   /**
    * @constructor
    * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
@@ -33,7 +32,6 @@ export class Importer {
    * @returns {ImportResult}
    */
   importSchema(schema) {
-
     // TODO: Add warnings
     const warnings = [];
 
@@ -44,7 +42,7 @@ export class Importer {
 
       return {
         schema: importedSchema,
-        warnings
+        warnings,
       };
     } catch (err) {
       this._cleanup();
@@ -67,9 +65,7 @@ export class Importer {
    * @return {any} field
    */
   importFormField(fieldAttrs, parentId, index) {
-    const {
-      components
-    } = fieldAttrs;
+    const { components } = fieldAttrs;
 
     let parent, path;
 
@@ -78,13 +74,16 @@ export class Importer {
     }
 
     // set form field path
-    path = parent ? [ ...parent._path, 'components', index ] : [];
+    path = parent ? [...parent._path, 'components', index] : [];
 
-    const field = this._fieldFactory.create({
-      ...fieldAttrs,
-      _path: path,
-      _parent: parentId
-    }, false);
+    const field = this._fieldFactory.create(
+      {
+        ...fieldAttrs,
+        _path: path,
+        _parent: parentId,
+      },
+      false,
+    );
 
     this._formFieldRegistry.add(field);
 
@@ -106,7 +105,6 @@ export class Importer {
       return this.importFormField(component, parentId, index);
     });
   }
-
 }
 
-Importer.$inject = [ 'formFieldRegistry', 'pathRegistry', 'fieldFactory', 'formLayouter' ];
+Importer.$inject = ['formFieldRegistry', 'pathRegistry', 'fieldFactory', 'formLayouter'];

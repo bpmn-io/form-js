@@ -14,7 +14,9 @@ export class FeelExpressionLanguage {
    * @returns {boolean}
    *
    */
-  isExpression(value) { return isString(value) && value.startsWith('='); }
+  isExpression(value) {
+    return isString(value) && value.startsWith('=');
+  }
 
   /**
    * Retrieve variable names from a given FEEL expression.
@@ -26,16 +28,13 @@ export class FeelExpressionLanguage {
    * @returns {string[]}
    */
   getVariableNames(expression, options = {}) {
-
-    const {
-      type = 'expression'
-    } = options;
+    const { type = 'expression' } = options;
 
     if (!this.isExpression(expression)) {
       return [];
     }
 
-    if (![ 'unaryTest', 'expression' ].includes(type)) {
+    if (!['unaryTest', 'expression'].includes(type)) {
       throw new Error('Unknown expression type: ' + type);
     }
 
@@ -70,6 +69,4 @@ export class FeelExpressionLanguage {
   }
 }
 
-FeelExpressionLanguage.$inject = [
-  'eventBus'
-];
+FeelExpressionLanguage.$inject = ['eventBus'];

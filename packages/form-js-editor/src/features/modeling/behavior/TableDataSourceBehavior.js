@@ -6,20 +6,23 @@ export class TableDataSourceBehavior extends CommandInterceptor {
   constructor(eventBus) {
     super(eventBus);
 
-    this.preExecute('formField.add', function(context) {
+    this.preExecute(
+      'formField.add',
+      function (context) {
+        const { formField } = context;
 
-      const { formField } = context;
+        if (get(formField, ['type']) !== 'table') {
+          return;
+        }
 
-      if (get(formField, [ 'type' ]) !== 'table') {
-        return;
-      }
-
-      context.formField = {
-        ...formField,
-        dataSource: `=${formField.id}`
-      };
-    }, true);
+        context.formField = {
+          ...formField,
+          dataSource: `=${formField.id}`,
+        };
+      },
+      true,
+    );
   }
 }
 
-TableDataSourceBehavior.$inject = [ 'eventBus' ];
+TableDataSourceBehavior.$inject = ['eventBus'];

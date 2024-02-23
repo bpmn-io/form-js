@@ -12,7 +12,7 @@
       "label": "Group 1",
       "showOutline": true,
       "components": [
-        { 
+        {
           "type": "group",
           "id": "Group_2",
           "label": "Group 2",

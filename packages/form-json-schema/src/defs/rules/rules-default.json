@@ -8,9 +8,7 @@
             "const": "default"
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
         "properties": {

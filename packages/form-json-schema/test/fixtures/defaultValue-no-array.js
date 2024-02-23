@@ -5,9 +5,9 @@ export const form = {
       type: 'checklist',
       key: 'list',
       defaultValue: 'foo',
-      values: []
-    }
-  ]
+      values: [],
+    },
+  ],
 };
 
 export const errors = [
@@ -16,13 +16,13 @@ export const errors = [
     schemaPath: '#/properties/components/items/allOf/2/allOf/3/then/properties/defaultValue/type',
     keyword: 'type',
     params: { type: 'array' },
-    message: 'must be array'
+    message: 'must be array',
   },
   {
     instancePath: '/components/0',
     schemaPath: '#/properties/components/items/allOf/2/allOf/3/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
-    message: 'must match "then" schema'
-  }
+    message: 'must match "then" schema',
+  },
 ];

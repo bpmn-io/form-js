@@ -4,10 +4,7 @@ import { get } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 
 export function ConditionEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   return [
     {
@@ -15,24 +12,19 @@ export function ConditionEntry(props) {
       component: Condition,
       editField: editField,
       field: field,
-      isEdited: isFeelEntryEdited
-    }
+      isEdited: isFeelEntryEdited,
+    },
   ];
 }
 
-
 function Condition(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'conditional', 'hide' ];
+  const path = ['conditional', 'hide'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -55,6 +47,6 @@ function Condition(props) {
     id,
     label: 'Hide if',
     setValue,
-    variables
+    variables,
   });
 }

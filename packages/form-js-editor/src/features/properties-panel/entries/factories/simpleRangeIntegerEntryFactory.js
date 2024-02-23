@@ -7,19 +7,9 @@ import Big from 'big.js';
 import { useCallback } from 'preact/hooks';
 
 export function simpleRangeIntegerEntryFactory(options) {
-  const {
-    id,
-    label,
-    path,
-    props,
-    min,
-    max
-  } = options;
+  const { id, label, path, props, min, max } = options;
 
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   return {
     id,
@@ -30,20 +20,12 @@ export function simpleRangeIntegerEntryFactory(options) {
     min,
     max,
     component: SimpleRangeIntegerEntry,
-    isEdited: isTextFieldEntryEdited
+    isEdited: isTextFieldEntryEdited,
   };
 }
 
 const SimpleRangeIntegerEntry = (props) => {
-  const {
-    id,
-    label,
-    path,
-    field,
-    editField,
-    min = Number.MIN_SAFE_INTEGER,
-    max = Number.MAX_SAFE_INTEGER
-  } = props;
+  const { id, label, path, field, editField, min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER } = props;
 
   const debounce = useService('debounce');
 
@@ -61,12 +43,23 @@ const SimpleRangeIntegerEntry = (props) => {
     editField(field, path, Number(value));
   };
 
-  const validate = useCallback((value) => {
-    if (value === undefined || value === null || value === '') { return; }
-    if (!Number.isInteger(Number(value))) { return 'Should be an integer.'; }
-    if (Big(value).cmp(min) < 0) { return `Should be at least ${min}.`; }
-    if (Big(value).cmp(max) > 0) { return `Should be at most ${max}.`; }
-  }, [ min, max ]);
+  const validate = useCallback(
+    (value) => {
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+      if (!Number.isInteger(Number(value))) {
+        return 'Should be an integer.';
+      }
+      if (Big(value).cmp(min) < 0) {
+        return `Should be at least ${min}.`;
+      }
+      if (Big(value).cmp(max) > 0) {
+        return `Should be at most ${max}.`;
+      }
+    },
+    [min, max],
+  );
 
   return TextFieldEntry({
     debounce,
@@ -75,6 +68,6 @@ const SimpleRangeIntegerEntry = (props) => {
     getValue,
     id,
     setValue,
-    validate
+    validate,
   });
 };

@@ -2,26 +2,19 @@ import { without } from 'min-dash';
 import { arrayAdd } from '../Util';
 import { ColumnEntry } from './ColumnEntry';
 
-const path = [ 'columns' ];
+const path = ['columns'];
 
 export function StaticColumnsSourceEntry(props) {
-  const {
-    editField,
-    field,
-    id: idPrefix
-  } = props;
+  const { editField, field, id: idPrefix } = props;
 
-  const {
-    columns
-  } = field;
+  const { columns } = field;
 
   const addEntry = (event) => {
-
     event.stopPropagation();
 
     const entry = {
       label: 'Column',
-      key: 'inputVariable'
+      key: 'inputVariable',
     };
 
     editField(field, path, arrayAdd(columns, columns.length, entry));
@@ -41,16 +34,16 @@ export function StaticColumnsSourceEntry(props) {
         editField,
         field,
         idPrefix: id,
-        index
+        index,
       }),
       autoFocusEntry: `${id}-label`,
-      remove: () => removeEntry(entry)
+      remove: () => removeEntry(entry),
     };
   });
 
   return {
     items,
     add: addEntry,
-    shouldSort: false
+    shouldSort: false,
   };
 }

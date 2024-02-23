@@ -7,24 +7,28 @@ export class ValidateBehavior extends CommandInterceptor {
     /**
      * Remove custom validation if <validationType> is about to be added.
      */
-    this.preExecute('formField.edit', function(context) {
-      const { properties } = context;
+    this.preExecute(
+      'formField.edit',
+      function (context) {
+        const { properties } = context;
 
-      const { validate = {} } = properties;
+        const { validate = {} } = properties;
 
-      if (validate.validationType) {
-        const newValidate = {
-          ...validate
-        };
+        if (validate.validationType) {
+          const newValidate = {
+            ...validate,
+          };
 
-        delete newValidate.minLength;
-        delete newValidate.maxLength;
-        delete newValidate.pattern;
+          delete newValidate.minLength;
+          delete newValidate.maxLength;
+          delete newValidate.pattern;
 
-        properties['validate'] = newValidate;
-      }
-    }, true);
+          properties['validate'] = newValidate;
+        }
+      },
+      true,
+    );
   }
 }
 
-ValidateBehavior.$inject = [ 'eventBus' ];
+ValidateBehavior.$inject = ['eventBus'];

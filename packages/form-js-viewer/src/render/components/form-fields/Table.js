@@ -39,39 +39,24 @@ const type = 'table';
  */
 export function Table(props) {
   const { field } = props;
-  const {
-    columns = [],
-    columnsExpression,
-    dataSource = '',
-    rowCount,
-    id,
-    label,
-  } = field;
+  const { columns = [], columnsExpression, dataSource = '', rowCount, id, label } = field;
 
   /** @type {[(null|Sorting), import("preact/hooks").StateUpdater<null|Sorting>]} */
-  const [ sortBy, setSortBy ] = useState(null);
-  const evaluatedColumns = useEvaluatedColumns(
-    columnsExpression || '',
-    columns,
-  );
+  const [sortBy, setSortBy] = useState(null);
+  const evaluatedColumns = useEvaluatedColumns(columnsExpression || '', columns);
   const columnKeys = evaluatedColumns.map(({ key }) => key);
   const evaluatedDataSource = useExpressionEvaluation(dataSource);
   const data = Array.isArray(evaluatedDataSource) ? evaluatedDataSource : [];
-  const sortedData =
-    sortBy === null
-      ? data
-      : sortByColumn(data, sortBy.key, sortBy.direction);
+  const sortedData = sortBy === null ? data : sortByColumn(data, sortBy.key, sortBy.direction);
 
   /** @type {unknown[][]} */
-  const chunkedData = isNumber(rowCount) ? chunk(sortedData, rowCount) : [ sortedData ];
-  const [ currentPage, setCurrentPage ] = useState(0);
+  const chunkedData = isNumber(rowCount) ? chunk(sortedData, rowCount) : [sortedData];
+  const [currentPage, setCurrentPage] = useState(0);
   const currentChunk = chunkedData[currentPage] || [];
-
 
   useEffect(() => {
     setCurrentPage(0);
-  }, [ rowCount, sortBy ]);
-
+  }, [rowCount, sortBy]);
 
   /** @param {string} key */
   function toggleSortBy(key) {
@@ -95,18 +80,17 @@ export function Table(props) {
   }
 
   return (
-    <div class={ formFieldClasses(type) }>
-      <Label htmlFor={ prefixId(id) } label={ label } />
+    <div class={formFieldClasses(type)}>
+      <Label htmlFor={prefixId(id)} label={label} />
       <div
-        class={ classNames('fjs-table-middle-container', {
+        class={classNames('fjs-table-middle-container', {
           'fjs-table-empty': evaluatedColumns.length === 0,
-        }) }
-      >
+        })}>
         {evaluatedColumns.length === 0 ? (
           'Nothing to show.'
         ) : (
           <div class="fjs-table-inner-container">
-            <table class="fjs-table" id={ prefixId(id) }>
+            <table class="fjs-table" id={prefixId(id)}>
               <thead class="fjs-table-head">
                 <tr class="fjs-table-tr">
                   {evaluatedColumns.map(({ key, label }) => {
@@ -114,26 +98,19 @@ export function Table(props) {
 
                     return (
                       <th
-                        key={ key }
-                        tabIndex={ 0 }
+                        key={key}
+                        tabIndex={0}
                         class="fjs-table-th"
-                        onClick={ () => {
+                        onClick={() => {
                           toggleSortBy(key);
-                        } }
-                        onKeyDown={ (event) => {
-                          if ([ 'Enter', 'Space' ].includes(event.code)) {
+                        }}
+                        onKeyDown={(event) => {
+                          if (['Enter', 'Space'].includes(event.code)) {
                             toggleSortBy(key);
                           }
-                        } }
-                        aria-label={ getHeaderAriaLabel(
-                          sortBy,
-                          key,
-                          displayLabel,
-                        ) }
-                      >
-                        <span
-                          class="fjs-table-th-label"
-                        >
+                        }}
+                        aria-label={getHeaderAriaLabel(sortBy, key, displayLabel)}>
+                        <span class="fjs-table-th-label">
                           {displayLabel}
                           {sortBy !== null && sortBy.key === key ? (
                             <>
@@ -153,7 +130,7 @@ export function Table(props) {
               {currentChunk.length === 0 ? (
                 <tbody class="fjs-table-body">
                   <tr class="fjs-table-tr">
-                    <td class="fjs-table-td" colSpan={ evaluatedColumns.length }>
+                    <td class="fjs-table-td" colSpan={evaluatedColumns.length}>
                       Nothing to show.
                     </td>
                   </tr>
@@ -161,9 +138,9 @@ export function Table(props) {
               ) : (
                 <tbody class="fjs-table-body">
                   {currentChunk.map((row, index) => (
-                    <tr key={ index } class="fjs-table-tr">
+                    <tr key={index} class="fjs-table-tr">
                       {columnKeys.map((key) => (
-                        <td key={ key } class="fjs-table-td">
+                        <td key={key} class="fjs-table-td">
                           {row[key]}
                         </td>
                       ))}
@@ -175,38 +152,33 @@ export function Table(props) {
           </div>
         )}
 
-        {(isNumber(rowCount) && chunkedData.length > 1 && evaluatedColumns.length > 0) ?
-          (
-            <nav class="fjs-table-nav">
-              <span class="fjs-table-nav-label">
-                {currentPage + 1} of {chunkedData.length}
-              </span>
-              <button
-                type="button"
-                class="fjs-table-nav-button"
-                onClick={ () => {
-                  setCurrentPage((page) => Math.max(page - 1, 0));
-                } }
-                disabled={ currentPage === 0 }
-                aria-label="Previous page"
-              >
-                <CaretLeftIcon />
-              </button>
-              <button
-                type="button"
-                class="fjs-table-nav-button"
-                onClick={ () => {
-                  setCurrentPage((page) =>
-                    Math.min(page + 1, chunkedData.length - 1),
-                  );
-                } }
-                disabled={ currentPage >= chunkedData.length - 1 }
-                aria-label="Next page"
-              >
-                <CaretRightIcon />
-              </button>
-            </nav>
-          ) : null}
+        {isNumber(rowCount) && chunkedData.length > 1 && evaluatedColumns.length > 0 ? (
+          <nav class="fjs-table-nav">
+            <span class="fjs-table-nav-label">
+              {currentPage + 1} of {chunkedData.length}
+            </span>
+            <button
+              type="button"
+              class="fjs-table-nav-button"
+              onClick={() => {
+                setCurrentPage((page) => Math.max(page - 1, 0));
+              }}
+              disabled={currentPage === 0}
+              aria-label="Previous page">
+              <CaretLeftIcon />
+            </button>
+            <button
+              type="button"
+              class="fjs-table-nav-button"
+              onClick={() => {
+                setCurrentPage((page) => Math.min(page + 1, chunkedData.length - 1));
+              }}
+              disabled={currentPage >= chunkedData.length - 1}
+              aria-label="Next page">
+              <CaretRightIcon />
+            </button>
+          </nav>
+        ) : null}
       </div>
     </div>
   );
@@ -218,13 +190,7 @@ Table.config = {
   label: 'Table',
   group: 'presentation',
   create: (options = {}) => {
-    const {
-      id,
-      columnsExpression,
-      columns,
-      rowCount,
-      ...remainingOptions
-    } = options;
+    const { id, columnsExpression, columns, rowCount, ...remainingOptions } = options;
 
     if (isDefined(id) && isNumber(rowCount)) {
       remainingOptions['rowCount'] = rowCount;
@@ -276,7 +242,7 @@ Table.config = {
     const demoData = [
       { id: 1, name: 'John Doe', date: '31.01.2023' },
       { id: 2, name: 'Erika Muller', date: '20.02.2023' },
-      { id: 3, name: 'Dominic Leaf', date: '11.03.2023' }
+      { id: 3, name: 'Dominic Leaf', date: '11.03.2023' },
     ];
     const demoDataKeys = Object.keys(demoData[0]);
     const { columns, id, dataSource } = field;
@@ -285,12 +251,12 @@ Table.config = {
       return;
     }
 
-    if (!columns.map(({ key })=>key).every(key => demoDataKeys.includes(key))) {
+    if (!columns.map(({ key }) => key).every((key) => demoDataKeys.includes(key))) {
       return;
     }
 
     return demoData;
-  }
+  },
 };
 
 // helpers /////////////////////////////
@@ -301,13 +267,10 @@ Table.config = {
  * @returns {Column[]}
  */
 function useEvaluatedColumns(columnsExpression, fallbackColumns) {
-
   /** @type {Column[]|null} */
   const evaluation = useExpressionEvaluation(columnsExpression || '');
 
-  return Array.isArray(evaluation) && evaluation.every(isColumn)
-    ? evaluation
-    : fallbackColumns;
+  return Array.isArray(evaluation) && evaluation.every(isColumn) ? evaluation : fallbackColumns;
 }
 
 /**
@@ -315,9 +278,7 @@ function useEvaluatedColumns(columnsExpression, fallbackColumns) {
  * @returns {column is Column}
  */
 function isColumn(column) {
-  return (
-    isObject(column) && isString(column['label']) && isString(column['key'])
-  );
+  return isObject(column) && isString(column['label']) && isString(column['key']);
 }
 
 /**
@@ -328,7 +289,7 @@ function isColumn(column) {
 function chunk(array, size) {
   return array.reduce((chunks, item, index) => {
     if (index % size === 0) {
-      chunks.push([ item ]);
+      chunks.push([item]);
     } else {
       chunks[chunks.length - 1].push(item);
     }
@@ -344,7 +305,7 @@ function chunk(array, size) {
  * @returns {unknown[]}
  */
 function sortByColumn(array, key, direction) {
-  return [ ...array ].sort((a, b) => {
+  return [...array].sort((a, b) => {
     if (!isObject(a) || !isObject(b)) {
       return 0;
     }

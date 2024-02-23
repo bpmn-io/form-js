@@ -5,76 +5,62 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 import { get } from 'min-dash';
 
 export function LabelEntry(props) {
-  const {
-    field,
-    editField
-  } = props;
+  const { field, editField } = props;
 
   const entries = [];
 
-  entries.push(
-    {
-      id: 'date-label',
-      component: DateLabel,
-      editField,
-      field,
-      isEdited: isFeelEntryEdited,
-      isDefaultVisible: function(field) {
-        return (
-          field.type === 'datetime' &&
-          (field.subtype === DATETIME_SUBTYPES.DATE || field.subtype === DATETIME_SUBTYPES.DATETIME)
-        );
-      }
-    }
-  );
+  entries.push({
+    id: 'date-label',
+    component: DateLabel,
+    editField,
+    field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: function (field) {
+      return (
+        field.type === 'datetime' &&
+        (field.subtype === DATETIME_SUBTYPES.DATE || field.subtype === DATETIME_SUBTYPES.DATETIME)
+      );
+    },
+  });
 
-  entries.push(
-    {
-      id: 'time-label',
-      component: TimeLabel,
-      editField,
-      field,
-      isEdited: isFeelEntryEdited,
-      isDefaultVisible: function(field) {
-        return (
-          field.type === 'datetime' &&
-          (field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME)
-        );
-      }
-    }
-  );
+  entries.push({
+    id: 'time-label',
+    component: TimeLabel,
+    editField,
+    field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: function (field) {
+      return (
+        field.type === 'datetime' &&
+        (field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME)
+      );
+    },
+  });
 
   const isSimplyLabled = (field) => {
-    return [ ...INPUTS.filter(input => input !== 'datetime'), ...LABELED_NON_INPUTS ].includes(field.type);
+    return [...INPUTS.filter((input) => input !== 'datetime'), ...LABELED_NON_INPUTS].includes(field.type);
   };
 
-  entries.push(
-    {
-      id: 'label',
-      component: Label,
-      editField,
-      field,
-      isEdited: isFeelEntryEdited,
-      isDefaultVisible: isSimplyLabled
-    }
-  );
+  entries.push({
+    id: 'label',
+    component: Label,
+    editField,
+    field,
+    isEdited: isFeelEntryEdited,
+    isDefaultVisible: isSimplyLabled,
+  });
 
   return entries;
 }
 
-
 function Label(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'label' ];
+  const path = ['label'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -94,20 +80,16 @@ function Label(props) {
     label,
     singleLine: true,
     setValue,
-    variables
+    variables,
   });
 }
 
 function DateLabel(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   const path = DATE_LABEL_PATH;
 
@@ -127,20 +109,16 @@ function DateLabel(props) {
     label: 'Date label',
     singleLine: true,
     setValue,
-    variables
+    variables,
   });
 }
 
 function TimeLabel(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   const path = TIME_LABEL_PATH;
 
@@ -160,7 +138,7 @@ function TimeLabel(props) {
     label: 'Time label',
     singleLine: true,
     setValue,
-    variables
+    variables,
   });
 }
 
@@ -172,14 +150,14 @@ function TimeLabel(props) {
  */
 function getLabelText(type) {
   switch (type) {
-  case 'group':
-  case 'dynamiclist':
-    return 'Group label';
-  case 'table':
-    return 'Table label';
-  case 'iframe':
-    return 'Title';
-  default:
-    return 'Field label';
+    case 'group':
+    case 'dynamiclist':
+      return 'Group label';
+    case 'table':
+      return 'Table label';
+    case 'iframe':
+      return 'Title';
+    default:
+      return 'Field label';
   }
 }

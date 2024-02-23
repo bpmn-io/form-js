@@ -8,7 +8,6 @@ import { UpdatePathClaimHandler } from './cmd/UpdatePathClaimHandler';
 
 import { isObject } from 'min-dash';
 
-
 export class Modeling {
   constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
     this._commandStack = commandStack;
@@ -22,7 +21,7 @@ export class Modeling {
   }
 
   registerHandlers() {
-    Object.entries(this.getHandlers()).forEach(([ id, handler ]) => {
+    Object.entries(this.getHandlers()).forEach(([id, handler]) => {
       this._commandStack.registerHandler(id, handler);
     });
   }
@@ -35,18 +34,17 @@ export class Modeling {
       'formField.remove': RemoveFormFieldHandler,
       'id.updateClaim': UpdateIdClaimHandler,
       'key.updateClaim': UpdateKeyClaimHandler,
-      'path.updateClaim': UpdatePathClaimHandler
+      'path.updateClaim': UpdatePathClaimHandler,
     };
   }
 
   addFormField(attrs, targetFormField, targetIndex) {
-
     const formField = this._fieldFactory.create(attrs);
 
     const context = {
       formField,
       targetFormField,
-      targetIndex
+      targetIndex,
     };
 
     this._commandStack.execute('formField.add', context);
@@ -57,13 +55,13 @@ export class Modeling {
   editFormField(formField, properties, value) {
     if (!isObject(properties)) {
       properties = {
-        [ properties ]: value
+        [properties]: value,
       };
     }
 
     const context = {
       formField,
-      properties
+      properties,
     };
 
     this._commandStack.execute('formField.edit', context);
@@ -77,7 +75,7 @@ export class Modeling {
       sourceIndex,
       targetIndex,
       sourceRow,
-      targetRow
+      targetRow,
     };
 
     this._commandStack.execute('formField.move', context);
@@ -87,7 +85,7 @@ export class Modeling {
     const context = {
       formField,
       sourceFormField,
-      sourceIndex
+      sourceIndex,
     };
 
     this._commandStack.execute('formField.remove', context);
@@ -97,7 +95,7 @@ export class Modeling {
     const context = {
       formField,
       id,
-      claiming: true
+      claiming: true,
     };
 
     this._commandStack.execute('id.updateClaim', context);
@@ -107,7 +105,7 @@ export class Modeling {
     const context = {
       formField,
       id,
-      claiming: false
+      claiming: false,
     };
 
     this._commandStack.execute('id.updateClaim', context);
@@ -117,7 +115,7 @@ export class Modeling {
     const context = {
       formField,
       key,
-      claiming: true
+      claiming: true,
     };
 
     this._commandStack.execute('key.updateClaim', context);
@@ -127,7 +125,7 @@ export class Modeling {
     const context = {
       formField,
       key,
-      claiming: false
+      claiming: false,
     };
 
     this._commandStack.execute('key.updateClaim', context);
@@ -137,7 +135,7 @@ export class Modeling {
     const context = {
       formField,
       path,
-      claiming: true
+      claiming: true,
     };
 
     this._commandStack.execute('path.updateClaim', context);
@@ -147,17 +145,11 @@ export class Modeling {
     const context = {
       formField,
       path,
-      claiming: false
+      claiming: false,
     };
 
     this._commandStack.execute('path.updateClaim', context);
   }
 }
 
-Modeling.$inject = [
-  'commandStack',
-  'eventBus',
-  'formEditor',
-  'formFieldRegistry',
-  'fieldFactory'
-];
+Modeling.$inject = ['commandStack', 'eventBus', 'formEditor', 'formFieldRegistry', 'fieldFactory'];

@@ -3,8 +3,7 @@ import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
 export class FeelersTemplating {
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Determines if the given value is a feelers template.
@@ -13,8 +12,9 @@ export class FeelersTemplating {
    * @returns {boolean}
    *
    */
-  isTemplate(value) { return isString(value) && (value.startsWith('=') || /{{.*?}}/.test(value)); }
-
+  isTemplate(value) {
+    return isString(value) && (value.startsWith('=') || /{{.*?}}/.test(value));
+  }
 
   /**
    * Retrieve variable names from a given feelers template.
@@ -24,7 +24,6 @@ export class FeelersTemplating {
    * @returns {string[]}
    */
   getVariableNames(template) {
-
     if (!this.isTemplate(template)) {
       return [];
     }
@@ -33,17 +32,18 @@ export class FeelersTemplating {
 
     // defines special accessors, and the change(s) in depth they could imply (e.g. parent can be used to access the parent context (depth - 1) or a child variable named parent (depth + 1)
     const specialDepthAccessors = {
-      parent: [ -1, 1 ],
-      _parent_: [ -1 ],
-      this: [ 0, 1 ],
-      _this_: [ 0 ],
+      parent: [-1, 1],
+      _parent_: [-1],
+      this: [0, 1],
+      _this_: [0],
     };
 
     return expressions.reduce((variables, { expression, depth }) => {
-      return variables.concat(getFlavouredFeelVariableNames(expression, 'expression', { depth, specialDepthAccessors }));
+      return variables.concat(
+        getFlavouredFeelVariableNames(expression, 'expression', { depth, specialDepthAccessors }),
+      );
     }, []);
   }
-
 
   /**
    * Evaluate a template.
@@ -59,23 +59,21 @@ export class FeelersTemplating {
    * @returns
    */
   evaluate(template, context = {}, options = {}) {
-
     const {
       debug = false,
       strict = false,
       buildDebugString = (err) => ' {{⚠}} ',
-      sanitizer = (value) => value
+      sanitizer = (value) => value,
     } = options;
 
     return evaluateFeelers(template, context, { debug, strict, buildDebugString, sanitizer });
   }
 
-
   /**
- * @typedef {Object} ExpressionWithDepth
- * @property {number} depth - The depth of the expression in the syntax tree.
- * @property {string} expression - The extracted expression
- */
+   * @typedef {Object} ExpressionWithDepth
+   * @property {number} depth - The depth of the expression in the syntax tree.
+   * @property {string} expression - The extracted expression
+   */
 
   /**
  * Extracts all feel expressions in the template along with their depth in the syntax tree.
@@ -90,15 +88,13 @@ export class FeelersTemplating {
  * const extractedExpressions = _extractExpressionsWithDepth(template);
  */
   _extractExpressionsWithDepth(template) {
-
     // build simplified feelers syntax tree
     const parseTree = feelersParser.parse(template);
     const tree = buildSimpleTree(parseTree, template);
 
     return (function _traverse(n, depth = 0) {
-
-      if ([ 'Feel', 'FeelBlock' ].includes(n.name)) {
-        return [ { depth, expression: n.content } ];
+      if (['Feel', 'FeelBlock'].includes(n.name)) {
+        return [{ depth, expression: n.content }];
       }
 
       if (n.name === 'LoopSpanner') {
@@ -106,15 +102,13 @@ export class FeelersTemplating {
         const childResults = n.children.slice(1).reduce((acc, child) => {
           return acc.concat(_traverse(child, depth + 1));
         }, []);
-        return [ { depth, expression: loopExpression }, ...childResults ];
+        return [{ depth, expression: loopExpression }, ...childResults];
       }
 
       return n.children.reduce((acc, child) => {
         return acc.concat(_traverse(child, depth));
       }, []);
-
     })(tree);
-
   }
 }
 

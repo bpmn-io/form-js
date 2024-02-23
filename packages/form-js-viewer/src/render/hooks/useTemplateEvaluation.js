@@ -24,5 +24,5 @@ export function useTemplateEvaluation(value, options = {}) {
       return templating.evaluate(value, buildExpressionContext(expressionContextInfo), options);
     }
     return value;
-  }, [ templating, value, expressionContextInfo, options ]);
+  }, [templating, value, expressionContextInfo, options]);
 }

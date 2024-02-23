@@ -12,18 +12,20 @@ function pgl(plugins = []) {
     babel({
       babelHelpers: 'bundled',
       plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': 'preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+        [
+          '@babel/plugin-transform-react-jsx',
+          {
+            importSource: 'preact',
+            runtime: 'automatic',
+          },
+        ],
+      ],
     }),
     css({
-      output: 'assets/form-js-playground.css'
+      output: 'assets/form-js-playground.css',
     }),
-    ...plugins
+    ...plugins,
   ];
-
 }
 
 export default [
@@ -33,13 +35,13 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     plugins: pgl(),
     external: [
@@ -61,9 +63,9 @@ export default [
       'codemirror',
       'classnames',
       'min-dom',
-      'min-dash'
+      'min-dash',
     ],
-    onwarn
+    onwarn,
   },
   {
     input: 'src/index.js',
@@ -71,19 +73,15 @@ export default [
       {
         format: 'umd',
         file: pkg['umd:main'],
-        name: 'FormPlayground'
-      }
+        name: 'FormPlayground',
+      },
     ],
-    plugins: pgl([
-      resolve(),
-      commonjs()
-    ]),
-    onwarn
-  }
+    plugins: pgl([resolve(), commonjs()]),
+    onwarn,
+  },
 ];
 
 function onwarn(warning, warn) {
-
   // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
   if (warning.code === 'CIRCULAR_DEPENDENCY') {
     if (warning.message.includes('luxon')) {

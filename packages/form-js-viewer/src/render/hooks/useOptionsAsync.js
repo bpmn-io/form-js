@@ -10,7 +10,7 @@ import { useService } from './useService';
 export const LOAD_STATES = {
   LOADING: 'loading',
   LOADED: 'loaded',
-  ERROR: 'error'
+  ERROR: 'error',
 };
 
 /**
@@ -26,37 +26,31 @@ export const LOAD_STATES = {
  * @return {OptionsGetter} optionsGetter - A options getter object providing loading state and options
  */
 export function useOptionsAsync(field) {
-  const {
-    valuesExpression: optionsExpression,
-    valuesKey: optionsKey,
-    values: staticOptions
-  } = field;
+  const { valuesExpression: optionsExpression, valuesKey: optionsKey, values: staticOptions } = field;
 
-  const [ optionsGetter, setOptionsGetter ] = useState({ options: [], error: undefined, loadState: LOAD_STATES.LOADING });
+  const [optionsGetter, setOptionsGetter] = useState({ options: [], error: undefined, loadState: LOAD_STATES.LOADING });
   const initialData = useService('form')._getState().initialData;
 
   const expressionEvaluation = useExpressionEvaluation(optionsExpression);
   const evaluatedOptions = useDeepCompareState(expressionEvaluation || [], []);
 
   useEffect(() => {
-
     let options = [];
 
     // dynamic options
     if (optionsKey !== undefined) {
-      const keyedOptions = (initialData || {})[ optionsKey ];
+      const keyedOptions = (initialData || {})[optionsKey];
 
       if (keyedOptions && Array.isArray(keyedOptions)) {
         options = keyedOptions;
       }
 
-    // static options
+      // static options
     } else if (staticOptions !== undefined) {
       options = Array.isArray(staticOptions) ? staticOptions : [];
 
-    // expression
+      // expression
     } else if (optionsExpression) {
-
       if (evaluatedOptions && Array.isArray(evaluatedOptions)) {
         options = evaluatedOptions;
       }
@@ -69,8 +63,7 @@ export function useOptionsAsync(field) {
     options = normalizeOptionsData(options);
 
     setOptionsGetter(buildLoadedState(options));
-
-  }, [ optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions ]);
+  }, [optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions]);
 
   return optionsGetter;
 }

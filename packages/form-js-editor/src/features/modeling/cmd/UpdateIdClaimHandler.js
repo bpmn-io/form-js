@@ -1,5 +1,4 @@
 export class UpdateIdClaimHandler {
-
   /**
    * @constructor
    * @param { import('../../../core/FormFieldRegistry').FormFieldRegistry } formFieldRegistry
@@ -9,11 +8,7 @@ export class UpdateIdClaimHandler {
   }
 
   execute(context) {
-    const {
-      claiming,
-      formField,
-      id
-    } = context;
+    const { claiming, formField, id } = context;
 
     if (claiming) {
       this._formFieldRegistry._ids.claim(id, formField);
@@ -23,11 +18,7 @@ export class UpdateIdClaimHandler {
   }
 
   revert(context) {
-    const {
-      claiming,
-      formField,
-      id
-    } = context;
+    const { claiming, formField, id } = context;
 
     if (claiming) {
       this._formFieldRegistry._ids.unclaim(id);
@@ -37,4 +28,4 @@ export class UpdateIdClaimHandler {
   }
 }
 
-UpdateIdClaimHandler.$inject = [ 'formFieldRegistry' ];
+UpdateIdClaimHandler.$inject = ['formFieldRegistry'];

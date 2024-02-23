@@ -2,16 +2,11 @@ import EventBus from 'diagram-js/lib/core/EventBus';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
 
-
-describe('Validator', function() {
-
+describe('Validator', function () {
   const validator = createValidator();
 
-
-  describe('#validateField', function() {
-
-    it('should return no errors', function() {
-
+  describe('#validateField', function () {
+    it('should return no errors', function () {
       // given
       const field = {};
 
@@ -22,11 +17,8 @@ describe('Validator', function() {
       expect(errors).to.have.length(0);
     });
 
-
-    describe('<number>', function() {
-
-      it('should disallow NaN', function() {
-
+    describe('<number>', function () {
+      it('should disallow NaN', function () {
         // given
         const field = {
           type: 'number',
@@ -37,17 +29,14 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Value is not a number.');
-
+        expect(errors[0]).to.equal('Value is not a number.');
       });
 
-
-      it('should restrict decimals', function() {
-
+      it('should restrict decimals', function () {
         // given
         const field = {
           type: 'number',
-          decimalDigits: 3
+          decimalDigits: 3,
         };
 
         // when
@@ -56,16 +45,13 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Value is expected to have at most 3 decimal digits.');
-
       });
 
-
-      it('should restrict decimals (0)', function() {
-
+      it('should restrict decimals (0)', function () {
         // given
         const field = {
           type: 'number',
-          decimalDigits: 0
+          decimalDigits: 0,
         };
 
         // when
@@ -74,16 +60,13 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Value is expected to be an integer.');
-
       });
 
-
-      it('should restrict decimals', function() {
-
+      it('should restrict decimals', function () {
         // given
         const field = {
           type: 'number',
-          decimalDigits: 3
+          decimalDigits: 3,
         };
 
         // when
@@ -92,16 +75,13 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Value is expected to have at most 3 decimal digits.');
-
       });
 
-
-      it('should restrict increment', function() {
-
+      it('should restrict increment', function () {
         // given
         const field = {
           type: 'number',
-          increment: 0.05
+          increment: 0.05,
         };
 
         // when
@@ -110,16 +90,13 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Please select a valid value, the two nearest valid values are 3.15 and 3.2.');
-
       });
 
-
-      it('should restrict increment (string)', function() {
-
+      it('should restrict increment (string)', function () {
         // given
         const field = {
           type: 'number',
-          increment: 0.005
+          increment: 0.005,
         };
 
         // when
@@ -128,21 +105,16 @@ describe('Validator', function() {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Please select a valid value, the two nearest valid values are 3.165 and 3.17.');
-
       });
-
     });
 
-
-    describe('pattern', function() {
-
-      it('should be valid', function() {
-
+    describe('pattern', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            pattern: /foo/
-          }
+            pattern: /foo/,
+          },
         };
 
         // when
@@ -152,14 +124,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            pattern: /foo/
-          }
+            pattern: /foo/,
+          },
         };
 
         // when
@@ -167,21 +137,17 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must match pattern /foo/.');
+        expect(errors[0]).to.equal('Field must match pattern /foo/.');
       });
-
     });
 
-
-    describe('required', function() {
-
-      it('should be valid', function() {
-
+    describe('required', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -191,14 +157,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid (undefined)', function() {
-
+      it('should be invalid (undefined)', function () {
         // given
         const field = {
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -206,17 +170,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field is required.');
+        expect(errors[0]).to.equal('Field is required.');
       });
 
-
-      it('should be invalid (null)', function() {
-
+      it('should be invalid (null)', function () {
         // given
         const field = {
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -224,17 +186,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field is required.');
+        expect(errors[0]).to.equal('Field is required.');
       });
 
-
-      it('should be invalid (empty string)', function() {
-
+      it('should be invalid (empty string)', function () {
         // given
         const field = {
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -242,18 +202,16 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field is required.');
+        expect(errors[0]).to.equal('Field is required.');
       });
 
-
-      it('should be invalid (checkbox)', function() {
-
+      it('should be invalid (checkbox)', function () {
         // given
         const field = {
           type: 'checkbox',
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -261,17 +219,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field is required.');
+        expect(errors[0]).to.equal('Field is required.');
       });
 
-
-      it('should be invalid (multiple)', function() {
-
+      it('should be invalid (multiple)', function () {
         // given
         const field = {
           validate: {
-            required: true
-          }
+            required: true,
+          },
         };
 
         // when
@@ -279,21 +235,17 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field is required.');
+        expect(errors[0]).to.equal('Field is required.');
       });
-
     });
 
-
-    describe('min', function() {
-
-      it('should be valid', function() {
-
+    describe('min', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            min: 100
-          }
+            min: 100,
+          },
         };
 
         // when
@@ -303,14 +255,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            min: 200
-          }
+            min: 200,
+          },
         };
 
         // when
@@ -318,17 +268,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must have minimum value of 200.');
+        expect(errors[0]).to.equal('Field must have minimum value of 200.');
       });
 
-
-      it('should be invalid (zero)', function() {
-
+      it('should be invalid (zero)', function () {
         // given
         const field = {
           validate: {
-            min: 200
-          }
+            min: 200,
+          },
         };
 
         // when
@@ -339,36 +287,30 @@ describe('Validator', function() {
         expect(errors[0]).to.equal('Field must have minimum value of 200.');
       });
 
-
-      it('should be invalid (negative)', function() {
-
+      it('should be invalid (negative)', function () {
         // given
         const field = {
           validate: {
-            min: -200
-          }
+            min: -200,
+          },
         };
 
         // when
-        const errors = validator.validateField(field,-300);
+        const errors = validator.validateField(field, -300);
 
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have minimum value of -200.');
       });
-
     });
 
-
-    describe('min (expression)', function() {
-
-      it('should be valid', function() {
-
+    describe('min (expression)', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            min: '=100'
-          }
+            min: '=100',
+          },
         };
 
         // when
@@ -378,14 +320,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            min: '=200'
-          }
+            min: '=200',
+          },
         };
 
         // when
@@ -393,17 +333,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must have minimum value of 200.');
+        expect(errors[0]).to.equal('Field must have minimum value of 200.');
       });
 
-
-      it('should be invalid (zero)', function() {
-
+      it('should be invalid (zero)', function () {
         // given
         const field = {
           validate: {
-            min: '=200'
-          }
+            min: '=200',
+          },
         };
 
         // when
@@ -414,36 +352,30 @@ describe('Validator', function() {
         expect(errors[0]).to.equal('Field must have minimum value of 200.');
       });
 
-
-      it('should be invalid (negative)', function() {
-
+      it('should be invalid (negative)', function () {
         // given
         const field = {
           validate: {
-            min: '=-200'
-          }
+            min: '=-200',
+          },
         };
 
         // when
-        const errors = validator.validateField(field,-300);
+        const errors = validator.validateField(field, -300);
 
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have minimum value of -200.');
       });
-
     });
 
-
-    describe('max', function() {
-
-      it('should be valid', function() {
-
+    describe('max', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            max: 200
-          }
+            max: 200,
+          },
         };
 
         // when
@@ -453,14 +385,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            max: 100
-          }
+            max: 100,
+          },
         };
 
         // when
@@ -468,17 +398,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must have maximum value of 100.');
+        expect(errors[0]).to.equal('Field must have maximum value of 100.');
       });
 
-
-      it('should be invalid (zero)', function() {
-
+      it('should be invalid (zero)', function () {
         // given
         const field = {
           validate: {
-            max: -200
-          }
+            max: -200,
+          },
         };
 
         // when
@@ -489,14 +417,12 @@ describe('Validator', function() {
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
 
-
-      it('should be invalid (negative)', function() {
-
+      it('should be invalid (negative)', function () {
         // given
         const field = {
           validate: {
-            max: -200
-          }
+            max: -200,
+          },
         };
 
         // when
@@ -506,19 +432,15 @@ describe('Validator', function() {
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
-
     });
 
-
-    describe('max (expression)', function() {
-
-      it('should be valid', function() {
-
+    describe('max (expression)', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            max: '=200'
-          }
+            max: '=200',
+          },
         };
 
         // when
@@ -528,14 +450,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            max: '=100'
-          }
+            max: '=100',
+          },
         };
 
         // when
@@ -543,17 +463,15 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must have maximum value of 100.');
+        expect(errors[0]).to.equal('Field must have maximum value of 100.');
       });
 
-
-      it('should be invalid (zero)', function() {
-
+      it('should be invalid (zero)', function () {
         // given
         const field = {
           validate: {
-            max: '=-200'
-          }
+            max: '=-200',
+          },
         };
 
         // when
@@ -564,14 +482,12 @@ describe('Validator', function() {
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
 
-
-      it('should be invalid (negative)', function() {
-
+      it('should be invalid (negative)', function () {
         // given
         const field = {
           validate: {
-            max: '=-200'
-          }
+            max: '=-200',
+          },
         };
 
         // when
@@ -581,19 +497,15 @@ describe('Validator', function() {
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
-
     });
 
-
-    describe('email pattern', function() {
-
-      it('should be valid', function() {
-
+    describe('email pattern', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            validationType: 'email'
-          }
+            validationType: 'email',
+          },
         };
 
         // when
@@ -603,14 +515,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            validationType: 'email'
-          }
+            validationType: 'email',
+          },
         };
 
         // when
@@ -618,21 +528,17 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must be a valid email.');
+        expect(errors[0]).to.equal('Field must be a valid email.');
       });
-
     });
 
-
-    describe('phone number pattern', function() {
-
-      it('should be valid', function() {
-
+    describe('phone number pattern', function () {
+      it('should be valid', function () {
         // given
         const field = {
           validate: {
-            validationType: 'phone'
-          }
+            validationType: 'phone',
+          },
         };
 
         // when
@@ -642,14 +548,12 @@ describe('Validator', function() {
         expect(errors).to.have.length(0);
       });
 
-
-      it('should be invalid', function() {
-
+      it('should be invalid', function () {
         // given
         const field = {
           validate: {
-            validationType: 'phone'
-          }
+            validationType: 'phone',
+          },
         };
 
         // when
@@ -657,23 +561,18 @@ describe('Validator', function() {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[ 0 ]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
+        expect(errors[0]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
       });
-
     });
-
   });
 
-
-  describe('minLength', function() {
-
-    it('should be valid', function() {
-
+  describe('minLength', function () {
+    it('should be valid', function () {
       // given
       const field = {
         validate: {
-          minLength: 5
-        }
+          minLength: 5,
+        },
       };
 
       // when
@@ -683,14 +582,12 @@ describe('Validator', function() {
       expect(errors).to.have.length(0);
     });
 
-
-    it('should be invalid', function() {
-
+    it('should be invalid', function () {
       // given
       const field = {
         validate: {
-          minLength: 5
-        }
+          minLength: 5,
+        },
       };
 
       // when
@@ -698,21 +595,17 @@ describe('Validator', function() {
 
       // then
       expect(errors).to.have.length(1);
-      expect(errors[ 0 ]).to.equal('Field must have minimum length of 5.');
+      expect(errors[0]).to.equal('Field must have minimum length of 5.');
     });
-
   });
 
-
-  describe('minLength (expression)', function() {
-
-    it('should be valid', function() {
-
+  describe('minLength (expression)', function () {
+    it('should be valid', function () {
       // given
       const field = {
         validate: {
-          minLength: '=5'
-        }
+          minLength: '=5',
+        },
       };
 
       // when
@@ -722,14 +615,12 @@ describe('Validator', function() {
       expect(errors).to.have.length(0);
     });
 
-
-    it('should be invalid', function() {
-
+    it('should be invalid', function () {
       // given
       const field = {
         validate: {
-          minLength: '=5'
-        }
+          minLength: '=5',
+        },
       };
 
       // when
@@ -737,21 +628,17 @@ describe('Validator', function() {
 
       // then
       expect(errors).to.have.length(1);
-      expect(errors[ 0 ]).to.equal('Field must have minimum length of 5.');
+      expect(errors[0]).to.equal('Field must have minimum length of 5.');
     });
-
   });
 
-
-  describe('maxLength', function() {
-
-    it('should be valid', function() {
-
+  describe('maxLength', function () {
+    it('should be valid', function () {
       // given
       const field = {
         validate: {
-          maxLength: 5
-        }
+          maxLength: 5,
+        },
       };
 
       // when
@@ -761,14 +648,12 @@ describe('Validator', function() {
       expect(errors).to.have.length(0);
     });
 
-
-    it('should be invalid', function() {
-
+    it('should be invalid', function () {
       // given
       const field = {
         validate: {
-          maxLength: 5
-        }
+          maxLength: 5,
+        },
       };
 
       // when
@@ -776,21 +661,17 @@ describe('Validator', function() {
 
       // then
       expect(errors).to.have.length(1);
-      expect(errors[ 0 ]).to.equal('Field must have maximum length of 5.');
+      expect(errors[0]).to.equal('Field must have maximum length of 5.');
     });
-
   });
 
-
-  describe('maxLength (expression)', function() {
-
-    it('should be valid', function() {
-
+  describe('maxLength (expression)', function () {
+    it('should be valid', function () {
       // given
       const field = {
         validate: {
-          maxLength: '=5'
-        }
+          maxLength: '=5',
+        },
       };
 
       // when
@@ -800,14 +681,12 @@ describe('Validator', function() {
       expect(errors).to.have.length(0);
     });
 
-
-    it('should be invalid', function() {
-
+    it('should be invalid', function () {
       // given
       const field = {
         validate: {
-          maxLength: '=5'
-        }
+          maxLength: '=5',
+        },
       };
 
       // when
@@ -815,13 +694,10 @@ describe('Validator', function() {
 
       // then
       expect(errors).to.have.length(1);
-      expect(errors[ 0 ]).to.equal('Field must have maximum length of 5.');
+      expect(errors[0]).to.equal('Field must have maximum length of 5.');
     });
-
   });
-
 });
-
 
 // helpers //////////
 
@@ -831,7 +707,7 @@ function createValidator() {
 
   const conditionChecker = {
     applyConditions() {},
-    check() {}
+    check() {},
   };
 
   const form = {
@@ -840,9 +716,9 @@ function createValidator() {
         data: {},
         errors: {},
         initialData: {},
-        properties: {}
+        properties: {},
       };
-    }
+    },
   };
 
   return new Validator(expressionLanguage, conditionChecker, form);

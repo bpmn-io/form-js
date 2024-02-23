@@ -14,13 +14,13 @@ export const BehaviorModule = {
     'validateBehavior',
     'optionsSourceBehavior',
     'columnsSourceBehavior',
-    'tableDataSourceBehavior'
+    'tableDataSourceBehavior',
   ],
-  idBehavior: [ 'type', IdBehavior ],
-  keyBehavior: [ 'type', KeyBehavior ],
-  pathBehavior: [ 'type', PathBehavior ],
-  validateBehavior: [ 'type', ValidateBehavior ],
-  optionsSourceBehavior: [ 'type', OptionsSourceBehavior ],
-  columnsSourceBehavior: [ 'type', ColumnsSourceBehavior ],
-  tableDataSourceBehavior: [ 'type', TableDataSourceBehavior ]
+  idBehavior: ['type', IdBehavior],
+  keyBehavior: ['type', KeyBehavior],
+  pathBehavior: ['type', PathBehavior],
+  validateBehavior: ['type', ValidateBehavior],
+  optionsSourceBehavior: ['type', OptionsSourceBehavior],
+  columnsSourceBehavior: ['type', ColumnsSourceBehavior],
+  tableDataSourceBehavior: ['type', TableDataSourceBehavior],
 };

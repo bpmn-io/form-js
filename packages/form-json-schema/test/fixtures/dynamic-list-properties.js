@@ -1,4 +1,3 @@
-
 export const form = {
   type: 'default',
   components: [
@@ -9,9 +8,9 @@ export const form = {
       defaultRepetitions: 5,
       allowAddRemove: true,
       disableCollapse: false,
-      nonCollapsedItems: 3
-    }
-  ]
+      nonCollapsedItems: 3,
+    },
+  ],
 };
 
 export const errors = null;

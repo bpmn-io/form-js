@@ -15,5 +15,5 @@ import { useMemo } from 'preact/hooks';
  */
 export function useSingleLineTemplateEvaluation(value, options = {}) {
   const evaluatedTemplate = useTemplateEvaluation(value, options);
-  return useMemo(() => evaluatedTemplate && evaluatedTemplate.split('\n')[0], [ evaluatedTemplate ]);
+  return useMemo(() => evaluatedTemplate && evaluatedTemplate.split('\n')[0], [evaluatedTemplate]);
 }

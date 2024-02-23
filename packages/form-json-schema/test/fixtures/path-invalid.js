@@ -3,21 +3,21 @@ export const form = {
   components: [
     {
       type: 'group',
-      path: 'group_1'
+      path: 'group_1',
     },
     {
       type: 'group',
-      path: 'group_2.foo'
+      path: 'group_2.foo',
     },
     {
       type: 'group',
-      path: 'group_3.'
+      path: 'group_3.',
     },
     {
       type: 'group',
-      path: ''
-    }
-  ]
+      path: '',
+    },
+  ],
 };
 
 export const errors = [
@@ -26,6 +26,6 @@ export const errors = [
     schemaPath: '#/properties/components/items/properties/path/pattern',
     keyword: 'pattern',
     params: { pattern: '^(\\w+(\\.\\w+)*)*$' },
-    message: 'must match pattern "^(\\w+(\\.\\w+)*)*$"'
-  }
+    message: 'must match pattern "^(\\w+(\\.\\w+)*)*$"',
+  },
 ];

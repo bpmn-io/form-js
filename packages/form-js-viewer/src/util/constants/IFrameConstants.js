@@ -7,66 +7,66 @@ export const SECURITY_ATTRIBUTES_DEFINITIONS = [
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-scripts',
     property: 'allowScripts',
-    label: 'Script execution'
+    label: 'Script execution',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-same-origin',
     property: 'allowSameOrigin',
-    label: 'Allow same origin'
+    label: 'Allow same origin',
   },
   {
     attribute: ALLOW_ATTRIBUTE,
     directive: 'fullscreen',
     property: 'fullscreen',
-    label: 'Open in fullscreen'
+    label: 'Open in fullscreen',
   },
   {
     attribute: ALLOW_ATTRIBUTE,
     directive: 'geolocation',
     property: 'geolocation',
-    label: 'Geolocation'
+    label: 'Geolocation',
   },
   {
     attribute: ALLOW_ATTRIBUTE,
     directive: 'camera',
     property: 'camera',
-    label: 'Camera access'
+    label: 'Camera access',
   },
   {
     attribute: ALLOW_ATTRIBUTE,
     directive: 'microphone',
     property: 'microphone',
-    label: 'Microphone access'
+    label: 'Microphone access',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-forms',
     property: 'allowForms',
-    label: 'Forms submission'
+    label: 'Forms submission',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-modals',
     property: 'allowModals',
-    label: 'Open modal windows'
+    label: 'Open modal windows',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-popups',
     property: 'allowPopups',
-    label: 'Open popups'
+    label: 'Open popups',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-top-navigation',
     property: 'allowTopNavigation',
-    label: 'Top level navigation'
+    label: 'Top level navigation',
   },
   {
     attribute: SANDBOX_ATTRIBUTE,
     directive: 'allow-storage-access-by-user-activation',
     property: 'allowStorageAccessByUserActivation',
-    label: 'Storage access by user'
-  }
+    label: 'Storage access by user',
+  },
 ];

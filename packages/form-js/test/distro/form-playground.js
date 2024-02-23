@@ -1,5 +1,4 @@
-describe('form-playground', function() {
-
+describe('form-playground', function () {
   let container;
 
   beforeEach(() => {
@@ -8,9 +7,7 @@ describe('form-playground', function() {
     document.body.appendChild(container);
   });
 
-
-  it('should expose <FormPlayground> global', function() {
-
+  it('should expose <FormPlayground> global', function () {
     // when
     const FormPlayground = window.FormPlayground;
 
@@ -19,9 +16,7 @@ describe('form-playground', function() {
     expect(FormPlayground.FormPlayground).to.exist;
   });
 
-
-  it('should display playground', async function() {
-
+  it('should display playground', async function () {
     const { FormPlayground } = window.FormPlayground;
 
     const schema = {
@@ -29,28 +24,28 @@ describe('form-playground', function() {
       components: [
         {
           type: 'text',
-          text: 'Apply for a loan'
+          text: 'Apply for a loan',
         },
         {
           key: 'creditor',
           label: 'Creditor',
           type: 'textfield',
           validate: {
-            required: true
-          }
-        }
-      ]
+            required: true,
+          },
+        },
+      ],
     };
 
     const data = {
-      creditor: 'John Doe Company'
+      creditor: 'John Doe Company',
     };
 
     // when
     const playground = new FormPlayground({
       container,
       schema,
-      data
+      data,
     });
 
     // then
@@ -58,5 +53,4 @@ describe('form-playground', function() {
     expect(playground.getState).to.exist;
     expect(playground.setSchema).to.exist;
   });
-
 });

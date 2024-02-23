@@ -9,9 +9,7 @@
               "const": "text"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -30,15 +28,10 @@
             {
               "properties": {
                 "type": {
-                  "enum":[
-                    "button",
-                    "iframe"
-                  ]
+                  "enum": ["button", "iframe"]
                 }
               },
-              "required": [
-                "type"
-              ]
+              "required": ["type"]
             },
             {
               "$ref": "../field-types/containers.json"
@@ -78,9 +71,7 @@
               "const": "button"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -97,9 +88,7 @@
               "const": "image"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -117,9 +106,7 @@
               "const": "datetime"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -142,9 +129,7 @@
               "const": "number"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -169,9 +154,7 @@
               "const": "select"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -202,9 +185,7 @@
               "const": "textfield"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -223,15 +204,10 @@
         "not": {
           "properties": {
             "type": {
-              "enum": [
-                "textfield",
-                "textarea"
-              ]
+              "enum": ["textfield", "textarea"]
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -250,15 +226,10 @@
         "not": {
           "properties": {
             "type": {
-              "enum": [
-                "textfield",
-                "number"
-              ]
+              "enum": ["textfield", "number"]
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -291,9 +262,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "valuesKey"
-                ]
+                "required": ["valuesKey"]
               }
             ]
           }
@@ -310,15 +279,10 @@
         "not": {
           "properties": {
             "type": {
-              "enum": [
-                "spacer",
-                "iframe"
-              ]
+              "enum": ["spacer", "iframe"]
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -350,9 +314,7 @@
               "const": "dynamiclist"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {
@@ -427,9 +389,7 @@
               "const": "html"
             }
           },
-          "required": [
-            "type"
-          ]
+          "required": ["type"]
         }
       },
       "then": {

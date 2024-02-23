@@ -4,18 +4,11 @@ import { ValueEntry } from './ValueEntry';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 
 export function StaticOptionsSourceEntry(props) {
-  const {
-    editField,
-    field,
-    id: idPrefix
-  } = props;
+  const { editField, field, id: idPrefix } = props;
 
-  const {
-    values
-  } = field;
+  const { values } = field;
 
   const addEntry = (e) => {
-
     e.stopPropagation();
 
     const index = values.length + 1;
@@ -39,7 +32,7 @@ export function StaticOptionsSourceEntry(props) {
         return 'Must not be empty.';
       }
 
-      const isValueAssigned = values.find(entry => getValue(entry) === value);
+      const isValueAssigned = values.find((entry) => getValue(entry) === value);
 
       if (isValueAssigned) {
         return 'Must be unique.';
@@ -58,27 +51,26 @@ export function StaticOptionsSourceEntry(props) {
         field,
         idPrefix: id,
         index,
-        validateFactory
+        validateFactory,
       }),
       autoFocusEntry: id + '-label',
-      remove: () => removeEntry(entry)
+      remove: () => removeEntry(entry),
     };
   });
 
   return {
     items,
     add: addEntry,
-    shouldSort: false
+    shouldSort: false,
   };
 }
-
 
 // helper
 
 function getIndexedEntry(index, values) {
   const entry = {
     label: 'Value',
-    value: 'value'
+    value: 'value',
   };
 
   while (labelOrValueIsAlreadyAssignedForIndex(index, values)) {
@@ -94,7 +86,7 @@ function getIndexedEntry(index, values) {
 }
 
 function labelOrValueIsAlreadyAssignedForIndex(index, values) {
-  return values.some(existingEntry =>
-    existingEntry.label === `Value ${index}` ||
-    existingEntry.value === `value${index}`);
+  return values.some(
+    (existingEntry) => existingEntry.label === `Value ${index}` || existingEntry.value === `value${index}`,
+  );
 }

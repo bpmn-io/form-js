@@ -2,22 +2,15 @@ import { get, set } from 'min-dash';
 
 import { useService } from '../hooks';
 
-import {
-  isSelectEntryEdited,
-  SelectEntry
-} from '@bpmn-io/properties-panel';
+import { isSelectEntryEdited, SelectEntry } from '@bpmn-io/properties-panel';
 
 import { MIN_COLUMNS } from '../../../core/FormLayoutValidator';
 import { useCallback } from 'preact/hooks';
 
-
 export const AUTO_OPTION_VALUE = '';
 
 export function ColumnsEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [
     {
@@ -25,7 +18,7 @@ export function ColumnsEntry(props) {
       component: Columns,
       field,
       editField,
-      isEdited: isSelectEntryEdited
+      isEdited: isSelectEntryEdited,
     },
   ];
 
@@ -33,46 +26,46 @@ export function ColumnsEntry(props) {
 }
 
 function Columns(props) {
-  const {
-    field,
-    editField,
-    id
-  } = props;
+  const { field, editField, id } = props;
 
   const debounce = useService('debounce');
   const formLayoutValidator = useService('formLayoutValidator');
 
-  const validate = useCallback((value) => {
-    return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
-  }, [ field, formLayoutValidator ]);
+  const validate = useCallback(
+    (value) => {
+      return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
+    },
+    [field, formLayoutValidator],
+  );
 
   const setValue = (value, error) => {
-
     if (error) {
       return;
     }
 
-    const layout = get(field, [ 'layout' ], {});
+    const layout = get(field, ['layout'], {});
 
     const newValue = value ? parseInt(value) : null;
 
-    editField(field, [ 'layout' ], set(layout, [ 'columns' ], newValue));
+    editField(field, ['layout'], set(layout, ['columns'], newValue));
   };
 
   const getValue = () => {
-    return get(field, [ 'layout', 'columns' ]);
+    return get(field, ['layout', 'columns']);
   };
 
   const getOptions = () => {
     return [
       {
         label: 'Auto',
-        value: AUTO_OPTION_VALUE
+        value: AUTO_OPTION_VALUE,
       },
 
       // todo(pinussilvestrus): make options dependant on field type
       // cf. https://github.com/bpmn-io/form-js/issues/575
-      ...asArray(16).filter(i => i >= MIN_COLUMNS).map(asOption)
+      ...asArray(16)
+        .filter((i) => i >= MIN_COLUMNS)
+        .map(asOption),
     ];
   };
 
@@ -84,17 +77,16 @@ function Columns(props) {
     getOptions,
     getValue,
     setValue,
-    validate
+    validate,
   });
 }
-
 
 // helper /////////
 
 function asOption(number) {
   return {
     value: number,
-    label: number.toString()
+    label: number.toString(),
   };
 }
 

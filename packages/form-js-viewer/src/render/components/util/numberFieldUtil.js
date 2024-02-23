@@ -11,7 +11,6 @@ export function isValidNumber(value) {
 }
 
 export function willKeyProduceValidNumber(key, previousValue, caretIndex, selectionWidth, decimalDigits) {
-
   if (previousValue === 'NaN') {
     return false;
   }
@@ -25,17 +24,17 @@ export function willKeyProduceValidNumber(key, previousValue, caretIndex, select
   const dotIndex = previousValue === undefined ? -1 : previousValue.indexOf('.');
 
   // If the caret is positioned after a dot, and the current decimal digits count is equal or greater to the maximum, disallow the key press
-  const overflowsDecimalSpace = typeof(decimalDigits) === 'number'
-    && selectionWidth === 0
-    && dotIndex !== -1
-    && previousValue.includes('.')
-    && previousValue.split('.')[1].length >= decimalDigits
-    && caretIndex > dotIndex;
+  const overflowsDecimalSpace =
+    typeof decimalDigits === 'number' &&
+    selectionWidth === 0 &&
+    dotIndex !== -1 &&
+    previousValue.includes('.') &&
+    previousValue.split('.')[1].length >= decimalDigits &&
+    caretIndex > dotIndex;
 
-  const keypressIsAllowedChar = keypressIsNumeric || ((decimalDigits !== 0) && isFirstDot) || isFirstMinus;
+  const keypressIsAllowedChar = keypressIsNumeric || (decimalDigits !== 0 && isFirstDot) || isFirstMinus;
 
   return keypressIsAllowedChar && !overflowsDecimalSpace;
-
 }
 
 export function isNullEquivalentValue(value) {

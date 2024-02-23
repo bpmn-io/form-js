@@ -1,7 +1,7 @@
 name: Teardown playground preview
 on:
   pull_request:
-    types: [ unlabeled, closed ]
+    types: [unlabeled, closed]
 
 jobs:
   teardown:

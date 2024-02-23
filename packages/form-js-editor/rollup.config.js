@@ -17,25 +17,27 @@ function pgl(plugins = []) {
         // preact version for the properties panel
         { find: '../preact', replacement: 'preact' },
         { find: '../preact/hooks', replacement: 'preact/hooks' },
-        { find: '../preact/jsx-runtime', replacement: 'preact/jsx-runtime' }
-      ]
+        { find: '../preact/jsx-runtime', replacement: 'preact/jsx-runtime' },
+      ],
     }),
     resolve({
-      resolveOnly: [ 'diagram-js', '@bpmn-io/properties-panel' ]
+      resolveOnly: ['diagram-js', '@bpmn-io/properties-panel'],
     }),
     reactSvg(),
     babel({
       babelHelpers: 'bundled',
       plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': 'preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+        [
+          '@babel/plugin-transform-react-jsx',
+          {
+            importSource: 'preact',
+            runtime: 'automatic',
+          },
+        ],
+      ],
     }),
-    ...plugins
+    ...plugins,
   ];
-
 }
 
 export default [
@@ -45,13 +47,13 @@ export default [
       {
         sourcemap: true,
         format: 'commonjs',
-        file: pkg.main
+        file: pkg.main,
       },
       {
         sourcemap: true,
         format: 'esm',
-        file: pkg.module
-      }
+        file: pkg.module,
+      },
     ],
     external: [
       'ids',
@@ -63,16 +65,16 @@ export default [
       'preact/hooks',
       'preact/compat',
       '@bpmn-o/draggle',
-      '@bpmn-io/form-js-viewer'
+      '@bpmn-io/form-js-viewer',
     ],
     plugins: pgl([
       copy({
         targets: [
           { src: 'assets/form-js-editor-base.css', dest: 'dist/assets' },
           { src: '../../node_modules/@bpmn-io/draggle/dist/dragula.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css', dest: 'dist/assets' }
-        ]
-      })
-    ])
-  }
+          { src: '../../node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css', dest: 'dist/assets' },
+        ],
+      }),
+    ]),
+  },
 ];

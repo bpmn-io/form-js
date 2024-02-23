@@ -4,7 +4,7 @@ const usePrevious = (value, initialValue) => {
   const ref = useRef(initialValue);
   useEffect(() => {
     ref.current = value;
-  }, [ value ]);
+  }, [value]);
   return ref.current;
 };
 
@@ -18,8 +18,8 @@ export function useEffectDebugger(effect, dependencies, dependencyNames = [], ef
         ...accum,
         [keyName]: {
           before: previousDeps[index],
-          after: dependency
-        }
+          after: dependency,
+        },
       };
     }
 
@@ -30,7 +30,7 @@ export function useEffectDebugger(effect, dependencies, dependencyNames = [], ef
     console.log('[use-effect-debugger] (' + effectName + ') ', changedDeps);
   }
 
-  useEffect(effect, [ effect, ...dependencies ]);
+  useEffect(effect, [effect, ...dependencies]);
 }
 
 export function useCallbackDebugger(callback, dependencies, dependencyNames = [], callbackName = 'noname') {
@@ -43,8 +43,8 @@ export function useCallbackDebugger(callback, dependencies, dependencyNames = []
         ...accum,
         [keyName]: {
           before: previousDeps[index],
-          after: dependency
-        }
+          after: dependency,
+        },
       };
     }
 
@@ -55,5 +55,5 @@ export function useCallbackDebugger(callback, dependencies, dependencyNames = []
     console.log('[use-callback-debugger] (' + callbackName + ') ', changedDeps);
   }
 
-  return useCallback(callback, [ callback, ...dependencies ]);
+  return useCallback(callback, [callback, ...dependencies]);
 }

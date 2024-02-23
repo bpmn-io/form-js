@@ -14,11 +14,7 @@ export function FormComponent(props) {
 
   const { ariaLabel } = properties;
 
-  const {
-    onSubmit = noop,
-    onReset = noop,
-    onChange = noop,
-  } = props;
+  const { onSubmit = noop, onReset = noop, onChange = noop } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,26 +30,20 @@ export function FormComponent(props) {
 
   const filteredFormData = useFilteredFormData();
 
-  const localExpressionContext = useMemo(() => ({
-    data: filteredFormData,
-    parent: null,
-    this: filteredFormData,
-    i: []
-  }), [ filteredFormData ]);
+  const localExpressionContext = useMemo(
+    () => ({
+      data: filteredFormData,
+      parent: null,
+      this: filteredFormData,
+      i: [],
+    }),
+    [filteredFormData],
+  );
 
   return (
-    <form
-      class="fjs-form"
-      onSubmit={ handleSubmit }
-      onReset={ handleReset }
-      aria-label={ ariaLabel }
-      noValidate
-    >
-      <LocalExpressionContext.Provider value={ localExpressionContext }>
-        <FormField
-          field={ schema }
-          onChange={ onChange }
-        />
+    <form class="fjs-form" onSubmit={handleSubmit} onReset={handleReset} aria-label={ariaLabel} noValidate>
+      <LocalExpressionContext.Provider value={localExpressionContext}>
+        <FormField field={schema} onChange={onChange} />
       </LocalExpressionContext.Provider>
       <PoweredBy />
     </form>

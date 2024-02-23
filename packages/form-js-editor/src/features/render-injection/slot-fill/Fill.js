@@ -2,12 +2,10 @@ import { FillContext } from './FillContext';
 import { useContext, useEffect, useRef } from 'preact/compat';
 
 export const Fill = (props) => {
-
   const uid = useRef(Symbol('fill_uid'));
   const fillContext = useContext(FillContext);
 
   useEffect(() => {
-
     if (!fillContext) {
       return;
     }
@@ -16,8 +14,7 @@ export const Fill = (props) => {
     return () => {
       fillContext.removeFill(uid);
     };
-
-  }, [ fillContext, props ]);
+  }, [fillContext, props]);
 
   return null;
 };

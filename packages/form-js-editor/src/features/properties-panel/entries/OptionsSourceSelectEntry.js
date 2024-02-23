@@ -7,16 +7,11 @@ import {
   OPTIONS_SOURCES,
   OPTIONS_SOURCES_DEFAULTS,
   OPTIONS_SOURCES_LABELS,
-  OPTIONS_SOURCES_PATHS
+  OPTIONS_SOURCES_PATHS,
 } from '@bpmn-io/form-js-viewer';
 
-
 export function OptionsSourceSelectEntry(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   return [
     {
@@ -24,23 +19,17 @@ export function OptionsSourceSelectEntry(props) {
       component: ValuesSourceSelect,
       isEdited: isSelectEntryEdited,
       editField,
-      field
-    }
+      field,
+    },
   ];
 }
 
 function ValuesSourceSelect(props) {
-
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const getValue = getOptionsSource;
 
   const setValue = (value) => {
-
     let newField = field;
 
     const newProperties = {};
@@ -52,10 +41,9 @@ function ValuesSourceSelect(props) {
   };
 
   const getOptionsSourceOptions = () => {
-
     return Object.values(OPTIONS_SOURCES).map((valueSource) => ({
       label: OPTIONS_SOURCES_LABELS[valueSource],
-      value: valueSource
+      value: valueSource,
     }));
   };
 
@@ -66,7 +54,7 @@ function ValuesSourceSelect(props) {
     getOptions: getOptionsSourceOptions,
     getValue,
     id,
-    setValue
+    setValue,
   });
 }
 

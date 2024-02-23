@@ -1,8 +1,4 @@
-import {
-  forEach,
-  isFunction,
-  merge
-} from 'min-dash';
+import { forEach, isFunction, merge } from 'min-dash';
 
 import axe from 'axe-core';
 
@@ -23,15 +19,7 @@ function cleanup() {
 /**
  * https://www.deque.com/axe/core-documentation/api-documentation/#axe-core-tags
  */
-const DEFAULT_AXE_RULES = [
-  'best-practice',
-  'wcag2a',
-  'wcag2aa',
-  'wcag21a',
-  'wcag21aa',
-  'cat.semantics',
-  'cat.forms'
-];
+const DEFAULT_AXE_RULES = ['best-practice', 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'cat.semantics', 'cat.forms'];
 
 /**
  * Bootstrap the form given the specified options and a number of locals (i.e. services)
@@ -59,9 +47,7 @@ const DEFAULT_AXE_RULES = [
  * @returns {Promise}
  */
 export function bootstrapForm(schema, options, locals) {
-
-  return function() {
-
+  return function () {
     let testContainer;
 
     // Make sure the test container is an optional dependency and we fall back
@@ -79,7 +65,7 @@ export function bootstrapForm(schema, options, locals) {
     }
 
     let _options = options,
-        _locals = locals;
+      _locals = locals;
 
     if (!_locals && isFunction(_options)) {
       _locals = _options;
@@ -94,20 +80,23 @@ export function bootstrapForm(schema, options, locals) {
       _locals = _locals();
     }
 
-    _options = merge({
-      renderer: {
-        container: testContainer
-      }
-    }, OPTIONS, _options);
-
+    _options = merge(
+      {
+        renderer: {
+          container: testContainer,
+        },
+      },
+      OPTIONS,
+      _options,
+    );
 
     const mockModule = {};
 
-    forEach(_locals, function(value, key) {
-      mockModule[ key ] = [ 'value', value ];
+    forEach(_locals, function (value, key) {
+      mockModule[key] = ['value', value];
     });
 
-    _options.modules = [].concat(_options.modules || [], [ mockModule ]);
+    _options.modules = [].concat(_options.modules || [], [mockModule]);
 
     // remove previous instance
     cleanup();
@@ -115,11 +104,13 @@ export function bootstrapForm(schema, options, locals) {
     FORM = new Form(_options);
 
     if (schema) {
-      return FORM.importSchema(schema).then(function(result) {
-        return { error: null, warnings: result.warnings };
-      }).catch(function(err) {
-        return { error: err, warnings: err.warnings };
-      });
+      return FORM.importSchema(schema)
+        .then(function (result) {
+          return { error: null, warnings: result.warnings };
+        })
+        .catch(function (err) {
+          return { error: err, warnings: err.warnings };
+        });
     }
   };
 }
@@ -147,8 +138,7 @@ export function bootstrapForm(schema, options, locals) {
  * @return {Function} a function that can be passed to it to carry out the injection
  */
 export function inject(fn) {
-  return function() {
-
+  return function () {
     if (!FORM) {
       throw new Error('no bootstraped diagram, ensure you created it via #bootstrapForm');
     }
@@ -166,7 +156,7 @@ export function insertCSS(name, css) {
     return;
   }
 
-  const head = document.head || document.getElementsByTagName('head')[ 0 ];
+  const head = document.head || document.getElementsByTagName('head')[0];
 
   const style = document.createElement('style');
 
@@ -180,14 +170,11 @@ export function insertCSS(name, css) {
 }
 
 export async function expectNoViolations(node, options = {}) {
-  const {
-    runOnly,
-    ...rest
-  } = options;
+  const { runOnly, ...rest } = options;
 
   const results = await axe.run(node, {
     runOnly: runOnly || DEFAULT_AXE_RULES,
-    ...rest
+    ...rest,
   });
 
   expect(results.passes).to.be.not.empty;
@@ -201,7 +188,6 @@ export async function expectNoViolations(node, options = {}) {
 }
 
 export function countComponents(root) {
-
   if (!Array.isArray(root.components)) {
     return 1;
   }

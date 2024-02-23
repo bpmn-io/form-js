@@ -7,9 +7,7 @@ export function LayoutGroup(field, editField) {
     return null;
   }
 
-  const entries = [
-    ...ColumnsEntry({ field, editField })
-  ];
+  const entries = [...ColumnsEntry({ field, editField })];
 
   if (entries.length === 0) {
     return null;
@@ -18,6 +16,6 @@ export function LayoutGroup(field, editField) {
   return {
     id: 'layout',
     label: 'Layout',
-    entries
+    entries,
   };
 }

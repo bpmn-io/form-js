@@ -10,14 +10,14 @@
 
   padding: 50px;
 
-  background: rgba(255, 255, 255, .9);
+  background: rgba(255, 255, 255, 0.9);
 
   z-index: 1000;
 }
 
 .drop-overlay .box {
   text-align: center;
-  border: dashed 4px #CCC;
+  border: dashed 4px #ccc;
   height: 100%;
   width: 100%;
   display: table;

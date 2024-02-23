@@ -4,8 +4,6 @@
 
 [View](../form-js-viewer), [edit](../form-js-editor) and [simulate](../form-js-playground/) JSON-based forms.
 
-
-
 ## Usage
 
 This library exports a [form viewer](../form-js-viewer), [editor](../form-js-editor) and [playground](../form-js-playground).
@@ -18,7 +16,7 @@ Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data
 import { Form } from '@bpmn-io/form-js';
 
 const form = new Form({
-  container: document.querySelector('#form')
+  container: document.querySelector('#form'),
 });
 
 await form.importSchema(schema, data);
@@ -30,7 +28,6 @@ form.on('submit', (event) => {
 
 See [viewer documentation](./packages/form-js-viewer) for further details.
 
-
 ### Create and edit a form <a id="builder" />
 
 Create a new form or edit an exsting one:
@@ -39,7 +36,7 @@ Create a new form or edit an exsting one:
 import { FormEditor } from '@bpmn-io/form-js';
 
 const formEditor = new FormEditor({
-  container: document.querySelector('#form-editor')
+  container: document.querySelector('#form-editor'),
 });
 
 await formEditor.importSchema(schema);
@@ -57,7 +54,7 @@ import { FormPlayground } from '@bpmn-io/form-js';
 const formPlayground = new FormPlayground({
   container: document.querySelector('#form-playground'),
   schema,
-  data
+  data,
 });
 ```
 
@@ -80,18 +77,16 @@ It is also possible to distinct between input and output variables:
 ```javascript
 import { getSchemaVariables } from '@bpmn-io/form-js';
 
-const outputVariables = getSchemaVariables(schema, { inputs: false});
-const inputVariables = getSchemaVariables(schema, { outputs: false});
+const outputVariables = getSchemaVariables(schema, { inputs: false });
+const inputVariables = getSchemaVariables(schema, { outputs: false });
 ```
-
 
 ## Resources
 
-* [Demo](https://demo.bpmn.io/form)
-* [Issues](https://github.com/bpmn-io/form-js/issues)
-* [Changelog](../form-js/CHANGELOG.md)
-* [Form schema](../../docs/FORM_SCHEMA.md)
-
+- [Demo](https://demo.bpmn.io/form)
+- [Issues](https://github.com/bpmn-io/form-js/issues)
+- [Changelog](../form-js/CHANGELOG.md)
+- [Form schema](../../docs/FORM_SCHEMA.md)
 
 ## License
 

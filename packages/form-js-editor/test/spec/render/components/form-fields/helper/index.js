@@ -16,13 +16,8 @@ class MarkdownRenderer {
 MarkdownRenderer.$inject = [];
 
 export function WithEditorFormContext(Component, options = {}, formId = 'foo') {
-
   function getService(type, strict) {
-
-    const {
-      isExpression,
-      isTemplate,
-    } = options;
+    const { isExpression, isTemplate } = options;
 
     if (type === 'form') {
       return {
@@ -32,10 +27,10 @@ export function WithEditorFormContext(Component, options = {}, formId = 'foo') {
             data: {},
             errors: {},
             properties: {
-              disabled: true
-            }
+              disabled: true,
+            },
           };
-        }
+        },
       };
     } else if (type === 'templating') {
       return { isTemplate };
@@ -48,14 +43,12 @@ export function WithEditorFormContext(Component, options = {}, formId = 'foo') {
 
   const formEditorContext = {
     getService,
-    formId
+    formId,
   };
 
   return (
-    <FormContext.Provider value={ formEditorContext }>
-      <FormEditorContext.Provider value={ formEditorContext }>
-        { Component }
-      </FormEditorContext.Provider>
+    <FormContext.Provider value={formEditorContext}>
+      <FormEditorContext.Provider value={formEditorContext}>{Component}</FormEditorContext.Provider>
     </FormContext.Provider>
   );
 }

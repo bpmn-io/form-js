@@ -1,9 +1,7 @@
 import { Default } from '../../../../../src/render/components/form-fields/Default';
 
-describe('Default', function() {
-
-  it('#create', function() {
-
+describe('Default', function () {
+  it('#create', function () {
     // assume
     const { config } = Default;
     expect(config.type).to.eql('default');
@@ -15,18 +13,17 @@ describe('Default', function() {
 
     // then
     expect(field).to.eql({
-      components: []
+      components: [],
     });
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
-
 });

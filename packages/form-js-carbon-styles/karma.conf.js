@@ -11,25 +11,17 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 const suite = 'test/testBundle.js';
 
-module.exports = function(karma) {
-
+module.exports = function (karma) {
   const config = {
+    frameworks: ['webpack', 'mocha', 'sinon-chai'],
 
-    frameworks: [
-      'webpack',
-      'mocha',
-      'sinon-chai'
-    ],
-
-    files: [
-      suite
-    ],
+    files: [suite],
 
     preprocessors: {
-      [ suite ]: [ 'webpack', 'env' ]
+      [suite]: ['webpack', 'env'],
     },
 
-    reporters: [ 'spec' ],
+    reporters: ['spec'],
 
     specReporter: {
       maxLogLines: 10,
@@ -40,7 +32,7 @@ module.exports = function(karma) {
       suppressSkipped: true,
       showBrowser: false,
       showSpecTiming: false,
-      failFast: false
+      failFast: false,
     },
 
     browsers,
@@ -51,29 +43,21 @@ module.exports = function(karma) {
     webpack: {
       mode: 'development',
       resolve: {
-        modules: [
-          'node_modules',
-          __dirname
-        ],
+        modules: ['node_modules', __dirname],
         alias: {
-          'react': 'preact/compat',
-          'react-dom': 'preact/compat'
-        }
+          react: 'preact/compat',
+          'react-dom': 'preact/compat',
+        },
       },
       module: {
         rules: [
           {
             test: /\.s[ac]ss$/i,
-            use: [
-              'css-loader',
-              'sass-loader'
-            ],
+            use: ['css-loader', 'sass-loader'],
           },
           {
             test: /\.css$/i,
-            use: [
-              'css-loader'
-            ]
+            use: ['css-loader'],
           },
           {
             test: /\.m?js$/,
@@ -82,31 +66,33 @@ module.exports = function(karma) {
               loader: 'babel-loader',
               options: {
                 plugins: [
-                  [ '@babel/plugin-transform-react-jsx', {
-                    'importSource': 'preact',
-                    'runtime': 'automatic'
-                  } ],
-                  '@babel/plugin-transform-react-jsx-source'
-                ]
-              }
-            }
+                  [
+                    '@babel/plugin-transform-react-jsx',
+                    {
+                      importSource: 'preact',
+                      runtime: 'automatic',
+                    },
+                  ],
+                  '@babel/plugin-transform-react-jsx-source',
+                ],
+              },
+            },
           },
           {
             test: /\.svg$/,
-            use: [ '@svgr/webpack' ]
-          }
-        ]
+            use: ['@svgr/webpack'],
+          },
+        ],
       },
       plugins: [
         new DefinePlugin({
-
           // @barmac: process.env has to be defined to make @testing-library/preact work
           'process.env': {},
-          'process.env.PTL_SKIP_AUTO_CLEANUP': !!singleStart
-        })
+          'process.env.PTL_SKIP_AUTO_CLEANUP': !!singleStart,
+        }),
       ],
-      devtool: 'eval-source-map'
-    }
+      devtool: 'eval-source-map',
+    },
   };
 
   if (singleStart) {

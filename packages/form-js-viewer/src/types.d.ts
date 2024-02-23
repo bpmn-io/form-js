@@ -11,8 +11,8 @@ export interface Errors {
   [x: string]: string[];
 }
 
-export type FormProperty = ('readOnly' | 'disabled' | string);
-export type FormEvent = ('submit' | 'changed' | string);
+export type FormProperty = 'readOnly' | 'disabled' | string;
+export type FormEvent = 'submit' | 'changed' | string;
 
 export interface FormProperties {
   [x: string]: any;
@@ -31,6 +31,4 @@ export interface CreateFormOptions extends FormOptions {
   schema: Schema;
 }
 
-export {
-  Injector
-};
+export { Injector };

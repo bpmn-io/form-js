@@ -1,25 +1,16 @@
-import {
-  bootstrapForm,
-  getForm,
-  inject
-} from 'test/TestHelper';
+import { bootstrapForm, getForm, inject } from 'test/TestHelper';
 
 import schema from '../rows.json';
 
-
-describe('FormLayouter', function() {
-
+describe('FormLayouter', function () {
   beforeEach(bootstrapForm(schema));
 
-  afterEach(function() {
+  afterEach(function () {
     getForm().destroy();
   });
 
-
-  describe('#clear', function() {
-
-    it('should clear', inject(function(form, formLayouter) {
-
+  describe('#clear', function () {
+    it('should clear', inject(function (form, formLayouter) {
       // given
       const schema = form._getState().schema;
 
@@ -30,9 +21,7 @@ describe('FormLayouter', function() {
       expect(rows).to.eql([]);
     }));
 
-
-    it('should emit event when layout cleared', inject(function(eventBus, formLayouter) {
-
+    it('should emit event when layout cleared', inject(function (eventBus, formLayouter) {
       // given
       const spy = sinon.spy();
 
@@ -44,14 +33,10 @@ describe('FormLayouter', function() {
       // then
       expect(spy).to.have.been.calledOnce;
     }));
-
   });
 
-
-  describe('#calculateLayout', function() {
-
-    it('should calculate layout', inject(function(form, formLayouter) {
-
+  describe('#calculateLayout', function () {
+    it('should calculate layout', inject(function (form, formLayouter) {
       // given
       const schema = form._getState().schema;
       formLayouter.clear();
@@ -65,23 +50,20 @@ describe('FormLayouter', function() {
       expect(rows).to.eql([
         {
           id: 'Row_1',
-          components: [ 'Textfield_1', 'Number_1' ]
+          components: ['Textfield_1', 'Number_1'],
         },
         {
           id: 'Row_2',
-          components: [ 'Textfield_2', 'Checkbox_1' ]
+          components: ['Textfield_2', 'Checkbox_1'],
         },
         {
           id: 'Row_3',
-          components: [ 'Textarea_1' ]
-        }
+          components: ['Textarea_1'],
+        },
       ]);
-
     }));
 
-
-    it('should emit event when layout calculated', inject(function(eventBus, form, formLayouter) {
-
+    it('should emit event when layout calculated', inject(function (eventBus, form, formLayouter) {
       // given
       const spy = sinon.spy();
 
@@ -96,25 +78,20 @@ describe('FormLayouter', function() {
       // then
       expect(spy).to.have.been.calledOnce;
     }));
-
   });
 
-
-  it('#getRow', inject(function(formLayouter) {
-
+  it('#getRow', inject(function (formLayouter) {
     // when
     const row = formLayouter.getRow('Row_1');
 
     // then
     expect(row).to.eql({
       id: 'Row_1',
-      components: [ 'Textfield_1', 'Number_1' ]
+      components: ['Textfield_1', 'Number_1'],
     });
   }));
 
-
-  it('#getRowForField', inject(function(formLayouter, formFieldRegistry) {
-
+  it('#getRowForField', inject(function (formLayouter, formFieldRegistry) {
     // given
     const field = formFieldRegistry.get('Textfield_1');
 
@@ -124,18 +101,15 @@ describe('FormLayouter', function() {
     // then
     expect(row).to.eql({
       id: 'Row_1',
-      components: [ 'Textfield_1', 'Number_1' ]
+      components: ['Textfield_1', 'Number_1'],
     });
   }));
 
-
-  it('#nextRowId', inject(function(formLayouter) {
-
+  it('#nextRowId', inject(function (formLayouter) {
     // when
     const id = formLayouter.nextRowId();
 
     // then
     expect(id).to.exist;
   }));
-
 });

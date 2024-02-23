@@ -6,7 +6,6 @@ import { SectionModuleBase } from '../SectionModuleBase';
  * @param {Object} eventBus - Event bus for the application.
  */
 export class RenderInjector extends SectionModuleBase {
-
   constructor(eventBus) {
     super(eventBus, 'renderInjector');
     this._eventBus = eventBus;
@@ -19,7 +18,7 @@ export class RenderInjector extends SectionModuleBase {
    * @param {Function} Renderer - The renderer function.
    */
   attachRenderer(identifier, Renderer) {
-    this.registeredRenderers = [ ...this.registeredRenderers, { identifier, Renderer } ];
+    this.registeredRenderers = [...this.registeredRenderers, { identifier, Renderer }];
   }
 
   /**
@@ -27,7 +26,7 @@ export class RenderInjector extends SectionModuleBase {
    * @param {string} identifier - Identifier for the renderer.
    */
   detachRenderer(identifier) {
-    this.registeredRenderers = this.registeredRenderers.filter(r => r.identifier !== identifier);
+    this.registeredRenderers = this.registeredRenderers.filter((r) => r.identifier !== identifier);
   }
 
   /**
@@ -39,4 +38,4 @@ export class RenderInjector extends SectionModuleBase {
   }
 }
 
-RenderInjector.$inject = [ 'eventBus' ];
+RenderInjector.$inject = ['eventBus'];

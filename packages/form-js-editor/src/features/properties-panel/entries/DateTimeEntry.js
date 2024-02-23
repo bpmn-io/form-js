@@ -10,16 +10,13 @@ import {
   TIME_LABEL_PATH,
   TIME_INTERVAL_PATH,
   TIME_SERIALISING_FORMAT_PATH,
-  TIME_SERIALISING_FORMATS
+  TIME_SERIALISING_FORMATS,
 } from '@bpmn-io/form-js-viewer';
 
 import { get } from 'min-dash';
 
 export function DateTimeEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [
     {
@@ -28,8 +25,8 @@ export function DateTimeEntry(props) {
       isEdited: isSelectEntryEdited,
       editField,
       field,
-      isDefaultVisible: (field) => field.type === 'datetime'
-    }
+      isDefaultVisible: (field) => field.type === 'datetime',
+    },
   ];
 
   entries.push({
@@ -38,26 +35,21 @@ export function DateTimeEntry(props) {
     isEdited: isCheckboxEntryEdited,
     editField,
     field,
-    isDefaultVisible: (field) => field.type === 'datetime' && (
-      field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME
-    )
+    isDefaultVisible: (field) =>
+      field.type === 'datetime' &&
+      (field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME),
   });
 
   return entries;
 }
 
 function DateTimeSubtypeSelect(props) {
-
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const getValue = (e) => get(field, DATETIME_SUBTYPE_PATH);
 
   const clearTimeConfig = () => {
-    const timeConfigPaths = [ TIME_LABEL_PATH, TIME_USE24H_PATH, TIME_INTERVAL_PATH, TIME_SERIALISING_FORMAT_PATH ];
+    const timeConfigPaths = [TIME_LABEL_PATH, TIME_USE24H_PATH, TIME_INTERVAL_PATH, TIME_SERIALISING_FORMAT_PATH];
     for (const path of timeConfigPaths) {
       editField(field, path, undefined);
     }
@@ -70,7 +62,7 @@ function DateTimeSubtypeSelect(props) {
   };
 
   const clearDateConfig = () => {
-    const dateConfigPaths = [ DATE_LABEL_PATH, DATE_DISALLOW_PAST_PATH ];
+    const dateConfigPaths = [DATE_LABEL_PATH, DATE_DISALLOW_PAST_PATH];
     for (const path of dateConfigPaths) {
       editField(field, path, undefined);
     }
@@ -81,7 +73,6 @@ function DateTimeSubtypeSelect(props) {
   };
 
   const setValue = (value) => {
-
     const oldValue = getValue();
 
     if (oldValue === value) return;
@@ -89,12 +80,10 @@ function DateTimeSubtypeSelect(props) {
     if (value === DATETIME_SUBTYPES.DATE) {
       clearTimeConfig();
       oldValue === DATETIME_SUBTYPES.TIME && initDateConfig();
-    }
-    else if (value === DATETIME_SUBTYPES.TIME) {
+    } else if (value === DATETIME_SUBTYPES.TIME) {
       clearDateConfig();
       oldValue === DATETIME_SUBTYPES.DATE && initTimeConfig();
-    }
-    else if (value === DATETIME_SUBTYPES.DATETIME) {
+    } else if (value === DATETIME_SUBTYPES.DATETIME) {
       oldValue === DATETIME_SUBTYPES.DATE && initTimeConfig();
       oldValue === DATETIME_SUBTYPES.TIME && initDateConfig();
     }
@@ -103,10 +92,9 @@ function DateTimeSubtypeSelect(props) {
   };
 
   const getDatetimeSubtypes = () => {
-
     return Object.values(DATETIME_SUBTYPES).map((subtype) => ({
       label: DATETIME_SUBTYPES_LABELS[subtype],
-      value: subtype
+      value: subtype,
     }));
   };
 
@@ -116,16 +104,12 @@ function DateTimeSubtypeSelect(props) {
     getOptions: getDatetimeSubtypes,
     getValue,
     id,
-    setValue
+    setValue,
   });
 }
 
 function Use24h(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const path = TIME_USE24H_PATH;
 
@@ -142,6 +126,6 @@ function Use24h(props) {
     getValue,
     id,
     label: 'Use 24h',
-    setValue
+    setValue,
   });
 }
