@@ -26,7 +26,7 @@ import { PaletteEntry } from './PaletteEntry';
 
 export const PALETTE_GROUPS = [
   {
-    label: 'Basic input',
+    label: 'Input',
     id: 'basic-input'
   },
   {
