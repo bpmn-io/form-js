@@ -15,6 +15,7 @@ import { DynamicList } from './form-fields/DynamicList';
 import { Taglist } from './form-fields/Taglist';
 import { Text } from './form-fields/Text';
 import { Html } from './form-fields/Html';
+import { ExpressionField } from './form-fields/ExpressionField';
 import { Textfield } from './form-fields/Textfield';
 import { Textarea } from './form-fields/Textarea';
 import { Table } from './form-fields/Table';
@@ -44,6 +45,7 @@ export {
   DynamicList,
   Image,
   Numberfield,
+  ExpressionField,
   Radio,
   Select,
   Separator,
@@ -69,6 +71,7 @@ export const formFields = [
   Taglist,
   Textfield,
   Textarea,
+  ExpressionField,
   Text,
   Image,
   Table,
