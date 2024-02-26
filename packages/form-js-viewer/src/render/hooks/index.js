@@ -11,6 +11,7 @@ export { useReadonly } from './useReadonly';
 export { useService } from './useService';
 export { usePrevious } from './usePrevious';
 export { useFlushDebounce } from './useFlushDebounce';
+export { useEffectOnChange } from './useEffectOnChange';
 export { useDeepCompareMemoize } from './useDeepCompareMemoize';
 export { useSingleLineTemplateEvaluation } from './useSingleLineTemplateEvaluation';
 export { useTemplateEvaluation } from './useTemplateEvaluation';
