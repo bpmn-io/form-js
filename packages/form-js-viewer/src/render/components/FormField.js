@@ -53,6 +53,8 @@ export function FormField(props) {
     throw new Error(`cannot render field <${field.type}>`);
   }
 
+  const fieldConfig = FormFieldComponent.config;
+
   const valuePath = useMemo(() => pathRegistry.getValuePath(field, { indexes }), [ field, indexes, pathRegistry ]);
 
   const initialValue = useMemo(() => get(initialData, valuePath), [ initialData, valuePath ]);
@@ -121,8 +123,8 @@ export function FormField(props) {
     setInitialValidationTrigger(false);
 
     // add indexes of the keyed field to the update, if any
-    onChange(FormFieldComponent.config.keyed ? { ...update, indexes } : update);
-  }, [ onChange, FormFieldComponent.config.keyed, indexes ]);
+    onChange(fieldConfig.keyed ? { ...update, indexes } : update);
+  }, [ onChange, fieldConfig.keyed, indexes ]);
 
   if (hidden) {
     return <Hidden field={ field } />;
@@ -131,19 +133,28 @@ export function FormField(props) {
   const domId = `${prefixId(field.id, formId, indexes)}`;
   const fieldErrors = get(errors, [ field.id, ...Object.values(indexes || {}) ]) || [];
 
+  const formFieldElement = (
+    <FormFieldComponent
+      { ...props }
+      disabled={ disabled }
+      errors={ fieldErrors }
+      domId={ domId }
+      onChange={ disabled || readonly ? noop : onChangeIndexed }
+      onBlur={ disabled || readonly ? noop : onBlur }
+      onFocus={ disabled || readonly ? noop : onFocus }
+      readonly={ readonly }
+      value={ value }
+    />
+  );
+
+  if (fieldConfig.escapeGridRender) {
+    return formFieldElement;
+  }
+
   return (
     <Column field={ field } class={ gridColumnClasses(field) }>
       <Element class="fjs-element" field={ field }>
-        <FormFieldComponent
-          { ...props }
-          disabled={ disabled }
-          errors={ fieldErrors }
-          domId={ domId }
-          onChange={ disabled || readonly ? noop : onChangeIndexed }
-          onBlur={ disabled || readonly ? noop : onBlur }
-          onFocus={ disabled || readonly ? noop : onFocus }
-          readonly={ readonly }
-          value={ value } />
+        { formFieldElement }
       </Element>
     </Column>
   );
