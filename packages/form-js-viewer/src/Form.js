@@ -175,6 +175,8 @@ export class Form {
       throw new Error('form is read-only');
     }
 
+    this._emit('presubmit');
+
     const data = this._getSubmitData();
 
     const errors = this.validate();
