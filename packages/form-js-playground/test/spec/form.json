@@ -19,8 +19,8 @@
     },
     {
       "type": "iframe",
-      "label": "The bpmn-io web page",
-      "url": "https://bpmn.io/"
+      "label": "An example page rendered in an iframe",
+      "url": "https://example.com/"
     },
     {
       "type": "group",
