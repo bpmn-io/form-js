@@ -16,6 +16,7 @@ export { TextEntry } from './TextEntry';
 export { HtmlEntry } from './HtmlEntry';
 export { HeightEntry } from './HeightEntry';
 export { NumberEntries } from './NumberEntries';
+export { ExpressionFieldEntries } from './ExpressionFieldEntries';
 export { NumberSerializationEntry } from './NumberSerializationEntry';
 export { DateTimeEntry } from './DateTimeEntry';
 export { DateTimeConstraintsEntry } from './DateTimeConstraintsEntry';

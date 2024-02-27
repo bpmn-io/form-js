@@ -46,14 +46,23 @@ function Condition(props) {
     return editField(field, 'conditional', { hide: value });
   };
 
+  let label = 'Hide if';
+  let description = 'Condition under which the field is hidden';
+
+  // special case for expression fields which do not render
+  if (field.type === 'expression') {
+    label = 'Deactivate if';
+    description = 'Condition under which the field is deactivated';
+  }
+
   return FeelEntry({
     debounce,
-    description: 'Condition under which the field is hidden',
+    description,
     element: field,
     feel: 'required',
     getValue,
     id,
-    label: 'Hide if',
+    label,
     setValue,
     variables
   });
