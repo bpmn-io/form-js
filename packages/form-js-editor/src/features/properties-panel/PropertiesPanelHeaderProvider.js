@@ -11,6 +11,7 @@ import { useService } from './hooks';
 const headerlessTypes = [
   'spacer',
   'separator',
+  'expression',
   'html'
 ];
 
