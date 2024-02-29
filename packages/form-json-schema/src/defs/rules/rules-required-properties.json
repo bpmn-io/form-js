@@ -31,6 +31,24 @@
           }
         ]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "expression"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "expression",
+          "computeOn"
+        ]
+      }
     }
   ]
 }
