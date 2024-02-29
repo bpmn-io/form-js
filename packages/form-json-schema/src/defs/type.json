@@ -21,6 +21,7 @@
     "dynamiclist",
     "separator",
     "table",
-    "iframe"
+    "iframe",
+    "expression"
   ]
 }
