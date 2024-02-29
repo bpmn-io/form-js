@@ -4,6 +4,8 @@ import {
 
 import schema from './form.json';
 
+import { act } from '@testing-library/preact/pure';
+
 import { insertStyles } from '../TestHelper';
 
 import {
@@ -24,7 +26,7 @@ describe('playground exports', function() {
   });
 
 
-  it('should render', function() {
+  it('should render', async function() {
 
     // given
     const data = {
@@ -53,16 +55,21 @@ describe('playground exports', function() {
       language: 'english'
     };
 
+    let playground;
+
     // when
-    const playground = new FormPlayground({
-      container,
-      schema,
-      data
+    await act(() => {
+      playground = new FormPlayground({
+        container,
+        schema,
+        data
+      });
     });
 
     // then
     expect(playground).to.exist;
 
+    // @ts-ignore
     expect(playground.getState()).to.eql({
       schema,
       data
