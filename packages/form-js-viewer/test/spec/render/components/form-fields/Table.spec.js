@@ -355,7 +355,7 @@ describe('Table', function() {
   });
 
 
-  it('should render iframe title (expression)', function() {
+  it('should render table title (expression)', function() {
 
     // when
     const label = 'foo';
