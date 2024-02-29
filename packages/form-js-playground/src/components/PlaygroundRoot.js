@@ -17,104 +17,77 @@ import { EmbedModal } from './EmbedModal';
 import { JSONEditor } from './JSONEditor';
 import { Section } from './Section';
 
-
 import './FileDrop.css';
 import './PlaygroundRoot.css';
 
-
-export function PlaygroundRoot(props) {
+export function PlaygroundRoot(config) {
 
   const {
-    additionalModules = [], // goes into both editor + viewer
-    actions: actionsConfig = {},
+    additionalModules, // goes into both editor + viewer
+    actions: actionsConfig,
     emit,
-    exporter: exporterConfig = {},
-    viewerProperties = {},
-    editorProperties = {},
-    viewerAdditionalModules = [],
-    editorAdditionalModules = [],
-    propertiesPanel: propertiesPanelConfig = {},
-    onInit: onPlaygroundInit,
-    onStateChanged
-  } = props;
+    exporter: exporterConfig,
+    viewerProperties,
+    editorProperties,
+    viewerAdditionalModules,
+    editorAdditionalModules,
+    propertiesPanel: propertiesPanelConfig,
+    apiLinkTarget
+  } = config;
 
   const {
     display: displayActions = true
-  } = actionsConfig;
+  } = actionsConfig || {};
 
-  const paletteContainerRef = useRef();
   const editorContainerRef = useRef();
-  const formContainerRef = useRef();
-  const dataContainerRef = useRef();
-  const resultContainerRef = useRef();
+  const paletteContainerRef = useRef();
   const propertiesPanelContainerRef = useRef();
+  const viewerContainerRef = useRef();
+  const inputDataContainerRef = useRef();
+  const outputDataContainerRef = useRef();
 
-  const paletteRef = useRef();
   const formEditorRef = useRef();
-  const formRef = useRef();
-  const dataEditorRef = useRef();
-  const resultViewRef = useRef();
-  const propertiesPanelRef = useRef();
+  const formViewerRef = useRef();
+  const inputDataRef = useRef();
+  const outputDataRef = useRef();
 
   const [ showEmbed, setShowEmbed ] = useState(false);
+  const [ schema, setSchema ] = useState();
+  const [ data, setData ] = useState();
 
-  const [ initialData ] = useState(props.data || undefined);
-  const [ initialSchema, setInitialSchema ] = useState(props.schema);
+  const load = useCallback((schema, data) => {
+    formEditorRef.current.importSchema(schema, data);
+    inputDataRef.current.setValue(toString(data));
+    setSchema(schema);
+    setData(data);
+  }, []);
 
-  const [ data, setData ] = useState(props.data || {});
-  const [ schema, setSchema ] = useState(props.schema);
-
-  const [ resultData, setResultData ] = useState({});
-
-  // pipe to playground API
+  // initialize and link the editors
   useEffect(() => {
-    onPlaygroundInit({
-      attachDataContainer: (node) => dataEditorRef.current.attachTo(node),
-      attachEditorContainer: (node) => formEditorRef.current.attachTo(node),
-      attachFormContainer: (node) => formRef.current.attachTo(node),
-      attachPaletteContainer: (node) => paletteRef.current.attachTo(node),
-      attachPropertiesPanelContainer: (node) => propertiesPanelRef.current.attachTo(node),
-      attachResultContainer: (node) => resultViewRef.current.attachTo(node),
-      get: (name, strict) => formEditorRef.current.get(name, strict),
-      getDataEditor: () => dataEditorRef.current,
-      getEditor: () => formEditorRef.current,
-      getForm: () => formRef.current,
-      getResultView: () => resultViewRef.current,
-      getSchema: () => formEditorRef.current.getSchema(),
-      setSchema: setInitialSchema,
-      saveSchema: () => formEditorRef.current.saveSchema()
-    });
-  }, [ onPlaygroundInit ]);
-
-  useEffect(() => {
-    setInitialSchema(props.schema || {});
-  }, [ props.schema ]);
-
-  useEffect(() => {
-    const dataEditor = dataEditorRef.current = new JSONEditor({
-      value: toString(data),
+    const inputDataEditor = inputDataRef.current = new JSONEditor({
       contentAttributes: { 'aria-label': 'Form Input', tabIndex: 0 },
       placeholder: createDataEditorPlaceholder()
     });
 
-    const resultView = resultViewRef.current = new JSONEditor({
+    const outputDataEditor = outputDataRef.current = new JSONEditor({
       readonly: true,
-      value: toString(resultData),
       contentAttributes: { 'aria-label': 'Form Output', tabIndex: 0 }
     });
 
-    const form = formRef.current = new Form({
+    const formViewer = formViewerRef.current = new Form({
+      container: viewerContainerRef.current,
       additionalModules: [
-        ...additionalModules,
-        ...viewerAdditionalModules
+        ...(additionalModules || []),
+        ...(viewerAdditionalModules || [])
       ],
       properties: {
-        ...viewerProperties,
+        ...(viewerProperties || {}),
         'ariaLabel': 'Form Preview'
       }
     });
 
     const formEditor = formEditorRef.current = new FormEditor({
+      container: editorContainerRef.current,
       renderer: {
         compact: true
       },
@@ -123,21 +96,18 @@ export function PlaygroundRoot(props) {
       },
       propertiesPanel: {
         parent: propertiesPanelContainerRef.current,
-        ...propertiesPanelConfig
+        ...(propertiesPanelConfig || {})
       },
       exporter: exporterConfig,
       properties: {
-        ...editorProperties,
+        ...(editorProperties || {}),
         'ariaLabel': 'Form Definition'
       },
       additionalModules: [
-        ...additionalModules,
-        ...editorAdditionalModules
+        ...(additionalModules || []),
+        ...(editorAdditionalModules || [])
       ]
     });
-
-    paletteRef.current = formEditor.get('palette');
-    propertiesPanelRef.current = formEditor.get('propertiesPanel');
 
     formEditor.on('formField.add', ({ formField }) => {
       const formFields = formEditor.get('formFields');
@@ -161,7 +131,7 @@ export function PlaygroundRoot(props) {
           [id]: initialDemoData,
         };
 
-        dataEditorRef.current.setValue(
+        inputDataRef.current.setValue(
           toString(newData)
         );
 
@@ -179,11 +149,13 @@ export function PlaygroundRoot(props) {
       emit('formPlayground.rendered');
     });
 
-    form.on('changed', () => {
-      setResultData(form._getSubmitData());
+    // pipe viewer changes to output data editor
+    formViewer.on('changed', () => {
+      const submitData = formViewer._getSubmitData();
+      outputDataEditor.setValue(toString(submitData));
     });
 
-    dataEditor.on('changed', event => {
+    inputDataEditor.on('changed', event => {
       try {
         setData(JSON.parse(event.value));
       } catch (error) {
@@ -193,59 +165,77 @@ export function PlaygroundRoot(props) {
       }
     });
 
-    const formContainer = formContainerRef.current;
-    const editorContainer = editorContainerRef.current;
-    const dataContainer = dataContainerRef.current;
-    const resultContainer = resultContainerRef.current;
-
-    dataEditor.attachTo(dataContainer);
-    resultView.attachTo(resultContainer);
-    form.attachTo(formContainer);
-    formEditor.attachTo(editorContainer);
+    inputDataEditor.attachTo(inputDataContainerRef.current);
+    outputDataEditor.attachTo(outputDataContainerRef.current);
 
     return () => {
-      dataEditor.destroy();
-      resultView.destroy();
-      form.destroy();
+      inputDataEditor.destroy();
+      outputDataEditor.destroy();
+      formViewer.destroy();
       formEditor.destroy();
     };
-  }, []);
+  }, [ additionalModules, editorAdditionalModules, editorProperties, emit, exporterConfig, propertiesPanelConfig, viewerAdditionalModules, viewerProperties ]);
 
+  // initialize data through props
   useEffect(() => {
-    dataEditorRef.current.setValue(toString(initialData));
-  }, [ initialData ]);
-
-  useEffect(() => {
-    if (initialSchema) {
-      formEditorRef.current.importSchema(initialSchema);
-      dataEditorRef.current.setVariables(getSchemaVariables(initialSchema));
+    if (!config.initialSchema) {
+      return;
     }
-  }, [ initialSchema ]);
+
+    load(config.initialSchema, config.initialData || {});
+  }, [ config.initialSchema, config.initialData, load ]);
 
   useEffect(() => {
-    if (schema && dataContainerRef.current) {
-      const variables = getSchemaVariables(schema);
-      dataEditorRef.current.setVariables(variables);
-    }
-  }, [ schema ]);
-
-  useEffect(() => {
-    schema && formRef.current.importSchema(schema, data);
+    schema && formViewerRef.current.importSchema(schema, data);
   }, [ schema, data ]);
 
   useEffect(() => {
-    resultViewRef.current.setValue(toString(resultData));
-  }, [ resultData ]);
+    if (schema && inputDataContainerRef.current) {
+      const variables = getSchemaVariables(schema);
+      inputDataRef.current.setVariables(variables);
+    }
+  }, [ schema ]);
 
+  // exposes api to parent
   useEffect(() => {
-    onStateChanged && onStateChanged({
-      schema,
-      data
-    });
-  }, [ onStateChanged, schema, data ]);
+
+    if (!apiLinkTarget) {
+      return;
+    }
+
+    apiLinkTarget.api = {
+      attachDataContainer: (node) => inputDataRef.current.attachTo(node),
+      attachResultContainer: (node) => outputDataRef.current.attachTo(node),
+      attachFormContainer: (node) => formViewerRef.current.attachTo(node),
+      attachEditorContainer: (node) => formEditorRef.current.attachTo(node),
+      attachPaletteContainer: (node) => formEditorRef.current.get('palette').attachTo(node),
+      attachPropertiesPanelContainer: (node) => formEditorRef.current.get('propertiesPanel').attachTo(node),
+      get: (name, strict) => formEditorRef.current.get(name, strict),
+      getDataEditor: () => inputDataRef.current,
+      getEditor: () => formEditorRef.current,
+      getForm: () => formViewerRef.current,
+      getResultView: () => outputDataRef.current,
+      getSchema: () => formEditorRef.current.getSchema(),
+      saveSchema: () => formEditorRef.current.saveSchema(),
+      setSchema: setSchema,
+      setData: setData
+    };
+
+  }, [ apiLinkTarget ]);
+
+  // separate effect for state to avoid re-creating the api object every time
+  useEffect(() => {
+
+    if (!apiLinkTarget) {
+      return;
+    }
+
+    apiLinkTarget.api.getState = () => ({ schema, data });
+    apiLinkTarget.api.load = load;
+
+  }, [ apiLinkTarget, schema, data, load ]);
 
   const handleDownload = useCallback(() => {
-
     download(JSON.stringify(schema, null, '  '), 'form.json', 'text/json');
   }, [ schema ]);
 
@@ -294,13 +284,13 @@ export function PlaygroundRoot(props) {
           <div ref={ editorContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Preview">
-          <div ref={ formContainerRef } class="fjs-pgl-form-container"></div>
+          <div ref={ viewerContainerRef } class="fjs-pgl-form-container"></div>
         </Section>
         <Section name="Form Input">
-          <div ref={ dataContainerRef } class="fjs-pgl-text-container"></div>
+          <div ref={ inputDataContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
         <Section name="Form Output">
-          <div ref={ resultContainerRef } class="fjs-pgl-text-container"></div>
+          <div ref={ outputDataContainerRef } class="fjs-pgl-text-container"></div>
         </Section>
       </div>
       <div class="fjs-pgl-properties-container" ref={ propertiesPanelContainerRef } />
