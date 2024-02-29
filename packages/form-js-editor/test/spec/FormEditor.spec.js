@@ -403,10 +403,10 @@ describe('FormEditor', function() {
     const exportedSchema = formEditor.saveSchema();
 
     // then
-    expect(exportedSchema).to.eql(exportTagged(schema));
+    const tagged = exportTagged(schema);
+    expect(exportedSchema).to.eql(tagged);
 
     const exportedString = JSON.stringify(exportedSchema);
-
     expect(exportedString).not.to.contain('"_path"');
     expect(exportedString).not.to.contain('"_parent"');
   });
