@@ -136,6 +136,9 @@ describe('validation', function() {
     testForm('disabled-not-allowed');
 
 
+    testForm('expression-field-expression-required');
+
+
     testForm('action-not-allowed');
 
 
