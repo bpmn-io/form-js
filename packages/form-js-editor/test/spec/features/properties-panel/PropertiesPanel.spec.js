@@ -136,13 +136,11 @@ describe('properties panel', function() {
       });
 
       // then
-      expectGroups(container, [
-        'General'
-      ]);
-
-      expectGroupEntries(container, 'General', [
-        'ID'
-      ]);
+      expectPanelStructure(container, {
+        'General': [
+          'ID'
+        ]
+      });
     });
 
 
@@ -293,16 +291,14 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Action'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Action'
+          ],
+          'Condition': [],
+          'Custom properties': []
+        });
       });
 
 
@@ -352,25 +348,21 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Validation',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Default value',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Default value',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
       });
 
 
@@ -420,36 +412,28 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Options source',
-          'Static options',
-          'Validation',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Default value',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Options source', [
-          'Type'
-        ]);
-
-        expectGroupEntries(container, 'Static options', [
-          [ 'Label', 2 ],
-          [ 'Value', 2 ]
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Default value',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Options source': [
+            'Type'
+          ],
+          'Static options': [
+            [ 'Label', 2 ],
+            [ 'Value', 2 ]
+          ],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
       });
 
 
@@ -918,34 +902,23 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Dynamic options',
-            'Validation',
-            'Custom properties'
-          ]);
-
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Dynamic options', [
-            'Input values key'
-          ]);
-
-          expectGroupEntries(container, 'Validation', [
-            'Required'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Dynamic options': [
+              'Input values key'
+            ],
+            'Custom properties': []
+          });
         });
 
       });
@@ -966,36 +939,27 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Options source',
-          'Static options',
-          'Validation',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Options source', [
-          'Type'
-        ]);
-
-        expectGroupEntries(container, 'Static options', [
-          [ 'Label', 3 ],
-          [ 'Value', 3 ]
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
-
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Options source': [
+            'Type'
+          ],
+          'Static options': [
+            [ 'Label', 3 ],
+            [ 'Value', 3 ]
+          ],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
       });
 
 
@@ -1196,29 +1160,24 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Dynamic options',
-            'Custom properties'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Dynamic options': [
+              'Input values key'
+            ],
+            'Custom properties': []
+          });
 
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Dynamic options', [
-            'Input values key'
-          ]);
         });
 
       });
@@ -1239,35 +1198,28 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Options source',
-          'Static options',
-          'Validation',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Options source': [
+            'Type'
+          ],
+          'Static options': [
+            [ 'Label', 11 ],
+            [ 'Value', 11 ]
+          ],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Options source', [
-          'Type'
-        ]);
-
-        expectGroupEntries(container, 'Static options', [
-          [ 'Label', 11 ],
-          [ 'Value', 11 ]
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
       });
 
 
@@ -1507,29 +1459,23 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Dynamic options',
-            'Custom properties'
-          ]);
-
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Dynamic options', [
-            'Input values key'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Dynamic options': [
+              'Input values key'
+            ],
+            'Custom properties': []
+          });
 
         });
 
@@ -1649,34 +1595,27 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Options expression',
-            'Validation',
-            'Custom properties'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Options expression': [
+              'Options expression'
+            ],
+            'Validation': [
+              'Required'
+            ],
+            'Custom properties': []
+          });
 
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Options expression', [
-            'Options expression'
-          ]);
-
-          expectGroupEntries(container, 'Validation', [
-            'Required'
-          ]);
         });
 
       });
@@ -1697,40 +1636,33 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Serialization',
-          'Constraints',
-          'Validation',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Date label',
-          'Time label',
-          'Field description',
-          'Key',
-          'Subtype',
-          'Use 24h',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Serialization', [
-          'Time format'
-        ]);
-
-        expectGroupEntries(container, 'Constraints', [
-          'Time interval',
-          'Disallow past dates'
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Date label',
+            'Time label',
+            'Field description',
+            'Key',
+            'Subtype',
+            'Use 24h',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Serialization': [
+            'Time format'
+          ],
+          'Constraints': [
+            'Time interval',
+            'Disallow past dates'
+          ],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
 
       });
+
     });
 
 
@@ -1747,37 +1679,30 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Options source',
-          'Static options',
-          'Validation',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Default value',
+            'Searchable',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Options source': [
+            'Type'
+          ],
+          'Static options': [
+            [ 'Label', 2 ],
+            [ 'Value', 2 ]
+          ],
+          'Validation': [
+            'Required'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Default value',
-          'Searchable',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Options source', [
-          'Type'
-        ]);
-
-        expectGroupEntries(container, 'Static options', [
-          [ 'Label', 2 ],
-          [ 'Value', 2 ]
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required'
-        ]);
       });
 
 
@@ -2173,34 +2098,27 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Dynamic options',
-            'Validation',
-            'Custom properties'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Dynamic options': [
+              'Input values key'
+            ],
+            'Validation': [
+              'Required'
+            ],
+            'Custom properties': []
+          });
 
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Dynamic options', [
-            'Input values key'
-          ]);
-
-          expectGroupEntries(container, 'Validation', [
-            'Required'
-          ]);
         });
 
       });
@@ -2317,34 +2235,27 @@ describe('properties panel', function() {
           });
 
           // then
-          expectGroups(container, [
-            'General',
-            'Condition',
-            'Options source',
-            'Options expression',
-            'Validation',
-            'Custom properties'
-          ]);
+          expectPanelStructure(container, {
+            'General': [
+              'Field label',
+              'Field description',
+              'Key',
+              'Disabled',
+              'Read only'
+            ],
+            'Condition': [],
+            'Options source': [
+              'Type'
+            ],
+            'Options expression': [
+              'Options expression'
+            ],
+            'Validation': [
+              'Required'
+            ],
+            'Custom properties': []
+          });
 
-          expectGroupEntries(container, 'General', [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ]);
-
-          expectGroupEntries(container, 'Options source', [
-            'Type'
-          ]);
-
-          expectGroupEntries(container, 'Options expression', [
-            'Options expression'
-          ]);
-
-          expectGroupEntries(container, 'Validation', [
-            'Required'
-          ]);
         });
 
       });
@@ -2365,15 +2276,14 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Text'
+          ],
+          'Condition': [],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Text'
-        ]);
       });
 
     });
@@ -2392,16 +2302,16 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Layout',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Height'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Height'
+          ],
+          'Condition': [],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
 
       });
 
@@ -2421,31 +2331,23 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Layout',
-          'Appearance',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Group label',
-          'Path'
-        ]);
-
-        expectGroupEntries(container, 'Condition', [
-          'Hide if'
-        ]);
-
-        expectGroupEntries(container, 'Layout', [
-          'Columns'
-        ]);
-
-        expectGroupEntries(container, 'Appearance', [
-          'Show outline',
-          'Vertical alignment'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Group label',
+            'Path'
+          ],
+          'Condition': [
+            'Hide if'
+          ],
+          'Layout': [
+            'Columns'
+          ],
+          'Appearance': [
+            'Show outline',
+            'Vertical alignment'
+          ],
+          'Custom properties': []
+        });
 
       });
 
@@ -2465,35 +2367,27 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Layout',
-          'Appearance',
-          'Custom properties'
-        ]);
-
-        expectGroupEntries(container, 'General', [
-          'Group label',
-          'Path',
-          'Default number of items',
-          'Allow add/delete items',
-          'Disable collapse',
-          'Number of non-collapsing items'
-        ]);
-
-        expectGroupEntries(container, 'Condition', [
-          'Hide if'
-        ]);
-
-        expectGroupEntries(container, 'Layout', [
-          'Columns'
-        ]);
-
-        expectGroupEntries(container, 'Appearance', [
-          'Show outline',
-          'Vertical alignment'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Group label',
+            'Path',
+            'Default number of items',
+            'Allow add/delete items',
+            'Disable collapse',
+            'Number of non-collapsing items'
+          ],
+          'Condition': [
+            'Hide if'
+          ],
+          'Layout': [
+            'Columns'
+          ],
+          'Appearance': [
+            'Show outline',
+            'Vertical alignment'
+          ],
+          'Custom properties': []
+        });
 
       });
 
@@ -2513,29 +2407,26 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Validation',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Default value',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Validation': [
+            'Required',
+            'Minimum length',
+            'Maximum length',
+            'Validation pattern',
+            'Custom regular expression'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Default value',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required',
-          'Minimum length',
-          'Maximum length',
-          'Validation pattern',
-          'Custom regular expression'
-        ]);
       });
 
 
@@ -2819,34 +2710,29 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Serialization',
-          'Validation',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Field label',
+            'Field description',
+            'Key',
+            'Default value',
+            'Decimal digits',
+            'Increment',
+            'Disabled',
+            'Read only'
+          ],
+          'Condition': [],
+          'Serialization': [
+            'Output as string'
+          ],
+          'Validation': [
+            'Required',
+            'Minimum',
+            'Maximum'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Field label',
-          'Field description',
-          'Key',
-          'Default value',
-          'Decimal digits',
-          'Increment',
-          'Disabled',
-          'Read only'
-        ]);
-
-        expectGroupEntries(container, 'Serialization', [
-          'Output as string'
-        ]);
-
-        expectGroupEntries(container, 'Validation', [
-          'Required',
-          'Minimum',
-          'Maximum'
-        ]);
       });
 
 
@@ -3505,16 +3391,15 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Condition',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Image source',
+            'Alternative text'
+          ],
+          'Condition': [],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Image source',
-          'Alternative text',
-        ]);
       });
 
 
@@ -3649,18 +3534,19 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Security attributes',
-          'Layout',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Title',
+            'URL',
+            'Height'
+          ],
+          'Security attributes': [],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Title',
-          'URL',
-          'Height',
-        ]);
       });
 
 
@@ -3786,30 +3672,27 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Headers source',
-          'Header items',
-          'Condition',
-          'Layout',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Table label',
+            'Data source',
+            'Pagination',
+            'Number of rows per page'
+          ],
+          'Headers source': [
+            'Type'
+          ],
+          'Header items': [
+            [ 'Label', 3 ],
+            [ 'Key', 3 ]
+          ],
+          'Condition': [],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Table label',
-          'Data source',
-          'Pagination',
-          'Number of rows per page'
-        ]);
-
-        expectGroupEntries(container, 'Headers source', [
-          'Type'
-        ]);
-
-        expectGroupEntries(container, 'Header items', [
-          [ 'Label', 3 ],
-          [ 'Key', 3 ]
-        ]);
       });
 
 
@@ -3824,25 +3707,24 @@ describe('properties panel', function() {
         });
 
         // then
-        expectGroups(container, [
-          'General',
-          'Headers source',
-          'Condition',
-          'Layout',
-          'Custom properties'
-        ]);
+        expectPanelStructure(container, {
+          'General': [
+            'Table label',
+            'Data source',
+            'Pagination',
+            'Number of rows per page'
+          ],
+          'Headers source': [
+            'Type',
+            'Expression'
+          ],
+          'Condition': [],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
 
-        expectGroupEntries(container, 'General', [
-          'Table label',
-          'Data source',
-          'Pagination',
-          'Number of rows per page'
-        ]);
-
-        expectGroupEntries(container, 'Headers source', [
-          'Type',
-          'Expression'
-        ]);
       });
 
 
@@ -4471,6 +4353,18 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
     injector={ injector } />,
   {
     container
+  });
+}
+
+
+function expectPanelStructure(container, panelStructure) {
+  const groupNames = Object.keys(panelStructure);
+
+  expectGroups(container, groupNames);
+
+  groupNames.forEach(group => {
+    const entries = panelStructure[group];
+    expectGroupEntries(container, group, entries);
   });
 }
 
