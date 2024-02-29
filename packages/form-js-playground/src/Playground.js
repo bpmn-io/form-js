@@ -29,19 +29,16 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
 /**
  * @param {FormPlaygroundOptions} options
  */
-export function Playground(options) {
+function Playground(options) {
 
   const {
     container: parent,
-    schema,
-    data,
+    schema: initialSchema,
+    data: initialData,
     ...rest
   } = options;
 
   const emitter = mitt();
-
-  let state = { data, schema };
-  let ref;
 
   const container = document.createElement('div');
 
@@ -56,7 +53,7 @@ export function Playground(options) {
 
     if (file) {
       try {
-        ref.setSchema(JSON.parse(file.contents));
+        this.api.setSchema(JSON.parse(file.contents));
       } catch (err) {
 
         // TODO(nikku): indicate JSON parse error
@@ -64,9 +61,9 @@ export function Playground(options) {
     }
   });
 
-  const withRef = function(fn) {
+  const safe = function(fn) {
     return function(...args) {
-      if (!ref) {
+      if (!this.api) {
         throw new Error('Playground is not initialized.');
       }
 
@@ -74,20 +71,14 @@ export function Playground(options) {
     };
   };
 
-  const onInit = function(_ref) {
-    ref = _ref;
-    emitter.emit('formPlayground.init');
-  };
-
   container.addEventListener('dragover', handleDrop);
 
   render(
     <PlaygroundRoot
-      data={ data }
+      initialSchema={ initialSchema }
+      initialData={ initialData }
       emit={ emitter.emit }
-      onInit={ onInit }
-      onStateChanged={ (_state) => state = _state }
-      schema={ schema }
+      apiLinkTarget={ this }
       { ...rest }
     />,
     container
@@ -98,47 +89,42 @@ export function Playground(options) {
 
   this.emit = emitter.emit;
 
-  this.on('destroy', function() {
+  this.on('destroy', () => {
     render(null, container);
-  });
-
-  this.on('destroy', function() {
     parent.removeChild(container);
   });
 
-  this.getState = function() {
-    return state;
-  };
+  this.destroy = () => this.emit('destroy');
 
-  this.getSchema = withRef(() => ref.getSchema());
+  this.getState = safe(() => this.api.getState());
 
-  this.setSchema = withRef((schema) => ref.setSchema(schema));
+  this.getSchema = safe(() => this.api.getSchema());
 
-  this.saveSchema = withRef(() => ref.saveSchema());
+  this.setSchema = safe((schema) => this.api.setSchema(schema));
 
-  this.get = withRef((name, strict) => ref.get(name, strict));
+  this.saveSchema = safe(() => this.api.saveSchema());
 
-  this.getDataEditor = withRef(() => ref.getDataEditor());
+  this.get = safe((name, strict) => this.api.get(name, strict));
 
-  this.getEditor = withRef(() => ref.getEditor());
+  this.getDataEditor = safe(() => this.api.getDataEditor());
 
-  this.getForm = withRef((name, strict) => ref.getForm(name, strict));
+  this.getEditor = safe(() => this.api.getEditor());
 
-  this.getResultView = withRef(() => ref.getResultView());
+  this.getForm = safe((name, strict) => this.api.getForm(name, strict));
 
-  this.destroy = function() {
-    this.emit('destroy');
-  };
+  this.getResultView = safe(() => this.api.getResultView());
 
-  this.attachEditorContainer = withRef((node) => ref.attachEditorContainer(node));
+  this.attachEditorContainer = safe((node) => this.api.attachEditorContainer(node));
 
-  this.attachPreviewContainer = withRef((node) => ref.attachFormContainer(node));
+  this.attachPreviewContainer = safe((node) => this.api.attachFormContainer(node));
 
-  this.attachDataContainer = withRef((node) => ref.attachDataContainer(node));
+  this.attachDataContainer = safe((node) => this.api.attachDataContainer(node));
 
-  this.attachResultContainer = withRef((node) => ref.attachResultContainer(node));
+  this.attachResultContainer = safe((node) => this.api.attachResultContainer(node));
 
-  this.attachPaletteContainer = withRef((node) => ref.attachPaletteContainer(node));
+  this.attachPaletteContainer = safe((node) => this.api.attachPaletteContainer(node));
 
-  this.attachPropertiesPanelContainer = withRef((node) => ref.attachPropertiesPanelContainer(node));
+  this.attachPropertiesPanelContainer = safe((node) => this.api.attachPropertiesPanelContainer(node));
 }
+
+export { Playground };
