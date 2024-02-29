@@ -8,6 +8,14 @@
     ],
     [
       {
+        "type": "expression",
+        "expression": "=1 + 1",
+        "computeOn": "change",
+        "key": "expression"
+      }
+    ],
+    [
+      {
         "content": "<h1>HTML</h1>",
         "type": "html"
       }
