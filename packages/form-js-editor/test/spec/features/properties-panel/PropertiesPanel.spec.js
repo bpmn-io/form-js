@@ -3521,6 +3521,39 @@ describe('properties panel', function() {
     });
 
 
+    describe('expression field', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'expression');
+
+        bootstrapPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectPanelStructure(container, {
+          'General': [
+            'Key',
+            'Target value',
+            'Compute on'
+          ],
+          'Condition': [
+            'Deactivate if'
+          ],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
+
+      });
+
+    });
+
+
     describe('iframe', function() {
 
       it('entries', function() {
