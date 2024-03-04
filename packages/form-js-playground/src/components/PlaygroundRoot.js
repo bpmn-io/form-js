@@ -273,6 +273,7 @@ export function PlaygroundRoot(props) {
           {
             displayActions && <Section.HeaderItem>
               <button
+                type="button"
                 class="fjs-pgl-button"
                 title="Download form definition"
                 onClick={ handleDownload }
@@ -283,6 +284,7 @@ export function PlaygroundRoot(props) {
           {
             displayActions && <Section.HeaderItem>
               <button
+                type="button"
                 class="fjs-pgl-button"
                 onClick={ showEmbedModal }
               >Embed</button>

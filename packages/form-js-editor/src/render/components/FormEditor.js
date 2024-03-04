@@ -222,7 +222,7 @@ function Element(props) {
       <ContextPad>
         {
           selection.isSelected(field) && field.type !== 'default'
-            ? <button title={ getRemoveButtonTitle(field, formFields) } class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
+            ? <button type="button" title={ getRemoveButtonTitle(field, formFields) } class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
             : null
         }
       </ContextPad>

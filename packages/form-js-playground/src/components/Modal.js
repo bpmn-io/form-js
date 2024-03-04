@@ -28,7 +28,7 @@ export function Modal(props) {
           { props.children }
         </div>
         <div class="fjs-pgl-modal-footer">
-          <button class="fjs-pgl-button fjs-pgl-button-default" onClick={ props.onClose }>Close</button>
+          <button type="button" class="fjs-pgl-button fjs-pgl-button-default" onClick={ props.onClose }>Close</button>
         </div>
       </div>
     </div>
