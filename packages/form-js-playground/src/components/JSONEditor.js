@@ -13,7 +13,7 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-const NO_LINT_CLS = 'fjs-no-json-lint';
+const NO_LINT_CLS = 'fjs-cm-no-lint';
 
 
 /**
@@ -134,11 +134,13 @@ export function JSONEditor(options = {}) {
   this.attachTo = function(_container) {
     container = _container;
     container.appendChild(view.dom);
+    set(container, 'fjs-json-editor');
   };
 
   this.destroy = function() {
-    if (view.dom.parentNode) {
-      view.dom.parentNode.removeChild(view.dom);
+    if (container && view.dom) {
+      container.removeChild(view.dom);
+      unset(container, 'fjs-json-editor');
     }
 
     view.destroy();
