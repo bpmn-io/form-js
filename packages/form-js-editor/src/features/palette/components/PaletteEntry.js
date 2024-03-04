@@ -28,6 +28,7 @@ export function PaletteEntry(props) {
 
   return (
     <button
+      type="button"
       class="fjs-palette-field fjs-drag-copy fjs-no-drop"
       data-field-type={ type }
       title={ `Create ${getIndefiniteArticle(type)} ${label} element` }
