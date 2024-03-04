@@ -223,15 +223,15 @@ export function Numberfield(props) {
         <div class={ classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly }) }>
           { /* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */ }
           <button
-            class="fjs-number-arrow-up"
             type="button"
+            class="fjs-number-arrow-up"
             aria-label="Increment"
             onClick={ () => increment() }
             tabIndex={ -1 }><AngelUpIcon /></button>
           <div class="fjs-number-arrow-separator" />
           <button
-            class="fjs-number-arrow-down"
             type="button"
+            class="fjs-number-arrow-down"
             aria-label="Decrement"
             onClick={ () => decrement() }
             tabIndex={ -1 }><AngelDownIcon /></button>
