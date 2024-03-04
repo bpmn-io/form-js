@@ -211,22 +211,6 @@
   display: flex;
 }
 
-.fjs-no-json-lint .cm-lint-marker,
-.fjs-no-json-lint .cm-lintPoint-error {
-  display: none;
-}
-
-.fjs-no-json-lint .cm-activeLine,
-.fjs-no-json-lint .cm-activeLineGutter {
-  background: none;
-}
-
-.fjs-no-json-lint .cm-placeholder {
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
-}
-
 .fjs-editor-container .fjs-form-editor {
   display: flex;
   flex: 1;
@@ -720,6 +704,34 @@
   padding: 5px 15px;
   font-size: 14px;
   color: var(--color-palette-text);
+}
+
+/**
+ * JSON Editors
+ */
+
+.fjs-json-editor .cm-editor {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--letter-spacing-label);
+}
+
+.fjs-json-editor .cm-placeholder {
+  color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
+}
+
+.fjs-json-editor .cm-placeholder > :first-child {
+  margin-top: 0;
+}
+
+.fjs-json-editor.fjs-cm-no-lint .cm-lint-marker,
+.fjs-json-editor.fjs-cm-no-lint .cm-lintPoint-error {
+  display: none;
+}
+
+.fjs-json-editor.fjs-cm-no-lint .cm-activeLine,
+.fjs-json-editor.fjs-cm-no-lint .cm-activeLineGutter {
+  background: none;
 }
 
 /**
