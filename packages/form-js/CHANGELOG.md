@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.7.3
+
+* `FIX`: properly pass `this` variable context to dynamic list elems  ([#1086](https://github.com/bpmn-io/form-js/pull/1086))
+
 ## 1.7.2
 
 * `CHORE`: temporarily restrict preact dependency version to `<= 10.15.1` due to conflict with dragula ([#1057](https://github.com/bpmn-io/form-js/issues/1057))
