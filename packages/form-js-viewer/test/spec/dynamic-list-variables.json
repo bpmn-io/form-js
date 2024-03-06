@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "schemaVersion": 15,
+  "id": "Form_0zdct1y",
+  "components": [
+    {
+      "components": [
+        {
+          "text": "{{this.key}}",
+          "type": "text",
+          "layout": {
+            "row": "Row_0ieso1a",
+            "columns": null
+          },
+          "id": "Field_0qywh6n"
+        },
+        {
+          "label": "Number",
+          "type": "number",
+          "layout": {
+            "row": "Row_0ieso1a",
+            "columns": null
+          },
+          "id": "Field_16p25os",
+          "key": "key"
+        }
+      ],
+      "showOutline": true,
+      "isRepeating": true,
+      "allowAddRemove": true,
+      "defaultRepetitions": 1,
+      "label": "Dynamic list",
+      "type": "dynamiclist",
+      "layout": {
+        "row": "Row_18s5yz0",
+        "columns": null
+      },
+      "id": "Field_1dji6mu",
+      "path": "list"
+    }
+  ],
+  "type": "default"
+}
