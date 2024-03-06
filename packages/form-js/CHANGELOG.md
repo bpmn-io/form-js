@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.7.2
+
+* `CHORE`: temporarily restrict preact dependency version to `<= 10.15.1` due to conflict with dragula ([#1057](https://github.com/bpmn-io/form-js/issues/1057))
+* `FIX`: non-submit buttons in the library now have `type="button"` ([#1077](https://github.com/bpmn-io/form-js/issues/1077))
+* `FIX`: field readonly property now hidden when disabled property is set ([#1063](https://github.com/bpmn-io/form-js/issues/1063))
+* `FIX`: expression-driven options fields now properly initialize with input values ([#1067](https://github.com/bpmn-io/form-js/issues/1067))
+
 ## 1.7.1
 
 * `FEAT`: fields announce their descriptions and labels properly ([#1043](https://github.com/bpmn-io/form-js/pull/1043))
