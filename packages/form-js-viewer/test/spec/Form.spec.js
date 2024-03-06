@@ -17,6 +17,7 @@ import { CustomFormFieldsModule } from './custom';
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
+import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -485,6 +486,41 @@ describe('Form', function() {
 
     // then
     expect(form).to.exist;
+
+  });
+
+
+  it('should properly pass local context to dynamic list elements', async function() {
+
+    // given
+    const data = {
+      list: [
+        {
+          key: 1
+        },
+        {
+          key: 2
+        }
+      ]
+    };
+
+    // when
+    await bootstrapForm({
+      container,
+      data,
+      schema: dynamicListVariablesSchema
+    });
+
+    // then
+    expect(form).to.exist;
+
+    const repeatRowContainers = container.querySelectorAll('.fjs-repeat-row-container');
+    expect(repeatRowContainers).to.have.length(2);
+
+    repeatRowContainers.forEach((repeatRowContainer, index) => {
+      const textInput = repeatRowContainer.querySelector('.fjs-form-field-text p');
+      expect(textInput.textContent).to.eql(data.list[index].key.toString());
+    });
 
   });
 
