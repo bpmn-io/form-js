@@ -18,6 +18,7 @@ import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
+import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -521,6 +522,61 @@ describe('Form', function() {
       const textInput = repeatRowContainer.querySelector('.fjs-form-field-text p');
       expect(textInput.textContent).to.eql(data.list[index].key.toString());
     });
+
+  });
+
+
+  it('should hold proper interaction between table and dynamic list', async function() {
+
+    // given
+    const data = {
+      'onlyShowRiskAbove': 6,
+      'riskEntries': [
+        {
+          'risk': 3,
+          'name': 'Alice Johnson',
+          'date': '2023-03-01'
+        },
+        {
+          'risk': 6,
+          'name': 'Bob Smith',
+          'date': '2023-03-05'
+        },
+        {
+          'risk': 9,
+          'name': 'Carla Gomez',
+          'date': '2023-03-10'
+        },
+        {
+          'risk': 12,
+          'name': 'David Lee',
+          'date': '2023-03-15'
+        }
+      ]
+    };
+
+    // when
+    await bootstrapForm({
+      container,
+      data,
+      schema: dynamicListTableFilterInteractionSchema
+    });
+
+    // then
+    expect(form).to.exist;
+
+    const table = container.querySelector('.fjs-form-field-table');
+    expect(table).to.exist;
+
+    const tableEntries = table.querySelectorAll('.fjs-table-td');
+    expect(tableEntries).to.have.length(6);
+    expect([ ...tableEntries ].map(e => e.textContent)).to.eql([
+      '9', 'Carla Gomez', '2023-03-10',
+      '12', 'David Lee', '2023-03-15'
+    ]);
+
+    const groups = container.querySelectorAll('.fjs-form-field-group');
+    expect(groups).to.have.length(2);
 
   });
 

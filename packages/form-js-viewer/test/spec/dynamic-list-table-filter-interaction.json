@@ -1,0 +1,89 @@
+{
+  "components": [
+    {
+      "label": "Table",
+      "type": "table",
+      "dataSource": "=riskEntries",
+      "rowCount": 3,
+      "id": "Table_1",
+      "columns": [
+        {
+          "label": "Risk factor",
+          "key": "risk"
+        },
+        {
+          "label": "Name",
+          "key": "name"
+        },
+        {
+          "label": "Date",
+          "key": "date"
+        }
+      ]
+    },
+    {
+      "label": "Only show risk above",
+      "type": "number",
+      "id": "Number_2",
+      "key": "onlyShowRiskAbove",
+      "defaultValue": 5
+    },
+    {
+      "components": [
+        {
+          "components": [
+            {
+              "text": "Risk factor: {{this.risk}}",
+              "label": "Text view",
+              "type": "text",
+              "id": "Field_0kypubr"
+            },
+            {
+              "label": "Risk factor",
+              "type": "number",
+              "id": "Number_1",
+              "key": "risk"
+            },
+            {
+              "label": "Name",
+              "type": "textfield",
+              "id": "TextField_1",
+              "key": "name"
+            },
+            {
+              "label": "Date",
+              "type": "textfield",
+              "id": "TextField_2",
+              "key": "date"
+            }
+          ],
+          "showOutline": true,
+          "label": "Group",
+          "type": "group",
+          "id": "Group_1",
+          "conditional": {
+            "hide": "=this.risk <= onlyShowRiskAbove"
+          }
+        }
+      ],
+      "showOutline": true,
+      "isRepeating": true,
+      "allowAddRemove": true,
+      "defaultRepetitions": 1,
+      "label": "Dynamic list",
+      "type": "dynamiclist",
+      "id": "Dynamiclist_1",
+      "path": "riskEntries",
+      "nonCollapsedItems": null
+    }
+  ],
+  "type": "default",
+  "id": "Form_1je5j4d",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.4.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.20.0"
+  },
+  "schemaVersion": 15
+}
