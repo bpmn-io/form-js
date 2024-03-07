@@ -1,15 +1,14 @@
 import { FormEditorContext } from '../../../../../../src/render/context';
 import { FormContext } from '@bpmn-io/form-js-viewer';
-import showdown from 'showdown';
+import { marked } from 'marked';
+
+marked.setOptions({
+  gfm: true
+});
 
 class MarkdownRenderer {
-  constructor() {
-    showdown.setFlavor('github');
-    this._converter = new showdown.Converter();
-  }
-
   render(markdown) {
-    return this._converter.makeHtml(markdown);
+    return marked.parse(markdown);
   }
 }
 
