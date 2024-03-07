@@ -140,6 +140,22 @@
       ]
     },
     {
+      "key": "language2",
+      "label": "Language",
+      "type": "select",
+      "searchable": true,
+      "values": [
+        {
+          "label": "German",
+          "value": "german"
+        },
+        {
+          "label": "English",
+          "value": "english"
+        }
+      ]
+    },
+    {
       "key": "conversation",
       "type": "datetime",
       "subtype": "datetime",

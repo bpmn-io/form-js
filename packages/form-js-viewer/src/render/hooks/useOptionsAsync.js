@@ -1,4 +1,4 @@
-import { useMemo } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { normalizeOptionsData } from '../components/util/optionsUtil';
 import { useExpressionEvaluation } from './useExpressionEvaluation';
 import { useDeepCompareMemoize } from './useDeepCompareMemoize';
@@ -36,19 +36,22 @@ export function useOptionsAsync(field) {
   const expressionEvaluation = useExpressionEvaluation(optionsExpression);
   const evaluatedOptions = useDeepCompareMemoize(expressionEvaluation || []);
 
-  const optionsGetter = useMemo(() => {
+  return useMemo(() => {
+
     let options = [];
 
     // dynamic options
     if (optionsKey !== undefined) {
-      const keyedOptions = (initialData || {})[optionsKey];
-      if (keyedOptions && Array.isArray(keyedOptions)) {
-        options = keyedOptions;
+      if (initialData) {
+        const keyedOptions = initialData[ optionsKey ];
+        if (keyedOptions && Array.isArray(keyedOptions)) {
+          options = keyedOptions;
+        }
       }
 
     // static options
-    } else if (staticOptions !== undefined) {
-      options = Array.isArray(staticOptions) ? staticOptions : [];
+    } else if (staticOptions && Array.isArray(staticOptions)) {
+      options = staticOptions;
 
     // expression
     } else if (optionsExpression && evaluatedOptions && Array.isArray(evaluatedOptions)) {
@@ -60,10 +63,10 @@ export function useOptionsAsync(field) {
     }
 
     // normalize data to support primitives and partially defined objects
-    return buildLoadedState(normalizeOptionsData(options));
-  }, [ optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions ]);
+    options = normalizeOptionsData(options);
+    return buildLoadedState(options);
 
-  return optionsGetter;
+  }, [ optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions ]);
 }
 
 const buildErrorState = (error) => ({ options: [], error, loadState: LOAD_STATES.ERROR });

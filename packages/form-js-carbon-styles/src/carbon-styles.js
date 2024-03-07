@@ -939,82 +939,81 @@ const DATETIME_INPUTS = css`
 const SELECT_STYLES = css`
   ${({ theme }) => css`
     .fjs-container {
-      .fjs-form-field-select .fjs-input-group {
-        ${getBaseInputStyles({ height: '2.5rem' })}
-        ${getSelectArrowStyles({
-    arrowRightPosition: 'var(--cds-spacing-05)',
-    color: theme.iconPrimary,
-  })}
+      .fjs-form-field-select {
+        .fjs-input-group {
+          ${getBaseInputStyles({ height: '2.5rem' })}
+          ${getSelectArrowStyles({
+            arrowRightPosition: 'var(--cds-spacing-05)',
+            color: theme.iconPrimary,
+          })}
 
-        .fjs-select-display {
-          display: flex;
-          align-items: center;
-        }
-
-        .fjs-select-arrow {
-          color: transparent;
-        }
-
-        .fjs-select-cross {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: var(--cds-spacing-04);
-          width: 2.5rem;
-          height: calc(2.5rem - 1px);
-
-          &:hover {
-            background-color: var(--cds-layer-hover);
+          .fjs-select-display {
+            display: flex;
+            align-items: center;
+          }
+  
+          .fjs-select-arrow {
+            color: transparent;
+          }
+  
+          .fjs-select-cross {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--cds-spacing-04);
+            width: 2.5rem;
+            height: calc(2.5rem - 1px);
+  
+            &:hover {
+              background-color: var(--cds-layer-hover);
+            }
+  
+            svg {
+              color: var(--cds-icon-primary);
+            }
+          }
+  
+          .fjs-input {
+            color: var(--cds-text-primary);
+            background-color: var(--cds-field);
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid var(--cds-border-strong);
+            height: 2.5rem;
+            font-size: var(--cds-body-short-01-font-size);
+            font-weight: var(--cds-body-short-01-font-weight);
+            line-height: var(--cds-body-short-01-line-height);
+            letter-spacing: var(--cds-body-short-01-letter-spacing);
           }
 
-          svg {
-            color: var(--cds-icon-primary);
+          &:focus-within {
+            outline: 2px solid var(--cds-focus);
+            outline-offset: -2px;
           }
         }
 
-        .fjs-input {
-          color: var(--cds-text-primary);
-          background-color: var(--cds-field);
-          border-radius: 0;
-          border: none;
-          border-bottom: 1px solid var(--cds-border-strong);
-          height: 2.5rem;
-          font-size: var(--cds-body-short-01-font-size);
-          font-weight: var(--cds-body-short-01-font-weight);
-          line-height: var(--cds-body-short-01-line-height);
-          letter-spacing: var(--cds-body-short-01-letter-spacing);
+        .fjs-form-field-select.fjs-disabled .fjs-input-group {
+          ${getSelectArrowStyles({
+            arrowRightPosition: 'var(--cds-spacing-05)',
+            color: theme.iconDisabled,
+          })}
         }
-      }
-
-      .fjs-form-field-select .fjs-select-anchor .fjs-dropdownlist {
-        position: absolute;
-        top: -4px;
-      }
-
-      .fjs-form-field-select .fjs-input-group:focus-within {
-        outline: 2px solid var(--cds-focus);
-        outline-offset: -2px;
-      }
-
-      .fjs-form-field-select.fjs-disabled .fjs-input-group {
-        ${getSelectArrowStyles({
-    arrowRightPosition: 'var(--cds-spacing-05)',
-    color: theme.iconDisabled,
-  })}
-      }
-
-      .fjs-has-errors.fjs-form-field-select .fjs-input-group:focus-within {
-        outline: 2px solid var(--cds-focus);
-        outline-offset: -2px;
-      }
-
-      .fjs-has-errors.fjs-form-field-select .fjs-input-group {
-        outline: 2px solid var(--cds-text-error);
-        outline-offset: -2px;
+   
+        .fjs-has-errors.fjs-form-field-select {
+          .fjs-input-group:focus-within {
+            outline: 2px solid var(--cds-focus);
+            outline-offset: -2px;
+          }
+   
+         .fjs-input-group {
+            outline: 2px solid var(--cds-text-error);
+            outline-offset: -2px;
+          }
+        }
       }
     }
-  `}
-`;
+  `
+}`;
 
 const REMAINING_INPUTS = css`
   .fjs-container {
@@ -1026,7 +1025,7 @@ const REMAINING_INPUTS = css`
       ${getBaseInputStyles({ height: '2.5rem' })}
     }
 
-    .fjs-form-field-textfield .fjs-input-group,
+    .fjs-form-field-textfield .fjs-input-group,f
     .fjs-form-field-datetime .fjs-input-group {
       &:focus-within {
         outline: 2px solid var(--cds-focus);
@@ -1066,7 +1065,7 @@ const DROPDOWN_STYLES = css`
   .fjs-container {
     .fjs-form-field-taglist .fjs-taglist-anchor .fjs-dropdownlist,
     .fjs-form-field-datetime .fjs-timepicker-anchor .fjs-dropdownlist,
-    .fjs-form-field-select .fjs-select-anchor .fjs-dropdownlist {
+    .fjs-form-field-select .fjs-dropdownlist {
       margin: 0;
       max-height: ${rem(264)};
       border: none;

@@ -1,110 +1,102 @@
 import classNames from 'classnames';
-import { useState, useEffect, useCallback, useRef, useMemo } from 'preact/hooks';
-import { useKeyDownAction } from '../../../hooks/useKeyDownAction';
+import { useState, useEffect, useCallback, useRef } from 'preact/hooks';
 
 const DEFAULT_LABEL_GETTER = (value) => value;
 const NOOP = () => {};
+const DEFAULT_ID = 'dropdown';
+const DEFAULT_OPTION_ID_GETTER = (i) => `dropdown-option-${i}`;
 
-export function DropdownList(props) {
-
+function Option(props) {
   const {
-    listenerElement = window,
-    values = [],
-    getLabel = DEFAULT_LABEL_GETTER,
-    onValueSelected = NOOP,
-    height = 235,
-    emptyListMessage = 'No results',
-    initialFocusIndex = 0
+    id,
+    value,
+    i,
+    focused,
+    selected,
+    onClick,
+    onHover,
+    children
   } = props;
 
-  const [ mouseControl, setMouseControl ] = useState(false);
-  const [ focusedValueIndex, setFocusedValueIndex ] = useState(initialFocusIndex);
+  // Memoize the mouse handlers so that screenreaders don't call them out
+  // as "clickable".
+  const onMouseDown = useCallback(() => onClick(i, value), [i, onClick, value]);
+  const onMouseEnter = useCallback(() => onHover(i, value), [i, onHover, value]);
+
+  return <div
+    id={ id }
+    role="option"
+    class={ classNames(
+      'fjs-dropdownlist-item',
+      { 'focused': focused }
+    ) }
+    aria-selected={ selected }
+    data-value={ value.value }
+    onMouseEnter={ onMouseEnter }
+    onMouseDown={ onMouseDown }>
+    {children}
+  </div>;
+}
+
+export function DropdownList(props) {
+  const {
+    id = DEFAULT_ID,
+    optionDomId = DEFAULT_OPTION_ID_GETTER,
+    values = [],
+    getLabel = DEFAULT_LABEL_GETTER,
+    onClick = NOOP,
+    onHover = NOOP,
+    height = 235,
+    emptyListMessage = 'No results',
+    activeIndex = -1,
+    selectedIndex = -1,
+    hidden = false,
+    'aria-labelledby': ariaLabelledById
+  } = props;
+
   const [ smoothScrolling, setSmoothScrolling ] = useState(false);
-  const dropdownContainer = useRef();
-  const mouseScreenPos = useRef();
-
-  const focusedItem = useMemo(() => values.length ? values[focusedValueIndex] : null, [ focusedValueIndex, values ]);
-
-  const changeFocusedValueIndex = useCallback((delta) => {
-    setFocusedValueIndex(x => Math.min(Math.max(0, x + delta), values.length - 1));
-  }, [ values.length ]);
-
-  useEffect(() => {
-    if (focusedValueIndex === 0) return;
-
-    if (!focusedValueIndex || !values.length) {
-      setFocusedValueIndex(0);
-    }
-    else if (focusedValueIndex >= values.length) {
-      setFocusedValueIndex(values.length - 1);
-    }
-  }, [ focusedValueIndex, values.length ]);
-
-  useKeyDownAction('ArrowUp', () => {
-    if (values.length) {
-      changeFocusedValueIndex(-1);
-      setMouseControl(false);
-    }
-  }, listenerElement);
-
-  useKeyDownAction('ArrowDown', () => {
-    if (values.length) {
-      changeFocusedValueIndex(1);
-      setMouseControl(false);
-    }
-  }, listenerElement);
-
-  useKeyDownAction('Enter', () => {
-    if (focusedItem) {
-      onValueSelected(focusedItem);
-    }
-  }, listenerElement);
-
-  useEffect(() => {
-    const individualEntries = dropdownContainer.current.children;
-    if (individualEntries.length && !mouseControl) {
-      const focusedEntry = individualEntries[focusedValueIndex];
-      focusedEntry && focusedEntry.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    }
-  }, [ focusedValueIndex, mouseControl ]);
-
   useEffect(() => {
     setSmoothScrolling(true);
   }, []);
 
-  const onMouseMovedInKeyboardMode = (event, valueIndex) => {
+  const listBoxRef = useRef();
 
-    const userMovedCursor = !mouseScreenPos.current || mouseScreenPos.current.x !== event.screenX && mouseScreenPos.current.y !== event.screenY;
-
-    if (userMovedCursor) {
-      mouseScreenPos.current = { x: event.screenX, y: event.screenY };
-      setMouseControl(true);
-      setFocusedValueIndex(valueIndex);
+  useEffect(() => {
+    if (hidden) return;
+    const children = listBoxRef.current.children;
+    if (children.length) {
+      const focusedEntry = children[activeIndex];
+      focusedEntry && focusedEntry.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
-
-  };
+  }, [ hidden, activeIndex ]);
 
   return <div
-    ref={ dropdownContainer }
-    tabIndex={ -1 }
+    ref={ listBoxRef }
+    id={ id }
+    role="listbox"
     class="fjs-dropdownlist"
-    onMouseDown={ (e) => e.preventDefault() }
-    style={ { maxHeight: height, scrollBehavior: smoothScrolling ? 'smooth' : 'auto' } }>
-    {
-      values.length > 0 && values.map((v, i) => {
-        return (
-          <div
-            class={ classNames('fjs-dropdownlist-item', { 'focused': focusedValueIndex === i }) }
-            onMouseMove={ mouseControl ? undefined : (e) => onMouseMovedInKeyboardMode(e, i) }
-            onMouseEnter={ mouseControl ? () => setFocusedValueIndex(i) : undefined }
-            onMouseDown={ (e) => onValueSelected(v) }>
-            {getLabel(v)}
-          </div>
-        );
-      })
-    }
-    {
-      !values.length && <div class="fjs-dropdownlist-empty">{ emptyListMessage }</div>
-    }
+    aria-labelledby={ ariaLabelledById }
+    tabIndex={ -1 }
+    style={ { display: hidden ? 'none' : 'block', maxHeight: `${height}px` } }
+  >
+    {values.length === 0 &&
+    <div
+      role="presentation"
+      aria-hidden={ true }
+      class={ classNames('fjs-dropdownlist-item', 'fjs-select-placeholder') }>
+      {emptyListMessage}
+    </div>}
+    {values.map((value, i) => <Option
+      key={ value.value }
+      id={ optionDomId(i) }
+      i={ i }
+      value={ value }
+      focused={ activeIndex === i }
+      selected={ selectedIndex === i }
+      onClick={ onClick }
+      onHover={ onHover }
+    >
+      {getLabel(value)}
+    </Option>)}
   </div>;
 }
