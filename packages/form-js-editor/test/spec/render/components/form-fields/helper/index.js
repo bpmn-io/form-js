@@ -2,13 +2,12 @@ import { FormEditorContext } from '../../../../../../src/render/context';
 import { FormContext } from '@bpmn-io/form-js-viewer';
 import { marked } from 'marked';
 
-marked.setOptions({
-  gfm: true
-});
-
 class MarkdownRenderer {
   render(markdown) {
-    return marked.parse(markdown);
+    return marked.parse(markdown, {
+      gfm: true,
+      breaks: true
+    });
   }
 }
 

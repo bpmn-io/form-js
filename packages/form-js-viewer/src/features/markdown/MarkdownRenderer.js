@@ -1,9 +1,5 @@
 import { marked } from 'marked';
 
-marked.setOptions({
-  gfm: true
-});
-
 export class MarkdownRenderer {
 
   /**
@@ -16,7 +12,10 @@ export class MarkdownRenderer {
   render(markdown) {
 
     // @ts-expect-error
-    return marked.parse(markdown);
+    return marked.parse(markdown, {
+      gfm: true,
+      breaks: true
+    });
   }
 }
 
