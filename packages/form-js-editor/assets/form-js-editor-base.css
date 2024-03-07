@@ -279,14 +279,21 @@
   border-color: var(--color-borders-group);
 }
 
+.fjs-editor-container .fjs-children .fjs-element.fjs-dashed-outlined {
+  border-color: var(--color-borders-group);
+  border-style: dashed;
+}
+
 .fjs-editor-container .fjs-children .fjs-element.fjs-editor-selected {
   border-color: var(--color-children-selected-border) !important;
   background-color: var(--color-children-selected-background);
+  border-style: solid;
 }
 
 .fjs-editor-container .fjs-children .fjs-element:hover.fjs-editor-hovered,
 .fjs-editor-container .fjs-children .fjs-element:focus {
   border-color: var(--color-children-hover-border);
+  border-style: solid;
 }
 
 .fjs-editor-container .fjs-layout-column:first-child > .fjs-element[data-field-type="group"],

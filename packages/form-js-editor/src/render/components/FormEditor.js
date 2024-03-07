@@ -169,8 +169,10 @@ function Element(props) {
       classes.push('fjs-editor-selected');
     }
 
-    if (showOutline) {
-      classes.push('fjs-outlined');
+    const grouplike = [ 'group', 'dynamiclist' ].includes(type);
+
+    if (grouplike) {
+      classes.push(showOutline ? 'fjs-outlined' : 'fjs-dashed-outlined');
     }
 
     if (hovered) {
@@ -179,7 +181,7 @@ function Element(props) {
 
     return classes.join(' ');
 
-  }, [ hovered, isSelected, props.class, showOutline ]);
+  }, [ hovered, isSelected, props.class, showOutline, type ]);
 
   const onRemove = (event) => {
     event.stopPropagation();
