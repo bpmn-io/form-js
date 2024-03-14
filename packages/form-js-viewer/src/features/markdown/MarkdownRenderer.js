@@ -1,13 +1,6 @@
-import showdown from 'showdown';
-
-// bootstrap showdown to support github flavored markdown
-showdown.setFlavor('github');
+import { marked } from 'marked';
 
 export class MarkdownRenderer {
-
-  constructor() {
-    this._converter = new showdown.Converter();
-  }
 
   /**
    * Render markdown to HTML.
@@ -17,7 +10,12 @@ export class MarkdownRenderer {
    * @returns {string} HTML
    */
   render(markdown) {
-    return this._converter.makeHtml(markdown);
+
+    // @ts-expect-error
+    return marked.parse(markdown, {
+      gfm: true,
+      breaks: true
+    });
   }
 }
 
