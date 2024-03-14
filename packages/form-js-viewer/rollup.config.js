@@ -56,7 +56,7 @@ export default [
       'preact/hooks',
       'preact/compat',
       'flatpickr',
-      'showdown',
+      'marked',
       '@carbon/grid',
       'feelers',
       'dompurify'

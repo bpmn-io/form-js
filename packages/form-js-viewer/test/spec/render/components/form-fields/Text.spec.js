@@ -82,14 +82,14 @@ Some _em_ **strong** [text](#text) \`code\`.
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql(`<h1 id="h1">h1</h1>
-<h2 id="h2">h2</h2>
-<h3 id="h3">h3</h3>
-<h4 id="h4">h4</h4>
-<h5 id="h5">h5</h5>
-<h6 id="h6">h6</h6>
+    expect(formField.innerHTML).to.eql(`<h1>h1</h1>
+<h2>h2</h2>
+<h3>h3</h3>
+<h4>h4</h4>
+<h5>h5</h5>
+<h6>h6</h6>
 <blockquote>
-  <p>Blockquote</p>
+<p>Blockquote</p>
 </blockquote>
 <ul>
 <li>ul li 1</li>
@@ -99,10 +99,12 @@ Some _em_ **strong** [text](#text) \`code\`.
 <li>ol li 1</li>
 <li>ol li 2</li>
 </ol>
-<pre><code>Some Code</code></pre>
+<pre><code>Some Code
+</code></pre>
 <p>Some <em>em</em> <strong>strong</strong> <a href="#text">text</a> <code>code</code>.</p>
 <hr>
-<p><img alt="Image" src="#"></p>`);
+<p><img alt="Image" src="#"></p>
+`);
 
   });
 
@@ -199,7 +201,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql('<h1 id="foo">foo</h1>');
+    expect(formField.innerHTML).to.eql('<h1>foo</h1>\n');
   });
 
 
@@ -219,17 +221,16 @@ Some _em_ **strong** [text](#text) \`code\`.
     const expected = `<table>
 <thead>
 <tr>
-<th id="foo">foo</th>
-<th id="bar">bar</th>
+<th>foo</th>
+<th>bar</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>baz</td>
 <td>qux</td>
 </tr>
-</tbody>
-</table>`;
+</tbody></table>
+`;
 
     expect(formField).to.exist;
     expect(formField.innerHTML).to.eql(expected);
@@ -258,7 +259,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql('<h1>foo</h1>');
+    expect(formField.innerHTML).to.eql('<h1>foo</h1>\n');
   });
 
 
@@ -278,7 +279,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     const formField = container.querySelector('.fjs-form-field');
 
     expect(formField).to.exist;
-    expect(formField.innerHTML).to.eql('<p>["#foo", "###bar"]</p>');
+    expect(formField.innerHTML).to.eql('<p>["#foo", "###bar"]</p>\n');
   });
 
 
@@ -330,7 +331,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo</p>');
+      expect(formField.innerHTML).to.eql('<p>foo</p>\n');
     });
 
 
@@ -354,7 +355,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>bar</p>');
+      expect(formField.innerHTML).to.eql('<p>bar</p>\n');
     });
 
 
@@ -378,7 +379,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<h1 id="bar">bar</h1>');
+      expect(formField.innerHTML).to.eql('<h1>bar</h1>\n');
 
     });
 
@@ -403,7 +404,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo bar</p>');
+      expect(formField.innerHTML).to.eql('<p>foo bar</p>\n');
 
     });
 
@@ -428,7 +429,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<h1 id="bar-foo">bar foo</h1>');
+      expect(formField.innerHTML).to.eql('<h1>bar foo</h1>\n');
 
     });
 
@@ -453,7 +454,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo bar</p>');
+      expect(formField.innerHTML).to.eql('<p>foo bar</p>\n');
 
     });
 
@@ -478,7 +479,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo </p>');
+      expect(formField.innerHTML).to.eql('<p>foo </p>\n');
 
     });
 
@@ -503,7 +504,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<h1 id="foo-bar">foo bar</h1>');
+      expect(formField.innerHTML).to.eql('<h1>foo bar</h1>\n');
     });
 
 
@@ -527,7 +528,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo barbarbar</p>');
+      expect(formField.innerHTML).to.eql('<p>foo barbarbar</p>\n');
     });
 
 
@@ -551,7 +552,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<h1 id="foo-barbarbar">foo barbarbar</h1>');
+      expect(formField.innerHTML).to.eql('<h1>foo barbarbar</h1>\n');
     });
 
 
@@ -575,7 +576,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo abc</p>');
+      expect(formField.innerHTML).to.eql('<p>foo abc</p>\n');
     });
 
 
@@ -601,7 +602,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>foo  {{⚠}} </p>');
+      expect(formField.innerHTML).to.eql('<p>foo  {{⚠}} </p>\n');
 
     });
 
@@ -629,7 +630,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       const formField = container.querySelector('.fjs-form-field');
 
       expect(formField).to.exist;
-      expect(formField.innerHTML).to.eql('<p>EVALUATED:myTemplate</p>');
+      expect(formField.innerHTML).to.eql('<p>EVALUATED:myTemplate</p>\n');
     });
 
   });
