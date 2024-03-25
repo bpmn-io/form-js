@@ -1,5 +1,4 @@
 import mitt from 'mitt';
-
 import { basicSetup } from 'codemirror';
 import { EditorView, keymap, placeholder } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
@@ -8,13 +7,9 @@ import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { indentWithTab } from '@codemirror/commands';
 import { autocompletionExtension } from './autocompletion/index';
 import { variablesFacet } from './autocompletion/VariablesFacet';
-
-import {
-  classes as domClasses
-} from 'min-dom';
+import { classes as domClasses } from 'min-dom';
 
 const NO_LINT_CLS = 'fjs-cm-no-lint';
-
 
 /**
  * @param {object} options
@@ -23,108 +18,67 @@ const NO_LINT_CLS = 'fjs-cm-no-lint';
  * @param {string | HTMLElement} [options.placeholder]
  */
 export function JSONEditor(options = {}) {
-  const {
-    contentAttributes = {},
-    placeholder: editorPlaceholder,
-    readonly = false,
-  } = options;
-
+  const { contentAttributes = {}, placeholder: editorPlaceholder, readonly = false } = options;
   const emitter = mitt();
 
-  let language = new Compartment().of(json());
-  let tabSize = new Compartment().of(EditorState.tabSize.of(2));
+  const languageCompartment = new Compartment().of(json());
+  const tabSizeCompartment = new Compartment().of(EditorState.tabSize.of(2));
+  const autocompletionConfCompartment = new Compartment();
+  const placeholderLinterExtension = createPlaceholderLinterExtension();
 
   let container = null;
 
+  function createState(doc, variables = []) {
+    const extensions = [
+      basicSetup,
+      languageCompartment,
+      tabSizeCompartment,
+      lintGutter(),
+      linter(jsonParseLinter()),
+      placeholderLinterExtension,
+      autocompletionConfCompartment.of(variablesFacet.of(variables)),
+      autocompletionExtension(),
+      keymap.of([ indentWithTab ]),
+      editorPlaceholder ? placeholder(editorPlaceholder) : [],
+      EditorView.updateListener.of(update => {
+        if (update.docChanged) {
+          emitter.emit('changed', { value: update.state.doc.toString() });
+        }
+      }),
+      EditorView.editable.of(!readonly),
+      EditorView.contentAttributes.of(contentAttributes)
+    ];
 
-  /**
-   * @typedef {Array<string>} Variables
-   */
+    return EditorState.create({ doc, extensions });
+  }
 
-  const autocompletionConf = new Compartment();
-
-  const linterExtension = linter(jsonParseLinter());
-
-  // this sets no-linting mode if placeholders are present
-  const placeholderLinterExtension = linter(view => {
-    const placeholders = view.dom.querySelectorAll('.cm-placeholder');
-
-    if (placeholders.length > 0) {
-      set(container, NO_LINT_CLS);
-    } else {
-      unset(container, NO_LINT_CLS);
-    }
-
-    return [];
+  const view = new EditorView({
+    state: createState('')
   });
 
-  function createState(doc, extensions = [], variables = []) {
-    return EditorState.create({
-      doc,
-      extensions: [
-        basicSetup,
-        language,
-        tabSize,
-        linterExtension,
-        placeholderLinterExtension,
-        lintGutter(),
-        autocompletionConf.of(variablesFacet.of(variables)),
-        autocompletionExtension(),
-        keymap.of([ indentWithTab ]),
-        editorPlaceholder ? placeholder(editorPlaceholder) : [],
-        ...extensions
-      ]
-    });
-  }
+  this.setValue = function(newValue) {
+    const oldValue = view.state.doc.toString();
 
-  function createView(readonly) {
+    const diff = findDiff(oldValue, newValue);
 
-    const updateListener = EditorView.updateListener.of(update => {
-      if (update.docChanged) {
-        emitter.emit('changed', {
-          value: update.view.state.doc.toString()
-        });
-      }
-    });
-
-    const editable = EditorView.editable.of(!readonly);
-
-    const contentAttributesExtension = EditorView.contentAttributes.of(contentAttributes);
-
-    const view = new EditorView({
-      state: createState('', [ updateListener, editable, contentAttributesExtension ])
-    });
-
-    view.setValue = function(value) {
-      this.setState(createState(value, [ updateListener, editable, contentAttributesExtension ]));
-    };
-
-    view.setVariables = function(variables) {
-      this.setState(createState(
-        view.state.doc.toString(),
-        [ updateListener, editable, contentAttributesExtension ],
-        variables
-      ));
-    };
-
-    return view;
-  }
-
-  const view = this._view = createView(readonly);
-
-  this.setValue = function(value) {
-    view.setValue(value);
+    if (diff) {
+      view.dispatch({
+        changes: { from: diff.start, to: diff.end, insert: diff.text },
+        selection: { anchor: diff.start + diff.text.length }
+      });
+    }
   };
 
   this.getValue = function() {
     return view.state.doc.toString();
   };
 
-  /**
-   * @param {Variables} variables
-   */
   this.setVariables = function(variables) {
-    view.setVariables(variables);
+    view.dispatch({ effects: autocompletionConfCompartment.reconfigure(variablesFacet.of(variables)) });
+  };
+
+  this.getView = function() {
+    return view;
   };
 
   this.on = emitter.on;
@@ -134,28 +88,65 @@ export function JSONEditor(options = {}) {
   this.attachTo = function(_container) {
     container = _container;
     container.appendChild(view.dom);
-    set(container, 'fjs-json-editor');
+    domClasses(container, document.body).add('fjs-json-editor');
   };
 
   this.destroy = function() {
     if (container && view.dom) {
       container.removeChild(view.dom);
-      unset(container, 'fjs-json-editor');
+      domClasses(container, document.body).remove('fjs-json-editor');
     }
-
     view.destroy();
   };
+
+  function createPlaceholderLinterExtension() {
+    return linter(view => {
+      const placeholders = view.dom.querySelectorAll('.cm-placeholder');
+      if (placeholders.length > 0) {
+        domClasses(container, document.body).add(NO_LINT_CLS);
+      } else {
+        domClasses(container, document.body).remove(NO_LINT_CLS);
+      }
+      return [];
+    });
+  }
 }
 
-// helpers //////////////////////
+function findDiff(oldStr, newStr) {
 
+  if (oldStr === newStr) {
+    return null;
+  }
 
-function set(node, cls) {
-  const classes = domClasses(node, document.body);
-  classes.add(cls);
-}
+  oldStr = oldStr || '';
+  newStr = newStr || '';
 
-function unset(node, cls) {
-  const classes = domClasses(node, document.body);
-  classes.remove(cls);
+  let minLength = Math.min(oldStr.length, newStr.length);
+  let start = 0;
+
+  while (start < minLength && oldStr[start] === newStr[start]) {
+    start++;
+  }
+
+  if (start === minLength) {
+    return {
+      start: start,
+      text: newStr.slice(start),
+      end: oldStr.length
+    };
+  }
+
+  let endOld = oldStr.length;
+  let endNew = newStr.length;
+
+  while (endOld > start && endNew > start && oldStr[endOld - 1] === newStr[endNew - 1]) {
+    endOld--;
+    endNew--;
+  }
+
+  return {
+    start: start,
+    text: newStr.slice(start, endNew),
+    end: endOld
+  };
 }
