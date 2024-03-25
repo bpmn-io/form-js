@@ -50,6 +50,31 @@ describe('JSONEditor', function() {
     it('should suggest updated variables', async function() {
 
       // given
+      const value = '';
+
+      const editor = new JSONEditor();
+
+      editor.setValue(value);
+
+      const cm = editor.getView();
+
+      // when
+      editor.setVariables([ 'foobar', 'baz' ]);
+
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(2);
+        expect(completions[0].label).to.have.eql('baz');
+      });
+    });
+
+
+    it('should suggest relevant variables', async function() {
+
+      // given
       const value = '{ "foo": "bar" }';
 
       const editor = new JSONEditor();
@@ -58,18 +83,19 @@ describe('JSONEditor', function() {
 
       const cm = editor.getView();
 
-      // move cursor to the end
+      // move cursor to the end of foo
       select(cm, 5);
 
       // when
       editor.setVariables([ 'foobar', 'baz' ]);
+
       startCompletion(cm);
 
       // then
       await expectEventually(() => {
         const completions = currentCompletions(cm.state);
-        expect(completions).to.have.length(2);
-        expect(completions[0].label).to.have.eql('baz');
+        expect(completions).to.have.length(1);
+        expect(completions[0].label).to.have.eql('foobar');
       });
     });
 
