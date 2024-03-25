@@ -50,7 +50,7 @@ function Condition(props) {
   let description = 'Condition under which the field is hidden';
 
   // special case for expression fields which do not render
-  if (field.type === 'expression') {
+  if ([ 'expression', 'script' ].includes(field.type)) {
     label = 'Deactivate if';
     description = 'Condition under which the field is deactivated';
   }
