@@ -42,6 +42,10 @@ export const PALETTE_GROUPS = [
     id: 'container'
   },
   {
+    label: 'Advanced',
+    id: 'advanced'
+  },
+  {
     label: 'Action',
     id: 'action'
   }
