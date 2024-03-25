@@ -13,6 +13,7 @@ import SpacerIcon from './Spacer.svg';
 import DynamicListIcon from './DynamicList.svg';
 import TextIcon from './Text.svg';
 import HTMLIcon from './HTML.svg';
+import JsFunctionIcon from './JSFunction.svg';
 import ExpressionFieldIcon from './ExpressionField.svg';
 import TextfieldIcon from './Textfield.svg';
 import TextareaIcon from './Textarea.svg';
@@ -41,6 +42,7 @@ export const iconsByType = (type) => {
     taglist: TaglistIcon,
     text: TextIcon,
     html: HTMLIcon,
+    script: JsFunctionIcon,
     textfield: TextfieldIcon,
     textarea: TextareaIcon,
     table: TableIcon,

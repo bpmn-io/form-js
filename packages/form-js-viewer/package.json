@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@carbon/grid": "^11.11.0",
+    "@jetbrains/websandbox": "^1.0.10",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
     "didi": "^10.2.2",
@@ -57,7 +58,8 @@
     "lodash": "^4.5.0",
     "marked": "^12.0.1",
     "min-dash": "^4.2.1",
-    "preact": "^10.5.14"
+    "preact": "^10.5.14",
+    "uuid": "^9.0.1"
   },
   "sideEffects": [
     "*.css"
