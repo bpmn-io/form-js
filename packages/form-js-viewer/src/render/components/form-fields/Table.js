@@ -56,7 +56,7 @@ export function Table(props) {
   );
   const columnKeys = evaluatedColumns.map(({ key }) => key);
   const evaluatedDataSource = useExpressionEvaluation(dataSource);
-  const data = Array.isArray(evaluatedDataSource) ? evaluatedDataSource : [];
+  const data = Array.isArray(evaluatedDataSource) ? evaluatedDataSource.filter(i => i !== undefined) : [];
   const sortedData =
     sortBy === null
       ? data
