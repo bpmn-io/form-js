@@ -17,7 +17,7 @@ describe('JSONEditor', function() {
       editor.setValue(value);
 
       // then
-      expect(editor._view.state.doc.toString()).to.equal(value);
+      expect(editor.getView().state.doc.toString()).to.equal(value);
     });
   });
 
@@ -50,19 +50,17 @@ describe('JSONEditor', function() {
     it('should suggest updated variables', async function() {
 
       // given
-      const value = '{ "foo": "bar" }';
+      const value = '';
 
       const editor = new JSONEditor();
 
       editor.setValue(value);
 
-      const cm = getCm(editor);
-
-      // move cursor to the end
-      select(cm, 5);
+      const cm = editor.getView();
 
       // when
       editor.setVariables([ 'foobar', 'baz' ]);
+
       startCompletion(cm);
 
       // then
@@ -70,6 +68,34 @@ describe('JSONEditor', function() {
         const completions = currentCompletions(cm.state);
         expect(completions).to.have.length(2);
         expect(completions[0].label).to.have.eql('baz');
+      });
+    });
+
+
+    it('should suggest relevant variables', async function() {
+
+      // given
+      const value = '{ "foo": "bar" }';
+
+      const editor = new JSONEditor();
+
+      editor.setValue(value);
+
+      const cm = editor.getView();
+
+      // move cursor to the end of foo
+      select(cm, 5);
+
+      // when
+      editor.setVariables([ 'foobar', 'baz' ]);
+
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(1);
+        expect(completions[0].label).to.have.eql('foobar');
       });
     });
 
@@ -84,7 +110,7 @@ describe('JSONEditor', function() {
       editor.setValue(value);
       editor.setVariables([ 'foobar', 'baz' ]);
 
-      const cm = getCm(editor);
+      const cm = editor.getView();
 
       // move cursor to the end
       select(cm, 5);
@@ -123,7 +149,7 @@ describe('JSONEditor', function() {
       editor.setValue(initalValue),
       editor.setVariables(variables);
 
-      const cm = getCm(editor);
+      const cm = editor.getView();
 
       // move cursor to the end
       select(cm, 5);
@@ -149,19 +175,13 @@ describe('JSONEditor', function() {
 
 // helper //////////////////////
 
-function select(editor, anchor, head = anchor) {
-  const cm = getCm(editor);
-
+function select(cm, anchor, head = anchor) {
   cm.dispatch({
     selection: {
       anchor,
       head
     }
   });
-}
-
-function getCm(editor) {
-  return editor._view || editor;
 }
 
 /**
