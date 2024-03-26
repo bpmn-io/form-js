@@ -289,6 +289,41 @@ export class Dragging {
 
         return !target.classList.contains(DRAG_NO_DROP_CLS);
       },
+
+      transformOffset: (offset, event, element) => {
+
+        if (element.classList.contains(DRAG_ROW_MOVE_CLS)) {
+
+          const rowOffset = {
+            x: -5,
+            y: -60
+          };
+
+          return {
+            left: event.clientX + rowOffset.x,
+            top: event.clientY + rowOffset.y
+          };
+
+        }
+
+        if (element.classList.contains(DRAG_MOVE_CLS)) {
+
+          const iconOffset = {
+            x: -5,
+            y: -15
+          };
+
+          return {
+            left: event.clientX + iconOffset.x,
+            top: event.clientY + iconOffset.y
+          };
+
+        }
+
+        return offset;
+
+      },
+
       slideFactorX: 10,
       slideFactorY: 5
     };

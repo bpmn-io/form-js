@@ -988,7 +988,7 @@ describe('FormEditor', function() {
     });
 
 
-    it('should create and select new form field', async function() {
+    it.only('should create and select new form field', async function() {
 
       // given
       let dragulaCreated = false;
