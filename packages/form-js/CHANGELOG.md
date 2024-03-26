@@ -6,16 +6,29 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.8.0
+
+* `FEAT`: implemented new `expression` field, allowing precomputation of data at runtime using FEEL ([#1073](https://github.com/bpmn-io/form-js/issues/1073))
+* `FEAT`: overhaul the json editor components ([#1101](https://github.com/bpmn-io/form-js/issues/1101))
+* `FIX`: improved the editor selection autoscroll ([#1106](https://github.com/bpmn-io/form-js/issues/1106))
+* `FIX`: form playground no longer loads forms twice under some circumstances ([8aad0b6f](https://github.com/bpmn-io/form-js/commit/8aad0b6f6e97cb0f656a2b4c962de845992ff834))
+* `FIX`: ensure palette renderer is immediately initialised ([988fbc7b](https://github.com/bpmn-io/form-js/commit/988fbc7b45bafedbe6e97d8a5a89a9e5f59285d5))
+* `FIX`: display groups with no outline with a dashed outline in the editor ([#1084](https://github.com/bpmn-io/form-js/issues/1084))
+* `FIX`: variables with keyword names like `duration` can now be used in feel expression ([#975](https://github.com/bpmn-io/form-js/issues/975))
+* `FIX`: ensure dynamic list and tables interact safely ([#1064](https://github.com/bpmn-io/form-js/issues/1064))
+* `CHORE`: replaced our markdown renderer from `showdown` to `marked` ([#1091](https://github.com/bpmn-io/form-js/issues/1091))
+* `CHORE`: reduced text sizing in json editor components ([#1078](https://github.com/bpmn-io/form-js/issues/1078))
+
 ## 1.7.3
 
 * `FIX`: properly pass `this` variable context to dynamic list elems  ([#1086](https://github.com/bpmn-io/form-js/pull/1086))
 
 ## 1.7.2
 
-* `CHORE`: temporarily restrict preact dependency version to `<= 10.15.1` due to conflict with dragula ([#1057](https://github.com/bpmn-io/form-js/issues/1057))
 * `FIX`: non-submit buttons in the library now have `type="button"` ([#1077](https://github.com/bpmn-io/form-js/issues/1077))
 * `FIX`: field readonly property now hidden when disabled property is set ([#1063](https://github.com/bpmn-io/form-js/issues/1063))
 * `FIX`: expression-driven options fields now properly initialize with input values ([#1067](https://github.com/bpmn-io/form-js/issues/1067))
+* `CHORE`: temporarily restrict preact dependency version to `<= 10.15.1` due to conflict with dragula ([#1057](https://github.com/bpmn-io/form-js/issues/1057))
 
 ## 1.7.1
 
