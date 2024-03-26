@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-carbon-styles",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Custom carbon styles for form-js",
   "scripts": {
     "all": "run-s test",
@@ -18,7 +18,7 @@
     "url": "https://github.com/bpmn-io"
   },
   "devDependencies": {
-    "@bpmn-io/form-js-viewer": "^1.8.0",
+    "@bpmn-io/form-js-viewer": "^1.8.1",
     "@carbon/elements": "^11.33.1",
     "styled-components": "^6.1.1"
   },
