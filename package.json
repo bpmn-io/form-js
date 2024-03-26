@@ -112,7 +112,7 @@
     "mri": "^1.2.0",
     "npm-run-all2": "^6.1.1",
     "preact": ">=10.5.14 <=10.15.1",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^22.0.0",
     "raw-loader": "^4.0.2",
     "rollup": "^3.0.0",
     "rollup-plugin-copy": "^3.4.0",
