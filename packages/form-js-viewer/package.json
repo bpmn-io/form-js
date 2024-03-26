@@ -47,7 +47,7 @@
     "@carbon/grid": "^11.11.0",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
-    "didi": "^10.0.1",
+    "didi": "^10.2.2",
     "dompurify": "^3.0.8",
     "feelers": "^1.3.1",
     "feelin": "^3.0.1",

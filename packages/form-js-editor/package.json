@@ -53,7 +53,7 @@
     "big.js": "^6.2.1",
     "ids": "^1.0.0",
     "min-dash": "^4.2.1",
-    "min-dom": "^4.1.0",
+    "min-dom": "^5.0.0",
     "preact": "^10.5.14"
   },
   "sideEffects": [
