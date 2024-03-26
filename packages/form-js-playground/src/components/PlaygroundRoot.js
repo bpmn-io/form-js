@@ -32,7 +32,8 @@ export function PlaygroundRoot(config) {
     viewerAdditionalModules,
     editorAdditionalModules,
     propertiesPanel: propertiesPanelConfig,
-    apiLinkTarget
+    apiLinkTarget,
+    onInit
   } = config;
 
   const {
@@ -221,7 +222,9 @@ export function PlaygroundRoot(config) {
       setData: setData
     };
 
-  }, [ apiLinkTarget ]);
+    onInit();
+
+  }, [ apiLinkTarget, onInit ]);
 
   // separate effect for state to avoid re-creating the api object every time
   useEffect(() => {

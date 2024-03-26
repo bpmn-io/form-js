@@ -71,6 +71,10 @@ function Playground(options) {
     };
   };
 
+  const onInit = function() {
+    emitter.emit('formPlayground.init');
+  };
+
   container.addEventListener('dragover', handleDrop);
 
   render(
@@ -79,6 +83,7 @@ function Playground(options) {
       initialData={ initialData }
       emit={ emitter.emit }
       apiLinkTarget={ this }
+      onInit={ onInit }
       { ...rest }
     />,
     container

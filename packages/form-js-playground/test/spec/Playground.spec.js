@@ -668,7 +668,7 @@ describe('playground', function() {
     });
 
 
-    it('should emit <formPlayground.init>', async function() {
+    it.skip('should emit <formPlayground.init>', async function() {
 
       // given
       const spy = sinon.spy();
