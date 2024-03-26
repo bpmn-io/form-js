@@ -12,7 +12,8 @@ import {
 import {
   FormComponent,
   FormContext,
-  FormRenderContext
+  FormRenderContext,
+  getScrollContainer
 } from '@bpmn-io/form-js-viewer';
 
 import {
@@ -100,7 +101,6 @@ function Empty(props) {
 
 function Element(props) {
   const eventBus = useService('eventBus'),
-        formEditor = useService('formEditor'),
         formFieldRegistry = useService('formFieldRegistry'),
         formFields = useService('formFields'),
         modeling = useService('modeling'),
@@ -123,22 +123,25 @@ function Element(props) {
   useEffect(() => {
 
     function scrollIntoView({ selection }) {
-      if (!selection || selection.id !== id || !ref.current) {
+      const scrollContainer = getScrollContainer(ref.current);
+      if (!selection || selection.type === 'default' || selection.id !== id || !scrollContainer || !ref.current) {
         return;
       }
 
-      const elementBounds = ref.current.getBoundingClientRect(),
-            containerBounds = formEditor._container.getBoundingClientRect();
+      const elementBounds = ref.current.getBoundingClientRect();
+      const scrollContainerBounds = scrollContainer.getBoundingClientRect();
+      const isElementLarger = elementBounds.height > scrollContainerBounds.height;
+      const isNotFullyVisible = elementBounds.bottom > scrollContainerBounds.bottom || elementBounds.top < scrollContainerBounds.top;
 
-      if (elementBounds.top < 0 || elementBounds.top > containerBounds.bottom) {
-        ref.current.scrollIntoView();
+      if (isNotFullyVisible && !isElementLarger) {
+        ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest' });
       }
     }
 
     eventBus.on('selection.changed', scrollIntoView);
 
     return () => eventBus.off('selection.changed', scrollIntoView);
-  }, [ eventBus, formEditor._container, id ]);
+  }, [ eventBus, id ]);
 
   useLayoutEffect(() => {
     if (selection.isSelected(field)) {

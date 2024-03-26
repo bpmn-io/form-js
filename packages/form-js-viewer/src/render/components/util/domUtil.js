@@ -62,4 +62,28 @@ function scopeSelector(selector, prefix) {
     .join(', ');
 }
 
-export { wrapCSSStyles };
+function getScrollContainer(el) {
+  while (el && el !== document.body && el !== document.documentElement) {
+    if (_isElementScrollable(el)) {
+      return el;
+    }
+    el = el.parentElement;
+  }
+
+  if (_isElementScrollable(document.body)) {
+    return document.body;
+  } else if (_isElementScrollable(document.documentElement)) {
+    return document.documentElement;
+  }
+
+  return null;
+}
+
+function _isElementScrollable(el) {
+  const style = window.getComputedStyle(el);
+  const overflowY = style.overflowY || style.overflow;
+
+  return (overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight;
+}
+
+export { wrapCSSStyles, getScrollContainer };
