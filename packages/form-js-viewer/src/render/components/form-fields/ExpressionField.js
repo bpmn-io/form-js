@@ -40,8 +40,9 @@ export function ExpressionField(props) {
 ExpressionField.config = {
   type,
   label: 'Expression',
-  group: 'basic-input',
+  group: 'advanced',
   keyed: true,
+  allowDoNotSubmit: true,
   escapeGridRender: true,
   create: (options = {}) => ({
     computeOn: 'change',

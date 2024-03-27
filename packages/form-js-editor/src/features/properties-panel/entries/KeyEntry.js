@@ -7,7 +7,6 @@ import { useService } from '../hooks';
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 import { useCallback } from 'preact/hooks';
 
-
 export function KeyEntry(props) {
   const {
     editField,
@@ -15,20 +14,21 @@ export function KeyEntry(props) {
     getService
   } = props;
 
-  const entries = [];
+  const formFields = getService('formFields');
 
-  entries.push({
-    id: 'key',
-    component: Key,
-    editField: editField,
-    field: field,
-    isEdited: isTextFieldEntryEdited,
-    isDefaultVisible: (field) => {
-      const formFields = getService('formFields');
-      const { config } = formFields.get(field.type);
-      return config.keyed;
+  const entries = [
+    {
+      id: 'key',
+      component: Key,
+      editField: editField,
+      field: field,
+      isEdited: isTextFieldEntryEdited,
+      isDefaultVisible: (field) => {
+        const { config } = formFields.get(field.type);
+        return config.keyed;
+      }
     }
-  });
+  ];
 
   return entries;
 }

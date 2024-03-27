@@ -1203,6 +1203,10 @@
   margin-right: 4px;
 }
 
+.fjs-container .fjs-sandbox-iframe-container {
+  display: none;
+}
+
 /**
 * Flatpickr style adjustments
 */

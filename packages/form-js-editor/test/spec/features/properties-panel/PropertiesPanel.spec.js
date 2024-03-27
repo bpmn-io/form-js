@@ -3537,7 +3537,43 @@ describe('properties panel', function() {
         expectPanelStructure(container, {
           'General': [
             'Key',
+            'Do not submit',
             'Target value',
+            'Compute on'
+          ],
+          'Condition': [
+            'Deactivate if'
+          ],
+          'Layout': [
+            'Columns'
+          ],
+          'Custom properties': []
+        });
+
+      });
+
+    });
+
+
+    describe('js function field', function() {
+
+      it('entries', function() {
+
+        // given
+        const field = schema.components.find(({ type }) => type === 'script');
+
+        bootstrapPropertiesPanel({
+          container,
+          field
+        });
+
+        // then
+        expectPanelStructure(container, {
+          'General': [
+            'Key',
+            'Do not submit',
+            'Function parameters',
+            'Javascript code',
             'Compute on'
           ],
           'Condition': [

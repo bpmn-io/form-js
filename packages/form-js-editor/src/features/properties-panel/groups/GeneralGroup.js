@@ -9,6 +9,7 @@ import {
   IFrameHeightEntry,
   ImageSourceEntry,
   KeyEntry,
+  DoNotSubmitEntry,
   PathEntry,
   RepeatableEntry,
   LabelEntry,
@@ -19,6 +20,7 @@ import {
   HeightEntry,
   NumberEntries,
   ExpressionFieldEntries,
+  JSFunctionEntry,
   DateTimeEntry,
   TableDataSourceEntry,
   PaginationEntry,
@@ -45,6 +47,7 @@ export function GeneralGroup(field, editField, getService) {
     ...HeightEntry({ field, editField }),
     ...NumberEntries({ field, editField }),
     ...ExpressionFieldEntries({ field, editField }),
+    ...JSFunctionEntry({ field, editField }),
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),
     ...SelectEntries({ field, editField }),
@@ -52,7 +55,8 @@ export function GeneralGroup(field, editField, getService) {
     ...ReadonlyEntry({ field, editField }),
     ...TableDataSourceEntry({ field, editField }),
     ...PaginationEntry({ field, editField }),
-    ...RowCountEntry({ field, editField })
+    ...RowCountEntry({ field, editField }),
+    ...DoNotSubmitEntry({ field, editField, getService }),
   ];
 
   if (entries.length === 0) {

@@ -13,7 +13,8 @@ export function simpleRangeIntegerEntryFactory(options) {
     path,
     props,
     min,
-    max
+    max,
+    isDefaultVisible
   } = options;
 
   const {
@@ -30,7 +31,8 @@ export function simpleRangeIntegerEntryFactory(options) {
     min,
     max,
     component: SimpleRangeIntegerEntry,
-    isEdited: isTextFieldEntryEdited
+    isEdited: isTextFieldEntryEdited,
+    isDefaultVisible
   };
 }
 
