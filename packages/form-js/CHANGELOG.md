@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.8.2
+
+* `FIX`: make the JSON editor readonly truly readonly ([#1107](https://github.com/bpmn-io/form-js/issues/1107))
+
+## 1.8.1
+
+* `CHORE`: monkey patch `formPlayground.init` event back into the release for compatibility reasons ([#1076](https://github.com/bpmn-io/form-js/issues/1076))
+
 ## 1.8.0
 
 * `FEAT`: implemented new `expression` field, allowing precomputation of data at runtime using FEEL ([#1073](https://github.com/bpmn-io/form-js/issues/1073))
