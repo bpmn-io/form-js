@@ -8,6 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 1.8.2
 
+* `FIX`: prevent prototype polution through keys and paths ([#1111](https://github.com/bpmn-io/form-js/issues/1111))
 * `FIX`: make the JSON editor readonly truly readonly ([#1107](https://github.com/bpmn-io/form-js/issues/1107))
 
 ## 1.8.1
