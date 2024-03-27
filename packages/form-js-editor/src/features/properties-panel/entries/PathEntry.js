@@ -4,7 +4,7 @@ import { useService } from '../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
-import { isValidDotPath } from '../Util';
+import { isProhibitedPath, isValidDotPath, hasIntegerPathSegment } from '../Util';
 import { useCallback } from 'preact/hooks';
 
 
@@ -80,9 +80,13 @@ function Path(props) {
     }
 
     // Check for integer segments in the path
-    const hasIntegerPathSegment = value.split('.').some(segment => /^\d+$/.test(segment));
-    if (hasIntegerPathSegment) {
+    if (hasIntegerPathSegment(value)) {
       return 'Must not contain numerical path segments.';
+    }
+
+    // Check for special prohibited paths
+    if (isProhibitedPath(value)) {
+      return 'Must not be a prohibited path.';
     }
 
     // Check for path collisions

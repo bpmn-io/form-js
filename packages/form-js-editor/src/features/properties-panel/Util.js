@@ -68,6 +68,19 @@ export function isValidDotPath(path) {
   return /^\w+(\.\w+)*$/.test(path);
 }
 
+/**
+  * @param {string} path
+  */
+export function isProhibitedPath(path) {
+  const prohibitedSegments = [
+    '__proto__',
+    'prototype',
+    'constructor'
+  ];
+
+  return path.split('.').some(segment => prohibitedSegments.includes(segment));
+}
+
 export const LABELED_NON_INPUTS = [
   'button',
   'group',

@@ -1,6 +1,6 @@
 import { isString, get } from 'min-dash';
 
-import { hasIntegerPathSegment, isValidDotPath } from '../Util';
+import { hasIntegerPathSegment, isProhibitedPath, isValidDotPath } from '../Util';
 
 import { useService } from '../hooks';
 
@@ -74,6 +74,10 @@ function Key(props) {
 
     if (hasIntegerPathSegment(value)) {
       return 'Must not contain numerical path segments.';
+    }
+
+    if (isProhibitedPath(value)) {
+      return 'Must not be a prohibited path.';
     }
 
     const replacements = {
