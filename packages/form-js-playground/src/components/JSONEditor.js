@@ -40,12 +40,12 @@ export function JSONEditor(options = {}) {
       autocompletionExtension(),
       keymap.of([ indentWithTab ]),
       editorPlaceholder ? placeholder(editorPlaceholder) : [],
+      EditorState.readOnly.of(readonly),
       EditorView.updateListener.of(update => {
         if (update.docChanged) {
           emitter.emit('changed', { value: update.state.doc.toString() });
         }
       }),
-      EditorView.editable.of(!readonly),
       EditorView.contentAttributes.of(contentAttributes)
     ];
 
