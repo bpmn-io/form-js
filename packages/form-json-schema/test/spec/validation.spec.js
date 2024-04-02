@@ -110,8 +110,16 @@ describe('validation', function() {
 
   describe('rules - required properties', function() {
 
-
     testForm('no-key');
+
+
+    testForm('expression-field-expression-required');
+
+
+    testForm('js-interval-no-interval');
+
+
+    testForm('js-no-props');
 
   });
 
@@ -134,9 +142,6 @@ describe('validation', function() {
 
 
     testForm('disabled-not-allowed');
-
-
-    testForm('expression-field-expression-required');
 
 
     testForm('action-not-allowed');
