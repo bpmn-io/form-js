@@ -66,7 +66,7 @@ export function Html(props) {
 Html.config = {
   type,
   keyed: false,
-  label: 'HTML',
+  label: 'HTML view',
   group: 'presentation',
   create: (options = {}) => ({
     content: '',
