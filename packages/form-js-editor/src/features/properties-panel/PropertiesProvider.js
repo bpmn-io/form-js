@@ -15,9 +15,9 @@ import {
 import { hasEntryConfigured } from './Util';
 
 export class PropertiesProvider {
-  constructor(propertiesPanel, injector) {
+  constructor(propertiesProviderRegistry, injector) {
     this._injector = injector;
-    propertiesPanel.registerProvider(this);
+    propertiesProviderRegistry.registerProvider(this);
   }
 
   _filterVisibleEntries(groups, field, getService) {
@@ -85,4 +85,4 @@ export class PropertiesProvider {
   }
 }
 
-PropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
+PropertiesProvider.$inject = [ 'propertiesProviderRegistry', 'injector' ];

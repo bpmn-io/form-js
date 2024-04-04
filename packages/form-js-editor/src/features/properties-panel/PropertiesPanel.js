@@ -3,71 +3,25 @@ import { PropertiesPanel as BasePropertiesPanel } from '@bpmn-io/properties-pane
 import {
   useCallback,
   useMemo,
-  useState,
-  useLayoutEffect
 } from 'preact/hooks';
 
 import { reduce, isArray } from 'min-dash';
-
-import { FormPropertiesPanelContext } from './context';
-
 import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
+import { useService } from './hooks';
 
-export function PropertiesPanel(props) {
-  const {
-    eventBus,
-    getProviders,
-    injector
-  } = props;
+export function PropertiesPanel() {
 
-  const formEditor = injector.get('formEditor');
-  const modeling = injector.get('modeling');
-  const selectionModule = injector.get('selection');
-  const propertiesPanelConfig = injector.get('config.propertiesPanel') || {};
+  const eventBus = useService('eventBus');
+  const modeling = useService('modeling');
+  const selection = useService('selection');
+  const formEditor = useService('formEditor');
+  const propertiesPanelConfig = useService('config.propertiesPanel') || {};
+  const propertiesProviderRegistry = useService('propertiesProviderRegistry');
 
   const {
     feelPopupContainer
   } = propertiesPanelConfig;
-
-  const [ state , setState ] = useState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
-
-  const selectedFormField = state.selectedFormField;
-
-  const refresh = useCallback((field) => {
-
-    // TODO(skaiir): rework state management, re-rendering the whole properties panel is not the way to go
-    // https://github.com/bpmn-io/form-js/issues/686
-    setState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
-
-    // notify interested parties on property panel updates
-    eventBus.fire('propertiesPanel.updated', {
-      formField: field
-    });
-
-  }, [ eventBus, formEditor, selectionModule ]);
-
-
-  useLayoutEffect(() => {
-
-    /**
-     * TODO(pinussilvestrus): update with actual updated element,
-     * once we have a proper updater/change support
-     */
-    eventBus.on('changed', refresh);
-    eventBus.on('import.done', refresh);
-    eventBus.on('selection.changed', refresh);
-
-    return () => {
-      eventBus.off('changed', refresh);
-      eventBus.off('import.done', refresh);
-      eventBus.off('selection.changed', refresh);
-    };
-  }, [ eventBus, refresh ]);
-
-  const getService = (type, strict = true) => injector.get(type, strict);
-
-  const propertiesPanelContext = { getService };
 
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
@@ -75,8 +29,11 @@ export function PropertiesPanel(props) {
 
   const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [ modeling ]);
 
-  // retrieve groups for selected form field
-  const providers = getProviders(selectedFormField);
+  const selectedFormField = selection.get() || formEditor._getState().schema;
+
+  const providers = useMemo(() => {
+    return propertiesProviderRegistry.getProviders(selectedFormField);
+  }, [ propertiesProviderRegistry, selectedFormField ]);
 
   const groups = useMemo(() => {
     return reduce(providers, function(groups, provider) {
@@ -93,13 +50,13 @@ export function PropertiesPanel(props) {
   }, [ providers, selectedFormField, editField ]);
 
   return (
-    <div
-      class="fjs-properties-panel"
-      data-field={ selectedFormField && selectedFormField.id }
-      onFocusCapture={ onFocus }
-      onBlurCapture={ onBlur }
-    >
-      <FormPropertiesPanelContext.Provider value={ propertiesPanelContext }>
+    <div class="fjs-properties-container" input-handle-modified-keys="y,z">
+      <div
+        class="fjs-properties-panel"
+        data-field={ selectedFormField && selectedFormField.id }
+        onFocusCapture={ onFocus }
+        onBlurCapture={ onBlur }
+      >
         <BasePropertiesPanel
           element={ selectedFormField }
           eventBus={ eventBus }
@@ -108,7 +65,7 @@ export function PropertiesPanel(props) {
           placeholderProvider={ PropertiesPanelPlaceholderProvider }
           feelPopupContainer={ feelPopupContainer }
         />
-      </FormPropertiesPanelContext.Provider>
+      </div>
     </div>
   );
 }

@@ -7,8 +7,8 @@ import {
 
 
 class CustomPropertiesProvider {
-  constructor(propertiesPanel) {
-    propertiesPanel.registerProvider(this, 500);
+  constructor(propertiesProviderRegistry) {
+    propertiesProviderRegistry.registerProvider(this, 500);
   }
 
   getGroups(field, editField) {
@@ -31,7 +31,7 @@ class CustomPropertiesProvider {
   }
 }
 
-CustomPropertiesProvider.$inject = [ 'propertiesPanel' ];
+CustomPropertiesProvider.$inject = [ 'propertiesProviderRegistry' ];
 
 function RangeEntries(field, editField) {
 

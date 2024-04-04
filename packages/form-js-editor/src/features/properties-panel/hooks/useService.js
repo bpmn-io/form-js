@@ -1,0 +1,1 @@
+export { useService } from '../../../render/hooks';
