@@ -212,6 +212,21 @@ export function isInvalidDateString(value) {
   return isNaN(new Date(Date.parse(value)).getTime());
 }
 
+export function getNullDateTime() {
+  return {
+    date: new Date(Date.parse(null)),
+    time: null
+  };
+}
+
+export function isValidDate(date) {
+  return date && !isNaN(date.getTime());
+}
+
+export function isValidTime(time) {
+  return !isNaN(parseInt(time));
+}
+
 function _getSignedPaddedHours(minutes) {
   if (minutes > 0) {
     return '-' + _getZeroPaddedString(Math.floor(minutes / 60));

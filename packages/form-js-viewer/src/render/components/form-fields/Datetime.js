@@ -15,7 +15,7 @@ import { Timepicker } from './parts/Timepicker';
 
 import { formFieldClasses, prefixId } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
-import { parseIsoTime, serializeDate, serializeDateTime, serializeTime } from '../util/dateTimeUtil';
+import { parseIsoTime, serializeDate, serializeDateTime, serializeTime, getNullDateTime, isValidDate, isValidTime } from '../util/dateTimeUtil';
 
 const type = 'datetime';
 
@@ -49,13 +49,8 @@ export function Datetime(props) {
   const { formId } = useContext(FormContext);
   const dateTimeGroupRef = useRef();
 
-  const getNullDateTime = () => ({ date: new Date(Date.parse(null)), time: null });
-
   const [ dateTime, setDateTime ] = useState(getNullDateTime());
   const [ dateTimeUpdateRequest, setDateTimeUpdateRequest ] = useState(null);
-
-  const isValidDate = (date) => date && !isNaN(date.getTime());
-  const isValidTime = (time) => !isNaN(parseInt(time));
 
   const useDatePicker = useMemo(() => subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME, [ subtype ]);
   const useTimePicker = useMemo(() => subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME, [ subtype ]);
@@ -113,9 +108,13 @@ export function Datetime(props) {
       newDateTimeValue = serializeDateTime(date, time, timeSerializingFormat);
     }
 
+    if (value === newDateTimeValue) {
+      return;
+    }
+
     onChange({ value: newDateTimeValue, field });
 
-  }, [ field, onChange, subtype, timeSerializingFormat ]);
+  }, [ value, field, onChange, subtype, timeSerializingFormat ]);
 
   useEffect(() => {
     if (dateTimeUpdateRequest) {
