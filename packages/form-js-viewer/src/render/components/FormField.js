@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
+import isEqual from 'lodash/isEqual';
 
 import { get } from 'min-dash';
 
@@ -91,7 +92,9 @@ export function FormField(props) {
 
   useEffect(() => {
 
-    if (initialValidationTrigger && initialValue) {
+    const hasInitialValue = initialValue && !isEqual(initialValue, []);
+
+    if (initialValidationTrigger && hasInitialValue) {
       setInitialValidationTrigger(false);
       viewerCommands.updateFieldValidation(field, initialValue, indexes);
     }

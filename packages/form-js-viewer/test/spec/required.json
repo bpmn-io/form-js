@@ -1,0 +1,94 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "components": [
+    {
+      "key": "creditor",
+      "id": "Creditor_ID",
+      "label": "Creditor",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "invoiceNumber",
+      "label": "Invoice Number",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "amount",
+      "label": "Amount",
+      "type": "number",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "approved",
+      "label": "Approved",
+      "type": "checkbox",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "approvedBy",
+      "label": "Approved By",
+      "type": "textfield",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "approverComments",
+      "label": "Approver comments",
+      "type": "textarea",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "product",
+      "label": "Product",
+      "type": "radio",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "mailto",
+      "label": "Email Summary To",
+      "type": "checklist",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "language",
+      "label": "Language",
+      "type": "select",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "conversation",
+      "type": "datetime",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "tags",
+      "label": "Taglist",
+      "type": "taglist",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default"
+}
