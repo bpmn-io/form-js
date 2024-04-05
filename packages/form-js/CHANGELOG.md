@@ -6,6 +6,15 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.8.3
+
+* `FIX`: prevent checklist and taglist from triggering field validation early ([#1123](https://github.com/bpmn-io/form-js/issues/1123))
+* `FIX`: prevent datetime from triggering field validation early ([#1099](https://github.com/bpmn-io/form-js/issues/1099))
+* `FIX`: improved expression field result consistency in the editor ([#1114](https://github.com/bpmn-io/form-js/issues/1114))
+* `FIX`: properly export type definitions ([#1105](https://github.com/bpmn-io/form-js/issues/1105))
+* `CHORE`: renamed HTML component to HTML View for clarity ([4d0a6f52](https://github.com/bpmn-io/form-js/commit/4d0a6f52dcd73bd2d76bdb47b6d631e44f1cb13c))
+* `CHORE`: change the editor expression description to include the key for identification ([#1116](https://github.com/bpmn-io/form-js/issues/1116))
+
 ## 1.8.2
 
 * `FIX`: prevent prototype polution through keys and paths ([#1111](https://github.com/bpmn-io/form-js/issues/1111))
