@@ -4,6 +4,7 @@
   "description": "View and edit forms - powered by bpmn.io",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs"
     },
