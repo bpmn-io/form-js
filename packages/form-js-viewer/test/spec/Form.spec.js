@@ -22,6 +22,7 @@ import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
+import requiredSchema from './required.json';
 import schema from './form.json';
 import groupsSchema from './groups.json';
 import schemaNoIds from './form.json';
@@ -580,6 +581,24 @@ describe('Form', function() {
 
   });
 
+
+  it('should not trigger required validation on initial load', async function() {
+
+    // given
+    const data = {};
+
+    // when
+    await bootstrapForm({
+      container,
+      data,
+      schema: requiredSchema
+    });
+
+    // then
+    expect(form).to.exist;
+    expect(document.body.innerHTML).not.to.contain('Field is required.');
+
+  });
 
   const runFocusBlurTest = function(id, index, selector) {
 
