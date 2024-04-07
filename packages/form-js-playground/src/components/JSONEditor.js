@@ -88,13 +88,13 @@ export function JSONEditor(options = {}) {
   this.attachTo = function(_container) {
     container = _container;
     container.appendChild(view.dom);
-    domClasses(container, document.body).add('fjs-json-editor');
+    domClasses(container).add('fjs-json-editor');
   };
 
   this.destroy = function() {
     if (container && view.dom) {
       container.removeChild(view.dom);
-      domClasses(container, document.body).remove('fjs-json-editor');
+      domClasses(container).remove('fjs-json-editor');
     }
     view.destroy();
   };
@@ -103,9 +103,9 @@ export function JSONEditor(options = {}) {
     return linter(view => {
       const placeholders = view.dom.querySelectorAll('.cm-placeholder');
       if (placeholders.length > 0) {
-        domClasses(container, document.body).add(NO_LINT_CLS);
+        domClasses(container).add(NO_LINT_CLS);
       } else {
-        domClasses(container, document.body).remove(NO_LINT_CLS);
+        domClasses(container).remove(NO_LINT_CLS);
       }
       return [];
     });

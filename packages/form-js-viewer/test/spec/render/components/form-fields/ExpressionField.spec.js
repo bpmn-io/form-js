@@ -26,7 +26,7 @@ describe('ExpressionField', function() {
   });
 
 
-  it('should evaluate its expression on initialization when set to onChange', function() {
+  it('should evaluate its expression on initialization when set to onChange', async function() {
 
     // given
     const field = {
@@ -46,7 +46,7 @@ describe('ExpressionField', function() {
     const onChangeSpy = sinon.spy();
 
     // when
-    act(() => {
+    await act(() => {
       createExpressionField({ field, onChange: onChangeSpy, services });
     });
 
@@ -56,7 +56,7 @@ describe('ExpressionField', function() {
   });
 
 
-  it('should re-evaluate when the expression result changes', function() {
+  it('should re-evaluate when the expression result changes', async function() {
 
     // given
     const field = {
@@ -82,7 +82,7 @@ describe('ExpressionField', function() {
     const { rerender } = createExpressionField({ field, onChange: onChangeSpy, services });
 
     // when
-    act(() => {
+    await act(() => {
       rerender(
         <MockFormContext
           services={ services }
@@ -106,7 +106,7 @@ describe('ExpressionField', function() {
   });
 
 
-  it('should not evaluate on intialization if computeOn presubmit', function() {
+  it('should not evaluate on intialization if computeOn presubmit', async function() {
 
     // given
     const field = {
@@ -128,7 +128,7 @@ describe('ExpressionField', function() {
     const onChangeSpy = sinon.spy();
 
     // when
-    act(() => {
+    await act(() => {
       createExpressionField({ field, onChange: onChangeSpy, services });
     });
 
@@ -138,7 +138,7 @@ describe('ExpressionField', function() {
   });
 
 
-  it('should evaluate on presubmit', function() {
+  it('should evaluate on presubmit', async function() {
 
     // given
     const field = {
@@ -162,7 +162,7 @@ describe('ExpressionField', function() {
     createExpressionField({ field, onChange: onChangeSpy, services });
 
     // when
-    act(() => {
+    await act(() => {
       services.eventBus.fire('presubmit');
     });
 

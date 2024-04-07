@@ -1,6 +1,7 @@
 import {
   fireEvent,
   render,
+  act,
   screen
 } from '@testing-library/preact/pure';
 
@@ -219,7 +220,7 @@ describe('Select', function() {
     });
 
 
-    it('should render dropdown when focused', function() {
+    it('should render dropdown when focused', async function() {
 
       // when
       const { container } = createSelect();
@@ -227,13 +228,13 @@ describe('Select', function() {
       const select = container.querySelector('.fjs-input-group');
 
       // then
-      let selectAnchor = container.querySelector('.fjs-select-anchor');
+      const selectAnchor = container.querySelector('.fjs-select-anchor');
       expect(selectAnchor).to.exist;
 
       let dropdownList = container.querySelector('.fjs-dropdownlist');
       expect(dropdownList).to.not.exist;
 
-      fireEvent.focus(select);
+      await act(() => fireEvent.focus(select));
 
       dropdownList = container.querySelector('.fjs-dropdownlist');
       expect(dropdownList).to.exist;
@@ -241,7 +242,7 @@ describe('Select', function() {
     });
 
 
-    it('should close dropdown on blur', function() {
+    it('should close dropdown on blur', async function() {
 
       // given
       const { container } = createSelect();
@@ -249,14 +250,14 @@ describe('Select', function() {
       const select = container.querySelector('.fjs-input-group');
 
       // when
-      fireEvent.focus(select);
+      await act(() => fireEvent.focus(select));
 
       // assume
       let dropdownList = container.querySelector('.fjs-dropdownlist');
       expect(dropdownList).to.exist;
 
       // and when
-      fireEvent.blur(select);
+      await act(() => fireEvent.blur(select));
 
       // then
       dropdownList = container.querySelector('.fjs-dropdownlist');
@@ -264,7 +265,7 @@ describe('Select', function() {
     });
 
 
-    it('should focus input on mouse down', function() {
+    it('should focus input on mouse down', async function() {
 
       // given
       const focusSpy = spy();
@@ -276,14 +277,14 @@ describe('Select', function() {
       const select = container.querySelector('.fjs-input-group');
 
       // when
-      fireEvent.mouseDown(select);
+      await act(() => fireEvent.mouseDown(select));
 
       // then
       expect(focusSpy).to.have.been.called;
     });
 
 
-    it('should blur input on second mouse down', function() {
+    it('should blur input on second mouse down', async function() {
 
       // given
       const blurSpy = spy();
@@ -295,8 +296,8 @@ describe('Select', function() {
       const select = container.querySelector('.fjs-input-group');
 
       // when
-      fireEvent.mouseDown(select);
-      fireEvent.mouseDown(select);
+      await act(() => fireEvent.mouseDown(select));
+      await act(() => fireEvent.mouseDown(select));
 
       // then
       expect(blurSpy).to.have.been.called;
@@ -305,7 +306,7 @@ describe('Select', function() {
 
     describe('interaction (static data)', function() {
 
-      it('should set value through dropdown', function() {
+      it('should set value through dropdown', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -318,10 +319,10 @@ describe('Select', function() {
         const select = container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
-        fireEvent.mouseDown(germanSelector);
+        await act(() => fireEvent.mouseDown(germanSelector));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -331,7 +332,7 @@ describe('Select', function() {
       });
 
 
-      it('should clear', function() {
+      it('should clear', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -343,7 +344,7 @@ describe('Select', function() {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await act(() => fireEvent.mouseDown(cross));
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -359,7 +360,7 @@ describe('Select', function() {
 
     describe('interaction (dynamic data, valuesKey)', function() {
 
-      it('should set value through dropdown', function() {
+      it('should set value through dropdown', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -374,11 +375,11 @@ describe('Select', function() {
         const select = container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
 
-        fireEvent.mouseDown(germanSelector);
+        await act(() => fireEvent.mouseDown(germanSelector));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -388,7 +389,7 @@ describe('Select', function() {
       });
 
 
-      it('should clear', function() {
+      it('should clear', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -402,7 +403,7 @@ describe('Select', function() {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await act(() => fireEvent.mouseDown(cross));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -417,7 +418,7 @@ describe('Select', function() {
 
     describe('interaction (dynamic data, valuesExpression)', function() {
 
-      it('should set value through dropdown', function() {
+      it('should set value through dropdown', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -443,11 +444,11 @@ describe('Select', function() {
         const select = container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
 
-        fireEvent.mouseDown(germanSelector);
+        await act(() => fireEvent.mouseDown(germanSelector));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -457,7 +458,7 @@ describe('Select', function() {
       });
 
 
-      it('should render options from values expression', function() {
+      it('should render options from values expression', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -483,7 +484,7 @@ describe('Select', function() {
         const select = container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         // then
         expect(getSelectValues(container)).to.eql([
@@ -495,7 +496,7 @@ describe('Select', function() {
       });
 
 
-      it('should update options when evaluation changed', function() {
+      it('should update options when evaluation changed', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -521,7 +522,7 @@ describe('Select', function() {
         const select = result.container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         // assume
         expect(getSelectValues(result.container)).to.eql([
@@ -556,7 +557,7 @@ describe('Select', function() {
       });
 
 
-      it('should update options - roundtrip', function() {
+      it('should update options - roundtrip', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -582,7 +583,7 @@ describe('Select', function() {
         const select = result.container.querySelector('.fjs-input-group');
 
         // when
-        fireEvent.focus(select);
+        await act(() => fireEvent.focus(select));
 
         // assume
         expect(getSelectValues(result.container)).to.eql([
@@ -650,7 +651,7 @@ describe('Select', function() {
       });
 
 
-      it('should clear', function() {
+      it('should clear', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -675,7 +676,7 @@ describe('Select', function() {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await act(() => fireEvent.mouseDown(cross));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -859,7 +860,7 @@ describe('Select', function() {
     });
 
 
-    it('should render dropdown when focused', function() {
+    it('should render dropdown when focused', async function() {
 
       // when
       const { container } = createSelect({ field: { ...defaultField, searchable: true } });
@@ -867,13 +868,13 @@ describe('Select', function() {
       const filterInput = container.querySelector('input[type="text"]');
 
       // then
-      let selectAnchor = container.querySelector('.fjs-select-anchor');
+      const selectAnchor = container.querySelector('.fjs-select-anchor');
       expect(selectAnchor).to.exist;
 
       let dropdownList = container.querySelector('.fjs-dropdownlist');
       expect(dropdownList).to.not.exist;
 
-      fireEvent.focus(filterInput);
+      await act(() => fireEvent.focus(filterInput));
 
       dropdownList = container.querySelector('.fjs-dropdownlist');
       expect(dropdownList).to.exist;
@@ -881,7 +882,7 @@ describe('Select', function() {
     });
 
 
-    it('should filter dropdown', function() {
+    it('should filter dropdown', async function() {
 
       // when
       const eventBusFireSpy = spy();
@@ -893,7 +894,7 @@ describe('Select', function() {
       const { container } = createSelect({ field, services: { eventBus } });
 
       const filterInput = container.querySelector('input[type="text"]');
-      fireEvent.focus(filterInput);
+      await act(() => fireEvent.focus(filterInput));
 
       const dropdownList = container.querySelector('.fjs-dropdownlist');
 
@@ -901,7 +902,7 @@ describe('Select', function() {
       let listItems = dropdownList.querySelectorAll('.fjs-dropdownlist-item');
       expect(listItems.length).to.equal(2);
 
-      fireEvent.input(filterInput, { target: { value: 'Ger' } });
+      await act(() => fireEvent.input(filterInput, { target: { value: 'Ger' } }));
 
       listItems = dropdownList.querySelectorAll('.fjs-dropdownlist-item');
       expect(listItems.length).to.equal(1);
@@ -917,7 +918,7 @@ describe('Select', function() {
 
     describe('interaction', function() {
 
-      it('should set value through dropdown', function() {
+      it('should set value through dropdown', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -931,10 +932,10 @@ describe('Select', function() {
         const filterInput = container.querySelector('input[type="text"]');
 
         // when
-        fireEvent.focus(filterInput);
+        await act(() => fireEvent.focus(filterInput));
 
         const germanSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
-        fireEvent.mouseDown(germanSelector);
+        await act(() => fireEvent.mouseDown(germanSelector));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -944,7 +945,7 @@ describe('Select', function() {
       });
 
 
-      it('should not set value through filter only', function() {
+      it('should not set value through filter only', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -958,16 +959,16 @@ describe('Select', function() {
         const filterInput = container.querySelector('input[type="text"]');
 
         // when
-        fireEvent.focus(filterInput);
-        fireEvent.input(filterInput, { target: { value: 'English' } });
-        fireEvent.blur(filterInput);
+        await act(() => fireEvent.focus(filterInput));
+        await act(() => fireEvent.input(filterInput, { target: { value: 'English' } }));
+        await act(() => fireEvent.blur(filterInput));
 
         // then
         expect(onChangeSpy).to.not.have.been.called;
       });
 
 
-      it('should clear', function() {
+      it('should clear', async function() {
 
         // given
         const onChangeSpy = spy();
@@ -982,7 +983,7 @@ describe('Select', function() {
         const cross = container.querySelector('.fjs-select-cross');
 
         // when
-        fireEvent.mouseDown(cross);
+        await act(() => fireEvent.mouseDown(cross));
 
         // then
         expect(onChangeSpy).to.have.been.calledWith({
@@ -994,7 +995,7 @@ describe('Select', function() {
       });
 
 
-      it('should not submit form on enter', function() {
+      it('should not submit form on enter', async function() {
 
         // given
         const onSubmitSpy = spy();
@@ -1010,8 +1011,8 @@ describe('Select', function() {
         // when
         const input = container.querySelector('.fjs-input');
 
-        fireEvent.focus(input);
-        fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+        await act(() => fireEvent.focus(input));
+        await act(() => fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' }));
 
         // then
 
@@ -1218,7 +1219,7 @@ describe('Select', function() {
       const filterInput = screen.getByLabelText('Language');
 
       // when
-      fireEvent.focus(filterInput);
+      await act(() => fireEvent.focus(filterInput));
 
       // then
       await expectNoViolations(container);

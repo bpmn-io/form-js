@@ -42,7 +42,7 @@ module.exports = function(karma) {
       suppressSummary: true,
       suppressErrorSummary: false,
       suppressFailed: false,
-      suppressPassed: false,
+      suppressPassed: true,
       suppressSkipped: true,
       showBrowser: false,
       showSpecTiming: false,

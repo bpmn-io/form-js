@@ -55,7 +55,7 @@ insertCSS('test.css', testCSS);
 insertCSS('theme.css', themeCSS);
 insertCSS('form-js.css', formCSS);
 
-const singleStart = isSingleStart('carbon-form');
+const singleStart = isSingleStart('basic');
 
 
 describe('Carbon styles', function() {

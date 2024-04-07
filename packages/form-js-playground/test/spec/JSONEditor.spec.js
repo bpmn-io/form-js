@@ -112,7 +112,7 @@ describe('JSONEditor', function() {
 
       const cm = editor.getView();
 
-      // move cursor to the end
+      // move cursor to the end of foo
       select(cm, 5);
 
       // assume
@@ -139,31 +139,32 @@ describe('JSONEditor', function() {
 
   describe('autocompletion', function() {
 
-    it('should suggest applicable variables', function(done) {
+    it('should suggest applicable variables', async function() {
 
       // given
       const initalValue = 'fooba';
       const variables = [ 'foobar', 'baz' ];
 
       const editor = new JSONEditor();
+      const div = document.createElement('div');
+      editor.attachTo(div);
+
       editor.setValue(initalValue),
       editor.setVariables(variables);
 
       const cm = editor.getView();
 
-      // move cursor to the end
+      // move cursor to the end of fooba
       select(cm, 5);
 
       // when
       startCompletion(cm);
 
       // then
-      // update done async
-      expectEventually(() => {
+      await expectEventually(() => {
         const completions = currentCompletions(cm.state);
         expect(completions).to.have.length(1);
         expect(completions[0].label).to.have.eql('foobar');
-        done();
       });
 
     });

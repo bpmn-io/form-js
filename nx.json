@@ -1,0 +1,19 @@
+{
+  "targetDefaults": {
+    "dev": {
+      "cache": true,
+      "dependsOn": ["build"]
+    },
+    "build": {
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+    "bundle:watch": {
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "cache": true,
+      "dependsOn": ["build"]
+    }
+  }
+}

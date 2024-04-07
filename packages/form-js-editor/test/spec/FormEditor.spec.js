@@ -807,15 +807,12 @@ describe('FormEditor', function() {
 
         await expectSelected('Form_1');
 
-        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
-
         // when
+        const text1 = formEditor.get('formFieldRegistry').get('Text_1');
         formEditor.get('selection').set(text1);
 
-        await expectSelected('Text_1');
-
         // then
-        expectSelected('Text_1');
+        await expectSelected('Text_1');
       });
 
     });
@@ -857,16 +854,18 @@ describe('FormEditor', function() {
         await expectSelected('Textfield_1');
 
         // open group to make entry focusable
-        const group = await screen.getByText('General');
-        fireEvent.click(group);
+        const group = screen.getByText('General');
+        await act(() => fireEvent.click(group));
 
-        const input = await screen.getByLabelText('Field label');
+        const input = screen.getByLabelText('Field label');
 
         // when
-        input.focus();
+        await act(() => input.focus());
 
         // then
-        expect(focusinSpy).to.have.been.called;
+        await waitFor(() => {
+          expect(focusinSpy).to.have.been.called;
+        });
       });
 
 
@@ -891,18 +890,19 @@ describe('FormEditor', function() {
         await expectSelected('Textfield_1');
 
         // open group to make entry focusable
-        const group = await screen.getByText('General');
-        fireEvent.click(group);
+        const group = screen.getByText('General');
+        await act(() => fireEvent.click(group));
 
-        const input = await screen.getByLabelText('Field label');
-
-        input.focus();
+        const input = screen.getByLabelText('Field label');
+        await act(() => input.focus());
 
         // when
-        input.blur();
+        await act(() => input.blur());
 
         // then
-        expect(focusoutSpy).to.have.been.called;
+        await waitFor(() => {
+          expect(focusoutSpy).to.have.been.called;
+        });
       });
 
     });
@@ -952,7 +952,7 @@ describe('FormEditor', function() {
       expect(dragulaDestroyedSpy).not.to.have.been.called;
 
       // when
-      act(() => formEditor.attachTo(container));
+      await act(() => formEditor.attachTo(container));
 
       // then
       // todo (@skaiir): investigate why this is called twice
