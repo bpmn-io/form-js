@@ -1,5 +1,6 @@
 import {
-  render
+  render,
+  waitFor
 } from '@testing-library/preact/pure';
 
 import { JSFunctionField } from '../../../../../src/render/components/form-fields/JSFunctionField';
@@ -43,14 +44,12 @@ describe('JSFunctionField', function() {
     };
 
     // when
-    act(() => {
+    await act(() => {
       createJSFunctionField({ field, onChange: onChangeSpy, services });
     });
 
-    // wait for the iframe to compute the expression and pass it back
-    await new Promise(r => setTimeout(r, 100)).then(() => {
-
-      // then
+    // then
+    await waitFor(() => {
       expect(onChangeSpy).to.be.calledOnce;
       expect(onChangeSpy).to.be.calledWith({ field, value: 42 });
     });

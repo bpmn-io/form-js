@@ -43,7 +43,7 @@ export function JSFunctionField(props) {
       try {
         value = JSON.parse(JSON.stringify(value));
         onChange({ field, value });
-      } catch (e) {
+      } catch {
         sandboxError('Unparsable return value');
         clearValue();
       }
@@ -96,7 +96,7 @@ export function JSFunctionField(props) {
     const iframe = iframeContainerRef.current.querySelector('iframe');
     iframe.removeAttribute('allow');
 
-    // (3) run user code in sandbox
+    // (3) load user code in sandbox
     _sandbox.promise.then((sandboxInstance) => {
       sandboxInstance
 
@@ -108,7 +108,7 @@ export function JSFunctionField(props) {
     return () => {
       _sandbox.destroy();
     };
-  }, [ iframeContainerId, functionDefinition, onChange, field, paramsDefinition, computeOn, interval, safeSetValue, clearValue, sandboxError ]);
+  }, [ clearValue, functionDefinition, iframeContainerId, safeSetValue, sandboxError ]);
 
   const prevParams = usePrevious(params);
   const prevSandbox = usePrevious(sandbox);
@@ -137,7 +137,7 @@ export function JSFunctionField(props) {
       return () => clearInterval(intervalId);
     }
 
-  }, [ params, prevParams, sandbox, prevSandbox, onChange, field, computeOn, hasRunLoad, interval, clearValue, safeSetValue ]);
+  }, [ params, prevParams, sandbox, prevSandbox, field, computeOn, hasRunLoad, interval, clearValue, safeSetValue ]);
 
   return (
     <div ref={ iframeContainerRef } id={ iframeContainerId } className="fjs-sandbox-iframe-container"></div>

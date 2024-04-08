@@ -5,14 +5,14 @@ const type = 'script';
 
 export function EditorJSFunctionField(props) {
   const { field } = props;
-  const { jsFunction = '' } = field;
+  const { jsFunction = '', key } = field;
 
   const Icon = iconsByType(type);
 
   let placeholderContent = 'JS function is empty';
 
   if (jsFunction.trim()) {
-    placeholderContent = 'JS function';
+    placeholderContent = `JS function for '${key}'`;
   }
 
   return (
