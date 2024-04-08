@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@carbon/grid": "^11.11.0",
+    "@jetbrains/websandbox": "^1.0.10",
     "big.js": "^6.2.1",
     "classnames": "^2.3.1",
     "didi": "^10.2.2",

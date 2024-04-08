@@ -49,6 +49,46 @@
           "computeOn"
         ]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "script"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "required": [
+              "jsFunction",
+              "functionParameters",
+              "computeOn"
+            ]
+          },
+          {
+            "if": {
+              "properties": {
+                "computeOn": {
+                  "const": "interval"
+                }
+              },
+              "required": [
+                "computeOn"
+              ]
+            },
+            "then": {
+              "required": [
+                "interval"
+              ]
+            }
+          }
+        ]
+      }
     }
   ]
 }

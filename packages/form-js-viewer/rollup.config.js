@@ -58,6 +58,7 @@ export default [
       'flatpickr',
       'marked',
       '@carbon/grid',
+      '@jetbrains/websandbox',
       'feelers',
       'dompurify'
     ],

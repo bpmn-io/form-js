@@ -446,34 +446,36 @@ export class Form {
     const pathRegistry = this.get('pathRegistry');
     const formData = this._getState().data;
 
-    function collectSubmitDataRecursively(submitData, formField, indexes) {
-      const { disabled, type } = formField;
+    function collectSubmitDataRecursively(submitData, field, indexes) {
+      const { disabled, type } = field;
       const { config: fieldConfig } = formFields.get(type);
 
       // (1) Process keyed fields
-      if (!disabled && fieldConfig.keyed) {
-        const valuePath = pathRegistry.getValuePath(formField, { indexes });
+      const isSubmittedKeyedField = fieldConfig.keyed && !disabled && !(fieldConfig.allowDoNotSubmit && field.doNotSubmit);
+
+      if (isSubmittedKeyedField) {
+        const valuePath = pathRegistry.getValuePath(field, { indexes });
         const value = get(formData, valuePath);
         set(submitData, valuePath, value);
       }
 
       // (2) Process parents
-      if (!Array.isArray(formField.components)) {
+      if (!Array.isArray(field.components)) {
         return;
       }
 
       // (3a) Recurse repeatable parents both across the indexes of repetition and the children
-      if (fieldConfig.repeatable && formField.isRepeating) {
+      if (fieldConfig.repeatable && field.isRepeating) {
 
-        const valueData = get(formData, pathRegistry.getValuePath(formField, { indexes }));
+        const valueData = get(formData, pathRegistry.getValuePath(field, { indexes }));
 
         if (!Array.isArray(valueData)) {
           return;
         }
 
         valueData.forEach((_, index) => {
-          formField.components.forEach((component) => {
-            collectSubmitDataRecursively(submitData, component, { ...indexes, [formField.id]: index });
+          field.components.forEach((component) => {
+            collectSubmitDataRecursively(submitData, component, { ...indexes, [field.id]: index });
           });
         });
 
@@ -481,7 +483,7 @@ export class Form {
       }
 
       // (3b) Recurse non-repeatable parents only across the children
-      formField.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
+      field.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
     }
 
     const workingSubmitData = {};

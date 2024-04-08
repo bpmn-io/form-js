@@ -3,11 +3,13 @@ import { EditorText } from './EditorText';
 import { EditorHtml } from './EditorHtml';
 import { EditorTable } from './EditorTable';
 import { EditorExpressionField } from './EditorExpressionField';
+import { EditorJSFunctionField } from './EditorJSFunctionField';
 
 export const editorFormFields = [
   EditorIFrame,
   EditorText,
   EditorHtml,
   EditorTable,
-  EditorExpressionField
+  EditorExpressionField,
+  EditorJSFunctionField
 ];

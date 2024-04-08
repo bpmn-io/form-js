@@ -7,6 +7,7 @@ import { FormContext, FormRenderContext } from '../context';
 
 import {
   useCondition,
+  useDeepCompareMemoize,
   useReadonly,
   useService
 } from '../hooks';
@@ -19,7 +20,7 @@ const noop = () => false;
 export function FormField(props) {
   const {
     field,
-    indexes,
+    indexes: _indexes,
     onChange
   } = props;
 
@@ -43,6 +44,8 @@ export function FormField(props) {
   } = useContext(FormRenderContext);
 
   const { formId } = useContext(FormContext);
+
+  const indexes = useDeepCompareMemoize(_indexes || {});
 
   // track whether we should trigger initial validation on certain actions, e.g. field blur
   // disabled straight away, if viewerCommands are not available
@@ -134,7 +137,7 @@ export function FormField(props) {
   }
 
   const domId = `${prefixId(field.id, formId, indexes)}`;
-  const fieldErrors = get(errors, [ field.id, ...Object.values(indexes || {}) ]) || [];
+  const fieldErrors = get(errors, [ field.id, ...Object.values(indexes) ]) || [];
 
   const formFieldElement = (
     <FormFieldComponent

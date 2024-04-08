@@ -4,6 +4,15 @@
   "type": "default",
   "components": [
     {
+      "id": "Script_1",
+      "type": "script",
+      "key": "script",
+      "jsFunction": "return [\"reading\", \"swimming\", \"running\"];",
+      "functionParameters": "={}",
+      "computeOn": "interval",
+      "interval": 1000
+    },
+    {
       "id": "ExpressionField_1",
       "type": "expression",
       "key": "expression",

@@ -2,6 +2,14 @@
   "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
+      "type": "script",
+      "key": "otherHobbies",
+      "jsFunction": "return [\"reading\", \"swimming\", \"running\"];",
+      "functionParameters": "={}",
+      "computeOn": "change",
+      "interval": 1000
+    },
+    {
       "type": "expression",
       "key": "expressionResult",
       "expression": "= 3 + 4",
