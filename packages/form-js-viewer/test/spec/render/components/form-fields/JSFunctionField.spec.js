@@ -154,6 +154,7 @@ function createJSFunctionField({ services, ...restOptions } = {}) {
       options={ options }>
       <JSFunctionField
         field={ options.field }
+        domId={ 'testId' }
         onChange={ options.onChange } />
     </MockFormContext>, {
       container: options.container || container.querySelector('.fjs-form')

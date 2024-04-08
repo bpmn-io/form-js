@@ -3,10 +3,16 @@ import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import { useExpressionEvaluation, useDeepCompareMemoize, usePrevious } from '../../hooks';
 import { isObject } from 'min-dash';
 import { isEqual } from 'lodash';
-import { v4 as uuidv4 } from 'uuid';
 
 export function JSFunctionField(props) {
-  const { field, onChange, value } = props;
+
+  const {
+    field,
+    onChange,
+    value,
+    domId
+  } = props;
+
   const {
     jsFunction: functionDefinition,
     functionParameters: paramsDefinition,
@@ -16,7 +22,6 @@ export function JSFunctionField(props) {
 
   const [ sandbox, setSandbox ] = useState(null);
   const [ hasRunLoad, setHasRunLoad ] = useState(false);
-  const [ iframeContainerId ] = useState(`fjs-sandbox-iframe-container_${uuidv4()}`);
   const iframeContainerRef = useRef(null);
 
   const paramsEval = useExpressionEvaluation(paramsDefinition);
@@ -103,7 +108,7 @@ export function JSFunctionField(props) {
   `;
 
     const _sandbox = Sandbox.create(hostAPI, {
-      frameContainer: `#${iframeContainerId}`,
+      frameContainer: `#${domId}`,
       frameClassName: 'fjs-sandbox-iframe'
     });
 
@@ -119,7 +124,7 @@ export function JSFunctionField(props) {
     return () => {
       _sandbox.destroy();
     };
-  }, [ clearValue, functionDefinition, iframeContainerId, safeSetValue, sandboxError ]);
+  }, [ clearValue, functionDefinition, domId, safeSetValue, sandboxError ]);
 
   const prevParams = usePrevious(params);
   const prevSandbox = usePrevious(sandbox);
@@ -151,7 +156,7 @@ export function JSFunctionField(props) {
   }, [ params, prevParams, sandbox, prevSandbox, field, computeOn, hasRunLoad, interval, clearValue, safeSetValue ]);
 
   return (
-    <div ref={ iframeContainerRef } id={ iframeContainerId } className="fjs-sandbox-iframe-container"></div>
+    <div ref={ iframeContainerRef } id={ domId } className="fjs-sandbox-iframe-container"></div>
   );
 }
 
