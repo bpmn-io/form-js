@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'preact/hooks';
 import { useExpressionEvaluation, useDeepCompareMemoize, useService } from '../../hooks';
+import { isEqual } from 'lodash';
 
 const type = 'expression';
 
@@ -24,7 +25,7 @@ export function ExpressionField(props) {
   }, [ field, evaluationMemo, onChange ]);
 
   useEffect(() => {
-    if (computeOn !== 'change' || evaluationMemo === value) { return; }
+    if (computeOn !== 'change' || isEqual(evaluationMemo, value)) { return; }
     sendValue();
   }, [ computeOn, evaluationMemo, sendValue, value ]);
 
