@@ -2,10 +2,11 @@ import Sandbox from '@jetbrains/websandbox';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import { useExpressionEvaluation, useDeepCompareMemoize, usePrevious } from '../../hooks';
 import { isObject } from 'min-dash';
+import { isEqual } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 export function JSFunctionField(props) {
-  const { field, onChange } = props;
+  const { field, onChange, value } = props;
   const {
     jsFunction: functionDefinition,
     functionParameters: paramsDefinition,
@@ -35,19 +36,32 @@ export function JSFunctionField(props) {
 
   }, [ field.key ]);
 
-  const safeSetValue = useCallback((value) => {
+  const valueRef = useRef(value);
 
-    if (value !== undefined) {
+  useEffect(() => {
+    valueRef.current = value;
+  }, [ value ]);
 
-      // strip out functions and handle unserializeable objects
-      try {
-        value = JSON.parse(JSON.stringify(value));
-        onChange({ field, value });
-      } catch {
-        sandboxError('Unparsable return value');
-        clearValue();
-      }
+  const safeSetValue = useCallback((newValue) => {
+
+    if (newValue === undefined) {
+      return;
     }
+
+    // strip out functions and handle unserializeable objects
+    try {
+      newValue = JSON.parse(JSON.stringify(newValue));
+    } catch {
+      sandboxError('Unparsable return value');
+      clearValue();
+    }
+
+    // prevent unnecessary updates
+    if (isEqual(valueRef.current, newValue)) {
+      return;
+    }
+
+    onChange({ field, value: newValue });
 
   }, [ onChange, field, sandboxError, clearValue ]);
 
@@ -92,9 +106,6 @@ export function JSFunctionField(props) {
       frameContainer: `#${iframeContainerId}`,
       frameClassName: 'fjs-sandbox-iframe'
     });
-
-    const iframe = iframeContainerRef.current.querySelector('iframe');
-    iframe.removeAttribute('allow');
 
     // (3) load user code in sandbox
     _sandbox.promise.then((sandboxInstance) => {
