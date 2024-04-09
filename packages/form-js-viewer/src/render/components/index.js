@@ -59,28 +59,37 @@ export {
 };
 
 export const formFields = [
-  Button,
-  Checkbox,
-  Checklist,
-  Default,
-  DynamicList,
+
+  /* Input */
+  Textfield,
+  Textarea,
   Numberfield,
   Datetime,
+  ExpressionField,
+
+  /* Selection */
+  Checkbox,
+  Checklist,
   Radio,
   Select,
   Taglist,
-  Textfield,
-  Textarea,
-  ExpressionField,
+
+  /* Presentation */
   Text,
   Image,
   Table,
   Html,
   Spacer,
   Separator,
+
+  /* Containers */
   Group,
   DynamicList,
-  IFrame
+  IFrame,
+
+  /* Other */
+  Button,
+  Default
 ];
 
 export * from './icons';
