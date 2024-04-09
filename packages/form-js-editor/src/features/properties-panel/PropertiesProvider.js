@@ -63,13 +63,13 @@ export class PropertiesProvider {
       groups = [
         ...groups,
         GeneralGroup(field, editField, getService),
+        ...OptionsGroups(field, editField, getService),
         ...TableHeaderGroups(field, editField),
         SecurityAttributesGroup(field, editField),
         ConditionGroup(field, editField),
         LayoutGroup(field, editField),
         AppearanceGroup(field, editField),
         SerializationGroup(field, editField),
-        ...OptionsGroups(field, editField, getService),
         ConstraintsGroup(field, editField),
         ValidationGroup(field, editField),
         CustomPropertiesGroup(field, editField)
