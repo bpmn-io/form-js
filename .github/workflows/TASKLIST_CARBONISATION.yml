@@ -11,7 +11,7 @@ jobs:
     name: Run visual regression
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.40.1
+      image: mcr.microsoft.com/playwright:v1.43.0
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: "20"
           cache: "yarn"
-          cache-dependency-path: ./tasklist/client/yarn.lock
+          cache-dependency-path: ./tasklist/tasklist/client/yarn.lock
       - name: Install form-js deps
         run: npm ci
         working-directory: ./form-js
@@ -48,28 +48,28 @@ jobs:
         working-directory: ./form-js/packages/form-js-viewer
       - name: Link form-js-viewer
         run: yarn link "@bpmn-io/form-js-viewer"
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
       - name: Create form-js-carbon-styles link
         run: yarn link
         working-directory: ./form-js/packages/form-js-carbon-styles
       - name: Link form-js-carbon-styles
         run: yarn link "@bpmn-io/form-js-carbon-styles"
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
       - name: Install Tasklist deps
         run: yarn
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
       - name: Build Tasklist
         run: yarn build:visual-regression
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
       - name: Start server
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
         run: yarn start:visual-regression &
       - name: Run Playwright tests
-        working-directory: ./tasklist/client
+        working-directory: ./tasklist/tasklist/client
         run: yarn playwright form-js-integration
       - uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
         if: always()
         with:
           name: playwright-report
-          path: ./tasklist/client/playwright-report/
+          path: ./tasklist/tasklist/client/playwright-report/
           retention-days: 30
