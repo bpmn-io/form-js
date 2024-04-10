@@ -22,13 +22,13 @@ export function buildExpressionContext(context) {
  * If the string is not an expression, it is returned as is.
  *
  * @param {any} expressionLanguage - The expression language to use.
- * @param {string} value - The string to evaluate.
+ * @param {string} expression - The string expression to evaluate.
  * @param {Object} expressionContextInfo - The context information to use.
  * @returns {any} - Evaluated value or the original value if not an expression.
  */
-export function runExpressionEvaluation(expressionLanguage, value, expressionContextInfo) {
-  if (expressionLanguage && expressionLanguage.isExpression(value)) {
-    return expressionLanguage.evaluate(value, buildExpressionContext(expressionContextInfo));
+export function runExpressionEvaluation(expressionLanguage, expression, expressionContextInfo) {
+  if (expressionLanguage && expressionLanguage.isExpression(expression)) {
+    return expressionLanguage.evaluate(expression, buildExpressionContext(expressionContextInfo));
   }
-  return value;
+  return expression;
 }
