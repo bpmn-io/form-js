@@ -283,7 +283,7 @@
   letter-spacing: inherit;
 }
 
-.fjs-container .fjs-native-dropdownlist {
+.fjs-container .fjs-native-select {
   -webkit-appearance: none;
   -moz-apperance: none;
   appearance: none;
@@ -306,7 +306,7 @@
   background-position-y: 50%;
 }
 
-.fjs-container .fjs-native-dropdownlist:focus {
+.fjs-container .fjs-native-select:focus {
   outline: solid var(--color-borders-group) 2px;
 }
 

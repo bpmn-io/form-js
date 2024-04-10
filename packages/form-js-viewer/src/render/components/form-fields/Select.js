@@ -7,6 +7,8 @@ import { SimpleSelect } from './parts/SimpleSelect';
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 import { formFieldClasses } from '../Util';
+import { NativeSelect } from './parts/NativeSelect';
+import { useMemo } from 'preact/hooks';
 
 const type = 'select';
 
@@ -52,6 +54,9 @@ export function Select(props) {
     'aria-labelledby': labelId
   };
 
+
+  const useNative = useMemo(() => !window.matchMedia('(any-pointer:fine)').matches, []);
+
   return <div
     class={ formFieldClasses(type, { errors, disabled, readonly }) }
     onKeyDown={
@@ -68,7 +73,10 @@ export function Select(props) {
       htmlFor={ domId }
       label={ label }
       required={ required } />
-    { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
+    { searchable ? <SearchableSelect { ...selectProps } />
+      : useNative ? <NativeSelect { ...selectProps } />
+        : <SimpleSelect { ...selectProps } /> }
+        <NativeSelect { ...selectProps } />
     <Description id={ descriptionId } description={ description } />
     <Errors id={ errorMessageId } errors={ errors } />
   </div>;

@@ -23,8 +23,6 @@ export function SimpleSelect(props) {
     'aria-labelledby': ariaLabelledById
   } = props;
 
-  const useNative = useMemo(() => !window.matchMedia('(any-pointer:fine)').matches, []);
-
   const { loadState, options } = useOptionsAsync(field);
   useCleanupSingleSelectValue({
     field,
@@ -170,85 +168,57 @@ export function SimpleSelect(props) {
     }
   }, [ setValue ]);
 
-  if (useNative) {
-    return <>
-      <select
-        id={ `${domId}-native` }
-        class="fjs-native-dropdownlist"
-        aria-labelledby={ ariaLabelledById }
-        size={ 1 }
-        onChange={ (ev) => {
-
-          // @ts-expect-error Target should be an HTMLSelectElement
-          const value = ev.target.value;
-          const selected = indexFromValue(value);
-          setValue(selected, value);
-        } }>
-        <option value="" disabled selected={ activeIndex === -1 } hidden>Select</option>
-        {options.map((option, i) => {
-          return <option
-            key={ option.value }
-            data-index={ i }
-            value={ option.value }
-            selected={ value === option.value }>
-            {labelFromValue(option.value)}
-          </option>;
-        })}
-      </select>
-    </>;
-  } else {
-    return <>
-      <div
-        ref={ inputRef }
-        role="combobox"
-        id={ domId }
-        class={ classNames(
-          'fjs-input-group',
-          { disabled, readonly, 'hasErrors': errors.length })
-        }
-        aria-controls={ `${domId}-listbox` }
-        aria-expanded={ isDropdownExpanded }
-        aria-haspopup="listbox"
-        aria-labelledby={ ariaLabelledById }
-        aria-activedescendant={ activeIndex >= 0 ? optionDomId(activeIndex) : undefined }
-        tabIndex={ 0 }
-        onKeyDown={ onInputKeyDown }
-        onMouseDown={ onInputMouseDown }
-        onFocus={ onInputFocus }
-        onBlur={ onInputBlur }
-      >
-        <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder': selectedIndex === -1 }) }>
-          {selectedIndex === -1 ? 'Select' : labelFromValue(value, '')}
-        </div>
-        {(!disabled && !readonly && value) &&
-          <span
-            role="button"
-            aria-hidden
-            class="fjs-select-cross"
-            onClick={ onClear }
-            onMouseDown={ (ev) => { ev.stopPropagation(); } }>
-            <XMarkIcon role="presentation" />
-          </span>}
+  return <>
+    <div
+      ref={ inputRef }
+      role="combobox"
+      id={ domId }
+      class={ classNames(
+        'fjs-input-group',
+        { disabled, readonly, 'hasErrors': errors.length })
+      }
+      aria-controls={ `${domId}-listbox` }
+      aria-expanded={ isDropdownExpanded }
+      aria-haspopup="listbox"
+      aria-labelledby={ ariaLabelledById }
+      aria-activedescendant={ activeIndex >= 0 ? optionDomId(activeIndex) : undefined }
+      tabIndex={ 0 }
+      onKeyDown={ onInputKeyDown }
+      onMouseDown={ onInputMouseDown }
+      onFocus={ onInputFocus }
+      onBlur={ onInputBlur }
+    >
+      <div class={ classNames('fjs-select-display', { 'fjs-select-placeholder': selectedIndex === -1 }) }>
+        {selectedIndex === -1 ? 'Select' : labelFromValue(value, '')}
+      </div>
+      {(!disabled && !readonly && value) &&
         <span
-          role="presentation"
-          class="fjs-select-arrow">
-          { displayState.displayDropdown ? <AngelUpIcon role="presentation" /> : <AngelDownIcon role="presentation" /> }
-        </span>
-      </div>
+          role="button"
+          aria-hidden
+          class="fjs-select-cross"
+          onClick={ onClear }
+          onMouseDown={ (ev) => { ev.stopPropagation(); } }>
+          <XMarkIcon role="presentation" />
+        </span>}
+      <span
+        role="presentation"
+        class="fjs-select-arrow">
+        { displayState.displayDropdown ? <AngelUpIcon role="presentation" /> : <AngelDownIcon role="presentation" /> }
+      </span>
+    </div>
 
-      <div class="fjs-select-anchor">
-        <DropdownList
-          id={ `${domId}-listbox` }
-          optionDomId={ optionDomId }
-          values={ options }
-          hidden={ !displayState.displayDropdown }
-          getLabel={ getOptionLabel }
-          selectedIndex={ selectedIndex }
-          activeIndex={ activeIndex }
-          onClick={ onOptionSelected }
-          onHover={ onOptionHover }
-        />
-      </div>
-    </>;
-  }
+    <div class="fjs-select-anchor">
+      <DropdownList
+        id={ `${domId}-listbox` }
+        optionDomId={ optionDomId }
+        values={ options }
+        hidden={ !displayState.displayDropdown }
+        getLabel={ getOptionLabel }
+        selectedIndex={ selectedIndex }
+        activeIndex={ activeIndex }
+        onClick={ onOptionSelected }
+        onHover={ onOptionHover }
+      />
+    </div>
+  </>;
 }
