@@ -29,7 +29,7 @@ jobs:
           new_branch_name: ${{ env.PREVIEW_BRANCH_NAME }}
           access_token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
       - name: Create GitHub deployment
-        uses: bobheadxi/deployments@8a87bc300d207ce86142a8080e9b8fabec463494
+        uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         id: deployment
         with:
           step: start
@@ -45,7 +45,7 @@ jobs:
         # `always()` ensures that the deployment status
         # is updated regardless of previous steps failing.
         if: always()
-        uses: bobheadxi/deployments@8a87bc300d207ce86142a8080e9b8fabec463494
+        uses: bobheadxi/deployments@648679e8e4915b27893bd7dbc35cb504dc915bc8
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
