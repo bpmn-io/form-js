@@ -20,8 +20,8 @@ function Option(props) {
 
   // Memoize the mouse handlers so that screenreaders don't call them out
   // as "clickable".
-  const onMouseDown = useCallback(() => onClick(i, value), [i, onClick, value]);
-  const onMouseEnter = useCallback(() => onHover(i, value), [i, onHover, value]);
+  const onMouseDown = useCallback(() => onClick(i, value), [ i, onClick, value ]);
+  const onMouseEnter = useCallback(() => onHover(i, value), [ i, onHover, value ]);
 
   return <div
     id={ id }
@@ -77,7 +77,11 @@ export function DropdownList(props) {
     class="fjs-dropdownlist"
     aria-labelledby={ ariaLabelledById }
     tabIndex={ -1 }
-    style={ { display: hidden ? 'none' : 'block', maxHeight: `${height}px` } }
+    style={ {
+      display: hidden ? 'none' : 'block',
+      maxHeight: `${height}px`,
+      scrollBehavior: smoothScrolling ? 'smooth' : 'auto',
+    } }
   >
     {values.length === 0 &&
     <div

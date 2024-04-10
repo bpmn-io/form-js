@@ -178,6 +178,8 @@ export function SimpleSelect(props) {
         aria-labelledby={ ariaLabelledById }
         size={ 1 }
         onChange={ (ev) => {
+
+          // @ts-expect-error Target should be an HTMLSelectElement
           const value = ev.target.value;
           const selected = indexFromValue(value);
           setValue(selected, value);
