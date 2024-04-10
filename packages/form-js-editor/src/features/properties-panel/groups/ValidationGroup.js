@@ -14,7 +14,7 @@ import { useService, useVariables } from '../hooks';
 
 import { INPUTS } from '../Util';
 
-const VALIDATION_TYPE_OPTIONS = {
+export const VALIDATION_TYPE_OPTIONS = {
   custom: {
     value: '',
     label: 'Custom',

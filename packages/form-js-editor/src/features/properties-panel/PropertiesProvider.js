@@ -6,6 +6,7 @@ import {
   SerializationGroup,
   ConstraintsGroup,
   ValidationGroup,
+  CustomValidationsGroup,
   OptionsGroups,
   TableHeaderGroups,
   LayoutGroup,
@@ -66,6 +67,7 @@ export class PropertiesProvider {
         SerializationGroup(field, editField),
         ConstraintsGroup(field, editField),
         ValidationGroup(field, editField),
+        CustomValidationsGroup(field, editField, getService),
         CustomPropertiesGroup(field, editField),
       ].filter((group) => group != null);
 

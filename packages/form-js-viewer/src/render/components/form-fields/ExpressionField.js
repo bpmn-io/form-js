@@ -45,6 +45,7 @@ ExpressionField.config = {
   label: 'Expression',
   group: 'basic-input',
   keyed: true,
+  validatable: false,
   emptyValue: null,
   escapeGridRender: true,
   create: (options = {}) => ({
