@@ -28,8 +28,7 @@ export class ConditionChecker {
     const workingData = clone(data);
 
     const {
-      getFilterPath = (field, indexes) => this._pathRegistry.getValuePath(field, { indexes }),
-      leafNodeDeletionOnly = false
+      getFilterPath = (field, indexes) => this._pathRegistry.getValuePath(field, { indexes })
     } = options;
 
     const _applyConditionsWithinScope = (rootField, scopeContext, startHidden = false) => {
@@ -60,7 +59,7 @@ export class ConditionChecker {
         context.isHidden = startHidden || context.isHidden || (conditional && this._checkHideCondition(conditional, localExpressionContext));
 
         // if a field is repeatable and visible, we need to implement custom recursion on its children
-        if (isRepeatable && (!context.isHidden || leafNodeDeletionOnly)) {
+        if (isRepeatable && (!context.isHidden)) {
 
           // prevent the regular recursion behavior of executeRecursivelyOnFields
           context.preventRecursion = true;
@@ -93,7 +92,7 @@ export class ConditionChecker {
         }
 
         // if we have a hidden repeatable field, and the data structure allows, we clear it directly at the root and stop recursion
-        if (context.isHidden && !leafNodeDeletionOnly && isRepeatable) {
+        if (context.isHidden && isRepeatable) {
           context.preventRecursion = true;
           this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
         }

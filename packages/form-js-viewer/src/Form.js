@@ -204,64 +204,38 @@ export class Form {
    * @returns {Errors}
    */
   validate() {
-    const formFields = this.get('formFields'),
-          formFieldRegistry = this.get('formFieldRegistry'),
-          pathRegistry = this.get('pathRegistry'),
+    const formFieldRegistry = this.get('formFieldRegistry'),
+          formFieldInstanceRegistry = this.get('formFieldInstanceRegistry'),
           validator = this.get('validator');
 
     const { data } = this._getState();
+    const errors = {};
 
-    const getErrorPath = (field, indexes) => [ field.id, ...Object.values(indexes || {}) ];
+    const getErrorPath = (id, indexes) => [ id, ...Object.values(indexes || {}) ];
 
-    function validateFieldRecursively(errors, field, indexes) {
-      const { disabled, type, isRepeating } = field;
-      const { config: fieldConfig } = formFields.get(type);
+    formFieldInstanceRegistry.getAllKeyed().forEach(({ id, valuePath, indexes }) => {
+
+      const field = formFieldRegistry.get(id);
 
       // (1) Skip disabled fields
-      if (disabled) {
+      if (field.disabled) {
         return;
       }
 
       // (2) Validate the field
-      const valuePath = pathRegistry.getValuePath(field, { indexes });
-      const valueData = get(data, valuePath);
-      const fieldErrors = validator.validateField(field, valueData);
+      const value = get(data, valuePath);
+      const fieldErrors = validator.validateField(field, value);
 
       if (fieldErrors.length) {
-        set(errors, getErrorPath(field, indexes), fieldErrors);
+        set(errors, getErrorPath(field.id, indexes), fieldErrors);
       }
 
-      // (3) Process parents
-      if (!Array.isArray(field.components)) {
-        return;
-      }
+    });
 
-      // (4a) Recurse repeatable parents both across the indexes of repetition and the children
-      if (fieldConfig.repeatable && isRepeating) {
+    this._setState({ errors });
 
-        if (!Array.isArray(valueData)) {
-          return;
-        }
-
-        valueData.forEach((_, index) => {
-          field.components.forEach((component) => {
-            validateFieldRecursively(errors, component, { ...indexes, [field.id]: index });
-          });
-        });
-
-        return;
-      }
-
-      // (4b) Recurse non-repeatable parents only across the children
-      field.components.forEach((component) => validateFieldRecursively(errors, component, indexes));
-    }
-
-    const workingErrors = {};
-    validateFieldRecursively(workingErrors, formFieldRegistry.getForm());
-    const filteredErrors = this._applyConditions(workingErrors, data, { getFilterPath: getErrorPath, leafNodeDeletionOnly: true });
-    this._setState({ errors: filteredErrors });
-
-    return filteredErrors;
+    // @ts-ignore
+    return errors;
   }
 
   /**
@@ -442,59 +416,24 @@ export class Form {
    */
   _getSubmitData() {
     const formFieldRegistry = this.get('formFieldRegistry');
-    const formFields = this.get('formFields');
-    const pathRegistry = this.get('pathRegistry');
+    const formFieldInstanceRegistry = this.get('formFieldInstanceRegistry');
     const formData = this._getState().data;
 
-    function collectSubmitDataRecursively(submitData, formField, indexes) {
-      const { disabled, type } = formField;
-      const { config: fieldConfig } = formFields.get(type);
+    const submitData = {};
 
-      // (1) Process keyed fields
-      if (!disabled && fieldConfig.keyed) {
-        const valuePath = pathRegistry.getValuePath(formField, { indexes });
-        const value = get(formData, valuePath);
-        set(submitData, valuePath, value);
-      }
+    formFieldInstanceRegistry.getAllKeyed().forEach((formFieldInstance) => {
+      const { id, valuePath } = formFieldInstance;
+      const { disabled } = formFieldRegistry.get(id);
 
-      // (2) Process parents
-      if (!Array.isArray(formField.components)) {
+      if (disabled) {
         return;
       }
 
-      // (3a) Recurse repeatable parents both across the indexes of repetition and the children
-      if (fieldConfig.repeatable && formField.isRepeating) {
+      const value = get(formData, valuePath);
+      set(submitData, valuePath, value);
+    });
 
-        const valueData = get(formData, pathRegistry.getValuePath(formField, { indexes }));
-
-        if (!Array.isArray(valueData)) {
-          return;
-        }
-
-        valueData.forEach((_, index) => {
-          formField.components.forEach((component) => {
-            collectSubmitDataRecursively(submitData, component, { ...indexes, [formField.id]: index });
-          });
-        });
-
-        return;
-      }
-
-      // (3b) Recurse non-repeatable parents only across the children
-      formField.components.forEach((component) => collectSubmitDataRecursively(submitData, component, indexes));
-    }
-
-    const workingSubmitData = {};
-    collectSubmitDataRecursively(workingSubmitData, formFieldRegistry.getForm(), {});
-    return this._applyConditions(workingSubmitData, formData);
-  }
-
-  /**
-   * @internal
-   */
-  _applyConditions(toFilter, data, options = {}) {
-    const conditionChecker = this.get('conditionChecker');
-    return conditionChecker.applyConditions(toFilter, data, options);
+    return submitData;
   }
 
   /**
