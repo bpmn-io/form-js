@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 
 import { get } from 'min-dash';
 
-import { FormContext, FormRenderContext } from '../context';
+import { FormContext, FormRenderContext, LocalExpressionContext } from '../context';
 
 import {
   useCondition,
@@ -25,6 +25,7 @@ export function FormField(props) {
 
   const formFields = useService('formFields'),
         viewerCommands = useService('viewerCommands', false),
+        formFieldInstanceRegistry = useService('formFieldInstanceRegistry', false),
         pathRegistry = useService('pathRegistry'),
         eventBus = useService('eventBus'),
         form = useService('form');
@@ -56,6 +57,7 @@ export function FormField(props) {
 
   const fieldConfig = FormFieldComponent.config;
 
+  const localExpressionContext = useContext(LocalExpressionContext);
   const valuePath = useMemo(() => pathRegistry.getValuePath(field, { indexes }), [ field, indexes, pathRegistry ]);
 
   const initialValue = useMemo(() => get(initialData, valuePath), [ initialData, valuePath ]);
@@ -68,6 +70,24 @@ export function FormField(props) {
   const disabled = !properties.readOnly && (
     properties.disabled || field.disabled || false
   );
+
+  const hidden = useCondition(field.conditional && field.conditional.hide || null);
+
+  // register form field instance
+  useEffect(() => {
+    if (formFieldInstanceRegistry && !hidden) {
+      const instanceId = formFieldInstanceRegistry.add({
+        id: field.id,
+        expressionContextInfo: localExpressionContext,
+        valuePath,
+        indexes
+      });
+
+      return () => {
+        formFieldInstanceRegistry.remove(instanceId);
+      };
+    }
+  }, [ formFieldInstanceRegistry, field.id, localExpressionContext, valuePath, indexes, hidden ]);
 
   // ensures the initial validation behavior can be re-triggered upon form reset
   useEffect(() => {
@@ -117,8 +137,6 @@ export function FormField(props) {
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
   }, [ eventBus, field ]);
-
-  const hidden = useCondition(field.conditional && field.conditional.hide || null);
 
   const onChangeIndexed = useCallback((update) => {
 
