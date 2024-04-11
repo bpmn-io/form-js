@@ -1,5 +1,6 @@
 import { isNil, get, set } from 'min-dash';
 import { countDecimals } from '../render/components/util/numberFieldUtil';
+import { runExpressionEvaluation } from '../util/expressions';
 import Big from 'big.js';
 
 const EMAIL_PATTERN =
@@ -18,6 +19,8 @@ export class Validator {
   }
 
   /**
+   * Validate against a field definition, does not support proper expression evaluation.
+   *
    * @deprecated use validateFieldInstance instead
    */
   validateField(field, value) {
@@ -26,21 +29,52 @@ export class Validator {
     let errors = [];
 
     if (type === 'number') {
-      errors = runNumberValidation(field, value, errors);
+      errors = [...errors, ...runNumberValidation(field, value)];
     }
 
     if (!validate) {
       return errors;
     }
 
-    const evaluatedValidation = evaluateFEELValues(
+    const evaluatedValidation = oldEvaluateFEELValues(
       validate,
       this._expressionLanguage,
       this._conditionChecker,
       this._form,
     );
 
-    errors = runPresetValidation(field, evaluatedValidation, value, errors);
+    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value)];
+
+    return errors;
+  }
+
+  /**
+   * Validate a field instance.
+   *
+   * @param {Object} fieldInstance
+   * @param {string} value
+   *
+   * @returns {Array<string>}
+   */
+  validateFieldInstance(fieldInstance, value) {
+    const { id, expressionContextInfo } = fieldInstance;
+
+    const field = this._formFieldRegistry.get(id);
+    const { type, validate } = field;
+
+    let errors = [];
+
+    if (type === 'number') {
+      errors = [...errors, ...runNumberValidation(field, value)];
+    }
+
+    if (!validate) {
+      return errors;
+    }
+
+    const evaluatedValidation = evaluateFEELValues(validate, this._expressionLanguage, expressionContextInfo);
+
+    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value)];
 
     return errors;
   }
@@ -50,21 +84,21 @@ Validator.$inject = ['expressionLanguage', 'conditionChecker', 'form', 'formFiel
 
 // helpers //////////
 
-function runNumberValidation(field, value, errors) {
+function runNumberValidation(field, value) {
   const { decimalDigits, increment } = field;
+  const errors = [];
 
   if (value === 'NaN') {
-    errors = [...errors, 'Value is not a number.'];
+    errors.push('Value is not a number.');
   } else if (value) {
     if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
-      errors = [
-        ...errors,
+      errors.push(
         'Value is expected to ' +
           (decimalDigits === 0
             ? 'be an integer'
             : `have at most ${decimalDigits} decimal digit${decimalDigits > 1 ? 's' : ''}`) +
           '.',
-      ];
+      );
     }
 
     if (increment) {
@@ -77,10 +111,7 @@ function runNumberValidation(field, value, errors) {
         const previousValue = bigValue.minus(offset);
         const nextValue = previousValue.plus(bigIncrement);
 
-        errors = [
-          ...errors,
-          `Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`,
-        ];
+        errors.push(`Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`);
       }
     }
   }
@@ -88,9 +119,11 @@ function runNumberValidation(field, value, errors) {
   return errors;
 }
 
-function runPresetValidation(field, validation, value, errors) {
+function runPresetValidation(field, validation, value) {
+  const errors = [];
+
   if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
-    errors = [...errors, `Field must match pattern ${validation.pattern}.`];
+    errors.push(`Field must match pattern ${validation.pattern}.`);
   }
 
   if (validation.required) {
@@ -99,38 +132,51 @@ function runPresetValidation(field, validation, value, errors) {
     const isEmptyMultiselect = Array.isArray(value) && value.length === 0;
 
     if (isUncheckedCheckbox || isUnsetValue || isEmptyMultiselect) {
-      errors = [...errors, 'Field is required.'];
+      errors.push('Field is required.');
     }
   }
 
   if ('min' in validation && (value || value === 0) && value < validation.min) {
-    errors = [...errors, `Field must have minimum value of ${validation.min}.`];
+    errors.push(`Field must have minimum value of ${validation.min}.`);
   }
 
   if ('max' in validation && (value || value === 0) && value > validation.max) {
-    errors = [...errors, `Field must have maximum value of ${validation.max}.`];
+    errors.push(`Field must have maximum value of ${validation.max}.`);
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
-    errors = [...errors, `Field must have minimum length of ${validation.minLength}.`];
+    errors.push(`Field must have minimum length of ${validation.minLength}.`);
   }
 
   if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {
-    errors = [...errors, `Field must have maximum length of ${validation.maxLength}.`];
+    errors.push(`Field must have maximum length of ${validation.maxLength}.`);
   }
 
   if ('validationType' in validation && value && validation.validationType === 'phone' && !PHONE_PATTERN.test(value)) {
-    errors = [...errors, 'Field must be a valid  international phone number. (e.g. +4930664040900)'];
+    errors.push('Field must be a valid  international phone number. (e.g. +4930664040900)');
   }
 
   if ('validationType' in validation && value && validation.validationType === 'email' && !EMAIL_PATTERN.test(value)) {
-    errors = [...errors, 'Field must be a valid email.'];
+    errors.push('Field must be a valid email.');
   }
 
   return errors;
 }
 
-function evaluateFEELValues(validate, expressionLanguage, conditionChecker, form) {
+function evaluateFEELValues(validate, expressionLanguage, expressionContextInfo) {
+  const evaluatedValidate = { ...validate };
+
+  VALIDATE_FEEL_PROPERTIES.forEach((property) => {
+    const path = property.split('.');
+    const value = get(evaluatedValidate, path);
+    const evaluatedValue = runExpressionEvaluation(expressionLanguage, value, expressionContextInfo);
+    set(evaluatedValidate, path, evaluatedValue === null ? undefined : evaluatedValue);
+  });
+
+  return evaluatedValidate;
+}
+
+function oldEvaluateFEELValues(validate, expressionLanguage, conditionChecker, form) {
   const evaluatedValidate = { ...validate };
 
   VALIDATE_FEEL_PROPERTIES.forEach((property) => {
