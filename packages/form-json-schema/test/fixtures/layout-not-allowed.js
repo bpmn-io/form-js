@@ -1,7 +1,7 @@
 export const form = {
   type: 'default',
   components: [],
-  layout: {}
+  layout: {},
 };
 
 export const errors = [
@@ -10,13 +10,13 @@ export const errors = [
     schemaPath: '#/allOf/0/allOf/0/then/properties/layout/false schema',
     keyword: 'false schema',
     params: {},
-    message: 'boolean schema is false'
+    message: 'boolean schema is false',
   },
   {
     instancePath: '',
     schemaPath: '#/allOf/0/allOf/0/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
-    message: 'must match "then" schema'
-  }
+    message: 'must match "then" schema',
+  },
 ];

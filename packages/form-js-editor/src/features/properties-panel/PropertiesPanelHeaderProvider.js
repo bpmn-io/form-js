@@ -1,6 +1,4 @@
-import {
-  textToLabel
-} from './Util';
+import { textToLabel } from './Util';
 
 import { iconsByType } from '../../render/components/icons';
 
@@ -8,19 +6,11 @@ import { getPaletteIcon } from '../palette/components/Palette';
 
 import { useService } from './hooks';
 
-const headerlessTypes = [
-  'spacer',
-  'separator',
-  'expression',
-  'html'
-];
+const headerlessTypes = ['spacer', 'separator', 'expression', 'html'];
 
 export const PropertiesPanelHeaderProvider = {
-
   getElementLabel: (field) => {
-    const {
-      type
-    } = field;
+    const { type } = field;
 
     if (headerlessTypes.includes(type)) {
       return '';
@@ -42,9 +32,7 @@ export const PropertiesPanelHeaderProvider = {
   },
 
   getElementIcon: (field) => {
-    const {
-      type
-    } = field;
+    const { type } = field;
 
     // @Note: We know that we are inside the properties panel context,
     // so we can savely use the hook here.
@@ -61,9 +49,7 @@ export const PropertiesPanelHeaderProvider = {
   },
 
   getTypeLabel: (field) => {
-    const {
-      type
-    } = field;
+    const { type } = field;
 
     if (type === 'default') {
       return 'Form';
@@ -75,5 +61,5 @@ export const PropertiesPanelHeaderProvider = {
     const fieldDefinition = useService('formFields').get(type).config;
 
     return fieldDefinition.label || type;
-  }
+  },
 };

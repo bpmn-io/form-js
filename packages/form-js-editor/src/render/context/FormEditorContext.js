@@ -9,5 +9,5 @@ import { createContext } from 'preact';
 function getService(type, strict) {}
 
 export const FormEditorContext = createContext({
-  getService
+  getService,
 });

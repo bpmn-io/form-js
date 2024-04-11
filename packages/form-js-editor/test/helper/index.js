@@ -1,8 +1,4 @@
-import {
-  forEach,
-  isFunction,
-  merge
-} from 'min-dash';
+import { forEach, isFunction, merge } from 'min-dash';
 
 import { FormEditorContext } from '../../src/render/context';
 
@@ -50,9 +46,7 @@ function cleanup() {
  * @returns {Promise}
  */
 export function bootstrapFormEditor(schema, options, locals) {
-
-  return function() {
-
+  return function () {
     let testContainer;
 
     // Make sure the test container is an optional dependency and we fall back
@@ -70,7 +64,7 @@ export function bootstrapFormEditor(schema, options, locals) {
     }
 
     let _options = options,
-        _locals = locals;
+      _locals = locals;
 
     if (!_locals && isFunction(_options)) {
       _locals = _options;
@@ -85,20 +79,24 @@ export function bootstrapFormEditor(schema, options, locals) {
       _locals = _locals();
     }
 
-    _options = merge({
-      renderer: {
-        container: testContainer
-      }
-    }, OPTIONS, _options);
+    _options = merge(
+      {
+        renderer: {
+          container: testContainer,
+        },
+      },
+      OPTIONS,
+      _options,
+    );
 
     if (_locals) {
       const mockModule = {};
 
-      forEach(_locals, function(value, key) {
-        mockModule[ key ] = [ 'value', value ];
+      forEach(_locals, function (value, key) {
+        mockModule[key] = ['value', value];
       });
 
-      _options.modules = [].concat(_options.modules || [], [ mockModule ]);
+      _options.modules = [].concat(_options.modules || [], [mockModule]);
     }
 
     // remove previous instance
@@ -107,13 +105,15 @@ export function bootstrapFormEditor(schema, options, locals) {
     FORM_EDITOR = new FormEditor(_options);
 
     if (schema) {
-      return FORM_EDITOR.importSchema(schema).then(function(result) {
-        return { error: null, warnings: result.warnings };
-      }).catch(function(err) {
-        console.error('#bootstrapFormEditor failed', err, err.warnings);
+      return FORM_EDITOR.importSchema(schema)
+        .then(function (result) {
+          return { error: null, warnings: result.warnings };
+        })
+        .catch(function (err) {
+          console.error('#bootstrapFormEditor failed', err, err.warnings);
 
-        return Promise.reject(err);
-      });
+          return Promise.reject(err);
+        });
     }
   };
 }
@@ -141,8 +141,7 @@ export function bootstrapFormEditor(schema, options, locals) {
  * @return {Function} a function that can be passed to it to carry out the injection
  */
 export function inject(fn) {
-  return function() {
-
+  return function () {
     if (!FORM_EDITOR) {
       throw new Error('no bootstraped diagram, ensure you created it via #bootstrapFormEditor');
     }
@@ -160,7 +159,7 @@ export function insertCSS(name, css) {
     return;
   }
 
-  const head = document.head || document.getElementsByTagName('head')[ 0 ];
+  const head = document.head || document.getElementsByTagName('head')[0];
 
   const style = document.createElement('style');
 
@@ -185,7 +184,6 @@ export async function setEditorValue(editor, value) {
 export { expectNoViolations } from '../../../form-js-viewer/test/helper';
 
 export function countComponents(root) {
-
   if (!Array.isArray(root.components)) {
     return 1;
   }
@@ -194,20 +192,11 @@ export function countComponents(root) {
 }
 
 export const MockEditorContext = (props) => {
-
-  const {
-    services,
-    options
-  } = props;
+  const { services, options } = props;
 
   const formEditorContext = {
     getService: (type, strict) => createMockInjector(services, options).get(type, strict),
   };
 
-  return (
-    <FormEditorContext.Provider value={ formEditorContext }>
-      { props.children }
-    </FormEditorContext.Provider>
-  );
-
+  return <FormEditorContext.Provider value={formEditorContext}>{props.children}</FormEditorContext.Provider>;
 };

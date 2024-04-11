@@ -12,30 +12,17 @@ import { Label } from '../Label';
 const type = 'textarea';
 
 export function Textarea(props) {
-  const {
-    disabled,
-    errors = [],
-    domId,
-    onBlur,
-    onFocus,
-    field,
-    readonly,
-    value = ''
-  } = props;
+  const { disabled, errors = [], domId, onBlur, onFocus, field, readonly, value = '' } = props;
 
-  const {
-    description,
-    label,
-    validate = {}
-  } = field;
+  const { description, label, validate = {} } = field;
 
   const { required } = validate;
   const textareaRef = useRef();
 
-  const [ onChange, flushOnChange ] = useFlushDebounce(({ target }) => {
+  const [onChange, flushOnChange] = useFlushDebounce(({ target }) => {
     props.onChange({
       field,
-      value: target.value
+      value: target.value,
     });
   });
 
@@ -55,7 +42,7 @@ export function Textarea(props) {
 
   useLayoutEffect(() => {
     autoSizeTextarea(textareaRef.current);
-  }, [ value ]);
+  }, [value]);
 
   useEffect(() => {
     autoSizeTextarea(textareaRef.current);
@@ -64,26 +51,27 @@ export function Textarea(props) {
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
-  return <div class={ formFieldClasses(type, { errors, disabled, readonly }) }>
-    <Label
-      htmlFor={ domId }
-      label={ label }
-      required={ required } />
-    <textarea class="fjs-textarea"
-      disabled={ disabled }
-      readonly={ readonly }
-      id={ domId }
-      onInput={ onInputChange }
-      onBlur={ onInputBlur }
-      onFocus={ onInputFocus }
-      value={ value }
-      ref={ textareaRef }
-      aria-describedby={ [ descriptionId, errorMessageId ].join(' ') }
-      required={ required }
-      aria-invalid={ errors.length > 0 } />
-    <Description id={ descriptionId } description={ description } />
-    <Errors id={ errorMessageId } errors={ errors } />
-  </div>;
+  return (
+    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+      <Label htmlFor={domId} label={label} required={required} />
+      <textarea
+        class="fjs-textarea"
+        disabled={disabled}
+        readonly={readonly}
+        id={domId}
+        onInput={onInputChange}
+        onBlur={onInputBlur}
+        onFocus={onInputFocus}
+        value={value}
+        ref={textareaRef}
+        aria-describedby={[descriptionId, errorMessageId].join(' ')}
+        required={required}
+        aria-invalid={errors.length > 0}
+      />
+      <Description id={descriptionId} description={description} />
+      <Errors id={errorMessageId} errors={errors} />
+    </div>
+  );
 }
 
 Textarea.config = {
@@ -92,12 +80,11 @@ Textarea.config = {
   label: 'Text area',
   group: 'basic-input',
   emptyValue: '',
-  sanitizeValue: ({ value }) => (isArray(value) || isObject(value) || isNil(value)) ? '' : String(value),
-  create: (options = {}) => ({ ...options })
+  sanitizeValue: ({ value }) => (isArray(value) || isObject(value) || isNil(value) ? '' : String(value)),
+  create: (options = {}) => ({ ...options }),
 };
 
 const autoSizeTextarea = (textarea) => {
-
   // Ensures the textarea shrinks back, and improves resizing behavior consistency
   textarea.style.height = '0px';
 
@@ -109,11 +96,12 @@ const autoSizeTextarea = (textarea) => {
     return lines * lineHeight;
   };
 
-  const calculatedHeight = parseInt(computed.getPropertyValue('border-top-width'))
-    + parseInt(computed.getPropertyValue('padding-top'))
-    + (textarea.scrollHeight || heightFromLines())
-    + parseInt(computed.getPropertyValue('padding-bottom'))
-    + parseInt(computed.getPropertyValue('border-bottom-width'));
+  const calculatedHeight =
+    parseInt(computed.getPropertyValue('border-top-width')) +
+    parseInt(computed.getPropertyValue('padding-top')) +
+    (textarea.scrollHeight || heightFromLines()) +
+    parseInt(computed.getPropertyValue('padding-bottom')) +
+    parseInt(computed.getPropertyValue('border-bottom-width'));
 
   const minHeight = 75;
   const maxHeight = 350;
@@ -123,5 +111,4 @@ const autoSizeTextarea = (textarea) => {
 
   // Overflow is hidden by default to hide scrollbar flickering
   textarea.style.overflow = calculatedHeight > maxHeight ? 'visible' : 'hidden';
-
 };

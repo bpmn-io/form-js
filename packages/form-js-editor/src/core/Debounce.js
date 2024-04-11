@@ -6,14 +6,13 @@ import { debounce } from 'min-dash';
  * @param {number|boolean} [config=true]
  */
 export function DebounceFactory(config = true) {
-
   const timeout = typeof config === 'number' ? config : config ? 300 : 0;
 
   if (timeout) {
-    return fn => debounce(fn, timeout);
+    return (fn) => debounce(fn, timeout);
   } else {
-    return fn => fn;
+    return (fn) => fn;
   }
 }
 
-DebounceFactory.$inject = [ 'config.debounce' ];
+DebounceFactory.$inject = ['config.debounce'];

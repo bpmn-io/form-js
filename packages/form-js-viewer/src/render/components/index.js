@@ -26,11 +26,7 @@ import { Errors } from './Errors';
 import { FormComponent } from './FormComponent';
 import { FormField } from './FormField';
 
-export {
-  Label,
-  Description,
-  Errors
-};
+export { Label, Description, Errors };
 
 export {
   Button,
@@ -55,11 +51,10 @@ export {
   Html,
   Textfield,
   Textarea,
-  Table
+  Table,
 };
 
 export const formFields = [
-
   /* Input */
   Textfield,
   Textarea,
@@ -89,7 +84,7 @@ export const formFields = [
 
   /* Other */
   Button,
-  Default
+  Default,
 ];
 
 export * from './icons';

@@ -3,9 +3,9 @@ export const form = {
   components: [
     {
       type: 'datetime',
-      key: 'date'
-    }
-  ]
+      key: 'date',
+    },
+  ],
 };
 
 export const errors = null;

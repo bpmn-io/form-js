@@ -1,9 +1,6 @@
-import {
-  classes as domClasses
-} from 'min-dom';
+import { classes as domClasses } from 'min-dom';
 
 const CURSOR_CLS_PATTERN = /^fjs-cursor-.*$/;
-
 
 export function set(mode) {
   const classes = domClasses(document.body);

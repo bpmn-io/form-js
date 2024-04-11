@@ -7,7 +7,6 @@
  * @class SectionModuleBase
  */
 export class SectionModuleBase {
-
   /**
    * Create a SectionModuleBase instance.
    *
@@ -19,8 +18,12 @@ export class SectionModuleBase {
   constructor(eventBus, sectionKey) {
     this._eventBus = eventBus;
     this._sectionKey = sectionKey;
-    this._eventBus.on(`${this._sectionKey}.section.rendered`, () => { this.isSectionRendered = true; });
-    this._eventBus.on(`${this._sectionKey}.section.destroyed`, () => { this.isSectionRendered = false; });
+    this._eventBus.on(`${this._sectionKey}.section.rendered`, () => {
+      this.isSectionRendered = true;
+    });
+    this._eventBus.on(`${this._sectionKey}.section.destroyed`, () => {
+      this.isSectionRendered = false;
+    });
   }
 
   /**

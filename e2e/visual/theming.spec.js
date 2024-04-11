@@ -5,18 +5,16 @@ import { test } from '../test-fixtures';
 import schema from './fixtures/form.json';
 
 test('theming - viewer', async ({ page, makeAxeBuilder }) => {
-
   // given
-  await page.route('/form', route => {
-
+  await page.route('/form', (route) => {
     route.fulfill({
       status: 200,
       body: JSON.stringify({
         data: {
           schema,
-          component: 'viewer'
-        }
-      })
+          component: 'viewer',
+        },
+      }),
     });
   });
 
@@ -24,7 +22,7 @@ test('theming - viewer', async ({ page, makeAxeBuilder }) => {
   await page.goto('/theming/');
 
   await page.waitForSelector('#container', {
-    state: 'visible'
+    state: 'visible',
   });
 
   await page.evaluate(() => {
@@ -43,20 +41,17 @@ test('theming - viewer', async ({ page, makeAxeBuilder }) => {
   expect(results.passes.length).toBeGreaterThan(0);
 });
 
-
 test('theming - editor', async ({ page, makeAxeBuilder }) => {
-
   // given
-  await page.route('/form', route => {
-
+  await page.route('/form', (route) => {
     route.fulfill({
       status: 200,
       body: JSON.stringify({
         data: {
           schema,
-          component: 'editor'
-        }
-      })
+          component: 'editor',
+        },
+      }),
     });
   });
 
@@ -64,7 +59,7 @@ test('theming - editor', async ({ page, makeAxeBuilder }) => {
   await page.goto('/theming/');
 
   await page.waitForSelector('#container', {
-    state: 'visible'
+    state: 'visible',
   });
 
   await page.evaluate(() => {
@@ -78,9 +73,7 @@ test('theming - editor', async ({ page, makeAxeBuilder }) => {
 
   // and then
   const results = await makeAxeBuilder({
-    disableRules: [
-      'page-has-heading-one'
-    ]
+    disableRules: ['page-has-heading-one'],
   }).analyze();
 
   expect(results.violations).toHaveLength(0);

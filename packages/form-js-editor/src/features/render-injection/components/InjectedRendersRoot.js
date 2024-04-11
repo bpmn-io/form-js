@@ -8,18 +8,26 @@ import { Fill, Slot } from '../slot-fill';
  * @returns {any} The rendered component.
  */
 export const InjectedRendersRoot = () => {
-
   const renderInjector = useService('renderInjector');
 
   const injectedRenderers = renderInjector.fetchRenderers();
 
-  const injectedProps = useMemo(() => ({
-    useService,
-    components: {
-      Fill,
-      Slot
-    }
-  }), []);
+  const injectedProps = useMemo(
+    () => ({
+      useService,
+      components: {
+        Fill,
+        Slot,
+      },
+    }),
+    [],
+  );
 
-  return <Fragment>{ injectedRenderers.map(({ Renderer }) => <Renderer { ...injectedProps } />) }</Fragment>;
+  return (
+    <Fragment>
+      {injectedRenderers.map(({ Renderer }) => (
+        <Renderer {...injectedProps} />
+      ))}
+    </Fragment>
+  );
 };

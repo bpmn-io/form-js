@@ -4,16 +4,9 @@ import { useExpressionEvaluation, useDeepCompareMemoize, useService } from '../.
 const type = 'expression';
 
 export function ExpressionField(props) {
-  const {
-    field,
-    onChange,
-    value
-  } = props;
+  const { field, onChange, value } = props;
 
-  const {
-    computeOn,
-    expression
-  } = field;
+  const { computeOn, expression } = field;
 
   const evaluation = useExpressionEvaluation(expression);
   const evaluationMemo = useDeepCompareMemoize(evaluation);
@@ -21,19 +14,21 @@ export function ExpressionField(props) {
 
   const sendValue = useCallback(() => {
     onChange && onChange({ field, value: evaluationMemo });
-  }, [ field, evaluationMemo, onChange ]);
+  }, [field, evaluationMemo, onChange]);
 
   useEffect(() => {
-    if (computeOn !== 'change' || evaluationMemo === value) { return; }
+    if (computeOn !== 'change' || evaluationMemo === value) {
+      return;
+    }
     sendValue();
-  }, [ computeOn, evaluationMemo, sendValue, value ]);
+  }, [computeOn, evaluationMemo, sendValue, value]);
 
   useEffect(() => {
     if (computeOn === 'presubmit') {
       eventBus.on('presubmit', sendValue);
       return () => eventBus.off('presubmit', sendValue);
     }
-  }, [ computeOn, sendValue, eventBus ]);
+  }, [computeOn, sendValue, eventBus]);
 
   return null;
 }
@@ -48,5 +43,5 @@ ExpressionField.config = {
   create: (options = {}) => ({
     computeOn: 'change',
     ...options,
-  })
+  }),
 };
