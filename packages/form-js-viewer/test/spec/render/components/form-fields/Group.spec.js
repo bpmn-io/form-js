@@ -1,31 +1,23 @@
-import {
-  render
-} from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
 
 import { Group } from '../../../../../src/render/components/form-fields/Group';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
 
 let container;
 
 describe('Group', () => {
-
-  beforeEach(function() {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render with children', function() {
-
+  it('should render with children', function () {
     // when
     const { container } = createGroup();
 
@@ -55,18 +47,16 @@ describe('Group', () => {
     expect(debitor.querySelector('label').textContent).to.equal('Debitor');
   });
 
-
-  it('should render without children', function() {
-
+  it('should render without children', function () {
     // when
     const { container } = createGroup({
       field: {
         id: 'Group_1',
         path: 'userInfo',
         label: 'User Info',
-        type: 'group'
+        type: 'group',
       },
-      children: []
+      children: [],
     });
 
     // then
@@ -85,9 +75,7 @@ describe('Group', () => {
     expect(textfields).to.have.length(0);
   });
 
-
-  it('should render with outline class when set', function() {
-
+  it('should render with outline class when set', function () {
     // when
     const { container } = createGroup();
 
@@ -99,9 +87,7 @@ describe('Group', () => {
     expect(group.classList.contains('fjs-outlined')).to.be.true;
   });
 
-
-  it('should render without outline class when set', function() {
-
+  it('should render without outline class when set', function () {
     // when
     const { container } = createGroup({ field: { ...defaultField, showOutline: false } });
 
@@ -113,9 +99,7 @@ describe('Group', () => {
     expect(group.classList.contains('fjs-outlined')).to.be.false;
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Group;
     expect(config.type).to.eql('group');
@@ -129,28 +113,25 @@ describe('Group', () => {
     // then
     expect(field).to.eql({
       components: [],
-      showOutline: true
+      showOutline: true,
     });
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
       showOutline: true,
-      custom: true
+      custom: true,
     });
 
     expect(customField.components).to.be.empty;
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(10000);
 
@@ -159,9 +140,7 @@ describe('Group', () => {
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 const defaultField = {
@@ -175,36 +154,32 @@ const defaultField = {
       id: 'Textfield_1',
       path: 'creditor',
       label: 'Creditor',
-      type: 'textfield'
+      type: 'textfield',
     },
     {
       id: 'Textfield_2',
       path: 'debitor',
       label: 'Debitor',
-      type: 'textfield'
-    }
-  ]
+      type: 'textfield',
+    },
+  ],
 };
 
 function createGroup({ services, ...restOptions } = {}) {
-
   const options = {
     domId: 'test-group',
     field: defaultField,
     children: defaultField.components,
     container,
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
-      <Group
-        domId={ options.domId }
-        field={ options.field } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+    <MockFormContext services={services} options={options}>
+      <Group domId={options.domId} field={options.field} />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

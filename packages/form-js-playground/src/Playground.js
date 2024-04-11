@@ -30,13 +30,7 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
  * @param {FormPlaygroundOptions} options
  */
 function Playground(options) {
-
-  const {
-    container: parent,
-    schema: initialSchema,
-    data: initialData,
-    ...rest
-  } = options;
+  const { container: parent, schema: initialSchema, data: initialData, ...rest } = options;
 
   const emitter = mitt();
 
@@ -48,21 +42,20 @@ function Playground(options) {
     parent.appendChild(container);
   }
 
-  const handleDrop = fileDrop('Drop a form file', function(files) {
+  const handleDrop = fileDrop('Drop a form file', function (files) {
     const file = files[0];
 
     if (file) {
       try {
         this.api.setSchema(JSON.parse(file.contents));
       } catch (err) {
-
         // TODO(nikku): indicate JSON parse error
       }
     }
   });
 
-  const safe = function(fn) {
-    return function(...args) {
+  const safe = function (fn) {
+    return function (...args) {
       if (!this.api) {
         throw new Error('Playground is not initialized.');
       }
@@ -71,7 +64,7 @@ function Playground(options) {
     };
   };
 
-  const onInit = function() {
+  const onInit = function () {
     emitter.emit('formPlayground.init');
   };
 
@@ -79,14 +72,14 @@ function Playground(options) {
 
   render(
     <PlaygroundRoot
-      initialSchema={ initialSchema }
-      initialData={ initialData }
-      emit={ emitter.emit }
-      apiLinkTarget={ this }
-      onInit={ onInit }
-      { ...rest }
+      initialSchema={initialSchema}
+      initialData={initialData}
+      emit={emitter.emit}
+      apiLinkTarget={this}
+      onInit={onInit}
+      {...rest}
     />,
-    container
+    container,
   );
 
   this.on = emitter.on;

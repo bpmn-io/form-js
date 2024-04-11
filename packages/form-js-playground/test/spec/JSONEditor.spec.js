@@ -1,12 +1,9 @@
 import { JSONEditor } from '../../src/components/JSONEditor';
 import { currentCompletions, startCompletion } from '@codemirror/autocomplete';
 
-describe('JSONEditor', function() {
-
-  describe('#setValue', function() {
-
-    it('should accept external change', async function() {
-
+describe('JSONEditor', function () {
+  describe('#setValue', function () {
+    it('should accept external change', async function () {
       // given
       const value = '{ "foo": "bar" }';
 
@@ -21,11 +18,8 @@ describe('JSONEditor', function() {
     });
   });
 
-
-  describe('#setVariables', function() {
-
-    it('should set variables', async function() {
-
+  describe('#setVariables', function () {
+    it('should set variables', async function () {
       // given
       const editor = new JSONEditor();
 
@@ -35,20 +29,18 @@ describe('JSONEditor', function() {
           {
             name: 'Variable1',
             info: 'Written in Service Task',
-            detail: 'Process_1'
+            detail: 'Process_1',
           },
           {
             name: 'Variable2',
             info: 'Written in Service Task',
-            detail: 'Process_1'
-          }
+            detail: 'Process_1',
+          },
         ]);
       }).not.to.throw();
     });
 
-
-    it('should suggest updated variables', async function() {
-
+    it('should suggest updated variables', async function () {
       // given
       const value = '';
 
@@ -59,7 +51,7 @@ describe('JSONEditor', function() {
       const cm = editor.getView();
 
       // when
-      editor.setVariables([ 'foobar', 'baz' ]);
+      editor.setVariables(['foobar', 'baz']);
 
       startCompletion(cm);
 
@@ -71,9 +63,7 @@ describe('JSONEditor', function() {
       });
     });
 
-
-    it('should suggest relevant variables', async function() {
-
+    it('should suggest relevant variables', async function () {
       // given
       const value = '{ "foo": "bar" }';
 
@@ -87,7 +77,7 @@ describe('JSONEditor', function() {
       select(cm, 5);
 
       // when
-      editor.setVariables([ 'foobar', 'baz' ]);
+      editor.setVariables(['foobar', 'baz']);
 
       startCompletion(cm);
 
@@ -99,16 +89,14 @@ describe('JSONEditor', function() {
       });
     });
 
-
-    it('should change suggestion when variables are updated', async function() {
-
+    it('should change suggestion when variables are updated', async function () {
       // given
       const value = '{ "foo": "bar" }';
 
       const editor = new JSONEditor();
 
       editor.setValue(value);
-      editor.setVariables([ 'foobar', 'baz' ]);
+      editor.setVariables(['foobar', 'baz']);
 
       const cm = editor.getView();
 
@@ -124,7 +112,7 @@ describe('JSONEditor', function() {
       });
 
       // when
-      editor.setVariables([ 'foobaz' ]);
+      editor.setVariables(['foobaz']);
       startCompletion(cm);
 
       // then
@@ -136,18 +124,14 @@ describe('JSONEditor', function() {
     });
   });
 
-
-  describe('autocompletion', function() {
-
-    it('should suggest applicable variables', function(done) {
-
+  describe('autocompletion', function () {
+    it('should suggest applicable variables', function (done) {
       // given
       const initalValue = 'fooba';
-      const variables = [ 'foobar', 'baz' ];
+      const variables = ['foobar', 'baz'];
 
       const editor = new JSONEditor();
-      editor.setValue(initalValue),
-      editor.setVariables(variables);
+      editor.setValue(initalValue), editor.setVariables(variables);
 
       const cm = editor.getView();
 
@@ -165,13 +149,9 @@ describe('JSONEditor', function() {
         expect(completions[0].label).to.have.eql('foobar');
         done();
       });
-
     });
-
   });
-
 });
-
 
 // helper //////////////////////
 
@@ -179,8 +159,8 @@ function select(cm, anchor, head = anchor) {
   cm.dispatch({
     selection: {
       anchor,
-      head
-    }
+      head,
+    },
   });
 }
 
@@ -188,11 +168,13 @@ function select(cm, anchor, head = anchor) {
  * Copied over from @bpmn-io/feel-editor.
  */
 async function expectEventually(fn) {
-  const nextFrame = () => new Promise(resolve => {
-    requestAnimationFrame(resolve);
-  });
+  const nextFrame = () =>
+    new Promise((resolve) => {
+      requestAnimationFrame(resolve);
+    });
 
-  let e, i = 10;
+  let e,
+    i = 10;
   do {
     try {
       await nextFrame();

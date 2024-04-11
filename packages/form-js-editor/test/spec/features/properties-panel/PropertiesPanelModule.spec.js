@@ -2,17 +2,11 @@ import TestContainer from 'mocha-test-container-support';
 
 import { act } from '@testing-library/preact/pure';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import { query as domQuery } from 'min-dom';
 
-import {
-  insertStyles
-} from '../../../TestHelper';
+import { insertStyles } from '../../../TestHelper';
 
-import {
-  createFormEditor
-} from '../../../../src';
+import { createFormEditor } from '../../../../src';
 
 import { PropertiesPanelModule } from '../../../../src/features/properties-panel';
 
@@ -20,12 +14,10 @@ import schema from '../../form.json';
 
 insertStyles();
 
-
-describe('features/propertiesPanel', function() {
-
+describe('features/propertiesPanel', function () {
   let formEditor, formContainer, propertiesPanelContainer;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const container = TestContainer.get(this);
 
     propertiesPanelContainer = document.createElement('div');
@@ -35,7 +27,7 @@ describe('features/propertiesPanel', function() {
     container.appendChild(formContainer);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     const container = TestContainer.get(this);
 
     container.removeChild(propertiesPanelContainer);
@@ -45,31 +37,24 @@ describe('features/propertiesPanel', function() {
   });
 
   async function createEditor(schema, options = {}) {
-    const {
-      additionalModules = [
-        PropertiesPanelModule,
-        ...options.additionalModules || []
-      ]
-    } = options;
+    const { additionalModules = [PropertiesPanelModule, ...(options.additionalModules || [])] } = options;
 
     formEditor = await createFormEditor({
       schema,
       renderer: {
-        container: formContainer
+        container: formContainer,
       },
       additionalModules,
       propertiesPanel: {
-        parent: propertiesPanelContainer
+        parent: propertiesPanelContainer,
       },
-      ...options
+      ...options,
     });
 
     return { formEditor };
   }
 
-
-  it('should render on <formEditor.rendered>', async function() {
-
+  it('should render on <formEditor.rendered>', async function () {
     // given
     await act(async () => {
       const result = await createEditor(schema);
@@ -85,9 +70,7 @@ describe('features/propertiesPanel', function() {
     expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.exist;
   });
 
-
-  it('should attach', async function() {
-
+  it('should attach', async function () {
     // given
     const node = document.createElement('div');
     document.body.appendChild(node);
@@ -116,9 +99,7 @@ describe('features/propertiesPanel', function() {
     document.body.removeChild(node);
   });
 
-
-  it('should detach', async function() {
-
+  it('should detach', async function () {
     // given
     let formEditor;
 
@@ -139,11 +120,8 @@ describe('features/propertiesPanel', function() {
     expect(domQuery('.fjs-properties-panel', propertiesPanelContainer)).to.not.exist;
   });
 
-
-  describe('event emitting', function() {
-
-    it('should fire <propertiesPanel.rendered>', async function() {
-
+  describe('event emitting', function () {
+    it('should fire <propertiesPanel.rendered>', async function () {
       // given
       let formEditor;
 
@@ -164,9 +142,7 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.attach> when section is rendered', async function() {
-
+    it('should fire <propertiesPanel.attach> when section is rendered', async function () {
       // given
       const { formEditor } = await createEditor(schema);
 
@@ -187,9 +163,7 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.detach> when section is rendered', async function() {
-
+    it('should fire <propertiesPanel.detach> when section is rendered', async function () {
       // given
       const { formEditor } = await createEditor(schema);
 
@@ -210,9 +184,7 @@ describe('features/propertiesPanel', function() {
       expect(spy).to.have.been.called;
     });
 
-
-    it('should fire <propertiesPanel.destroyed>', async function() {
-
+    it('should fire <propertiesPanel.destroyed>', async function () {
       // given
       const node = document.createElement('div');
       document.body.appendChild(node);
@@ -237,14 +209,10 @@ describe('features/propertiesPanel', function() {
       // then
       expect(spy).to.have.been.called;
     });
-
   });
 
-
-  describe('feel popup', function() {
-
-    it('should support feel popup module', async function() {
-
+  describe('feel popup', function () {
+    it('should support feel popup module', async function () {
       // given
       const node = document.createElement('div');
       document.body.appendChild(node);
@@ -264,19 +232,15 @@ describe('features/propertiesPanel', function() {
       expect(feelPopup.close).to.exist;
       expect(feelPopup.isOpen).to.exist;
     });
-
   });
 
-
-  describe('providers', function() {
-
-    it('should register provider', async function() {
-
+  describe('providers', function () {
+    it('should register provider', async function () {
       // given
       const provider = {
         getGroups() {
           return () => [];
-        }
+        },
       };
 
       const { formEditor } = await createEditor(schema);
@@ -293,9 +257,7 @@ describe('features/propertiesPanel', function() {
       expect(propertiesPanel._getProviders()).to.have.length(2);
     });
 
-
-    it('should ignore incompatible provider', async function() {
-
+    it('should ignore incompatible provider', async function () {
       // given
       const incompatibleProvider = {};
 
@@ -314,14 +276,12 @@ describe('features/propertiesPanel', function() {
       expect(propertiesPanel._getProviders()).to.have.length(1);
     });
 
-
-    it('should fire <propertiesPanel.providersChanged>', async function() {
-
+    it('should fire <propertiesPanel.providersChanged>', async function () {
       // given
       const provider = {
         getGroups() {
           return () => [];
-        }
+        },
       };
 
       const { formEditor } = await createEditor(schema);
@@ -339,7 +299,5 @@ describe('features/propertiesPanel', function() {
       // then
       expect(spy).to.have.been.called;
     });
-
   });
-
 });

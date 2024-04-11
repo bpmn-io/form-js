@@ -4,9 +4,9 @@ export const form = {
     {
       type: 'text',
       text: 'text',
-      values: []
-    }
-  ]
+      values: [],
+    },
+  ],
 };
 
 export const errors = [
@@ -15,13 +15,13 @@ export const errors = [
     schemaPath: '#/properties/components/items/allOf/1/allOf/8/then/properties/values/false schema',
     keyword: 'false schema',
     params: {},
-    message: 'boolean schema is false'
+    message: 'boolean schema is false',
   },
   {
     instancePath: '/components/0',
     schemaPath: '#/properties/components/items/allOf/1/allOf/8/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
-    message: 'must match "then" schema'
-  }
+    message: 'must match "then" schema',
+  },
 ];

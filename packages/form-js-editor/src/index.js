@@ -2,21 +2,11 @@ import { FormEditor } from './FormEditor';
 
 import { schemaVersion } from '@bpmn-io/form-js-viewer';
 
-export {
-  FormEditor,
-  schemaVersion
-};
+export { FormEditor, schemaVersion };
 
-export {
-  useDebounce,
-  usePrevious,
-  useService
-} from './render/hooks';
+export { useDebounce, usePrevious, useService } from './render/hooks';
 
-export {
-  useService as usePropertiesPanelService,
-  useVariables
-} from './features/properties-panel/hooks';
+export { useService as usePropertiesPanelService, useVariables } from './features/properties-panel/hooks';
 
 /**
  * @typedef { import('./types').CreateFormEditorOptions } CreateFormEditorOptions
@@ -30,10 +20,7 @@ export {
  * @return {Promise<FormEditor>}
  */
 export function createFormEditor(options) {
-  const {
-    schema,
-    ...rest
-  } = options;
+  const { schema, ...rest } = options;
 
   const formEditor = new FormEditor(rest);
 

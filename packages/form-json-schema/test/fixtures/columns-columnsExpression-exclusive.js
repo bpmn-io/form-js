@@ -6,9 +6,9 @@ export const form = {
       rowCount: 10,
       columns: [],
       columnsExpression: '=foo',
-      dataSource: 'field'
-    }
-  ]
+      dataSource: 'field',
+    },
+  ],
 };
 
 export const errors = [
@@ -17,7 +17,7 @@ export const errors = [
     keyword: 'oneOf',
     message: 'must match exactly one schema in oneOf',
     params: {
-      passingSchemas: [ 0, 1 ],
+      passingSchemas: [0, 1],
     },
     schemaPath: '#/properties/components/items/allOf/0/allOf/1/then/oneOf',
   },
@@ -35,16 +35,14 @@ export const errors = [
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath:
-      '#/properties/components/items/allOf/1/allOf/18/then/oneOf/0/properties/columnsExpression/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/18/then/oneOf/0/properties/columnsExpression/false schema',
   },
   {
     instancePath: '/components/0/columns',
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath:
-      '#/properties/components/items/allOf/1/allOf/18/then/oneOf/1/properties/columns/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/18/then/oneOf/1/properties/columns/false schema',
   },
   {
     instancePath: '/components/0',

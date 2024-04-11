@@ -4,7 +4,6 @@
 
 JSON Schema for [form-js](https://github.com/bpmn-io/form-js). The schema is built on top of and validated by [`json-schema@draft-07`](https://json-schema.org/draft-07/json-schema-release-notes.html).
 
-
 ## Usage
 
 Set the `$schema` attribute to reference the [JSON Schema definition](./resources/schema.json).
@@ -49,9 +48,9 @@ npm run test
 This schema is currently only compatible with following [form-js](https://github.com/bpmn-io/form-js) schema versions.
 
 | JSON schema version | form-js schema version |
-|---|---|
-| >= 1.5.0  | <= 13 |
-| >= 1.6.0  | <= 14 |
+| ------------------- | ---------------------- |
+| >= 1.5.0            | <= 13                  |
+| >= 1.6.0            | <= 14                  |
 
 ## License
 

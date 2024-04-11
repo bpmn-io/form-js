@@ -18,8 +18,8 @@ jobs:
       - name: Setup NPM cache
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
       - name: Install node dependencies
         run: npm ci
       - name: Build frontend
@@ -33,4 +33,4 @@ jobs:
       - name: Commit screenshots
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: updated snapshots"
+          commit_message: 'chore: updated snapshots'

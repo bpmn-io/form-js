@@ -10,24 +10,25 @@ import { useDeepCompareMemoize } from './useDeepCompareMemoize';
  * @returns {Array} - Returns a tuple with sandbox and allow attributes.
  */
 export function useSecurityAttributesMap(security) {
-
   const securityMemoized = useDeepCompareMemoize(security);
 
-  const sandbox = useMemo(() =>
-    SECURITY_ATTRIBUTES_DEFINITIONS
-      .filter(({ attribute }) => attribute === SANDBOX_ATTRIBUTE)
-      .filter(({ property }) => get(securityMemoized, [ property ], false))
-      .map(({ directive }) => directive)
-      .join(' ')
-  , [ securityMemoized ]);
+  const sandbox = useMemo(
+    () =>
+      SECURITY_ATTRIBUTES_DEFINITIONS.filter(({ attribute }) => attribute === SANDBOX_ATTRIBUTE)
+        .filter(({ property }) => get(securityMemoized, [property], false))
+        .map(({ directive }) => directive)
+        .join(' '),
+    [securityMemoized],
+  );
 
-  const allow = useMemo(() =>
-    SECURITY_ATTRIBUTES_DEFINITIONS
-      .filter(({ attribute }) => attribute !== SANDBOX_ATTRIBUTE)
-      .filter(({ property }) => get(securityMemoized, [ property ], false))
-      .map(({ directive }) => directive)
-      .join('; ')
-  , [ securityMemoized ]);
+  const allow = useMemo(
+    () =>
+      SECURITY_ATTRIBUTES_DEFINITIONS.filter(({ attribute }) => attribute !== SANDBOX_ATTRIBUTE)
+        .filter(({ property }) => get(securityMemoized, [property], false))
+        .map(({ directive }) => directive)
+        .join('; '),
+    [securityMemoized],
+  );
 
-  return [ sandbox, allow ];
+  return [sandbox, allow];
 }

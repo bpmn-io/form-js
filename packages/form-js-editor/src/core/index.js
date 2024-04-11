@@ -9,15 +9,13 @@ import { FormLayoutValidator } from './FormLayoutValidator';
 import { RenderModule } from '../render';
 
 export const CoreModule = {
-  __depends__: [
-    RenderModule
-  ],
-  debounce: [ 'factory', DebounceFactory ],
-  eventBus: [ 'type', EventBus ],
-  importer: [ 'type', Importer ],
-  formFieldRegistry: [ 'type', FormFieldRegistry ],
-  pathRegistry: [ 'type', PathRegistry ],
-  formLayouter: [ 'type', FormLayouter ],
-  formLayoutValidator: [ 'type', FormLayoutValidator ],
-  fieldFactory: [ 'type', FieldFactory ]
+  __depends__: [RenderModule],
+  debounce: ['factory', DebounceFactory],
+  eventBus: ['type', EventBus],
+  importer: ['type', Importer],
+  formFieldRegistry: ['type', FormFieldRegistry],
+  pathRegistry: ['type', PathRegistry],
+  formLayouter: ['type', FormLayouter],
+  formLayoutValidator: ['type', FormLayoutValidator],
+  fieldFactory: ['type', FieldFactory],
 };

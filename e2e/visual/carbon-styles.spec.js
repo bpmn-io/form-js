@@ -5,18 +5,16 @@ const { test } = require('../test-fixtures');
 const schema = require('./fixtures/complex.json');
 
 test('carbon styles', async ({ page, makeAxeBuilder }) => {
-
   // given
-  await page.route('/form', route => {
-
+  await page.route('/form', (route) => {
     route.fulfill({
       status: 200,
       body: JSON.stringify({
         data: {
           schema,
-          component: 'viewer'
-        }
-      })
+          component: 'viewer',
+        },
+      }),
     });
   });
 
@@ -24,7 +22,7 @@ test('carbon styles', async ({ page, makeAxeBuilder }) => {
   await page.goto('/carbon/');
 
   await page.waitForSelector('#container', {
-    state: 'visible'
+    state: 'visible',
   });
 
   // then

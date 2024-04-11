@@ -1,10 +1,4 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor
-} from '@testing-library/preact/pure';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';
 
@@ -15,11 +9,7 @@ import { PropertiesProvider } from '../../../../src/features/properties-panel/Pr
 import { PropertiesPanel } from '../../../../src/features/properties-panel/PropertiesPanel';
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
-import {
-  EventBusMock,
-  PropertiesPanelMock,
-  createMockInjector
-} from './helper/mocks';
+import { EventBusMock, PropertiesPanelMock, createMockInjector } from './helper/mocks';
 
 import schema from '../../form.json';
 import defaultValuesSchema from '../../defaultValues.json';
@@ -35,9 +25,7 @@ insertStyles();
 
 const spy = sinon.spy;
 
-
-describe('properties panel', function() {
-
+describe('properties panel', function () {
   let parent, container, propertiesPanel;
 
   const bootstrapPropertiesPanel = ({ bootstrapExecute = () => {}, ...options }) => {
@@ -47,7 +35,7 @@ describe('properties panel', function() {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     parent = document.createElement('div');
 
     parent.classList.add('fjs-container', 'fjs-editor-container');
@@ -64,13 +52,11 @@ describe('properties panel', function() {
     document.body.appendChild(parent);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     document.body.removeChild(parent);
   });
 
-
-  it('should render (no field)', async function() {
-
+  it('should render (no field)', async function () {
     // given
     bootstrapPropertiesPanel({ container, schema: null });
 
@@ -82,9 +68,7 @@ describe('properties panel', function() {
     expect(text.innerText).to.eql('Select a form field to edit its properties.');
   });
 
-
-  it('should render (multiple)', async function() {
-
+  it('should render (multiple)', async function () {
     // given
     const field = [
       schema.components.find(({ key }) => key === 'creditor'),
@@ -93,7 +77,7 @@ describe('properties panel', function() {
 
     bootstrapPropertiesPanel({
       container,
-      field
+      field,
     });
 
     // then
@@ -101,18 +85,18 @@ describe('properties panel', function() {
     const text = placeholder.querySelector('.bio-properties-panel-placeholder-text');
 
     expect(placeholder).to.exist;
-    expect(text.innerText).to.eql('Multiple form fields are selected. Select a single form field to edit its properties.');
+    expect(text.innerText).to.eql(
+      'Multiple form fields are selected. Select a single form field to edit its properties.',
+    );
   });
 
-
-  it('should render (field)', async function() {
-
+  it('should render (field)', async function () {
     // given
     const field = schema.components.find(({ key }) => key === 'creditor');
 
     bootstrapPropertiesPanel({
       container,
-      field
+      field,
     });
 
     // then
@@ -122,48 +106,37 @@ describe('properties panel', function() {
     expect(container.querySelector('.bio-properties-panel-group')).to.exist;
   });
 
-
-  describe('fields', function() {
-
-    it('default', function() {
-
+  describe('fields', function () {
+    it('default', function () {
       // given
       const field = schema;
 
       bootstrapPropertiesPanel({
         container,
-        field
+        field,
       });
 
       // then
       expectPanelStructure(container, {
-        'General': [
-          'ID'
-        ]
+        General: ['ID'],
       });
     });
 
-
-    describe('id', function() {
-
+    describe('id', function () {
       const schema = {
         type: 'default',
         id: 'form',
-        components: [
-          { type: 'text', id: 'text', text: 'TEXT' }
-        ]
+        components: [{ type: 'text', id: 'text', text: 'TEXT' }],
       };
 
-
-      it('should not be empty', function() {
-
+      it('should not be empty', function () {
         // given
         const editFieldSpy = spy();
 
         bootstrapPropertiesPanel({
           container,
           editField: editFieldSpy,
-          field: schema
+          field: schema,
         });
 
         // assume
@@ -182,16 +155,14 @@ describe('properties panel', function() {
         expect(error).to.exist;
       });
 
-
-      it('should not contain spaces', function() {
-
+      it('should not contain spaces', function () {
         // given
         const editFieldSpy = spy();
 
         bootstrapPropertiesPanel({
           container,
           editField: editFieldSpy,
-          field: schema
+          field: schema,
         });
 
         // assume
@@ -210,9 +181,7 @@ describe('properties panel', function() {
         expect(error).to.exist;
       });
 
-
-      it('should be unique', function() {
-
+      it('should be unique', function () {
         // given
         const editFieldSpy = spy();
 
@@ -225,10 +194,10 @@ describe('properties panel', function() {
               _ids: {
                 assigned(id) {
                   return schema.components.find((component) => component.id === id);
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         });
 
         // assume
@@ -247,16 +216,14 @@ describe('properties panel', function() {
         expect(error).to.exist;
       });
 
-
-      it('should be a valid QName', function() {
-
+      it('should be a valid QName', function () {
         // given
         const editFieldSpy = spy();
 
         bootstrapPropertiesPanel({
           container,
           editField: editFieldSpy,
-          field: schema
+          field: schema,
         });
 
         // assume
@@ -274,38 +241,28 @@ describe('properties panel', function() {
 
         expect(error).to.exist;
       });
-
     });
 
-
-    describe('button', function() {
-
-      it('entries', function() {
-
+    describe('button', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ action }) => action === 'submit');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Action'
-          ],
-          'Condition': [],
-          'Custom properties': []
+          General: ['Field label', 'Action'],
+          Condition: [],
+          'Custom properties': [],
         });
       });
 
-
-      describe('action', function() {
-
-        it('should change action', function() {
-
+      describe('action', function () {
+        it('should change action', function () {
           // given
           const editFieldSpy = spy();
 
@@ -314,7 +271,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -327,49 +284,32 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'action' ], 'submit');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['action'], 'submit');
         });
-
       });
-
     });
 
-
-    describe('checkbox', function() {
-
-      it('entries', function() {
-
+    describe('checkbox', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'approved');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Default value',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          General: ['Field label', 'Field description', 'Key', 'Default value', 'Disabled', 'Read only'],
+          Condition: [],
+          Validation: ['Required'],
+          'Custom properties': [],
         });
       });
 
-
-      describe('default value', function() {
-
-        it('should add default value', function() {
-
+      describe('default value', function () {
+        it('should add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -378,7 +318,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -391,56 +331,37 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], true);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], true);
         });
-
       });
-
     });
 
-
-    describe('radio', function() {
-
-      it('entries', function() {
-
+    describe('radio', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'product');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Default value',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Options source': [
-            'Type'
-          ],
+          General: ['Field label', 'Field description', 'Key', 'Default value', 'Disabled', 'Read only'],
+          Condition: [],
+          'Options source': ['Type'],
           'Static options': [
-            [ 'Label', 2 ],
-            [ 'Value', 2 ]
+            ['Label', 2],
+            ['Value', 2],
           ],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          Validation: ['Required'],
+          'Custom properties': [],
         });
       });
 
-
-      describe('default value', function() {
-
-        it('should add default value', function() {
-
+      describe('default value', function () {
+        it('should add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -449,7 +370,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -462,12 +383,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'camunda-platform');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], 'camunda-platform');
         });
 
-
-        it('should remove default value', function() {
-
+        it('should remove default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -476,7 +395,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -489,16 +408,12 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
-
       });
 
-
-      describe('options', function() {
-
-        it('should NOT order alphanumerical', function() {
-
+      describe('options', function () {
+        it('should NOT order alphanumerical', function () {
           // given
           const editFieldSpy = spy();
 
@@ -507,7 +422,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // when
@@ -516,16 +431,10 @@ describe('properties panel', function() {
           const list = group.querySelector('.bio-properties-panel-list');
 
           // then
-          expect(getListOrdering(list)).to.eql([
-            'Camunda Platform',
-            'Camunda Cloud'
-          ]);
-
+          expect(getListOrdering(list)).to.eql(['Camunda Platform', 'Camunda Cloud']);
         });
 
-
-        it('should add option', function() {
-
+        it('should add option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -534,7 +443,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -545,18 +454,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            ...field.values,
-            {
-              label: 'Value 3',
-              value: 'value3',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['values'],
+            [
+              ...field.values,
+              {
+                label: 'Value 3',
+                value: 'value3',
+              },
+            ],
+          );
         });
 
-
-        it('should add option with different index if already used', function() {
-
+        it('should add option with different index if already used', function () {
           // given
           const editFieldSpy = spy();
 
@@ -565,7 +476,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -575,18 +486,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            ...field.values,
-            {
-              label: 'Value 4',
-              value: 'value4',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['values'],
+            [
+              ...field.values,
+              {
+                label: 'Value 4',
+                value: 'value4',
+              },
+            ],
+          );
         });
 
-
-        it('should remove option', function() {
-
+        it('should remove option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -595,7 +508,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -606,18 +519,12 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            field.values[ 1 ]
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], [field.values[1]]);
         });
 
-
-        describe('validation', function() {
-
-          describe('value', function() {
-
-            it('should not be empty', function() {
-
+        describe('validation', function () {
+          describe('value', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -626,7 +533,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -642,9 +549,7 @@ describe('properties panel', function() {
               expect(error).to.exist;
             });
 
-
-            it('should be unique', function() {
-
+            it('should be unique', function () {
               // given
               const editFieldSpy = spy();
 
@@ -653,7 +558,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -668,14 +573,10 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
 
-
-          describe('label', function() {
-
-            it('should not be empty', function() {
-
+          describe('label', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -684,7 +585,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -700,10 +601,7 @@ describe('properties panel', function() {
               expect(error).to.exist;
             });
 
-
-            it('should be unique', function() {
-
-
+            it('should be unique', function () {
               // given
               const editFieldSpy = spy();
 
@@ -712,7 +610,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -727,18 +625,12 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
-
         });
-
       });
 
-
-      describe('static options', function() {
-
-        it('should re-configure static source defaults', function() {
-
+      describe('static options', function () {
+        it('should re-configure static source defaults', function () {
           // given
           const editFieldSpy = spy();
 
@@ -747,7 +639,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -762,16 +654,13 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledTwice;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            values: OPTIONS_SOURCES_DEFAULTS[OPTIONS_SOURCES.STATIC]
+            values: OPTIONS_SOURCES_DEFAULTS[OPTIONS_SOURCES.STATIC],
           });
         });
       });
 
-
-      describe('dynamic options', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -780,7 +669,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -798,9 +687,7 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('should configure valuesKey', function() {
-
+        it('should configure valuesKey', function () {
           // given
           const editFieldSpy = spy();
 
@@ -810,7 +697,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -823,13 +710,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
-
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesKey'], 'newKey');
         });
 
-
-        it('should not be empty', function() {
-
+        it('should not be empty', function () {
           // given
           const editFieldSpy = spy();
 
@@ -839,7 +723,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -858,9 +742,7 @@ describe('properties panel', function() {
           expect(error).to.exist;
         });
 
-
-        it('should not contain spaces', function() {
-
+        it('should not contain spaces', function () {
           // given
           const editFieldSpy = spy();
 
@@ -870,7 +752,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -889,84 +771,54 @@ describe('properties panel', function() {
           expect(error).to.exist;
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'product');
           field = { ...field, values: undefined, valuesKey: '' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Dynamic options': [
-              'Input values key'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Dynamic options': ['Input values key'],
+            'Custom properties': [],
           });
         });
-
       });
-
     });
 
-
-    describe('checklist', function() {
-
-      it('entries', function() {
-
+    describe('checklist', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'mailto');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Options source': [
-            'Type'
-          ],
+          General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+          Condition: [],
+          'Options source': ['Type'],
           'Static options': [
-            [ 'Label', 3 ],
-            [ 'Value', 3 ]
+            ['Label', 3],
+            ['Value', 3],
           ],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          Validation: ['Required'],
+          'Custom properties': [],
         });
       });
 
-
-      describe('options', function() {
-
-        it('should add option', function() {
-
+      describe('options', function () {
+        it('should add option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -975,7 +827,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -986,18 +838,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            ...field.values,
-            {
-              label: 'Value 4',
-              value: 'value4',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['values'],
+            [
+              ...field.values,
+              {
+                label: 'Value 4',
+                value: 'value4',
+              },
+            ],
+          );
         });
 
-
-        it('should remove option', function() {
-
+        it('should remove option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1006,7 +860,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -1017,19 +871,12 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            field.values[ 1 ],
-            field.values[ 2 ]
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], [field.values[1], field.values[2]]);
         });
 
-
-        describe('validation', function() {
-
-          describe('value', function() {
-
-            it('should not be empty', function() {
-
+        describe('validation', function () {
+          describe('value', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1038,7 +885,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1054,9 +901,7 @@ describe('properties panel', function() {
               expect(error).to.exist;
             });
 
-
-            it('should be unique', function() {
-
+            it('should be unique', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1065,7 +910,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1080,18 +925,12 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
-
         });
-
       });
 
-
-      describe('dynamic options', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1100,7 +939,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1114,13 +953,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            valuesKey: ''
+            valuesKey: '',
           });
         });
 
-
-        it('should configure valuesKey', function() {
-
+        it('should configure valuesKey', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1130,7 +967,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1143,90 +980,57 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
-
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesKey'], 'newKey');
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'mailto');
           field = { ...field, values: undefined, valuesKey: '' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Dynamic options': [
-              'Input values key'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Dynamic options': ['Input values key'],
+            'Custom properties': [],
           });
-
         });
-
       });
-
     });
 
-
-    describe('taglist', function() {
-
-      it('entries', function() {
-
+    describe('taglist', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'tags');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Options source': [
-            'Type'
-          ],
+          General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+          Condition: [],
+          'Options source': ['Type'],
           'Static options': [
-            [ 'Label', 11 ],
-            [ 'Value', 11 ]
+            ['Label', 11],
+            ['Value', 11],
           ],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          Validation: ['Required'],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('options', function() {
-
-        it('should add option', function() {
-
+      describe('options', function () {
+        it('should add option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1235,7 +1039,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -1246,18 +1050,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            ...field.values,
-            {
-              label: 'Value 12',
-              value: 'value12',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['values'],
+            [
+              ...field.values,
+              {
+                label: 'Value 12',
+                value: 'value12',
+              },
+            ],
+          );
         });
 
-
-        it('should remove option', function() {
-
+        it('should remove option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1266,7 +1072,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -1277,19 +1083,15 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          const expectedValues = [ ...field.values ];
+          const expectedValues = [...field.values];
           expectedValues.shift();
 
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], expectedValues);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], expectedValues);
         });
 
-
-        describe('validation', function() {
-
-          describe('value', function() {
-
-            it('should not be empty', function() {
-
+        describe('validation', function () {
+          describe('value', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1298,7 +1100,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1314,9 +1116,7 @@ describe('properties panel', function() {
               expect(error).to.exist;
             });
 
-
-            it('should be unique', function() {
-
+            it('should be unique', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1325,7 +1125,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1340,18 +1140,12 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
-
         });
-
       });
 
-
-      describe('dynamic options (valuesKey)', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options (valuesKey)', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1360,7 +1154,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1374,13 +1168,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            valuesKey: ''
+            valuesKey: '',
           });
         });
 
-
-        it('should configure valuesKey', function() {
-
+        it('should configure valuesKey', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1390,7 +1182,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1403,12 +1195,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesKey'], 'newKey');
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = schema.components.find(({ key }) => key === 'tags');
 
@@ -1425,9 +1215,9 @@ describe('properties panel', function() {
             services: {
               eventBus,
               selection: {
-                get: () => field
-              }
-            }
+                get: () => field,
+              },
+            },
           });
 
           // assume
@@ -1446,46 +1236,29 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'tags');
           field = { ...field, values: undefined, valuesKey: '' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Dynamic options': [
-              'Input values key'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Dynamic options': ['Input values key'],
+            'Custom properties': [],
           });
-
         });
-
       });
 
-
-      describe('dynamic options (valuesExpression)', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options (valuesExpression)', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1494,7 +1267,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1508,13 +1281,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            valuesExpression: '='
+            valuesExpression: '=',
           });
         });
 
-
-        it('should configure valuesExpression', async function() {
-
+        it('should configure valuesExpression', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -1524,7 +1295,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1537,12 +1308,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesExpression' ], '=newVal');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesExpression'], '=newVal');
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = schema.components.find(({ key }) => key === 'tags');
 
@@ -1553,7 +1322,7 @@ describe('properties panel', function() {
           };
 
           const selection = {
-            get: () => field
+            get: () => field,
           };
 
           bootstrapPropertiesPanel({
@@ -1562,8 +1331,8 @@ describe('properties panel', function() {
             field,
             services: {
               eventBus,
-              selection
-            }
+              selection,
+            },
           });
 
           // assume
@@ -1582,62 +1351,42 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'tags');
           field = { ...field, values: undefined, valuesExpression: '=' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Options expression': [
-              'Options expression'
-            ],
-            'Validation': [
-              'Required'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Options expression': ['Options expression'],
+            Validation: ['Required'],
+            'Custom properties': [],
           });
-
         });
-
       });
-
     });
 
-
-    describe('datetime', function() {
-
-      it('entries', function() {
-
+    describe('datetime', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'conversation');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
+          General: [
             'Date label',
             'Time label',
             'Field description',
@@ -1645,71 +1394,43 @@ describe('properties panel', function() {
             'Subtype',
             'Use 24h',
             'Disabled',
-            'Read only'
+            'Read only',
           ],
-          'Condition': [],
-          'Serialization': [
-            'Time format'
-          ],
-          'Constraints': [
-            'Time interval',
-            'Disallow past dates'
-          ],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          Condition: [],
+          Serialization: ['Time format'],
+          Constraints: ['Time interval', 'Disallow past dates'],
+          Validation: ['Required'],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('select', function() {
-
-      it('entries', function() {
-
+    describe('select', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'language');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Default value',
-            'Searchable',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Options source': [
-            'Type'
-          ],
+          General: ['Field label', 'Field description', 'Key', 'Default value', 'Searchable', 'Disabled', 'Read only'],
+          Condition: [],
+          'Options source': ['Type'],
           'Static options': [
-            [ 'Label', 2 ],
-            [ 'Value', 2 ]
+            ['Label', 2],
+            ['Value', 2],
           ],
-          'Validation': [
-            'Required'
-          ],
-          'Custom properties': []
+          Validation: ['Required'],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('default value', function() {
-
-        it('should not add default value', function() {
-
+      describe('default value', function () {
+        it('should not add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1718,7 +1439,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1731,12 +1452,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
 
-
-        it('should add default value', function() {
-
+        it('should add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1745,7 +1464,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1758,12 +1477,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'english');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], 'english');
         });
 
-
-        it('should remove default value', function() {
-
+        it('should remove default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1772,7 +1489,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -1785,16 +1502,12 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
-
       });
 
-
-      describe('options', function() {
-
-        it('should NOT order alphanumerical', function() {
-
+      describe('options', function () {
+        it('should NOT order alphanumerical', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1803,7 +1516,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // when
@@ -1812,28 +1525,22 @@ describe('properties panel', function() {
           const list = group.querySelector('.bio-properties-panel-list');
 
           // then
-          expect(getListOrdering(list)).to.eql([
-            'German',
-            'English'
-          ]);
-
+          expect(getListOrdering(list)).to.eql(['German', 'English']);
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = {
             key: 'dri',
             label: 'Assign DRI',
             type: 'select',
-            valuesKey: 'queriedDRIs'
+            valuesKey: 'queriedDRIs',
           };
 
           const eventBus = new EventBusMock();
 
           const editField = () => {
-            field = { ...field, values: [ 'foo' ], valuesKey: undefined };
+            field = { ...field, values: ['foo'], valuesKey: undefined };
           };
 
           bootstrapPropertiesPanel({
@@ -1843,9 +1550,9 @@ describe('properties panel', function() {
             services: {
               eventBus,
               selection: {
-                get: () => field
-              }
-            }
+                get: () => field,
+              },
+            },
           });
 
           // assume
@@ -1864,9 +1571,7 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('should add option', function() {
-
+        it('should add option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1875,7 +1580,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -1886,18 +1591,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            ...field.values,
-            {
-              label: 'Value 3',
-              value: 'value3',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['values'],
+            [
+              ...field.values,
+              {
+                label: 'Value 3',
+                value: 'value3',
+              },
+            ],
+          );
         });
 
-
-        it('should remove option', function() {
-
+        it('should remove option', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1906,7 +1613,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Static options');
@@ -1917,18 +1624,12 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'values' ], [
-            field.values[ 1 ]
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['values'], [field.values[1]]);
         });
 
-
-        describe('validation', function() {
-
-          describe('value', function() {
-
-            it('should not be empty', function() {
-
+        describe('validation', function () {
+          describe('value', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1937,7 +1638,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1953,9 +1654,7 @@ describe('properties panel', function() {
               expect(error).to.exist;
             });
 
-
-            it('should be unique', function() {
-
+            it('should be unique', function () {
               // given
               const editFieldSpy = spy();
 
@@ -1964,7 +1663,7 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
@@ -1979,18 +1678,12 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
-
         });
-
       });
 
-
-      describe('dynamic options (valuesKey)', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options (valuesKey)', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -1999,7 +1692,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2013,13 +1706,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            valuesKey: ''
+            valuesKey: '',
           });
         });
 
-
-        it('should configure valuesKey', function() {
-
+        it('should configure valuesKey', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2029,7 +1720,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2042,12 +1733,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesKey' ], 'newKey');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesKey'], 'newKey');
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = schema.components.find(({ key }) => key === 'language');
 
@@ -2064,9 +1753,9 @@ describe('properties panel', function() {
             services: {
               eventBus,
               selection: {
-                get: () => field
-              }
-            }
+                get: () => field,
+              },
+            },
           });
 
           // assume
@@ -2085,49 +1774,30 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'language');
           field = { ...field, values: undefined, valuesKey: '' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Dynamic options': [
-              'Input values key'
-            ],
-            'Validation': [
-              'Required'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Dynamic options': ['Input values key'],
+            Validation: ['Required'],
+            'Custom properties': [],
           });
-
         });
-
       });
 
-
-      describe('dynamic options (valuesExpression)', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options (valuesExpression)', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2136,7 +1806,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2150,13 +1820,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            valuesExpression: '='
+            valuesExpression: '=',
           });
         });
 
-
-        it('should configure valuesExpression', async function() {
-
+        it('should configure valuesExpression', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -2166,7 +1834,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2179,12 +1847,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'valuesExpression' ], '=newVal');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['valuesExpression'], '=newVal');
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = schema.components.find(({ key }) => key === 'language');
 
@@ -2201,9 +1867,9 @@ describe('properties panel', function() {
             services: {
               eventBus,
               selection: {
-                get: () => field
-              }
-            }
+                get: () => field,
+              },
+            },
           });
 
           // assume
@@ -2222,218 +1888,144 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('entries should change', function() {
-
+        it('entries should change', function () {
           // given
           let field = schema.components.find(({ key }) => key === 'language');
           field = { ...field, values: undefined, valuesExpression: '=' };
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           expectPanelStructure(container, {
-            'General': [
-              'Field label',
-              'Field description',
-              'Key',
-              'Disabled',
-              'Read only'
-            ],
-            'Condition': [],
-            'Options source': [
-              'Type'
-            ],
-            'Options expression': [
-              'Options expression'
-            ],
-            'Validation': [
-              'Required'
-            ],
-            'Custom properties': []
+            General: ['Field label', 'Field description', 'Key', 'Disabled', 'Read only'],
+            Condition: [],
+            'Options source': ['Type'],
+            'Options expression': ['Options expression'],
+            Validation: ['Required'],
+            'Custom properties': [],
           });
-
         });
-
       });
-
     });
 
-
-    describe('text', function() {
-
-      it('entries', function() {
-
+    describe('text', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ type }) => type === 'text');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Text'
-          ],
-          'Condition': [],
-          'Custom properties': []
+          General: ['Text'],
+          Condition: [],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('spacer', function() {
-
-      it('entries', function() {
-
+    describe('spacer', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ type }) => type === 'spacer');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Height'
-          ],
-          'Condition': [],
-          'Layout': [
-            'Columns'
-          ],
-          'Custom properties': []
+          General: ['Height'],
+          Condition: [],
+          Layout: ['Columns'],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('group', function() {
-
-      it('entries', function() {
-
+    describe('group', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ type }) => type === 'group');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Group label',
-            'Path'
-          ],
-          'Condition': [
-            'Hide if'
-          ],
-          'Layout': [
-            'Columns'
-          ],
-          'Appearance': [
-            'Show outline',
-            'Vertical alignment'
-          ],
-          'Custom properties': []
+          General: ['Group label', 'Path'],
+          Condition: ['Hide if'],
+          Layout: ['Columns'],
+          Appearance: ['Show outline', 'Vertical alignment'],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('dynamiclist', function() {
-
-      it('entries', function() {
-
+    describe('dynamiclist', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ type }) => type === 'dynamiclist');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
+          General: [
             'Group label',
             'Path',
             'Default number of items',
             'Allow add/delete items',
             'Disable collapse',
-            'Number of non-collapsing items'
+            'Number of non-collapsing items',
           ],
-          'Condition': [
-            'Hide if'
-          ],
-          'Layout': [
-            'Columns'
-          ],
-          'Appearance': [
-            'Show outline',
-            'Vertical alignment'
-          ],
-          'Custom properties': []
+          Condition: ['Hide if'],
+          Layout: ['Columns'],
+          Appearance: ['Show outline', 'Vertical alignment'],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('textfield', function() {
-
-      it('entries', function() {
-
+    describe('textfield', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'creditor');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Field label',
-            'Field description',
-            'Key',
-            'Default value',
-            'Disabled',
-            'Read only'
-          ],
-          'Condition': [],
-          'Validation': [
+          General: ['Field label', 'Field description', 'Key', 'Default value', 'Disabled', 'Read only'],
+          Condition: [],
+          Validation: [
             'Required',
             'Minimum length',
             'Maximum length',
             'Validation pattern',
-            'Custom regular expression'
+            'Custom regular expression',
           ],
-          'Custom properties': []
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('default value', function() {
-
-        it('should add default value', function() {
-
+      describe('default value', function () {
+        it('should add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2442,7 +2034,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2455,12 +2047,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 'Max Mustermann GmbH');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], 'Max Mustermann GmbH');
         });
 
-
-        it('should remove default value', function() {
-
+        it('should remove default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2469,7 +2059,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2482,18 +2072,13 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
-
       });
 
-
-      describe('validation', function() {
-
-        describe('maximum length', function() {
-
-          it('should have min value of 0', function() {
-
+      describe('validation', function () {
+        describe('maximum length', function () {
+          it('should have min value of 0', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2502,7 +2087,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2519,19 +2104,15 @@ describe('properties panel', function() {
             // then
             expect(editFieldSpy).to.have.been.calledOnce;
 
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'validate' ], {
+            expect(editFieldSpy).to.have.been.calledWith(field, ['validate'], {
               ...field.validate,
-              maxLength: 1
+              maxLength: 1,
             });
           });
-
         });
 
-
-        describe('minimum length', function() {
-
-          it('should have min value of 0', function() {
-
+        describe('minimum length', function () {
+          it('should have min value of 0', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2540,7 +2121,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2555,19 +2136,15 @@ describe('properties panel', function() {
 
             // then
             expect(editFieldSpy).to.have.been.calledOnce;
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'validate' ], {
+            expect(editFieldSpy).to.have.been.calledWith(field, ['validate'], {
               ...field.validate,
-              minLength: 1
+              minLength: 1,
             });
           });
-
         });
 
-
-        describe('key', function() {
-
-          it('should not be empty', function() {
-
+        describe('key', function () {
+          it('should not be empty', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2576,7 +2153,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2595,9 +2172,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not contain spaces', function() {
-
+          it('should not contain spaces', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2606,7 +2181,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2625,9 +2200,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not conflict', function() {
-
+          it('should not conflict', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2637,10 +2210,10 @@ describe('properties panel', function() {
               container,
               editField: editFieldSpy,
               field,
-              claimedPaths: [ 'amount' ],
+              claimedPaths: ['amount'],
               valuePaths: {
-                [ field.id ] : [ 'amount' ]
-              }
+                [field.id]: ['amount'],
+              },
             });
 
             // assume
@@ -2659,9 +2232,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not allow numerical key segments', function() {
-
+          it('should not allow numerical key segments', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2670,7 +2241,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2687,31 +2258,24 @@ describe('properties panel', function() {
             const error = screen.getByText('Must not contain numerical path segments.');
 
             expect(error).to.exist;
-
           });
-
         });
-
       });
-
     });
 
-
-    describe('number', function() {
-
-      it('entries', function() {
-
+    describe('number', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ key }) => key === 'amount');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
+          General: [
             'Field label',
             'Field description',
             'Key',
@@ -2719,27 +2283,17 @@ describe('properties panel', function() {
             'Decimal digits',
             'Increment',
             'Disabled',
-            'Read only'
+            'Read only',
           ],
-          'Condition': [],
-          'Serialization': [
-            'Output as string'
-          ],
-          'Validation': [
-            'Required',
-            'Minimum',
-            'Maximum'
-          ],
-          'Custom properties': []
+          Condition: [],
+          Serialization: ['Output as string'],
+          Validation: ['Required', 'Minimum', 'Maximum'],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('default value', function() {
-
-        it('should add default value', function() {
-
+      describe('default value', function () {
+        it('should add default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2748,7 +2302,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2761,12 +2315,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], 250);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], 250);
         });
 
-
-        it('should remove default value', function() {
-
+        it('should remove default value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2777,8 +2329,8 @@ describe('properties panel', function() {
             editField: editFieldSpy,
             field: {
               ...field,
-              defaultValue: 0
-            }
+              defaultValue: 0,
+            },
           });
 
           // assume
@@ -2791,16 +2343,12 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'defaultValue' ], undefined);
-
+          expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
-
       });
 
-      describe('decimal digits', function() {
-
-        it('should add positive integer values', function() {
-
+      describe('decimal digits', function () {
+        it('should add positive integer values', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2809,7 +2357,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2822,12 +2370,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'decimalDigits' ], 100);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['decimalDigits'], 100);
         });
 
-
-        it('should add zero', function() {
-
+        it('should add zero', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2836,7 +2382,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2849,12 +2395,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'decimalDigits' ], 0);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['decimalDigits'], 0);
         });
 
-
-        it('should reject negative values', function() {
-
+        it('should reject negative values', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2863,7 +2407,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2878,9 +2422,7 @@ describe('properties panel', function() {
           expect(editFieldSpy).to.not.have.been.called;
         });
 
-
-        it('should reject decimal values', function() {
-
+        it('should reject decimal values', function () {
           // given
           const editFieldSpy = spy();
 
@@ -2889,7 +2431,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -2903,15 +2445,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.not.have.been.called;
         });
-
       });
 
-      describe('validation', function() {
-
-        describe('default value', function() {
-
-          it('should refuse non numeric values', function() {
-
+      describe('validation', function () {
+        describe('default value', function () {
+          it('should refuse non numeric values', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2920,7 +2458,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2934,12 +2472,9 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be a valid number');
             expect(error).to.exist;
-
           });
 
-
-          it('should refuse values not conforming to decimal digits', function() {
-
+          it('should refuse values not conforming to decimal digits', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2951,7 +2486,7 @@ describe('properties panel', function() {
               field: {
                 ...field,
                 decimalDigits: 4,
-              }
+              },
             });
 
             // assume
@@ -2965,17 +2500,11 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should not contain more than 4 decimal digits');
             expect(error).to.exist;
-
           });
-
-
         });
 
-
-        describe('increment', function() {
-
-          it('should reject non-numeric values', function() {
-
+        describe('increment', function () {
+          it('should reject non-numeric values', function () {
             // given
             const editFieldSpy = spy();
 
@@ -2984,7 +2513,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -2998,12 +2527,9 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be a valid number.');
             expect(error).to.exist;
-
           });
 
-
-          it('should clear', function() {
-
+          it('should clear', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3012,7 +2538,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3022,13 +2548,10 @@ describe('properties panel', function() {
             fireEvent.input(input, { target: { value: '' } });
 
             // then
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], undefined);
-
+            expect(editFieldSpy).to.have.been.calledWith(field, ['increment'], undefined);
           });
 
-
-          it('should trim leading zeroes', function() {
-
+          it('should trim leading zeroes', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3037,7 +2560,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3047,13 +2570,10 @@ describe('properties panel', function() {
             fireEvent.input(input, { target: { value: '0005.1000' } });
 
             // then
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '5.1000');
-
+            expect(editFieldSpy).to.have.been.calledWith(field, ['increment'], '5.1000');
           });
 
-
-          it('should not trim zero if needed', function() {
-
+          it('should not trim zero if needed', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3062,7 +2582,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3072,13 +2592,10 @@ describe('properties panel', function() {
             fireEvent.input(input, { target: { value: '0.1000' } });
 
             // then
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '0.1000');
-
+            expect(editFieldSpy).to.have.been.calledWith(field, ['increment'], '0.1000');
           });
 
-
-          it('should not trim decimal point', function() {
-
+          it('should not trim decimal point', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3087,7 +2604,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3097,13 +2614,10 @@ describe('properties panel', function() {
             fireEvent.input(input, { target: { value: '5.' } });
 
             // then
-            expect(editFieldSpy).to.have.been.calledWith(field, [ 'increment' ], '5.');
-
+            expect(editFieldSpy).to.have.been.calledWith(field, ['increment'], '5.');
           });
 
-
-          it('should reject values smaller than the unit of the smallest digit', function() {
-
+          it('should reject values smaller than the unit of the smallest digit', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3115,7 +2629,7 @@ describe('properties panel', function() {
               field: {
                 ...field,
                 decimalDigits: 4,
-              }
+              },
             });
 
             // assume
@@ -3129,12 +2643,9 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be at least 0.0001.');
             expect(error).to.exist;
-
           });
 
-
-          it('should be greater than zero', function() {
-
+          it('should be greater than zero', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3143,7 +2654,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3157,16 +2668,11 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be greater than zero.');
             expect(error).to.exist;
-
           });
-
         });
 
-
-        describe('decimalDigits', function() {
-
-          it('should reject negative values', function() {
-
+        describe('decimalDigits', function () {
+          it('should reject negative values', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3175,7 +2681,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3189,12 +2695,9 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be greater than or equal to zero.');
             expect(error).to.exist;
-
           });
 
-
-          it('should reject non-integer values', function() {
-
+          it('should reject non-integer values', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3203,7 +2706,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3217,15 +2720,11 @@ describe('properties panel', function() {
 
             const error = screen.getByText('Should be an integer.');
             expect(error).to.exist;
-
           });
-
         });
 
-        describe('key', function() {
-
-          it('should not be empty', function() {
-
+        describe('key', function () {
+          it('should not be empty', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3234,7 +2733,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3253,9 +2752,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not contain spaces', function() {
-
+          it('should not contain spaces', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3264,7 +2761,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3283,9 +2780,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not conflict', function() {
-
+          it('should not conflict', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3295,10 +2790,10 @@ describe('properties panel', function() {
               container,
               editField: editFieldSpy,
               field,
-              claimedPaths: [ 'creditor' ],
+              claimedPaths: ['creditor'],
               valuePaths: {
-                [ field.id ] : [ 'creditor' ]
-              }
+                [field.id]: ['creditor'],
+              },
             });
 
             // assume
@@ -3319,9 +2814,7 @@ describe('properties panel', function() {
             expect(error).to.exist;
           });
 
-
-          it('should not allow numerical key segments', function() {
-
+          it('should not allow numerical key segments', function () {
             // given
             const editFieldSpy = spy();
 
@@ -3330,7 +2823,7 @@ describe('properties panel', function() {
             bootstrapPropertiesPanel({
               container,
               editField: editFieldSpy,
-              field
+              field,
             });
 
             // assume
@@ -3347,66 +2840,48 @@ describe('properties panel', function() {
             const error = screen.getByText('Must not contain numerical path segments.');
 
             expect(error).to.exist;
-
           });
-
         });
-
       });
 
-      describe('read only', function() {
-
-        it('should not render when disabled', function() {
-
+      describe('read only', function () {
+        it('should not render when disabled', function () {
           // given
           const field = schema.components.find(({ key }) => key === 'amount');
           field.disabled = true;
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           // then
           const readOnlyElement = screen.queryByLabelText('Read only');
           expect(readOnlyElement).to.not.exist;
-
         });
-
       });
-
     });
 
-
-    describe('image', function() {
-
-      it('entries', function() {
-
+    describe('image', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ source }) => source === '=logo');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Image source',
-            'Alternative text'
-          ],
-          'Condition': [],
-          'Custom properties': []
+          General: ['Image source', 'Alternative text'],
+          Condition: [],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('source', function() {
-
-        it('should update source', async function() {
-
+      describe('source', function () {
+        it('should update source', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3415,7 +2890,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3427,12 +2902,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], '=foo');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['source'], '=foo');
         });
 
-
-        it('should remove source', async function() {
-
+        it('should remove source', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3441,7 +2914,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3453,16 +2926,12 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'source' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['source'], undefined);
         });
-
       });
 
-
-      describe('alt', function() {
-
-        it('should update alt text', async function() {
-
+      describe('alt', function () {
+        it('should update alt text', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3471,7 +2940,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3485,12 +2954,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], 'An image');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['alt'], 'An image');
         });
 
-
-        it('should remove alt text', async function() {
-
+        it('should remove alt text', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3499,7 +2966,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3513,80 +2980,52 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'alt' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['alt'], undefined);
         });
-
       });
-
     });
 
-
-    describe('expression field', function() {
-
-      it('entries', function() {
-
+    describe('expression field', function () {
+      it('entries', function () {
         // given
         const field = schema.components.find(({ type }) => type === 'expression');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Key',
-            'Target value',
-            'Compute on'
-          ],
-          'Condition': [
-            'Deactivate if'
-          ],
-          'Layout': [
-            'Columns'
-          ],
-          'Custom properties': []
+          General: ['Key', 'Target value', 'Compute on'],
+          Condition: ['Deactivate if'],
+          Layout: ['Columns'],
+          'Custom properties': [],
         });
-
       });
-
     });
 
-
-    describe('iframe', function() {
-
-      it('entries', function() {
-
+    describe('iframe', function () {
+      it('entries', function () {
         // given
         const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Title',
-            'URL',
-            'Height'
-          ],
+          General: ['Title', 'URL', 'Height'],
           'Security attributes': [],
-          'Layout': [
-            'Columns'
-          ],
-          'Custom properties': []
+          Layout: ['Columns'],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('url', function() {
-
-        it('should update url', async function() {
-
+      describe('url', function () {
+        it('should update url', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3595,7 +3034,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3609,12 +3048,10 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'url' ], 'https://foo.png');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['url'], 'https://foo.png');
         });
 
-
-        it('should remove url', async function() {
-
+        it('should remove url', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3623,7 +3060,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const feelers = findFeelers('url', container);
@@ -3634,18 +3071,16 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'url' ], undefined);
+          expect(editFieldSpy).to.have.been.calledWith(field, ['url'], undefined);
         });
 
-
-        it('should show error', async function() {
-
+        it('should show error', async function () {
           // given
           const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
           bootstrapPropertiesPanel({
             container,
-            field
+            field,
           });
 
           const feelers = findFeelers('url', container);
@@ -3661,18 +3096,15 @@ describe('properties panel', function() {
 
           expect(error).to.exist;
         });
-
       });
 
-
-      it('should NOT show error for expressions', async function() {
-
+      it('should NOT show error for expressions', async function () {
         // given
         const field = iframeSchema.components.find(({ url }) => url === 'https://bpmn.io/');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         const feelers = findFeelers('url', container);
@@ -3688,83 +3120,53 @@ describe('properties panel', function() {
 
         expect(error).not.to.exist;
       });
-
     });
 
-
-    describe('table', function() {
-
-      it('entries static headers', function() {
-
+    describe('table', function () {
+      it('entries static headers', function () {
         // given
         const field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Table label',
-            'Data source',
-            'Pagination',
-            'Number of rows per page'
-          ],
-          'Headers source': [
-            'Type'
-          ],
+          General: ['Table label', 'Data source', 'Pagination', 'Number of rows per page'],
+          'Headers source': ['Type'],
           'Header items': [
-            [ 'Label', 3 ],
-            [ 'Key', 3 ]
+            ['Label', 3],
+            ['Key', 3],
           ],
-          'Condition': [],
-          'Layout': [
-            'Columns'
-          ],
-          'Custom properties': []
+          Condition: [],
+          Layout: ['Columns'],
+          'Custom properties': [],
         });
-
       });
 
-
-      it('entries static headers', function() {
-
+      it('entries static headers', function () {
         // given
         const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
 
         bootstrapPropertiesPanel({
           container,
-          field
+          field,
         });
 
         // then
         expectPanelStructure(container, {
-          'General': [
-            'Table label',
-            'Data source',
-            'Pagination',
-            'Number of rows per page'
-          ],
-          'Headers source': [
-            'Type',
-            'Expression'
-          ],
-          'Condition': [],
-          'Layout': [
-            'Columns'
-          ],
-          'Custom properties': []
+          General: ['Table label', 'Data source', 'Pagination', 'Number of rows per page'],
+          'Headers source': ['Type', 'Expression'],
+          Condition: [],
+          Layout: ['Columns'],
+          'Custom properties': [],
         });
-
       });
 
-
-      describe('columns', function() {
-
-        it('should auto focus other entry', async function() {
-
+      describe('columns', function () {
+        it('should auto focus other entry', async function () {
           // given
           let field = {
             label: 'Table',
@@ -3777,19 +3179,19 @@ describe('properties panel', function() {
           const eventBus = new EventBusMock();
 
           const selection = {
-            get: () => field
+            get: () => field,
           };
 
           const editField = () => {
-            const { columnsExpression:_, ...renderedField } = field;
+            const { columnsExpression: _, ...renderedField } = field;
             field = {
               ...renderedField,
-              columns:[
+              columns: [
                 {
-                  label:'Column',
-                  key:'inputVariable'
-                }
-              ]
+                  label: 'Column',
+                  key: 'inputVariable',
+                },
+              ],
             };
           };
 
@@ -3799,8 +3201,8 @@ describe('properties panel', function() {
             field,
             services: {
               eventBus,
-              selection
-            }
+              selection,
+            },
           });
 
           // assume
@@ -3818,9 +3220,7 @@ describe('properties panel', function() {
           });
         });
 
-
-        it('should add value', function() {
-
+        it('should add value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -3829,7 +3229,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Header items');
@@ -3840,18 +3240,20 @@ describe('properties panel', function() {
           fireEvent.click(addEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columns' ], [
-            ...field.columns,
-            {
-              label: 'Column',
-              key: 'inputVariable',
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['columns'],
+            [
+              ...field.columns,
+              {
+                label: 'Column',
+                key: 'inputVariable',
+              },
+            ],
+          );
         });
 
-
-        it('should remove value', function() {
-
+        it('should remove value', function () {
           // given
           const editFieldSpy = spy();
 
@@ -3860,7 +3262,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           const group = findGroup(container, 'Header items');
@@ -3871,25 +3273,25 @@ describe('properties panel', function() {
           fireEvent.click(removeEntry);
 
           // then
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columns' ], [
-            {
-              label: 'Name',
-              key: 'name'
-            },
-            {
-              label: 'Date',
-              key: 'date'
-            }
-          ]);
+          expect(editFieldSpy).to.have.been.calledWith(
+            field,
+            ['columns'],
+            [
+              {
+                label: 'Name',
+                key: 'name',
+              },
+              {
+                label: 'Date',
+                key: 'date',
+              },
+            ],
+          );
         });
 
-
-        describe('validation', function() {
-
-          describe('key', function() {
-
-            it('should not be empty', function() {
-
+        describe('validation', function () {
+          describe('key', function () {
+            it('should not be empty', function () {
               // given
               const editFieldSpy = spy();
 
@@ -3898,11 +3300,13 @@ describe('properties panel', function() {
               bootstrapPropertiesPanel({
                 container,
                 editField: editFieldSpy,
-                field
+                field,
               });
 
               // when
-              const input = screen.getByLabelText('Key', { selector: `#bio-properties-panel-${field.id}-columns-0-key` });
+              const input = screen.getByLabelText('Key', {
+                selector: `#bio-properties-panel-${field.id}-columns-0-key`,
+              });
 
               fireEvent.input(input, { target: { value: '' } });
 
@@ -3913,18 +3317,12 @@ describe('properties panel', function() {
 
               expect(error).to.exist;
             });
-
           });
-
         });
-
       });
 
-
-      describe('dynamic options (columnsExpression)', function() {
-
-        it('should configure input source', function() {
-
+      describe('dynamic options (columnsExpression)', function () {
+        it('should configure input source', function () {
           // given
           const editFieldSpy = spy();
 
@@ -3933,7 +3331,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3947,13 +3345,11 @@ describe('properties panel', function() {
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, {
-            columnsExpression:'='
+            columnsExpression: '=',
           });
         });
 
-
-        it('should configure columnsExpression', async function() {
-
+        it('should configure columnsExpression', async function () {
           // given
           const editFieldSpy = spy();
 
@@ -3962,7 +3358,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // assume
@@ -3975,23 +3371,21 @@ describe('properties panel', function() {
 
           // then
           expect(editFieldSpy).to.have.been.calledOnce;
-          expect(editFieldSpy).to.have.been.calledWith(field, [ 'columnsExpression' ], '=newVal');
+          expect(editFieldSpy).to.have.been.calledWith(field, ['columnsExpression'], '=newVal');
         });
 
-
-        it('should auto focus other entry', async function() {
-
+        it('should auto focus other entry', async function () {
           // given
           let field = tableSchema.components.find(({ label }) => label === 'static-headers-table');
 
           const eventBus = new EventBusMock();
 
           const selection = {
-            get: () => field
+            get: () => field,
           };
 
           const editField = () => {
-            const { columns:_, ...renderedField } = field;
+            const { columns: _, ...renderedField } = field;
             field = { ...renderedField, columnsExpression: '=' };
           };
 
@@ -4001,8 +3395,8 @@ describe('properties panel', function() {
             field,
             services: {
               eventBus,
-              selection
-            }
+              selection,
+            },
           });
 
           // assume
@@ -4020,18 +3414,12 @@ describe('properties panel', function() {
             expect(document.activeElement).to.eql(editor);
           });
         });
-
       });
-
     });
-
   });
 
-
-  describe('custom properties', function() {
-
-    it('should add property', function() {
-
+  describe('custom properties', function () {
+    it('should add property', function () {
       // given
       const editFieldSpy = spy();
 
@@ -4040,7 +3428,7 @@ describe('properties panel', function() {
       bootstrapPropertiesPanel({
         container,
         editField: editFieldSpy,
-        field
+        field,
       });
 
       const group = findGroup(container, 'Custom properties');
@@ -4051,25 +3439,22 @@ describe('properties panel', function() {
       fireEvent.click(addEntry);
 
       // then
-      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
+      expect(editFieldSpy).to.have.been.calledWith(field, ['properties'], {
         ...field.properties,
-        key4: 'value'
+        key4: 'value',
       });
     });
 
-
-    it('should add property with different index if already used', function() {
-
+    it('should add property with different index if already used', function () {
       // given
       const editFieldSpy = spy();
-
 
       const field = redundantValuesSchema.components.find(({ key }) => key === 'redundantValues');
 
       bootstrapPropertiesPanel({
         container,
         editField: editFieldSpy,
-        field
+        field,
       });
 
       const group = findGroup(container, 'Custom properties');
@@ -4079,15 +3464,13 @@ describe('properties panel', function() {
       fireEvent.click(addEntry);
 
       // then
-      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
+      expect(editFieldSpy).to.have.been.calledWith(field, ['properties'], {
         key2: 'value',
-        key3: 'value'
+        key3: 'value',
       });
     });
 
-
-    it('should remove property', function() {
-
+    it('should remove property', function () {
       // given
       const editFieldSpy = spy();
 
@@ -4096,7 +3479,7 @@ describe('properties panel', function() {
       bootstrapPropertiesPanel({
         container,
         editField: editFieldSpy,
-        field
+        field,
       });
 
       const group = findGroup(container, 'Custom properties');
@@ -4107,18 +3490,14 @@ describe('properties panel', function() {
       fireEvent.click(removeEntry);
 
       // then
-      expect(editFieldSpy).to.have.been.calledWith(field, [ 'properties' ], {
-        ...removeKey(field.properties, 'firstName')
+      expect(editFieldSpy).to.have.been.calledWith(field, ['properties'], {
+        ...removeKey(field.properties, 'firstName'),
       });
     });
 
-
-    describe('validation', function() {
-
-      describe('custom property key', function() {
-
-        it('should not be empty', function() {
-
+    describe('validation', function () {
+      describe('custom property key', function () {
+        it('should not be empty', function () {
           // given
           const editFieldSpy = spy();
 
@@ -4127,7 +3506,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // when
@@ -4143,9 +3522,7 @@ describe('properties panel', function() {
           expect(error).to.exist;
         });
 
-
-        it('should be unique', function() {
-
+        it('should be unique', function () {
           // given
           const editFieldSpy = spy();
 
@@ -4154,7 +3531,7 @@ describe('properties panel', function() {
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
-            field
+            field,
           });
 
           // when
@@ -4169,18 +3546,12 @@ describe('properties panel', function() {
 
           expect(error).to.exist;
         });
-
       });
-
     });
-
   });
 
-
-  describe('feel popup', function() {
-
-    it('should render feel popup in given container', async function() {
-
+  describe('feel popup', function () {
+    it('should render feel popup in given container', async function () {
       // given
       const editFieldSpy = spy();
 
@@ -4193,10 +3564,10 @@ describe('properties panel', function() {
         services: {
           config: {
             propertiesPanel: {
-              feelPopupContainer: container
-            }
-          }
-        }
+              feelPopupContainer: container,
+            },
+          },
+        },
       });
 
       const openPopupBtn = findOpenFeelPopup('source', container);
@@ -4212,64 +3583,20 @@ describe('properties panel', function() {
       expect(feelPopup).to.exist;
       expect(feelPopup.parentNode).to.eql(container);
     });
-
   });
 
-
-  describe('extension support', function() {
-
-    it('should render configured propertiesPanelEntries', function() {
-
-      // given
-      const field = {
-        id: 'Custom_1',
-        type: 'custom'
-      };
-
-      const extension = {
-        config: {
-          propertiesPanelEntries: [
-            'label',
-            'description'
-          ]
-        }
-      };
-
-      const formFields = new FormFields();
-      formFields.register('custom', extension);
-
-      bootstrapPropertiesPanel({
-        container,
-        field,
-        services: {
-          formFields
-        }
-      });
-
-      // then
-      expectGroupEntries(container, 'General', [
-        'Field label',
-        'Field description'
-      ]);
-
-    });
-
-
-    it('should render configured values groups', function() {
-
+  describe('extension support', function () {
+    it('should render configured propertiesPanelEntries', function () {
       // given
       const field = {
         id: 'Custom_1',
         type: 'custom',
-        values: []
       };
 
       const extension = {
         config: {
-          propertiesPanelEntries: [
-            'values'
-          ]
-        }
+          propertiesPanelEntries: ['label', 'description'],
+        },
       };
 
       const formFields = new FormFields();
@@ -4279,74 +3606,81 @@ describe('properties panel', function() {
         container,
         field,
         services: {
-          formFields
-        }
+          formFields,
+        },
       });
 
       // then
-      expectGroups(container, [
-        'Condition',
-        'Layout',
-        'Options source',
-        'Static options',
-        'Custom properties'
-      ]);
-
+      expectGroupEntries(container, 'General', ['Field label', 'Field description']);
     });
 
+    it('should render configured values groups', function () {
+      // given
+      const field = {
+        id: 'Custom_1',
+        type: 'custom',
+        values: [],
+      };
 
-    it('should render from provider', function() {
+      const extension = {
+        config: {
+          propertiesPanelEntries: ['values'],
+        },
+      };
 
+      const formFields = new FormFields();
+      formFields.register('custom', extension);
+
+      bootstrapPropertiesPanel({
+        container,
+        field,
+        services: {
+          formFields,
+        },
+      });
+
+      // then
+      expectGroups(container, ['Condition', 'Layout', 'Options source', 'Static options', 'Custom properties']);
+    });
+
+    it('should render from provider', function () {
       // given
       const propertiesProvider = {
         getGroups(element) {
           return (groups) => {
-
             return [
               ...groups,
               {
                 id: 'custom',
                 label: 'Custom group',
-                entries: []
-              }
+                entries: [],
+              },
             ];
           };
-        }
+        },
       };
 
       const field = {
         id: 'Custom_1',
         type: 'textfield',
-        values: []
+        values: [],
       };
 
       bootstrapPropertiesPanel({
         container,
         field,
-        propertiesProviders: [
-          propertiesProvider
-        ]
+        propertiesProviders: [propertiesProvider],
       });
 
       // then
-      expectGroups(container, [
-        'Condition',
-        'Layout',
-        'Custom properties',
-        'Custom group'
-      ]);
-
+      expectGroups(container, ['Condition', 'Layout', 'Custom properties', 'Custom group']);
     });
-
   });
-
 });
-
 
 // helpers //////////////
 
 function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = render) {
-
   const options = {
     editField: () => {},
     isTemplate: () => false,
@@ -4355,7 +3689,7 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
     claimedPaths: [],
     propertiesProviders: [],
     field: null,
-    ...restOptions
+    ...restOptions,
   };
 
   const defaultedServices = {
@@ -4364,9 +3698,9 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
     modeling: {
       editFormField(...args) {
         return options.editField(...args);
-      }
+      },
     },
-    ...services
+    ...services,
   };
 
   const injector = createMockInjector(defaultedServices, options);
@@ -4374,43 +3708,38 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
   const container = options.container;
 
   const getProviders = () => {
-    return [
-      new PropertiesProvider(defaultedServices.propertiesPanel, injector),
-      ...options.propertiesProviders
-    ];
+    return [new PropertiesProvider(defaultedServices.propertiesPanel, injector), ...options.propertiesProviders];
   };
 
-  return renderFn(<PropertiesPanel
-    getProviders={ getProviders }
-    eventBus={ defaultedServices.eventBus }
-    injector={ injector } />,
-  {
-    container
-  });
+  return renderFn(
+    <PropertiesPanel getProviders={getProviders} eventBus={defaultedServices.eventBus} injector={injector} />,
+    {
+      container,
+    },
+  );
 }
-
 
 function expectPanelStructure(container, panelStructure) {
   const groupNames = Object.keys(panelStructure);
 
   expectGroups(container, groupNames);
 
-  groupNames.forEach(group => {
+  groupNames.forEach((group) => {
     const entries = panelStructure[group];
     expectGroupEntries(container, group, entries);
   });
 }
 
 function expectGroups(container, groupLabels) {
-  groupLabels.forEach(groupLabel => {
+  groupLabels.forEach((groupLabel) => {
     expect(findGroup(container, groupLabel)).to.exist;
   });
 }
 
 function expectGroupEntries(container, groupLabel, entryLabels) {
-  entryLabels.forEach(entryLabel => {
+  entryLabels.forEach((entryLabel) => {
     if (Array.isArray(entryLabel)) {
-      expect(findEntries(container, groupLabel, entryLabel[ 0 ])).to.have.length(entryLabel[ 1 ]);
+      expect(findEntries(container, groupLabel, entryLabel[0])).to.have.length(entryLabel[1]);
     } else {
       expect(findEntries(container, groupLabel, entryLabel)).to.have.length(1);
     }
@@ -4428,7 +3757,7 @@ function findGroup(container, groupLabel) {
 
 function findGroupIndex(container, groupLabel) {
   const groupLabels = container.querySelectorAll('.bio-properties-panel-group-header-title');
-  return Array.from(groupLabels).findIndex(group => group.textContent === groupLabel);
+  return Array.from(groupLabels).findIndex((group) => group.textContent === groupLabel);
 }
 
 function findEntries(container, groupLabel, entryLabel) {
@@ -4437,7 +3766,7 @@ function findEntries(container, groupLabel, entryLabel) {
   if (group) {
     const entries = group.querySelectorAll('.bio-properties-panel-label');
 
-    return Array.from(entries).filter(entry => entry.textContent === entryLabel);
+    return Array.from(entries).filter((entry) => entry.textContent === entryLabel);
   }
 }
 
@@ -4458,14 +3787,10 @@ function getListOrdering(list) {
 
   const items = list.querySelectorAll('.bio-properties-panel-list-item', list);
 
-  items.forEach(item => {
+  items.forEach((item) => {
     const collapsible = item.querySelector('.bio-properties-panel-collapsible-entry', item);
 
-    ordering.push(
-      collapsible
-        .querySelector('.bio-properties-panel-collapsible-entry-header-title')
-        .textContent
-    );
+    ordering.push(collapsible.querySelector('.bio-properties-panel-collapsible-entry-header-title').textContent);
   });
 
   return ordering;

@@ -20,19 +20,15 @@ import { FormEditorContext } from './context';
  */
 export class Renderer {
   constructor(renderConfig, eventBus, formEditor, injector) {
-
-    const {
-      container,
-      compact = false
-    } = renderConfig;
+    const { container, compact = false } = renderConfig;
 
     const App = () => {
-      const [ state, setState ] = useState(formEditor._getState());
+      const [state, setState] = useState(formEditor._getState());
 
       const formEditorContext = {
         getService(type, strict = true) {
           return injector.get(type, strict);
-        }
+        },
       };
 
       formEditor.on('changed', (newState) => {
@@ -46,8 +42,8 @@ export class Renderer {
       }
 
       return (
-        <div class={ `fjs-container fjs-editor-container ${ compact ? 'fjs-editor-compact' : '' }` }>
-          <FormEditorContext.Provider value={ formEditorContext }>
+        <div class={`fjs-container fjs-editor-container ${compact ? 'fjs-editor-compact' : ''}`}>
+          <FormEditorContext.Provider value={formEditorContext}>
             <FormEditor />
           </FormEditorContext.Provider>
         </div>
@@ -64,4 +60,4 @@ export class Renderer {
   }
 }
 
-Renderer.$inject = [ 'config.renderer', 'eventBus', 'formEditor', 'injector' ];
+Renderer.$inject = ['config.renderer', 'eventBus', 'formEditor', 'injector'];

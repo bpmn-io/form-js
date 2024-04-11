@@ -1,5 +1,4 @@
 export class UpdateKeyClaimHandler {
-
   /**
    * @constructor
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
@@ -9,16 +8,12 @@ export class UpdateKeyClaimHandler {
   }
 
   execute(context) {
-    const {
-      claiming,
-      formField,
-      key
-    } = context;
+    const { claiming, formField, key } = context;
 
     const options = {
       replacements: {
-        [ formField.id ]: key
-      }
+        [formField.id]: key,
+      },
     };
 
     const valuePath = this._pathRegistry.getValuePath(formField, options);
@@ -34,11 +29,7 @@ export class UpdateKeyClaimHandler {
   }
 
   revert(context) {
-    const {
-      claiming,
-      formField,
-      valuePath
-    } = context;
+    const { claiming, formField, valuePath } = context;
 
     if (claiming) {
       this._pathRegistry.unclaimPath(valuePath);
@@ -48,4 +39,4 @@ export class UpdateKeyClaimHandler {
   }
 }
 
-UpdateKeyClaimHandler.$inject = [ 'pathRegistry' ];
+UpdateKeyClaimHandler.$inject = ['pathRegistry'];

@@ -3,17 +3,9 @@ import { useService } from '../../hooks';
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 export function simpleStringEntryFactory(options) {
-  const {
-    id,
-    label,
-    path,
-    props
-  } = options;
+  const { id, label, path, props } = options;
 
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   return {
     id,
@@ -22,18 +14,12 @@ export function simpleStringEntryFactory(options) {
     field,
     editField,
     component: SimpleStringComponent,
-    isEdited: isTextFieldEntryEdited
+    isEdited: isTextFieldEntryEdited,
   };
 }
 
 const SimpleStringComponent = (props) => {
-  const {
-    id,
-    label,
-    path,
-    field,
-    editField
-  } = props;
+  const { id, label, path, field, editField } = props;
 
   const debounce = useService('debounce');
 
@@ -47,6 +33,6 @@ const SimpleStringComponent = (props) => {
     getValue,
     id,
     label,
-    setValue
+    setValue,
   });
 };

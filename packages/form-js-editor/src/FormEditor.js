@@ -16,7 +16,7 @@ import { RepeatRenderModule } from './features/repeat-render';
 
 import { MarkdownRendererModule } from '@bpmn-io/form-js-viewer';
 
-const ids = new Ids([ 32, 36, 1 ]);
+const ids = new Ids([32, 36, 1]);
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -40,13 +40,11 @@ const ids = new Ids([ 32, 36, 1 ]);
  * The form editor.
  */
 export class FormEditor {
-
   /**
    * @constructor
    * @param {FormEditorOptions} options
    */
   constructor(options = {}) {
-
     /**
      * @public
      * @type {OnEventType}
@@ -67,12 +65,7 @@ export class FormEditor {
 
     this._container.setAttribute('input-handle-modified-keys', 'z,y');
 
-    const {
-      container,
-      exporter,
-      injector = this._createInjector(options, this._container),
-      properties = {}
-    } = options;
+    const { container, exporter, injector = this._createInjector(options, this._container), properties = {} } = options;
 
     /**
      * @private
@@ -86,7 +79,7 @@ export class FormEditor {
      */
     this._state = {
       properties,
-      schema: null
+      schema: null,
     };
 
     this.get = injector.get;
@@ -101,7 +94,6 @@ export class FormEditor {
   }
 
   clear() {
-
     // clear form services
     this._emit('diagram.clear');
 
@@ -110,7 +102,6 @@ export class FormEditor {
   }
 
   destroy() {
-
     // destroy form services
     this.get('eventBus').fire('form.destroy');
 
@@ -130,13 +121,10 @@ export class FormEditor {
       try {
         this.clear();
 
-        const {
-          schema: importedSchema,
-          warnings
-        } = this.get('importer').importSchema(schema);
+        const { schema: importedSchema, warnings } = this.get('importer').importSchema(schema);
 
         this._setState({
-          schema: importedSchema
+          schema: importedSchema,
         });
 
         this._emit('import.done', { warnings });
@@ -145,7 +133,7 @@ export class FormEditor {
       } catch (error) {
         this._emit('import.done', {
           error: error,
-          warnings: error.warnings || []
+          warnings: error.warnings || [],
         });
 
         return reject(error);
@@ -166,11 +154,7 @@ export class FormEditor {
   getSchema() {
     const { schema } = this._getState();
 
-    return exportSchema(
-      schema,
-      this.exporter,
-      schemaVersion
-    );
+    return exportSchema(schema, this.exporter, schemaVersion);
   }
 
   /**
@@ -205,7 +189,7 @@ export class FormEditor {
    */
   _detach(emit = true) {
     const container = this._container,
-          parentNode = container.parentNode;
+      parentNode = container.parentNode;
 
     if (!parentNode) {
       return;
@@ -223,11 +207,10 @@ export class FormEditor {
    * @param {any} value
    */
   setProperty(property, value) {
-    const properties = set(this._getState().properties, [ property ], value);
+    const properties = set(this._getState().properties, [property], value);
 
     this._setState({ properties });
   }
-
 
   /**
    * @param {string} type
@@ -246,27 +229,22 @@ export class FormEditor {
    * @returns {Injector}
    */
   _createInjector(options, container) {
-    const {
-      modules = this._getModules(),
-      additionalModules = [],
-      renderer = {},
-      ...config
-    } = options;
+    const { modules = this._getModules(), additionalModules = [], renderer = {}, ...config } = options;
 
     const enrichedConfig = {
       ...config,
       renderer: {
         ...renderer,
-        container
-      }
+        container,
+      },
     };
 
     return createInjector([
-      { config: [ 'value', enrichedConfig ] },
-      { formEditor: [ 'value', this ] },
+      { config: ['value', enrichedConfig] },
+      { formEditor: ['value', this] },
       CoreModule,
       ...modules,
-      ...additionalModules
+      ...additionalModules,
     ]);
   }
 
@@ -290,7 +268,7 @@ export class FormEditor {
   _setState(state) {
     this._state = {
       ...this._state,
-      ...state
+      ...state,
     };
 
     this._emit('changed', this._getState());
@@ -311,7 +289,7 @@ export class FormEditor {
       MarkdownRendererModule,
       PropertiesPanelModule,
       RenderInjectionModule,
-      RepeatRenderModule
+      RepeatRenderModule,
     ];
   }
 
@@ -321,19 +299,19 @@ export class FormEditor {
   _onEvent(type, priority, handler) {
     this.get('eventBus').on(type, priority, handler);
   }
-
 }
 
 // helpers //////////
 
 export function exportSchema(schema, exporter, schemaVersion) {
-
-  const exportDetails = exporter ? {
-    exporter
-  } : {};
+  const exportDetails = exporter
+    ? {
+        exporter,
+      }
+    : {};
 
   const cleanedSchema = clone(schema, (name, value) => {
-    if ([ '_parent', '_path' ].includes(name)) {
+    if (['_parent', '_path'].includes(name)) {
       return undefined;
     }
 
@@ -343,6 +321,6 @@ export function exportSchema(schema, exporter, schemaVersion) {
   return {
     ...cleanedSchema,
     ...exportDetails,
-    schemaVersion
+    schemaVersion,
   };
 }

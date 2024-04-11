@@ -11,24 +11,9 @@ import { formFieldClasses } from '../Util';
 const type = 'select';
 
 export function Select(props) {
-  const {
-    disabled,
-    errors = [],
-    domId,
-    onBlur,
-    onFocus,
-    field,
-    onChange,
-    readonly,
-    value
-  } = props;
+  const { disabled, errors = [], domId, onBlur, onFocus, field, onChange, readonly, value } = props;
 
-  const {
-    description,
-    label,
-    searchable = false,
-    validate = {}
-  } = field;
+  const { description, label, searchable = false, validate = {} } = field;
 
   const { required } = validate;
 
@@ -47,28 +32,24 @@ export function Select(props) {
     readonly,
     required,
     'aria-invalid': errors.length > 0,
-    'aria-describedby': [ descriptionId, errorMessageId ].join(' '),
+    'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
 
-  return <div
-    class={ formFieldClasses(type, { errors, disabled, readonly }) }
-    onKeyDown={
-      (event) => {
+  return (
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      onKeyDown={(event) => {
         if (event.key === 'Enter') {
           event.preventDefault();
           event.stopPropagation();
         }
-      }
-    }
-  >
-    <Label
-      htmlFor={ domId }
-      label={ label }
-      required={ required } />
-    { searchable ? <SearchableSelect { ...selectProps } /> : <SimpleSelect { ...selectProps } /> }
-    <Description id={ descriptionId } description={ description } />
-    <Errors id={ errorMessageId } errors={ errors } />
-  </div>;
+      }}>
+      <Label htmlFor={domId} label={label} required={required} />
+      {searchable ? <SearchableSelect {...selectProps} /> : <SimpleSelect {...selectProps} />}
+      <Description id={descriptionId} description={description} />
+      <Errors id={errorMessageId} errors={errors} />
+    </div>
+  );
 }
 
 Select.config = {
@@ -78,5 +59,5 @@ Select.config = {
   group: 'selection',
   emptyValue: null,
   sanitizeValue: sanitizeSingleSelectValue,
-  create: createEmptyOptions
+  create: createEmptyOptions,
 };

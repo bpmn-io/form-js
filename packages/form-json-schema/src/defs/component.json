@@ -42,18 +42,12 @@
     "readonly": {
       "$id": "#/component/readonly",
       "description": "Makes the form field read only.",
-      "type": [
-        "boolean",
-        "string"
-      ]
+      "type": ["boolean", "string"]
     },
     "disabled": {
       "$id": "#/component/disabled",
       "description": "Disables the form field.",
-      "type": [
-        "boolean",
-        "string"
-      ]
+      "type": ["boolean", "string"]
     },
     "text": {
       "$id": "#/component/text",
@@ -63,17 +57,14 @@
     "defaultValue": {
       "$id": "#/component/defaultValue",
       "description": "Provides a default value for the form field in case no input data exists for the given key.",
-      "type": [ "string", "boolean", "number", "array" ]
+      "type": ["string", "boolean", "number", "array"]
     },
     "action": {
       "$id": "#/component/action",
       "description": "A button can either trigger a submit or a reset action. Defaults to submit.",
       "default": "submit",
       "type": "string",
-      "enum": [
-        "submit",
-        "reset"
-      ]
+      "enum": ["submit", "reset"]
     },
     "source": {
       "$id": "#/component/source",
@@ -95,11 +86,7 @@
       "description": "Selects the type of the datetime component. This can either be date, time, or datetime. Defaults to date.",
       "type": "string",
       "default": "date",
-      "enum": [
-        "date",
-        "time",
-        "datetime"
-      ]
+      "enum": ["date", "time", "datetime"]
     },
     "dateLabel": {
       "$id": "#/component/dateLabel",
@@ -120,11 +107,7 @@
       "$id": "#/component/timeSerializingFormat",
       "description": "Defines the time data format. This can either be utc_offset, utc_normalized, or no_timezone.",
       "type": "string",
-      "enum": [
-        "utc_offset",
-        "utc_normalized",
-        "no_timezone"
-      ]
+      "enum": ["utc_offset", "utc_normalized", "no_timezone"]
     },
     "timeInterval": {
       "$id": "#/component/timeInterval",
@@ -141,10 +124,7 @@
     "increment": {
       "$id": "#/component/increment",
       "description": "Defines the increment between valid field value.",
-      "type": [
-        "number",
-        "string"
-      ]
+      "type": ["number", "string"]
     },
     "decimalDigits": {
       "$id": "#/component/decimalDigits",
@@ -203,11 +183,7 @@
       "description": "Sets the alignment of the form field children. This can either be start, center, or end. Defaults to start.",
       "type": "string",
       "default": "start",
-      "enum": [
-        "start",
-        "center",
-        "end"
-      ]
+      "enum": ["start", "center", "end"]
     },
     "isRepeating": {
       "$id": "#/component/isRepeating",
@@ -288,7 +264,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "type"
-  ]
+  "required": ["type"]
 }

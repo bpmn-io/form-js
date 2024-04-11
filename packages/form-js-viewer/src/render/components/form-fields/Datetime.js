@@ -15,22 +15,20 @@ import { Timepicker } from './parts/Timepicker';
 
 import { formFieldClasses, prefixId } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
-import { parseIsoTime, serializeDate, serializeDateTime, serializeTime, getNullDateTime, isValidDate, isValidTime } from '../util/dateTimeUtil';
+import {
+  parseIsoTime,
+  serializeDate,
+  serializeDateTime,
+  serializeTime,
+  getNullDateTime,
+  isValidDate,
+  isValidTime,
+} from '../util/dateTimeUtil';
 
 const type = 'datetime';
 
 export function Datetime(props) {
-  const {
-    disabled,
-    errors = [],
-    domId,
-    onBlur,
-    onFocus,
-    field,
-    onChange,
-    readonly,
-    value = ''
-  } = props;
+  const { disabled, errors = [], domId, onBlur, onFocus, field, onChange, readonly, value = '' } = props;
 
   const {
     description,
@@ -42,103 +40,114 @@ export function Datetime(props) {
     use24h,
     disallowPassedDates,
     timeInterval,
-    timeSerializingFormat
+    timeSerializingFormat,
   } = field;
 
   const { required } = validate;
   const { formId } = useContext(FormContext);
   const dateTimeGroupRef = useRef();
 
-  const [ dateTime, setDateTime ] = useState(getNullDateTime());
-  const [ dateTimeUpdateRequest, setDateTimeUpdateRequest ] = useState(null);
+  const [dateTime, setDateTime] = useState(getNullDateTime());
+  const [dateTimeUpdateRequest, setDateTimeUpdateRequest] = useState(null);
 
-  const useDatePicker = useMemo(() => subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME, [ subtype ]);
-  const useTimePicker = useMemo(() => subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME, [ subtype ]);
+  const useDatePicker = useMemo(
+    () => subtype === DATETIME_SUBTYPES.DATE || subtype === DATETIME_SUBTYPES.DATETIME,
+    [subtype],
+  );
+  const useTimePicker = useMemo(
+    () => subtype === DATETIME_SUBTYPES.TIME || subtype === DATETIME_SUBTYPES.DATETIME,
+    [subtype],
+  );
 
-  const onDateTimeBlur = useCallback((e) => {
-    if (e.relatedTarget && dateTimeGroupRef.current.contains(e.relatedTarget)) {
-      return;
-    }
+  const onDateTimeBlur = useCallback(
+    (e) => {
+      if (e.relatedTarget && dateTimeGroupRef.current.contains(e.relatedTarget)) {
+        return;
+      }
 
-    onBlur && onBlur();
-  }, [ onBlur ]);
+      onBlur && onBlur();
+    },
+    [onBlur],
+  );
 
-  const onDateTimeFocus = useCallback((e) => {
-    if (e.relatedTarget && dateTimeGroupRef.current.contains(e.relatedTarget)) {
-      return;
-    }
+  const onDateTimeFocus = useCallback(
+    (e) => {
+      if (e.relatedTarget && dateTimeGroupRef.current.contains(e.relatedTarget)) {
+        return;
+      }
 
-    onFocus && onFocus();
-  }, [ onFocus ]);
+      onFocus && onFocus();
+    },
+    [onFocus],
+  );
 
   useEffect(() => {
-
     let { date, time } = getNullDateTime();
 
     switch (subtype) {
-    case DATETIME_SUBTYPES.DATE: {
-      date = new Date(Date.parse(value));
-      break;
+      case DATETIME_SUBTYPES.DATE: {
+        date = new Date(Date.parse(value));
+        break;
+      }
+      case DATETIME_SUBTYPES.TIME: {
+        time = parseIsoTime(value);
+        break;
+      }
+      case DATETIME_SUBTYPES.DATETIME: {
+        date = new Date(Date.parse(value));
+        time = isValidDate(date) ? 60 * date.getHours() + date.getMinutes() : null;
+        break;
+      }
     }
-    case DATETIME_SUBTYPES.TIME: {
-      time = parseIsoTime(value);
-      break;
-    }
-    case DATETIME_SUBTYPES.DATETIME: {
-      date = new Date(Date.parse(value));
-      time = isValidDate(date) ? 60 * date.getHours() + date.getMinutes() : null;
-      break;
-    }}
 
     setDateTime({ date, time });
+  }, [subtype, value]);
 
-  }, [ subtype, value ]);
+  const computeAndSetState = useCallback(
+    ({ date, time }) => {
+      let newDateTimeValue = null;
 
-  const computeAndSetState = useCallback(({ date, time }) => {
+      if (subtype === DATETIME_SUBTYPES.DATE && isValidDate(date)) {
+        newDateTimeValue = serializeDate(date);
+      } else if (subtype === DATETIME_SUBTYPES.TIME && isValidTime(time)) {
+        newDateTimeValue = serializeTime(time, new Date().getTimezoneOffset(), timeSerializingFormat);
+      } else if (subtype === DATETIME_SUBTYPES.DATETIME && isValidDate(date) && isValidTime(time)) {
+        newDateTimeValue = serializeDateTime(date, time, timeSerializingFormat);
+      }
 
-    let newDateTimeValue = null;
+      if (value === newDateTimeValue) {
+        return;
+      }
 
-    if (subtype === DATETIME_SUBTYPES.DATE && isValidDate(date)) {
-      newDateTimeValue = serializeDate(date);
-    }
-    else if (subtype === DATETIME_SUBTYPES.TIME && isValidTime(time)) {
-      newDateTimeValue = serializeTime(time, new Date().getTimezoneOffset(), timeSerializingFormat);
-    }
-    else if (subtype === DATETIME_SUBTYPES.DATETIME && isValidDate(date) && isValidTime(time)) {
-      newDateTimeValue = serializeDateTime(date, time, timeSerializingFormat);
-    }
-
-    if (value === newDateTimeValue) {
-      return;
-    }
-
-    onChange({ value: newDateTimeValue, field });
-
-  }, [ value, field, onChange, subtype, timeSerializingFormat ]);
+      onChange({ value: newDateTimeValue, field });
+    },
+    [value, field, onChange, subtype, timeSerializingFormat],
+  );
 
   useEffect(() => {
     if (dateTimeUpdateRequest) {
       if (dateTimeUpdateRequest.refreshOnly) {
         computeAndSetState(dateTime);
-      }
-      else {
+      } else {
         const newDateTime = { ...dateTime, ...dateTimeUpdateRequest };
         setDateTime(newDateTime);
         computeAndSetState(newDateTime);
       }
       setDateTimeUpdateRequest(null);
     }
-  }, [ computeAndSetState, dateTime, dateTimeUpdateRequest ]);
+  }, [computeAndSetState, dateTime, dateTimeUpdateRequest]);
 
   useEffect(() => {
     setDateTimeUpdateRequest({ refreshOnly: true });
-  }, [ timeSerializingFormat ]);
+  }, [timeSerializingFormat]);
 
   const allErrors = useMemo(() => {
     if (required || subtype !== DATETIME_SUBTYPES.DATETIME) return errors;
-    const isOnlyOneFieldSet = (isValidDate(dateTime.date) && !isValidTime(dateTime.time)) || (!isValidDate(dateTime.date) && isValidTime(dateTime.time));
-    return isOnlyOneFieldSet ? [ 'Date and time must both be entered.', ...errors ] : errors;
-  }, [ required, subtype, dateTime, errors ]);
+    const isOnlyOneFieldSet =
+      (isValidDate(dateTime.date) && !isValidTime(dateTime.time)) ||
+      (!isValidDate(dateTime.date) && isValidTime(dateTime.time));
+    return isOnlyOneFieldSet ? ['Date and time must both be entered.', ...errors] : errors;
+  }, [required, subtype, dateTime, errors]);
 
   const setDate = useCallback((date) => {
     setDateTimeUpdateRequest((prev) => (prev ? { ...prev, date } : { date }));
@@ -163,7 +172,7 @@ export function Datetime(props) {
     date: dateTime.date,
     readonly,
     setDate,
-    'aria-describedby': [ descriptionId, errorMessageId ].join(' ')
+    'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
 
   const timePickerProps = {
@@ -179,18 +188,20 @@ export function Datetime(props) {
     timeInterval,
     time: dateTime.time,
     setTime,
-    'aria-describedby': [ descriptionId, errorMessageId ].join(' ')
+    'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
 
-  return <div class={ formFieldClasses(type, { errors: allErrors, disabled, readonly }) }>
-    <div class={ classNames('fjs-vertical-group') } ref={ dateTimeGroupRef }>
-      { useDatePicker && <Datepicker { ...datePickerProps } /> }
-      { useTimePicker && useDatePicker && <div class="fjs-datetime-separator" /> }
-      { useTimePicker && <Timepicker { ...timePickerProps } /> }
+  return (
+    <div class={formFieldClasses(type, { errors: allErrors, disabled, readonly })}>
+      <div class={classNames('fjs-vertical-group')} ref={dateTimeGroupRef}>
+        {useDatePicker && <Datepicker {...datePickerProps} />}
+        {useTimePicker && useDatePicker && <div class="fjs-datetime-separator" />}
+        {useTimePicker && <Timepicker {...timePickerProps} />}
+      </div>
+      <Description id={descriptionId} description={description} />
+      <Errors errors={allErrors} id={errorMessageId} />
     </div>
-    <Description id={ descriptionId } description={ description } />
-    <Errors errors={ allErrors } id={ errorMessageId } />
-  </div>;
+  );
 }
 
 Datetime.config = {
@@ -206,5 +217,5 @@ Datetime.config = {
     set(defaults, DATE_LABEL_PATH, 'Date');
 
     return { ...defaults, ...options };
-  }
+  },
 };
