@@ -88,7 +88,7 @@
     "chai": "^4.3.5",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "css-loader": "^6.7.3",
+    "css-loader": "^7.0.0",
     "del-cli": "^5.0.0",
     "diagram-js": "^14.3.1",
     "didi": "^10.2.2",
@@ -121,7 +121,7 @@
     "sinon": "^17.0.0",
     "sinon-chai": "^3.7.0",
     "source-map-loader": "^5.0.0",
-    "style-loader": "^3.3.1",
+    "style-loader": "^4.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "webpack": "^5.40.0"
