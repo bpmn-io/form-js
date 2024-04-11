@@ -10,51 +10,23 @@ const PHONE_PATTERN =
 const VALIDATE_FEEL_PROPERTIES = ['min', 'max', 'minLength', 'maxLength'];
 
 export class Validator {
-  constructor(expressionLanguage, conditionChecker, form) {
+  constructor(expressionLanguage, conditionChecker, form, formFieldRegistry) {
     this._expressionLanguage = expressionLanguage;
     this._conditionChecker = conditionChecker;
     this._form = form;
+    this._formFieldRegistry = formFieldRegistry;
   }
 
+  /**
+   * @deprecated use validateFieldInstance instead
+   */
   validateField(field, value) {
     const { type, validate } = field;
 
     let errors = [];
 
     if (type === 'number') {
-      const { decimalDigits, increment } = field;
-
-      if (value === 'NaN') {
-        errors = [...errors, 'Value is not a number.'];
-      } else if (value) {
-        if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
-          errors = [
-            ...errors,
-            'Value is expected to ' +
-              (decimalDigits === 0
-                ? 'be an integer'
-                : `have at most ${decimalDigits} decimal digit${decimalDigits > 1 ? 's' : ''}`) +
-              '.',
-          ];
-        }
-
-        if (increment) {
-          const bigValue = Big(value);
-          const bigIncrement = Big(increment);
-
-          const offset = bigValue.mod(bigIncrement);
-
-          if (offset.cmp(0) !== 0) {
-            const previousValue = bigValue.minus(offset);
-            const nextValue = previousValue.plus(bigIncrement);
-
-            errors = [
-              ...errors,
-              `Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`,
-            ];
-          }
-        }
-      }
+      errors = runNumberValidation(field, value, errors);
     }
 
     if (!validate) {
@@ -68,65 +40,96 @@ export class Validator {
       this._form,
     );
 
-    if (evaluatedValidation.pattern && value && !new RegExp(evaluatedValidation.pattern).test(value)) {
-      errors = [...errors, `Field must match pattern ${evaluatedValidation.pattern}.`];
-    }
-
-    if (evaluatedValidation.required) {
-      const isUncheckedCheckbox = type === 'checkbox' && value === false;
-      const isUnsetValue = isNil(value) || value === '';
-      const isEmptyMultiselect = Array.isArray(value) && value.length === 0;
-
-      if (isUncheckedCheckbox || isUnsetValue || isEmptyMultiselect) {
-        errors = [...errors, 'Field is required.'];
-      }
-    }
-
-    if ('min' in evaluatedValidation && (value || value === 0) && value < evaluatedValidation.min) {
-      errors = [...errors, `Field must have minimum value of ${evaluatedValidation.min}.`];
-    }
-
-    if ('max' in evaluatedValidation && (value || value === 0) && value > evaluatedValidation.max) {
-      errors = [...errors, `Field must have maximum value of ${evaluatedValidation.max}.`];
-    }
-
-    if ('minLength' in evaluatedValidation && value && value.trim().length < evaluatedValidation.minLength) {
-      errors = [...errors, `Field must have minimum length of ${evaluatedValidation.minLength}.`];
-    }
-
-    if ('maxLength' in evaluatedValidation && value && value.trim().length > evaluatedValidation.maxLength) {
-      errors = [...errors, `Field must have maximum length of ${evaluatedValidation.maxLength}.`];
-    }
-
-    if (
-      'validationType' in evaluatedValidation &&
-      value &&
-      evaluatedValidation.validationType === 'phone' &&
-      !PHONE_PATTERN.test(value)
-    ) {
-      errors = [...errors, 'Field must be a valid  international phone number. (e.g. +4930664040900)'];
-    }
-
-    if (
-      'validationType' in evaluatedValidation &&
-      value &&
-      evaluatedValidation.validationType === 'email' &&
-      !EMAIL_PATTERN.test(value)
-    ) {
-      errors = [...errors, 'Field must be a valid email.'];
-    }
+    errors = runPresetValidation(field, evaluatedValidation, value, errors);
 
     return errors;
   }
 }
 
-Validator.$inject = ['expressionLanguage', 'conditionChecker', 'form'];
+Validator.$inject = ['expressionLanguage', 'conditionChecker', 'form', 'formFieldRegistry'];
 
 // helpers //////////
 
-/**
- * Helper function to evaluate optional FEEL validation values.
- */
+function runNumberValidation(field, value, errors) {
+  const { decimalDigits, increment } = field;
+
+  if (value === 'NaN') {
+    errors = [...errors, 'Value is not a number.'];
+  } else if (value) {
+    if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
+      errors = [
+        ...errors,
+        'Value is expected to ' +
+          (decimalDigits === 0
+            ? 'be an integer'
+            : `have at most ${decimalDigits} decimal digit${decimalDigits > 1 ? 's' : ''}`) +
+          '.',
+      ];
+    }
+
+    if (increment) {
+      const bigValue = Big(value);
+      const bigIncrement = Big(increment);
+
+      const offset = bigValue.mod(bigIncrement);
+
+      if (offset.cmp(0) !== 0) {
+        const previousValue = bigValue.minus(offset);
+        const nextValue = previousValue.plus(bigIncrement);
+
+        errors = [
+          ...errors,
+          `Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`,
+        ];
+      }
+    }
+  }
+
+  return errors;
+}
+
+function runPresetValidation(field, validation, value, errors) {
+  if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
+    errors = [...errors, `Field must match pattern ${validation.pattern}.`];
+  }
+
+  if (validation.required) {
+    const isUncheckedCheckbox = field.type === 'checkbox' && value === false;
+    const isUnsetValue = isNil(value) || value === '';
+    const isEmptyMultiselect = Array.isArray(value) && value.length === 0;
+
+    if (isUncheckedCheckbox || isUnsetValue || isEmptyMultiselect) {
+      errors = [...errors, 'Field is required.'];
+    }
+  }
+
+  if ('min' in validation && (value || value === 0) && value < validation.min) {
+    errors = [...errors, `Field must have minimum value of ${validation.min}.`];
+  }
+
+  if ('max' in validation && (value || value === 0) && value > validation.max) {
+    errors = [...errors, `Field must have maximum value of ${validation.max}.`];
+  }
+
+  if ('minLength' in validation && value && value.trim().length < validation.minLength) {
+    errors = [...errors, `Field must have minimum length of ${validation.minLength}.`];
+  }
+
+  if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {
+    errors = [...errors, `Field must have maximum length of ${validation.maxLength}.`];
+  }
+
+  if ('validationType' in validation && value && validation.validationType === 'phone' && !PHONE_PATTERN.test(value)) {
+    errors = [...errors, 'Field must be a valid  international phone number. (e.g. +4930664040900)'];
+  }
+
+  if ('validationType' in validation && value && validation.validationType === 'email' && !EMAIL_PATTERN.test(value)) {
+    errors = [...errors, 'Field must be a valid email.'];
+  }
+
+  return errors;
+}
+
 function evaluateFEELValues(validate, expressionLanguage, conditionChecker, form) {
   const evaluatedValidate = { ...validate };
 
