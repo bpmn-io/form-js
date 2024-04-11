@@ -42,36 +42,17 @@ export function clone(data, replacer) {
   return JSON.parse(JSON.stringify(data, replacer));
 }
 
-/**
- * Transform a LocalExpressionContext object into a usable FEEL context.
- *
- * @param {Object} context - The LocalExpressionContext object.
- * @returns {Object} The usable FEEL context.
- */
-
-export function buildExpressionContext(context) {
-  const { data, ...specialContextKeys } = context;
-
-  return {
-    ...specialContextKeys,
-    ...data,
-    ..._wrapObjectKeysWithUnderscores(specialContextKeys),
-  };
-}
-
 export function runRecursively(formField, fn) {
   const components = formField.components || [];
 
-  components.forEach((component, index) => {
+  components.forEach((component, _) => {
     runRecursively(component, fn);
   });
 
   fn(formField);
 }
 
-// helpers //////////////////////
-
-function _wrapObjectKeysWithUnderscores(obj) {
+export function wrapObjectKeysWithUnderscores(obj) {
   const newObj = {};
   for (const [key, value] of Object.entries(obj)) {
     newObj[`_${key}_`] = value;
