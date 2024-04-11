@@ -76,12 +76,12 @@ export function Taglist(props) {
       return;
     }
 
-    props.onChange({ value: [...values, value], field });
+    props.onChange({ value: [...values, value] });
   };
 
   const deselectValue = (value) => {
     const newValues = values.filter((v) => !isEqual(v, value));
-    props.onChange({ value: newValues, field });
+    props.onChange({ value: newValues });
   };
 
   const onInputChange = ({ target }) => {

@@ -54,9 +54,9 @@ export function SearchableSelect(props) {
   const setValue = useCallback(
     (option) => {
       setFilter((option && option.label) || '');
-      props.onChange({ value: (option && option.value) || null, field });
+      props.onChange({ value: (option && option.value) || null });
     },
-    [field, props],
+    [props],
   );
 
   const displayState = useMemo(() => {

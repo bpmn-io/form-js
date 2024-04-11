@@ -21,7 +21,6 @@ export function Textfield(props) {
 
   const [onInputChange, flushOnChange] = useFlushDebounce(({ target }) => {
     props.onChange({
-      field,
       value: target.value,
     });
   });

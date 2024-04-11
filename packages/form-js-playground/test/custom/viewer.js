@@ -21,7 +21,6 @@ function RangeRenderer(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      field,
       value: Number(target.value),
     });
   };

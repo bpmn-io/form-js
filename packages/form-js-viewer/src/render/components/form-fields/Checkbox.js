@@ -17,7 +17,6 @@ export function Checkbox(props) {
 
   const onChange = ({ target }) => {
     props.onChange({
-      field,
       value: target.checked,
     });
   };

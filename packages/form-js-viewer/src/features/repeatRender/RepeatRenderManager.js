@@ -128,9 +128,7 @@ export class RepeatRenderManager {
       shouldScroll.current = true;
 
       props.onChange({
-        field: repeaterField,
         value: updatedValues,
-        indexes,
       });
 
       setSharedRepeatState((state) => ({ ...state, isCollapsed: false }));
