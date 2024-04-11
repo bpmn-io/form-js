@@ -1,6 +1,5 @@
 import { wrapObjectKeysWithUnderscores } from './simple';
 
-
 /**
  * Transform a LocalExpressionContext object into a usable FEEL context.
  *
@@ -9,15 +8,12 @@ import { wrapObjectKeysWithUnderscores } from './simple';
  */
 
 export function buildExpressionContext(context) {
-  const {
-    data,
-    ...specialContextKeys
-  } = context;
+  const { data, ...specialContextKeys } = context;
 
   return {
     ...specialContextKeys,
     ...data,
-    ...wrapObjectKeysWithUnderscores(specialContextKeys)
+    ...wrapObjectKeysWithUnderscores(specialContextKeys),
   };
 }
 

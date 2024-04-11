@@ -147,4 +147,5 @@ export class ExpressionLanguageMock {
 
 export class ViewerCommandsMock {
   updateFieldValidation() {}
+  updateFieldInstanceValidation() {}
 }

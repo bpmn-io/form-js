@@ -98,20 +98,20 @@ export function FormField(props) {
 
     if (initialValidationTrigger && hasInitialValue) {
       setInitialValidationTrigger(false);
-      viewerCommands.updateFieldValidation(field, initialValue, indexes);
+      viewerCommands.updateFieldInstanceValidation(fieldInstance, initialValue);
     }
-  }, [viewerCommands, field, initialValue, initialValidationTrigger, indexes]);
+  }, [fieldInstance, initialValidationTrigger, initialValue, viewerCommands]);
 
   const onBlur = useCallback(() => {
     const value = get(data, valuePath);
 
     if (initialValidationTrigger) {
       setInitialValidationTrigger(false);
-      viewerCommands.updateFieldValidation(field, value, indexes);
+      viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
     }
 
     eventBus.fire('formField.blur', { formField: field });
-  }, [eventBus, field, indexes, viewerCommands, initialValidationTrigger, data, valuePath]);
+  }, [data, eventBus, field, fieldInstance, initialValidationTrigger, valuePath, viewerCommands]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
@@ -119,14 +119,10 @@ export function FormField(props) {
 
   const onChange = useCallback(
     (update) => {
-      if (!fieldConfig.keyed) {
-        return;
-      }
-
       setInitialValidationTrigger(false);
-      _onChange({ ...update, field, indexes, fieldInstance });
+      _onChange({ field, indexes, fieldInstance, ...update });
     },
-    [_onChange, field, fieldConfig.keyed, fieldInstance, indexes],
+    [_onChange, field, fieldInstance, indexes],
   );
 
   if (hidden) {
@@ -147,6 +143,7 @@ export function FormField(props) {
       onFocus={disabled || readonly ? noop : onFocus}
       readonly={readonly}
       value={value}
+      fieldInstance={fieldInstance}
     />
   );
 
