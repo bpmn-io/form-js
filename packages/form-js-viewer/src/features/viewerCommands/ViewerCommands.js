@@ -1,4 +1,5 @@
 import { UpdateFieldValidationHandler } from './cmd/UpdateFieldValidationHandler';
+import { UpdateFieldInstanceValidationHandler } from './cmd/UpdateFieldInstanceValidationHandler';
 
 export class ViewerCommands {
   constructor(commandStack, eventBus) {
@@ -18,9 +19,13 @@ export class ViewerCommands {
   getHandlers() {
     return {
       'formField.validation.update': UpdateFieldValidationHandler,
+      'formFieldInstance.validation.update': UpdateFieldInstanceValidationHandler,
     };
   }
 
+  /**
+   * @deprecated
+   */
   updateFieldValidation(field, value, indexes) {
     const context = {
       field,
@@ -29,6 +34,15 @@ export class ViewerCommands {
     };
 
     this._commandStack.execute('formField.validation.update', context);
+  }
+
+  updateFieldInstanceValidation(fieldInstance, value) {
+    const context = {
+      fieldInstance,
+      value,
+    };
+
+    this._commandStack.execute('formFieldInstance.validation.update', context);
   }
 }
 
