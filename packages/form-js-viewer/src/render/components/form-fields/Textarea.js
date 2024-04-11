@@ -21,7 +21,6 @@ export function Textarea(props) {
 
   const [onChange, flushOnChange] = useFlushDebounce(({ target }) => {
     props.onChange({
-      field,
       value: target.value,
     });
   });

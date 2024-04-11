@@ -33,9 +33,9 @@ export function SimpleSelect(props) {
 
   const setValue = useCallback(
     (option) => {
-      props.onChange({ value: (option && option.value) || null, field });
+      props.onChange({ value: (option && option.value) || null });
     },
-    [field, props],
+    [props],
   );
 
   const displayState = useMemo(() => {

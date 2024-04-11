@@ -31,7 +31,6 @@ export function Checklist(props) {
       : [...values, toggledValue];
 
     props.onChange({
-      field,
       value: newValues,
     });
   };
