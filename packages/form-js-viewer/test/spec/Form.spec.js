@@ -146,7 +146,7 @@ describe('Form', function() {
     });
 
     // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(17);
+    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(groupsSchema));
   });
 
 
@@ -254,6 +254,7 @@ describe('Form', function() {
 
       // then
       expect(form.get('formFieldRegistry').getAll()).to.have.length(1);
+      expect(form.get('formFieldInstanceRegistry').getAll()).to.have.length(1);
     });
 
 
@@ -326,6 +327,43 @@ describe('Form', function() {
 
       // then
       expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
+    });
+
+
+    it('should register form field instance', async function() {
+
+      // given
+      const data = {
+        creditor: 'John Doe Company',
+        amount: 456,
+        invoiceNumber: 'C-123',
+        approved: true,
+        approvedBy: 'John Doe',
+        mailto: [ 'regional-manager', 'approver' ],
+        product: 'camunda-cloud',
+        tags: [ 'tag1','tag2', 'tag3' ],
+        language: 'english',
+        documents: [
+          {
+            title: 'invoice.pdf',
+            author: 'John Doe'
+          },
+          {
+            title: 'products.pdf'
+          }
+        ]
+      };
+
+      // when
+      await bootstrapForm({
+        container,
+        data,
+        schema
+      });
+
+      // then
+      const repeatedDynamicListElements = 2;
+      expect(form.get('formFieldInstanceRegistry').getAll()).to.have.length(countComponents(schema) + repeatedDynamicListElements);
     });
 
 
@@ -765,6 +803,7 @@ describe('Form', function() {
     expect(formClearSpy).to.have.been.calledOnce;
 
     expect(form.get('formFieldRegistry').getAll()).to.be.empty;
+    expect(form.get('formFieldInstanceRegistry').getAll()).to.be.empty;
   });
 
 
