@@ -12,7 +12,7 @@ import { gridColumnClasses, prefixId } from './Util';
 const noop = () => false;
 
 export function FormField(props) {
-  const { field, indexes, onChange } = props;
+  const { field, indexes, onChange: _onChange } = props;
 
   const formFields = useService('formFields'),
     viewerCommands = useService('viewerCommands', false),
@@ -53,21 +53,26 @@ export function FormField(props) {
 
   const hidden = useCondition((field.conditional && field.conditional.hide) || null);
 
+  const fieldInstance = useMemo(
+    () => ({
+      id: field.id,
+      expressionContextInfo: localExpressionContext,
+      valuePath,
+      indexes,
+    }),
+    [field.id, valuePath, localExpressionContext, indexes],
+  );
+
   // register form field instance
   useEffect(() => {
     if (formFieldInstanceRegistry && !hidden) {
-      const instanceId = formFieldInstanceRegistry.add({
-        id: field.id,
-        expressionContextInfo: localExpressionContext,
-        valuePath,
-        indexes,
-      });
+      const instanceId = formFieldInstanceRegistry.add(fieldInstance);
 
       return () => {
         formFieldInstanceRegistry.remove(instanceId);
       };
     }
-  }, [formFieldInstanceRegistry, field.id, localExpressionContext, valuePath, indexes, hidden]);
+  }, [fieldInstance, formFieldInstanceRegistry, hidden]);
 
   // ensures the initial validation behavior can be re-triggered upon form reset
   useEffect(() => {
@@ -112,15 +117,16 @@ export function FormField(props) {
     eventBus.fire('formField.focus', { formField: field });
   }, [eventBus, field]);
 
-  const onChangeIndexed = useCallback(
+  const onChange = useCallback(
     (update) => {
-      // any data change will trigger validation
-      setInitialValidationTrigger(false);
+      if (!fieldConfig.keyed) {
+        return;
+      }
 
-      // add indexes of the keyed field to the update, if any
-      onChange(fieldConfig.keyed ? { ...update, indexes } : update);
+      setInitialValidationTrigger(false);
+      _onChange({ ...update, field, indexes, fieldInstance });
     },
-    [onChange, fieldConfig.keyed, indexes],
+    [_onChange, field, fieldConfig.keyed, fieldInstance, indexes],
   );
 
   if (hidden) {
@@ -136,7 +142,7 @@ export function FormField(props) {
       disabled={disabled}
       errors={fieldErrors}
       domId={domId}
-      onChange={disabled || readonly ? noop : onChangeIndexed}
+      onChange={disabled || readonly ? noop : onChange}
       onBlur={disabled || readonly ? noop : onBlur}
       onFocus={disabled || readonly ? noop : onFocus}
       readonly={readonly}
