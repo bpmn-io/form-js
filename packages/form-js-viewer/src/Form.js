@@ -200,7 +200,9 @@ export class Form {
 
     const getErrorPath = (id, indexes) => [id, ...Object.values(indexes || {})];
 
-    formFieldInstanceRegistry.getAllKeyed().forEach(({ id, valuePath, indexes }) => {
+    formFieldInstanceRegistry.getAllKeyed().forEach((fieldInstance) => {
+      const { id, valuePath, indexes } = fieldInstance;
+
       const field = formFieldRegistry.get(id);
 
       // (1) Skip disabled fields
@@ -208,9 +210,9 @@ export class Form {
         return;
       }
 
-      // (2) Validate the field
+      // (2) Validate the field instance
       const value = get(data, valuePath);
-      const fieldErrors = validator.validateField(field, value);
+      const fieldErrors = validator.validateFieldInstance(fieldInstance, value);
 
       if (fieldErrors.length) {
         set(errors, getErrorPath(field.id, indexes), fieldErrors);
@@ -323,23 +325,22 @@ export class Form {
   /**
    * @internal
    *
-   * @param { { field: any, indexes: object, value: any } } update
+   * @param { { fieldInstance: any, value: any } } update
    */
   _update(update) {
-    const { field, indexes, value } = update;
+    const { fieldInstance, value } = update;
+
+    const { id, valuePath, indexes } = fieldInstance;
 
     const { data, errors } = this._getState();
 
-    const validator = this.get('validator'),
-      pathRegistry = this.get('pathRegistry');
+    const validator = this.get('validator');
 
-    const fieldErrors = validator.validateField(field, value);
-
-    const valuePath = pathRegistry.getValuePath(field, { indexes });
+    const fieldErrors = validator.validateFieldInstance(fieldInstance, value);
 
     set(data, valuePath, value);
 
-    set(errors, [field.id, ...Object.values(indexes || {})], fieldErrors.length ? fieldErrors : undefined);
+    set(errors, [id, ...Object.values(indexes || {})], fieldErrors.length ? fieldErrors : undefined);
 
     this._emit('field.updated', update);
 
