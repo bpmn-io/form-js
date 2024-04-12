@@ -1,8 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import { cleanup, fireEvent, render } from '@testing-library/preact/pure';
 
 import { SerializationGroup } from '../../../../../src/features/properties-panel/groups';
 
@@ -10,24 +6,33 @@ import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { set } from 'min-dash';
 
-describe('SerializationGroup', function() {
-
+describe('SerializationGroup', function () {
   afterEach(() => cleanup());
 
-  it('should NOT render for most types', function() {
-
+  it('should NOT render for most types', function () {
     // given
-    const types = [ 'default', 'textfield', 'textarea', 'checkbox', 'checklist', 'taglist', 'radio', 'select', 'text', 'image', 'button' ];
+    const types = [
+      'default',
+      'textfield',
+      'textarea',
+      'checkbox',
+      'checklist',
+      'taglist',
+      'radio',
+      'select',
+      'text',
+      'image',
+      'button',
+    ];
 
     // then
     for (const type of types) {
-      renderSerializationGroup({ field : { type } });
+      renderSerializationGroup({ field: { type } });
       expect(findGroup('serialization', document.body)).to.be.null;
     }
   });
 
-  it('should NOT render for datetime(date)', function() {
-
+  it('should NOT render for datetime(date)', function () {
     // given
     const field = { type: 'datetime', subtype: 'date' };
 
@@ -36,11 +41,8 @@ describe('SerializationGroup', function() {
     expect(findGroup('serialization', document.body)).to.be.null;
   });
 
-
-  describe('time format', function() {
-
-    it('should render for datetime (time)', function() {
-
+  describe('time format', function () {
+    it('should render for datetime (time)', function () {
       // given
       const field = { type: 'datetime', subtype: 'time' };
 
@@ -53,9 +55,7 @@ describe('SerializationGroup', function() {
       expect(timeFormatSelect).to.exist;
     });
 
-
-    it('should render for datetime (datetime)', function() {
-
+    it('should render for datetime (datetime)', function () {
       // given
       const field = { type: 'datetime', subtype: 'datetime' };
 
@@ -68,14 +68,12 @@ describe('SerializationGroup', function() {
       expect(timeFormatSelect).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'datetime',
         subtype: 'time',
-        timeSerializingFormat: 'utc_offset'
+        timeSerializingFormat: 'utc_offset',
       };
 
       // when
@@ -87,14 +85,12 @@ describe('SerializationGroup', function() {
       expect(timeFormatSelect.value).to.equal('utc_offset');
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'datetime',
         subtype: 'time',
-        timeSerializingFormat: 'utc_offset'
+        timeSerializingFormat: 'utc_offset',
       };
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
@@ -110,14 +106,10 @@ describe('SerializationGroup', function() {
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.timeSerializingFormat).to.equal('utc_normalized');
     });
-
   });
 
-
-  describe('serialize to string', function() {
-
-    it('should render for number', function() {
-
+  describe('serialize to string', function () {
+    it('should render for number', function () {
       // given
       const field = { type: 'number' };
 
@@ -130,13 +122,11 @@ describe('SerializationGroup', function() {
       expect(serializeToStringInput).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'number',
-        serializeToString: true
+        serializeToString: true,
       };
 
       // when
@@ -148,13 +138,11 @@ describe('SerializationGroup', function() {
       expect(serializeToStringInput.checked).to.equal(true);
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'number',
-        serializeToString: true
+        serializeToString: true,
       };
 
       const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
@@ -170,28 +158,20 @@ describe('SerializationGroup', function() {
       expect(editFieldSpy).to.have.been.calledOnce;
       expect(field.serializeToString).to.equal(false);
     });
-
   });
-
 });
-
 
 // helper ///////////////
 
 function renderSerializationGroup(options) {
-  const {
-    editField,
-    field
-  } = options;
+  const { editField, field } = options;
 
-  const groups = [ SerializationGroup(field, editField) ];
+  const groups = [SerializationGroup(field, editField)];
 
   return render(
     <MockPropertiesPanelContext>
-      <TestPropertiesPanel
-        field={ field }
-        groups={ groups } />
-    </MockPropertiesPanelContext>
+      <TestPropertiesPanel field={field} groups={groups} />
+    </MockPropertiesPanelContext>,
   );
 }
 

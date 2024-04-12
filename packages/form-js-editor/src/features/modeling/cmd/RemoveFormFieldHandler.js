@@ -1,17 +1,10 @@
 import { get } from 'min-dash';
 
-import {
-  arrayAdd,
-  arrayRemove,
-  updatePath
-} from './Util';
+import { arrayAdd, arrayRemove, updatePath } from './Util';
 
-import {
-  runRecursively
-} from '@bpmn-io/form-js-viewer';
+import { runRecursively } from '@bpmn-io/form-js-viewer';
 
 export class RemoveFormFieldHandler {
-
   /**
    * @constructor
    * @param { import('../../../FormEditor').FormEditor } formEditor
@@ -23,16 +16,13 @@ export class RemoveFormFieldHandler {
   }
 
   execute(context) {
-    const {
-      sourceFormField,
-      sourceIndex
-    } = context;
+    const { sourceFormField, sourceIndex } = context;
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField._path, 'components' ];
+    const sourcePath = [...sourceFormField._path, 'components'];
 
-    const formField = context.formField = get(schema, [ ...sourcePath, sourceIndex ]);
+    const formField = (context.formField = get(schema, [...sourcePath, sourceIndex]));
 
     // (1) Remove form field
     arrayRemove(get(schema, sourcePath), sourceIndex);
@@ -48,15 +38,11 @@ export class RemoveFormFieldHandler {
   }
 
   revert(context) {
-    const {
-      formField,
-      sourceFormField,
-      sourceIndex
-    } = context;
+    const { formField, sourceFormField, sourceIndex } = context;
 
     let { schema } = this._formEditor._getState();
 
-    const sourcePath = [ ...sourceFormField._path, 'components' ];
+    const sourcePath = [...sourceFormField._path, 'components'];
 
     // (1) Add form field
     arrayAdd(get(schema, sourcePath), sourceIndex, formField);
@@ -72,4 +58,4 @@ export class RemoveFormFieldHandler {
   }
 }
 
-RemoveFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry' ];
+RemoveFormFieldHandler.$inject = ['formEditor', 'formFieldRegistry'];

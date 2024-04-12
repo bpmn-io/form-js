@@ -6,12 +6,12 @@
   "properties": {
     "row": {
       "$id": "/#component/layout/row",
-      "type": [ "string", "null" ],
+      "type": ["string", "null"],
       "description": "Row in which a form field is placed."
     },
     "columns": {
       "$id": "/#component/layout/columns",
-      "type": [ "integer", "null" ],
+      "type": ["integer", "null"],
       "description": "Space the field will use inside its row. No value means it will automatically adjust to available space in the row.",
       "minimum": 2,
       "maximum": 16

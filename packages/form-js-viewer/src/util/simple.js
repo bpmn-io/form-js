@@ -7,34 +7,29 @@ export function pathParse(path) {
     return [];
   }
 
-  return path.split('.').map(key => {
+  return path.split('.').map((key) => {
     return isNaN(parseInt(key)) ? key : parseInt(key);
   });
 }
 
 export function pathsEqual(a, b) {
-  return (
-    a &&
-    b &&
-    a.length === b.length &&
-    a.every((value, index) => value === b[ index ])
-  );
+  return a && b && a.length === b.length && a.every((value, index) => value === b[index]);
 }
 
 const indices = {};
 
 export function generateIndexForType(type) {
   if (type in indices) {
-    indices[ type ]++;
+    indices[type]++;
   } else {
-    indices[ type ] = 1;
+    indices[type] = 1;
   }
 
-  return indices[ type ];
+  return indices[type];
 }
 
 export function generateIdForType(type) {
-  return `${ type }${ generateIndexForType(type) }`;
+  return `${type}${generateIndexForType(type)}`;
 }
 
 /**
@@ -55,15 +50,12 @@ export function clone(data, replacer) {
  */
 
 export function buildExpressionContext(context) {
-  const {
-    data,
-    ...specialContextKeys
-  } = context;
+  const { data, ...specialContextKeys } = context;
 
   return {
     ...specialContextKeys,
     ...data,
-    ..._wrapObjectKeysWithUnderscores(specialContextKeys)
+    ..._wrapObjectKeysWithUnderscores(specialContextKeys),
   };
 }
 
@@ -81,7 +73,7 @@ export function runRecursively(formField, fn) {
 
 function _wrapObjectKeysWithUnderscores(obj) {
   const newObj = {};
-  for (const [ key, value ] of Object.entries(obj)) {
+  for (const [key, value] of Object.entries(obj)) {
     newObj[`_${key}_`] = value;
   }
   return newObj;

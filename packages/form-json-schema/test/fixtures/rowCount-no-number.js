@@ -5,9 +5,9 @@ export const form = {
       type: 'table',
       rowCount: true,
       columns: [],
-      dataSource: 'inputVariable'
-    }
-  ]
+      dataSource: 'inputVariable',
+    },
+  ],
 };
 
 export const errors = [
@@ -16,6 +16,6 @@ export const errors = [
     schemaPath: '#/properties/components/items/properties/rowCount/type',
     keyword: 'type',
     params: { type: 'number' },
-    message: 'must be number'
-  }
+    message: 'must be number',
+  },
 ];

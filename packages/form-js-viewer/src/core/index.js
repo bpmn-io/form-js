@@ -12,13 +12,13 @@ import { RenderModule } from '../render';
 export { Importer, FieldFactory, FormFieldRegistry, PathRegistry, FormLayouter };
 
 export const CoreModule = {
-  __depends__: [ RenderModule ],
-  eventBus: [ 'type', EventBus ],
-  importer: [ 'type', Importer ],
-  fieldFactory: [ 'type', FieldFactory ],
-  formFieldRegistry: [ 'type', FormFieldRegistry ],
-  formFieldInstanceRegistry: [ 'type', FormFieldInstanceRegistry ],
-  pathRegistry: [ 'type', PathRegistry ],
-  formLayouter: [ 'type', FormLayouter ],
-  validator: [ 'type', Validator ]
+  __depends__: [RenderModule],
+  eventBus: ['type', EventBus],
+  importer: ['type', Importer],
+  fieldFactory: ['type', FieldFactory],
+  formFieldRegistry: ['type', FormFieldRegistry],
+  formFieldInstanceRegistry: ['type', FormFieldInstanceRegistry],
+  pathRegistry: ['type', PathRegistry],
+  formLayouter: ['type', FormLayouter],
+  validator: ['type', Validator],
 };

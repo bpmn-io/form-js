@@ -16,5 +16,5 @@ export function useCondition(condition) {
 
   return useMemo(() => {
     return conditionChecker ? conditionChecker.check(condition, buildExpressionContext(expressionContextInfo)) : null;
-  }, [ conditionChecker, condition, expressionContextInfo ]);
+  }, [conditionChecker, condition, expressionContextInfo]);
 }

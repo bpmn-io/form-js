@@ -2,29 +2,22 @@ import { render } from '@testing-library/preact/pure';
 
 import { Text } from '../../../../../src/render/components/form-fields/Text';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
 
 let container;
 
-
-describe('Text', function() {
-
-  beforeEach(function() {
+describe('Text', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
     const { container } = createText();
 
@@ -39,9 +32,7 @@ describe('Text', function() {
     expect(container.querySelector('li')).to.exist;
   });
 
-
-  it('should render markdown', function() {
-
+  it('should render markdown', function () {
     // given
     const text = `
 # h1
@@ -74,8 +65,8 @@ Some _em_ **strong** [text](#text) \`code\`.
     const { container } = createText({
       field: {
         text,
-        type: 'Text'
-      }
+        type: 'Text',
+      },
     });
 
     // then
@@ -105,12 +96,9 @@ Some _em_ **strong** [text](#text) \`code\`.
 <hr>
 <p><img alt="Image" src="#"></p>
 `);
-
   });
 
-
-  it('should render markdown link', function() {
-
+  it('should render markdown link', function () {
     // given
     const text = '[forms](https://bpmn.io/)';
 
@@ -118,8 +106,8 @@ Some _em_ **strong** [text](#text) \`code\`.
     const { container } = createText({
       field: {
         text,
-        type: 'Text'
-      }
+        type: 'Text',
+      },
     });
 
     // then
@@ -135,9 +123,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(link.target).to.eql('');
   });
 
-
-  it('should render markdown link (overridden target)', function() {
-
+  it('should render markdown link (overridden target)', function () {
     // given
     const text = '[forms](https://bpmn.io/)';
 
@@ -145,11 +131,11 @@ Some _em_ **strong** [text](#text) \`code\`.
     const { container } = createText({
       field: {
         text,
-        type: 'Text'
+        type: 'Text',
       },
       properties: {
-        textLinkTarget: '_blank'
-      }
+        textLinkTarget: '_blank',
+      },
     });
 
     // then
@@ -165,14 +151,12 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(link.target).to.eql('_blank');
   });
 
-
-  it('should render (no text)', function() {
-
+  it('should render (no text)', function () {
     // when
     const { container } = createText({
       field: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -183,18 +167,16 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(formField.innerHTML).to.equal('');
   });
 
-
-  it('should render markdown (expression)', function() {
-
+  it('should render markdown (expression)', function () {
     // given
     const { container } = createText({
       initialData: {
-        foo: '# foo'
+        foo: '# foo',
       },
       field: {
         text: '=foo',
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -204,15 +186,13 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(formField.innerHTML).to.eql('<h1>foo</h1>\n');
   });
 
-
-  it('should render markdown (table)', function() {
-
+  it('should render markdown (table)', function () {
     // given
     const { container } = createText({
       field: {
         text: '| foo | bar |\n| --- | --- |\n| baz | qux |',
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -236,23 +216,21 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(formField.innerHTML).to.eql(expected);
   });
 
-
   // TODO: implement mocking renderer
-  it.skip('should allow overriding rendering module', function() {
-
+  it.skip('should allow overriding rendering module', function () {
     // given
     const content = '# foo';
 
     const { container } = createText({
       initialData: {
-        foo: '#foo'
+        foo: '#foo',
       },
       field: {
         text: '=foo0',
-        type: 'text'
+        type: 'text',
       },
       evaluateExpression: () => content,
-      isExpression: () => true
+      isExpression: () => true,
     });
 
     // then
@@ -262,17 +240,15 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(formField.innerHTML).to.eql('<h1>foo</h1>\n');
   });
 
-
-  it('should render markdown (complex expression)', function() {
-
+  it('should render markdown (complex expression)', function () {
     const { container } = createText({
       initialData: {
-        content: [ '#foo', '###bar' ]
+        content: ['#foo', '###bar'],
       },
       field: {
         text: '=content',
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -282,9 +258,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     expect(formField.innerHTML).to.eql('<p>["#foo", "###bar"]</p>\n');
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Text;
     expect(config.type).to.eql('text');
@@ -297,25 +271,22 @@ Some _em_ **strong** [text](#text) \`code\`.
 
     // then
     expect(field).to.eql({
-      text: '# Text'
+      text: '# Text',
     });
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('templating', function() {
-
-    it('should not affect simple string', function() {
-
+  describe('templating', function () {
+    it('should not affect simple string', function () {
       // given
       const text = 'foo';
 
@@ -323,8 +294,8 @@ Some _em_ **strong** [text](#text) \`code\`.
       const { container } = createText({
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -334,21 +305,19 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<p>foo</p>\n');
     });
 
-
-    it('should render pure feel', function() {
-
+    it('should render pure feel', function () {
       // given
       const text = '=foo';
 
       // when
       const { container } = createText({
         initialData: {
-          foo: 'bar'
+          foo: 'bar',
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -358,21 +327,19 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<p>bar</p>\n');
     });
 
-
-    it('should render pure feel with markdown', function() {
-
+    it('should render pure feel with markdown', function () {
       // given
       const text = '=foo';
 
       // when
       const { container } = createText({
         initialData: {
-          foo: '# bar'
+          foo: '# bar',
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -380,24 +347,21 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<h1>bar</h1>\n');
-
     });
 
-
-    it('should render template insert', function() {
-
+    it('should render template insert', function () {
       // given
       const text = 'foo {{foo2}}';
 
       // when
       const { container } = createText({
         initialData: {
-          foo2: 'bar'
+          foo2: 'bar',
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -405,24 +369,21 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<p>foo bar</p>\n');
-
     });
 
-
-    it('should render template insert with markdown', function() {
-
+    it('should render template insert with markdown', function () {
       // given
       const text = '{{foo2}} foo';
 
       // when
       const { container } = createText({
         initialData: {
-          foo2: '# bar'
+          foo2: '# bar',
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -430,24 +391,21 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<h1>bar foo</h1>\n');
-
     });
 
-
-    it('should render template condition if true', function() {
-
+    it('should render template condition if true', function () {
       // given
       const text = 'foo {{#if condition}}bar{{/if}}';
 
       // when
       const { container } = createText({
         initialData: {
-          condition: true
+          condition: true,
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -455,24 +413,21 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<p>foo bar</p>\n');
-
     });
 
-
-    it('should not render template condition if false', function() {
-
+    it('should not render template condition if false', function () {
       // given
       const text = 'foo {{#if condition}}bar{{/if}}';
 
       // when
       const { container } = createText({
         initialData: {
-          condition: false
+          condition: false,
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -480,24 +435,21 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<p>foo </p>\n');
-
     });
 
-
-    it('should render template condition with markdown', function() {
-
+    it('should render template condition with markdown', function () {
       // given
       const text = '# foo {{#if condition}}bar{{/if}}';
 
       // when
       const { container } = createText({
         initialData: {
-          condition: true
+          condition: true,
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -507,21 +459,19 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<h1>foo bar</h1>\n');
     });
 
-
-    it('should render template loop', function() {
-
+    it('should render template loop', function () {
       // given
       const text = 'foo {{#loop items}}bar{{/loop}}';
 
       // when
       const { container } = createText({
         initialData: {
-          items: [ 'a', 'b', 'c' ]
+          items: ['a', 'b', 'c'],
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -531,21 +481,19 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<p>foo barbarbar</p>\n');
     });
 
-
-    it('should render template loop with markdown', function() {
-
+    it('should render template loop with markdown', function () {
       // given
       const text = '# foo {{#loop items}}bar{{/loop}}';
 
       // when
       const { container } = createText({
         initialData: {
-          items: [ 'a', 'b', 'c' ]
+          items: ['a', 'b', 'c'],
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -555,21 +503,19 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<h1>foo barbarbar</h1>\n');
     });
 
-
-    it('should render template loop with insert', function() {
-
+    it('should render template loop with insert', function () {
       // given
       const text = 'foo {{#loop items}}{{this}}{{/loop}}';
 
       // when
       const { container } = createText({
         initialData: {
-          items: [ 'a', 'b', 'c' ]
+          items: ['a', 'b', 'c'],
         },
         field: {
           text,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -579,9 +525,7 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField.innerHTML).to.eql('<p>foo abc</p>\n');
     });
 
-
-    it('should enforce strict mode', function() {
-
+    it('should enforce strict mode', function () {
       // given
       const text = 'foo {{#if condition}}bar{{/if}}';
 
@@ -589,13 +533,13 @@ Some _em_ **strong** [text](#text) \`code\`.
       const { container } = createText({
         text,
         initialData: {
-          condition: 'notABoolean'
+          condition: 'notABoolean',
         },
         field: {
           text: 'foo {{#if condition}}bar{{/if}}',
           strict: true,
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -603,12 +547,9 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<p>foo  {{⚠}} </p>\n');
-
     });
 
-
-    it('should allow template module override', function() {
-
+    it('should allow template module override', function () {
       // given
       const text = 'myTemplate';
 
@@ -616,14 +557,16 @@ Some _em_ **strong** [text](#text) \`code\`.
       const { container } = createText({
         field: {
           text,
-          type: 'text'
+          type: 'text',
         },
         services: {
           templating: {
             isTemplate: () => true,
-            evaluate: (template) => { return 'EVALUATED:' + template; }
-          }
-        }
+            evaluate: (template) => {
+              return 'EVALUATED:' + template;
+            },
+          },
+        },
       });
 
       // then
@@ -632,14 +575,10 @@ Some _em_ **strong** [text](#text) \`code\`.
       expect(formField).to.exist;
       expect(formField.innerHTML).to.eql('<p>EVALUATED:myTemplate</p>\n');
     });
-
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(10000);
 
@@ -649,26 +588,22 @@ Some _em_ **strong** [text](#text) \`code\`.
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - links', async function() {
-
+    it('should have no violations - links', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createText({
         field: {
           text: '# Text\n* Learn more about [forms](https://bpmn.io).',
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - expression', async function() {
-
+    it('should have no violations - expression', async function () {
       // given
       this.timeout(10000);
 
@@ -676,48 +611,42 @@ Some _em_ **strong** [text](#text) \`code\`.
 
       const { container } = createText({
         initialData: {
-          content
+          content,
         },
         field: {
           text: '=content',
-          type: 'text'
+          type: 'text',
         },
         isExpression: () => true,
-        evaluateExpression: () => content
+        evaluateExpression: () => content,
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
 
 const defaultField = {
   text: '# Text\n* Hello World',
-  type: 'text'
+  type: 'text',
 };
 
 function createText({ services, ...restOptions } = {}) {
   const options = {
     domId: 'test-text',
     field: defaultField,
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
-      <Text
-        domId={ options.domId }
-        errors={ options.errors }
-        field={ options.field } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+    <MockFormContext services={services} options={options}>
+      <Text domId={options.domId} errors={options.errors} field={options.field} />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

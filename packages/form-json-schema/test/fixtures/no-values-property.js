@@ -3,9 +3,9 @@ export const form = {
   components: [
     {
       type: 'select',
-      key: 'select'
-    }
-  ]
+      key: 'select',
+    },
+  ],
 };
 
 export const errors = null;

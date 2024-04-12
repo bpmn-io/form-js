@@ -12,7 +12,7 @@ export function ExpressionFieldEntries(props) {
     isEdited: isFeelEntryEdited,
     editField,
     field,
-    isDefaultVisible: (field) => field.type === 'expression'
+    isDefaultVisible: (field) => field.type === 'expression',
   });
 
   entries.push({
@@ -21,7 +21,7 @@ export function ExpressionFieldEntries(props) {
     isEdited: isSelectEntryEdited,
     editField,
     field,
-    isDefaultVisible: (field) => field.type === 'expression'
+    isDefaultVisible: (field) => field.type === 'expression',
   });
 
   return entries;
@@ -31,12 +31,12 @@ function ExpressionFieldExpression(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   const getValue = () => field.expression || '';
 
   const setValue = (value) => {
-    editField(field, [ 'expression' ], value);
+    editField(field, ['expression'], value);
   };
 
   return FeelEntry({
@@ -48,7 +48,7 @@ function ExpressionFieldExpression(props) {
     id,
     label: 'Target value',
     setValue,
-    variables
+    variables,
   });
 }
 
@@ -58,19 +58,19 @@ function ExpressionFieldComputeOn(props) {
   const getValue = () => field.computeOn || '';
 
   const setValue = (value) => {
-    editField(field, [ 'computeOn' ], value);
+    editField(field, ['computeOn'], value);
   };
 
-  const getOptions = () => ([
+  const getOptions = () => [
     { value: 'change', label: 'Value changes' },
-    { value: 'presubmit', label: 'Form submission' }
-  ]);
+    { value: 'presubmit', label: 'Form submission' },
+  ];
 
   return SelectEntry({
     id,
     label: 'Compute on',
     getValue,
     setValue,
-    getOptions
+    getOptions,
   });
 }

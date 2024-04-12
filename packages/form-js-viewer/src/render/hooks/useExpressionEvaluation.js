@@ -20,5 +20,5 @@ export function useExpressionEvaluation(value) {
       return expressionLanguage.evaluate(value, buildExpressionContext(expressionContextInfo));
     }
     return value;
-  }, [ expressionLanguage, expressionContextInfo, value ]);
+  }, [expressionLanguage, expressionContextInfo, value]);
 }

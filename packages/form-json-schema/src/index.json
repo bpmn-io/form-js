@@ -57,8 +57,5 @@
       ]
     }
   },
-  "required": [
-    "type",
-    "components"
-  ]
+  "required": ["type", "components"]
 }

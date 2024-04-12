@@ -14,25 +14,19 @@ import { SlotContext } from './SlotContext';
  * @returns {Array} Array of rendered slot fills, grouped and separated as specified
  */
 export const Slot = (props) => {
-  const {
-    name,
-    fillRoot = FillFragment,
-    groupFn = _groupByGroupName,
-    separatorFn = (key) => null,
-    limit
-  } = props;
+  const { name, fillRoot = FillFragment, groupFn = _groupByGroupName, separatorFn = (key) => null, limit } = props;
 
   const { fills } = useContext(SlotContext);
 
-  const filtered = useMemo(() => fills.filter(fill => fill.slot === name), [ fills, name ]);
+  const filtered = useMemo(() => fills.filter((fill) => fill.slot === name), [fills, name]);
 
-  const cropped = useMemo(() => limit ? filtered.slice(0, limit) : filtered, [ filtered, limit ]);
+  const cropped = useMemo(() => (limit ? filtered.slice(0, limit) : filtered), [filtered, limit]);
 
-  const groups = useMemo(() => groupFn(cropped), [ cropped , groupFn ]);
+  const groups = useMemo(() => groupFn(cropped), [cropped, groupFn]);
 
   const fillsAndSeparators = useMemo(() => {
     return buildFills(groups, fillRoot, separatorFn);
-  }, [ groups, fillRoot, separatorFn ]);
+  }, [groups, fillRoot, separatorFn]);
 
   return fillsAndSeparators;
 };
@@ -43,7 +37,7 @@ export const Slot = (props) => {
  * @param {Object} fill Fill to be rendered
  * @returns {Object} Preact Fragment containing fill's children
  */
-const FillFragment = (fill) => <Fragment key={ fill.id }>{fill.children}</Fragment>;
+const FillFragment = (fill) => <Fragment key={fill.id}>{fill.children}</Fragment>;
 
 /**
  * Creates an array of fills, with separators inserted between groups.
@@ -54,11 +48,9 @@ const FillFragment = (fill) => <Fragment key={ fill.id }>{fill.children}</Fragme
  * @returns {Array} Array of fills and separators
  */
 const buildFills = (groups, fillRenderer, separatorRenderer) => {
-
   const result = [];
 
   groups.forEach((array, idx) => {
-
     if (idx !== 0) {
       const separator = separatorRenderer(`__separator_${idx}`);
 
@@ -79,16 +71,12 @@ const buildFills = (groups, fillRenderer, separatorRenderer) => {
  * Groups fills by group name property.
  */
 const _groupByGroupName = (fills) => {
-
   const groups = [];
 
   const groupsById = {};
 
-  fills.forEach(function(fill) {
-
-    const {
-      group: groupName = 'z_default'
-    } = fill;
+  fills.forEach(function (fill) {
+    const { group: groupName = 'z_default' } = fill;
 
     let group = groupsById[groupName];
 
@@ -100,11 +88,11 @@ const _groupByGroupName = (fills) => {
     group.push(fill);
   });
 
-  groups.forEach(group => group.sort(_comparePriority));
+  groups.forEach((group) => group.sort(_comparePriority));
 
   return Object.keys(groupsById)
     .sort()
-    .map(id => groupsById[id]);
+    .map((id) => groupsById[id]);
 };
 
 /**

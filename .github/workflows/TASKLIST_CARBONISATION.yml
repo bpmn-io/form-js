@@ -3,8 +3,8 @@ name: Check Tasklist Carbonization
 on:
   push:
     branches:
-      - "*"
-      - "!main"
+      - '*'
+      - '!main'
 
 jobs:
   Exec:
@@ -24,18 +24,18 @@ jobs:
           repository: camunda/tasklist
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
           path: tasklist
-          ref: "master"
+          ref: 'master'
       - name: Setup form-js cache
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
           cache-dependency-path: ./form-js/package-lock.json
       - name: Setup Tasklist cache
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: "20"
-          cache: "yarn"
+          node-version: '20'
+          cache: 'yarn'
           cache-dependency-path: ./tasklist/tasklist/client/yarn.lock
       - name: Install form-js deps
         run: npm ci

@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": [
-      "es2019",
-      "dom"
-    ],
+    "lib": ["es2019", "dom"],
     "target": "es2019",
     "allowJs": true,
     "checkJs": true,
@@ -24,7 +21,5 @@
     "packages/form-js/test/spec",
     "packages/form-js-integration/src"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

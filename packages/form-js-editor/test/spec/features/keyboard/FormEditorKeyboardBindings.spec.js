@@ -1,8 +1,4 @@
-import {
-  bootstrapFormEditor,
-  getFormEditor,
-  inject
-} from 'test/TestHelper';
+import { bootstrapFormEditor, getFormEditor, inject } from 'test/TestHelper';
 
 import { EditorActionsModule } from 'src/features/editor-actions';
 import { FormEditorKeyboardModule } from 'src/features/keyboard';
@@ -10,39 +6,29 @@ import { ModelingModule } from 'src/features/modeling';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents';
 
-import {
-  KEYS_REDO,
-  KEYS_UNDO
-} from 'diagram-js/lib/features/keyboard/KeyboardBindings';
+import { KEYS_REDO, KEYS_UNDO } from 'diagram-js/lib/features/keyboard/KeyboardBindings';
 
 import schema from '../../form.json';
 
+describe('features/editor-actions', function () {
+  beforeEach(
+    bootstrapFormEditor(schema, {
+      modules: [ModelingModule, EditorActionsModule, FormEditorKeyboardModule],
+    }),
+  );
 
-describe('features/editor-actions', function() {
-
-  beforeEach(bootstrapFormEditor(schema, {
-    modules: [
-      ModelingModule,
-      EditorActionsModule,
-      FormEditorKeyboardModule
-    ]
-  }));
-
-  afterEach(function() {
+  afterEach(function () {
     getFormEditor().destroy();
   });
 
-
   KEYS_UNDO.forEach((key) => {
-
-    it('should undo', inject(function(keyboard, editorActions) {
-
+    it('should undo', inject(function (keyboard, editorActions) {
       // given
       const undoSpy = sinon.spy(editorActions, 'trigger');
 
       const event = createKeyEvent(key, {
         ctrlKey: true,
-        shiftKey: false
+        shiftKey: false,
       });
 
       // when
@@ -51,20 +37,16 @@ describe('features/editor-actions', function() {
       // then
       expect(undoSpy).to.have.been.calledWith('undo');
     }));
-
   });
 
-
   KEYS_REDO.forEach((key) => {
-
-    it('should redo', inject(function(keyboard, editorActions) {
-
+    it('should redo', inject(function (keyboard, editorActions) {
       // given
       const redoSpy = sinon.spy(editorActions, 'trigger');
 
       const event = createKeyEvent(key, {
         ctrlKey: true,
-        shiftKey: false
+        shiftKey: false,
       });
 
       // when
@@ -73,12 +55,9 @@ describe('features/editor-actions', function() {
       // then
       expect(redoSpy).to.have.been.calledWith('redo');
     }));
-
   });
 
-
-  it('should undo/redo when focused on input', inject(function(formEditor, keyboard, editorActions) {
-
+  it('should undo/redo when focused on input', inject(function (formEditor, keyboard, editorActions) {
     // given
     const spy = sinon.spy(editorActions, 'trigger');
 
@@ -102,5 +81,4 @@ describe('features/editor-actions', function() {
     // then
     expect(spy).to.have.been.called.calledTwice;
   }));
-
 });

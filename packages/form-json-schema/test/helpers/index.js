@@ -1,21 +1,17 @@
-const {
-  forEach,
-  set
-} = require('min-dash');
+const { forEach, set } = require('min-dash');
 
 const { default: Ajv } = require('ajv');
 const AjvErrors = require('ajv-errors');
 
 module.exports = {
   createValidator,
-  withErrorMessages
+  withErrorMessages,
 };
 
 function createValidator(schema, errors) {
-
   const ajv = new Ajv({
     allErrors: true,
-    strict: false
+    strict: false,
   });
 
   AjvErrors(ajv);
@@ -24,7 +20,6 @@ function createValidator(schema, errors) {
 }
 
 function withErrorMessages(schema, errors) {
-
   if (!errors || !errors.length) {
     return schema;
   }
@@ -33,7 +28,7 @@ function withErrorMessages(schema, errors) {
   let newSchema = JSON.parse(JSON.stringify(schema));
 
   // set <errorMessage> keyword for given path
-  forEach(errors, function(error) {
+  forEach(errors, function (error) {
     newSchema = setErrorMessage(newSchema, error);
   });
 
@@ -41,15 +36,9 @@ function withErrorMessages(schema, errors) {
 }
 
 function setErrorMessage(schema, error) {
-  const {
-    path,
-    errorMessage
-  } = error;
+  const { path, errorMessage } = error;
 
-  const errorMessagePath = [
-    ...path,
-    'errorMessage'
-  ];
+  const errorMessagePath = [...path, 'errorMessage'];
 
   return set(schema, errorMessagePath, errorMessage);
 }

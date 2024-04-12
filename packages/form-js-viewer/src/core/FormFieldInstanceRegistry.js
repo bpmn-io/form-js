@@ -10,38 +10,31 @@ export class FormFieldInstanceRegistry {
   }
 
   add(instance) {
+    const { id, expressionContextInfo, valuePath, indexes } = instance;
 
-    const {
-      id,
-      expressionContextInfo,
-      valuePath,
-      indexes
-    } = instance;
+    const instanceId = [id, ...Object.values(indexes || {})].join('_');
 
-    const instanceId = [ id, ...Object.values(indexes || {}) ].join('_');
-
-    if (this._formFieldInstances[ instanceId ]) {
+    if (this._formFieldInstances[instanceId]) {
       throw new Error('this form field instance is already registered');
     }
 
-    this._formFieldInstances[ instanceId ] = {
+    this._formFieldInstances[instanceId] = {
       id,
       instanceId,
       expressionContextInfo,
       valuePath,
-      indexes
+      indexes,
     };
 
     return instanceId;
   }
 
   remove(instanceId) {
-
-    if (!this._formFieldInstances[ instanceId ]) {
+    if (!this._formFieldInstances[instanceId]) {
       return;
     }
 
-    delete this._formFieldInstances[ instanceId ];
+    delete this._formFieldInstances[instanceId];
   }
 
   getAll() {
@@ -60,7 +53,6 @@ export class FormFieldInstanceRegistry {
   clear() {
     this._formFieldInstances = {};
   }
-
 }
 
-FormFieldInstanceRegistry.$inject = [ 'eventBus', 'formFieldRegistry', 'formFields' ];
+FormFieldInstanceRegistry.$inject = ['eventBus', 'formFieldRegistry', 'formFields'];

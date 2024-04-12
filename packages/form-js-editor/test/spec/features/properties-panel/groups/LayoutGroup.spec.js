@@ -1,9 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen
-} from '@testing-library/preact/pure';
+import { cleanup, fireEvent, render, screen } from '@testing-library/preact/pure';
 
 import { LayoutGroup } from '../../../../../src/features/properties-panel/groups';
 
@@ -11,14 +6,10 @@ import { AUTO_OPTION_VALUE } from '../../../../../src/features/properties-panel/
 
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
-
-describe('LayoutGroup', function() {
-
+describe('LayoutGroup', function () {
   afterEach(() => cleanup());
 
-
-  it('should NOT render for default', function() {
-
+  it('should NOT render for default', function () {
     // given
     const field = { type: 'default' };
 
@@ -28,11 +19,8 @@ describe('LayoutGroup', function() {
     expect(group).to.not.exist;
   });
 
-
-  describe('columns', function() {
-
-    it('should render for textfield', function() {
-
+  describe('columns', function () {
+    it('should render for textfield', function () {
       // given
       const field = { type: 'textfield' };
 
@@ -45,15 +33,13 @@ describe('LayoutGroup', function() {
       expect(columnsSelect).to.exist;
     });
 
-
-    it('should read', function() {
-
+    it('should read', function () {
       // given
       const field = {
         type: 'textfield',
         layout: {
-          columns: 8
-        }
+          columns: 8,
+        },
       };
 
       // when
@@ -67,12 +53,10 @@ describe('LayoutGroup', function() {
       expect(columnsSelect.value).to.equal('8');
     });
 
-
-    it('should read - auto', function() {
-
+    it('should read - auto', function () {
       // given
       const field = {
-        type: 'textfield'
+        type: 'textfield',
       };
 
       // when
@@ -86,15 +70,13 @@ describe('LayoutGroup', function() {
       expect(columnsSelect.value).to.equal(AUTO_OPTION_VALUE);
     });
 
-
-    it('should write', function() {
-
+    it('should write', function () {
       // given
       const field = {
         type: 'textfield',
         layout: {
-          columns: 8
-        }
+          columns: 8,
+        },
       };
 
       const editFieldSpy = sinon.spy();
@@ -107,19 +89,17 @@ describe('LayoutGroup', function() {
       fireEvent.input(columns, { target: { value: '6' } });
 
       // then
-      expect(editFieldSpy).to.have.been.calledWith(field, [ 'layout' ], { columns: 6 });
+      expect(editFieldSpy).to.have.been.calledWith(field, ['layout'], { columns: 6 });
       expect(field.layout.columns).to.equal(6);
     });
 
-
-    it('should write - empty', function() {
-
+    it('should write - empty', function () {
       // given
       const field = {
         type: 'textfield',
         layout: {
-          columns: 8
-        }
+          columns: 8,
+        },
       };
 
       const editFieldSpy = sinon.spy();
@@ -132,19 +112,17 @@ describe('LayoutGroup', function() {
       fireEvent.input(columns, { target: { value: '' } });
 
       // then
-      expect(editFieldSpy).to.have.been.calledWith(field, [ 'layout' ], { columns: null });
+      expect(editFieldSpy).to.have.been.calledWith(field, ['layout'], { columns: null });
       expect(field.layout.columns).to.equal(null);
     });
 
-
-    it('should validate', function() {
-
+    it('should validate', function () {
       // given
       const field = {
         type: 'textfield',
         layout: {
-          columns: 8
-        }
+          columns: 8,
+        },
       };
 
       const editFieldSpy = sinon.spy();
@@ -160,9 +138,9 @@ describe('LayoutGroup', function() {
         editField: editFieldSpy,
         services: {
           formLayoutValidator: {
-            validateField: validate
-          }
-        }
+            validateField: validate,
+          },
+        },
       });
 
       const columns = findSelect('columns', container);
@@ -175,29 +153,20 @@ describe('LayoutGroup', function() {
       const error = screen.getByText('6 is not allowed');
       expect(error).to.exist;
     });
-
   });
-
 });
-
 
 // helper ///////////////
 
 function renderLayoutGroup(options) {
-  const {
-    editField,
-    field,
-    services
-  } = options;
+  const { editField, field, services } = options;
 
-  const groups = [ LayoutGroup(field, editField) ];
+  const groups = [LayoutGroup(field, editField)];
 
   return render(
-    <MockPropertiesPanelContext services={ services }>
-      <TestPropertiesPanel
-        field={ field }
-        groups={ groups } />
-    </MockPropertiesPanelContext>
+    <MockPropertiesPanelContext services={services}>
+      <TestPropertiesPanel field={field} groups={groups} />
+    </MockPropertiesPanelContext>,
   );
 }
 

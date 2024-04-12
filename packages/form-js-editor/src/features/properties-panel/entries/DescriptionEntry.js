@@ -6,12 +6,8 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-
 export function DescriptionEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [];
 
@@ -21,25 +17,20 @@ export function DescriptionEntry(props) {
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type)
+    isDefaultVisible: (field) => INPUTS.includes(field.type),
   });
 
   return entries;
 }
 
-
 function Description(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'description' ];
+  const path = ['description'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -57,6 +48,6 @@ function Description(props) {
     label: 'Field description',
     singleLine: true,
     setValue,
-    variables
+    variables,
   });
 }

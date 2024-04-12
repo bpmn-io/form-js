@@ -4,7 +4,6 @@ export const MIN_COLUMNS = 2;
 export const MAX_FIELDS_PER_ROW = 4;
 
 export class FormLayoutValidator {
-
   /**
    * @constructor
    *
@@ -17,10 +16,8 @@ export class FormLayoutValidator {
   }
 
   validateField(field = {}, columns, row) {
-
     // allow empty (auto columns)
     if (Number.isInteger(columns)) {
-
       // allow minimum cols
       if (columns < MIN_COLUMNS) {
         return `Minimum ${MIN_COLUMNS} columns are allowed`;
@@ -37,11 +34,11 @@ export class FormLayoutValidator {
     }
 
     // calculate columns with and without updated field
-    let sumColumns = (parseInt(columns) || 0);
+    let sumColumns = parseInt(columns) || 0;
     let sumFields = 1;
     let sumAutoCols = columns ? 0 : 1;
 
-    row.components.forEach(id => {
+    row.components.forEach((id) => {
       if (field.id === id) {
         return;
       }
@@ -62,7 +59,8 @@ export class FormLayoutValidator {
     if (
       sumColumns > MAX_COLUMNS_PER_ROW ||
       (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
-      (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)) {
+      (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)
+    ) {
       return `New value exceeds the maximum of ${MAX_COLUMNS_PER_ROW} columns per row`;
     }
 
@@ -74,12 +72,11 @@ export class FormLayoutValidator {
   }
 }
 
-FormLayoutValidator.$inject = [ 'formLayouter', 'formFieldRegistry' ];
-
+FormLayoutValidator.$inject = ['formLayouter', 'formFieldRegistry'];
 
 // helper //////////////////////
 
 // on normal screen sizes, auto columns take minimum 2 columns
 function calculateMaxColumnsWithAuto(autoCols) {
-  return MAX_COLUMNS_PER_ROW - (autoCols * 2);
+  return MAX_COLUMNS_PER_ROW - autoCols * 2;
 }

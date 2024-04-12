@@ -13,13 +13,7 @@
       "$id": "/#component/validate/validationType",
       "type": "string",
       "description": "Use predefined validation patterns. Available options are: Email, Phone, and Custom (empty).",
-      "enum": [
-        "email",
-        "phone",
-        "custom",
-        "",
-        null
-      ]
+      "enum": ["email", "phone", "custom", "", null]
     },
     "pattern": {
       "$id": "/#component/validate/pattern",
@@ -28,34 +22,22 @@
     },
     "minLength": {
       "$id": "/#component/validate/minLength",
-      "type": [
-        "integer",
-        "string"
-      ],
+      "type": ["integer", "string"],
       "description": "Form field value must be at least the provided length."
     },
     "maxLength": {
       "$id": "/#component/validate/maxLength",
-      "type": [
-        "integer",
-        "string"
-      ],
+      "type": ["integer", "string"],
       "description": "Form field value must be at most the provided length."
     },
     "min": {
       "$id": "/#component/validate/min",
-      "type": [
-        "number",
-        "string"
-      ],
+      "type": ["number", "string"],
       "description": "Form field value must be at least the provided number."
     },
     "max": {
       "$id": "/#component/validate/max",
-      "type": [
-        "number",
-        "string"
-      ],
+      "type": ["number", "string"],
       "description": "Form field value must be at most the provided number."
     }
   }

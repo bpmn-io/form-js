@@ -3,17 +3,17 @@ export const form = {
   components: [
     {
       type: 'textfield',
-      key: 'textfield_1'
+      key: 'textfield_1',
     },
     {
       type: 'textfield',
-      key: 'textfield_2.foo'
+      key: 'textfield_2.foo',
     },
     {
       type: 'textfield',
-      key: 'textfield_3.'
-    }
-  ]
+      key: 'textfield_3.',
+    },
+  ],
 };
 
 export const errors = [
@@ -22,6 +22,6 @@ export const errors = [
     schemaPath: '#/properties/components/items/properties/key/pattern',
     keyword: 'pattern',
     params: { pattern: '^\\w+(\\.\\w+)*$' },
-    message: 'must match pattern "^\\w+(\\.\\w+)*$"'
-  }
+    message: 'must match pattern "^\\w+(\\.\\w+)*$"',
+  },
 ];

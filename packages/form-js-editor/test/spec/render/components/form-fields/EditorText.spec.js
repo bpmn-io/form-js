@@ -10,20 +10,16 @@ import { FeelersTemplating } from '@bpmn-io/form-js-viewer';
 
 let container;
 
-
-describe('Text', function() {
-
-  beforeEach(function() {
+describe('Text', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render non-editor', function() {
-
+  it('should render non-editor', function () {
     // when
     const { container } = createEditorText();
 
@@ -38,15 +34,13 @@ describe('Text', function() {
     expect(container.querySelector('li')).to.exist;
   });
 
-
-  it('should disable links', function() {
-
+  it('should disable links', function () {
     // given
     const { container } = createEditorText({
       field: {
         text: '# Text\n* Learn more about [forms](https://bpmn.io).',
-        type: 'text'
-      }
+        type: 'text',
+      },
     });
 
     // then
@@ -57,17 +51,14 @@ describe('Text', function() {
     expect(link.classList.contains('fjs-disabled-link')).to.be.true;
   });
 
-
-  describe('placeholders', function() {
-
-    it('should render expression placeholder', function() {
-
+  describe('placeholders', function () {
+    it('should render expression placeholder', function () {
       // given
       const { container } = createEditorText({
         field: {
           text: '=foo',
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -77,15 +68,13 @@ describe('Text', function() {
       expect(placeholder.textContent).to.eql('Text view is populated by an expression');
     });
 
-
-    it('should render empty placeholder', function() {
-
+    it('should render empty placeholder', function () {
       // given
       const { container } = createEditorText({
         field: {
           text: '',
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -95,15 +84,13 @@ describe('Text', function() {
       expect(placeholder.textContent).to.eql('Text view is empty');
     });
 
-
-    it('should render empty placeholder whitespace', function() {
-
+    it('should render empty placeholder whitespace', function () {
       // given
       const { container } = createEditorText({
         field: {
           text: ' ',
-          type: 'text'
-        }
+          type: 'text',
+        },
       });
 
       // then
@@ -112,12 +99,9 @@ describe('Text', function() {
       expect(placeholder).to.exist;
       expect(placeholder.textContent).to.eql('Text view is empty');
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = EditorText;
     expect(config.type).to.eql('text');
@@ -130,25 +114,22 @@ describe('Text', function() {
 
     // then
     expect(field).to.eql({
-      text: '# Text'
+      text: '# Text',
     });
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations - default', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations - default', async function () {
       // given
       this.timeout(10000);
 
@@ -158,32 +139,28 @@ describe('Text', function() {
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - placeholder', async function() {
-
+    it('should have no violations - placeholder', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createEditorText({
         field: {
           text: '=content',
-          type: 'text'
+          type: 'text',
         },
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
 
 const defaultField = {
   text: '# Text\n* Hello World',
-  type: 'text'
+  type: 'text',
 };
 
 const defaultTemplateEvaluator = new FeelersTemplating();
@@ -192,18 +169,17 @@ function createEditorText(options = {}) {
   const {
     field = defaultField,
     isTemplate = defaultTemplateEvaluator.isTemplate,
-    isExpression = (text) => text.startsWith('=')
+    isExpression = (text) => text.startsWith('='),
   } = options;
 
-  return render(WithEditorFormContext(
-    <EditorText field={ field } />,
-    {
+  return render(
+    WithEditorFormContext(<EditorText field={field} />, {
       ...options,
       isTemplate,
-      isExpression
-    }
-  ),
-  {
-    container: options.container || container.querySelector('.fjs-form')
-  });
+      isExpression,
+    }),
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
+  );
 }

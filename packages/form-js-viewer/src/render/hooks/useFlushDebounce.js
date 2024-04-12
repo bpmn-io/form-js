@@ -2,7 +2,6 @@ import { useCallback, useRef } from 'preact/hooks';
 import { useService } from './useService';
 
 export function useFlushDebounce(func) {
-
   const timeoutRef = useRef(null);
   const lastArgsRef = useRef(null);
 
@@ -11,28 +10,28 @@ export function useFlushDebounce(func) {
   const shouldDebounce = debounce !== false && debounce !== 0;
   const delay = typeof debounce === 'number' ? debounce : 300;
 
-  const debounceFunc = useCallback((...args) => {
+  const debounceFunc = useCallback(
+    (...args) => {
+      if (!shouldDebounce) {
+        func(...args);
+        return;
+      }
 
-    if (!shouldDebounce) {
-      func(...args);
-      return;
-    }
+      lastArgsRef.current = args;
 
-    lastArgsRef.current = args;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      func(...lastArgsRef.current);
-      lastArgsRef.current = null;
-    }, delay);
-
-  }, [ func, delay, shouldDebounce ]);
+      timeoutRef.current = setTimeout(() => {
+        func(...lastArgsRef.current);
+        lastArgsRef.current = null;
+      }, delay);
+    },
+    [func, delay, shouldDebounce],
+  );
 
   const flushFunc = useCallback(() => {
-
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       if (lastArgsRef.current !== null) {
@@ -41,8 +40,7 @@ export function useFlushDebounce(func) {
       }
       timeoutRef.current = null;
     }
+  }, [func]);
 
-  }, [ func ]);
-
-  return [ debounceFunc, flushFunc ];
+  return [debounceFunc, flushFunc];
 }

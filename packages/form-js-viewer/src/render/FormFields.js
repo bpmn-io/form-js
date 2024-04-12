@@ -10,10 +10,10 @@ export class FormFields {
   }
 
   register(type, formField) {
-    this._formFields[ type ] = formField;
+    this._formFields[type] = formField;
   }
 
   get(type) {
-    return this._formFields[ type ];
+    return this._formFields[type];
   }
 }
