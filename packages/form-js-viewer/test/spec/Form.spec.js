@@ -11,6 +11,7 @@ import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
+import complexExpressionsSchema from './complex-expressions.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -1526,6 +1527,19 @@ describe('Form', function () {
       // then
       expect(errors).to.not.have.property('Field_17uk1c9');
       expect(stateErrors).to.not.have.property('Field_17uk1c9');
+    });
+  });
+
+  describe('integration - expression fields', function () {
+    it('should render', async function () {
+      // given
+      await bootstrapForm({
+        container,
+        schema: complexExpressionsSchema,
+      });
+
+      // then
+      expect(container.querySelectorAll('.fjs-layout-row')).to.have.length(5);
     });
   });
 
