@@ -1,5 +1,11 @@
 import { Injector } from 'didi';
-import { MarkdownRenderer, FeelersTemplating, FormFields, RepeatRenderManager } from '../../../../../../src';
+import {
+  MarkdownRenderer,
+  FeelersTemplating,
+  FormFields,
+  RepeatRenderManager,
+  ExpressionLoopPreventer,
+} from '../../../../../../src';
 
 export function createMockInjector(services = {}, options = {}) {
   const injector = new Injector([_createMockModule(services, options)]);
@@ -29,6 +35,9 @@ function _createMockModule(services, options) {
     // using actual implementations in testing
     formFields: services.formFields ? ['value', services.formFields] : ['type', FormFields],
     templating: services.templating ? ['value', services.templating] : ['type', FeelersTemplating],
+    expressionLoopPreventer: services.expressionLoopPreventer
+      ? ['value', services.expressionLoopPreventer]
+      : ['type', ExpressionLoopPreventer],
     repeatRenderManager: services.repeatRenderManager
       ? ['value', services.repeatRenderManager]
       : ['type', RepeatRenderManager],

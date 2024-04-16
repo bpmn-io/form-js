@@ -1,0 +1,27 @@
+{
+  "components": [
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_exprA",
+      "key": "exprA",
+      "expression": "=exprB + 10"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_exprB",
+      "key": "exprB",
+      "expression": "=exprA * 2"
+    }
+  ],
+  "type": "default",
+  "id": "Form_cyclic_example",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "schemaVersion": 16
+}
