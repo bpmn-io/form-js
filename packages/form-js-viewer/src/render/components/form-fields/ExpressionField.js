@@ -16,11 +16,15 @@ export function ExpressionField(props) {
   const expressionLoopPreventer = useService('expressionLoopPreventer');
 
   const sendValue = useCallback(() => {
-    onChange && onChange({ field, value: evaluationMemo, doNotRecompute: true });
+    onChange && onChange({ field, value: evaluationMemo, shouldNotRecompute: true });
   }, [field, evaluationMemo, onChange]);
 
   useEffect(() => {
-    if (computeOn !== 'change' || isEqual(evaluationMemo, value) || !expressionLoopPreventer.requestOnce(this)) {
+    if (
+      computeOn !== 'change' ||
+      isEqual(evaluationMemo, value) ||
+      !expressionLoopPreventer.registerExpressionExecution(this)
+    ) {
       return;
     }
     sendValue();
