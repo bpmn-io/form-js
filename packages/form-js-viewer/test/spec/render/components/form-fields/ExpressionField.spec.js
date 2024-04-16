@@ -43,7 +43,7 @@ describe('ExpressionField', function () {
     });
 
     // then
-    expect(onChangeSpy.calledWith({ field, value: 2 })).to.be.true;
+    expect(onChangeSpy.calledWith({ field, value: 2, doNotRecompute: true })).to.be.true;
   });
 
   it('should re-evaluate when the expression result changes', function () {
@@ -88,7 +88,7 @@ describe('ExpressionField', function () {
     });
 
     // then
-    expect(onChangeSpy.calledWith({ field, value: 3 })).to.be.true;
+    expect(onChangeSpy.calledWith({ field, value: 3, doNotRecompute: true })).to.be.true;
   });
 
   it('should not evaluate on intialization if computeOn presubmit', function () {
@@ -148,7 +148,7 @@ describe('ExpressionField', function () {
     });
 
     // then
-    expect(onChangeSpy.calledWith({ field, value: 2 })).to.be.true;
+    expect(onChangeSpy.calledWith({ field, value: 2, doNotRecompute: true })).to.be.true;
   });
 });
 
