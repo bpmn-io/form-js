@@ -13,17 +13,18 @@ export function ExpressionField(props) {
   const evaluation = useExpressionEvaluation(expression);
   const evaluationMemo = useDeepCompareMemoize(evaluation);
   const eventBus = useService('eventBus');
+  const expressionLoopPreventer = useService('expressionLoopPreventer');
 
   const sendValue = useCallback(() => {
-    onChange && onChange({ field, value: evaluationMemo });
+    onChange && onChange({ field, value: evaluationMemo, doNotRecompute: true });
   }, [field, evaluationMemo, onChange]);
 
   useEffect(() => {
-    if (computeOn !== 'change' || isEqual(evaluationMemo, value)) {
+    if (computeOn !== 'change' || isEqual(evaluationMemo, value) || !expressionLoopPreventer.requestOnce(this)) {
       return;
     }
     sendValue();
-  }, [computeOn, evaluationMemo, sendValue, value]);
+  });
 
   useEffect(() => {
     if (computeOn === 'presubmit') {

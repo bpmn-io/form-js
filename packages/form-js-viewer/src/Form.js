@@ -1,7 +1,13 @@
 import Ids from 'ids';
 import { get, isObject, isString, isUndefined, set } from 'min-dash';
 
-import { ExpressionLanguageModule, MarkdownRendererModule, ViewerCommandsModule, RepeatRenderModule } from './features';
+import {
+  ExpressionLanguageModule,
+  ExpressionFieldModule,
+  MarkdownRendererModule,
+  ViewerCommandsModule,
+  RepeatRenderModule,
+} from './features';
 
 import { CoreModule } from './core';
 
@@ -317,7 +323,7 @@ export class Form {
   /**
    * @internal
    *
-   * @param { { add?: boolean, field: any, indexes: object, remove?: number, value?: any } } update
+   * @param { { field: any, indexes: object, value: any } } update
    */
   _update(update) {
     const { field, indexes, value } = update;
@@ -334,6 +340,8 @@ export class Form {
     set(data, valuePath, value);
 
     set(errors, [field.id, ...Object.values(indexes || {})], fieldErrors.length ? fieldErrors : undefined);
+
+    this._emit('field.updated', update);
 
     this._setState({
       data: clone(data),
@@ -364,7 +372,13 @@ export class Form {
    * @internal
    */
   _getModules() {
-    return [ExpressionLanguageModule, MarkdownRendererModule, ViewerCommandsModule, RepeatRenderModule];
+    return [
+      ExpressionLanguageModule,
+      ExpressionFieldModule,
+      MarkdownRendererModule,
+      ViewerCommandsModule,
+      RepeatRenderModule,
+    ];
   }
 
   /**
