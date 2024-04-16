@@ -137,7 +137,6 @@ describe('Dynamic List', () => {
 
     // then
     expect(onChangeSpy).to.have.been.calledWithMatch({
-      field,
       value: [
         {
           creditor: 'John Doe',

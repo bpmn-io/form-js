@@ -26,8 +26,7 @@ describe('useCleanupMultiSelectValue', function () {
 
     // then
     expect(onChangeSpy).to.have.been.calledOnce;
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: 'foo',
+    expect(onChangeSpy).to.have.been.calledWithMatch({
       value: ['camunda-cloud'],
     });
   });
@@ -70,8 +69,7 @@ describe('useCleanupMultiSelectValue', function () {
 
     // then
     expect(onChangeSpy).to.have.been.calledOnce;
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: 'foo',
+    expect(onChangeSpy).to.have.been.calledWithMatch({
       value: ['camunda-cloud'],
     });
   });

@@ -311,8 +311,7 @@ describe('Taglist', function () {
         fireEvent.click(removeButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: ['tag1', 'tag3'],
         });
       });
@@ -331,8 +330,7 @@ describe('Taglist', function () {
         fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: ['tag1', 'tag2'],
         });
       });
@@ -353,8 +351,7 @@ describe('Taglist', function () {
         fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dynamicField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: ['dynamicValue1'],
         });
       });
@@ -654,8 +651,7 @@ describe('Taglist', function () {
         fireEvent.mouseDown(focusedItem);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: ['tag1', 'tag2', 'tag3', 'tag4'],
         });
       });
@@ -675,8 +671,7 @@ describe('Taglist', function () {
         fireEvent.keyDown(filterInput, { key: 'Enter', code: 'Enter' });
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: ['tag1', 'tag2', 'tag3', 'tag4'],
         });
       });

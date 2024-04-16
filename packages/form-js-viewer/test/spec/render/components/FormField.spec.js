@@ -6,7 +6,7 @@ import { FormField } from 'src/render/components/FormField';
 
 import { Textfield } from 'src/render/components/form-fields/Textfield';
 
-import { UpdateFieldValidationHandler } from 'src/features/viewerCommands/cmd/UpdateFieldValidationHandler';
+import { UpdateFieldInstanceValidationHandler } from 'src/features/viewerCommands/cmd/UpdateFieldInstanceValidationHandler';
 
 import { MockFormContext } from './helper';
 
@@ -518,10 +518,10 @@ function createFormField(options = {}) {
   };
 
   const validatorMock = {
-    validateField: (field, value) => validationErrors,
+    validateFieldInstance: (fieldInstance, value) => validationErrors,
   };
 
-  const updateFieldValidationHandler = new UpdateFieldValidationHandler(formMock, validatorMock);
+  const updateFieldInstanceValidationHandler = new UpdateFieldInstanceValidationHandler(formMock, validatorMock);
 
   const conditionCheckerMock =
     checkCondition !== false
@@ -567,8 +567,8 @@ function createFormField(options = {}) {
     templating: templatingMock,
     validator: validatorMock,
     viewerCommands: {
-      updateFieldValidation(field, value) {
-        return updateFieldValidationHandler.execute({ field, value });
+      updateFieldInstanceValidation(fieldInstance, value) {
+        return updateFieldInstanceValidationHandler.execute({ fieldInstance, value });
       },
     },
     pathRegistry: {

@@ -1179,7 +1179,7 @@ describe('Form', function () {
 
     // update programmatically
     form._update({
-      field,
+      fieldInstance: { id: field.id, valuePath: ['creditor'] },
       value: 'Jane Doe Company',
     });
 
@@ -1209,17 +1209,17 @@ describe('Form', function () {
 
     // update programmatically
     form._update({
-      field: getFormField(form, 'creditor'),
+      fieldInstance: { id: getFormField(form, 'creditor').id, valuePath: ['creditor'] },
       value: 'Jane Doe Company',
     });
 
     form._update({
-      field: getFormField(form, 'amount'),
+      fieldInstance: { id: getFormField(form, 'amount').id, valuePath: ['amount'] },
       value: '123',
     });
 
     form._update({
-      field: getFormField(form, 'approved'),
+      fieldInstance: { id: getFormField(form, 'approved').id, valuePath: ['approved'] },
       value: true,
     });
 
@@ -1291,7 +1291,7 @@ describe('Form', function () {
     const field = getFormField(form, 'creditor');
 
     form._update({
-      field,
+      fieldInstance: { id: field.id, valuePath: ['creditor'] },
       value: 'Jane Doe Company',
     });
 

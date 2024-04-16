@@ -198,8 +198,7 @@ describe('Radio', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'dynamicValue2',
       });
     });
@@ -221,8 +220,7 @@ describe('Radio', function () {
       fireEvent.click(input, { target: { checked: false } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'dynamicValue1',
       });
     });
@@ -244,8 +242,7 @@ describe('Radio', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'camunda-cloud',
       });
     });
@@ -265,8 +262,7 @@ describe('Radio', function () {
       fireEvent.click(input, { target: { checked: false } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'camunda-platform',
       });
     });

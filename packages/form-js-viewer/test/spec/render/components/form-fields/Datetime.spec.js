@@ -129,8 +129,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '2000-01-01',
         });
       });
@@ -152,8 +151,7 @@ describe('Datetime', function () {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '1996-10-27',
         });
       });
@@ -174,8 +172,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -202,8 +199,7 @@ describe('Datetime', function () {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '1996-12-01',
         });
       });
@@ -228,8 +224,7 @@ describe('Datetime', function () {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '1996-09-29',
         });
       });
@@ -254,8 +249,7 @@ describe('Datetime', function () {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '1995-12-31',
         });
       });
@@ -582,8 +576,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '13:00',
         });
       });
@@ -605,8 +598,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '13:00',
         });
       });
@@ -628,8 +620,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -818,8 +809,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '2000-01-01T11:00',
         });
       });
@@ -841,8 +831,7 @@ describe('Datetime', function () {
         fireEvent.blur(timeInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: { ...datetimeField, use24h: true },
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: '1996-11-13T12:00',
         });
       });
@@ -864,8 +853,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -887,8 +875,7 @@ describe('Datetime', function () {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });

@@ -248,8 +248,7 @@ describe('Checklist', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: ['approver', 'manager'],
       });
     });
@@ -269,8 +268,7 @@ describe('Checklist', function () {
       fireEvent.click(input, { target: { checked: false } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: [],
       });
     });
@@ -294,8 +292,7 @@ describe('Checklist', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: ['dynamicValue1', 'dynamicValue2'],
       });
     });
@@ -317,8 +314,7 @@ describe('Checklist', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: ['dynamicValue1', 'dynamicValue2'],
       });
     });
@@ -346,8 +342,7 @@ describe('Checklist', function () {
       fireEvent.click(input);
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: [
           {
             id: 'user3',
@@ -380,8 +375,7 @@ describe('Checklist', function () {
       fireEvent.click(input, { target: { checked: false } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: [],
       });
     });
@@ -409,8 +403,7 @@ describe('Checklist', function () {
       fireEvent.click(input, { target: { checked: false } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: dynamicField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: [],
       });
     });

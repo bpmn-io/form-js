@@ -144,8 +144,7 @@ describe('Checkbox', function () {
     fireEvent.change(input, { target: { checked: false } });
 
     // then
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: defaultField,
+    expect(onChangeSpy).to.have.been.calledWithMatch({
       value: false,
     });
   });
