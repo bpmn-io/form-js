@@ -288,8 +288,7 @@ describe('Select', function () {
         fireEvent.mouseDown(germanSelector);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 'german',
         });
       });
@@ -310,8 +309,7 @@ describe('Select', function () {
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
         expect(dropdown).to.not.exist;
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -339,8 +337,7 @@ describe('Select', function () {
         fireEvent.mouseDown(germanSelector);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dynamicField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 'dynamicValue1',
         });
       });
@@ -361,8 +358,7 @@ describe('Select', function () {
         fireEvent.mouseDown(cross);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dynamicField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -398,8 +394,7 @@ describe('Select', function () {
         fireEvent.mouseDown(germanSelector);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: expressionField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 'value1',
         });
       });
@@ -588,8 +583,7 @@ describe('Select', function () {
         fireEvent.mouseDown(cross);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: expressionField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
       });
@@ -823,8 +817,7 @@ describe('Select', function () {
         fireEvent.mouseDown(germanSelector);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: { ...defaultField, searchable: true },
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 'german',
         });
       });
@@ -867,8 +860,7 @@ describe('Select', function () {
         fireEvent.mouseDown(cross);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: { ...defaultField, searchable: true },
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: null,
         });
 

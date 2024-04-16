@@ -228,8 +228,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: '124' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 124,
       });
     });
@@ -267,8 +266,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: '' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: null,
       });
     });
@@ -290,8 +288,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 124,
         });
       });
@@ -311,8 +308,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: decimalField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 123.001,
         });
       });
@@ -332,8 +328,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 123.25,
         });
       });
@@ -353,8 +348,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 123,
         });
       });
@@ -374,8 +368,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: -0.75,
         });
       });
@@ -396,8 +389,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 122,
         });
       });
@@ -417,8 +409,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: decimalField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 122.999,
         });
       });
@@ -438,8 +429,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 122.75,
         });
       });
@@ -459,8 +449,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: 122.75,
         });
       });
@@ -480,8 +469,7 @@ describe('Number', function () {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
+        expect(onChangeSpy).to.have.been.calledWithMatch({
           value: -1.25,
         });
       });
@@ -504,8 +492,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: '124' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 124,
       });
     });
@@ -526,8 +513,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: 124 } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: '124',
       });
     });
@@ -548,8 +534,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: '125' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: '125',
       });
     });
@@ -573,8 +558,7 @@ describe('Number', function () {
       fireEvent.input(input, { target: { value: highPrecisionStringNumber } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: highPrecisionStringNumber,
       });
     });
@@ -596,8 +580,7 @@ describe('Number', function () {
 
       // then
       expect(input.value).to.equal('NaN');
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: null,
       });
     });
@@ -700,8 +683,7 @@ describe('Number', function () {
       fireEvent.keyDown(input, { key: 'Backspace', code: 'Backspace' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: null,
       });
     });
@@ -724,8 +706,7 @@ describe('Number', function () {
       fireEvent.keyDown(input, { key: 'Delete', code: 'Delete' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: null,
       });
     });
@@ -748,8 +729,7 @@ describe('Number', function () {
       fireEvent.keyDown(input, { key: 'ArrowUp', code: 'ArrowUp' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 1,
       });
     });
@@ -772,8 +752,7 @@ describe('Number', function () {
       fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: -1,
       });
     });

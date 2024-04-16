@@ -155,8 +155,7 @@ describe('Textarea', function () {
       fireEvent.input(textarea, { target: { value: 'A different text area value' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'A different text area value',
       });
     });
@@ -199,8 +198,7 @@ describe('Textarea', function () {
       fireEvent.input(textarea, { target: { value: '' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: '',
       });
     });

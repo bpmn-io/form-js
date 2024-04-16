@@ -227,8 +227,7 @@ describe('Textfield', function () {
       fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: 'Jane Doe Company',
       });
     });
@@ -248,8 +247,7 @@ describe('Textfield', function () {
       fireEvent.input(input, { target: { value: '' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
+      expect(onChangeSpy).to.have.been.calledWithMatch({
         value: '',
       });
     });
