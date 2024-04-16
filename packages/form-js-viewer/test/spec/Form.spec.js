@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/preact/pure';
+import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';
 
 import { createForm, Form, schemaVersion } from '../../src';
 
@@ -12,6 +12,8 @@ import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.js
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
 import complexExpressionsSchema from './complex-expressions.json';
+import cyclicalExpressionsSchema from './cyclical-expressions.json';
+import chainExpressionsSchema from './chain-expressions.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
@@ -1540,6 +1542,43 @@ describe('Form', function () {
 
       // then
       expect(container.querySelectorAll('.fjs-layout-row')).to.have.length(5);
+    });
+
+    it('should render cyclical expressions', async function () {
+      const initialData = {
+        exprA: 2,
+        exprB: 3,
+      };
+
+      // given
+      await bootstrapForm({
+        initialData,
+        container,
+        schema: cyclicalExpressionsSchema,
+      });
+
+      // then
+      expect(container.querySelectorAll('.fjs-layout-row')).to.have.length(2);
+    });
+
+    it('should render chain expressions', async function () {
+      // given
+      await bootstrapForm({
+        container,
+        schema: chainExpressionsSchema,
+      });
+
+      // then
+      expect(container.querySelectorAll('.fjs-layout-row')).to.have.length(4);
+
+      await waitFor(() => {
+        expect(form._getState().data).to.eql({
+          staticValue: 10,
+          exprA: 20,
+          exprB: 40,
+          exprC: 50,
+        });
+      });
     });
   });
 
