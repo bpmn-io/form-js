@@ -2,8 +2,8 @@ export class ExpressionLoopPreventer {
   constructor(eventBus) {
     this._computedExpressions = [];
 
-    eventBus.on('field.updated', ({ doNotRecompute }) => {
-      if (doNotRecompute) {
+    eventBus.on('field.updated', ({ shouldNotRecompute }) => {
+      if (shouldNotRecompute) {
         return;
       }
 
@@ -14,16 +14,25 @@ export class ExpressionLoopPreventer {
     eventBus.on('reset', this.reset.bind(this));
   }
 
-  requestOnce(expression) {
-    if (this._computedExpressions.includes(expression)) {
+  /**
+   * Checks if the expression field has already been computed, and registers it if not.
+   *
+   * @param {any} expressionField
+   * @returns {boolean} - whether the expression field has already been computed within the current cycle
+   */
+  registerExpressionExecution(expressionField) {
+    if (this._computedExpressions.includes(expressionField)) {
       return false;
     }
 
-    this._computedExpressions.push(expression);
+    this._computedExpressions.push(expressionField);
 
     return true;
   }
 
+  /**
+   * Resets the list of computed expressions.
+   */
   reset() {
     this._computedExpressions = [];
   }
