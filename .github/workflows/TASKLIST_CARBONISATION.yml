@@ -21,9 +21,9 @@ jobs:
       - name: Checkout Tasklist
         uses: actions/checkout@8410ad0602e1e429cee44a835ae9f77f654a6694
         with:
-          repository: camunda/tasklist
+          repository: camunda/zeebe
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
-          path: tasklist
+          path: zeebe
           ref: 'master'
       - name: Setup form-js cache
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
-          cache-dependency-path: ./tasklist/tasklist/client/yarn.lock
+          cache-dependency-path: ./zeebe/tasklist/client/yarn.lock
       - name: Install form-js deps
         run: npm ci
         working-directory: ./form-js
@@ -48,28 +48,28 @@ jobs:
         working-directory: ./form-js/packages/form-js-viewer
       - name: Link form-js-viewer
         run: yarn link "@bpmn-io/form-js-viewer"
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Create form-js-carbon-styles link
         run: yarn link
         working-directory: ./form-js/packages/form-js-carbon-styles
       - name: Link form-js-carbon-styles
         run: yarn link "@bpmn-io/form-js-carbon-styles"
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Install Tasklist deps
         run: yarn
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Build Tasklist
         run: yarn build:visual-regression
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Start server
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
         run: yarn start:visual-regression &
       - name: Run Playwright tests
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
         run: yarn playwright form-js-integration
       - uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
         if: always()
         with:
           name: playwright-report
-          path: ./tasklist/tasklist/client/playwright-report/
+          path: ./zeebe/tasklist/client/playwright-report/
           retention-days: 30
