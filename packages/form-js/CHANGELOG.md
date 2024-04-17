@@ -6,6 +6,18 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 **\_Note:** Yet to be released changes appear here.\_
 
+## 1.8.4
+
+- `FEAT`: implement formFieldInstanceRegistry ([#1142](https://github.com/bpmn-io/form-js/issues/1142))
+- `FIX`: prevent expression loops by only allowing them to recompute once ([#1151](https://github.com/bpmn-io/form-js/issues/1151))
+- `FIX`: use lodash equality when calculating whether to recompute expression fields ([#1150](https://github.com/bpmn-io/form-js/issues/1150))
+- `FIX`: made properties panel feel expressions A11y friendly ([348afb85](https://github.com/bpmn-io/form-js/commit/348afb85d769d2e127d8667fc23af14893dd7651))
+- `CHORE`: added `prettier` ([9c3af55b](https://github.com/bpmn-io/form-js/commit/9c3af55be7a93a61a7c7406b44ffd91bc81fb6c8))
+- `CHORE`: updated group and iframe icons ([622d80b6](https://github.com/bpmn-io/form-js/commit/622d80b600e045dd7956b12dcf9203a52038e72d))
+- `CHORE`: moved options source group higher up ([e7970972](https://github.com/bpmn-io/form-js/commit/e7970972b5df6d848d4ac2062873165ab828f9c6))
+- `CHORE`: re-ordered formfields by importance ([1aa84550](https://github.com/bpmn-io/form-js/commit/1aa84550efc39237a9b34d28466fe2997cdc4a0e))
+- `CHORE`: update html documentation link ([#1040](https://github.com/bpmn-io/form-js/issues/1040))
+
 ## 1.8.3
 
 - `FIX`: prevent checklist and taglist from triggering field validation early ([#1123](https://github.com/bpmn-io/form-js/issues/1123))
