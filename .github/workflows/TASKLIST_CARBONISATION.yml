@@ -11,7 +11,7 @@ jobs:
     name: Run visual regression
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.0
+      image: mcr.microsoft.com/playwright:v1.43.1
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
