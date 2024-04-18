@@ -578,6 +578,33 @@ describe('Form', function () {
     expect(document.body.innerHTML).not.to.contain('Field is required.');
   });
 
+  it('should trigger all required on submit button click', async function () {
+    // given
+    const data = {};
+
+    // when
+    await bootstrapForm({
+      container,
+      data,
+      schema: requiredSchema,
+    });
+
+    // when
+    const submitButton = container.querySelector('.fjs-button');
+    fireEvent.click(submitButton);
+
+    const validateCount = requiredSchema.components.filter((c) => (c.validate || {}).required).length;
+
+    // then
+    await waitFor(() => {
+      const errors = container.querySelectorAll('.fjs-form-field-error');
+      expect(errors).to.have.length(validateCount);
+      for (const error of errors) {
+        expect(error.textContent).to.eql('Field is required.');
+      }
+    });
+  });
+
   const runFocusBlurTest = function (id, index, selector) {
     it('focus and blur events should trigger for ' + id, async function () {
       // given
