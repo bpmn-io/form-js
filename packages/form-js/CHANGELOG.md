@@ -4,7 +4,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 ## Unreleased
 
-**\_Note:** Yet to be released changes appear here.\_
+_**Note:** Yet to be released changes appear here._
 
 ## 1.8.4
 
