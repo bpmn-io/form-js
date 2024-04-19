@@ -43,7 +43,13 @@ export class FormFieldInstanceRegistry {
 
   getAllKeyed() {
     return this.getAll().filter(({ id }) => {
-      const { type } = this._formFieldRegistry.get(id);
+      const formFieldDefinition = this._formFieldRegistry.get(id);
+
+      if (!formFieldDefinition) {
+        return false;
+      }
+
+      const { type } = formFieldDefinition;
       const { config } = this._formFields.get(type);
 
       return config.keyed;
