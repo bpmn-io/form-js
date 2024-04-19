@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.8.5
+
+- `FIX`: validation feel expressions now use the proper local feel context ([#1147](https://github.com/bpmn-io/form-js/issues/1147))
+- `FIX`: do not return field instance if field definition isn't available ([5bef6df4](https://github.com/bpmn-io/form-js/commit/5bef6df435bea8dbed65093305200b3155a72b34))
+
 ## 1.8.4
 
 - `FEAT`: implement formFieldInstanceRegistry ([#1142](https://github.com/bpmn-io/form-js/issues/1142))
