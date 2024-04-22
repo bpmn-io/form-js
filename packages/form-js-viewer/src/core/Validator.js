@@ -60,6 +60,11 @@ export class Validator {
     const { id, expressionContextInfo } = fieldInstance;
 
     const field = this._formFieldRegistry.get(id);
+
+    if (!field) {
+      return [];
+    }
+
     const { type, validate } = field;
 
     let errors = [];
