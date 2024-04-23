@@ -133,11 +133,14 @@ export function PlaygroundRoot(config) {
       emit('formPlayground.rendered');
     });
 
-    // pipe viewer changes to output data editor
-    formViewer.on('changed', () => {
+    const updateOutputData = () => {
       const submitData = formViewer._getSubmitData();
       outputDataEditor.setValue(toString(submitData));
-    });
+    };
+
+    // pipe viewer changes to output data editor
+    formViewer.on('changed', updateOutputData);
+    formViewer.on('formFieldInstanceRegistry.changed', updateOutputData);
 
     inputDataEditor.on('changed', (event) => {
       try {

@@ -26,6 +26,8 @@ export class FormFieldInstanceRegistry {
       indexes,
     };
 
+    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'added' });
+
     return instanceId;
   }
 
@@ -35,6 +37,8 @@ export class FormFieldInstanceRegistry {
     }
 
     delete this._formFieldInstances[instanceId];
+
+    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'removed' });
   }
 
   getAll() {
