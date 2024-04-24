@@ -149,7 +149,7 @@ function MinLength(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   return FeelNumberEntry({
     debounce,
@@ -169,7 +169,7 @@ function MaxLength(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   return FeelNumberEntry({
     debounce,
@@ -204,7 +204,7 @@ function Min(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   return FeelNumberEntry({
     debounce,
@@ -224,7 +224,7 @@ function Max(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   return FeelNumberEntry({
     debounce,

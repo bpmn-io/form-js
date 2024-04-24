@@ -31,7 +31,7 @@ function ExpressionFieldExpression(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const getValue = () => field.expression || '';
 

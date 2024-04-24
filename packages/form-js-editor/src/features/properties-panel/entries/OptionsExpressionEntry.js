@@ -22,7 +22,7 @@ function OptionsExpression(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.EXPRESSION];
 
