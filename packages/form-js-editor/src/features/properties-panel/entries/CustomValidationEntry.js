@@ -1,6 +1,6 @@
 import { get, set } from 'min-dash';
 
-import { useService } from '../hooks';
+import { useService, useVariables } from '../hooks';
 
 import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { useCallback } from 'preact/hooks';
@@ -34,6 +34,9 @@ function Condition(props) {
   const { editField, field, id, index } = props;
 
   const debounce = useService('debounce');
+  const _variables = useVariables();
+
+  const variables = [{ name: 'value', info: '*Current field value*' }, ..._variables];
 
   const setValue = (value, error) => {
     if (error) {
@@ -66,6 +69,7 @@ function Condition(props) {
     label: 'Condition',
     setValue,
     validate: conditionEntryValidate,
+    variables,
   });
 }
 
@@ -73,6 +77,9 @@ function Message(props) {
   const { editField, field, id, index } = props;
 
   const debounce = useService('debounce');
+  const _variables = useVariables();
+
+  const variables = [{ name: 'value', info: '*Current field value*' }, ..._variables];
 
   const setValue = (value, error) => {
     if (error) {
@@ -105,5 +112,6 @@ function Message(props) {
     label: 'Message if condition not met',
     setValue,
     validate: messageEntryValidate,
+    variables,
   });
 }
