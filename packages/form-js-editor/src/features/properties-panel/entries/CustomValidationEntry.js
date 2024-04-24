@@ -3,7 +3,7 @@ import { get, set } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 
 import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useMemo } from 'preact/hooks';
 
 export function CustomValidationEntry(props) {
   const { editField, field, idPrefix, index } = props;
@@ -36,7 +36,10 @@ function Condition(props) {
   const debounce = useService('debounce');
   const _variables = useVariables();
 
-  const variables = [{ name: 'value', info: '*Current field value*' }, ..._variables];
+  const variables = useMemo(
+    () => [{ name: 'value', type: 'keyword', info: 'Returns the current field value.' }, ..._variables],
+    [_variables],
+  );
 
   const setValue = (value, error) => {
     if (error) {
@@ -79,7 +82,10 @@ function Message(props) {
   const debounce = useService('debounce');
   const _variables = useVariables();
 
-  const variables = [{ name: 'value', info: '*Current field value*' }, ..._variables];
+  const variables = useMemo(
+    () => [{ name: 'value', type: 'keyword', info: 'Returns the current field value.' }, ..._variables],
+    [_variables],
+  );
 
   const setValue = (value, error) => {
     if (error) {
