@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "@bpmn-io/form-js-viewer": "^1.8.6",
-    "@carbon/elements": "^11.33.1",
-    "styled-components": "^6.1.1"
+    "@carbon/elements": "^11.44.0",
+    "styled-components": "^6.1.8"
   },
   "files": [
     "src"

@@ -49,10 +49,10 @@
   "dependencies": {
     "@bpmn-io/draggle": "^4.0.0",
     "@bpmn-io/form-js-viewer": "^1.8.6",
-    "@bpmn-io/properties-panel": "^3.18.1",
+    "@bpmn-io/properties-panel": "^3.18.2",
     "array-move": "^3.0.1",
     "big.js": "^6.2.1",
-    "ids": "^1.0.0",
+    "ids": "^1.0.5",
     "min-dash": "^4.2.1",
     "min-dom": "^5.0.0",
     "preact": "^10.5.14"
