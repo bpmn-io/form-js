@@ -128,6 +128,7 @@
     "style-loader": "^4.0.0",
     "typescript": "^5.4.5",
     "vite": "^5.4.8",
+    "vitest": "^1.5.3",
     "webpack": "^5.95.0"
   }
 }
