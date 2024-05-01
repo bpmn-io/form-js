@@ -1,0 +1,11 @@
+{
+  "extends": "../jsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2020"],
+    "types": ["@types/node", "vitest/globals"],
+    "esModuleInterop": true,
+    "declaration": false,
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.spec.js"]
+}

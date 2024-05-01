@@ -1,0 +1,35 @@
+{
+  "name": "@bpmn-io/form-js-viewer-core",
+  "version": "1.8.6",
+  "description": "View forms - powered by bpmn.io",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "all": "run-s test build",
+    "build": "run-p bundle generate-types",
+    "bundle": "vite build",
+    "dev": "vite",
+    "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && copyfiles --flat src/*.d.ts dist/types",
+    "test": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpmn-io/form-js.git",
+    "directory": "packages/form-js-viewer-core"
+  },
+  "author": {
+    "name": "bpmn.io contributors",
+    "url": "https://github.com/bpmn-io"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ]
+}
