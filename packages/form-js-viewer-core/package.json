@@ -1,7 +1,7 @@
 {
   "name": "@bpmn-io/form-js-viewer-core",
   "version": "1.8.6",
-  "description": "View forms - powered by bpmn.io",
+  "description": "Manage form state - powered by bpmn.io",
   "type": "module",
   "publishConfig": {
     "access": "public"
