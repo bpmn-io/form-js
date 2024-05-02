@@ -47,28 +47,28 @@
   "dependencies": {
     "@bpmn-io/form-js-editor": "^1.8.6",
     "@bpmn-io/form-js-viewer": "^1.8.6",
-    "@codemirror/autocomplete": "^6.12.0",
-    "@codemirror/commands": "^6.1.2",
+    "@codemirror/autocomplete": "^6.16.0",
+    "@codemirror/commands": "^6.5.0",
     "@codemirror/lang-json": "^6.0.1",
-    "@codemirror/language": "^6.10.0",
-    "@codemirror/lint": "^6.0.0",
-    "@codemirror/state": "^6.1.1",
-    "@codemirror/view": "^6.23.1",
-    "classnames": "^2.3.1",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/lint": "^6.7.0",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.26.3",
+    "classnames": "^2.5.1",
     "codemirror": "^6.0.1",
     "downloadjs": "^1.4.7",
-    "file-drops": "^0.4.0",
-    "mitt": "^3.0.0",
+    "file-drops": "^0.5.0",
+    "mitt": "^3.0.1",
     "preact": "^10.5.14"
   },
   "sideEffects": [
     "*.css"
   ],
   "devDependencies": {
-    "css-loader": "^7.0.0",
+    "css-loader": "^7.1.1",
     "min-dash": "^4.2.1",
     "min-dom": "^5.0.0",
-    "rollup-plugin-css-only": "^4.0.0",
+    "rollup-plugin-css-only": "^4.5.2",
     "style-loader": "^4.0.0"
   }
 }
