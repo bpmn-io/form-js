@@ -1,9 +1,9 @@
 {
   "extends": [
-    "plugin:bpmn-io/mocha",
+    "plugin:vitest-globals/recommended",
     "plugin:prettier/recommended"
   ],
-  "globals": {
-    "vite": true
+  "env": {
+    "vitest-globals/env": true
   }
 }
