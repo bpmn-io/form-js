@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "plugin:vitest-globals/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "vitest-globals/env": true
+  }
+}
