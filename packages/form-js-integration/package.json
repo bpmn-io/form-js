@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-integration",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "A set of form-js integration testing resources",
   "private": true,
   "scripts": {
@@ -17,6 +17,6 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js": "^1.8.6"
+    "@bpmn-io/form-js": "^1.8.7"
   }
 }
