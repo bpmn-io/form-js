@@ -8,6 +8,10 @@ _**Note:** Yet to be released changes appear here._
 
 ## 1.8.6
 
+- `FIX`: revert to min-dom@4.1.0 ([#1178](https://github.com/bpmn-io/form-js/pull/1178))
+
+## 1.8.6
+
 - `FIX`: ignore instance validation when field definition isnt registered ([9e189cf0](https://github.com/bpmn-io/form-js/commit/9e189cf0df43f460770a2556b2f9687ccacf4575))
 - `FIX`: ensure output data is in sync with instance registration ([5b006200](https://github.com/bpmn-io/form-js/commit/5b0062003f36deb181553e751bdf4fd8790fb5c5))
 
