@@ -67,7 +67,7 @@
   "devDependencies": {
     "css-loader": "^7.1.1",
     "min-dash": "^4.2.1",
-    "min-dom": "^4.1.0",
+    "min-dom": "^5.0.0",
     "rollup-plugin-css-only": "^4.5.2",
     "style-loader": "^4.0.0"
   }
