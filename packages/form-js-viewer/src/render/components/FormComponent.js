@@ -1,9 +1,9 @@
 import { FormField } from './FormField';
 import { PoweredBy } from './PoweredBy';
-import { LocalExpressionContext } from '../context/LocalExpressionContext';
+import { ExpressionContextInfo } from '../context/ExpressionContextInfo';
 
 import { useMemo } from 'preact/hooks';
-import { useFilteredFormData, useService } from '../hooks';
+import { useDeepCompareMemoize, useFilteredFormData, useService } from '../hooks';
 
 const noop = () => {};
 
@@ -28,23 +28,22 @@ export function FormComponent(props) {
     onReset();
   };
 
-  const filteredFormData = useFilteredFormData();
+  const _filteredFormData = useFilteredFormData();
+  const filteredFormData = useDeepCompareMemoize(_filteredFormData);
 
-  const localExpressionContext = useMemo(
+  const expressionContextInfo = useMemo(
     () => ({
       data: filteredFormData,
-      parent: null,
-      this: filteredFormData,
-      i: [],
+      segments: [],
     }),
     [filteredFormData],
   );
 
   return (
     <form class="fjs-form" onSubmit={handleSubmit} onReset={handleReset} aria-label={ariaLabel} noValidate>
-      <LocalExpressionContext.Provider value={localExpressionContext}>
+      <ExpressionContextInfo.Provider value={expressionContextInfo}>
         <FormField field={schema} onChange={onChange} />
-      </LocalExpressionContext.Provider>
+      </ExpressionContextInfo.Provider>
       <PoweredBy />
     </form>
   );

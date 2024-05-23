@@ -3,14 +3,13 @@
 
 import { get } from 'min-dash';
 import { useContext, useMemo, useRef } from 'preact/hooks';
-import { LocalExpressionContext } from '../../render/context/LocalExpressionContext';
+import { ExpressionContextInfo } from '../../render/context/ExpressionContextInfo';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
 import CollapseSvg from '../../render/components/form-fields/icons/Collapse.svg';
 import AddSvg from '../../render/components/form-fields/icons/Add.svg';
 import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 
-import { buildExpressionContext } from '../../util';
 import { useScrollIntoView } from '../../render/hooks';
 import classNames from 'classnames';
 
@@ -48,8 +47,8 @@ export class RepeatRenderManager {
     const { data } = this._form._getState();
 
     const repeaterField = props.field;
-    const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
-    const values = get(data, dataPath) || [];
+    const valuePath = this._pathRegistry.getValuePath(repeaterField, { indexes });
+    const values = get(data, valuePath) || [];
 
     const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
     const collapseEnabled = !repeaterField.disableCollapse && values.length > nonCollapsedItems;
@@ -71,7 +70,7 @@ export class RepeatRenderManager {
       });
     };
 
-    const parentExpressionContextInfo = useContext(LocalExpressionContext);
+    const parentExpressionContextInfo = useContext(ExpressionContextInfo);
 
     return (
       <>
@@ -81,6 +80,7 @@ export class RepeatRenderManager {
             itemIndex={itemIndex}
             itemValue={itemValue}
             parentExpressionContextInfo={parentExpressionContextInfo}
+            parentValuePath={valuePath}
             repeaterField={repeaterField}
             RowsRenderer={RowsRenderer}
             indexes={indexes}
@@ -196,6 +196,7 @@ export class RepeatRenderManager {
  * @param {number} props.itemIndex
  * @param {Object} props.itemValue
  * @param {Object} props.parentExpressionContextInfo
+ * @param {string} props.parentValuePath
  * @param {Object} props.repeaterField
  * @param {Function} props.RowsRenderer
  * @param {Object} props.indexes
@@ -208,6 +209,7 @@ const RepetitionScaffold = (props) => {
     itemIndex,
     itemValue,
     parentExpressionContextInfo,
+    parentValuePath,
     repeaterField,
     RowsRenderer,
     indexes,
@@ -224,26 +226,30 @@ const RepetitionScaffold = (props) => {
     [itemIndex, indexes, repeaterField.id, restProps],
   );
 
-  const localExpressionContextInfo = useMemo(
+  const expressionContextInfo = useMemo(
     () => ({
-      data: parentExpressionContextInfo.data,
-      this: itemValue,
-      parent: buildExpressionContext(parentExpressionContextInfo),
-      i: [...parentExpressionContextInfo.i, itemIndex + 1],
+      ...parentExpressionContextInfo,
+      segments: [
+        ...parentExpressionContextInfo.segments,
+        {
+          path: parentValuePath,
+          index: itemIndex,
+        },
+      ],
     }),
-    [itemIndex, parentExpressionContextInfo, itemValue],
+    [parentExpressionContextInfo, parentValuePath, itemIndex],
   );
 
   return !showRemove ? (
-    <LocalExpressionContext.Provider value={localExpressionContextInfo}>
+    <ExpressionContextInfo.Provider value={expressionContextInfo}>
       <RowsRenderer {...elementProps} />
-    </LocalExpressionContext.Provider>
+    </ExpressionContextInfo.Provider>
   ) : (
     <div class="fjs-repeat-row-container">
       <div class="fjs-repeat-row-rows">
-        <LocalExpressionContext.Provider value={localExpressionContextInfo}>
+        <ExpressionContextInfo.Provider value={expressionContextInfo}>
           <RowsRenderer {...elementProps} />
-        </LocalExpressionContext.Provider>
+        </ExpressionContextInfo.Provider>
       </div>
       <button
         type="button"

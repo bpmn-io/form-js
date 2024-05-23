@@ -1,6 +1,6 @@
 import { unaryTest } from 'feelin';
 import { get, isString, set, values, isObject } from 'min-dash';
-import { buildExpressionContext, clone } from '../../util';
+import { wrapExpressionContext, clone } from '../../util';
 
 /**
  * @typedef {object} Condition
@@ -35,7 +35,7 @@ export class ConditionChecker {
         const { conditional, components, id } = field;
 
         // build the expression context in the right format
-        const localExpressionContext = buildExpressionContext({
+        const expressionContext = wrapExpressionContext({
           this: scopeData,
           data: contextData,
           i: expressionIndexes,
@@ -43,9 +43,7 @@ export class ConditionChecker {
         });
 
         context.isHidden =
-          startHidden ||
-          context.isHidden ||
-          (conditional && this._checkHideCondition(conditional, localExpressionContext));
+          startHidden || context.isHidden || (conditional && this._checkHideCondition(conditional, expressionContext));
 
         // if a field is repeatable and visible, we need to implement custom recursion on its children
         if (isRepeatable && !context.isHidden) {

@@ -1,3 +1,3 @@
 export { FormRenderContext } from './FormRenderContext';
-export { LocalExpressionContext } from './LocalExpressionContext';
+export { ExpressionContextInfo } from './ExpressionContextInfo';
 export { FormContext } from './FormContext';

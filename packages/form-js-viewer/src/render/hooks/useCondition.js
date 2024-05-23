@@ -1,6 +1,6 @@
 import { useService } from './useService.js';
 import { useContext, useMemo } from 'preact/hooks';
-import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
+import { ExpressionContextInfo } from '../context/ExpressionContextInfo.js';
 import { buildExpressionContext } from '../../util/expressions.js';
 
 /**
@@ -12,7 +12,7 @@ import { buildExpressionContext } from '../../util/expressions.js';
  */
 export function useCondition(condition) {
   const conditionChecker = useService('conditionChecker', false);
-  const expressionContextInfo = useContext(LocalExpressionContext);
+  const expressionContextInfo = useContext(ExpressionContextInfo);
 
   return useMemo(() => {
     return conditionChecker ? conditionChecker.check(condition, buildExpressionContext(expressionContextInfo)) : null;

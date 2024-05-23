@@ -1,9 +1,12 @@
 import EventBus from 'diagram-js/lib/core/EventBus';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
+import { set } from 'min-dash';
 
 describe('Validator', function () {
-  const validator = createValidator();
+  const formFields = { foo: {} };
+  const validator = createValidator({ formFields });
+  const setValidate = (validate) => set(formFields.foo, ['validate'], validate);
 
   describe('#validateField', function () {
     it('should return no errors', function () {
@@ -564,162 +567,310 @@ describe('Validator', function () {
         expect(errors[0]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
       });
     });
+
+    describe('minLength', function () {
+      it('should be valid', function () {
+        // given
+        const field = {
+          validate: {
+            minLength: 5,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foobar');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid', function () {
+        // given
+        const field = {
+          validate: {
+            minLength: 5,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foo');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum length of 5.');
+      });
+    });
+
+    describe('minLength (expression)', function () {
+      it('should be valid', function () {
+        // given
+        const field = {
+          validate: {
+            minLength: '=5',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foobar');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid', function () {
+        // given
+        const field = {
+          validate: {
+            minLength: '=5',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foo');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum length of 5.');
+      });
+    });
+
+    describe('maxLength', function () {
+      it('should be valid', function () {
+        // given
+        const field = {
+          validate: {
+            maxLength: 5,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foo');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid', function () {
+        // given
+        const field = {
+          validate: {
+            maxLength: 5,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foobar');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum length of 5.');
+      });
+    });
+
+    describe('maxLength (expression)', function () {
+      it('should be valid', function () {
+        // given
+        const field = {
+          validate: {
+            maxLength: '=5',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foo');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid', function () {
+        // given
+        const field = {
+          validate: {
+            maxLength: '=5',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'foobar');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum length of 5.');
+      });
+    });
   });
 
-  describe('minLength', function () {
-    it('should be valid', function () {
-      // given
-      const field = {
-        validate: {
-          minLength: 5,
-        },
-      };
+  describe('#validateFieldInstance', function () {
+    describe('custom validator', function () {
+      it('should be valid', function () {
+        // given
+        setValidate({
+          custom: [
+            {
+              condition: '=1 > 0',
+              message: 'No errors expected',
+            },
+          ],
+        });
 
-      // when
-      const errors = validator.validateField(field, 'foobar');
+        const fieldInstance = {
+          id: 'foo',
+          expressionContextInfo: {},
+        };
 
-      // then
-      expect(errors).to.have.length(0);
-    });
+        // when
+        const errors = validator.validateFieldInstance(fieldInstance, 'value');
 
-    it('should be invalid', function () {
-      // given
-      const field = {
-        validate: {
-          minLength: 5,
-        },
-      };
+        // then
+        expect(errors).to.have.length(0);
+      });
 
-      // when
-      const errors = validator.validateField(field, 'foo');
+      it('should be invalid', function () {
+        // given
+        setValidate({
+          custom: [
+            {
+              condition: '=1 < 0',
+              message: 'Error expected',
+            },
+          ],
+        });
 
-      // then
-      expect(errors).to.have.length(1);
-      expect(errors[0]).to.equal('Field must have minimum length of 5.');
+        const fieldInstance = {
+          id: 'foo',
+          expressionContextInfo: {},
+        };
+
+        // when
+        const errors = validator.validateFieldInstance(fieldInstance, 'value');
+
+        // then
+        expect(errors).to.deep.equal(['Error expected']);
+      });
+
+      it('should handle multiple custom validators', function () {
+        // given
+        setValidate({
+          custom: [
+            {
+              condition: '=2 < 0',
+              message: 'Errors expected',
+            },
+            {
+              condition: '=1 < 0',
+              message: 'Error expected 2',
+            },
+          ],
+        });
+
+        const fieldInstance = {
+          id: 'foo',
+          expressionContextInfo: {},
+        };
+
+        // when
+        const errors = validator.validateFieldInstance(fieldInstance, 'value');
+
+        // then
+        expect(errors).to.deep.equal(['Errors expected', 'Error expected 2']);
+      });
+
+      it('should be able to use variables from expression context', function () {
+        // given
+        setValidate({
+          custom: [
+            {
+              condition: '=foo = "bar"',
+              message: 'Error expected',
+            },
+          ],
+        });
+
+        const fieldInstance = {
+          id: 'foo',
+          expressionContextInfo: {
+            foo: 'bar',
+          },
+        };
+
+        // when
+        const errors = validator.validateFieldInstance(fieldInstance, 'value');
+
+        // then
+        expect(errors).to.deep.equal([]);
+
+        // but given
+        fieldInstance.expressionContextInfo.foo = 'baz';
+
+        // when
+        const errors2 = validator.validateFieldInstance(fieldInstance, 'value');
+
+        // then
+        expect(errors2).to.deep.equal(['Error expected']);
+      });
+
+      it('should be able to use value in expression', function () {
+        // given
+        setValidate({
+          custom: [
+            {
+              condition: '=value = "bar"',
+              message: 'Error expected',
+            },
+          ],
+        });
+
+        const fieldInstance = {
+          id: 'foo',
+          expressionContextInfo: {},
+        };
+
+        // when
+        const errors = validator.validateFieldInstance(fieldInstance, 'bar');
+
+        // then
+        expect(errors).to.deep.equal([]);
+
+        // but when when
+        const errors2 = validator.validateFieldInstance(fieldInstance, 'baz');
+
+        // then
+        expect(errors2).to.deep.equal(['Error expected']);
+      });
     });
   });
 
-  describe('minLength (expression)', function () {
-    it('should be valid', function () {
-      // given
-      const field = {
-        validate: {
-          minLength: '=5',
-        },
-      };
+  // helpers //////////
 
-      // when
-      const errors = validator.validateField(field, 'foobar');
+  function createValidator(options = {}) {
+    const { formFields } = options;
 
-      // then
-      expect(errors).to.have.length(0);
-    });
+    const eventBus = new EventBus();
+    const expressionLanguage = new FeelExpressionLanguage(eventBus);
 
-    it('should be invalid', function () {
-      // given
-      const field = {
-        validate: {
-          minLength: '=5',
-        },
-      };
+    const conditionChecker = {
+      applyConditions() {},
+      check() {},
+    };
 
-      // when
-      const errors = validator.validateField(field, 'foo');
+    const form = {
+      _getState() {
+        return {
+          data: {},
+          errors: {},
+          initialData: {},
+          properties: {},
+        };
+      },
+    };
 
-      // then
-      expect(errors).to.have.length(1);
-      expect(errors[0]).to.equal('Field must have minimum length of 5.');
-    });
-  });
+    const formFieldRegistry = {
+      get(id) {
+        return formFields[id];
+      },
+    };
 
-  describe('maxLength', function () {
-    it('should be valid', function () {
-      // given
-      const field = {
-        validate: {
-          maxLength: 5,
-        },
-      };
-
-      // when
-      const errors = validator.validateField(field, 'foo');
-
-      // then
-      expect(errors).to.have.length(0);
-    });
-
-    it('should be invalid', function () {
-      // given
-      const field = {
-        validate: {
-          maxLength: 5,
-        },
-      };
-
-      // when
-      const errors = validator.validateField(field, 'foobar');
-
-      // then
-      expect(errors).to.have.length(1);
-      expect(errors[0]).to.equal('Field must have maximum length of 5.');
-    });
-  });
-
-  describe('maxLength (expression)', function () {
-    it('should be valid', function () {
-      // given
-      const field = {
-        validate: {
-          maxLength: '=5',
-        },
-      };
-
-      // when
-      const errors = validator.validateField(field, 'foo');
-
-      // then
-      expect(errors).to.have.length(0);
-    });
-
-    it('should be invalid', function () {
-      // given
-      const field = {
-        validate: {
-          maxLength: '=5',
-        },
-      };
-
-      // when
-      const errors = validator.validateField(field, 'foobar');
-
-      // then
-      expect(errors).to.have.length(1);
-      expect(errors[0]).to.equal('Field must have maximum length of 5.');
-    });
-  });
+    return new Validator(expressionLanguage, conditionChecker, form, formFieldRegistry);
+  }
 });
-
-// helpers //////////
-
-function createValidator() {
-  const eventBus = new EventBus();
-  const expressionLanguage = new FeelExpressionLanguage(eventBus);
-
-  const conditionChecker = {
-    applyConditions() {},
-    check() {},
-  };
-
-  const form = {
-    _getState() {
-      return {
-        data: {},
-        errors: {},
-        initialData: {},
-        properties: {},
-      };
-    },
-  };
-
-  return new Validator(expressionLanguage, conditionChecker, form);
-}

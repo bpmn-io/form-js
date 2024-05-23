@@ -28,7 +28,7 @@ function Description(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = ['description'];
 

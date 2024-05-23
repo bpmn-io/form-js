@@ -1,5 +1,5 @@
 import { useService } from './useService';
-import { LocalExpressionContext } from '../context/LocalExpressionContext';
+import { ExpressionContextInfo } from '../context/ExpressionContextInfo';
 import { useContext, useMemo } from 'preact/hooks';
 import { runExpressionEvaluation } from '../../util/expressions';
 
@@ -13,7 +13,7 @@ import { runExpressionEvaluation } from '../../util/expressions';
  */
 export function useExpressionEvaluation(value) {
   const expressionLanguage = useService('expressionLanguage');
-  const expressionContextInfo = useContext(LocalExpressionContext);
+  const expressionContextInfo = useContext(ExpressionContextInfo);
   return useMemo(
     () => runExpressionEvaluation(expressionLanguage, value, expressionContextInfo),
     [expressionLanguage, expressionContextInfo, value],

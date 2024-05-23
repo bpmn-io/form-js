@@ -50,6 +50,7 @@ export default [
     ],
     external: [
       'min-dash',
+      'lodash',
       'big.js',
       'preact',
       'preact/jsx-runtime',

@@ -58,7 +58,7 @@ function Label(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = ['label'];
 
@@ -89,7 +89,7 @@ function DateLabel(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = DATE_LABEL_PATH;
 
@@ -118,7 +118,7 @@ function TimeLabel(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = TIME_LABEL_PATH;
 

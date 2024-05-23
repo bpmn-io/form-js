@@ -1,5 +1,5 @@
 import { buildExpressionContext } from '../../util/expressions.js';
-import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
+import { ExpressionContextInfo } from '../context/ExpressionContextInfo.js';
 import { useService } from './useService.js';
 import { useContext } from 'preact/hooks';
 
@@ -17,7 +17,7 @@ import { useContext } from 'preact/hooks';
 export function useReadonly(formField, properties = {}) {
   const expressionLanguage = useService('expressionLanguage');
   const conditionChecker = useService('conditionChecker', false);
-  const expressionContextInfo = useContext(LocalExpressionContext);
+  const expressionContextInfo = useContext(ExpressionContextInfo);
 
   const { readonly } = formField;
 

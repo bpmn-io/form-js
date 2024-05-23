@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 
 import { get } from 'min-dash';
 
-import { FormContext, FormRenderContext, LocalExpressionContext } from '../context';
+import { FormContext, FormRenderContext, ExpressionContextInfo } from '../context';
 
 import { useCondition, useReadonly, useService } from '../hooks';
 
@@ -27,9 +27,7 @@ export function FormField(props) {
 
   const { formId } = useContext(FormContext);
 
-  // track whether we should trigger initial validation on certain actions, e.g. field blur
-  // disabled straight away, if viewerCommands are not available
-  const [initialValidationTrigger, setInitialValidationTrigger] = useState(!!viewerCommands);
+  const [validationGrace, setValidationGrace] = useState(!!viewerCommands);
 
   const FormFieldComponent = formFields.get(field.type);
 
@@ -39,7 +37,7 @@ export function FormField(props) {
 
   const fieldConfig = FormFieldComponent.config;
 
-  const localExpressionContext = useContext(LocalExpressionContext);
+  const expressionContextInfo = useContext(ExpressionContextInfo);
   const valuePath = useMemo(() => pathRegistry.getValuePath(field, { indexes }), [field, indexes, pathRegistry]);
 
   const initialValue = useMemo(() => get(initialData, valuePath), [initialData, valuePath]);
@@ -56,11 +54,11 @@ export function FormField(props) {
   const fieldInstance = useMemo(
     () => ({
       id: field.id,
-      expressionContextInfo: localExpressionContext,
+      expressionContextInfo,
       valuePath,
       indexes,
     }),
-    [field.id, valuePath, localExpressionContext, indexes],
+    [field.id, valuePath, expressionContextInfo, indexes],
   );
 
   // register form field instance
@@ -80,38 +78,36 @@ export function FormField(props) {
       return;
     }
 
-    const resetValidation = () => {
-      setInitialValidationTrigger(true);
+    const resetValidationGrace = () => {
+      setValidationGrace(true);
     };
 
-    eventBus.on('import.done', resetValidation);
-    eventBus.on('reset', resetValidation);
+    eventBus.on('import.done', resetValidationGrace);
+    eventBus.on('reset', resetValidationGrace);
 
     return () => {
-      eventBus.off('import.done', resetValidation);
-      eventBus.off('reset', resetValidation);
+      eventBus.off('import.done', resetValidationGrace);
+      eventBus.off('reset', resetValidationGrace);
     };
   }, [eventBus, viewerCommands]);
 
   useEffect(() => {
     const hasInitialValue = initialValue && !isEqual(initialValue, []);
 
-    if (initialValidationTrigger && hasInitialValue) {
-      setInitialValidationTrigger(false);
+    if (validationGrace && hasInitialValue) {
+      setValidationGrace(false);
       viewerCommands.updateFieldInstanceValidation(fieldInstance, initialValue);
     }
-  }, [fieldInstance, initialValidationTrigger, initialValue, viewerCommands]);
+  }, [fieldInstance, validationGrace, initialValue, viewerCommands]);
 
   const onBlur = useCallback(() => {
     const value = get(data, valuePath);
-
-    if (initialValidationTrigger) {
-      setInitialValidationTrigger(false);
+    if (validationGrace) {
+      setValidationGrace(false);
       viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
     }
-
     eventBus.fire('formField.blur', { formField: field });
-  }, [data, eventBus, field, fieldInstance, initialValidationTrigger, valuePath, viewerCommands]);
+  }, [data, eventBus, field, fieldInstance, validationGrace, valuePath, viewerCommands]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
@@ -119,18 +115,25 @@ export function FormField(props) {
 
   const onChange = useCallback(
     (update) => {
-      setInitialValidationTrigger(false);
+      setValidationGrace(false);
       _onChange({ field, indexes, fieldInstance, ...update });
     },
     [_onChange, field, fieldInstance, indexes],
   );
+
+  const fieldErrors = useMemo(() => {
+    if (validationGrace) {
+      return [];
+    }
+
+    return get(errors, [field.id, ...Object.values(indexes || {})]) || [];
+  }, [errors, field.id, indexes, validationGrace]);
 
   if (hidden) {
     return <Hidden field={field} />;
   }
 
   const domId = `${prefixId(field.id, formId, indexes)}`;
-  const fieldErrors = get(errors, [field.id, ...Object.values(indexes || {})]) || [];
 
   const formFieldElement = (
     <FormFieldComponent

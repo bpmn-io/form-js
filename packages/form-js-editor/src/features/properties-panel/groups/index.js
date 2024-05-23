@@ -2,6 +2,7 @@ export { GeneralGroup } from './GeneralGroup';
 export { SerializationGroup } from './SerializationGroup';
 export { ConstraintsGroup } from './ConstraintsGroup';
 export { ValidationGroup } from './ValidationGroup';
+export { CustomValidationsGroup } from './CustomValidationsGroup';
 export { OptionsGroups } from './OptionsGroups';
 export { CustomPropertiesGroup } from './CustomPropertiesGroup';
 export { AppearanceGroup } from './AppearanceGroup';

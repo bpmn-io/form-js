@@ -330,24 +330,16 @@ export class Form {
   _update(update) {
     const { fieldInstance, value } = update;
 
-    const { id, valuePath, indexes } = fieldInstance;
+    const { valuePath } = fieldInstance;
 
-    const { data, errors } = this._getState();
+    const { data: _data } = this._getState();
 
-    const validator = this.get('validator');
+    const data = set(_data, valuePath, value);
+    this._setState({ data: clone(data) });
 
-    const fieldErrors = validator.validateFieldInstance(fieldInstance, value);
-
-    set(data, valuePath, value);
-
-    set(errors, [id, ...Object.values(indexes || {})], fieldErrors.length ? fieldErrors : undefined);
+    this.validate();
 
     this._emit('field.updated', update);
-
-    this._setState({
-      data: clone(data),
-      errors: clone(errors),
-    });
   }
 
   /**

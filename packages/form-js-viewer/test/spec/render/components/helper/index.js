@@ -1,4 +1,4 @@
-import { FormContext, LocalExpressionContext } from '../../../../../src/render/context';
+import { FormContext, ExpressionContextInfo } from '../../../../../src/render/context';
 
 import { createMockInjector } from './mocks';
 
@@ -12,16 +12,14 @@ export const MockFormContext = (props) => {
 
   const data = options.data || options.initialData || {};
 
-  const localExpressionContext = {
+  const expressionContextInfo = {
     data,
-    parent: null,
-    this: data,
-    i: [],
+    segments: [],
   };
 
   return (
-    <LocalExpressionContext.Provider value={localExpressionContext}>
+    <ExpressionContextInfo.Provider value={expressionContextInfo}>
       <FormContext.Provider value={formContext}>{props.children}</FormContext.Provider>
-    </LocalExpressionContext.Provider>
+    </ExpressionContextInfo.Provider>
   );
 };

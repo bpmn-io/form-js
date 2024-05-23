@@ -1,6 +1,6 @@
 import { useService } from './useService';
 import { useContext, useMemo } from 'preact/hooks';
-import { LocalExpressionContext } from '../context/LocalExpressionContext';
+import { ExpressionContextInfo } from '../context/ExpressionContextInfo';
 import { buildExpressionContext } from '../../util/expressions';
 
 /**
@@ -17,7 +17,7 @@ import { buildExpressionContext } from '../../util/expressions';
  */
 export function useTemplateEvaluation(value, options = {}) {
   const templating = useService('templating');
-  const expressionContextInfo = useContext(LocalExpressionContext);
+  const expressionContextInfo = useContext(ExpressionContextInfo);
 
   return useMemo(() => {
     if (templating && templating.isTemplate(value)) {
