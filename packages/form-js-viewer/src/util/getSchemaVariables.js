@@ -22,6 +22,7 @@ const EXPRESSION_PROPERTIES = [
   'url',
   'dataSource',
   'columnsExpression',
+  'expression',
 ];
 
 const TEMPLATE_PROPERTIES = [
