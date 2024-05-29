@@ -18,6 +18,7 @@ import groupsSchema from '../groups.json';
 import shipsExampleSchema from '../ships-example.json';
 import iframesSchema from '../iframes.json';
 import htmlSchema from '../html.json';
+import expressionFieldSchema from '../expressionField.json';
 
 describe('util/getSchemaVariables', () => {
   it('should include form field keys', () => {
@@ -203,5 +204,11 @@ describe('util/getSchemaVariables', () => {
       'separated',
       'separated2',
     ]);
+  });
+
+  it('should include variables in complex templates', () => {
+    const variables = getSchemaVariables(expressionFieldSchema);
+
+    expect(variables).to.include.members(['exp_expression', 'data', 'selected', 'filter']);
   });
 });
