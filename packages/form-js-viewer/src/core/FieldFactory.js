@@ -88,13 +88,11 @@ export class FieldFactory {
         this._enforceDefaultPath(field);
       }
 
-      if (field.path) {
-        this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), {
-          isRepeatable: config.repeatable,
-          claimerId: field.id,
-          knownAncestorIds: getAncestryList(_parent, this._formFieldRegistry),
-        });
-      }
+      this._pathRegistry.claimPath(this._pathRegistry.getValuePath(field), {
+        isRepeatable: config.repeatable,
+        claimerId: field.id,
+        knownAncestorIds: getAncestryList(_parent, this._formFieldRegistry),
+      });
     }
 
     return field;
