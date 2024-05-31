@@ -4,6 +4,8 @@ import { Button } from '../../../../../src/render/components/form-fields/Button'
 
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
+import { MockFormContext } from '../helper';
+
 let container;
 
 describe('Button', function () {
@@ -36,6 +38,44 @@ describe('Button', function () {
     expect(button).to.exist;
     expect(button.type).to.equal('reset');
     expect(button.textContent).to.equal('Reset');
+  });
+
+  it('should render with expression label', function () {
+    // when
+    const { container } = createButton({
+      initialData: {
+        foo: '42 labels',
+      },
+      field: {
+        ...defaultField,
+        label: '=foo',
+      },
+    });
+
+    // then
+    const button = container.querySelector('button');
+
+    expect(button).to.exist;
+    expect(button.textContent).to.equal('42 labels');
+  });
+
+  it('should render with templated label', function () {
+    // when
+    const { container } = createButton({
+      initialData: {
+        foo: '42',
+      },
+      field: {
+        ...defaultField,
+        label: 'My label {{foo}}',
+      },
+    });
+
+    // then
+    const button = container.querySelector('button');
+
+    expect(button).to.exist;
+    expect(button.textContent).to.equal('My label 42');
   });
 
   it('should render with default type (submit)', function () {
@@ -132,10 +172,18 @@ const defaultField = {
   type: 'button',
 };
 
-function createButton(options = {}) {
-  const { disabled, field = defaultField } = options;
+function createButton({ services, ...restOptions } = {}) {
+  const options = {
+    field: defaultField,
+    ...restOptions,
+  };
 
-  return render(<Button disabled={disabled} field={field} />, {
-    container: options.container || container.querySelector('.fjs-form'),
-  });
+  return render(
+    <MockFormContext services={services} options={options}>
+      <Button {...options} />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
+  );
 }
