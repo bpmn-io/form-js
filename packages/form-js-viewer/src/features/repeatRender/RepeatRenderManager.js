@@ -228,7 +228,7 @@ const RepetitionScaffold = (props) => {
     () => ({
       data: parentExpressionContextInfo.data,
       this: itemValue,
-      parent: buildExpressionContext(parentExpressionContextInfo),
+      parent: buildExpressionContext({ ...parentExpressionContextInfo, data: parentExpressionContextInfo.this }),
       i: [...parentExpressionContextInfo.i, itemIndex + 1],
     }),
     [itemIndex, parentExpressionContextInfo, itemValue],
