@@ -1,0 +1,80 @@
+{
+  "components": [
+    {
+      "label": "Test",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_06pau7i",
+        "columns": null
+      },
+      "id": "Field_0naxgdd",
+      "key": "a"
+    },
+    {
+      "components": [
+        {
+          "text": "Flat: {{a}}\nParent: {{parent.a}}",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0e00xn8",
+            "columns": null
+          },
+          "id": "Field_03g3bvj"
+        },
+        {
+          "label": "Test",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0nqe5bi",
+            "columns": null
+          },
+          "id": "Field_0oofqh4",
+          "key": "b"
+        },
+        {
+          "components": [
+            {
+              "text": "ParentThis: {{parent.this.b}}\nParent: {{parent.b}}\nGrandParent: {{parent.parent.a}}\nGrandParentThis: {{parent.parent.this.a}}",
+              "label": "Text view",
+              "type": "text",
+              "layout": {
+                "row": "Row_17ftgn9",
+                "columns": null
+              },
+              "id": "Field_1bjzda6"
+            }
+          ],
+          "showOutline": true,
+          "isRepeating": true,
+          "allowAddRemove": true,
+          "defaultRepetitions": 1,
+          "label": "Dynamic list",
+          "type": "dynamiclist",
+          "layout": {
+            "row": "Row_0kn6m8y",
+            "columns": null
+          },
+          "id": "Field_033ey1v",
+          "path": "dynamiclist_lkkpkli"
+        }
+      ],
+      "showOutline": true,
+      "isRepeating": true,
+      "allowAddRemove": true,
+      "defaultRepetitions": 1,
+      "label": "Dynamic list",
+      "type": "dynamiclist",
+      "layout": {
+        "row": "Row_1d2g3ok",
+        "columns": null
+      },
+      "id": "Field_1d4j6bh",
+      "path": "list"
+    }
+  ],
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "type": "default",
+  "id": "Form_1roxfho",
+  "schemaVersion": 16
+}

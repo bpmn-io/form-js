@@ -12,6 +12,7 @@ import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.js
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
 import complexExpressionsSchema from './complex-expressions.json';
+import nestedComplexContextSchema from './nested-complex-context.json';
 import cyclicalExpressionsSchema from './cyclical-expressions.json';
 import chainExpressionsSchema from './chain-expressions.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
@@ -1780,6 +1781,42 @@ describe('Form', function () {
           components: ['Textarea_1'],
         },
       ]);
+    });
+  });
+
+  describe('integration - context', function () {
+    it('should properly pass down context and parent accessors', async function () {
+      // given
+      const data = {
+        a: 'testA',
+        list: [
+          {
+            b: 'testB',
+          },
+        ],
+      };
+
+      // when
+      await bootstrapForm({
+        container,
+        data,
+        schema: nestedComplexContextSchema,
+      });
+
+      // then
+      expect(form).to.exist;
+
+      const textFields = container.querySelectorAll('.fjs-form-field-text');
+
+      expect(textFields[0]).to.exist;
+      expect(textFields[0].textContent).to.include('Flat: testA');
+      expect(textFields[0].textContent).to.include('Parent: testA');
+
+      expect(textFields[1]).to.exist;
+      expect(textFields[1].textContent).to.include('ParentThis: testB');
+      expect(textFields[1].textContent).to.include('Parent: testB');
+      expect(textFields[1].textContent).to.include('GrandParent: testA');
+      expect(textFields[1].textContent).to.include('GrandParentThis: testA');
     });
   });
 });
