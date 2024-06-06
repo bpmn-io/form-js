@@ -61,7 +61,6 @@ export function StaticOptionsSourceEntry(props) {
   return {
     items,
     add: addEntry,
-    shouldSort: false,
   };
 }
 
