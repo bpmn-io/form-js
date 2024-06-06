@@ -44,6 +44,5 @@ export function StaticColumnsSourceEntry(props) {
   return {
     items,
     add: addEntry,
-    shouldSort: false,
   };
 }
