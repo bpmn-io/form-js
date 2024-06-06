@@ -2,7 +2,7 @@ import { cleanup, render } from '@testing-library/preact/pure';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
-import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
+import { getPropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
 import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
@@ -48,6 +48,22 @@ describe('PropertiesPanelHeaderProvider', function () {
 
     expect(label).to.exist;
     expect(label.innerText).to.eql(field.label);
+  });
+
+  it('should render documentation link', function () {
+    // given
+    const field = { type: 'textfield' };
+
+    const getDocumentationRef = () => 'https://example.com/';
+
+    // when
+    const { container } = renderHeader({ field, getDocumentationRef });
+
+    // then
+    const documentationLink = container.querySelector('.bio-properties-panel-header-link');
+
+    expect(documentationLink).to.exist;
+    expect(documentationLink.href).to.eql(getDocumentationRef());
   });
 
   describe('extension support', function () {
@@ -130,7 +146,7 @@ describe('PropertiesPanelHeaderProvider', function () {
 
 // helpers /////////
 
-function renderHeader({ services, ...restOptions }) {
+function renderHeader({ services = {}, getDocumentationRef, ...restOptions }) {
   const defaultField = { type: 'textfield' };
 
   const options = {
@@ -140,7 +156,13 @@ function renderHeader({ services, ...restOptions }) {
 
   return render(
     <MockPropertiesPanelContext options={options} services={services}>
-      <TestPropertiesPanel field={options.field} headerProvider={PropertiesPanelHeaderProvider} />
+      <TestPropertiesPanel
+        field={options.field}
+        headerProvider={getPropertiesPanelHeaderProvider({
+          formFields: services.formFields || new FormFields(),
+          getDocumentationRef,
+        })}
+      />
     </MockPropertiesPanelContext>,
   );
 }
