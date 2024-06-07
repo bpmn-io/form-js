@@ -6,10 +6,8 @@ import { reduce, isArray } from 'min-dash';
 
 import { FormPropertiesPanelContext } from './context';
 
-import { getPropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
+import { PropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
-
-const EMPTY = {};
 
 export function PropertiesPanel(props) {
   const { eventBus, getProviders, injector } = props;
@@ -17,7 +15,7 @@ export function PropertiesPanel(props) {
   const formEditor = injector.get('formEditor');
   const modeling = injector.get('modeling');
   const selectionModule = injector.get('selection');
-  const propertiesPanelConfig = injector.get('config.propertiesPanel') || EMPTY;
+  const propertiesPanelConfig = injector.get('config.propertiesPanel') || {};
 
   const { feelPopupContainer } = propertiesPanelConfig;
 
@@ -84,17 +82,6 @@ export function PropertiesPanel(props) {
       [],
     );
   }, [providers, selectedFormField, editField]);
-
-  const formFields = getService('formFields');
-
-  const PropertiesPanelHeaderProvider = useMemo(
-    () =>
-      getPropertiesPanelHeaderProvider({
-        getDocumentationRef: propertiesPanelConfig.getDocumentationRef,
-        formFields,
-      }),
-    [formFields, propertiesPanelConfig],
-  );
 
   return (
     <div
