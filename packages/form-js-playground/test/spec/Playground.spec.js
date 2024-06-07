@@ -144,6 +144,47 @@ describe('playground', function () {
     expect(playground).to.exist;
   });
 
+  it('should render with documentation links', async function () {
+    // given
+    const data = {};
+
+    const getDocumentationRef = (field) => {
+      if (field.type === 'default') {
+        return 'https://example.com/default';
+      }
+
+      return 'https://example.com/other';
+    };
+
+    // when
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+        data,
+        propertiesPanel: {
+          getDocumentationRef,
+        },
+      });
+    });
+
+    // then
+    expect(playground).to.exist;
+
+    const documentationLink = domQuery('.bio-properties-panel-header-link', container);
+    expect(documentationLink).to.exist;
+    expect(documentationLink.href).to.eql('https://example.com/default');
+
+    // when
+    const formField = domQuery('.fjs-form-field', container);
+    await act(() => formField.click());
+
+    // then
+    const documentationLinkSelected = domQuery('.bio-properties-panel-header-link', container);
+    expect(documentationLinkSelected).to.exist;
+    expect(documentationLinkSelected.href).to.eql('https://example.com/other');
+  });
+
   it('should append sample data', async function () {
     // given
     const attrs = {
