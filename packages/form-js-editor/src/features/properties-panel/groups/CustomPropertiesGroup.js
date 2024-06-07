@@ -71,7 +71,6 @@ export function CustomPropertiesGroup(field, editField) {
     label: 'Custom properties',
     tooltip:
       'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
-    shouldSort: false,
   };
 }
 
