@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.9.0
+
+- `FEAT`: enable passing of documentation link to form properties panel ([#1201](https://github.com/bpmn-io/form-js/pull/1201))
+
 ## 1.8.8
 
 - `FIX`: expressions are properly included in `getSchemaVariables` ([#1186](https://github.com/bpmn-io/form-js/issues/1186))
