@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-editor",
-  "version": "1.8.8",
+  "version": "1.9.0",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     ".": {

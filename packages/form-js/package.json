@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js",
-  "version": "1.8.8",
+  "version": "1.9.0",
   "description": "View and edit forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -62,8 +62,8 @@
   },
   "dependencies": {
     "@bpmn-io/form-js-carbon-styles": "^1.8.8",
-    "@bpmn-io/form-js-editor": "^1.8.8",
-    "@bpmn-io/form-js-playground": "^1.8.8",
+    "@bpmn-io/form-js-editor": "^1.9.0",
+    "@bpmn-io/form-js-playground": "^1.9.0",
     "@bpmn-io/form-js-viewer": "^1.8.8"
   },
   "sideEffects": [
