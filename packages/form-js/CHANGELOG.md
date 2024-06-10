@@ -6,7 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
-## 1.8.6
+## 1.8.8
+
+- `FIX`: expressions are properly included in `getSchemaVariables` ([#1186](https://github.com/bpmn-io/form-js/issues/1186))
+- `FIX`: button labels properly evaluate expressions ([#1181](https://github.com/bpmn-io/form-js/issues/1181))
+- `FIX`: ensure group paths are properly registered on add ([#1173](https://github.com/bpmn-io/form-js/issues/1173))
+- `FIX`: properly build out FEEL parent context chain ([#1191](https://github.com/bpmn-io/form-js/issues/1191))
+- `FIX`: removed deprecated `useSort` properties panel attributes ([#1200](https://github.com/bpmn-io/form-js/issues/1200))
+- `CHORE`: bump @bpmn-io/properties-panel@3.20.1, adding visual improvements to the feel (and feelers) popout editor ([43c5615e](https://github.com/bpmn-io/form-js/commit/43c5615e94d23b2ad61bc7f858f28a3988214bfa))
+
+## 1.8.7
 
 - `FIX`: revert to min-dom@4.1.0 ([#1178](https://github.com/bpmn-io/form-js/pull/1178))
 
