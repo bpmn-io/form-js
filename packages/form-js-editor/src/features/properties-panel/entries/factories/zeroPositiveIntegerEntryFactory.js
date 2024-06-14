@@ -3,17 +3,9 @@ import { useService } from '../../hooks';
 import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 export function zeroPositiveIntegerEntryFactory(options) {
-  const {
-    id,
-    label,
-    path,
-    props
-  } = options;
+  const { id, label, path, props } = options;
 
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   return {
     id,
@@ -22,18 +14,12 @@ export function zeroPositiveIntegerEntryFactory(options) {
     field,
     editField,
     component: ZeroPositiveIntegerEntry,
-    isEdited: isNumberFieldEntryEdited
+    isEdited: isNumberFieldEntryEdited,
   };
 }
 
 const ZeroPositiveIntegerEntry = (props) => {
-  const {
-    id,
-    label,
-    path,
-    field,
-    editField
-  } = props;
+  const { id, label, path, field, editField } = props;
 
   const debounce = useService('debounce');
 
@@ -56,6 +42,6 @@ const ZeroPositiveIntegerEntry = (props) => {
     min: 0,
     getValue,
     id,
-    setValue
+    setValue,
   });
 };

@@ -10,5 +10,5 @@ function getService(type, strict) {}
 
 export const FormContext = createContext({
   getService,
-  formId: null
+  formId: null,
 });

@@ -32,7 +32,7 @@ export function SearchableSelect(props) {
     loadState,
     options,
     value,
-    onChange: props.onChange
+    onChange: props.onChange,
   });
 
   const inputRef = useRef();
@@ -54,7 +54,6 @@ export function SearchableSelect(props) {
   };
   const [ filter, setFilter ] = useState('');
   const filteredOptions = useMemo(() => {
-
     if (loadState !== LOAD_STATES.LOADED) {
       return [];
     }

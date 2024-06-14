@@ -1,21 +1,15 @@
-import {
-  cleanup,
-  render
-} from '@testing-library/preact/pure';
+import { cleanup, render } from '@testing-library/preact/pure';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
-import { PropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
+import { getPropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
 
 import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
-
-describe('PropertiesPanelHeaderProvider', function() {
-
+describe('PropertiesPanelHeaderProvider', function () {
   afterEach(() => cleanup());
 
-  it('should render icon', function() {
-
+  it('should render icon', function () {
     // given
     const field = { type: 'textfield' };
 
@@ -28,9 +22,7 @@ describe('PropertiesPanelHeaderProvider', function() {
     expect(icon).to.exist;
   });
 
-
-  it('should render type', function() {
-
+  it('should render type', function () {
     // given
     const field = { type: 'textfield' };
 
@@ -44,9 +36,7 @@ describe('PropertiesPanelHeaderProvider', function() {
     expect(type.innerText).to.eql('TEXT FIELD');
   });
 
-
-  it('should render label', function() {
-
+  it('should render label', function () {
     // given
     const field = { type: 'textfield', label: 'foobar' };
 
@@ -60,17 +50,30 @@ describe('PropertiesPanelHeaderProvider', function() {
     expect(label.innerText).to.eql(field.label);
   });
 
+  it('should render documentation link', function () {
+    // given
+    const field = { type: 'textfield' };
 
-  describe('extension support', function() {
+    const getDocumentationRef = () => 'https://example.com/';
 
-    it('should render type label from config', function() {
+    // when
+    const { container } = renderHeader({ field, getDocumentationRef });
 
+    // then
+    const documentationLink = container.querySelector('.bio-properties-panel-header-link');
+
+    expect(documentationLink).to.exist;
+    expect(documentationLink.href).to.eql(getDocumentationRef());
+  });
+
+  describe('extension support', function () {
+    it('should render type label from config', function () {
       // given
       const extension = {
         config: {
           label: 'Custom label',
-          group: 'basic-input'
-        }
+          group: 'basic-input',
+        },
       };
 
       const formFields = new FormFields();
@@ -89,16 +92,14 @@ describe('PropertiesPanelHeaderProvider', function() {
       expect(label.innerText).to.eql(extension.config.label.toUpperCase());
     });
 
-
-    it('should render icon from config', function() {
-
+    it('should render icon from config', function () {
       // given
       const extension = {
         config: {
           label: 'Custom label',
           group: 'basic-input',
-          icon: () => <div class="custom-icon">Custom Icon</div>
-        }
+          icon: () => <div class="custom-icon">Custom Icon</div>,
+        },
       };
 
       const formFields = new FormFields();
@@ -116,16 +117,14 @@ describe('PropertiesPanelHeaderProvider', function() {
       expect(customIcon).to.exist;
     });
 
-
-    it('should render iconUrl from config', function() {
-
+    it('should render iconUrl from config', function () {
       // given
       const extension = {
         config: {
           label: 'Custom label',
           group: 'basic-input',
-          iconUrl: 'https://example.com/icon.png'
-        }
+          iconUrl: 'https://example.com/icon.png',
+        },
       };
 
       const formFields = new FormFields();
@@ -142,26 +141,28 @@ describe('PropertiesPanelHeaderProvider', function() {
 
       expect(customIcon).to.exist;
     });
-
   });
-
 });
-
 
 // helpers /////////
 
-function renderHeader({ services, ...restOptions }) {
-
+function renderHeader({ services = {}, getDocumentationRef, ...restOptions }) {
   const defaultField = { type: 'textfield' };
 
   const options = {
     field: defaultField,
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockPropertiesPanelContext options={ options } services={ services }>
-      <TestPropertiesPanel field={ options.field } headerProvider={ PropertiesPanelHeaderProvider } />
-    </MockPropertiesPanelContext>
+    <MockPropertiesPanelContext options={options} services={services}>
+      <TestPropertiesPanel
+        field={options.field}
+        headerProvider={getPropertiesPanelHeaderProvider({
+          formFields: services.formFields || new FormFields(),
+          getDocumentationRef,
+        })}
+      />
+    </MockPropertiesPanelContext>,
   );
 }

@@ -6,17 +6,15 @@ import { MockFormContext } from '../helper';
 let container;
 
 describe('Dynamic List', () => {
-
-  beforeEach(function() {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-  it('should render with children', function() {
-
+  it('should render with children', function () {
     // when
     const { container } = createDynamicList();
 
@@ -32,7 +30,6 @@ describe('Dynamic List', () => {
     expect(textfields).to.have.length(4);
 
     const verifyTextField = (textfield, textContent, id) => {
-
       expect(textfield).to.exist;
 
       const label = textfield.querySelector('label');
@@ -49,15 +46,13 @@ describe('Dynamic List', () => {
     verifyTextField(textfields[3], 'Debitor', 'fjs-form-foo-Textfield_2_1');
   });
 
-
-  it('should render without children', function() {
-
+  it('should render without children', function () {
     // given
     const { container } = createDynamicList({
       field: {
         ...defaultField,
-        components: []
-      }
+        components: [],
+      },
     });
 
     // then
@@ -65,13 +60,11 @@ describe('Dynamic List', () => {
     expect(dynamicList).to.exist;
   });
 
-
-  it('should show collapse button when more items are visible than default collapse', function() {
-
+  it('should show collapse button when more items are visible than default collapse', function () {
     // given
     const field = {
       ...defaultField,
-      nonCollapsedItems: 1
+      nonCollapsedItems: 1,
     };
 
     // when
@@ -82,13 +75,11 @@ describe('Dynamic List', () => {
     expect(collapseButton).to.exist;
   });
 
-
-  it('should not show collapse button when less items are visible than default collapse', function() {
-
+  it('should not show collapse button when less items are visible than default collapse', function () {
     // given
     const field = {
       ...defaultField,
-      nonCollapsedItems: 3
+      nonCollapsedItems: 3,
     };
 
     // when
@@ -99,13 +90,11 @@ describe('Dynamic List', () => {
     expect(collapseButton).to.not.exist;
   });
 
-
-  it('should show add button when allowAddRemove is set', function() {
-
+  it('should show add button when allowAddRemove is set', function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: true
+      allowAddRemove: true,
     };
 
     // when
@@ -116,13 +105,11 @@ describe('Dynamic List', () => {
     expect(addButton).to.exist;
   });
 
-
-  it('should not show add button when allowAddRemove is not set', function() {
-
+  it('should not show add button when allowAddRemove is not set', function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: false
+      allowAddRemove: false,
     };
 
     // when
@@ -133,13 +120,11 @@ describe('Dynamic List', () => {
     expect(addButton).to.not.exist;
   });
 
-
-  it('should add new repetition when add button is clicked', async function() {
-
+  it('should add new repetition when add button is clicked', async function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: true
+      allowAddRemove: true,
     };
 
     const onChangeSpy = sinon.spy();
@@ -152,32 +137,28 @@ describe('Dynamic List', () => {
 
     // then
     expect(onChangeSpy).to.have.been.calledWithMatch({
-      field,
       value: [
         {
           creditor: 'John Doe',
-          debitor: 'Jane Doe'
+          debitor: 'Jane Doe',
         },
         {
           creditor: 'John Doe 2',
-          debitor: 'Jane Doe 2'
+          debitor: 'Jane Doe 2',
         },
         {
           creditor: null,
-          debitor: null
-        }
-      ]
+          debitor: null,
+        },
+      ],
     });
-
   });
 
-
-  it('should show remove button for each repetition when allowAddRemove is set', function() {
-
+  it('should show remove button for each repetition when allowAddRemove is set', function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: true
+      allowAddRemove: true,
     };
 
     // when
@@ -188,13 +169,11 @@ describe('Dynamic List', () => {
     expect(removeButtons).to.have.length(2);
   });
 
-
-  it('should not show remove button for each repetition when allowAddRemove is not set', function() {
-
+  it('should not show remove button for each repetition when allowAddRemove is not set', function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: false
+      allowAddRemove: false,
     };
 
     // when
@@ -205,13 +184,11 @@ describe('Dynamic List', () => {
     expect(removeButtons).to.have.length(0);
   });
 
-
-  it('should remove repetition when remove button is clicked', function() {
-
+  it('should remove repetition when remove button is clicked', function () {
     // given
     const field = {
       ...defaultField,
-      allowAddRemove: true
+      allowAddRemove: true,
     };
 
     const onChangeSpy = sinon.spy();
@@ -227,15 +204,13 @@ describe('Dynamic List', () => {
       value: [
         {
           creditor: 'John Doe 2',
-          debitor: 'Jane Doe 2'
-        }
-      ]
+          debitor: 'Jane Doe 2',
+        },
+      ],
     });
   });
 
-
-  it('should have outline class when set', function() {
-
+  it('should have outline class when set', function () {
     // given
     const { container } = createDynamicList();
     const dynamicList = container.querySelector('.fjs-form-field-grouplike');
@@ -244,9 +219,7 @@ describe('Dynamic List', () => {
     expect(dynamicList.classList.contains('fjs-outlined')).to.be.true;
   });
 
-
-  it('should not have outline class when unset', function() {
-
+  it('should not have outline class when unset', function () {
     // given
     const { container } = createDynamicList({ field: { ...defaultField, showOutline: false } });
 
@@ -255,9 +228,7 @@ describe('Dynamic List', () => {
     expect(dynamicList.classList.contains('fjs-outlined')).to.be.false;
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // given
     const { config } = DynamicList;
 
@@ -272,13 +243,12 @@ describe('Dynamic List', () => {
       showOutline: true,
       isRepeating: true,
       allowAddRemove: true,
-      defaultRepetitions: 1
+      defaultRepetitions: 1,
     });
   });
 
-
-  describe('a11y', function() {
-    it('should have no violations', async function() {
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       this.timeout(10000);
 
       // when
@@ -294,13 +264,13 @@ const defaultData = {
   dynamiclist: [
     {
       creditor: 'John Doe',
-      debitor: 'Jane Doe'
+      debitor: 'Jane Doe',
     },
     {
       creditor: 'John Doe 2',
-      debitor: 'Jane Doe 2'
-    }
-  ]
+      debitor: 'Jane Doe 2',
+    },
+  ],
 };
 
 const defaultField = {
@@ -317,19 +287,18 @@ const defaultField = {
       id: 'Textfield_1',
       path: 'creditor',
       label: 'Creditor',
-      type: 'textfield'
+      type: 'textfield',
     },
     {
       id: 'Textfield_2',
       path: 'debitor',
       label: 'Debitor',
-      type: 'textfield'
-    }
-  ]
+      type: 'textfield',
+    },
+  ],
 };
 
 function createDynamicList({ services, ...restOptions } = {}) {
-
   const options = {
     domId: 'test-dynamiclist',
     field: defaultField,
@@ -338,22 +307,18 @@ function createDynamicList({ services, ...restOptions } = {}) {
     data: defaultData,
     newFieldData: {
       creditor: null,
-      debitor: null
+      debitor: null,
     },
     onChange: () => {},
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
-      <DynamicList
-        field={ options.field }
-        domId={ options.domId }
-        onChange={ options.onChange } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+    <MockFormContext services={services} options={options}>
+      <DynamicList field={options.field} domId={options.domId} onChange={options.onChange} />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

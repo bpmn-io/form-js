@@ -21,7 +21,8 @@ const EXPRESSION_PROPERTIES = [
   'valuesExpression',
   'url',
   'dataSource',
-  'columnsExpression'
+  'columnsExpression',
+  'expression',
 ];
 
 const TEMPLATE_PROPERTIES = [
@@ -33,7 +34,7 @@ const TEMPLATE_PROPERTIES = [
   'source',
   'text',
   'content',
-  'url'
+  'url',
 ];
 
 /**
@@ -69,13 +70,12 @@ const TEMPLATE_PROPERTIES = [
  * @return {string[]}
  */
 export function getSchemaVariables(schema, options = {}) {
-
   const {
     formFields = new FormFields(),
     expressionLanguage = new FeelExpressionLanguage(null),
     templating = new FeelersTemplating(),
     inputs = true,
-    outputs = true
+    outputs = true,
   } = options;
 
   if (!schema.components) {
@@ -86,7 +86,7 @@ export function getSchemaVariables(schema, options = {}) {
     const components = [];
 
     if (node.components) {
-      node.components.forEach(component => {
+      node.components.forEach((component) => {
         components.push(component);
         components.push(...getAllComponents(component));
       });
@@ -96,26 +96,21 @@ export function getSchemaVariables(schema, options = {}) {
   };
 
   const variables = getAllComponents(schema).reduce((variables, component) => {
-
-    const {
-      valuesKey
-    } = component;
+    const { valuesKey } = component;
 
     // collect input-only variables
     if (inputs) {
-
       if (valuesKey) {
-        variables = [ ...variables, valuesKey ];
+        variables = [...variables, valuesKey];
       }
 
       EXPRESSION_PROPERTIES.forEach((prop) => {
         const property = get(component, prop.split('.'));
 
         if (property && expressionLanguage.isExpression(property)) {
-
           const expressionVariables = expressionLanguage.getVariableNames(property, { type: 'expression' });
 
-          variables = [ ...variables, ...expressionVariables ];
+          variables = [...variables, ...expressionVariables];
         }
       });
 
@@ -124,25 +119,24 @@ export function getSchemaVariables(schema, options = {}) {
 
         if (property && !expressionLanguage.isExpression(property) && templating.isTemplate(property)) {
           const templateVariables = templating.getVariableNames(property);
-          variables = [ ...variables, ...templateVariables ];
+          variables = [...variables, ...templateVariables];
         }
       });
-
     }
 
-    return variables.filter(variable => typeof variable === 'string');
+    return variables.filter((variable) => typeof variable === 'string');
   }, []);
 
-  const getBindingVariables = (node)=> {
+  const getBindingVariables = (node) => {
     const bindingVariable = [];
     const formField = formFields.get(node.type);
 
     if (formField && formField.config.keyed && node.key) {
-      return [ node.key.split('.')[0] ];
+      return [node.key.split('.')[0]];
     } else if (formField && formField.config.pathed && node.path) {
-      return [ node.path.split('.')[0] ];
+      return [node.path.split('.')[0]];
     } else if (node.components) {
-      node.components.forEach(component => {
+      node.components.forEach((component) => {
         bindingVariable.push(...getBindingVariables(component));
       });
     }

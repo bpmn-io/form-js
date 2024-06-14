@@ -29,7 +29,7 @@ export function SimpleSelect(props) {
     loadState,
     options,
     value,
-    onChange: props.onChange
+    onChange: props.onChange,
   });
   const optionsLut = useLookUpTable(options, (o) => o.value, (o, i) => ({ index: i, label: o.label }));
   const indexFromValue = (value, defaultValue = -1) => optionsLut(value, { index: defaultValue }).index;
@@ -69,7 +69,7 @@ export function SimpleSelect(props) {
     if (!readonly) {
       onFocus && onFocus();
     }
-  }, [ onFocus, readonly ]);
+  }, [onFocus, readonly]);
 
   const onInputKeyDown = useCallback((ev) => {
     if (disabled || readonly) {

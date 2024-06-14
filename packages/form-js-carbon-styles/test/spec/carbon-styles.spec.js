@@ -4,29 +4,17 @@ import { ThemeProvider } from 'styled-components';
 
 import { Form } from '@bpmn-io/form-js-viewer';
 
-import {
-  render,
-  waitFor
-} from '@testing-library/preact/pure';
+import { render, waitFor } from '@testing-library/preact/pure';
 
-import {
-  useEffect,
-  useRef
-} from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import { query as domQuery } from 'min-dom';
 
 import { GlobalFormStyling } from '../../src/carbon-styles';
 
 import { g10, g100 } from '@carbon/elements';
 
-import {
-  expectNoViolations,
-  insertCSS,
-  isSingleStart
-} from '../TestHelper';
+import { expectNoViolations, insertCSS, isSingleStart } from '../TestHelper';
 
 import schema from './complex.json';
 
@@ -44,10 +32,10 @@ const THEME_TOKENS = {
 };
 const themes = {
   [THEME_TOKENS.light]: {
-    ...g10
+    ...g10,
   },
   [THEME_TOKENS.dark]: {
-    ...g100
+    ...g100,
   },
 };
 
@@ -57,25 +45,22 @@ insertCSS('form-js.css', formCSS);
 
 const singleStart = isSingleStart('carbon-form');
 
-
-describe('Carbon styles', function() {
-
+describe('Carbon styles', function () {
   let container;
 
-  beforeEach(function() {
+  beforeEach(function () {
     container = document.createElement('div');
     container.classList.add('cds--g100');
 
     document.body.appendChild(container);
   });
 
-  !singleStart && afterEach(function() {
-    document.body.removeChild(container);
-  });
+  !singleStart &&
+    afterEach(function () {
+      document.body.removeChild(container);
+    });
 
-
-  it('should render - styled-components (legacy)', function() {
-
+  it('should render - styled-components (legacy)', function () {
     // given
     const toggle = document.createElement('button');
     toggle.textContent = 'Toggle Theme';
@@ -92,53 +77,54 @@ describe('Carbon styles', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
       queriedDRIs: [
         {
-          'label': 'John Doe',
-          'value': 'johnDoe'
+          label: 'John Doe',
+          value: 'johnDoe',
         },
         {
-          'label': 'Anna Bell',
-          'value': 'annaBell'
+          label: 'Anna Bell',
+          value: 'annaBell',
         },
         {
-          'label': 'Nico Togin',
-          'value': 'incognito'
-        }
+          label: 'Nico Togin',
+          value: 'incognito',
+        },
       ],
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      readonly_tags: [ 'tag1', 'tag2', 'tag3' ],
-      readonly_checklist: [ 'option_1' ],
+      tags: ['tag1', 'tag2', 'tag3'],
+      readonly_tags: ['tag1', 'tag2', 'tag3'],
+      readonly_checklist: ['option_1'],
       readonly_radio: 'option_1',
-      language: 'english'
+      language: 'english',
     };
 
     const result = createFormView({
       container,
       schema,
-      data
+      data,
     });
 
     toggle.addEventListener('click', () => {
       toggleTheme(container);
       theme = theme === 'dark' ? 'light' : 'dark';
-      createFormView({
-        theme,
-        container,
-        schema,
-        data
-      }, result.rerender);
+      createFormView(
+        {
+          theme,
+          container,
+          schema,
+          data,
+        },
+        result.rerender,
+      );
     });
 
     // then
     expect(domQuery('.fjs-container', result.container)).to.exist;
   });
 
-
-  (singleStart ? it.only : it)('should render - sass', function() {
-
+  (singleStart ? it.only : it)('should render - sass', function () {
     // given
     insertCSS('carbon-styles.css', carbonSassStyles);
 
@@ -157,75 +143,74 @@ describe('Carbon styles', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
       queriedDRIs: [
         {
-          'label': 'John Doe',
-          'value': 'johnDoe'
+          label: 'John Doe',
+          value: 'johnDoe',
         },
         {
-          'label': 'Anna Bell',
-          'value': 'annaBell'
+          label: 'Anna Bell',
+          value: 'annaBell',
         },
         {
-          'label': 'Nico Togin',
-          'value': 'incognito'
-        }
+          label: 'Nico Togin',
+          value: 'incognito',
+        },
       ],
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      readonly_tags: [ 'tag1', 'tag2', 'tag3' ],
-      readonly_checklist: [ 'option_1' ],
+      tags: ['tag1', 'tag2', 'tag3'],
+      readonly_tags: ['tag1', 'tag2', 'tag3'],
+      readonly_checklist: ['option_1'],
       readonly_radio: 'option_1',
       language: 'english',
       tableSource: [
         {
           id: '1',
           name: 'John Doe',
-          age: 30
+          age: 30,
         },
         {
           id: '2',
           name: 'Anna Bell',
-          age: 25
-
+          age: 25,
         },
         {
           id: '3',
           name: 'Nico Togin',
-          age: 40
-        }
-      ]
+          age: 40,
+        },
+      ],
     };
 
     const result = createFormView({
       container,
       schema,
       data,
-      withGlobalFormStyling: false
+      withGlobalFormStyling: false,
     });
 
     toggle.addEventListener('click', () => {
       toggleTheme(container);
       theme = theme === 'dark' ? 'light' : 'dark';
-      createFormView({
-        theme,
-        container,
-        schema,
-        data,
-        withGlobalFormStyling: false
-      }, result.rerender);
+      createFormView(
+        {
+          theme,
+          container,
+          schema,
+          data,
+          withGlobalFormStyling: false,
+        },
+        result.rerender,
+      );
     });
 
     // then
     expect(domQuery('.fjs-container', result.container)).to.exist;
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(10000);
 
@@ -243,39 +228,30 @@ describe('Carbon styles', function() {
       // @Note(pinussilvestrus): we disable color-contrast rule as it is a basic Carbon issue
       await expectNoViolations(node, {
         rules: {
-          'color-contrast': { enabled: false }
-        }
+          'color-contrast': { enabled: false },
+        },
       });
     });
-
   });
-
 });
-
 
 // helper //////////////
 
 function createFormView(options = {}, renderFn = render) {
-  const {
-    container,
-    theme = 'dark',
-    withGlobalFormStyling = true,
-    ...restOptions
-  } = options;
+  const { container, theme = 'dark', withGlobalFormStyling = true, ...restOptions } = options;
 
   return renderFn(
-    <WithTheme theme={ themes[THEME_TOKENS[theme]] }>
-      { withGlobalFormStyling && <GlobalFormStyling></GlobalFormStyling> }
-      <FormContainer { ...restOptions }></FormContainer>
+    <WithTheme theme={themes[THEME_TOKENS[theme]]}>
+      {withGlobalFormStyling && <GlobalFormStyling></GlobalFormStyling>}
+      <FormContainer {...restOptions}></FormContainer>
     </WithTheme>,
     {
-      container
-    }
+      container,
+    },
   );
 }
 
 function FormContainer(props) {
-
   const ref = useRef(null);
 
   useEffect(() => {
@@ -285,17 +261,18 @@ function FormContainer(props) {
 
     const form = new Form({
       container: ref.current,
-      schema
+      schema,
     });
 
-    importSchema (props.schema, props.data);
+    importSchema(props.schema, props.data);
 
-    return () => { form.destroy(); };
-  }, [ ref, props ]);
+    return () => {
+      form.destroy();
+    };
+  }, [ref, props]);
 
-  return <div ref={ ref } class="form-container cds--layer-one"></div>;
+  return <div ref={ref} class="form-container cds--layer-one"></div>;
 }
-
 
 function WithTheme(props) {
   const { theme } = props;
@@ -304,7 +281,7 @@ function WithTheme(props) {
     return props.children;
   }
 
-  return <ThemeProvider theme={ theme }>{ props.children }</ThemeProvider>;
+  return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
 }
 
 function toggleTheme(node) {

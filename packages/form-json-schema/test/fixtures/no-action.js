@@ -2,9 +2,9 @@ export const form = {
   type: 'default',
   components: [
     {
-      type: 'button'
-    }
-  ]
+      type: 'button',
+    },
+  ],
 };
 
 export const errors = null;

@@ -13,24 +13,9 @@ import { useMemo } from 'preact/hooks';
 const type = 'select';
 
 export function Select(props) {
-  const {
-    disabled,
-    errors = [],
-    domId,
-    onBlur,
-    onFocus,
-    field,
-    onChange,
-    readonly,
-    value
-  } = props;
+  const { disabled, errors = [], domId, onBlur, onFocus, field, onChange, readonly, value } = props;
 
-  const {
-    description,
-    label,
-    searchable = false,
-    validate = {}
-  } = field;
+  const { description, label, searchable = false, validate = {} } = field;
 
   const { required } = validate;
 
@@ -89,5 +74,5 @@ Select.config = {
   group: 'selection',
   emptyValue: null,
   sanitizeValue: sanitizeSingleSelectValue,
-  create: createEmptyOptions
+  create: createEmptyOptions,
 };

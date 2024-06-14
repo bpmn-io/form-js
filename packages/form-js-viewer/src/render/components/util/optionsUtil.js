@@ -7,18 +7,13 @@ import { get, isObject, isString, isNil } from 'min-dash';
  * @param {object} formData
  */
 function getSimpleOptionsData(formField, formData) {
-
-  const {
-    valuesExpression: optionsExpression,
-    valuesKey: optionsKey,
-    values: staticOptions
-  } = formField;
+  const { valuesExpression: optionsExpression, valuesKey: optionsKey, values: staticOptions } = formField;
 
   if (optionsExpression) {
     return null;
   }
 
-  return optionsKey ? get(formData, [ optionsKey ]) : staticOptions;
+  return optionsKey ? get(formData, [optionsKey]) : staticOptions;
 }
 
 /**
@@ -30,7 +25,10 @@ function getSimpleOptionsData(formField, formData) {
  * @returns {object[]}
  */
 function normalizeOptionsData(optionsData) {
-  return optionsData.filter(_isAllowedValue).map(_normalizeOption).filter(o => !isNil(o));
+  return optionsData
+    .filter(_isAllowedValue)
+    .map(_normalizeOption)
+    .filter((o) => !isNil(o));
 }
 
 /**
@@ -41,7 +39,6 @@ function normalizeOptionsData(optionsData) {
  * @returns {object}
  */
 function createEmptyOptions(options = {}) {
-
   const defaults = {};
 
   // provide default options if valuesKey and valuesExpression are not set
@@ -49,14 +46,14 @@ function createEmptyOptions(options = {}) {
     defaults.values = [
       {
         label: 'Value',
-        value: 'value'
-      }
+        value: 'value',
+      },
     ];
   }
 
   return {
     ...defaults,
-    ...options
+    ...options,
   };
 }
 
@@ -71,19 +68,17 @@ function createEmptyOptions(options = {}) {
  * @returns
  */
 function _normalizeOption(option) {
-
   // (1) simple primitive case, use it as both label and value
   if (_isAllowedPrimitive(option)) {
-    return { value: option, label: `${ option }` };
+    return { value: option, label: `${option}` };
   }
 
   if (isObject(option)) {
-
     const isValidLabel = _isValidLabel(option.label);
 
     // (2) no label provided, but value is a simple primitive, use it as label and value
     if (!isValidLabel && _isAllowedPrimitive(option.value)) {
-      return { value: option.value, label: `${ option.value }` };
+      return { value: option.value, label: `${option.value}` };
     }
 
     // (3) both label and value are provided, use them as is
@@ -96,7 +91,7 @@ function _normalizeOption(option) {
 }
 
 function _isAllowedPrimitive(value) {
-  const isAllowedPrimitiveType = [ 'number', 'string', 'boolean' ].includes(typeof(value));
+  const isAllowedPrimitiveType = ['number', 'string', 'boolean'].includes(typeof value);
   const isValid = value || value === 0 || value === false;
 
   return isAllowedPrimitiveType && isValid;

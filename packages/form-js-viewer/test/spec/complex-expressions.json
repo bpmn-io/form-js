@@ -1,0 +1,48 @@
+{
+  "components": [
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_12hk3xq",
+      "key": "daysFactor",
+      "expression": "=if tp.days = \"every_day\" then 365\n    else if tp.days = \"every_business_day\" then 250\n    else if tp.days = \"custom\" then tp.days_custom\n    else 0"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_0vjox1v",
+      "key": "hoursFactor",
+      "expression": "=if tp.hours = \"24_hours_per_day\" then 24\n    else if tp.hours = \"8_hours_per_day\" then 8\n    else if tp.hours = \"custom\" then tp.hours_custom\n    else 0"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_1i0ukso",
+      "key": "numbers",
+      "expression": "={\n  year: if tp.time_span = \"year\" then tp.pi\n  else if tp.time_span = \"quarter\" then tp.pi*4 \n  else if tp.time_span = \"month\" then tp.pi*12\n  else if tp.time_span = \"week\" then tp.pi*52.1429\n  else if tp.time_span = \"day\" then tp.pi*tp.daysFactor\n  else if tp.time_span = \"hour\" then tp.pi*tp.hoursFactor*tp.daysFactor\n  else if tp.time_span = \"minute\" then tp.pi*60*tp.hoursFactor*tp.daysFactor\n  else if tp.time_span = \"second\" then tp.pi*60*60*tp.hoursFactor*tp.daysFactor\n  else 0,\n  quarter: year/4,\n  month: year/12,\n  week: year/52.1429,\n  day: year/tp.daysFactor,\n  hour: day/tp.hoursFactor,\n  minute: hour/60,\n  second: minute/60,\n  year_tasks: year*tp.tasks,\n  quarter_tasks: quarter*tp.tasks,\n  month_tasks: month*tp.tasks,\n  week_tasks: week*tp.tasks,\n  day_tasks: day*tp.tasks,\n  hour_tasks: hour*tp.tasks,\n  minute_tasks: minute*tp.tasks,\n  second_tasks: second*tp.tasks\n}"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_0smrdqg",
+      "key": "buffer_numbers",
+      "expression": "={\n  factor: b.dynamic^b.period,\n  second_period: tp.numbers.second*factor,\n  second_tasks_period: tp.numbers.second_tasks*factor,\n  second_buffer: b.buffer*tp.numbers.second,\n  second_buffer_period: b.buffer*tp.numbers.second*factor,\n  second_buffer_tasks: second_buffer*tp.tasks,\n  second_buffer_tasks_period: second_buffer_tasks*factor,\n  day_period: tp.numbers.day*factor,\n  day_tasks_period: tp.numbers.day_tasks*factor,\n  day_buffer: b.buffer*tp.numbers.day,\n  day_buffer_period: b.buffer*tp.numbers.day*factor,\n  day_buffer_tasks: day_buffer*tp.tasks,\n  day_buffer_tasks_period: day_buffer_tasks*factor\n}"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_17s0dkj",
+      "key": "diskSizes",
+      "expression": "={\n  zeebe_logstream: 0.1 + 0.1*ds.payload + 0.25*ds.payload_base64,\n  operate: 0.1 + 0.1*ds.payload + 0.25*ds.payload_base64,\n  optimize: 0.03 + 0.25*ds.payload + 0.75*ds.payload_base64,\n  tasklist: 0.02 + 0.1*ds.payload + 0.25*ds.payload_base64,\n  total: zeebe_logstream + operate + optimize + tasklist,\n  zeebe_logstream_total: zeebe_logstream*tp.numbers.day*(ds.cycle_time+ds.zeebe_retention)*ds.zeebe_retention/1024/1024,\n  operate_total: operate*tp.numbers.day*(ds.cycle_time+ds.operate_retention)*ds.operate_retention/1024/1024,\n  optimize_total: optimize*tp.numbers.day*(ds.cycle_time+ds.optimize_retention)*ds.optimize_retention/1024/1024,\n  tasklist_total: tasklist*tp.numbers.day*(ds.cycle_time+ds.tasklist_retention)*ds.tasklist_retention/1024/1024,\n  total_total: zeebe_logstream_total + operate_total + optimize_total + tasklist_total,\n  zeebe_logstream_total_period: zeebe_logstream_total*b.buffer_numbers.factor,\n  operate_total_period: operate_total*b.buffer_numbers.factor,\n  optimize_total_period: optimize_total*b.buffer_numbers.factor,\n  tasklist_total_period: tasklist_total*b.buffer_numbers.factor,\n  total_total_period: total_total*b.buffer_numbers.factor\n}"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1drkeef",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "schemaVersion": 16
+}

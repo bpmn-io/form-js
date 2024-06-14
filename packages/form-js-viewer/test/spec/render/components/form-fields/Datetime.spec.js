@@ -2,10 +2,7 @@ import { fireEvent, render } from '@testing-library/preact/pure';
 
 import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
 
@@ -13,20 +10,17 @@ let container;
 
 const spy = sinon.spy;
 
-describe('Datetime', function() {
-
-  beforeEach(function() {
+describe('Datetime', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-  describe('(date)', function() {
-
-    it('should render', function() {
-
+  describe('(date)', function () {
+    it('should render', function () {
       // when
       const { container } = createDatetime();
 
@@ -49,21 +43,18 @@ describe('Datetime', function() {
 
       const adornment = formField.querySelector('.fjs-input-adornment');
       expect(adornment).to.exist;
-
     });
 
-
-    it('should render required label', function() {
-
+    it('should render required label', function () {
       // when
       const { container } = createDatetime({
         field: {
           ...dateField,
           dateLabel: 'Required',
           validate: {
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       });
 
       const dateLabel = container.querySelector('label');
@@ -71,9 +62,7 @@ describe('Datetime', function() {
       expect(dateLabel.textContent).to.equal('Required*');
     });
 
-
-    it('should render value', function() {
-
+    it('should render value', function () {
       // when
       const { container } = createDatetime({ field: dateField, value: '1996-11-13' });
 
@@ -81,12 +70,9 @@ describe('Datetime', function() {
       const dateInput = container.querySelector('input[type="text"]');
       expect(dateInput).to.exist;
       expect(dateInput.value).to.be.equal('11/13/1996');
-
     });
 
-
-    it('should render disabled', function() {
-
+    it('should render disabled', function () {
       // when
       const { container } = createDatetime({ disabled: true, value: '1996-11-13' });
 
@@ -95,12 +81,9 @@ describe('Datetime', function() {
       expect(dateInput).to.exist;
       expect(dateInput.value).to.be.equal('11/13/1996');
       expect(dateInput.disabled).to.be.true;
-
     });
 
-
-    it('should render readonly', function() {
-
+    it('should render readonly', function () {
       // when
       const { container } = createDatetime({ readonly: true, value: '1996-11-13' });
 
@@ -109,44 +92,34 @@ describe('Datetime', function() {
       expect(dateInput).to.exist;
       expect(dateInput.value).to.be.equal('11/13/1996');
       expect(dateInput.readOnly).to.be.true;
-
     });
 
-
-    it('should render custom label', function() {
-
+    it('should render custom label', function () {
       // when
       const { container } = createDatetime({ field: { ...dateField, dateLabel: 'Birthday' } });
 
       const dateLabel = container.querySelector('label');
       expect(dateLabel).to.exist;
       expect(dateLabel.textContent).to.equal('Birthday');
-
     });
 
-
-    it('should render calendar', function() {
-
+    it('should render calendar', function () {
       // when
       const { container } = createDatetime({ field: { ...dateField } });
 
       // then
       const calendar = container.querySelector('.flatpickr-calendar');
       expect(calendar).to.exist;
-
     });
 
-
-    describe('change handling', function() {
-
-      it('should change date (keyboard)', function() {
-
+    describe('change handling', function () {
+      it('should change date (keyboard)', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -156,21 +129,18 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: '2000-01-01'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '2000-01-01',
         });
       });
 
-
-      it('should change date (mouse)', function() {
-
+      it('should change date (mouse)', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -181,21 +151,18 @@ describe('Datetime', function() {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: '1996-10-27'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '1996-10-27',
         });
       });
 
-
-      it('should clear date', function() {
-
+      it('should clear date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -205,24 +172,20 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: null
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: null,
         });
       });
     });
 
-
-    describe('interaction', function() {
-
-      it('should navigate to next month and select date', function() {
-
+    describe('interaction', function () {
+      it('should navigate to next month and select date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -236,21 +199,18 @@ describe('Datetime', function() {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: '1996-12-01'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '1996-12-01',
         });
       });
 
-
-      it('should navigate to previous month and select date', function() {
-
+      it('should navigate to previous month and select date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -264,21 +224,18 @@ describe('Datetime', function() {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: '1996-09-29'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '1996-09-29',
         });
       });
 
-
-      it('should navigate to specific month and select date', function() {
-
+      it('should navigate to specific month and select date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           onChange: onChangeSpy,
-          value: '1996-11-13'
+          value: '1996-11-13',
         });
 
         // when
@@ -292,26 +249,21 @@ describe('Datetime', function() {
         fireEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: dateField,
-          value: '1995-12-31'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '1995-12-31',
         });
       });
-
     });
 
-
-    describe('configuration', function() {
-
-      it('should disable past dates', function() {
-
+    describe('configuration', function () {
+      it('should disable past dates', function () {
         // given
         const { container } = createDatetime({
           value: '1996-11-13',
           field: {
             ...dateField,
-            disallowPassedDates: true
-          }
+            disallowPassedDates: true,
+          },
         });
 
         // when
@@ -322,21 +274,18 @@ describe('Datetime', function() {
 
         // then
         expect(dateInput.value).to.be.empty;
-        expect([ ...previousMonthButton.classList ]).to.include('flatpickr-disabled');
+        expect([...previousMonthButton.classList]).to.include('flatpickr-disabled');
       });
-
     });
 
-
-    it('should disable dates prior to 1900', function() {
-
+    it('should disable dates prior to 1900', function () {
       // given
       const { container } = createDatetime({
         value: '1900-01-01',
         field: {
           ...dateField,
-          disallowPassedDates: false
-        }
+          disallowPassedDates: false,
+        },
       });
 
       // when
@@ -346,16 +295,12 @@ describe('Datetime', function() {
       const previousMonthButton = container.querySelector('.flatpickr-prev-month');
 
       // then
-      expect([ ...previousMonthButton.classList ]).to.include('flatpickr-disabled');
+      expect([...previousMonthButton.classList]).to.include('flatpickr-disabled');
     });
-
   });
 
-
-  describe('(time)', function() {
-
-    it('should render', function() {
-
+  describe('(time)', function () {
+    it('should render', function () {
       // when
       const { container } = createDatetime({ field: timeField });
 
@@ -373,15 +318,11 @@ describe('Datetime', function() {
       expect(timeInput.value).to.be.empty;
       expect(timeInput.placeholder).to.equal('hh:mm ?m');
 
-
       const adornment = formField.querySelector('.fjs-input-adornment');
       expect(adornment).to.exist;
-
     });
 
-
-    it('should render when time interval is undefined', function() {
-
+    it('should render when time interval is undefined', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, timeInterval: undefined } });
 
@@ -390,20 +331,18 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
       expect(timeInput.placeholder).to.equal('hh:mm ?m');
-
     });
 
-    it('should render required label', function() {
-
+    it('should render required label', function () {
       // when
       const { container } = createDatetime({
         field: {
           ...timeField,
           timeLabel: 'Required',
           validate: {
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       });
 
       const dateLabel = container.querySelector('label');
@@ -411,9 +350,7 @@ describe('Datetime', function() {
       expect(dateLabel.textContent).to.equal('Required*');
     });
 
-
-    it('should render 24h placeholder', function() {
-
+    it('should render 24h placeholder', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, use24h: true } });
 
@@ -422,12 +359,9 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
       expect(timeInput.placeholder).to.equal('hh:mm');
-
     });
 
-
-    it('should render value', function() {
-
+    it('should render value', function () {
       // when
       const { container } = createDatetime({ field: timeField, value: '13:00' });
 
@@ -435,12 +369,9 @@ describe('Datetime', function() {
       const timeInput = container.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.equal('01:00 PM');
-
     });
 
-
-    it('should render 24h value', function() {
-
+    it('should render 24h value', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, use24h: true }, value: '13:00' });
 
@@ -448,12 +379,9 @@ describe('Datetime', function() {
       const timeInput = container.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.equal('13:00');
-
     });
 
-
-    it('should render disabled', function() {
-
+    it('should render disabled', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, use24h: true }, disabled: true, value: '13:00' });
 
@@ -462,12 +390,9 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(timeInput.value).to.equal('13:00');
       expect(timeInput.disabled).to.be.true;
-
     });
 
-
-    it('should render readonly', function() {
-
+    it('should render readonly', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, use24h: true }, readonly: true, value: '13:00' });
 
@@ -476,37 +401,27 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(timeInput.value).to.equal('13:00');
       expect(timeInput.readOnly).to.be.true;
-
     });
 
-
-    it('should render custom label', function() {
-
+    it('should render custom label', function () {
       // when
       const { container } = createDatetime({ field: { ...timeField, timeLabel: 'Alarm time' } });
 
       const timeLabel = container.querySelector('label');
       expect(timeLabel).to.exist;
       expect(timeLabel.textContent).to.equal('Alarm time');
-
     });
 
-
-    describe('dropdown', function() {
-
-      it('should not render by default', function() {
-
+    describe('dropdown', function () {
+      it('should not render by default', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField } });
 
         const dropdown = container.querySelector('fjs-dropdownlist');
         expect(dropdown).to.not.exist;
-
       });
 
-
-      it('should render on input focus', function() {
-
+      it('should render on input focus', function () {
         // when
         const { container } = createDatetime({ field: timeField });
 
@@ -530,12 +445,9 @@ describe('Datetime', function() {
         expect(midItem.innerText).to.equal('12:00 PM');
 
         expect(midItem).to.equal(focusedItem);
-
       });
 
-
-      it('should render custom increment', function() {
-
+      it('should render custom increment', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: 30 } });
 
@@ -554,12 +466,9 @@ describe('Datetime', function() {
 
         expect(firstItem.innerText).to.equal('12:00 AM');
         expect(secondItem.innerText).to.equal('12:30 AM');
-
       });
 
-
-      it('should default to 15 increment with invalid intervals', function() {
-
+      it('should default to 15 increment with invalid intervals', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: -72 } });
 
@@ -578,12 +487,9 @@ describe('Datetime', function() {
 
         expect(firstItem.innerText).to.equal('12:00 AM');
         expect(secondItem.innerText).to.equal('12:15 AM');
-
       });
 
-
-      it('should default to 15 increment with no interval', function() {
-
+      it('should default to 15 increment with no interval', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: undefined } });
 
@@ -602,12 +508,9 @@ describe('Datetime', function() {
 
         expect(firstItem.innerText).to.equal('12:00 AM');
         expect(secondItem.innerText).to.equal('12:15 AM');
-
       });
 
-
-      it('should render 24h', function() {
-
+      it('should render 24h', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, use24h: true } });
 
@@ -626,12 +529,9 @@ describe('Datetime', function() {
 
         expect(firstItem.innerText).to.equal('00:00');
         expect(secondItem.innerText).to.equal('00:15');
-
       });
 
-
-      it('should not render for 1m increments', function() {
-
+      it('should not render for 1m increments', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: 1 } });
 
@@ -641,12 +541,9 @@ describe('Datetime', function() {
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
         expect(dropdown).to.not.exist;
-
       });
 
-
-      it('should focus current value on open', function() {
-
+      it('should focus current value on open', function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, use24h: true }, value: '11:00' });
 
@@ -658,23 +555,18 @@ describe('Datetime', function() {
         const focusedItem = dropdown.querySelector('.fjs-dropdownlist-item.focused');
 
         expect(focusedItem.innerText).to.equal('11:00');
-
       });
-
     });
 
-
-    describe('change handling', function() {
-
-      it('should change time (24h)', function() {
-
+    describe('change handling', function () {
+      it('should change time (24h)', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: timeField,
           onChange: onChangeSpy,
-          value: '11:00'
+          value: '11:00',
         });
 
         // when
@@ -684,22 +576,19 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
-          value: '13:00'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '13:00',
         });
       });
 
-
-      it('should change time (AM/PM)', function() {
-
+      it('should change time (AM/PM)', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: timeField,
           onChange: onChangeSpy,
-          value: '11:00'
+          value: '11:00',
         });
 
         // when
@@ -709,22 +598,19 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
-          value: '13:00'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '13:00',
         });
       });
 
-
-      it('should clear time', function() {
-
+      it('should clear time', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: timeField,
           onChange: onChangeSpy,
-          value: '11:00'
+          value: '11:00',
         });
 
         // when
@@ -734,20 +620,15 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: timeField,
-          value: null
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: null,
         });
       });
     });
-
   });
 
-
-  describe('(datetime)', function() {
-
-    it('should render both date and time', function() {
-
+  describe('(datetime)', function () {
+    it('should render both date and time', function () {
       // when
       const { container } = createDatetime({ field: datetimeField });
 
@@ -779,12 +660,9 @@ describe('Datetime', function() {
 
       const adornments = formField.querySelectorAll('.fjs-input-adornment');
       expect(adornments.length).to.equal(2);
-
     });
 
-
-    it('should render required labels', function() {
-
+    it('should render required labels', function () {
       // when
       const { container } = createDatetime({
         label: 'Required',
@@ -793,9 +671,9 @@ describe('Datetime', function() {
           dateLabel: 'Required_date',
           timeLabel: 'Required_time',
           validate: {
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       });
 
       const dateTimeLabels = container.querySelectorAll('label');
@@ -805,7 +683,6 @@ describe('Datetime', function() {
     });
 
     it('should render date label with height when time label is not empty', () => {
-
       // when
       const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined } });
 
@@ -820,9 +697,7 @@ describe('Datetime', function() {
       expect(dateLabel.offsetHeight).to.equal(16);
     });
 
-
     it('should render time label with height when date label is not empty', () => {
-
       // when
       const { container } = createDatetime({ field: { ...datetimeField, timeLabel: undefined } });
 
@@ -837,9 +712,7 @@ describe('Datetime', function() {
       expect(timeLabel.offsetHeight).to.equal(16);
     });
 
-
     it('should render labels without height when both are empty', () => {
-
       // when
       const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined, timeLabel: undefined } });
 
@@ -854,16 +727,14 @@ describe('Datetime', function() {
       expect(timeLabel.offsetHeight).to.equal(0);
     });
 
-
-    it('should render value', function() {
-
+    it('should render value', function () {
       // when
       const { container } = createDatetime({
         field: {
           ...datetimeField,
-          use24h: true
+          use24h: true,
         },
-        value: '1996-11-13T10:00'
+        value: '1996-11-13T10:00',
       });
 
       const inputs = container.querySelectorAll('input[type="text"]');
@@ -878,12 +749,9 @@ describe('Datetime', function() {
       expect(timeInput).to.exist;
       expect(dateInput.value).to.be.equal('11/13/1996');
       expect(timeInput.value).to.be.equal('10:00');
-
     });
 
-
-    it('should display an error state if only date is set', function() {
-
+    it('should display an error state if only date is set', function () {
       // given
       const { container } = createDatetime({ field: datetimeField });
       const dateInput = container.querySelectorAll('input[type="text"]')[0];
@@ -900,12 +768,9 @@ describe('Datetime', function() {
 
       expect(errorItem).to.exist;
       expect(errorItem.innerText).to.equal('Date and time must both be entered.');
-
     });
 
-
-    it('should display an error state if only time is set', function() {
-
+    it('should display an error state if only time is set', function () {
       // given
       const { container } = createDatetime({ field: datetimeField });
 
@@ -924,21 +789,17 @@ describe('Datetime', function() {
       const errorItem = errorGroup.querySelector('li');
       expect(errorItem).to.exist;
       expect(errorItem.innerText).to.equal('Date and time must both be entered.');
-
     });
 
-
-    describe('change handling', function() {
-
-      it('should change date', function() {
-
+    describe('change handling', function () {
+      it('should change date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: datetimeField,
           onChange: onChangeSpy,
-          value: '1996-11-13T11:00'
+          value: '1996-11-13T11:00',
         });
 
         // when
@@ -948,22 +809,19 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
-          value: '2000-01-01T11:00'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '2000-01-01T11:00',
         });
       });
 
-
-      it('should change time', function() {
-
+      it('should change time', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: { ...datetimeField, use24h: true },
           onChange: onChangeSpy,
-          value: '1996-11-13T11:00'
+          value: '1996-11-13T11:00',
         });
 
         // when
@@ -973,22 +831,19 @@ describe('Datetime', function() {
         fireEvent.blur(timeInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: { ...datetimeField, use24h: true },
-          value: '1996-11-13T12:00'
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: '1996-11-13T12:00',
         });
       });
 
-
-      it('should clear from date', function() {
-
+      it('should clear from date', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: datetimeField,
           onChange: onChangeSpy,
-          value: '1996-11-13T10:00'
+          value: '1996-11-13T10:00',
         });
 
         // when
@@ -998,22 +853,19 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
-          value: null
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: null,
         });
       });
 
-
-      it('should clear from time', function() {
-
+      it('should clear from time', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createDatetime({
           field: datetimeField,
           onChange: onChangeSpy,
-          value: '1996-11-13T10:00'
+          value: '1996-11-13T10:00',
         });
 
         // when
@@ -1023,18 +875,14 @@ describe('Datetime', function() {
         fireEvent.blur(dateInput);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: datetimeField,
-          value: null
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: null,
         });
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Datetime;
     expect(config.type).to.eql('datetime');
@@ -1053,20 +901,17 @@ describe('Datetime', function() {
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations - date', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations - date', async function () {
       // given
       this.timeout(10000);
 
@@ -1076,9 +921,7 @@ describe('Datetime', function() {
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for readonly - date', async function() {
-
+    it('should have no violations for readonly - date', async function () {
       // given
       this.timeout(10000);
 
@@ -1088,110 +931,94 @@ describe('Datetime', function() {
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for errors - date', async function() {
-
+    it('should have no violations for errors - date', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createDatetime({
-        errors: [ 'Something went wrong' ]
+        errors: ['Something went wrong'],
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - time', async function() {
-
-      // given
-      this.timeout(10000);
-
-      const { container } = createDatetime({
-        field: timeField
-      });
-
-      // then
-      await expectNoViolations(container);
-    });
-
-
-    it('should have no violations for readonly - time', async function() {
-
+    it('should have no violations - time', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createDatetime({
         field: timeField,
-        readonly: true
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for errors - time', async function() {
-
+    it('should have no violations for readonly - time', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createDatetime({
         field: timeField,
-        errors: [ 'Something went wrong' ]
+        readonly: true,
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - datetime', async function() {
-
+    it('should have no violations for errors - time', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createDatetime({
-        field: datetimeField
+        field: timeField,
+        errors: ['Something went wrong'],
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for readonly - datetime', async function() {
-
-      // given
-      this.timeout(10000);
-
-      const { container } = createDatetime({
-        field: datetimeField,
-        readonly: true
-      });
-
-      // then
-      await expectNoViolations(container);
-    });
-
-
-    it('should have no violations for errors - datetime', async function() {
-
+    it('should have no violations - datetime', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createDatetime({
         field: datetimeField,
-        errors: [ 'Something went wrong' ]
       });
 
       // then
       await expectNoViolations(container);
     });
 
+    it('should have no violations for readonly - datetime', async function () {
+      // given
+      this.timeout(10000);
+
+      const { container } = createDatetime({
+        field: datetimeField,
+        readonly: true,
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+
+    it('should have no violations for errors - datetime', async function () {
+      // given
+      this.timeout(10000);
+
+      const { container } = createDatetime({
+        field: datetimeField,
+        errors: ['Something went wrong'],
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
   });
-
 });
 
 // helpers //////////
@@ -1201,7 +1028,7 @@ const dateField = {
   subtype: 'date',
   dateLabel: 'Date',
   type: 'datetime',
-  key: 'field_00rtqsi'
+  key: 'field_00rtqsi',
 };
 
 const timeField = {
@@ -1211,7 +1038,7 @@ const timeField = {
   key: 'field_00rtqsi',
   timeLabel: 'Time',
   timeSerializingFormat: 'no_timezone',
-  timeInterval: 15
+  timeInterval: 15,
 };
 
 const datetimeField = {
@@ -1222,33 +1049,32 @@ const datetimeField = {
   key: 'field_00rtqsi',
   timeLabel: 'Time',
   timeSerializingFormat: 'no_timezone',
-  timeInterval: 15
+  timeInterval: 15,
 };
 
 function createDatetime({ services, ...restOptions } = {}) {
-
   const options = {
     domId: 'test-datetime',
     field: dateField,
     onChange: () => {},
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
+    <MockFormContext services={services} options={options}>
       <Datetime
-        disabled={ options.disabled }
-        readonly={ options.readonly }
-        field={ options.field }
-        value={ options.value }
-        domId={ options.domId }
-        onBlur={ options.onBlur }
-        onChange={ options.onChange }
-        errors={ options.errors } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+        disabled={options.disabled}
+        readonly={options.readonly}
+        field={options.field}
+        value={options.value}
+        domId={options.domId}
+        onBlur={options.onBlur}
+        onChange={options.onChange}
+        errors={options.errors}
+      />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

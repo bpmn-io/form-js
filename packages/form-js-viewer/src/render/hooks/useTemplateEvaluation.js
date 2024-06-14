@@ -1,7 +1,7 @@
 import { useService } from './useService';
 import { useContext, useMemo } from 'preact/hooks';
 import { LocalExpressionContext } from '../context/LocalExpressionContext';
-import { buildExpressionContext } from '../../util/simple';
+import { buildExpressionContext } from '../../util/expressions';
 
 /**
  * Template a string reactively based on form data. If the string is not a template, it is returned as is.
@@ -24,5 +24,5 @@ export function useTemplateEvaluation(value, options = {}) {
       return templating.evaluate(value, buildExpressionContext(expressionContextInfo), options);
     }
     return value;
-  }, [ templating, value, expressionContextInfo, options ]);
+  }, [templating, value, expressionContextInfo, options]);
 }

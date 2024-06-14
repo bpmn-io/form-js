@@ -1,7 +1,4 @@
-import {
-  get,
-  set
-} from 'min-dash';
+import { get, set } from 'min-dash';
 
 import {
   CheckboxEntry,
@@ -10,7 +7,7 @@ import {
   FeelNumberEntry,
   isTextFieldEntryEdited,
   TextFieldEntry,
-  SelectEntry
+  SelectEntry,
 } from '@bpmn-io/properties-panel';
 
 import { useService, useVariables } from '../hooks';
@@ -34,20 +31,20 @@ const VALIDATION_TYPE_OPTIONS = {
 
 export function ValidationGroup(field, editField) {
   const { type } = field;
-  const validate = get(field, [ 'validate' ], {});
-  const isCustomValidation = [ undefined, VALIDATION_TYPE_OPTIONS.custom.value ].includes(validate.validationType);
+  const validate = get(field, ['validate'], {});
+  const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS.custom.value].includes(validate.validationType);
 
   const onChange = (key) => {
     return (value) => {
-      const validate = get(field, [ 'validate' ], {});
+      const validate = get(field, ['validate'], {});
 
-      editField(field, [ 'validate' ], set(validate, [ key ], value));
+      editField(field, ['validate'], set(validate, [key], value));
     };
   };
 
   const getValue = (key) => {
     return () => {
-      return get(field, [ 'validate', key ]);
+      return get(field, ['validate', key]);
     };
   };
 
@@ -59,22 +56,20 @@ export function ValidationGroup(field, editField) {
       field,
       isEdited: isCheckboxEntryEdited,
       onChange,
-      isDefaultVisible: (field) => INPUTS.includes(field.type)
-    }
+      isDefaultVisible: (field) => INPUTS.includes(field.type),
+    },
   ];
 
-  entries.push(
-    {
-      id: 'validationType',
-      component: ValidationType,
-      getValue,
-      field,
-      editField,
-      isEdited: isTextFieldEntryEdited,
-      onChange,
-      isDefaultVisible: (field) => field.type === 'textfield'
-    }
-  );
+  entries.push({
+    id: 'validationType',
+    component: ValidationType,
+    getValue,
+    field,
+    editField,
+    isEdited: isTextFieldEntryEdited,
+    onChange,
+    isDefaultVisible: (field) => field.type === 'textfield',
+  });
 
   entries.push(
     {
@@ -84,9 +79,8 @@ export function ValidationGroup(field, editField) {
       field,
       isEdited: isFeelEntryEdited,
       onChange,
-      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
-        type === 'textarea' || (type === 'textfield' && isCustomValidation)
-      )
+      isDefaultVisible: (field) =>
+        INPUTS.includes(field.type) && (type === 'textarea' || (type === 'textfield' && isCustomValidation)),
     },
     {
       id: 'maxLength',
@@ -95,25 +89,20 @@ export function ValidationGroup(field, editField) {
       field,
       isEdited: isFeelEntryEdited,
       onChange,
-      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
-        type === 'textarea' || (type === 'textfield' && isCustomValidation)
-      )
-    }
+      isDefaultVisible: (field) =>
+        INPUTS.includes(field.type) && (type === 'textarea' || (type === 'textfield' && isCustomValidation)),
+    },
   );
 
-  entries.push(
-    {
-      id: 'pattern',
-      component: Pattern,
-      getValue,
-      field,
-      isEdited: isTextFieldEntryEdited,
-      onChange,
-      isDefaultVisible: (field) => INPUTS.includes(field.type) && (
-        type === 'textfield' && isCustomValidation
-      )
-    }
-  );
+  entries.push({
+    id: 'pattern',
+    component: Pattern,
+    getValue,
+    field,
+    isEdited: isTextFieldEntryEdited,
+    onChange,
+    isDefaultVisible: (field) => INPUTS.includes(field.type) && type === 'textfield' && isCustomValidation,
+  });
 
   entries.push(
     {
@@ -123,7 +112,7 @@ export function ValidationGroup(field, editField) {
       field,
       isEdited: isFeelEntryEdited,
       onChange,
-      isDefaultVisible: (field) => field.type === 'number'
+      isDefaultVisible: (field) => field.type === 'number',
     },
     {
       id: 'max',
@@ -132,45 +121,35 @@ export function ValidationGroup(field, editField) {
       field,
       isEdited: isFeelEntryEdited,
       onChange,
-      isDefaultVisible: (field) => field.type === 'number'
-    }
+      isDefaultVisible: (field) => field.type === 'number',
+    },
   );
 
   return {
     id: 'validation',
     label: 'Validation',
-    entries
+    entries,
   };
 }
 
 function Required(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   return CheckboxEntry({
     element: field,
     getValue: getValue('required'),
     id,
     label: 'Required',
-    setValue: onChange('required')
+    setValue: onChange('required'),
   });
 }
 
 function MinLength(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelNumberEntry({
     debounce,
@@ -181,21 +160,16 @@ function MinLength(props) {
     label: 'Minimum length',
     min: 0,
     setValue: onChange('minLength'),
-    variables
+    variables,
   });
 }
 
 function MaxLength(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelNumberEntry({
     debounce,
@@ -206,17 +180,12 @@ function MaxLength(props) {
     label: 'Maximum length',
     min: 0,
     setValue: onChange('maxLength'),
-    variables
+    variables,
   });
 }
 
 function Pattern(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
@@ -226,21 +195,16 @@ function Pattern(props) {
     getValue: getValue('pattern'),
     id,
     label: 'Custom regular expression',
-    setValue: onChange('pattern')
+    setValue: onChange('pattern'),
   });
 }
 
 function Min(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelNumberEntry({
     debounce,
@@ -251,21 +215,16 @@ function Min(props) {
     step: 'any',
     getValue: getValue('min'),
     setValue: onChange('min'),
-    variables
+    variables,
   });
 }
 
 function Max(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
   return FeelNumberEntry({
     debounce,
@@ -276,17 +235,12 @@ function Max(props) {
     step: 'any',
     getValue: getValue('max'),
     setValue: onChange('max'),
-    variables
+    variables,
   });
 }
 
 function ValidationType(props) {
-  const {
-    field,
-    getValue,
-    id,
-    onChange
-  } = props;
+  const { field, getValue, id, onChange } = props;
 
   const debounce = useService('debounce');
 
@@ -305,6 +259,6 @@ function ValidationType(props) {
     tooltip:
       getValue('validationType')() === VALIDATION_TYPE_OPTIONS.phone.value
         ? 'The built-in phone validation pattern is based on the E.164 standard with no spaces. Ex: +491234567890'
-        : undefined
+        : undefined,
   });
 }

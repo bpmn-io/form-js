@@ -18,14 +18,12 @@ const EMPTY_ARRAY = [];
  * @param {Array} [flagRefs] - An array of refs that are used as flags to control when to scroll.
  */
 export function useScrollIntoView(scrolledElementRef, deps, scrollOptions, flagRefs) {
-
   const _scrollOptions = scrollOptions || EMPTY_OBJECT;
   const _flagRefs = flagRefs || EMPTY_ARRAY;
 
   useEffect(() => {
-
     // return early if flags are not raised, or component is not mounted
-    if (some(_flagRefs, ref => !ref.current) || !scrolledElementRef.current) {
+    if (some(_flagRefs, (ref) => !ref.current) || !scrolledElementRef.current) {
       return;
     }
 
@@ -45,7 +43,8 @@ export function useScrollIntoView(scrolledElementRef, deps, scrollOptions, flagR
 
     const { align = 'center', offset = 0, behavior = 'auto', scrollIfVisible = false } = _scrollOptions;
 
-    const shouldScroll = scrollIfVisible || !(itemRect.top >= containerRect.top && itemRect.bottom <= containerRect.bottom);
+    const shouldScroll =
+      scrollIfVisible || !(itemRect.top >= containerRect.top && itemRect.bottom <= containerRect.bottom);
 
     if (!shouldScroll) {
       return;
@@ -54,10 +53,9 @@ export function useScrollIntoView(scrolledElementRef, deps, scrollOptions, flagR
     const topOffset = _getTopOffset(itemToBeScrolled, scrollContainer, { align, offset });
     scrollContainer.scroll({ top: topOffset, behavior });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
-
 
 // helper //////////////////////
 
@@ -68,9 +66,18 @@ function _getTopOffset(item, scrollContainer, options) {
   if (options.align === 'top') {
     return itemRect.top - containerRect.top + scrollContainer.scrollTop - options.offset;
   } else if (options.align === 'bottom') {
-    return itemRect.bottom - containerRect.top - scrollContainer.clientHeight + scrollContainer.scrollTop + options.offset;
+    return (
+      itemRect.bottom - containerRect.top - scrollContainer.clientHeight + scrollContainer.scrollTop + options.offset
+    );
   } else if (options.align === 'center') {
-    return itemRect.top - containerRect.top - scrollContainer.clientHeight / 2 + scrollContainer.scrollTop + itemRect.height / 2 + options.offset;
+    return (
+      itemRect.top -
+      containerRect.top -
+      scrollContainer.clientHeight / 2 +
+      scrollContainer.scrollTop +
+      itemRect.height / 2 +
+      options.offset
+    );
   }
 
   return 0;

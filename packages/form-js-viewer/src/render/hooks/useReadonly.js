@@ -1,4 +1,4 @@
-import { buildExpressionContext } from '../../util/simple';
+import { buildExpressionContext } from '../../util/expressions.js';
 import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
 import { useService } from './useService.js';
 import { useContext } from 'preact/hooks';

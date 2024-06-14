@@ -18,9 +18,10 @@ export function EditorExpressionField(props) {
   }
 
   return (
-    <div class={ editorFormFieldClasses(type) }>
+    <div class={editorFormFieldClasses(type)}>
       <div class="fjs-form-field-placeholder">
-        <Icon viewBox="0 0 54 54" />{placeholderContent}
+        <Icon viewBox="0 0 54 54" />
+        {placeholderContent}
       </div>
     </div>
   );
@@ -28,5 +29,5 @@ export function EditorExpressionField(props) {
 
 EditorExpressionField.config = {
   ...ExpressionField.config,
-  escapeGridRender: false
+  escapeGridRender: false,
 };

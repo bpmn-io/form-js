@@ -1,0 +1,41 @@
+{
+  "components": [
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_staticValue",
+      "key": "staticValue",
+      "expression": "=10"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_exprA",
+      "key": "exprA",
+      "expression": "=staticValue + 10"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_exprB",
+      "key": "exprB",
+      "expression": "=exprA * 2"
+    },
+    {
+      "computeOn": "change",
+      "type": "expression",
+      "id": "Field_exprC",
+      "key": "exprC",
+      "expression": "=exprB + 10"
+    }
+  ],
+  "type": "default",
+  "id": "Form_non_cyclic_example",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "schemaVersion": 16
+}

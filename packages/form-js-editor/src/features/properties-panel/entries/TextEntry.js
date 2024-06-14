@@ -5,10 +5,7 @@ import { useService, useVariables } from '../hooks';
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 export function TextEntry(props) {
-  const {
-    editField,
-    field
-  } = props;
+  const { editField, field } = props;
 
   const entries = [
     {
@@ -17,25 +14,21 @@ export function TextEntry(props) {
       editField: editField,
       field: field,
       isEdited: isFeelEntryEdited,
-      isDefaultVisible: (field) => field.type === 'text'
-    }
+      isDefaultVisible: (field) => field.type === 'text',
+    },
   ];
 
   return entries;
 }
 
 function Text(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map(name => ({ name }));
+  const variables = useVariables().map((name) => ({ name }));
 
-  const path = [ 'text' ];
+  const path = ['text'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -54,8 +47,17 @@ function Text(props) {
     label: 'Text',
     hostLanguage: 'markdown',
     setValue,
-    variables
+    variables,
   });
 }
 
-const description = <>Supports markdown and templating. <a href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/" target="_blank">Learn more</a></>;
+const description = (
+  <>
+    Supports markdown and templating.{' '}
+    <a
+      href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/"
+      target="_blank">
+      Learn more
+    </a>
+  </>
+);

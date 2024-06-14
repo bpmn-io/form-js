@@ -10,7 +10,7 @@ import { useService } from './useService';
 export const LOAD_STATES = {
   LOADING: 'loading',
   LOADED: 'loaded',
-  ERROR: 'error'
+  ERROR: 'error',
 };
 
 /**
@@ -26,11 +26,7 @@ export const LOAD_STATES = {
  * @return {OptionsGetter} optionsGetter - A options getter object providing loading state and options
  */
 export function useOptionsAsync(field) {
-  const {
-    valuesExpression: optionsExpression,
-    valuesKey: optionsKey,
-    values: staticOptions
-  } = field;
+  const { valuesExpression: optionsExpression, valuesKey: optionsKey, values: staticOptions } = field;
 
   const initialData = useService('form')._getState().initialData;
   const expressionEvaluation = useExpressionEvaluation(optionsExpression);
@@ -46,22 +42,22 @@ export function useOptionsAsync(field) {
         options = keyedOptions;
       }
 
-    // static options
+      // static options
     } else if (staticOptions !== undefined) {
       options = Array.isArray(staticOptions) ? staticOptions : [];
 
-    // expression
+      // expression
     } else if (optionsExpression && evaluatedOptions && Array.isArray(evaluatedOptions)) {
       options = evaluatedOptions;
 
-    // error case
+      // error case
     } else {
       return buildErrorState('No options source defined in the form definition');
     }
 
     // normalize data to support primitives and partially defined objects
     return buildLoadedState(normalizeOptionsData(options));
-  }, [ optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions ]);
+  }, [optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions]);
 
   return optionsGetter;
 }

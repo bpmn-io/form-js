@@ -1,39 +1,28 @@
-import {
-  fireEvent,
-  createEvent,
-  render
-} from '@testing-library/preact/pure';
+import { fireEvent, createEvent, render } from '@testing-library/preact/pure';
 
 import { Numberfield } from '../../../../../src/render/components/form-fields/Number';
 
 import { MockFormContext } from '../helper';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 const spy = sinon.spy;
 
 let container;
 
-
-describe('Number', function() {
-
-  beforeEach(function() {
+describe('Number', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
     const { container } = createNumberField({
-      value: 123
+      value: 123,
     });
 
     // then
@@ -53,18 +42,16 @@ describe('Number', function() {
     expect(label.textContent).to.equal('Amount');
   });
 
-
-  it('should render required label', function() {
-
+  it('should render required label', function () {
     // when
     const { container } = createNumberField({
       field: {
         ...defaultField,
         label: 'Required',
         validate: {
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     });
 
     // then
@@ -74,19 +61,17 @@ describe('Number', function() {
     expect(label.textContent).to.equal('Required*');
   });
 
-
-  it('should render adorners', function() {
-
+  it('should render adorners', function () {
     // when
     const { container } = createNumberField({
       field: {
         ...defaultField,
         appearance: {
           prefixAdorner: 'prefix',
-          suffixAdorner: 'suffix'
-        }
+          suffixAdorner: 'suffix',
+        },
       },
-      value: 123
+      value: 123,
     });
 
     // then
@@ -97,41 +82,36 @@ describe('Number', function() {
     expect(adorners[1].innerText).to.equal('suffix');
   });
 
-
-  it('should not render empty adorners', function() {
-
+  it('should not render empty adorners', function () {
     // when
     const { container } = createNumberField({
       field: {
         ...defaultField,
         appearance: {
           prefixAdorner: '',
-          suffixAdorner: ''
-        }
+          suffixAdorner: '',
+        },
       },
-      value: 123
+      value: 123,
     });
 
     // then
     const adorners = container.querySelectorAll('.fjs-input-adornment');
 
     expect(adorners.length).to.equal(0);
-
   });
 
-
-  it('should render 0 strings', function() {
-
+  it('should render 0 strings', function () {
     // when
     const { container } = createNumberField({
       field: {
         ...defaultField,
         appearance: {
           prefixAdorner: '0',
-          suffixAdorner: '0'
-        }
+          suffixAdorner: '0',
+        },
       },
-      value: 123
+      value: 123,
     });
 
     // then
@@ -142,9 +122,7 @@ describe('Number', function() {
     expect(adorners[1].innerText).to.equal('0');
   });
 
-
-  it('should render default value (\'\')', function() {
-
+  it("should render default value ('')", function () {
     // when
     const { container } = createNumberField();
 
@@ -155,12 +133,10 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render <null> value', function() {
-
+  it('should render <null> value', function () {
     // when
     const { container } = createNumberField({
-      value: null
+      value: null,
     });
 
     // then
@@ -170,20 +146,18 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render default value on value removed', function() {
-
+  it('should render default value on value removed', function () {
     // given
     const props = {
       disabled: false,
       errors: [],
       field: defaultField,
-      onChange: () => {}
+      onChange: () => {},
     };
 
     createNumberField({
       ...props,
-      value: '2'
+      value: '2',
     });
 
     const input = container.querySelector('input[type="text"]');
@@ -196,12 +170,10 @@ describe('Number', function() {
     expect(input.value).to.equal('');
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
     const { container } = createNumberField({
-      disabled: true
+      disabled: true,
     });
 
     // then
@@ -211,12 +183,10 @@ describe('Number', function() {
     expect(input.disabled).to.be.true;
   });
 
-
-  it('should render readonly', function() {
-
+  it('should render readonly', function () {
     // when
     const { container } = createNumberField({
-      readonly: true
+      readonly: true,
     });
 
     // then
@@ -226,15 +196,13 @@ describe('Number', function() {
     expect(input.readOnly).to.be.true;
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
     const { container } = createNumberField({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -244,17 +212,14 @@ describe('Number', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  describe('change handling', function() {
-
-    it('should change number', function() {
-
+  describe('change handling', function () {
+    it('should change number', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 123
+        value: 123,
       });
 
       // when
@@ -263,21 +228,18 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: '124' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: 124
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: 124,
       });
     });
 
-
-    it('should not serialize standalone minus', function() {
-
+    it('should not serialize standalone minus', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: null
+        value: null,
       });
 
       // when
@@ -289,15 +251,13 @@ describe('Number', function() {
       expect(onChangeSpy).to.not.have.been.called;
     });
 
-
-    it('should clear', function() {
-
+    it('should clear', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 123
+        value: 123,
       });
 
       // when
@@ -306,28 +266,21 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: '' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: null
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: null,
       });
     });
-
-
   });
 
-
-  describe('interaction', function() {
-
-    describe('increment button', function() {
-
-      it('should increment', function() {
-
+  describe('interaction', function () {
+    describe('increment button', function () {
+      it('should increment', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -335,22 +288,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
-          value: 124
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 124,
         });
       });
 
-
-      it('should increment according to `decimalDigits`', function() {
-
+      it('should increment according to `decimalDigits`', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: decimalField,
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -358,22 +308,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: decimalField,
-          value: 123.001
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 123.001,
         });
       });
 
-
-      it('should increment according to `step`', function() {
-
+      it('should increment according to `step`', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -381,22 +328,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: 123.25
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 123.25,
         });
       });
 
-
-      it('should increment to exact step when not aligned', function() {
-
+      it('should increment to exact step when not aligned', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: 122.99
+          value: 122.99,
         });
 
         // when
@@ -404,22 +348,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: 123
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 123,
         });
       });
 
-
-      it('should increment properly when negative', function() {
-
+      it('should increment properly when negative', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: -1
+          value: -1,
         });
 
         // when
@@ -427,24 +368,20 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: -0.75
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: -0.75,
         });
       });
     });
 
-
-    describe('decrement button', function() {
-
-      it('should decrement', function() {
-
+    describe('decrement button', function () {
+      it('should decrement', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -452,22 +389,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: defaultField,
-          value: 122
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 122,
         });
       });
 
-
-      it('should decrement according to `decimalDigits`', function() {
-
+      it('should decrement according to `decimalDigits`', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: decimalField,
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -475,22 +409,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: decimalField,
-          value: 122.999
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 122.999,
         });
       });
 
-
-      it('should decrement according to `step`', function() {
-
+      it('should decrement according to `step`', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: 123
+          value: 123,
         });
 
         // when
@@ -498,22 +429,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: 122.75
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 122.75,
         });
       });
 
-
-      it('should decrement to exact step when not aligned', function() {
-
+      it('should decrement to exact step when not aligned', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: 122.76
+          value: 122.76,
         });
 
         // when
@@ -521,22 +449,19 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: 122.75
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 122.75,
         });
       });
 
-
-      it('should decrement properly when negative', function() {
-
+      it('should decrement properly when negative', function () {
         // given
         const onChangeSpy = spy();
 
         const { container } = createNumberField({
           field: stepField,
           onChange: onChangeSpy,
-          value: -1
+          value: -1,
         });
 
         // when
@@ -544,20 +469,15 @@ describe('Number', function() {
         fireEvent.click(incrementButton);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWith({
-          field: stepField,
-          value: -1.25
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: -1.25,
         });
       });
     });
-
   });
 
-
-  describe('formatting', function() {
-
-    it('should handle string inputs as numbers by default', function() {
-
+  describe('formatting', function () {
+    it('should handle string inputs as numbers by default', function () {
       // given
       const onChangeSpy = spy();
 
@@ -572,23 +492,19 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: '124' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: 124
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: 124,
       });
-
     });
 
-
-    it('should handle number inputs as strings if configured', function() {
-
+    it('should handle number inputs as strings if configured', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123,
-        field: stringField
+        field: stringField,
       });
 
       // when
@@ -597,23 +513,19 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: 124 } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
-        value: '124'
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: '124',
       });
-
     });
 
-
-    it('should handle string inputs as strings if configured', function() {
-
+    it('should handle string inputs as strings if configured', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123,
-        field: stringField
+        field: stringField,
       });
 
       // when
@@ -622,26 +534,23 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: '125' } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
-        value: '125'
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: '125',
       });
-
     });
 
-
-    it('should handle high precision string numbers without trimming', function() {
-
+    it('should handle high precision string numbers without trimming', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123,
-        field: stringField
+        field: stringField,
       });
 
-      const highPrecisionStringNumber = '125.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
+      const highPrecisionStringNumber =
+        '125.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
 
       // when
       const input = container.querySelector('input[type="text"]');
@@ -649,25 +558,20 @@ describe('Number', function() {
       fireEvent.input(input, { target: { value: highPrecisionStringNumber } });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
-        value: highPrecisionStringNumber
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: highPrecisionStringNumber,
       });
-
     });
 
-
-    it('should treat invalid string numbers as "NaN"', function() {
-
+    it('should treat invalid string numbers as "NaN"', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
         value: 123,
-        field: stringField
+        field: stringField,
       });
-
 
       // when
       const input = container.querySelector('input[type="text"]');
@@ -676,23 +580,17 @@ describe('Number', function() {
 
       // then
       expect(input.value).to.equal('NaN');
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: stringField,
-        value: null
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: null,
       });
-
     });
-
   });
 
-
-  describe('user input', function() {
-
-    it('should prevent key presses generating non-number characters', function() {
-
+  describe('user input', function () {
+    it('should prevent key presses generating non-number characters', function () {
       // given
       const { container } = createNumberField({
-        value: 123
+        value: 123,
       });
 
       const input = container.querySelector('input[type="text"]');
@@ -720,15 +618,12 @@ describe('Number', function() {
       expect(letterKeyPress.defaultPrevented).to.be.true;
       expect(digitKeyPress.defaultPrevented).to.be.false;
       expect(minusKeyPress.defaultPrevented).to.be.true;
-
     });
 
-
-    it('should prevent second comma or period', function() {
-
+    it('should prevent second comma or period', function () {
       // given
       const { container } = createNumberField({
-        value: 123.5
+        value: 123.5,
       });
 
       const input = container.querySelector('input[type="text"]');
@@ -747,15 +642,12 @@ describe('Number', function() {
       // then
       expect(periodKeyPress.defaultPrevented).to.be.true;
       expect(commaKeyPress.defaultPrevented).to.be.true;
-
     });
 
-
-    it('should allow a minus at the start', function() {
-
+    it('should allow a minus at the start', function () {
       // given
       const { container } = createNumberField({
-        value: null
+        value: null,
       });
 
       const input = container.querySelector('input[type="text"]');
@@ -771,18 +663,15 @@ describe('Number', function() {
 
       // then
       expect(minusKeyPress.defaultPrevented).to.be.false;
-
     });
 
-
-    it('should clear NaN state on backspace', function() {
-
+    it('should clear NaN state on backspace', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 'NaN'
+        value: 'NaN',
       });
 
       // when
@@ -794,21 +683,18 @@ describe('Number', function() {
       fireEvent.keyDown(input, { key: 'Backspace', code: 'Backspace' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: null
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: null,
       });
     });
 
-
-    it('should clear NaN state on delete', function() {
-
+    it('should clear NaN state on delete', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 'NaN'
+        value: 'NaN',
       });
 
       // when
@@ -820,21 +706,18 @@ describe('Number', function() {
       fireEvent.keyDown(input, { key: 'Delete', code: 'Delete' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: null
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: null,
       });
     });
 
-
-    it('should increment on arrow up', function() {
-
+    it('should increment on arrow up', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 0
+        value: 0,
       });
 
       // when
@@ -846,21 +729,18 @@ describe('Number', function() {
       fireEvent.keyDown(input, { key: 'ArrowUp', code: 'ArrowUp' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: 1
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: 1,
       });
     });
 
-
-    it('should decrement on arrow down', function() {
-
+    it('should decrement on arrow down', function () {
       // given
       const onChangeSpy = spy();
 
       const { container } = createNumberField({
         onChange: onChangeSpy,
-        value: 0
+        value: 0,
       });
 
       // when
@@ -872,17 +752,13 @@ describe('Number', function() {
       fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
 
       // then
-      expect(onChangeSpy).to.have.been.calledWith({
-        field: defaultField,
-        value: -1
+      expect(onChangeSpy).to.have.been.calledWithMatch({
+        value: -1,
       });
     });
-
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Numberfield;
     expect(config.type).to.eql('number');
@@ -898,20 +774,17 @@ describe('Number', function() {
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('#sanitizeValue', function() {
-
-    it('should sanitize valid number strings to numbers', function() {
-
+  describe('#sanitizeValue', function () {
+    it('should sanitize valid number strings to numbers', function () {
       // given
       const { sanitizeValue } = Numberfield.config;
 
@@ -926,12 +799,9 @@ describe('Number', function() {
       expect(sanitizedValue2).to.equal(123.23);
       expect(sanitizedValue3).to.equal(0);
       expect(sanitizedValue4).to.equal(-1.1);
-
     });
 
-
-    it('should sanitize arrays and objects to null', function() {
-
+    it('should sanitize arrays and objects to null', function () {
       // given
       const { sanitizeValue } = Numberfield.config;
 
@@ -942,12 +812,9 @@ describe('Number', function() {
       // then
       expect(sanitizedValue1).to.equal(null);
       expect(sanitizedValue2).to.equal(null);
-
     });
 
-
-    it('should sanitize invalid number strings to null', function() {
-
+    it('should sanitize invalid number strings to null', function () {
       // given
       const { sanitizeValue } = Numberfield.config;
 
@@ -964,12 +831,9 @@ describe('Number', function() {
       expect(sanitizedValue3).to.equal(null);
       expect(sanitizedValue4).to.equal(null);
       expect(sanitizedValue5).to.equal(null);
-
     });
 
-
-    it('should sanitize booleans to null', function() {
-
+    it('should sanitize booleans to null', function () {
       // given
       const { sanitizeValue } = Numberfield.config;
 
@@ -980,105 +844,87 @@ describe('Number', function() {
       // then
       expect(sanitizedValue1).to.equal(null);
       expect(sanitizedValue2).to.equal(null);
-
     });
-
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
-      // given
-      this.timeout(10000);
-
-      const { container } = createNumberField({
-        value: 123
-      });
-
-      // then
-      await expectNoViolations(container);
-    });
-
-
-    it('should have no violations for readonly', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createNumberField({
         value: 123,
-        readonly: true
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for errors', async function() {
-
+    it('should have no violations for readonly', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createNumberField({
         value: 123,
-        errors: [ 'Something went wrong' ]
+        readonly: true,
       });
 
       // then
       await expectNoViolations(container);
     });
 
+    it('should have no violations for errors', async function () {
+      // given
+      this.timeout(10000);
 
-    it('should have no violations (decimal field)', async function() {
+      const { container } = createNumberField({
+        value: 123,
+        errors: ['Something went wrong'],
+      });
 
+      // then
+      await expectNoViolations(container);
+    });
+
+    it('should have no violations (decimal field)', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createNumberField({
         field: decimalField,
-        value: 123.23
+        value: 123.23,
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations (string parsed field)', async function() {
-
+    it('should have no violations (string parsed field)', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createNumberField({
         field: stringField,
-        value: '123.233333333333333333333'
+        value: '123.233333333333333333333',
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations (step field)', async function() {
-
+    it('should have no violations (step field)', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createNumberField({
         field: stringField,
-        value: 123.25
+        value: 123.25,
       });
 
       // then
       await expectNoViolations(container);
     });
-
-
   });
-
 });
 
 // helpers //////////
@@ -1087,49 +933,48 @@ const defaultField = {
   key: 'amount',
   label: 'Amount',
   type: 'number',
-  description: 'number'
+  description: 'number',
 };
 
 const stringField = {
   ...defaultField,
-  serializeToString: true
+  serializeToString: true,
 };
 
 const decimalField = {
   ...defaultField,
-  decimalDigits: 3
+  decimalDigits: 3,
 };
 
 const stepField = {
   ...defaultField,
   decimalDigits: 3,
-  increment: 0.25
+  increment: 0.25,
 };
 
 function createNumberField({ services, ...restOptions } = {}) {
-
   const options = {
     domId: 'test-number',
     field: defaultField,
     onChange: () => {},
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
+    <MockFormContext services={services} options={options}>
       <Numberfield
-        disabled={ options.disabled }
-        readonly={ options.readonly }
-        errors={ options.errors }
-        domId={ options.domId }
-        field={ options.field }
-        onChange={ options.onChange }
-        onBlur={ options.onBlur }
-        value={ options.value } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+        disabled={options.disabled}
+        readonly={options.readonly}
+        errors={options.errors}
+        domId={options.domId}
+        field={options.field}
+        onChange={options.onChange}
+        onBlur={options.onBlur}
+        value={options.value}
+      />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

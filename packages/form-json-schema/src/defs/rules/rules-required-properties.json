@@ -6,9 +6,7 @@
         "$ref": "../field-types/inputs.json"
       },
       "then": {
-        "required": [
-          "key"
-        ]
+        "required": ["key"]
       }
     },
     {
@@ -18,16 +16,10 @@
       "then": {
         "oneOf": [
           {
-            "required": [
-              "dataSource",
-              "columns"
-            ]
+            "required": ["dataSource", "columns"]
           },
           {
-            "required": [
-              "dataSource",
-              "columnsExpression"
-            ]
+            "required": ["dataSource", "columnsExpression"]
           }
         ]
       }
@@ -39,15 +31,10 @@
             "const": "expression"
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
-        "required": [
-          "expression",
-          "computeOn"
-        ]
+        "required": ["expression", "computeOn"]
       }
     }
   ]

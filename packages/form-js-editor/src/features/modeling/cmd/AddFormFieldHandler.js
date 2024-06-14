@@ -1,13 +1,8 @@
 import { get } from 'min-dash';
 
-import {
-  arrayAdd,
-  arrayRemove,
-  updatePath
-} from './Util';
+import { arrayAdd, arrayRemove, updatePath } from './Util';
 
 export class AddFormFieldHandler {
-
   /**
    * @constructor
    * @param { import('../../../FormEditor').FormEditor } formEditor
@@ -19,15 +14,11 @@ export class AddFormFieldHandler {
   }
 
   execute(context) {
-    const {
-      formField,
-      targetFormField,
-      targetIndex
-    } = context;
+    const { formField, targetFormField, targetIndex } = context;
 
     const { schema } = this._formEditor._getState();
 
-    const targetPath = [ ...targetFormField._path, 'components' ];
+    const targetPath = [...targetFormField._path, 'components'];
 
     formField._parent = targetFormField.id;
 
@@ -45,15 +36,11 @@ export class AddFormFieldHandler {
   }
 
   revert(context) {
-    const {
-      formField,
-      targetFormField,
-      targetIndex
-    } = context;
+    const { formField, targetFormField, targetIndex } = context;
 
     const { schema } = this._formEditor._getState();
 
-    const targetPath = [ ...targetFormField._path, 'components' ];
+    const targetPath = [...targetFormField._path, 'components'];
 
     // (1) Remove new form field
     arrayRemove(get(schema, targetPath), targetIndex);
@@ -69,4 +56,4 @@ export class AddFormFieldHandler {
   }
 }
 
-AddFormFieldHandler.$inject = [ 'formEditor', 'formFieldRegistry' ];
+AddFormFieldHandler.$inject = ['formEditor', 'formFieldRegistry'];

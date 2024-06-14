@@ -6,10 +6,12 @@ import { isObject } from 'min-dash';
  * @param {Array} options
  */
 export function useGetLabelCorrelation(options) {
-
   // This allows us to retrieve the label from a value in linear time
-  const labelMap = useMemo(() => Object.assign({}, ...options.map((o) => ({ [_getValueHash(o.value)]:  o.label }))), [ options ]);
-  return useCallback((value) => labelMap[_getValueHash(value)], [ labelMap ]);
+  const labelMap = useMemo(
+    () => Object.assign({}, ...options.map((o) => ({ [_getValueHash(o.value)]: o.label }))),
+    [options],
+  );
+  return useCallback((value) => labelMap[_getValueHash(value)], [labelMap]);
 }
 
 const _getValueHash = (value) => {
