@@ -1,66 +1,3 @@
-// import { get } from 'min-dash';
-// import { useService } from '../hooks';
-// import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
-// import { useDirection } from '../../../../../form-js-viewer/src/render/context/DirectionContext';
-
-// export function DirectionEntry(props) {
-//   const { editField, field } = props;
-//   const { direction, setDirection } = useDirection();
-
-//   const entries = [
-//     {
-//       id: 'direction',
-//       component: Direction,
-//       editField,
-//       field,
-//       isEdited: isSelectEntryEdited,
-//       isDefaultVisible: (field) => field.type === 'default',
-//     }
-//   ];
-
-//   return entries;
-// }
-
-// function Direction(props) {
-//   const { editField, field, id } = props;
-
-//   const debounce = useService('debounce');
-
-//   const path = ['direction'];
-
-//   const getValue = () => {
-//     return get(field, path, 'ltr');
-//   };
-
-//   const setValue = (value) => {
-//     return editField(field, path, value || 'ltr');
-//   };
-
-//   const getOptions = () => [
-//     {
-//       label: 'Left to Right',
-//       value: 'ltr',
-//     },
-//     {
-//       label: 'Right to Left',
-//       value: 'rtl',
-//     },
-//   ];
-
-//   return SelectEntry({
-//     debounce,
-//     element: field,
-//     getValue,
-//     id: 'direction',
-//     label: 'Direction',
-//     setValue,
-//     getOptions
-//   });
-// }
-// ----------------------------------
-
-
-
 import { get } from 'min-dash';
 import { useService } from '../hooks';
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
@@ -77,7 +14,7 @@ export function DirectionEntry(props) {
       field,
       isEdited: isSelectEntryEdited,
       isDefaultVisible: (field) => field.type === 'default',
-    }
+    },
   ];
 
   return entries;
@@ -121,7 +58,6 @@ function Direction(props) {
     id: 'direction',
     label: 'Direction',
     setValue,
-    getOptions
+    getOptions,
   });
 }
-

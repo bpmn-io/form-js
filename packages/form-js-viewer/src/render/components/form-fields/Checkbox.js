@@ -24,12 +24,18 @@ export function Checkbox(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
-  const form = useService('form');	
-  const { schema } = form._getState();	
-  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema	
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })} style={{ display: 'flex', justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start', fontFamily: 'Vazirmatn, sans-serif' }}>
+    <div
+      class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })}
+      style={{
+        display: 'flex',
+        justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start',
+        fontFamily: 'Vazirmatn, sans-serif',
+      }}>
       <Label htmlFor={domId} label={label} required={required}>
         <input
           checked={value}
@@ -44,7 +50,11 @@ export function Checkbox(props) {
           required={required}
           aria-invalid={errors.length > 0}
           aria-describedby={[descriptionId, errorMessageId].join(' ')}
-          style={{ display: 'flex', justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start', fontFamily: 'Vazirmatn, sans-serif' }}
+          style={{
+            display: 'flex',
+            justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start',
+            fontFamily: 'Vazirmatn, sans-serif',
+          }}
           dir={direction === 'rtl' ? 'rtl' : 'ltr'}
         />
       </Label>

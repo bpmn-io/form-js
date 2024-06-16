@@ -5,7 +5,7 @@ import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Label } from '../Label';
 import { TemplatedInputAdorner } from './parts/TemplatedInputAdorner';
-import { useService } from '../../hooks'
+import { useService } from '../../hooks';
 import { useFlushDebounce } from '../../hooks/useFlushDebounce';
 
 const type = 'textfield';
@@ -43,7 +43,9 @@ export function Textfield(props) {
   const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })} style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
       <Label htmlFor={domId} label={label} required={required} />
       <TemplatedInputAdorner disabled={disabled} readonly={readonly} pre={prefixAdorner} post={suffixAdorner}>
         <input
@@ -89,5 +91,3 @@ Textfield.config = {
   },
   create: (options = {}) => ({ ...options }),
 };
-
-
