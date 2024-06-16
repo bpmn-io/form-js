@@ -33,8 +33,6 @@ export function FormComponent(props) {
     [filteredFormData],
   );
 
-  console.log('FormComponent render, schema:', schema); // Log the schema
-
   return (
     <form class="fjs-form" onSubmit={handleSubmit} onReset={handleReset} aria-label={ariaLabel} noValidate>
       <LocalExpressionContext.Provider value={localExpressionContext}>

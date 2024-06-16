@@ -30,12 +30,10 @@ function Direction(props) {
 
   const getValue = () => {
     const value = get(field, path, 'ltr');
-    console.log('DirectionEntry getValue:', value); // Log getValue
     return value;
   };
 
   const setValue = (value) => {
-    console.log('DirectionEntry setValue:', value); // Log setValue
     setDirection(value); // Update context
     return editField(field, path, value || 'ltr');
   };
