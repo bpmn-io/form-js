@@ -65,12 +65,15 @@ export function Checklist(props) {
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
-  const form = useService('form');	
-  const { schema } = form._getState();	
-  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema	
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }))} ref={outerDivRef} style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+    <div
+      class={classNames(formFieldClasses(type, { errors, disabled, readonly }))}
+      ref={outerDivRef}
+      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
         options.map((o, index) => {
