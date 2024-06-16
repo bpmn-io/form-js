@@ -5,7 +5,7 @@ import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Label } from '../Label';
 import { TemplatedInputAdorner } from './parts/TemplatedInputAdorner';
-
+import { useService } from '../../hooks'
 import { useFlushDebounce } from '../../hooks/useFlushDebounce';
 
 const type = 'textfield';
@@ -37,8 +37,13 @@ export function Textfield(props) {
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
+  const form = useService('form');
+  const { schema } = form._getState();
+
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+    <div class={formFieldClasses(type, { errors, disabled, readonly })} style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
       <Label htmlFor={domId} label={label} required={required} />
       <TemplatedInputAdorner disabled={disabled} readonly={readonly} pre={prefixAdorner} post={suffixAdorner}>
         <input
@@ -54,6 +59,8 @@ export function Textfield(props) {
           aria-describedby={[descriptionId, errorMessageId].join(' ')}
           required={required}
           aria-invalid={errors.length > 0}
+          style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
+          dir={direction === 'rtl' ? 'rtl' : 'ltr'}
         />
       </TemplatedInputAdorner>
       <Description id={descriptionId} description={description} />
@@ -82,3 +89,5 @@ Textfield.config = {
   },
   create: (options = {}) => ({ ...options }),
 };
+
+

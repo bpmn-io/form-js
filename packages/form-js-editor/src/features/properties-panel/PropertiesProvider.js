@@ -10,6 +10,7 @@ import {
   TableHeaderGroups,
   LayoutGroup,
   SecurityAttributesGroup,
+  StyleGroup,
 } from './groups';
 
 import { hasEntryConfigured } from './Util';
@@ -51,12 +52,13 @@ export class PropertiesProvider {
       if (!field) {
         return groups;
       }
-
+      
       const getService = (type, strict = true) => this._injector.get(type, strict);
 
       groups = [
         ...groups,
         GeneralGroup(field, editField, getService),
+        StyleGroup(field, editField),
         ...OptionsGroups(field, editField, getService),
         ...TableHeaderGroups(field, editField),
         SecurityAttributesGroup(field, editField),
@@ -69,9 +71,10 @@ export class PropertiesProvider {
         CustomPropertiesGroup(field, editField),
       ].filter((group) => group != null);
 
+
       this._filterVisibleEntries(groups, field, getService);
 
-      // contract: if a group has no entries or items, it should not be displayed at all
+
       return groups.filter((group) => {
         return group.items || (group.entries && group.entries.length);
       });
