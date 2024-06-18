@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { useFlushDebounce } from '../../hooks/useFlushDebounce';
 
 import { formFieldClasses } from '../Util';
+import { useService } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -49,9 +50,14 @@ export function Textarea(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
       <Label htmlFor={domId} label={label} required={required} />
       <textarea
         class="fjs-textarea"
@@ -66,6 +72,8 @@ export function Textarea(props) {
         aria-describedby={[descriptionId, errorMessageId].join(' ')}
         required={required}
         aria-invalid={errors.length > 0}
+        style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
+        dir={direction === 'rtl' ? 'rtl' : 'ltr'}
       />
       <Description id={descriptionId} description={description} />
       <Errors id={errorMessageId} errors={errors} />

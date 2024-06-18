@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import classNames from 'classnames';
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
-import { useFlushDebounce, usePrevious } from '../../hooks';
+import { useFlushDebounce, usePrevious, useService } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -160,9 +160,14 @@ export function Numberfield(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
       <Label htmlFor={domId} label={label} required={required} />
       <TemplatedInputAdorner disabled={disabled} readonly={readonly} pre={prefixAdorner} post={suffixAdorner}>
         <div
