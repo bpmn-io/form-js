@@ -1,6 +1,7 @@
 import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Label } from '../Label';
+import { useService } from '../../hooks';
 
 import { formFieldClasses } from '../Util';
 
@@ -23,9 +24,17 @@ export function Checkbox(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })}>
+    <div
+      class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })}
+      style={{
+        direction: direction,
+        fontFamily: 'Vazirmatn, sans-serif',
+      }}>
       <Label htmlFor={domId} label={label} required={required}>
         <input
           checked={value}
@@ -40,6 +49,11 @@ export function Checkbox(props) {
           required={required}
           aria-invalid={errors.length > 0}
           aria-describedby={[descriptionId, errorMessageId].join(' ')}
+          style={{
+            display: 'flex',
+            justifyContent: direction === 'rtl' ? 'flex-end' : 'flex-start',
+            fontFamily: 'Vazirmatn, sans-serif',
+          }}
         />
       </Label>
       <Description id={descriptionId} description={description} />
