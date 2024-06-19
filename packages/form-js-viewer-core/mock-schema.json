@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "label": "Text field",
+      "type": "textfield",
+      "id": "field_1knwu16",
+      "key": "aTextField"
+    },
+    {
+      "label": "first_checkbox",
+      "type": "checkbox",
+      "id": "field_0zbcir4",
+      "key": "first_checkbox",
+      "conditional": {
+        "hide": "=second_checkbox"
+      }
+    },
+    {
+      "label": "second_checkbox",
+      "type": "checkbox",
+      "id": "field_06pzj62",
+      "key": "second_checkbox"
+    }
+  ],
+  "type": "default"
+}

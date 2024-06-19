@@ -31,5 +31,13 @@
   "sideEffects": false,
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "feelin": "^3.1.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.2",
+    "min-dash": "^4.2.1",
+    "preact": "^10.22.0"
+  }
 }

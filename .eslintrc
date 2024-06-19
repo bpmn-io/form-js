@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 2019
+    "ecmaVersion": 2022
   },
   "extends": [
     "plugin:bpmn-io/browser",
