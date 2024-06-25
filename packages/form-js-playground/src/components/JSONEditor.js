@@ -38,25 +38,25 @@ export function JSONEditor(options = {}) {
       placeholderLinterExtension,
       autocompletionConfCompartment.of(variablesFacet.of(variables)),
       autocompletionExtension(),
-      keymap.of([ indentWithTab ]),
+      keymap.of([indentWithTab]),
       editorPlaceholder ? placeholder(editorPlaceholder) : [],
       EditorState.readOnly.of(readonly),
-      EditorView.updateListener.of(update => {
+      EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           emitter.emit('changed', { value: update.state.doc.toString() });
         }
       }),
-      EditorView.contentAttributes.of(contentAttributes)
+      EditorView.contentAttributes.of(contentAttributes),
     ];
 
     return EditorState.create({ doc, extensions });
   }
 
   const view = new EditorView({
-    state: createState('')
+    state: createState(''),
   });
 
-  this.setValue = function(newValue) {
+  this.setValue = function (newValue) {
     const oldValue = view.state.doc.toString();
 
     const diff = findDiff(oldValue, newValue);
@@ -64,20 +64,20 @@ export function JSONEditor(options = {}) {
     if (diff) {
       view.dispatch({
         changes: { from: diff.start, to: diff.end, insert: diff.text },
-        selection: { anchor: diff.start + diff.text.length }
+        selection: { anchor: diff.start + diff.text.length },
       });
     }
   };
 
-  this.getValue = function() {
+  this.getValue = function () {
     return view.state.doc.toString();
   };
 
-  this.setVariables = function(variables) {
+  this.setVariables = function (variables) {
     view.dispatch({ effects: autocompletionConfCompartment.reconfigure(variablesFacet.of(variables)) });
   };
 
-  this.getView = function() {
+  this.getView = function () {
     return view;
   };
 
@@ -85,13 +85,13 @@ export function JSONEditor(options = {}) {
   this.off = emitter.off;
   this.emit = emitter.emit;
 
-  this.attachTo = function(_container) {
+  this.attachTo = function (_container) {
     container = _container;
     container.appendChild(view.dom);
     domClasses(container, document.body).add('fjs-json-editor');
   };
 
-  this.destroy = function() {
+  this.destroy = function () {
     if (container && view.dom) {
       container.removeChild(view.dom);
       domClasses(container, document.body).remove('fjs-json-editor');
@@ -100,7 +100,7 @@ export function JSONEditor(options = {}) {
   };
 
   function createPlaceholderLinterExtension() {
-    return linter(view => {
+    return linter((view) => {
       const placeholders = view.dom.querySelectorAll('.cm-placeholder');
       if (placeholders.length > 0) {
         domClasses(container, document.body).add(NO_LINT_CLS);
@@ -113,7 +113,6 @@ export function JSONEditor(options = {}) {
 }
 
 function findDiff(oldStr, newStr) {
-
   if (oldStr === newStr) {
     return null;
   }
@@ -132,7 +131,7 @@ function findDiff(oldStr, newStr) {
     return {
       start: start,
       text: newStr.slice(start),
-      end: oldStr.length
+      end: oldStr.length,
     };
   }
 
@@ -147,6 +146,6 @@ function findDiff(oldStr, newStr) {
   return {
     start: start,
     text: newStr.slice(start, endNew),
-    end: endOld
+    end: endOld,
   };
 }

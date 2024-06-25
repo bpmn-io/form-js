@@ -3,40 +3,40 @@ name: Check Tasklist Carbonization
 on:
   push:
     branches:
-      - "*"
-      - "!main"
+      - '*'
+      - '!main'
 
 jobs:
   Exec:
     name: Run visual regression
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.43.0
+      image: mcr.microsoft.com/playwright:v1.43.1
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
-        uses: actions/checkout@8410ad0602e1e429cee44a835ae9f77f654a6694
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           path: form-js
       - name: Checkout Tasklist
-        uses: actions/checkout@8410ad0602e1e429cee44a835ae9f77f654a6694
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
-          repository: camunda/tasklist
+          repository: camunda/zeebe
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
-          path: tasklist
-          ref: "master"
+          path: zeebe
+          ref: 'main'
       - name: Setup form-js cache
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@eff380dfbcf941bf8832e4acb788cebe13dfd758
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
           cache-dependency-path: ./form-js/package-lock.json
       - name: Setup Tasklist cache
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@eff380dfbcf941bf8832e4acb788cebe13dfd758
         with:
-          node-version: "20"
-          cache: "yarn"
-          cache-dependency-path: ./tasklist/tasklist/client/yarn.lock
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: ./zeebe/tasklist/client/yarn.lock
       - name: Install form-js deps
         run: npm ci
         working-directory: ./form-js
@@ -48,28 +48,28 @@ jobs:
         working-directory: ./form-js/packages/form-js-viewer
       - name: Link form-js-viewer
         run: yarn link "@bpmn-io/form-js-viewer"
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Create form-js-carbon-styles link
         run: yarn link
         working-directory: ./form-js/packages/form-js-carbon-styles
       - name: Link form-js-carbon-styles
         run: yarn link "@bpmn-io/form-js-carbon-styles"
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Install Tasklist deps
         run: yarn
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Build Tasklist
         run: yarn build:visual-regression
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
       - name: Start server
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
         run: yarn start:visual-regression &
       - name: Run Playwright tests
-        working-directory: ./tasklist/tasklist/client
+        working-directory: ./zeebe/tasklist/client
         run: yarn playwright form-js-integration
-      - uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
+      - uses: actions/upload-artifact@552bf3722c16e81001aea7db72d8cedf64eb5f68
         if: always()
         with:
           name: playwright-report
-          path: ./tasklist/tasklist/client/playwright-report/
+          path: ./zeebe/tasklist/client/playwright-report/
           retention-days: 30

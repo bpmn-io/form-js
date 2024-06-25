@@ -1,14 +1,8 @@
-import {
-  fireEvent,
-  render
-} from '@testing-library/preact/pure';
+import { fireEvent, render } from '@testing-library/preact/pure';
 
 import { Checkbox } from '../../../../../src/render/components/form-fields/Checkbox';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
 
@@ -16,23 +10,19 @@ const spy = sinon.spy;
 
 let container;
 
-
-describe('Checkbox', function() {
-
-  beforeEach(function() {
+describe('Checkbox', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
     const { container } = createCheckbox({
-      value: true
+      value: true,
     });
 
     // then
@@ -52,18 +42,16 @@ describe('Checkbox', function() {
     expect(label.textContent).to.equal('Approved');
   });
 
-
-  it('should render required label', function() {
-
+  it('should render required label', function () {
     // when
     const { container } = createCheckbox({
       field: {
         ...defaultField,
         label: 'Required',
         validate: {
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     });
 
     // then
@@ -73,9 +61,7 @@ describe('Checkbox', function() {
     expect(label.textContent).to.equal('Required*');
   });
 
-
-  it('should render default value (false)', function() {
-
+  it('should render default value (false)', function () {
     // when
     const { container } = createCheckbox();
 
@@ -86,12 +72,10 @@ describe('Checkbox', function() {
     expect(input.checked).to.be.false;
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
     const { container } = createCheckbox({
-      disabled: true
+      disabled: true,
     });
 
     // then
@@ -101,12 +85,10 @@ describe('Checkbox', function() {
     expect(input.disabled).to.be.true;
   });
 
-
-  it('should render readonly', function() {
-
+  it('should render readonly', function () {
     // when
     const { container } = createCheckbox({
-      readonly: true
+      readonly: true,
     });
 
     // then
@@ -116,15 +98,13 @@ describe('Checkbox', function() {
     expect(input.readOnly).to.be.true;
   });
 
-
-  it('should render without label', function() {
-
+  it('should render without label', function () {
     // when
     const { container } = createCheckbox({
       field: {
         ...defaultField,
-        label: ''
-      }
+        label: '',
+      },
     });
 
     // then
@@ -133,15 +113,13 @@ describe('Checkbox', function() {
     expect(label).to.exist;
   });
 
-
-  it('should render description', function() {
-
+  it('should render description', function () {
     // when
     const { container } = createCheckbox({
       field: {
         ...defaultField,
-        description: 'foo'
-      }
+        description: 'foo',
+      },
     });
 
     // then
@@ -151,15 +129,13 @@ describe('Checkbox', function() {
     expect(description.textContent).to.equal('foo');
   });
 
-
-  it('should handle change', function() {
-
+  it('should handle change', function () {
     // given
     const onChangeSpy = spy();
 
     const { container } = createCheckbox({
       onChange: onChangeSpy,
-      value: true
+      value: true,
     });
 
     // when
@@ -168,15 +144,12 @@ describe('Checkbox', function() {
     fireEvent.change(input, { target: { checked: false } });
 
     // then
-    expect(onChangeSpy).to.have.been.calledWith({
-      field: defaultField,
-      value: false
+    expect(onChangeSpy).to.have.been.calledWithMatch({
+      value: false,
     });
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Checkbox;
     expect(config.type).to.eql('checkbox');
@@ -192,63 +165,54 @@ describe('Checkbox', function() {
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations', async function() {
-
-      // given
-      this.timeout(10000);
-
-      const { container } = createCheckbox({
-        value: true
-      });
-
-      // then
-      await expectNoViolations(container);
-    });
-
-
-    it('should have no violations for readonly', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createCheckbox({
         value: true,
-        readonly: true
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations for errors', async function() {
-
+    it('should have no violations for readonly', async function () {
       // given
       this.timeout(10000);
 
       const { container } = createCheckbox({
         value: true,
-        errors: [ 'Something went wrong' ]
+        readonly: true,
       });
 
       // then
       await expectNoViolations(container);
     });
 
-  });
+    it('should have no violations for errors', async function () {
+      // given
+      this.timeout(10000);
 
+      const { container } = createCheckbox({
+        value: true,
+        errors: ['Something went wrong'],
+      });
+
+      // then
+      await expectNoViolations(container);
+    });
+  });
 });
 
 // helpers //////////
@@ -257,33 +221,32 @@ const defaultField = {
   key: 'approved',
   label: 'Approved',
   type: 'checkbox',
-  description: 'checkbox'
+  description: 'checkbox',
 };
 
 function createCheckbox({ services, ...restOptions } = {}) {
-
   const options = {
     domId: 'test-checkbox',
     field: defaultField,
     onChange: () => {},
-    ...restOptions
+    ...restOptions,
   };
 
   return render(
-    <MockFormContext
-      services={ services }
-      options={ options }>
+    <MockFormContext services={services} options={options}>
       <Checkbox
-        disabled={ options.disabled }
-        readonly={ options.readonly }
-        errors={ options.errors }
-        domId={ options.domId }
-        field={ options.field }
-        onChange={ options.onChange }
-        onBlur={ options.onBlur }
-        value={ options.value } />
-    </MockFormContext>, {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+        disabled={options.disabled}
+        readonly={options.readonly}
+        errors={options.errors}
+        domId={options.domId}
+        field={options.field}
+        onChange={options.onChange}
+        onBlur={options.onBlur}
+        value={options.value}
+      />
+    </MockFormContext>,
+    {
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

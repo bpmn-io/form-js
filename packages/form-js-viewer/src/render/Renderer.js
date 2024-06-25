@@ -18,15 +18,14 @@ import { FormContext } from './context';
  * @param {Injector} injector
  */
 export function Renderer(config, eventBus, form, injector) {
-
   const App = () => {
-    const [ state, setState ] = useState(form._getState());
+    const [state, setState] = useState(form._getState());
 
     const formContext = {
       getService(type, strict = true) {
         return injector.get(type, strict);
       },
-      formId: form._id
+      formId: form._id,
     };
 
     eventBus.on('changed', (newState) => {
@@ -43,7 +42,7 @@ export function Renderer(config, eventBus, form, injector) {
       if (!readOnly) {
         form.submit();
       }
-    }, [ readOnly ]);
+    }, [readOnly]);
 
     const onReset = useCallback(() => form.reset(), []);
 
@@ -54,11 +53,8 @@ export function Renderer(config, eventBus, form, injector) {
     }
 
     return (
-      <FormContext.Provider value={ formContext }>
-        <FormComponent
-          onChange={ onChange }
-          onSubmit={ onSubmit }
-          onReset={ onReset } />
+      <FormContext.Provider value={formContext}>
+        <FormComponent onChange={onChange} onSubmit={onSubmit} onReset={onReset} />
       </FormContext.Provider>
     );
   };
@@ -74,4 +70,4 @@ export function Renderer(config, eventBus, form, injector) {
   });
 }
 
-Renderer.$inject = [ 'config.renderer', 'eventBus', 'form', 'injector' ];
+Renderer.$inject = ['config.renderer', 'eventBus', 'form', 'injector'];

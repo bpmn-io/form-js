@@ -1,11 +1,6 @@
-import {
-  useRef
-} from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 
-import {
-  classes,
-  query as domQuery
-} from 'min-dom';
+import { classes, query as domQuery } from 'min-dom';
 
 import { useService } from '../hooks';
 
@@ -22,11 +17,7 @@ const ELEMENT_RESIZING_CLS = 'fjs-element-resizing';
 const GRID_OFFSET_PX = 16;
 
 export function FieldResizer(props) {
-
-  const {
-    field,
-    position
-  } = props;
+  const { field, position } = props;
 
   const ref = useRef(null);
 
@@ -37,7 +28,7 @@ export function FieldResizer(props) {
   // manipulate this inside dragging events
   const context = useRef({
     startColumns: 0,
-    newColumns: 0
+    newColumns: 0,
   });
 
   const onResize = throttle((_, delta) => {
@@ -45,17 +36,11 @@ export function FieldResizer(props) {
 
     const { layout = {} } = field;
 
-    const newColumns = calculateNewColumns(
-      ref.current,
-      layout.columns || context.current.startColumns,
-      dx,
-      position
-    );
+    const newColumns = calculateNewColumns(ref.current, layout.columns || context.current.startColumns, dx, position);
 
     const errorMessage = formLayoutValidator.validateField(field, newColumns);
 
     if (!errorMessage) {
-
       context.current.newColumns = newColumns;
 
       // make visual updates to preview change
@@ -66,7 +51,6 @@ export function FieldResizer(props) {
   });
 
   const onResizeStart = (event) => {
-
     const target = getElementNode(field);
     const parent = getParent(target);
 
@@ -89,7 +73,7 @@ export function FieldResizer(props) {
     if (context.current.newColumns) {
       modeling.editFormField(field, 'layout', {
         ...layout,
-        columns: context.current.newColumns
+        columns: context.current.newColumns,
       });
     }
 
@@ -105,19 +89,13 @@ export function FieldResizer(props) {
 
   return (
     <div
-      ref={ ref }
-      class={ classNames(
-        'fjs-field-resize-handle',
-        'fjs-field-resize-handle-' + position,
-        DRAG_NO_MOVE_CLS
-      ) }
+      ref={ref}
+      class={classNames('fjs-field-resize-handle', 'fjs-field-resize-handle-' + position, DRAG_NO_MOVE_CLS)}
       draggable
-      onDragStart={ onResizeStart }
-      onDragEnd={ onResizeEnd }>
-    </div>
+      onDragStart={onResizeStart}
+      onDragEnd={onResizeEnd}></div>
   );
 }
-
 
 // helper //////
 

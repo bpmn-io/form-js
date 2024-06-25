@@ -1,0 +1,18 @@
+{
+  "id": "Form_1lywnv3",
+  "components": [
+    {
+      "computeOn": "change",
+      "label": "Expression",
+      "type": "expression",
+      "layout": {
+        "row": "Row_0duk8pr",
+        "columns": null
+      },
+      "id": "Field_01dikzb",
+      "key": "exp_expression",
+      "expression": "=flatten(data[selected = filter].dates)"
+    }
+  ],
+  "type": "default"
+}

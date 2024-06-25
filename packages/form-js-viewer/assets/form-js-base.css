@@ -40,22 +40,16 @@
    * 2 - use layer one
    * 3 - use fallback 
    */
-  --color-background: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-white))
-  );
+  --color-background: var(--cds-field, var(--cds-field-01, var(--color-white)));
   --color-background-disabled: var(--cds-background, var(--color-grey-225-10-95));
   --color-background-readonly: var(--cds-background, var(--color-grey-225-10-95));
-  --color-background-adornment: var(
-    --cds-field, 
-    var(--cds-field-01, var(--color-grey-225-10-95))
-  );
+  --color-background-adornment: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-95)));
   --color-background-inverted: var(--cds-background-inverse, var(--color-grey-225-10-90));
   --color-background-inverted-hover: var(--cds-background-inverse-hover, var(--color-grey-225-10-93));
   --color-background-active: var(--cds-background-active, var(--color-grey-225-10-75));
-  --color-layer: var(--cds-layer,
-      var(--cds-layer-01, var(--color-white)));
+  --color-layer: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
   --color-layer-accent: var(--cds-layer-accent, var(--color-grey-0-0-88));
+  --color-background-pre: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
 
   --color-icon-base: var(--cds-icon-primary, var(--color-black));
   --color-icon-inverted: var(--cds-icon-inverse, var(--color-black));
@@ -66,27 +60,19 @@
   --color-text-inverted: var(--cds-text-inverse, var(--color-text));
   --color-text-disabled: var(--cds-text-disabled, var(--color-text-light));
 
-  --color-borders: var(
-    --cds-border-strong, 
-    var(--cds-border-strong-01, var(--color-grey-225-10-55))
-  );
+  --color-borders: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-55)));
   --color-borders-group: var(--cds-border-subtle, var(--color-grey-225-10-85));
   --color-borders-table: var(--color-borders-group);
   --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
-  --color-borders-adornment: var(
-    --cds-border-subtle, 
-    var(--cds-border-subtle-01, var(--color-grey-225-10-85))
-  );
+  --color-borders-adornment: var(--cds-border-subtle, var(--cds-border-subtle-01, var(--color-grey-225-10-85)));
   --color-borders-readonly: var(--cds-border-subtle, var(--color-grey-225-10-75));
   --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
+  --color-borders-pre: var(--cds-border-subtle, var(--color-grey-225-10-85));
 
   --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
   --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
   --color-accent: var(--cds-link-primary, var(--color-blue-205-100-40));
-  --color-accent-readonly: var(
-    --cds-border-strong, 
-    var(--cds-border-strong-01, var(--color-grey-225-10-55))
-  );
+  --color-accent-readonly: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-55)));
   --color-datepicker-focused-day: var(--cds-button-primary, var(--color-grey-225-10-55));
   --color-shadow: var(--cds-shadow, var(--color-grey-225-10-85));
 
@@ -101,9 +87,9 @@
   --line-height-input: 18px;
   --line-height-label: 16px;
 
-  --letter-spacing-base: .16px;
-  --letter-spacing-input: .16px;
-  --letter-spacing-label: .32px;
+  --letter-spacing-base: 0.16px;
+  --letter-spacing-input: 0.16px;
+  --letter-spacing-label: 0.32px;
 
   --form-field-height: 36px;
 
@@ -329,21 +315,45 @@
   padding: 4px 16px;
 }
 
-.fjs-container .fjs-form-field-grouplike .fjs-form-field-grouplike .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
-.fjs-container .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
+.fjs-container
+  .fjs-form-field-grouplike
+  .fjs-form-field-grouplike
+  .fjs-layout-column:first-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
+.fjs-container
+  .fjs-layout-column:first-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-left: -6px;
 }
 
-.fjs-container .fjs-form-field-grouplike .fjs-form-field-grouplike .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
-.fjs-container .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
+.fjs-container
+  .fjs-form-field-grouplike
+  .fjs-form-field-grouplike
+  .fjs-layout-column:last-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike),
+.fjs-container
+  .fjs-layout-column:last-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-right: -6px;
 }
 
-.fjs-container .fjs-form-field-grouplike .fjs-layout-column:first-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
+.fjs-container
+  .fjs-form-field-grouplike
+  .fjs-layout-column:first-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-left: 11px;
 }
 
-.fjs-container .fjs-form-field-grouplike .fjs-layout-column:last-child > .fjs-element > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
+.fjs-container
+  .fjs-form-field-grouplike
+  .fjs-layout-column:last-child
+  > .fjs-element
+  > .fjs-form-field-grouplike:not(.fjs-editor-container .fjs-form-field-grouplike) {
   margin-right: 11px;
 }
 
@@ -500,7 +510,6 @@
   border-radius: 3px;
 }
 
-
 .fjs-container .fjs-input-group .fjs-input[type='text'],
 .fjs-container .fjs-input-group .fjs-input[type='email'],
 .fjs-container .fjs-input-group .fjs-input[type='tel'],
@@ -524,7 +533,7 @@
 
 .fjs-container .fjs-input-group .fjs-select-display {
   line-height: var(--line-height-base);
-  user-select: none; 
+  user-select: none;
   padding: 8px;
   flex: 1;
 }
@@ -750,7 +759,7 @@
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
-  border-color: var(--color-red-360-100-92); 
+  border-color: var(--color-red-360-100-92);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-separator {
@@ -811,18 +820,25 @@
 .fjs-container .fjs-form-field-text table,
 .fjs-container .fjs-form-field-text th,
 .fjs-container .fjs-form-field-text td {
-  border: 1px solid var(--color-borders-table); 
+  border: 1px solid var(--color-borders-table);
   padding: 8px;
 }
 
 .fjs-container .fjs-form-field-html th,
 .fjs-container .fjs-form-field-text th {
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .fjs-container .fjs-form-field-html td,
 .fjs-container .fjs-form-field-text td {
   white-space: nowrap;
+}
+
+.fjs-container .fjs-form-field-html pre,
+.fjs-container .fjs-form-field-text pre {
+  border: 1px solid var(--color-borders-pre);
+  background: var(--color-background-pre);
+  padding: 4px;
 }
 
 .fjs-container .fjs-taglist-anchor,
@@ -886,7 +902,7 @@
 }
 
 .fjs-container .fjs-taglist.fjs-disabled .fjs-taglist-tag,
-.fjs-container .fjs-taglist.fjs-readonly .fjs-taglist-tag { 
+.fjs-container .fjs-taglist.fjs-readonly .fjs-taglist-tag {
   background-color: var(--color-background-inverted);
 }
 
@@ -1233,12 +1249,13 @@
 .fjs-container .flatpickr-day.selected:hover,
 .fjs-container .flatpickr-day.selected:focus {
   background-color: var(--color-accent);
-  font-weight: bold; 
+  font-weight: bold;
   color: var(--color-text-inverted);
   border-color: var(--color-accent);
 }
 
-.fjs-container .flatpickr-days, .flatpickr-weekdays {
+.fjs-container .flatpickr-days,
+.flatpickr-weekdays {
   padding: 10px;
   width: 100%;
 }

@@ -3,50 +3,33 @@ import isEqual from 'lodash/isEqual';
 
 import { get } from 'min-dash';
 
-import { FormContext, FormRenderContext } from '../context';
+import { FormContext, FormRenderContext, LocalExpressionContext } from '../context';
 
-import {
-  useCondition,
-  useReadonly,
-  useService
-} from '../hooks';
+import { useCondition, useReadonly, useService } from '../hooks';
 
 import { gridColumnClasses, prefixId } from './Util';
 
 const noop = () => false;
 
-
 export function FormField(props) {
-  const {
-    field,
-    indexes,
-    onChange
-  } = props;
+  const { field, indexes, onChange: _onChange } = props;
 
   const formFields = useService('formFields'),
-        viewerCommands = useService('viewerCommands', false),
-        pathRegistry = useService('pathRegistry'),
-        eventBus = useService('eventBus'),
-        form = useService('form');
+    viewerCommands = useService('viewerCommands', false),
+    formFieldInstanceRegistry = useService('formFieldInstanceRegistry', false),
+    pathRegistry = useService('pathRegistry'),
+    eventBus = useService('eventBus'),
+    form = useService('form');
 
-  const {
-    initialData,
-    data,
-    errors,
-    properties
-  } = form._getState();
+  const { initialData, data, errors, properties } = form._getState();
 
-  const {
-    Element,
-    Hidden,
-    Column
-  } = useContext(FormRenderContext);
+  const { Element, Hidden, Column } = useContext(FormRenderContext);
 
   const { formId } = useContext(FormContext);
 
   // track whether we should trigger initial validation on certain actions, e.g. field blur
   // disabled straight away, if viewerCommands are not available
-  const [ initialValidationTrigger, setInitialValidationTrigger ] = useState(!!viewerCommands);
+  const [initialValidationTrigger, setInitialValidationTrigger] = useState(!!viewerCommands);
 
   const FormFieldComponent = formFields.get(field.type);
 
@@ -56,22 +39,43 @@ export function FormField(props) {
 
   const fieldConfig = FormFieldComponent.config;
 
-  const valuePath = useMemo(() => pathRegistry.getValuePath(field, { indexes }), [ field, indexes, pathRegistry ]);
+  const localExpressionContext = useContext(LocalExpressionContext);
+  const valuePath = useMemo(() => pathRegistry.getValuePath(field, { indexes }), [field, indexes, pathRegistry]);
 
-  const initialValue = useMemo(() => get(initialData, valuePath), [ initialData, valuePath ]);
+  const initialValue = useMemo(() => get(initialData, valuePath), [initialData, valuePath]);
 
   const readonly = useReadonly(field, properties);
 
   const value = get(data, valuePath);
 
   // add precedence: global readonly > form field disabled
-  const disabled = !properties.readOnly && (
-    properties.disabled || field.disabled || false
+  const disabled = !properties.readOnly && (properties.disabled || field.disabled || false);
+
+  const hidden = useCondition((field.conditional && field.conditional.hide) || null);
+
+  const fieldInstance = useMemo(
+    () => ({
+      id: field.id,
+      expressionContextInfo: localExpressionContext,
+      valuePath,
+      indexes,
+    }),
+    [field.id, valuePath, localExpressionContext, indexes],
   );
+
+  // register form field instance
+  useEffect(() => {
+    if (formFieldInstanceRegistry && !hidden) {
+      const instanceId = formFieldInstanceRegistry.add(fieldInstance);
+
+      return () => {
+        formFieldInstanceRegistry.remove(instanceId);
+      };
+    }
+  }, [fieldInstance, formFieldInstanceRegistry, hidden]);
 
   // ensures the initial validation behavior can be re-triggered upon form reset
   useEffect(() => {
-
     if (!viewerCommands) {
       return;
     }
@@ -87,66 +91,59 @@ export function FormField(props) {
       eventBus.off('import.done', resetValidation);
       eventBus.off('reset', resetValidation);
     };
-
-  }, [ eventBus, viewerCommands ]);
+  }, [eventBus, viewerCommands]);
 
   useEffect(() => {
-
     const hasInitialValue = initialValue && !isEqual(initialValue, []);
 
     if (initialValidationTrigger && hasInitialValue) {
       setInitialValidationTrigger(false);
-      viewerCommands.updateFieldValidation(field, initialValue, indexes);
+      viewerCommands.updateFieldInstanceValidation(fieldInstance, initialValue);
     }
-
-  }, [ viewerCommands, field, initialValue, initialValidationTrigger, indexes ]);
+  }, [fieldInstance, initialValidationTrigger, initialValue, viewerCommands]);
 
   const onBlur = useCallback(() => {
-
     const value = get(data, valuePath);
 
     if (initialValidationTrigger) {
       setInitialValidationTrigger(false);
-      viewerCommands.updateFieldValidation(field, value, indexes);
+      viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
     }
 
     eventBus.fire('formField.blur', { formField: field });
-
-  }, [ eventBus, field, indexes, viewerCommands, initialValidationTrigger, data, valuePath ]);
+  }, [data, eventBus, field, fieldInstance, initialValidationTrigger, valuePath, viewerCommands]);
 
   const onFocus = useCallback(() => {
     eventBus.fire('formField.focus', { formField: field });
-  }, [ eventBus, field ]);
+  }, [eventBus, field]);
 
-  const hidden = useCondition(field.conditional && field.conditional.hide || null);
-
-  const onChangeIndexed = useCallback((update) => {
-
-    // any data change will trigger validation
-    setInitialValidationTrigger(false);
-
-    // add indexes of the keyed field to the update, if any
-    onChange(fieldConfig.keyed ? { ...update, indexes } : update);
-  }, [ onChange, fieldConfig.keyed, indexes ]);
+  const onChange = useCallback(
+    (update) => {
+      setInitialValidationTrigger(false);
+      _onChange({ field, indexes, fieldInstance, ...update });
+    },
+    [_onChange, field, fieldInstance, indexes],
+  );
 
   if (hidden) {
-    return <Hidden field={ field } />;
+    return <Hidden field={field} />;
   }
 
   const domId = `${prefixId(field.id, formId, indexes)}`;
-  const fieldErrors = get(errors, [ field.id, ...Object.values(indexes || {}) ]) || [];
+  const fieldErrors = get(errors, [field.id, ...Object.values(indexes || {})]) || [];
 
   const formFieldElement = (
     <FormFieldComponent
-      { ...props }
-      disabled={ disabled }
-      errors={ fieldErrors }
-      domId={ domId }
-      onChange={ disabled || readonly ? noop : onChangeIndexed }
-      onBlur={ disabled || readonly ? noop : onBlur }
-      onFocus={ disabled || readonly ? noop : onFocus }
-      readonly={ readonly }
-      value={ value }
+      {...props}
+      disabled={disabled}
+      errors={fieldErrors}
+      domId={domId}
+      onChange={disabled || readonly ? noop : onChange}
+      onBlur={disabled || readonly ? noop : onBlur}
+      onFocus={disabled || readonly ? noop : onFocus}
+      readonly={readonly}
+      value={value}
+      fieldInstance={fieldInstance}
     />
   );
 
@@ -155,9 +152,9 @@ export function FormField(props) {
   }
 
   return (
-    <Column field={ field } class={ gridColumnClasses(field) }>
-      <Element class="fjs-element" field={ field }>
-        { formFieldElement }
+    <Column field={field} class={gridColumnClasses(field)}>
+      <Element class="fjs-element" field={field}>
+        {formFieldElement}
       </Element>
     </Column>
   );

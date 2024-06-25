@@ -5,10 +5,7 @@ import { has } from 'min-dash';
 import { CustomValueEntry } from '../entries';
 
 export function CustomPropertiesGroup(field, editField) {
-  const {
-    properties = {},
-    type
-  } = field;
+  const { properties = {}, type } = field;
 
   if (type === 'default') {
     return null;
@@ -19,11 +16,11 @@ export function CustomPropertiesGroup(field, editField) {
 
     let index = Object.keys(properties).length + 1;
 
-    while (`key${ index }` in properties) {
+    while (`key${index}` in properties) {
       index++;
     }
 
-    editField(field, [ 'properties' ], { ...properties, [ `key${ index }` ]: 'value' });
+    editField(field, ['properties'], { ...properties, [`key${index}`]: 'value' });
   };
 
   const validateFactory = (key) => {
@@ -46,10 +43,10 @@ export function CustomPropertiesGroup(field, editField) {
     const removeEntry = (event) => {
       event.stopPropagation();
 
-      return editField(field, [ 'properties' ], removeKey(properties, key));
+      return editField(field, ['properties'], removeKey(properties, key));
     };
 
-    const id = `property-${ index }`;
+    const id = `property-${index}`;
 
     return {
       autoFocusEntry: id + '-key',
@@ -58,11 +55,11 @@ export function CustomPropertiesGroup(field, editField) {
         field,
         idPrefix: id,
         index,
-        validateFactory
+        validateFactory,
       }),
       id,
       label: key || '',
-      remove: removeEntry
+      remove: removeEntry,
     };
   });
 
@@ -72,11 +69,10 @@ export function CustomPropertiesGroup(field, editField) {
     id: 'custom-values',
     items,
     label: 'Custom properties',
-    tooltip: 'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
-    shouldSort: false
+    tooltip:
+      'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
   };
 }
-
 
 // helpers //////////
 
@@ -90,7 +86,7 @@ export function CustomPropertiesGroup(field, editField) {
  */
 export function removeKey(properties, oldKey) {
   return Object.entries(properties).reduce((newProperties, entry) => {
-    const [ key, value ] = entry;
+    const [key, value] = entry;
 
     if (key === oldKey) {
       return newProperties;
@@ -98,7 +94,7 @@ export function removeKey(properties, oldKey) {
 
     return {
       ...newProperties,
-      [ key ]: value
+      [key]: value,
     };
   }, {});
 }

@@ -1,6 +1,4 @@
-import {
-  FormPlayground
-} from '../../src';
+import { FormPlayground } from '../../src';
 
 import schema from './form.json';
 
@@ -8,26 +6,20 @@ import { act } from '@testing-library/preact/pure';
 
 import { insertStyles } from '../TestHelper';
 
-import {
-  expect
-} from 'chai';
+import { expect } from 'chai';
 
 insertStyles();
 
-
-describe('playground exports', function() {
-
+describe('playground exports', function () {
   let container;
 
-  beforeEach(function() {
+  beforeEach(function () {
     container = document.createElement('div');
 
     document.body.appendChild(container);
   });
 
-
-  it('should render', async function() {
-
+  it('should render', async function () {
     // given
     const data = {
       creditor: 'John Doe Company',
@@ -35,24 +27,24 @@ describe('playground exports', function() {
       invoiceNumber: 'C-123',
       approved: true,
       approvedBy: 'John Doe',
-      mailto: [ 'regional-manager', 'approver' ],
+      mailto: ['regional-manager', 'approver'],
       product: 'camunda-cloud',
       queriedDRIs: [
         {
-          'label': 'John Doe',
-          'value': 'johnDoe'
+          label: 'John Doe',
+          value: 'johnDoe',
         },
         {
-          'label': 'Anna Bell',
-          'value': 'annaBell'
+          label: 'Anna Bell',
+          value: 'annaBell',
         },
         {
-          'label': 'Nico Togin',
-          'value': 'incognito'
-        }
+          label: 'Nico Togin',
+          value: 'incognito',
+        },
       ],
-      tags: [ 'tag1', 'tag2', 'tag3' ],
-      language: 'english'
+      tags: ['tag1', 'tag2', 'tag3'],
+      language: 'english',
     };
 
     let playground;
@@ -62,7 +54,7 @@ describe('playground exports', function() {
       playground = new FormPlayground({
         container,
         schema,
-        data
+        data,
       });
     });
 
@@ -72,8 +64,7 @@ describe('playground exports', function() {
     // @ts-ignore
     expect(playground.getState()).to.eql({
       schema,
-      data
+      data,
     });
   });
-
 });

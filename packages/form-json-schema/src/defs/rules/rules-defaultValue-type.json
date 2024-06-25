@@ -8,9 +8,7 @@
             "const": "checkbox"
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
         "properties": {
@@ -24,18 +22,10 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "textfield",
-              "textarea",
-              "datetime",
-              "radio",
-              "select"
-            ]
+            "enum": ["textfield", "textarea", "datetime", "radio", "select"]
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
         "properties": {
@@ -52,17 +42,12 @@
             "const": "number"
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
         "properties": {
           "defaultValue": {
-            "type": [
-              "number",
-              "string"
-            ]
+            "type": ["number", "string"]
           }
         }
       }
@@ -71,15 +56,10 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "checklist",
-              "taglist"
-            ]
+            "enum": ["checklist", "taglist"]
           }
         },
-        "required": [
-          "type"
-        ]
+        "required": ["type"]
       },
       "then": {
         "properties": {

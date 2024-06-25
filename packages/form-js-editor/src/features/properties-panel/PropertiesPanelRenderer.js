@@ -1,13 +1,8 @@
 import { PropertiesPanel } from './PropertiesPanel';
 
-import {
-  render
-} from 'preact';
+import { render } from 'preact';
 
-import {
-  domify,
-  query as domQuery
-} from 'min-dom';
+import { domify, query as domQuery } from 'min-dom';
 
 const DEFAULT_PRIORITY = 1000;
 
@@ -24,11 +19,8 @@ const DEFAULT_PRIORITY = 1000;
  * @param {EventBus} eventBus
  */
 export class PropertiesPanelRenderer {
-
   constructor(propertiesPanelConfig, injector, eventBus) {
-    const {
-      parent
-    } = propertiesPanelConfig || {};
+    const { parent } = propertiesPanelConfig || {};
 
     this._eventBus = eventBus;
     this._injector = injector;
@@ -43,7 +35,6 @@ export class PropertiesPanelRenderer {
       this._render();
     });
   }
-
 
   /**
    * Attach the properties panel to a parent node.
@@ -85,11 +76,11 @@ export class PropertiesPanelRenderer {
   _render() {
     render(
       <PropertiesPanel
-        getProviders={ this._getProviders.bind(this) }
-        eventBus={ this._eventBus }
-        injector={ this._injector }
+        getProviders={this._getProviders.bind(this)}
+        eventBus={this._eventBus}
+        injector={this._injector}
       />,
-      this._container
+      this._container,
     );
 
     this._eventBus.fire('propertiesPanel.rendered');
@@ -110,20 +101,17 @@ export class PropertiesPanelRenderer {
    * @param {Number} [priority]
    */
   registerProvider(provider, priority) {
-
     if (!priority) {
       priority = DEFAULT_PRIORITY;
     }
 
     if (typeof provider.getGroups !== 'function') {
-      console.error(
-        'Properties provider does not implement #getGroups(element) API'
-      );
+      console.error('Properties provider does not implement #getGroups(element) API');
 
       return;
     }
 
-    this._eventBus.on('propertiesPanel.getProviders', priority, function(event) {
+    this._eventBus.on('propertiesPanel.getProviders', priority, function (event) {
       event.providers.push(provider);
     });
 
@@ -133,7 +121,7 @@ export class PropertiesPanelRenderer {
   _getProviders() {
     const event = this._eventBus.createEvent({
       type: 'propertiesPanel.getProviders',
-      providers: []
+      providers: [],
     });
 
     this._eventBus.fire(event);
@@ -142,4 +130,4 @@ export class PropertiesPanelRenderer {
   }
 }
 
-PropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'eventBus' ];
+PropertiesPanelRenderer.$inject = ['config.propertiesPanel', 'injector', 'eventBus'];

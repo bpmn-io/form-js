@@ -1,24 +1,9 @@
 import { render } from 'preact';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'preact/hooks';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 
-import {
-  FormComponent,
-  FormContext,
-  FormRenderContext,
-  getScrollContainer
-} from '@bpmn-io/form-js-viewer';
+import { FormComponent, FormContext, FormRenderContext, getScrollContainer } from '@bpmn-io/form-js-viewer';
 
-import {
-  EmptyFormIcon
-} from './icons';
+import { EmptyFormIcon } from './icons';
 
 import classNames from 'classnames';
 
@@ -39,16 +24,12 @@ import {
   DROP_CONTAINER_HORIZONTAL_CLS,
   DROP_CONTAINER_VERTICAL_CLS,
   DRAG_MOVE_CLS,
-  DRAG_ROW_MOVE_CLS
+  DRAG_ROW_MOVE_CLS,
 } from '../../features/dragging/Dragging';
 
-import {
-  FieldDragPreview
-} from './FieldDragPreview';
+import { FieldDragPreview } from './FieldDragPreview';
 
-import {
-  FieldResizer
-} from './FieldResizer';
+import { FieldResizer } from './FieldResizer';
 
 import { set as setCursor, unset as unsetCursor } from '../util/Cursor';
 
@@ -57,13 +38,7 @@ function ContextPad(props) {
     return null;
   }
 
-  return (
-    <div class="fjs-context-pad">
-      {
-        props.children
-      }
-    </div>
-  );
+  return <div class="fjs-context-pad">{props.children}</div>;
 }
 
 function EmptyGroup() {
@@ -88,7 +63,7 @@ function EmptyForm() {
 }
 
 function Empty(props) {
-  if ([ 'group', 'dynamiclist' ].includes(props.field.type)) {
+  if (['group', 'dynamiclist'].includes(props.field.type)) {
     return <EmptyGroup />;
   }
 
@@ -101,27 +76,22 @@ function Empty(props) {
 
 function Element(props) {
   const eventBus = useService('eventBus'),
-        formFieldRegistry = useService('formFieldRegistry'),
-        formFields = useService('formFields'),
-        modeling = useService('modeling'),
-        selection = useService('selection');
+    formFieldRegistry = useService('formFieldRegistry'),
+    formFields = useService('formFields'),
+    modeling = useService('modeling'),
+    selection = useService('selection');
 
   const { hoverInfo } = useContext(FormRenderContext);
 
   const { field } = props;
 
-  const {
-    id,
-    type,
-    showOutline
-  } = field;
+  const { id, type, showOutline } = field;
 
   const ref = useRef();
 
-  const [ hovered, setHovered ] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-
     function scrollIntoView({ selection }) {
       const scrollContainer = getScrollContainer(ref.current);
       if (!selection || selection.type === 'default' || selection.id !== id || !scrollContainer || !ref.current) {
@@ -131,7 +101,8 @@ function Element(props) {
       const elementBounds = ref.current.getBoundingClientRect();
       const scrollContainerBounds = scrollContainer.getBoundingClientRect();
       const isElementLarger = elementBounds.height > scrollContainerBounds.height;
-      const isNotFullyVisible = elementBounds.bottom > scrollContainerBounds.bottom || elementBounds.top < scrollContainerBounds.top;
+      const isNotFullyVisible =
+        elementBounds.bottom > scrollContainerBounds.bottom || elementBounds.top < scrollContainerBounds.top;
 
       if (isNotFullyVisible && !isElementLarger) {
         ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest' });
@@ -141,13 +112,13 @@ function Element(props) {
     eventBus.on('selection.changed', scrollIntoView);
 
     return () => eventBus.off('selection.changed', scrollIntoView);
-  }, [ eventBus, id ]);
+  }, [eventBus, id]);
 
   useLayoutEffect(() => {
     if (selection.isSelected(field)) {
       ref.current.focus();
     }
-  }, [ selection, field ]);
+  }, [selection, field]);
 
   function onClick(event) {
     event.stopPropagation();
@@ -161,7 +132,6 @@ function Element(props) {
   const isSelected = selection.isSelected(field);
 
   const classString = useMemo(() => {
-
     const classes = [];
 
     if (props.class) {
@@ -172,7 +142,7 @@ function Element(props) {
       classes.push('fjs-editor-selected');
     }
 
-    const grouplike = [ 'group', 'dynamiclist' ].includes(type);
+    const grouplike = ['group', 'dynamiclist'].includes(type);
 
     if (grouplike) {
       classes.push(showOutline ? 'fjs-outlined' : 'fjs-dashed-outlined');
@@ -183,8 +153,7 @@ function Element(props) {
     }
 
     return classes.join(' ');
-
-  }, [ hovered, isSelected, props.class, showOutline, type ]);
+  }, [hovered, isSelected, props.class, showOutline, type]);
 
   const onRemove = (event) => {
     event.stopPropagation();
@@ -205,41 +174,42 @@ function Element(props) {
 
   return (
     <div
-      class={ classString }
-      data-id={ id }
-      data-field-type={ type }
-      tabIndex={ type === 'default' ? -1 : 0 }
-      onClick={ onClick }
-      onKeyPress={ onKeyPress }
-      onMouseOver={
-        (e) => {
-          if (hoverInfo.cleanup) {
-            hoverInfo.cleanup();
-          }
+      class={classString}
+      data-id={id}
+      data-field-type={type}
+      tabIndex={type === 'default' ? -1 : 0}
+      onClick={onClick}
+      onKeyPress={onKeyPress}
+      onMouseOver={(e) => {
+        if (hoverInfo.cleanup) {
+          hoverInfo.cleanup();
+        }
 
-          setHovered(true);
-          hoverInfo.cleanup = () => setHovered(false);
-          e.stopPropagation();
-        }
-      }
-      ref={ ref }>
-      <DebugColumns field={ field } />
+        setHovered(true);
+        hoverInfo.cleanup = () => setHovered(false);
+        e.stopPropagation();
+      }}
+      ref={ref}>
+      <DebugColumns field={field} />
       <ContextPad>
-        {
-          selection.isSelected(field) && field.type !== 'default'
-            ? <button type="button" title={ getRemoveButtonTitle(field, formFields) } class="fjs-context-pad-item" onClick={ onRemove }><DeleteIcon /></button>
-            : null
-        }
+        {selection.isSelected(field) && field.type !== 'default' ? (
+          <button
+            type="button"
+            title={getRemoveButtonTitle(field, formFields)}
+            class="fjs-context-pad-item"
+            onClick={onRemove}>
+            <DeleteIcon />
+          </button>
+        ) : null}
       </ContextPad>
-      { props.children }
-      <FieldResizer position="left" field={ field }></FieldResizer>
-      <FieldResizer position="right" field={ field }></FieldResizer>
+      {props.children}
+      <FieldResizer position="left" field={field}></FieldResizer>
+      <FieldResizer position="right" field={field}></FieldResizer>
     </div>
   );
 }
 
 function DebugColumns(props) {
-
   const { field } = props;
 
   const debugColumnsConfig = useService('config.debugColumns');
@@ -263,7 +233,7 @@ function DebugColumns(props) {
         font-size: 10px;
         right: 3px;"
       class="fjs-debug-columns">
-      { (field.layout || {}).columns || 'auto' }
+      {(field.layout || {}).columns || 'auto'}
     </div>
   );
 }
@@ -273,17 +243,15 @@ function Children(props) {
 
   const { id } = field;
 
-  const classes = [ 'fjs-children', DROP_CONTAINER_VERTICAL_CLS ];
+  const classes = ['fjs-children', DROP_CONTAINER_VERTICAL_CLS];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
   }
 
   return (
-    <div
-      class={ classes.join(' ') }
-      data-id={ id }>
-      { props.children }
+    <div class={classes.join(' ')} data-id={id}>
+      {props.children}
     </div>
   );
 }
@@ -293,22 +261,19 @@ function Row(props) {
 
   const { id } = row;
 
-  const classes = [ DROP_CONTAINER_HORIZONTAL_CLS ];
+  const classes = [DROP_CONTAINER_HORIZONTAL_CLS];
 
   if (props.class) {
     classes.push(...props.class.split(' '));
   }
 
   return (
-    <div class={ classNames(DRAG_ROW_MOVE_CLS) }>
+    <div class={classNames(DRAG_ROW_MOVE_CLS)}>
       <span class="fjs-row-dragger">
         <DraggableIcon></DraggableIcon>
       </span>
-      <div
-        class={ classes.join(' ') }
-        style={ props.style }
-        data-row-id={ id }>
-        { props.children }
+      <div class={classes.join(' ')} style={props.style} data-row-id={id}>
+        {props.children}
       </div>
     </div>
   );
@@ -317,7 +282,7 @@ function Row(props) {
 function Column(props) {
   const { field } = props;
 
-  const classes = [ DRAG_MOVE_CLS ];
+  const classes = [DRAG_MOVE_CLS];
 
   if (field.type === 'default') {
     return props.children;
@@ -328,22 +293,20 @@ function Column(props) {
   }
 
   return (
-    <div
-      data-field-type={ field.type }
-      class={ classes.join(' ') }>
-      { props.children }
+    <div data-field-type={field.type} class={classes.join(' ')}>
+      {props.children}
     </div>
   );
 }
 
 export function FormEditor() {
   const dragging = useService('dragging'),
-        eventBus = useService('eventBus'),
-        formEditor = useService('formEditor'),
-        injector = useService('injector'),
-        selection = useService('selection'),
-        propertiesPanel = useService('propertiesPanel'),
-        propertiesPanelConfig = useService('config.propertiesPanel');
+    eventBus = useService('eventBus'),
+    formEditor = useService('formEditor'),
+    injector = useService('injector'),
+    selection = useService('selection'),
+    propertiesPanel = useService('propertiesPanel'),
+    propertiesPanelConfig = useService('config.propertiesPanel');
 
   const { schema, properties } = formEditor._getState();
 
@@ -353,9 +316,9 @@ export function FormEditor() {
 
   const propertiesPanelRef = useRef(null);
 
-  const [ , setSelection ] = useState(schema);
+  const [, setSelection] = useState(schema);
 
-  const [ hasInitialized, setHasInitialized ] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   useEffect(() => {
     function handleSelectionChanged(event) {
@@ -367,27 +330,22 @@ export function FormEditor() {
     return () => {
       eventBus.off('selection.changed', handleSelectionChanged);
     };
-  }, [ eventBus, schema ]);
+  }, [eventBus, schema]);
 
   useEffect(() => {
     setSelection(selection.get() || schema);
-  }, [ selection, schema ]);
+  }, [selection, schema]);
 
-  const [ drake, setDrake ] = useState(null);
+  const [drake, setDrake] = useState(null);
 
   const dragAndDropContext = {
-    drake
+    drake,
   };
 
   useEffect(() => {
-
     let dragulaInstance = dragging.createDragulaInstance({
-      container: [
-        DRAG_CONTAINER_CLS,
-        DROP_CONTAINER_VERTICAL_CLS,
-        DROP_CONTAINER_HORIZONTAL_CLS
-      ],
-      mirrorContainer: formContainerRef.current
+      container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
+      mirrorContainer: formContainerRef.current,
     });
 
     setDrake(dragulaInstance);
@@ -403,12 +361,8 @@ export function FormEditor() {
       onDetach();
 
       dragulaInstance = dragging.createDragulaInstance({
-        container: [
-          DRAG_CONTAINER_CLS,
-          DROP_CONTAINER_VERTICAL_CLS,
-          DROP_CONTAINER_HORIZONTAL_CLS
-        ],
-        mirrorContainer: formContainerRef.current
+        container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
+        mirrorContainer: formContainerRef.current,
       });
       setDrake(dragulaInstance);
     };
@@ -440,11 +394,10 @@ export function FormEditor() {
       eventBus.off('drag.start', onDragStart);
       eventBus.off('drag.end', onDragEnd);
     };
-  }, [ dragging, eventBus ]);
+  }, [dragging, eventBus]);
 
   // fire event after render to notify interested parties
   useEffect(() => {
-
     if (hasInitialized) {
       return;
     }
@@ -454,41 +407,46 @@ export function FormEditor() {
 
     // keep deprecated event to ensure backward compatibility
     eventBus.fire('formEditor.rendered');
-  }, [ eventBus, hasInitialized ]);
+  }, [eventBus, hasInitialized]);
 
-  const formRenderContext = useMemo(() => ({
-    Children,
-    Column,
-    Element,
-    Empty,
-    Row,
-    hoverInfo: {}
-  }), []);
+  const formRenderContext = useMemo(
+    () => ({
+      Children,
+      Column,
+      Element,
+      Empty,
+      Row,
+      hoverInfo: {},
+    }),
+    [],
+  );
 
-  const formContext = useMemo(() => ({
-    getService(type, strict = true) {
+  const formContext = useMemo(
+    () => ({
+      getService(type, strict = true) {
+        // TODO(philippfromme): clean up
+        if (type === 'form') {
+          return {
+            _getState() {
+              return {
+                data: {},
+                errors: {},
+                properties: {
+                  ariaLabel,
+                  disabled: true,
+                },
+                schema,
+              };
+            },
+          };
+        }
 
-      // TODO(philippfromme): clean up
-      if (type === 'form') {
-        return {
-          _getState() {
-            return {
-              data: {},
-              errors: {},
-              properties: {
-                ariaLabel,
-                disabled: true
-              },
-              schema
-            };
-          }
-        };
-      }
-
-      return injector.get(type, strict);
-    },
-    formId: formEditor._id
-  }), [ ariaLabel, formEditor, injector, schema ]);
+        return injector.get(type, strict);
+      },
+      formId: formEditor._id,
+    }),
+    [ariaLabel, formEditor, injector, schema],
+  );
 
   const onSubmit = useCallback(() => {}, []);
 
@@ -501,28 +459,27 @@ export function FormEditor() {
     if (hasDefaultPropertiesPanel) {
       propertiesPanel.attachTo(propertiesPanelRef.current);
     }
-  }, [ propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel ]);
+  }, [propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel]);
 
   return (
     <div class="fjs-form-editor">
       <SlotFillRoot>
-        <DragAndDropContext.Provider value={ dragAndDropContext }>
+        <DragAndDropContext.Provider value={dragAndDropContext}>
           <ModularSection rootClass="fjs-palette-container" section="palette">
             <Palette />
           </ModularSection>
-          <div ref={ formContainerRef } class="fjs-form-container">
-            <FormContext.Provider value={ formContext }>
+          <div ref={formContainerRef} class="fjs-form-container">
+            <FormContext.Provider value={formContext}>
               <FormRenderContext.Provider
-
                 // @ts-ignore
-                value={ formRenderContext }>
-                <FormComponent onSubmit={ onSubmit } onReset={ onReset } />
+                value={formRenderContext}>
+                <FormComponent onSubmit={onSubmit} onReset={onReset} />
               </FormRenderContext.Provider>
             </FormContext.Provider>
           </div>
           <CreatePreview />
         </DragAndDropContext.Provider>
-        { hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={ propertiesPanelRef } /> }
+        {hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={propertiesPanelRef} />}
         <ModularSection rootClass="fjs-render-injector-container" section="renderInjector">
           <InjectedRendersRoot />
         </ModularSection>
@@ -544,7 +501,6 @@ function getFormFieldIndex(parent, formField) {
 }
 
 function CreatePreview(props) {
-
   const { drake } = useContext(DragAndDropContext);
 
   const formFields = useService('formFields');
@@ -555,12 +511,10 @@ function CreatePreview(props) {
     }
 
     function handleCloned(clone, original, type) {
-
       const fieldType = clone.dataset.fieldType;
 
       // (1) field preview
       if (fieldType) {
-
         const paletteEntry = findPaletteEntry(fieldType, formFields);
 
         if (!paletteEntry) {
@@ -577,29 +531,20 @@ function CreatePreview(props) {
         clone.classList.add('fjs-field-preview-container');
 
         if (original.classList.contains('fjs-palette-field')) {
-
           // default to auto columns when creating from palette
           clone.classList.add('cds--col');
         }
 
         // todo(pinussilvestrus): dragula, how to mitigate cursor position
         // https://github.com/bevacqua/dragula/issues/285
-        render(
-          <FieldDragPreview label={ label } Icon={ Icon } />,
-          clone
-        );
+        render(<FieldDragPreview label={label} Icon={Icon} />, clone);
       } else {
-
         // (2) row preview
 
         // remove elements from copy (context pad, row dragger, ...)
-        [
-          'fjs-context-pad',
-          'fjs-row-dragger',
-          'fjs-debug-columns'
-        ].forEach(cls => {
+        ['fjs-context-pad', 'fjs-row-dragger', 'fjs-debug-columns'].forEach((cls) => {
           const cloneNode = clone.querySelectorAll('.' + cls);
-          cloneNode.length && cloneNode.forEach(e => e.remove());
+          cloneNode.length && cloneNode.forEach((e) => e.remove());
         });
 
         // mirror grid
@@ -611,16 +556,15 @@ function CreatePreview(props) {
     drake.on('cloned', handleCloned);
 
     return () => drake.off('cloned', handleCloned);
-  }, [ drake, formFields ]);
+  }, [drake, formFields]);
 
   return null;
 }
 
-
 // helper //////
 
 function findPaletteEntry(type, formFields) {
-  return collectPaletteEntries(formFields).find(entry => entry.type === type);
+  return collectPaletteEntries(formFields).find((entry) => entry.type === type);
 }
 
 function defaultPropertiesPanel(propertiesPanelConfig) {

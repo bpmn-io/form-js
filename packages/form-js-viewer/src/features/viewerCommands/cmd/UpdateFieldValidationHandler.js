@@ -1,8 +1,10 @@
 import { set } from 'min-dash';
 import { clone } from '../../../util';
 
+/**
+ * @deprecated
+ */
 export class UpdateFieldValidationHandler {
-
   constructor(form, validator) {
     this._form = form;
     this._validator = validator;
@@ -15,7 +17,11 @@ export class UpdateFieldValidationHandler {
     context.oldErrors = clone(errors);
 
     const fieldErrors = this._validator.validateField(field, value);
-    const updatedErrors = set(errors, [ field.id, ...Object.values(indexes || {}) ], fieldErrors.length ? fieldErrors : undefined);
+    const updatedErrors = set(
+      errors,
+      [field.id, ...Object.values(indexes || {})],
+      fieldErrors.length ? fieldErrors : undefined,
+    );
     this._form._setState({ errors: updatedErrors });
   }
 
@@ -24,4 +30,4 @@ export class UpdateFieldValidationHandler {
   }
 }
 
-UpdateFieldValidationHandler.$inject = [ 'form', 'validator' ];
+UpdateFieldValidationHandler.$inject = ['form', 'validator'];

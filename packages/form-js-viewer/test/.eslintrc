@@ -1,6 +1,7 @@
 {
   "extends": [
-    "plugin:bpmn-io/mocha"
+    "plugin:bpmn-io/mocha",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "sinon": true

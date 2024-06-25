@@ -5,11 +5,7 @@ import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '
 import { get } from 'min-dash';
 
 export function DateTimeConstraintsEntry(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   function isDefaultVisible(subtypes) {
     return (field) => {
@@ -29,9 +25,8 @@ export function DateTimeConstraintsEntry(props) {
     isEdited: isSelectEntryEdited,
     editField,
     field,
-    isDefaultVisible: isDefaultVisible([ DATETIME_SUBTYPES.TIME, DATETIME_SUBTYPES.DATETIME ])
+    isDefaultVisible: isDefaultVisible([DATETIME_SUBTYPES.TIME, DATETIME_SUBTYPES.DATETIME]),
   });
-
 
   entries.push({
     id: id + '-disallowPassedDates',
@@ -39,19 +34,14 @@ export function DateTimeConstraintsEntry(props) {
     isEdited: isCheckboxEntryEdited,
     editField,
     field,
-    isDefaultVisible: isDefaultVisible([ DATETIME_SUBTYPES.DATE, DATETIME_SUBTYPES.DATETIME ])
+    isDefaultVisible: isDefaultVisible([DATETIME_SUBTYPES.DATE, DATETIME_SUBTYPES.DATETIME]),
   });
-
 
   return entries;
 }
 
 function DisallowPassedDates(props) {
-  const {
-    editField,
-    field,
-    id
-  } = props;
+  const { editField, field, id } = props;
 
   const path = DATE_DISALLOW_PAST_PATH;
 
@@ -68,29 +58,23 @@ function DisallowPassedDates(props) {
     getValue,
     id,
     label: 'Disallow past dates',
-    setValue
+    setValue,
   });
 }
 
 function TimeIntervalSelect(props) {
+  const { editField, field, id } = props;
 
-  const {
-    editField,
-    field,
-    id
-  } = props;
-
-  const timeIntervals = [ 1, 5, 10, 15, 30, 60 ];
+  const timeIntervals = [1, 5, 10, 15, 30, 60];
 
   const getValue = (e) => get(field, TIME_INTERVAL_PATH);
 
   const setValue = (value) => editField(field, TIME_INTERVAL_PATH, parseInt(value));
 
   const getTimeIntervals = () => {
-
     return timeIntervals.map((timeInterval) => ({
-      label: timeInterval === 60 ? '1h' : (timeInterval + 'm'),
-      value: timeInterval
+      label: timeInterval === 60 ? '1h' : timeInterval + 'm',
+      value: timeInterval,
     }));
   };
 
@@ -100,6 +84,6 @@ function TimeIntervalSelect(props) {
     getOptions: getTimeIntervals,
     getValue,
     id,
-    setValue
+    setValue,
   });
 }

@@ -2,34 +2,29 @@ import { render } from '@testing-library/preact/pure';
 
 import { Button } from '../../../../../src/render/components/form-fields/Button';
 
-import {
-  createFormContainer,
-  expectNoViolations
-} from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
+
+import { MockFormContext } from '../helper';
 
 let container;
 
-
-describe('Button', function() {
-
-  beforeEach(function() {
+describe('Button', function () {
+  beforeEach(function () {
     container = createFormContainer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     container.remove();
   });
 
-
-  it('should render', function() {
-
+  it('should render', function () {
     // when
     const { container } = createButton({
       field: {
         ...defaultField,
         action: 'reset',
-        label: 'Reset'
-      }
+        label: 'Reset',
+      },
     });
 
     // then
@@ -45,9 +40,45 @@ describe('Button', function() {
     expect(button.textContent).to.equal('Reset');
   });
 
+  it('should render with expression label', function () {
+    // when
+    const { container } = createButton({
+      initialData: {
+        foo: '42 labels',
+      },
+      field: {
+        ...defaultField,
+        label: '=foo',
+      },
+    });
 
-  it('should render with default type (submit)', function() {
+    // then
+    const button = container.querySelector('button');
 
+    expect(button).to.exist;
+    expect(button.textContent).to.equal('42 labels');
+  });
+
+  it('should render with templated label', function () {
+    // when
+    const { container } = createButton({
+      initialData: {
+        foo: '42',
+      },
+      field: {
+        ...defaultField,
+        label: 'My label {{foo}}',
+      },
+    });
+
+    // then
+    const button = container.querySelector('button');
+
+    expect(button).to.exist;
+    expect(button.textContent).to.equal('My label 42');
+  });
+
+  it('should render with default type (submit)', function () {
     // when
     const { container } = createButton();
 
@@ -58,12 +89,10 @@ describe('Button', function() {
     expect(button.type).to.equal('submit');
   });
 
-
-  it('should render disabled', function() {
-
+  it('should render disabled', function () {
     // when
     const { container } = createButton({
-      disabled: true
+      disabled: true,
     });
 
     // then
@@ -73,9 +102,7 @@ describe('Button', function() {
     expect(button.disabled).to.be.true;
   });
 
-
-  it('#create', function() {
-
+  it('#create', function () {
     // assume
     const { config } = Button;
     expect(config.type).to.eql('button');
@@ -88,25 +115,22 @@ describe('Button', function() {
 
     // then
     expect(field).to.eql({
-      action: 'submit'
+      action: 'submit',
     });
 
     // but when
     const customField = config.create({
-      custom: true
+      custom: true,
     });
 
     // then
     expect(customField).to.contain({
-      custom: true
+      custom: true,
     });
   });
 
-
-  describe('a11y', function() {
-
-    it('should have no violations - submit', async function() {
-
+  describe('a11y', function () {
+    it('should have no violations - submit', async function () {
       // given
       this.timeout(10000);
 
@@ -114,17 +138,15 @@ describe('Button', function() {
         field: {
           ...defaultField,
           action: 'submit',
-          label: 'Submit'
-        }
+          label: 'Submit',
+        },
       });
 
       // then
       await expectNoViolations(container);
     });
 
-
-    it('should have no violations - reset', async function() {
-
+    it('should have no violations - reset', async function () {
       // given
       this.timeout(10000);
 
@@ -132,16 +154,14 @@ describe('Button', function() {
         field: {
           ...defaultField,
           action: 'reset',
-          label: 'Reset'
-        }
+          label: 'Reset',
+        },
       });
 
       // then
       await expectNoViolations(container);
     });
-
   });
-
 });
 
 // helpers //////////
@@ -149,21 +169,21 @@ describe('Button', function() {
 const defaultField = {
   key: 'submit',
   label: 'Submit',
-  type: 'button'
+  type: 'button',
 };
 
-function createButton(options = {}) {
-  const {
-    disabled,
-    field = defaultField
-  } = options;
+function createButton({ services, ...restOptions } = {}) {
+  const options = {
+    field: defaultField,
+    ...restOptions,
+  };
 
   return render(
-    <Button
-      disabled={ disabled }
-      field={ field } />,
+    <MockFormContext services={services} options={options}>
+      <Button {...options} />
+    </MockFormContext>,
     {
-      container: options.container || container.querySelector('.fjs-form')
-    }
+      container: options.container || container.querySelector('.fjs-form'),
+    },
   );
 }

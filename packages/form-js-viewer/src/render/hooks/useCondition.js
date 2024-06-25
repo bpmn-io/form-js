@@ -1,7 +1,7 @@
 import { useService } from './useService.js';
 import { useContext, useMemo } from 'preact/hooks';
 import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
-import { buildExpressionContext } from '../../util/simple';
+import { buildExpressionContext } from '../../util/expressions.js';
 
 /**
  * Evaluate if condition is met reactively based on the conditionChecker and form data.
@@ -16,5 +16,5 @@ export function useCondition(condition) {
 
   return useMemo(() => {
     return conditionChecker ? conditionChecker.check(condition, buildExpressionContext(expressionContextInfo)) : null;
-  }, [ conditionChecker, condition, expressionContextInfo ]);
+  }, [conditionChecker, condition, expressionContextInfo]);
 }

@@ -1,7 +1,6 @@
 import { marked } from 'marked';
 
 export class MarkdownRenderer {
-
   /**
    * Render markdown to HTML.
    *
@@ -10,11 +9,10 @@ export class MarkdownRenderer {
    * @returns {string} HTML
    */
   render(markdown) {
-
     // @ts-expect-error
     return marked.parse(markdown, {
       gfm: true,
-      breaks: true
+      breaks: true,
     });
   }
 }

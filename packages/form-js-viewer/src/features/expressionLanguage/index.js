@@ -3,10 +3,10 @@ import { FeelersTemplating } from './FeelersTemplating';
 import { ConditionChecker } from './ConditionChecker';
 
 export const ExpressionLanguageModule = {
-  __init__: [ 'expressionLanguage', 'templating', 'conditionChecker' ],
-  expressionLanguage: [ 'type', FeelExpressionLanguage ],
-  templating: [ 'type', FeelersTemplating ],
-  conditionChecker: [ 'type', ConditionChecker ]
+  __init__: ['expressionLanguage', 'templating', 'conditionChecker'],
+  expressionLanguage: ['type', FeelExpressionLanguage],
+  templating: ['type', FeelersTemplating],
+  conditionChecker: ['type', ConditionChecker],
 };
 
 export { FeelExpressionLanguage, FeelersTemplating, ConditionChecker };

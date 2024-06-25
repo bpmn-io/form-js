@@ -1,6 +1,5 @@
 import EditorActions from 'diagram-js/lib/features/editor-actions/EditorActions';
 
-
 export class FormEditorActions extends EditorActions {
   constructor(eventBus, injector) {
     super(eventBus, injector);
@@ -9,18 +8,17 @@ export class FormEditorActions extends EditorActions {
       this._registerDefaultActions(injector);
 
       eventBus.fire('editorActions.init', {
-        editorActions: this
+        editorActions: this,
       });
     });
   }
 
   _registerDefaultActions(injector) {
     const commandStack = injector.get('commandStack', false),
-          formFieldRegistry = injector.get('formFieldRegistry', false),
-          selection = injector.get('selection', false);
+      formFieldRegistry = injector.get('formFieldRegistry', false),
+      selection = injector.get('selection', false);
 
     if (commandStack) {
-
       // @ts-ignore
       this.register('undo', () => {
         commandStack.undo();
@@ -33,7 +31,6 @@ export class FormEditorActions extends EditorActions {
     }
 
     if (formFieldRegistry && selection) {
-
       // @ts-ignore
       this.register('selectFormField', (options = {}) => {
         const { id } = options;
@@ -52,7 +49,4 @@ export class FormEditorActions extends EditorActions {
   }
 }
 
-FormEditorActions.$inject = [
-  'eventBus',
-  'injector'
-];
+FormEditorActions.$inject = ['eventBus', 'injector'];

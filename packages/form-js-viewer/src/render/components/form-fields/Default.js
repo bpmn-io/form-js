@@ -3,14 +3,11 @@ import { FormRenderContext } from '../../context';
 import { ChildrenRenderer } from './parts/ChildrenRenderer';
 
 export function Default(props) {
-
-  const {
-    Empty,
-  } = useContext(FormRenderContext);
+  const { Empty } = useContext(FormRenderContext);
 
   const fullProps = { ...props, Empty };
 
-  return <ChildrenRenderer { ...fullProps } />;
+  return <ChildrenRenderer {...fullProps} />;
 }
 
 Default.config = {
@@ -20,6 +17,6 @@ Default.config = {
   group: null,
   create: (options = {}) => ({
     components: [],
-    ...options
-  })
+    ...options,
+  }),
 };

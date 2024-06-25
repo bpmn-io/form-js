@@ -88,6 +88,10 @@
       "validate": {
         "required": true
       }
+    },
+    {
+      "label": "Submit",
+      "type": "button"
     }
   ],
   "type": "default"
