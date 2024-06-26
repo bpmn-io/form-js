@@ -16,3 +16,4 @@ export { useSingleLineTemplateEvaluation } from './useSingleLineTemplateEvaluati
 export { useTemplateEvaluation } from './useTemplateEvaluation';
 export { useCleanupSingleSelectValue } from './useCleanupSingleSelectValue';
 export { useCleanupMultiSelectValue } from './useCleanupMultiSelectValue';
+export { useDirection } from './DirectionContext';
