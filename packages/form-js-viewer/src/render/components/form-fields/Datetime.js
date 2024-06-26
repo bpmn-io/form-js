@@ -197,9 +197,7 @@ export function Datetime(props) {
   const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div
-      class={formFieldClasses(type, { errors: allErrors, disabled, readonly })}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+    <div class={formFieldClasses(type, { errors: allErrors, disabled, readonly })} style={{ direction: direction }}>
       <div class={classNames('fjs-vertical-group')} ref={dateTimeGroupRef}>
         {useDatePicker && <Datepicker {...datePickerProps} />}
         {useTimePicker && useDatePicker && <div class="fjs-datetime-separator" />}

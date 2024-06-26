@@ -33,7 +33,6 @@ export function Checkbox(props) {
       class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })}
       style={{
         direction: direction,
-        fontFamily: 'Vazirmatn, sans-serif',
       }}>
       <Label htmlFor={domId} label={label} required={required}>
         <input

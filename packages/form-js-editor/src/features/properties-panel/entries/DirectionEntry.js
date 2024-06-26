@@ -1,7 +1,6 @@
 import { get } from 'min-dash';
-import { useService } from '../hooks';
+import { useService, useDirection } from '../hooks';
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
-import { useDirection } from '../../../../../form-js-viewer/src/render/context/DirectionContext';
 
 export function DirectionEntry(props) {
   const { editField, field } = props;
@@ -21,8 +20,8 @@ export function DirectionEntry(props) {
 }
 
 function Direction(props) {
-  const { editField, field, id } = props;
-  const { setDirection } = useDirection(); // Get the context
+  const { editField, field } = props;
+  const { setDirection } = useDirection();
 
   const debounce = useService('debounce');
 
@@ -34,7 +33,7 @@ function Direction(props) {
   };
 
   const setValue = (value) => {
-    setDirection(value); // Update context
+    setDirection(value);
     return editField(field, path, value || 'ltr');
   };
 

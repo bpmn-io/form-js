@@ -21,7 +21,7 @@ export function Group(props) {
       className={classNames(formFieldClasses(type), 'fjs-form-field-grouplike', { 'fjs-outlined': showOutline })}
       role="group"
       aria-labelledby={domId}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+      style={{ direction: direction }}>
       <Label id={domId} label={label} />
       <ChildrenRenderer {...fullProps} />
     </div>

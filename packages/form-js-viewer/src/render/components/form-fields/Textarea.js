@@ -55,9 +55,7 @@ export function Textarea(props) {
   const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div
-      class={formFieldClasses(type, { errors, disabled, readonly })}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+    <div class={formFieldClasses(type, { errors, disabled, readonly })} style={{ direction: direction }}>
       <Label htmlFor={domId} label={label} required={required} />
       <textarea
         class="fjs-textarea"
@@ -72,7 +70,7 @@ export function Textarea(props) {
         aria-describedby={[descriptionId, errorMessageId].join(' ')}
         required={required}
         aria-invalid={errors.length > 0}
-        style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
+        style={{ textAlign: direction === 'rtl' ? 'right' : 'left' }}
         dir={direction === 'rtl' ? 'rtl' : 'ltr'}
       />
       <Description id={descriptionId} description={description} />

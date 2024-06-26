@@ -176,7 +176,7 @@ export function Taglist(props) {
           event.preventDefault();
         }
       }}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+      style={{ direction: direction }}>
       <Label label={label} required={required} htmlFor={domId} />
       {!disabled && !readonly && !!values.length && (
         <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={onSkipToSearch} />

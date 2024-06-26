@@ -68,7 +68,7 @@ export function Radio(props) {
     <div
       class={formFieldClasses(type, { errors, disabled, readonly })}
       ref={outerDivRef}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+      style={{ direction: direction }}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
         options.map((option, index) => {

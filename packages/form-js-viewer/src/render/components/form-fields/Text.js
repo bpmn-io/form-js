@@ -60,7 +60,7 @@ export function Text(props) {
     <div
       class={formFieldClasses(type)}
       dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}></div>
+      style={{ direction: direction }}></div>
   );
 }
 

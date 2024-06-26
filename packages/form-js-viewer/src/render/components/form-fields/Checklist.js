@@ -73,7 +73,7 @@ export function Checklist(props) {
     <div
       class={classNames(formFieldClasses(type, { errors, disabled, readonly }))}
       ref={outerDivRef}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+      style={{ direction: direction }}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
         options.map((o, index) => {

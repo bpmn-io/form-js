@@ -18,7 +18,6 @@ export function Button(props) {
       class={formFieldClasses(type)}
       style={{
         direction: direction,
-        fontFamily: 'Vazirmatn, sans-serif',
       }}>
       <button
         class="fjs-button"

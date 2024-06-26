@@ -49,7 +49,7 @@ export function Select(props) {
           event.stopPropagation();
         }
       }}
-      style={{ direction: direction, fontFamily: 'Vazirmatn, sans-serif' }}>
+      style={{ direction: direction }}>
       <Label htmlFor={domId} label={label} required={required} />
       {searchable ? <SearchableSelect {...selectProps} /> : <SimpleSelect {...selectProps} />}
       <Description id={descriptionId} description={description} />

@@ -56,8 +56,14 @@ export function Html(props) {
     sanitizeStyleTags: false,
   });
 
+  const { schema } = form._getState();
+
+  const direction = schema?.direction || 'ltr';
   return (
-    <div class={classNames(formFieldClasses(type), styleScope)} dangerouslySetInnerHTML={dangerouslySetInnerHTML}></div>
+    <div
+      class={classNames(formFieldClasses(type), styleScope)}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      style={{ direction: direction }}></div>
   );
 }
 
