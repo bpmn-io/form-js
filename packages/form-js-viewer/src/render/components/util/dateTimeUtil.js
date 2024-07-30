@@ -1,5 +1,6 @@
 import { isNumber } from 'min-dash';
 import { MINUTES_IN_DAY, TIME_SERIALISING_FORMATS } from '../../../util/constants/DatetimeConstants';
+import { DateTime as LuxonDateTime } from 'luxon';
 
 export const ENTER_KEYDOWN_EVENT = new KeyboardEvent('keydown', {
   code: 'Enter',
@@ -145,18 +146,15 @@ export function parseIsoTime(isoTimeString) {
   }
 }
 
+/**
+ * Returns the date object as a simple 'YYYY-MM-DD' formatted date in the local timezone.
+ *
+ * @param {*} date The date object to serialize.
+ * @returns {string} The serialized date.
+ */
 export function serializeDate(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
+  return LuxonDateTime.fromJSDate(date).toISODate();
 }
-
 // this method is used to make the `new Date(value)` parsing behavior stricter
 export function isDateTimeInputInformationSufficient(value) {
   if (!value || typeof value !== 'string') return false;

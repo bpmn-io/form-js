@@ -1,4 +1,5 @@
 import { useCallback, useContext, useMemo, useState, useEffect, useRef } from 'preact/hooks';
+import { DateTime as LuxonDateTime } from 'luxon';
 
 import classNames from 'classnames';
 
@@ -86,7 +87,7 @@ export function Datetime(props) {
 
     switch (subtype) {
       case DATETIME_SUBTYPES.DATE: {
-        date = new Date(Date.parse(value));
+        date = typeof value === 'string' ? LuxonDateTime.fromISO(value).toJSDate() : new Date(NaN);
         break;
       }
       case DATETIME_SUBTYPES.TIME: {
