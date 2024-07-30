@@ -86,7 +86,9 @@ export function Datetime(props) {
 
     switch (subtype) {
       case DATETIME_SUBTYPES.DATE: {
-        date = new Date(Date.parse(value));
+        const dateTimestamp = Date.parse(value);
+        const timezoneOffsetMinutes = new Date(dateTimestamp).getTimezoneOffset();
+        date = new Date(dateTimestamp + timezoneOffsetMinutes * 60 * 1000);
         break;
       }
       case DATETIME_SUBTYPES.TIME: {
