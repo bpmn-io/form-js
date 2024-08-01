@@ -287,7 +287,6 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
-  overflow: hidden;
   color: var(--color-text-light);
 }
 
