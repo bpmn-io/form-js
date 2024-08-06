@@ -26,13 +26,13 @@ jobs:
           path: zeebe
           ref: 'main'
       - name: Setup form-js cache
-        uses: actions/setup-node@eff380dfbcf941bf8832e4acb788cebe13dfd758
+        uses: actions/setup-node@26961cf329f22f6837d5f54c3efd76b480300ace
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: ./form-js/package-lock.json
       - name: Setup Tasklist cache
-        uses: actions/setup-node@eff380dfbcf941bf8832e4acb788cebe13dfd758
+        uses: actions/setup-node@26961cf329f22f6837d5f54c3efd76b480300ace
         with:
           node-version: '20'
           cache: 'yarn'
