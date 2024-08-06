@@ -36,7 +36,7 @@
     "test:visual": "playwright test visual",
     "build:e2e": "vite build",
     "start:visual-preview": "vite preview --port 8080 --logLevel silent &",
-    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.43.1 /bin/bash"
+    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.44.1 /bin/bash"
   },
   "repository": {
     "type": "git",
@@ -69,7 +69,7 @@
     "@playwright/test": "^1.43.1",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^26.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@svgr/rollup": "^8.1.0",
@@ -84,7 +84,7 @@
     "ajv-errors": "^3.0.0",
     "axe-core": "^4.9.0",
     "babel-loader": "^9.1.3",
-    "babel-plugin-istanbul": "^6.1.1",
+    "babel-plugin-istanbul": "^7.0.0",
     "chai": "^4.4.1",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",

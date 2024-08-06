@@ -49,6 +49,7 @@
   --color-background-active: var(--cds-background-active, var(--color-grey-225-10-75));
   --color-layer: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
   --color-layer-accent: var(--cds-layer-accent, var(--color-grey-0-0-88));
+  --color-background-pre: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
 
   --color-icon-base: var(--cds-icon-primary, var(--color-black));
   --color-icon-inverted: var(--cds-icon-inverse, var(--color-black));
@@ -66,6 +67,7 @@
   --color-borders-adornment: var(--cds-border-subtle, var(--cds-border-subtle-01, var(--color-grey-225-10-85)));
   --color-borders-readonly: var(--cds-border-subtle, var(--color-grey-225-10-75));
   --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
+  --color-borders-pre: var(--cds-border-subtle, var(--color-grey-225-10-85));
 
   --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
   --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
@@ -831,6 +833,13 @@
 .fjs-container .fjs-form-field-html td,
 .fjs-container .fjs-form-field-text td {
   white-space: nowrap;
+}
+
+.fjs-container .fjs-form-field-html pre,
+.fjs-container .fjs-form-field-text pre {
+  border: 1px solid var(--color-borders-pre);
+  background: var(--color-background-pre);
+  padding: 4px;
 }
 
 .fjs-container .fjs-taglist-anchor,
