@@ -15,11 +15,11 @@ jobs:
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
-        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           path: form-js
       - name: Checkout Tasklist
-        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           repository: camunda/zeebe
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
@@ -67,7 +67,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./zeebe/tasklist/client
         run: yarn playwright form-js-integration
-      - uses: actions/upload-artifact@552bf3722c16e81001aea7db72d8cedf64eb5f68
+      - uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029
         if: always()
         with:
           name: playwright-report
