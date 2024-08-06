@@ -78,8 +78,8 @@ export class Dragging {
     let targetParentId;
 
     if (formFieldNode) {
-      formField = this._formFieldRegistry.get(formFieldNode.dataset.id) || { layout: {} };
-      columns = formField.layout.columns;
+      formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
+      columns = (formField.layout || {}).columns;
 
       // (1) check for row constraints
       if (isRow(target)) {
