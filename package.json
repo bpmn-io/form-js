@@ -115,7 +115,7 @@
     "npm-run-all2": "^6.1.2",
     "preact": ">=10.5.14 <=10.15.1",
     "prettier": "^3.2.5",
-    "puppeteer": "^22.7.1",
+    "puppeteer": "^23.0.0",
     "raw-loader": "^4.0.2",
     "rollup": "^4.17.2",
     "rollup-plugin-copy": "^3.5.0",
