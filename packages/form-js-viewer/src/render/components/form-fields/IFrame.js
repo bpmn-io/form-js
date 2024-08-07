@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 
-import { useSingleLineTemplateEvaluation, useSecurityAttributesMap } from '../../hooks';
+import { useSingleLineTemplateEvaluation, useSecurityAttributesMap, useService } from '../../hooks';
 import { sanitizeIFrameSource } from '../util/sanitizerUtil';
 
 import { Label } from '../Label';
@@ -30,8 +30,13 @@ export function IFrame(props) {
     setIframeRefresh((count) => count + 1);
   }, [sandbox, allow]);
 
+  const form = useService('form');
+  const { schema } = form._getState();
+
+  const direction = schema?.direction || 'ltr';
+
   return (
-    <div class={formFieldClasses(type, { disabled, readonly })}>
+    <div class={formFieldClasses(type, { disabled, readonly })} style={{ direction: direction }}>
       <Label htmlFor={domId} label={evaluatedLabel} />
       {!evaluatedUrl && <IFramePlaceholder text="No content to show." />}
       {evaluatedUrl && safeUrl && (

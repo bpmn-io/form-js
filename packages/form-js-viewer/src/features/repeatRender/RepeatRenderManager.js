@@ -3,6 +3,7 @@
 
 import { get } from 'min-dash';
 import { useContext, useMemo, useRef } from 'preact/hooks';
+
 import { LocalExpressionContext } from '../../render/context/LocalExpressionContext';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
@@ -11,7 +12,7 @@ import AddSvg from '../../render/components/form-fields/icons/Add.svg';
 import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 
 import { buildExpressionContext } from '../../util';
-import { useScrollIntoView } from '../../render/hooks';
+import { useScrollIntoView, useService } from '../../render/hooks';
 import classNames from 'classnames';
 
 export class RepeatRenderManager {
@@ -23,7 +24,6 @@ export class RepeatRenderManager {
     this.Repeater = this.Repeater.bind(this);
     this.RepeatFooter = this.RepeatFooter.bind(this);
   }
-
   /**
    * Checks whether a field is currently repeating its children.
    *
@@ -34,45 +34,33 @@ export class RepeatRenderManager {
     if (!id) {
       return false;
     }
-
     const formField = this._formFieldRegistry.get(id);
     const formFieldDefinition = this._formFields.get(formField.type);
     return formFieldDefinition.config.repeatable && formField.isRepeating;
   }
-
   Repeater(props) {
     const { RowsRenderer, indexes, useSharedState, ...restProps } = props;
-
     const [sharedRepeatState] = useSharedState;
-
     const { data } = this._form._getState();
-
     const repeaterField = props.field;
     const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
     const values = get(data, dataPath) || [];
-
     const nonCollapsedItems = this._getNonCollapsedItems(repeaterField);
     const collapseEnabled = !repeaterField.disableCollapse && values.length > nonCollapsedItems;
     const isCollapsed = collapseEnabled && sharedRepeatState.isCollapsed;
-
     const hasChildren = repeaterField.components && repeaterField.components.length > 0;
     const showRemove = repeaterField.allowAddRemove && hasChildren;
-
     const displayValues = isCollapsed ? values.slice(0, nonCollapsedItems) : values;
-
     const onDeleteItem = (index) => {
       const updatedValues = values.slice();
       updatedValues.splice(index, 1);
-
       props.onChange({
         field: repeaterField,
         value: updatedValues,
         indexes,
       });
     };
-
     const parentExpressionContextInfo = useContext(LocalExpressionContext);
-
     return (
       <>
         {displayValues.map((itemValue, itemIndex) => (
@@ -92,7 +80,6 @@ export class RepeatRenderManager {
       </>
     );
   }
-
   RepeatFooter(props) {
     const addButtonRef = useRef(null);
     const { useSharedState, indexes, field: repeaterField, readonly, disabled } = props;
@@ -145,11 +132,16 @@ export class RepeatRenderManager {
       [shouldScroll],
     );
 
+    const form = useService('form');
+    const { schema } = form._getState();
+    const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+
     return (
       <div
         className={classNames('fjs-repeat-render-footer', {
           'fjs-remove-allowed': repeaterField.allowAddRemove,
-        })}>
+        })}
+        style={{ direction: direction }}>
         {showAdd ? (
           <button
             type="button"
@@ -157,10 +149,15 @@ export class RepeatRenderManager {
             disabled={disabled || readonly}
             class="fjs-repeat-render-add"
             ref={addButtonRef}
-            onClick={onAddItem}>
-            <>
-              <AddSvg /> {'Add new'}
-            </>
+            onClick={onAddItem}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <AddSvg
+              style={{ marginRight: direction === 'ltr' ? '8px' : '0', marginLeft: direction === 'rtl' ? '8px' : '0' }}
+            />
+            {'Add new'}
           </button>
         ) : null}
         {collapseEnabled ? (
@@ -182,13 +179,10 @@ export class RepeatRenderManager {
 
   _getNonCollapsedItems(field) {
     const DEFAULT_NON_COLLAPSED_ITEMS = 5;
-
     const { nonCollapsedItems } = field;
-
     return nonCollapsedItems ? nonCollapsedItems : DEFAULT_NON_COLLAPSED_ITEMS;
   }
 }
-
 /**
  * Individual repetition of a repeated field and context scaffolding.
  *
@@ -202,7 +196,6 @@ export class RepeatRenderManager {
  * @param {Function} props.onDeleteItem
  * @param {boolean} props.showRemove
  */
-
 const RepetitionScaffold = (props) => {
   const {
     itemIndex,
@@ -215,7 +208,6 @@ const RepetitionScaffold = (props) => {
     showRemove,
     ...restProps
   } = props;
-
   const elementProps = useMemo(
     () => ({
       ...restProps,
@@ -223,7 +215,6 @@ const RepetitionScaffold = (props) => {
     }),
     [itemIndex, indexes, repeaterField.id, restProps],
   );
-
   const localExpressionContextInfo = useMemo(
     () => ({
       data: parentExpressionContextInfo.data,
@@ -233,7 +224,6 @@ const RepetitionScaffold = (props) => {
     }),
     [itemIndex, parentExpressionContextInfo, itemValue],
   );
-
   return !showRemove ? (
     <LocalExpressionContext.Provider value={localExpressionContextInfo}>
       <RowsRenderer {...elementProps} />
@@ -257,5 +247,4 @@ const RepetitionScaffold = (props) => {
     </div>
   );
 };
-
 RepeatRenderManager.$inject = ['form', 'formFields', 'formFieldRegistry', 'pathRegistry'];

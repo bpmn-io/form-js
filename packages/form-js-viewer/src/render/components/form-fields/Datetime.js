@@ -12,6 +12,7 @@ import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Datepicker } from './parts/Datepicker';
 import { Timepicker } from './parts/Timepicker';
+import { useService } from '../../hooks';
 
 import { formFieldClasses, prefixId } from '../Util';
 import { sanitizeDateTimePickerValue } from '../util/sanitizerUtil';
@@ -190,9 +191,13 @@ export function Datetime(props) {
     setTime,
     'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
+  const form = useService('form');
+  const { schema } = form._getState();
+
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors: allErrors, disabled, readonly })}>
+    <div class={formFieldClasses(type, { errors: allErrors, disabled, readonly })} style={{ direction: direction }}>
       <div class={classNames('fjs-vertical-group')} ref={dateTimeGroupRef}>
         {useDatePicker && <Datepicker {...datePickerProps} />}
         {useTimePicker && useDatePicker && <div class="fjs-datetime-separator" />}

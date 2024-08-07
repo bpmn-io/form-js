@@ -3,6 +3,7 @@ import { useOptionsAsync, LOAD_STATES } from '../../hooks/useOptionsAsync';
 import { useCleanupMultiSelectValue } from '../../hooks/useCleanupMultiSelectValue';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
+import { useService } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -64,8 +65,15 @@ export function Checklist(props) {
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+
   return (
-    <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }))} ref={outerDivRef}>
+    <div
+      class={classNames(formFieldClasses(type, { errors, disabled, readonly }))}
+      ref={outerDivRef}
+      style={{ direction: direction }}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
         options.map((o, index) => {
@@ -93,6 +101,7 @@ export function Checklist(props) {
                 required={required}
                 aria-invalid={errors.length > 0}
                 aria-describedby={[descriptionId, errorMessageId].join(' ')}
+                style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
               />
             </Label>
           );
