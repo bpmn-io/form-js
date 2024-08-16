@@ -79,6 +79,11 @@ export class Dragging {
 
     if (formFieldNode) {
       formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
+
+      if (!formField) {
+        return 'No associated form field in the registry';
+      }
+
       columns = (formField.layout || {}).columns;
 
       // (1) check for row constraints
