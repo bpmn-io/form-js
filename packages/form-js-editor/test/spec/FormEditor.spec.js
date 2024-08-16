@@ -952,6 +952,57 @@ describe('FormEditor', function () {
       });
     });
 
+    it('should not move form field if it cannot be found in the registry', async function () {
+      // given
+      let dragulaCreated = false;
+
+      await bootstrapFormEditor({
+        schema: schemaRows,
+        container,
+        bootstrapExecute: (editor) => {
+          editor.on('dragula.created', () => {
+            dragulaCreated = true;
+          });
+        },
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      expect(dragulaCreated).to.be.true;
+
+      const formField = formFieldRegistry.get('Textfield_1');
+
+      // assume
+      expectLayout(formField, {
+        columns: 8,
+        row: 'Row_1',
+      });
+
+      const formFieldVisualComponnet = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      const row = container.querySelector('[data-row-id=Row_4]');
+      const bounds = row.getBoundingClientRect();
+
+      formFieldRegistry._formFields['Textfield_1'] = undefined;
+
+      // when
+      startDragging(container, formFieldVisualComponnet);
+      moveDragging(container, {
+        clientX: bounds.x + 10,
+        clientY: bounds.y + 10,
+      });
+
+      endDragging(container);
+
+      // then
+      expectLayout(formField, {
+        columns: 8,
+        row: 'Row_1',
+      });
+
+      expect(formFieldRegistry.get('Textfield_1')).to.be.undefined;
+    });
+
     it('should move form field into group', async function () {
       // given
       let dragulaCreated = false;
