@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import classNames from 'classnames';
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
-import { useFlushDebounce, usePrevious } from '../../hooks';
+import { useFlushDebounce, usePrevious, useService } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -160,9 +160,16 @@ export function Numberfield(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      style={{
+        direction: direction,
+      }}>
       <Label htmlFor={domId} label={label} required={required} />
       <TemplatedInputAdorner disabled={disabled} readonly={readonly} pre={prefixAdorner} post={suffixAdorner}>
         <div
@@ -170,7 +177,8 @@ export function Numberfield(props) {
             'fjs-vertical-group',
             { 'fjs-disabled': disabled, 'fjs-readonly': readonly },
             { hasErrors: errors.length },
-          )}>
+          )}
+          style={{ display: 'flex', alignItems: 'center' }}>
           <input
             ref={inputRef}
             class="fjs-input"
@@ -191,24 +199,52 @@ export function Numberfield(props) {
             aria-describedby={[descriptionId, errorMessageId].join(' ')}
             required={required}
             aria-invalid={errors.length > 0}
+            style={{ flex: 1 }}
           />
-          <div class={classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
+          {direction === 'rtl' && (
+            <div
+              class="fjs-number-arrow-separator"
+              style={{
+                width: '1px',
+                height: '100%',
+                backgroundColor: '#ccc',
+                marginRight: '5px',
+              }}
+            />
+          )}
+          <div
+            class={classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              height: '100%',
+            }}>
             {/* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */}
             <button
               type="button"
               class="fjs-number-arrow-up"
               aria-label="Increment"
               onClick={() => increment()}
-              tabIndex={-1}>
+              tabIndex={-1}
+              style={{
+                border: 'none',
+                background: 'transparent',
+                padding: '0',
+              }}>
               <AngelUpIcon />
             </button>
-            <div class="fjs-number-arrow-separator" />
             <button
               type="button"
               class="fjs-number-arrow-down"
               aria-label="Decrement"
               onClick={() => decrement()}
-              tabIndex={-1}>
+              tabIndex={-1}
+              style={{
+                border: 'none',
+                background: 'transparent',
+                padding: '0',
+              }}>
               <AngelDownIcon />
             </button>
           </div>

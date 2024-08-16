@@ -53,8 +53,15 @@ export function Text(props) {
     sanitize: false,
     sanitizeStyleTags: false,
   });
+  const { schema } = form._getState();
 
-  return <div class={formFieldClasses(type)} dangerouslySetInnerHTML={dangerouslySetInnerHTML}></div>;
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+  return (
+    <div
+      class={formFieldClasses(type)}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      style={{ direction: direction }}></div>
+  );
 }
 
 Text.config = {

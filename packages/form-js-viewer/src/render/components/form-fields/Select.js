@@ -3,6 +3,7 @@ import { Errors } from '../Errors';
 import { Label } from '../Label';
 import { SearchableSelect } from './parts/SearchableSelect';
 import { SimpleSelect } from './parts/SimpleSelect';
+import { useService } from '../../hooks';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
@@ -35,6 +36,10 @@ export function Select(props) {
     'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
 
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+
   return (
     <div
       class={formFieldClasses(type, { errors, disabled, readonly })}
@@ -43,7 +48,8 @@ export function Select(props) {
           event.preventDefault();
           event.stopPropagation();
         }
-      }}>
+      }}
+      style={{ direction: direction }}>
       <Label htmlFor={domId} label={label} required={required} />
       {searchable ? <SearchableSelect {...selectProps} /> : <SimpleSelect {...selectProps} />}
       <Description id={descriptionId} description={description} />

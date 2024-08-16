@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Label } from '../Label';
+import { useService } from '../../hooks';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 
@@ -59,9 +60,15 @@ export function Radio(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })} ref={outerDivRef}>
+    <div
+      class={formFieldClasses(type, { errors, disabled, readonly })}
+      ref={outerDivRef}
+      style={{ direction: direction }}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
         options.map((option, index) => {
@@ -88,6 +95,7 @@ export function Radio(props) {
                 aria-describedby={[descriptionId, errorMessageId].join(' ')}
                 required={required}
                 aria-invalid={errors.length > 0}
+                style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
               />
             </Label>
           );

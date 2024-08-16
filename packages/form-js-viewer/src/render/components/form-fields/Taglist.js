@@ -162,6 +162,10 @@ export function Taglist(props) {
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
+  const form = useService('form');
+  const { schema } = form._getState();
+  const direction = schema?.direction || 'ltr'; // Fetch the direction value from the form schema
+
   return (
     <div
       ref={focusScopeRef}
@@ -171,7 +175,8 @@ export function Taglist(props) {
           event.stopPropagation();
           event.preventDefault();
         }
-      }}>
+      }}
+      style={{ direction: direction }}>
       <Label label={label} required={required} htmlFor={domId} />
       {!disabled && !readonly && !!values.length && (
         <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={onSkipToSearch} />
@@ -219,6 +224,8 @@ export function Taglist(props) {
           aria-describedby={[descriptionId, errorMessageId].join(' ')}
           required={required}
           aria-invalid={errors.length > 0}
+          style={{ textAlign: direction === 'rtl' ? 'right' : 'left', fontFamily: 'Vazirmatn, sans-serif' }}
+          dir={direction === 'rtl' ? 'rtl' : 'ltr'}
         />
       </div>
       <div class="fjs-taglist-anchor">
