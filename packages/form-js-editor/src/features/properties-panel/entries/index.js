@@ -39,3 +39,5 @@ export { RowCountEntry } from './RowCountEntry';
 export { HeadersSourceSelectEntry } from './HeadersSourceSelectEntry';
 export { ColumnsExpressionEntry } from './ColumnsExpressionEntry';
 export { StaticColumnsSourceEntry } from './StaticColumnsSourceEntry';
+export { AcceptEntry } from './AcceptEntry';
+export { MultipleEntry } from './MultipleEntry';
