@@ -947,10 +947,11 @@
     }
 
     select {
-      @include getBaseInputStyles(1.5rem);
-      @include getSelectArrowStyles(var(--cds-spacing-03));
       border-bottom: none;
       padding-right: 2rem;
+
+      @include getSelectArrowStyles(var(--cds-spacing-03));
+      @include getBaseInputStyles(1.5rem);
     }
 
     .fjs-input-group {
@@ -1031,8 +1032,8 @@
 
 .fjs-container {
   .fjs-form-field-select .fjs-input-group {
-    @include getBaseInputStyles(2.5rem);
     @include getSelectArrowStyles(var(--cds-spacing-05));
+    @include getBaseInputStyles(2.5rem);
 
     .fjs-select-display {
       display: flex;
