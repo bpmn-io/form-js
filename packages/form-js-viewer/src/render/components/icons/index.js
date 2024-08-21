@@ -20,6 +20,7 @@ import IFrameIcon from './IFrame.svg';
 import ImageIcon from './Image.svg';
 import GroupIcon from './Group.svg';
 import TableIcon from './Table.svg';
+import FilePickerIcon from './FilePicker.svg';
 
 export const iconsByType = (type) => {
   return {
@@ -44,6 +45,7 @@ export const iconsByType = (type) => {
     textfield: TextfieldIcon,
     textarea: TextareaIcon,
     table: TableIcon,
+    filepicker: FilePickerIcon,
     default: FormIcon,
   }[type];
 };
