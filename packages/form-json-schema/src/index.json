@@ -37,6 +37,11 @@
       "description": "The target execution platform version of a form",
       "type": "string"
     },
+    "versionTag": {
+      "$id": "#/versionTag",
+      "description": "The version tag of a form",
+      "type": "string"
+    },
     "exporter": {
       "$id": "#/exporter",
       "$ref": "src/defs/exporter.json"
