@@ -19,6 +19,7 @@ import { ExpressionField } from './form-fields/ExpressionField';
 import { Textfield } from './form-fields/Textfield';
 import { Textarea } from './form-fields/Textarea';
 import { Table } from './form-fields/Table';
+import { FilePicker } from './form-fields/FilePicker';
 
 import { Label } from './Label';
 import { Description } from './Description';
@@ -52,6 +53,7 @@ export {
   Textfield,
   Textarea,
   Table,
+  FilePicker,
 };
 
 export const formFields = [
@@ -61,6 +63,7 @@ export const formFields = [
   Numberfield,
   Datetime,
   ExpressionField,
+  FilePicker,
 
   /* Selection */
   Checkbox,

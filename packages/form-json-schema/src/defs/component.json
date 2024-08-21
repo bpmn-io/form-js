@@ -262,6 +262,16 @@
       "$id": "#/component/content",
       "description": "The content of a custom component.",
       "type": "string"
+    },
+    "accept": {
+      "$id": "#/component/accept",
+      "description": "Define the accepted file types.",
+      "type": "string"
+    },
+    "multiple": {
+      "$id": "#/component/multiple",
+      "description": "Allow multiple files to be selected.",
+      "type": "boolean"
     }
   },
   "required": ["type"]
