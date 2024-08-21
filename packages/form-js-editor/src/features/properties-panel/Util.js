@@ -71,6 +71,7 @@ export const INPUTS = [
   'taglist',
   'textfield',
   'textarea',
+  'filepicker',
 ];
 
 export const OPTIONS_INPUTS = ['checklist', 'radio', 'select', 'taglist'];

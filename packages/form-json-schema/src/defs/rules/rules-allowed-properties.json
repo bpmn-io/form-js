@@ -397,6 +397,39 @@
           "content": false
         }
       }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "filepicker"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "accept": false,
+          "multiple": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "filepicker"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "description": false
+        }
+      }
     }
   ]
 }

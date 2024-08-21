@@ -174,6 +174,12 @@ describe('validation', function () {
     testForm('dataSource-not-allowed');
 
     testForm('columns-columnsExpression-exclusive');
+
+    testForm('filepicker');
+
+    testForm('accept-not-allowed');
+
+    testForm('multiple-not-allowed');
   });
 
   describe('rules - default', function () {

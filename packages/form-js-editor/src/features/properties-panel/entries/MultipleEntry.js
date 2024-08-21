@@ -1,36 +1,34 @@
 import { get } from 'min-dash';
 
-import { INPUTS } from '../Util';
-
 import { useService, useVariables } from '../hooks';
 
-import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelToggleSwitchEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export function DescriptionEntry(props) {
+export function MultipleEntry(props) {
   const { editField, field } = props;
 
   const entries = [];
 
   entries.push({
-    id: 'description',
-    component: Description,
+    id: 'multiple',
+    component: Multiple,
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => field.type !== 'filepicker' && INPUTS.includes(field.type),
+    isDefaultVisible: (field) => field.type === 'filepicker',
   });
 
   return entries;
 }
 
-function Description(props) {
+function Multiple(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
   const variables = useVariables().map((name) => ({ name }));
 
-  const path = ['description'];
+  const path = ['multiple'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -40,13 +38,14 @@ function Description(props) {
     return editField(field, path, value);
   };
 
-  return FeelTemplatingEntry({
+  return FeelToggleSwitchEntry({
     debounce,
     element: field,
+    feel: 'optional',
     getValue,
     id,
-    label: 'Field description',
-    singleLine: true,
+    label: 'Upload multiple files',
+    inline: true,
     setValue,
     variables,
   });
