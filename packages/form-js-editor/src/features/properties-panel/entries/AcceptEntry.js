@@ -1,36 +1,34 @@
 import { get } from 'min-dash';
 
-import { INPUTS } from '../Util';
-
 import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-export function DescriptionEntry(props) {
+export function AcceptEntry(props) {
   const { editField, field } = props;
 
   const entries = [];
 
   entries.push({
-    id: 'description',
-    component: Description,
+    id: 'accept',
+    component: Accept,
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => field.type !== 'filepicker' && INPUTS.includes(field.type),
+    isDefaultVisible: (field) => field.type === 'filepicker',
   });
 
   return entries;
 }
 
-function Description(props) {
+function Accept(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
 
   const variables = useVariables().map((name) => ({ name }));
 
-  const path = ['description'];
+  const path = ['accept'];
 
   const getValue = () => {
     return get(field, path, '');
@@ -45,9 +43,23 @@ function Description(props) {
     element: field,
     getValue,
     id,
-    label: 'Field description',
+    label: 'Supported file formats',
     singleLine: true,
     setValue,
     variables,
+    description,
   });
 }
+
+// helpers //////////
+
+const description = (
+  <>
+    A comma-separated list of{' '}
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers"
+      target="_blank">
+      file type specifiers
+    </a>
+  </>
+);
