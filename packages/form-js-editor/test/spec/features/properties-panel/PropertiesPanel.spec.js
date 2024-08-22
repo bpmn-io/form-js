@@ -3429,15 +3429,7 @@ describe('properties panel', function () {
 
         // then
         expectPanelStructure(container, {
-          General: [
-            'Field label',
-            'Field description',
-            'Key',
-            'Supported file formats',
-            'Disabled',
-            'Read only',
-            'Can upload multiple files',
-          ],
+          General: ['Field label', 'Key', 'Supported file formats', 'Upload multiple files', 'Disabled', 'Read only'],
           Condition: [],
           Validation: ['Required'],
           'Custom properties': [],

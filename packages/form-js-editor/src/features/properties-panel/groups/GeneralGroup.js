@@ -49,12 +49,12 @@ export function GeneralGroup(field, editField, getService) {
     ...AltTextEntry({ field, editField }),
     ...SelectEntries({ field, editField }),
     ...AcceptEntry({ field, editField }),
+    ...MultipleEntry({ field, editField }),
     ...DisabledEntry({ field, editField }),
     ...ReadonlyEntry({ field, editField }),
     ...TableDataSourceEntry({ field, editField }),
     ...PaginationEntry({ field, editField }),
     ...RowCountEntry({ field, editField }),
-    ...MultipleEntry({ field, editField }),
   ];
 
   if (entries.length === 0) {

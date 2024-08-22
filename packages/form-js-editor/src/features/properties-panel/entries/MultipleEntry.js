@@ -1,6 +1,8 @@
 import { get } from 'min-dash';
 
-import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
+import { useService, useVariables } from '../hooks';
+
+import { FeelToggleSwitchEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 export function MultipleEntry(props) {
   const { editField, field } = props;
@@ -12,7 +14,7 @@ export function MultipleEntry(props) {
     component: Multiple,
     editField: editField,
     field: field,
-    isEdited: isToggleSwitchEntryEdited,
+    isEdited: isFeelEntryEdited,
     isDefaultVisible: (field) => field.type === 'filepicker',
   });
 
@@ -21,6 +23,10 @@ export function MultipleEntry(props) {
 
 function Multiple(props) {
   const { editField, field, id } = props;
+
+  const debounce = useService('debounce');
+
+  const variables = useVariables().map((name) => ({ name }));
 
   const path = ['multiple'];
 
@@ -32,12 +38,15 @@ function Multiple(props) {
     return editField(field, path, value);
   };
 
-  return ToggleSwitchEntry({
+  return FeelToggleSwitchEntry({
+    debounce,
     element: field,
+    feel: 'optional',
     getValue,
     id,
-    label: 'Can upload multiple files',
+    label: 'Upload multiple files',
     inline: true,
     setValue,
+    variables,
   });
 }

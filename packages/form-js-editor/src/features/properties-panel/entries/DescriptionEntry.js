@@ -17,7 +17,7 @@ export function DescriptionEntry(props) {
     editField: editField,
     field: field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: (field) => INPUTS.includes(field.type),
+    isDefaultVisible: (field) => field.type !== 'filepicker' && INPUTS.includes(field.type),
   });
 
   return entries;
