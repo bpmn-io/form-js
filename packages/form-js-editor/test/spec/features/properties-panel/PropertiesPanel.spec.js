@@ -3416,6 +3416,26 @@ describe('properties panel', function () {
         });
       });
     });
+
+    describe('filepicker', function () {
+      it('entries', function () {
+        // given
+        const field = schema.components.find(({ key }) => key === 'files');
+
+        bootstrapPropertiesPanel({
+          container,
+          field,
+        });
+
+        // then
+        expectPanelStructure(container, {
+          General: ['Field label', 'Key', 'Supported file formats', 'Upload multiple files', 'Disabled', 'Read only'],
+          Condition: [],
+          Validation: ['Required'],
+          'Custom properties': [],
+        });
+      });
+    });
   });
 
   describe('custom properties', function () {

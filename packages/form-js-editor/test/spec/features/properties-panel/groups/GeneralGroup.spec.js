@@ -280,7 +280,7 @@ describe('GeneralGroup', function () {
 
     it('should render for INPUTS', function () {
       // given
-      for (const type of INPUTS) {
+      for (const type of INPUTS.filter((type) => type !== 'filepicker')) {
         const field = { type };
 
         // when
@@ -511,11 +511,14 @@ describe('GeneralGroup', function () {
     });
 
     describe('for all other INPUTS', () => {
-      const otherInputTypes = INPUTS.filter((i) => !OPTIONS_INPUTS.includes(i));
+      const nonDefaultValueInputs = new Set(['datetime', 'filepicker']);
+      const defaultValueInputs = INPUTS.filter(
+        (input) => !OPTIONS_INPUTS.includes(input) && !nonDefaultValueInputs.has(input),
+      );
 
       it('should render', function () {
         // given
-        for (const type of otherInputTypes) {
+        for (const type of defaultValueInputs) {
           const field = { type };
 
           // when
@@ -524,8 +527,22 @@ describe('GeneralGroup', function () {
           // then
           const defaultValueEntry = findEntry('defaultValue', container);
 
-          if (type === 'datetime') expect(defaultValueEntry).to.not.exist;
-          else expect(defaultValueEntry).to.exist;
+          expect(defaultValueEntry).to.exist;
+        }
+      });
+
+      it('should not render', function () {
+        // given
+        for (const type of nonDefaultValueInputs) {
+          const field = { type };
+
+          // when
+          const { container } = renderGeneralGroup({ field });
+
+          // then
+          const defaultValueEntry = findEntry('defaultValue', container);
+
+          expect(defaultValueEntry).to.not.exist;
         }
       });
     });
