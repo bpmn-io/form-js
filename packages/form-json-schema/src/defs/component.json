@@ -271,7 +271,7 @@
     "multiple": {
       "$id": "#/component/multiple",
       "description": "Allow multiple files to be selected.",
-      "type": "boolean"
+      "type": ["boolean", "string"]
     }
   },
   "required": ["type"]
