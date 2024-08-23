@@ -23,11 +23,13 @@ import {
   TableDataSourceEntry,
   PaginationEntry,
   RowCountEntry,
+  VersionTagEntry,
 } from '../entries';
 
 export function GeneralGroup(field, editField, getService) {
   const entries = [
     ...IdEntry({ field, editField }),
+    ...VersionTagEntry({ field, editField }),
     ...LabelEntry({ field, editField }),
     ...DescriptionEntry({ field, editField }),
     ...KeyEntry({ field, editField, getService }),
