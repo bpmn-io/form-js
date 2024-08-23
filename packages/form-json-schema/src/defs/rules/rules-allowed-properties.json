@@ -415,6 +415,21 @@
           "multiple": false
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "filepicker"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "description": false
+        }
+      }
     }
   ]
 }

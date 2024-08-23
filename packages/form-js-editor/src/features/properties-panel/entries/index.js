@@ -40,3 +40,5 @@ export { HeadersSourceSelectEntry } from './HeadersSourceSelectEntry';
 export { ColumnsExpressionEntry } from './ColumnsExpressionEntry';
 export { StaticColumnsSourceEntry } from './StaticColumnsSourceEntry';
 export { VersionTagEntry } from './VersionTagEntry';
+export { AcceptEntry } from './AcceptEntry';
+export { MultipleEntry } from './MultipleEntry';
