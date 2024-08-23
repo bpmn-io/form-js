@@ -81,6 +81,75 @@ describe('GeneralGroup', function () {
     });
   });
 
+  describe('versionTag', function () {
+    it('should render for default', function () {
+      // given
+      const field = { type: 'default' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const versionTagInput = findInput('versionTag', container);
+
+      expect(versionTagInput).to.exist;
+    });
+
+    it('should NOT render for textfield', function () {
+      // given
+      const field = { type: 'textfield' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const versionTagInput = findInput('versionTag', container);
+
+      expect(versionTagInput).to.not.exist;
+    });
+
+    it('should read', function () {
+      // given
+      const field = {
+        type: 'default',
+        id: 'foobar',
+        versionTag: 'v1',
+      };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // when
+      const versionTagInput = findInput('versionTag', container);
+
+      // then
+      expect(versionTagInput).to.exist;
+      expect(versionTagInput.value).to.equal('v1');
+    });
+
+    it('should write', function () {
+      // given
+      const field = {
+        type: 'default',
+        id: 'foobar',
+        versionTag: 'v1',
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      const versionTagInput = findInput('versionTag', container);
+
+      // when
+      fireEvent.input(versionTagInput, { target: { value: 'newVal' } });
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.versionTag).to.equal('newVal');
+    });
+  });
+
   describe('label', function () {
     it('should NOT render for default', function () {
       // given
