@@ -140,7 +140,8 @@ export function PlaygroundRoot(config) {
 
     // pipe viewer changes to output data editor
     formViewer.on('changed', updateOutputData);
-    formViewer.on('formFieldInstanceRegistry.changed', updateOutputData);
+    formViewer.on('formFieldInstance.added', updateOutputData);
+    formViewer.on('formFieldInstance.removed', updateOutputData);
 
     inputDataEditor.on('changed', (event) => {
       try {
