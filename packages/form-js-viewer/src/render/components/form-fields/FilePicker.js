@@ -1,8 +1,8 @@
 import { formFieldClasses } from '../Util';
 import { Label } from '../Label';
 import { Errors } from '../Errors';
-import { useRef, useState } from 'preact/hooks';
-import { useSingleLineTemplateEvaluation } from '../../hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
 
 const type = 'filepicker';
 
@@ -28,12 +28,30 @@ export function FilePicker(props) {
   const fileInputRef = useRef(null);
   /** @type {[File[],import("preact/hooks").StateUpdater<File[]>]} */
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const eventBus = useService('eventBus');
   const { field, onChange, domId, errors = [], disabled, readonly, required } = props;
   const { label, multiple = '', accept = '', id } = field;
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
+
+  useEffect(() => {
+    const reset = () => {
+      setSelectedFiles([]);
+      onChange({
+        value: null,
+      });
+    };
+
+    eventBus.on('import.done', reset);
+    eventBus.on('reset', reset);
+
+    return () => {
+      eventBus.off('import.done', reset);
+      eventBus.off('reset', reset);
+    };
+  }, [eventBus, onChange]);
 
   return (
     <div class={formFieldClasses(type, { errors, disabled, readonly })}>
