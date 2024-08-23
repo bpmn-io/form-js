@@ -456,6 +456,7 @@
 .fjs-container .fjs-input[type='tel'],
 .fjs-container .fjs-input[type='number'],
 .fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='button'],
 .fjs-container .fjs-button[type='reset'],
 .fjs-container .fjs-textarea,
 .fjs-container .fjs-select {
@@ -631,7 +632,8 @@
   margin: 6px 10px 6px 4px;
 }
 
-.fjs-container .fjs-button[type='submit'] {
+.fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='button'] {
   color: var(--cds-text-inverse, var(--color-white));
   background-color: var(--color-accent);
   border-color: var(--color-accent);
@@ -644,12 +646,14 @@
 }
 
 .fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='button'],
 .fjs-container .fjs-button[type='reset'] {
   min-width: 100px;
   width: auto;
 }
 
-.fjs-container .fjs-button[type='submit'] {
+.fjs-container .fjs-button[type='submit'],
+.fjs-container .fjs-button[type='button'] {
   font-weight: 600;
 }
 
@@ -660,6 +664,7 @@
 .fjs-container .fjs-input[type='tel']:focus,
 .fjs-container .fjs-input[type='number']:focus,
 .fjs-container .fjs-button[type='submit']:focus,
+.fjs-container .fjs-button[type='button']:focus,
 .fjs-container .fjs-button[type='reset']:focus,
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
@@ -676,7 +681,8 @@
   outline: none;
 }
 
-.fjs-container .fjs-button[type='submit']:focus {
+.fjs-container .fjs-button[type='submit']:focus,
+.fjs-container .fjs-button[type='button']:focus {
   border-color: var(--color-accent);
 }
 
@@ -719,6 +725,7 @@
 }
 
 .fjs-container .fjs-button[type='submit']:disabled,
+.fjs-container .fjs-button[type='button']:disabled,
 .fjs-container .fjs-button[type='reset']:disabled {
   color: var(--cds-text-on-color-disabled, var(--color-text-light));
   background-color: var(--color-background-disabled);
@@ -726,6 +733,7 @@
 }
 
 .fjs-container .fjs-button[type='submit']:read-only,
+.fjs-container .fjs-button[type='button']:read-only,
 .fjs-container .fjs-button[type='reset']:read-only {
   color: var(--text-light);
   background-color: var(--color-background-readonly);
@@ -1268,4 +1276,15 @@
 
 .fjs-container .flatpickr-calendar {
   width: 326px;
+}
+
+.fjs-hidden {
+  display: none;
+}
+
+.fjs-container .fjs-filepicker-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
