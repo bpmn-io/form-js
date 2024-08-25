@@ -24,6 +24,9 @@ describe('FilePicker', function () {
         ...defaultField,
         label: 'My files',
       },
+      services: {
+        fileRegistry: getMockFileRegistry(),
+      },
     });
 
     // then
@@ -37,6 +40,9 @@ describe('FilePicker', function () {
     // when
     createFilePicker({
       errors: ['Something went wrong'],
+      services: {
+        fileRegistry: getMockFileRegistry(),
+      },
     });
 
     // then
@@ -46,7 +52,15 @@ describe('FilePicker', function () {
   it('should change the label with single file selected', function () {
     // given
     const file = new File([''], 'test.png', { type: 'image/png' });
-    const { container } = createFilePicker();
+    const fileRegistry = getMockFileRegistry();
+    const { container } = createFilePicker({
+      field: {
+        id: 'Filepicker_1',
+      },
+      services: {
+        fileRegistry,
+      },
+    });
 
     // when
 
@@ -59,12 +73,21 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('test.png')).to.exist;
+    expect(fileRegistry.setFiles).to.have.been.calledWith('Filepicker_1_value_key', [file]);
   });
 
   it('should change the label with multiple files selected', function () {
     // given
     const file = new File([''], 'test1.png', { type: 'image/png' });
-    const { container } = createFilePicker();
+    const fileRegistry = getMockFileRegistry();
+    const { container } = createFilePicker({
+      field: {
+        id: 'Filepicker_1',
+      },
+      services: {
+        fileRegistry,
+      },
+    });
 
     // when
 
@@ -77,6 +100,7 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('2 files selected')).to.exist;
+    expect(fileRegistry.setFiles).to.have.been.calledWith('Filepicker_1_value_key', [file, file]);
   });
 
   it('should accept multiple files and limit the file types', function () {
@@ -86,6 +110,9 @@ describe('FilePicker', function () {
         ...defaultField,
         accept: 'image/*',
         multiple: true,
+      },
+      services: {
+        fileRegistry: getMockFileRegistry(),
       },
     });
 
@@ -108,6 +135,9 @@ describe('FilePicker', function () {
         ...defaultField,
         accept: '=mime',
         multiple: '=acceptMultiple',
+      },
+      services: {
+        fileRegistry: getMockFileRegistry(),
       },
     });
 
@@ -145,7 +175,11 @@ describe('FilePicker', function () {
       // given
       this.timeout(10000);
 
-      const { container } = createFilePicker();
+      const { container } = createFilePicker({
+        services: {
+          fileRegistry: getMockFileRegistry(),
+        },
+      });
 
       // then
       await expectNoViolations(container);
@@ -158,6 +192,9 @@ describe('FilePicker', function () {
       const { container } = createFilePicker({
         value: true,
         readonly: true,
+        services: {
+          fileRegistry: getMockFileRegistry(),
+        },
       });
 
       // then
@@ -171,6 +208,9 @@ describe('FilePicker', function () {
       const { container } = createFilePicker({
         value: true,
         errors: ['Something went wrong'],
+        services: {
+          fileRegistry: getMockFileRegistry(),
+        },
       });
 
       // then
@@ -211,4 +251,11 @@ function createFilePicker({ services, ...restOptions } = {}) {
       container: options.container || container.querySelector('.fjs-form'),
     },
   );
+}
+
+function getMockFileRegistry() {
+  return {
+    deleteFiles: sinon.spy(),
+    setFiles: sinon.spy(),
+  };
 }

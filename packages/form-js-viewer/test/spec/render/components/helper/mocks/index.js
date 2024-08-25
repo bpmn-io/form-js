@@ -42,6 +42,7 @@ function _createMockModule(services, options) {
       ? ['value', services.repeatRenderManager]
       : ['type', RepeatRenderManager],
     markdownRenderer: services.markdownRenderer ? ['value', services.markdownRenderer] : ['type', MarkdownRenderer],
+    fileRegistry: ['value', services.fileRegistry],
   };
 }
 

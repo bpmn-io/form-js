@@ -26,19 +26,28 @@ const type = 'filepicker';
 export function FilePicker(props) {
   /** @type {import("preact/hooks").Ref<HTMLInputElement>} */
   const fileInputRef = useRef(null);
-  /** @type {[File[],import("preact/hooks").StateUpdater<File[]>]} */
+  /** @type {[File[], import("preact/hooks").StateUpdater<File[]>]} */
   const [selectedFiles, setSelectedFiles] = useState([]);
+  /** @type {import('diagram-js/lib/core/EventBus').default} */
   const eventBus = useService('eventBus');
+  /** @type {import('../../FileRegistry').FileRegistry} */
+  const fileRegistry = useService('fileRegistry', false);
   const { field, onChange, domId, errors = [], disabled, readonly, required } = props;
   const { label, multiple = '', accept = '', id } = field;
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
+  const filesKey = `${id}_value_key`;
 
   useEffect(() => {
     const reset = () => {
       setSelectedFiles([]);
+
+      if (fileRegistry) {
+        fileRegistry.deleteFiles(filesKey);
+      }
+
       onChange({
         value: null,
       });
@@ -51,10 +60,10 @@ export function FilePicker(props) {
       eventBus.off('import.done', reset);
       eventBus.off('reset', reset);
     };
-  }, [eventBus, onChange]);
+  }, [eventBus, onChange, fileRegistry, filesKey]);
 
   return (
-    <div class={formFieldClasses(type, { errors, disabled, readonly })}>
+    <div className={formFieldClasses(type, { errors, disabled, readonly })}>
       <Label htmlFor={domId} label={label} required={required} />
       <input
         type="file"
@@ -71,14 +80,19 @@ export function FilePicker(props) {
             onChange({
               value: null,
             });
+            fileRegistry.deleteFiles(filesKey);
+            setSelectedFiles([]);
+
             return;
           }
 
           const files = Array.from(input.files);
 
           onChange({
-            value: `${id}_value_key`,
+            value: filesKey,
           });
+
+          fileRegistry.setFiles(filesKey, files);
 
           setSelectedFiles(files);
         }}
@@ -86,9 +100,9 @@ export function FilePicker(props) {
       <div className="fjs-filepicker-container">
         <button
           type="button"
-          disabled={disabled}
+          disabled={disabled || readonly || fileRegistry === null}
           readonly={readonly}
-          class="fjs-button"
+          className="fjs-button"
           onClick={() => {
             fileInputRef.current.click();
           }}>
