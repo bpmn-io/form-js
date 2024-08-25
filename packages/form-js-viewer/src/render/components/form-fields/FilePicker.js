@@ -97,7 +97,7 @@ export function FilePicker(props) {
           type="button"
           disabled={isInputDisabled}
           readonly={readonly}
-          className="fjs-button"
+          className="fjs-button fjs-filepicker-button"
           onClick={() => {
             fileInputRef.current.click();
           }}>
