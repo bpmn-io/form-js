@@ -1,7 +1,7 @@
 import { formFieldClasses } from '../Util';
 import { Label } from '../Label';
 import { Errors } from '../Errors';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
 
 const type = 'filepicker';
@@ -40,21 +40,29 @@ export function FilePicker(props) {
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
-  const filesKey = `${id}_value_key`;
   const filesKey = `file::${calculateValuePath(props.fieldInstance.valuePath)}`;
+  const deleteFiles = useCallback(() => {
+    if (fileRegistry) {
+      fileRegistry.deleteFiles(filesKey);
+    }
+  }, [fileRegistry, filesKey]);
 
   useEffect(() => {
-    const reset = () => {
+    return () => {
+      deleteFiles();
+    };
+  }, [deleteFiles]);
+
+  useEffect(() => {
+    function reset() {
       setSelectedFiles([]);
 
-      if (fileRegistry) {
-        fileRegistry.deleteFiles(filesKey);
-      }
+      deleteFiles();
 
       onChange({
         value: null,
       });
-    };
+    }
 
     eventBus.on('import.done', reset);
     eventBus.on('reset', reset);
@@ -63,7 +71,7 @@ export function FilePicker(props) {
       eventBus.off('import.done', reset);
       eventBus.off('reset', reset);
     };
-  }, [eventBus, onChange, fileRegistry, filesKey]);
+  }, [eventBus, deleteFiles, onChange]);
 
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>
