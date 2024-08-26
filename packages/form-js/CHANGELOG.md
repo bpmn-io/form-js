@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.9.2
+
+- `FIX`: disallow drop when no formfield is found ([#1219](https://github.com/bpmn-io/form-js/pull/1219))
+- `FIX`: ensure dynamic lists submit collapsed values ([#1230](https://github.com/bpmn-io/form-js/issues/1230))
+- `FIX`: cleaned up sass violations ([93eabd82](https://github.com/bpmn-io/form-js/commit/93eabd82492da1065dd0762ab3cb8b3d7a4b3257))
+- `DEPS`: bump feelin@3.1.2, resolving a some feel evaluation problems ([e0aaef9a](https://github.com/bpmn-io/form-js/commit/e0aaef9a053605b385e417062a054be15faafa7f))
+
 ## 1.9.1
 
 - `FIX`: ensure dates are parsed timezone agnostically ([#1234](https://github.com/bpmn-io/form-js/pull/1234))
