@@ -2,256 +2,37 @@
   "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
-      "type": "expression",
-      "key": "expressionResult",
-      "expression": "= 3 + 4",
-      "computeOn": "change"
-    },
-    {
-      "type": "text",
-      "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__.",
-      "layout": {
-        "row": "Row_1",
-        "columns": 8
-      }
-    },
-    {
-      "type": "html",
-      "content": "<h1>My HTML</h1><p style='color: green'>My styled HTML content</p>",
-      "layout": {
-        "row": "Row_1",
-        "columns": 8
-      }
-    },
-    {
-      "type": "iframe",
-      "label": "An example page rendered in an iframe",
-      "url": "https://example.com/"
-    },
-    {
+      "components": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "type": "filepicker",
+                  "id": "Field_1lhao5l",
+                  "key": "filepicker_1wk6n"
+                }
+              ],
+              "showOutline": false,
+              "isRepeating": true,
+              "allowAddRemove": true,
+              "defaultRepetitions": 1,
+              "label": "",
+              "type": "dynamiclist",
+              "id": "Field_1o05zdk",
+              "path": "list"
+            }
+          ],
+          "showOutline": false,
+          "type": "group",
+          "id": "Field_0a4g0u9",
+          "path": "bar"
+        }
+      ],
+      "showOutline": false,
       "type": "group",
-      "label": "Supplementary Information",
-      "path": "invoiceDetails",
-      "showOutline": true,
-      "components": [
-        {
-          "id": "GroupTextfield_1",
-          "type": "textfield",
-          "key": "supplementaryInfo1",
-          "label": "Field 1"
-        },
-        {
-          "id": "GroupTextfield_2",
-          "type": "textfield",
-          "key": "supplementaryInfo2",
-          "label": "Field 2"
-        }
-      ]
-    },
-    {
-      "type": "dynamiclist",
-      "label": "Clients",
-      "path": "clients",
-      "showOutline": true,
-      "isRepeating": true,
-      "defaultRepetitions": 2,
-      "allowAddRemove": true,
-      "components": [
-        {
-          "id": "DynamicListTextField_1",
-          "type": "textfield",
-          "key": "clientSurname",
-          "label": "Surname"
-        },
-        {
-          "id": "DynamicListTextField_2",
-          "type": "textfield",
-          "key": "clientName",
-          "label": "Name"
-        }
-      ]
-    },
-    {
-      "key": "creditor",
-      "label": "Creditor",
-      "type": "textfield",
-      "validate": {
-        "required": true
-      }
-    },
-    {
-      "description": "An invoice number in the format: C-123.",
-      "key": "invoiceNumber",
-      "label": "Invoice Number",
-      "type": "textfield",
-      "validate": {
-        "pattern": "^C-[0-9]+$"
-      }
-    },
-    {
-      "key": "amount",
-      "label": "Amount",
-      "type": "number",
-      "validate": {
-        "min": 0,
-        "max": 1000
-      }
-    },
-    {
-      "key": "approved",
-      "label": "Approved",
-      "type": "checkbox"
-    },
-    {
-      "key": "approvedBy",
-      "label": "Approved By",
-      "type": "textfield"
-    },
-    {
-      "key": "approverComments",
-      "label": "Approver comments",
-      "type": "textarea"
-    },
-    {
-      "type": "checkbox",
-      "label": "Checkbox",
-      "key": "isGood"
-    },
-    {
-      "type": "separator"
-    },
-    {
-      "type": "select",
-      "key": "selectMe",
-      "label": "Select me",
-      "valuesExpression": "=if isGood then [ \"good\" ] else [\"bad\"]"
-    },
-    {
-      "key": "hobbies",
-      "label": "Hobbies",
-      "type": "taglist",
-      "valuesExpression": "=hobbies"
-    },
-    {
-      "key": "mailto",
-      "label": "Email data to",
-      "type": "checklist",
-      "values": [
-        {
-          "label": "Approver",
-          "value": "approver"
-        },
-        {
-          "label": "Manager",
-          "value": "manager"
-        },
-        {
-          "label": "Regional Manager",
-          "value": "regional-manager"
-        }
-      ]
-    },
-    {
-      "key": "product",
-      "label": "Product",
-      "type": "radio",
-      "values": [
-        {
-          "label": "Camunda Platform",
-          "value": "camunda-platform"
-        },
-        {
-          "label": "Camunda Cloud",
-          "value": "camunda-cloud"
-        }
-      ]
-    },
-    {
-      "key": "dri",
-      "label": "Assign DRI",
-      "type": "radio",
-      "valuesKey": "queriedDRIs"
-    },
-    {
-      "key": "tags",
-      "label": "Taglist",
-      "type": "taglist",
-      "values": [
-        {
-          "label": "Tag1",
-          "value": "tag1"
-        },
-        {
-          "label": "Tag2",
-          "value": "tag2"
-        },
-        {
-          "label": "Tag3",
-          "value": "tag3"
-        },
-        {
-          "label": "Tag4",
-          "value": "tag4"
-        },
-        {
-          "label": "Tag5",
-          "value": "tag5"
-        },
-        {
-          "label": "Tag6",
-          "value": "tag6"
-        },
-        {
-          "label": "Tag7",
-          "value": "tag7"
-        },
-        {
-          "label": "Tag8",
-          "value": "tag8"
-        },
-        {
-          "label": "Tag9",
-          "value": "tag9"
-        },
-        {
-          "label": "Tag10",
-          "value": "tag10"
-        },
-        {
-          "label": "Tag11",
-          "value": "tag11"
-        }
-      ]
-    },
-    {
-      "key": "language",
-      "label": "Language",
-      "type": "select",
-      "values": [
-        {
-          "label": "German",
-          "value": "german"
-        },
-        {
-          "label": "English",
-          "value": "english"
-        }
-      ]
-    },
-    {
-      "key": "conversation",
-      "type": "datetime",
-      "subtype": "datetime",
-      "dateLabel": "Date of conversation",
-      "timeLabel": "Time of conversation",
-      "timeSerializingFormat": "utc_normalized",
-      "timeInterval": 15,
-      "use24h": false
-    },
-    {
-      "source": "=logo",
-      "alt": "The bpmn.io logo",
-      "type": "image"
+      "id": "Field_1sy3xn3",
+      "path": "foo"
     },
     {
       "label": "Submit",

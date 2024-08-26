@@ -73,7 +73,7 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('test.png')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('Filepicker_1_value_key', [file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('file::Filepicker_1', [file]);
   });
 
   it('should change the label with multiple files selected', function () {
@@ -100,7 +100,36 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('2 files selected')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('Filepicker_1_value_key', [file, file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('file::Filepicker_1', [file, file]);
+  });
+
+  it('should files with nested filepickers', function () {
+    // given
+    const file = new File([''], 'test.png', { type: 'image/png' });
+    const fileRegistry = getMockFileRegistry();
+    const { container } = createFilePicker({
+      field: {
+        id: 'Filepicker_1',
+      },
+      fieldInstance: {
+        valuePath: ['foo', 'bar', 0, 'foo', 2, 'Filepicker_1'],
+      },
+      services: {
+        fileRegistry,
+      },
+    });
+
+    // when
+
+    fireEvent.change(container.querySelector('input[type="file"]'), {
+      target: {
+        files: [file],
+      },
+    });
+
+    // then
+
+    expect(fileRegistry.setFiles).to.have.been.calledWith('file::foo.bar[0].foo[2].Filepicker_1', [file]);
   });
 
   it('should accept multiple files and limit the file types', function () {
@@ -230,6 +259,9 @@ function createFilePicker({ services, ...restOptions } = {}) {
   const options = {
     domId: 'test-filepicker',
     field: defaultField,
+    fieldInstance: {
+      valuePath: [defaultField.id],
+    },
     onChange: () => {},
     ...restOptions,
   };
@@ -245,6 +277,7 @@ function createFilePicker({ services, ...restOptions } = {}) {
         onChange={options.onChange}
         onBlur={options.onBlur}
         value={options.value}
+        fieldInstance={options.fieldInstance}
       />
     </MockFormContext>,
     {

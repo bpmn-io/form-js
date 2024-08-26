@@ -34,13 +34,14 @@ export function FilePicker(props) {
   const eventBus = useService('eventBus');
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
-  const { field, onChange, domId, errors = [], disabled, readonly, required } = props;
+  const { field, onChange, domId, errors = [], disabled, readonly, required, fieldInstance } = props;
   const { label, multiple = '', accept = '' } = field;
+  const { valuePath = [] } = fieldInstance;
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
-  const filesKey = `file::${calculateValuePath(props.fieldInstance.valuePath)}`;
+  const filesKey = `file::${calculateValuePath(valuePath)}`;
   const deleteFiles = useCallback(() => {
     if (fileRegistry) {
       fileRegistry.deleteFiles(filesKey);
