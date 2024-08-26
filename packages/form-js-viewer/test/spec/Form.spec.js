@@ -6,6 +6,8 @@ import { spy } from 'sinon';
 
 import { CustomFormFieldsModule } from './custom';
 
+import { range } from 'lodash';
+
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
@@ -505,6 +507,37 @@ describe('Form', function () {
       const textInput = repeatRowContainer.querySelector('.fjs-form-field-text p');
       expect(textInput.textContent).to.eql(data.list[index].key.toString());
     });
+  });
+
+  it('should submit collapsed values', async function () {
+    // given
+    const data = {
+      list: range(1, 11).map((key) => ({ key })),
+    };
+
+    // when
+    await bootstrapForm({
+      container,
+      data,
+      schema: dynamicListVariablesSchema,
+    });
+
+    expect(form).to.exist;
+
+    const repeatRowContainers = container.querySelectorAll('.fjs-repeat-row-container');
+    expect(repeatRowContainers).to.have.length(10);
+
+    // then
+    expect(form.submit().data.list).to.have.length(10);
+
+    // but when
+    const collapseButton = container.querySelector('.fjs-repeat-render-collapse');
+    expect(collapseButton).to.exist;
+
+    fireEvent.click(collapseButton);
+
+    // then
+    expect(form.submit().data.list).to.have.length(10);
   });
 
   it('should hold proper interaction between table and dynamic list', async function () {
