@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.10.0
+
+- `FEAT`: support form level version tag ([#4463](https://github.com/camunda/camunda-modeler/issues/4463))
+
 ## 1.9.2
 
 - `FIX`: disallow drop when no formfield is found ([#1219](https://github.com/bpmn-io/form-js/pull/1219))
