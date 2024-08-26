@@ -59,6 +59,7 @@ export class RepeatRenderManager {
     const showRemove = repeaterField.allowAddRemove && hasChildren;
 
     const displayValues = isCollapsed ? values.slice(0, nonCollapsedItems) : values;
+    const hiddenValues = isCollapsed ? values.slice(nonCollapsedItems) : [];
 
     const onDeleteItem = (index) => {
       const updatedValues = values.slice();
@@ -89,6 +90,24 @@ export class RepeatRenderManager {
             {...restProps}
           />
         ))}
+        {hiddenValues.length > 0 ? (
+          <div className="fjs-repeat-row-collapsed">
+            {hiddenValues.map((itemValue, itemIndex) => (
+              <RepetitionScaffold
+                key={itemIndex}
+                itemIndex={itemIndex + nonCollapsedItems}
+                itemValue={itemValue}
+                parentExpressionContextInfo={parentExpressionContextInfo}
+                repeaterField={repeaterField}
+                RowsRenderer={RowsRenderer}
+                indexes={indexes}
+                onDeleteItem={onDeleteItem}
+                showRemove={showRemove}
+                {...restProps}
+              />
+            ))}
+          </div>
+        ) : null}
       </>
     );
   }
