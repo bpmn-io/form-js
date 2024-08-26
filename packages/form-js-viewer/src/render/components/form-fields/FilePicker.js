@@ -19,6 +19,8 @@ const type = 'filepicker';
  * @property {string} [field.label]
  * @property {string} [field.accept]
  * @property {boolean} [field.multiple]
+ * @property {Object} fieldInstance
+ * @property {(string|number)[]} fieldInstance.valuePath
  *
  * @param {Props} props
  * @returns {import("preact").JSX.Element}
@@ -33,12 +35,13 @@ export function FilePicker(props) {
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
   const { field, onChange, domId, errors = [], disabled, readonly, required } = props;
-  const { label, multiple = '', accept = '', id } = field;
+  const { label, multiple = '', accept = '' } = field;
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
   const filesKey = `${id}_value_key`;
+  const filesKey = `file::${calculateValuePath(props.fieldInstance.valuePath)}`;
 
   useEffect(() => {
     const reset = () => {
@@ -143,4 +146,19 @@ function getSelectedFilesLabel(files) {
   }
 
   return `${files.length} files selected`;
+}
+
+/**
+ * @param {(string|number)[]} path
+ * @returns {string}
+ */
+function calculateValuePath(path) {
+  return /** @type {string} */ (
+    path.reduce((/** @type {string} */ acc, key) => {
+      if (acc.length === 0) {
+        return `${key}`;
+      }
+      return `${acc}${typeof key === 'string' ? `.${key}` : `[${key}]`}`;
+    }, '')
+  );
 }
