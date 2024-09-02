@@ -27,7 +27,7 @@ function ColumnsExpression(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const getValue = () => {
     return get(field, PATH);

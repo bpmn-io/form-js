@@ -21,6 +21,7 @@ export class ValidateBehavior extends CommandInterceptor {
 
           delete newValidate.minLength;
           delete newValidate.maxLength;
+          delete newValidate.custom;
           delete newValidate.pattern;
 
           properties['validate'] = newValidate;

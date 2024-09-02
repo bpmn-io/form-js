@@ -64,6 +64,7 @@ export default [
       'classnames',
       'min-dom',
       'min-dash',
+      'lodash',
     ],
     onwarn,
   },

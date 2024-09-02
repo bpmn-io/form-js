@@ -26,7 +26,7 @@ function Content(props) {
 
   const debounce = useService('debounce');
 
-  const variables = useVariables().map((name) => ({ name }));
+  const variables = useVariables();
 
   const path = ['content'];
 

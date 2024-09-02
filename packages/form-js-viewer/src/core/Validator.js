@@ -81,6 +81,18 @@ export class Validator {
 
     errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value)];
 
+    const evaluateExpression = (expression) =>
+      runExpressionEvaluation(this._expressionLanguage, expression, { ...expressionContextInfo, value });
+
+    if ('custom' in evaluatedValidation && value && evaluatedValidation.custom.length) {
+      const { custom } = evaluatedValidation;
+      custom.forEach(({ condition, message }) => {
+        if (condition && message && !evaluateExpression(condition)) {
+          errors = [...errors, evaluateExpression(message)];
+        }
+      });
+    }
+
     return errors;
   }
 }
