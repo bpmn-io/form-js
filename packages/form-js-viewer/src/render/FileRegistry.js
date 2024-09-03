@@ -23,6 +23,13 @@ class FileRegistry {
   }
 
   /**
+   * @returns {string[]}
+   */
+  getKeys() {
+    return Array.from(this[fileRegistry].keys());
+  }
+
+  /**
    * @param {string} id
    */
   deleteFiles(id) {

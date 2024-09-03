@@ -1,8 +1,10 @@
 import { formFieldClasses } from '../Util';
 import { Label } from '../Label';
 import { Errors } from '../Errors';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
+import { valuePathArrayToString } from '../../../util/objectPath';
+import { FILE_PICKER_FILE_KEY_PREFIX } from '../../../util/constants/FilePickerConstants';
 
 const type = 'filepicker';
 
@@ -41,24 +43,15 @@ export function FilePicker(props) {
   const evaluatedMultiple =
     useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
   const errorMessageId = `${domId}-error-message`;
-  const filesKey = `file::${calculateValuePath(valuePath)}`;
-  const deleteFiles = useCallback(() => {
-    if (fileRegistry) {
-      fileRegistry.deleteFiles(filesKey);
-    }
-  }, [fileRegistry, filesKey]);
-
-  useEffect(() => {
-    return () => {
-      deleteFiles();
-    };
-  }, [deleteFiles]);
+  const filesKey = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString(valuePath)}`;
 
   useEffect(() => {
     function reset() {
       setSelectedFiles([]);
 
-      deleteFiles();
+      if (fileRegistry) {
+        fileRegistry.deleteFiles(filesKey);
+      }
 
       onChange({
         value: null,
@@ -72,7 +65,7 @@ export function FilePicker(props) {
       eventBus.off('import.done', reset);
       eventBus.off('reset', reset);
     };
-  }, [eventBus, deleteFiles, onChange]);
+  }, [eventBus, onChange, fileRegistry, filesKey]);
 
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>
@@ -155,19 +148,4 @@ function getSelectedFilesLabel(files) {
   }
 
   return `${files.length} files selected`;
-}
-
-/**
- * @param {(string|number)[]} path
- * @returns {string}
- */
-function calculateValuePath(path) {
-  return /** @type {string} */ (
-    path.reduce((/** @type {string} */ acc, key) => {
-      if (acc.length === 0) {
-        return `${key}`;
-      }
-      return `${acc}${typeof key === 'string' ? `.${key}` : `[${key}]`}`;
-    }, '')
-  );
 }

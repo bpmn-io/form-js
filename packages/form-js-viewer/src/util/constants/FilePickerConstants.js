@@ -1,0 +1,3 @@
+const FILE_PICKER_FILE_KEY_PREFIX = 'file::';
+
+export { FILE_PICKER_FILE_KEY_PREFIX };
