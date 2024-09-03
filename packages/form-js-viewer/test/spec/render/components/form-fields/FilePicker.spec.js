@@ -290,5 +290,6 @@ function getMockFileRegistry() {
   return {
     deleteFiles: sinon.spy(),
     setFiles: sinon.spy(),
+    getFiles: sinon.spy(() => []),
   };
 }

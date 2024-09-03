@@ -5,6 +5,10 @@
 function valuePathArrayToString(path) {
   return /** @type {string} */ (
     path.reduce((/** @type {string} */ acc, key) => {
+      if (acc.length === 0) {
+        return typeof key === 'string' ? key : `[${key}]`;
+      }
+
       return `${acc}${typeof key === 'string' ? `.${key}` : `[${key}]`}`;
     }, '')
   );
