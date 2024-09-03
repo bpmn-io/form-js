@@ -71,38 +71,48 @@ export class RepeatRenderManager {
 
     /**
      * @param {number} index
-     * @returns {[string, string][]}
+     * @typedef Diff
+     * @property {[string, string][]} keysToUpdate
+     * @property {string[]} keysToDelete
+     *
+     * @returns {Diff}
      */
     const getFilesKeyDiff = (index) => {
-      const listPath = valuePathArrayToString(dataPath);
-      const prefix = `${FILE_PICKER_FILE_KEY_PREFIX}${listPath}`;
+      const listPrefix = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString(dataPath)}`;
+      const itemPrefix = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString([...dataPath, index])}`;
+      const availableKeys = fileRegistry.getKeys();
 
-      return fileRegistry
-        .getKeys()
+      const keysToDelete = availableKeys.filter((key) => key.startsWith(itemPrefix));
+
+      /** @type {[string, string][]} */
+      const keysToUpdate = availableKeys
         .map((key) => {
-          if (key.startsWith(prefix)) {
-            return pathStringToValuePathArray(key.replace(prefix, ''));
+          if (key.startsWith(listPrefix)) {
+            return pathStringToValuePathArray(key.replace(listPrefix, ''));
           }
 
           return key;
         })
         .filter((path) => path.length > 0 && typeof path[0] === 'number' && path[0] > index)
         .map((/** @type {number[]} */ path) => {
-          const oldKey = `${prefix}${valuePathArrayToString(path)}`;
+          const oldKey = `${listPrefix}${valuePathArrayToString(path)}`;
 
           path[0]--;
 
-          return [oldKey, `${prefix}${valuePathArrayToString(path)}`];
+          return [oldKey, `${listPrefix}${valuePathArrayToString(path)}`];
         });
+
+      return { keysToDelete, keysToUpdate };
     };
 
     /**
-     * @param {number} index
-     * @param {[string, string][]} diff
+     * @param {Diff} diff
      */
-    const updateFiles = (index, diff) => {
-      fileRegistry.deleteFiles(valuePathArrayToString([...dataPath, index]));
-      diff.forEach(([oldKey, newKey]) => {
+    const updateFiles = (diff) => {
+      diff.keysToDelete.forEach((key) => {
+        fileRegistry.deleteFiles(key);
+      });
+      diff.keysToUpdate.forEach(([oldKey, newKey]) => {
         const files = fileRegistry.getFiles(oldKey);
         fileRegistry.deleteFiles(oldKey);
         fileRegistry.setFiles(newKey, files);
@@ -129,11 +139,11 @@ export class RepeatRenderManager {
 
       const diff = getFilesKeyDiff(index);
 
-      updateFiles(index, diff);
+      updateFiles(diff);
 
       props.onChange({
         field: repeaterField,
-        value: JSON.parse(updateFileKeyValues(JSON.stringify(updatedValues), diff)),
+        value: JSON.parse(updateFileKeyValues(JSON.stringify(updatedValues), diff.keysToUpdate)),
         indexes,
       });
     };
