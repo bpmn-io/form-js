@@ -46,6 +46,17 @@ export function FilePicker(props) {
   const filesKey = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString(valuePath)}`;
 
   useEffect(() => {
+    if (fileRegistry !== null && selectedFiles.length === 0 && fileRegistry.getFiles(filesKey).length > 0) {
+      setSelectedFiles(fileRegistry.getFiles(filesKey));
+
+      const data = new DataTransfer();
+      fileRegistry.getFiles(filesKey).forEach((file) => data.items.add(file));
+
+      fileInputRef.current.files = data.files;
+    }
+  }, [selectedFiles, filesKey, fileRegistry]);
+
+  useEffect(() => {
     function reset() {
       setSelectedFiles([]);
 
