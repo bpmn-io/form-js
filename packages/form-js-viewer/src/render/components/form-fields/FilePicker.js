@@ -2,7 +2,7 @@ import { formFieldClasses } from '../Util';
 import { Label } from '../Label';
 import { Errors } from '../Errors';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
+import { useService, useSingleLineTemplateEvaluation, useBooleanExpressionEvaluation } from '../../hooks';
 import { valuePathArrayToString } from '../../../util/objectPath';
 import { FILE_PICKER_FILE_KEY_PREFIX } from '../../../util/constants/FilePickerConstants';
 
@@ -20,7 +20,7 @@ const type = 'filepicker';
  * @property {string} field.id
  * @property {string} [field.label]
  * @property {string} [field.accept]
- * @property {boolean} [field.multiple]
+ * @property {string|boolean} [field.multiple]
  * @property {Object} fieldInstance
  * @property {(string|number)[]} fieldInstance.valuePath
  *
@@ -37,11 +37,10 @@ export function FilePicker(props) {
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
   const { field, onChange, domId, errors = [], disabled, readonly, required, fieldInstance } = props;
-  const { label, multiple = '', accept = '' } = field;
+  const { label, multiple = false, accept = '' } = field;
   const { valuePath = [] } = fieldInstance;
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
-  const evaluatedMultiple =
-    useSingleLineTemplateEvaluation(typeof multiple === 'string' ? multiple : multiple.toString()) === 'true';
+  const evaluatedMultiple = useBooleanExpressionEvaluation(multiple);
   const errorMessageId = `${domId}-error-message`;
   const filesKey = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString(valuePath)}`;
 
