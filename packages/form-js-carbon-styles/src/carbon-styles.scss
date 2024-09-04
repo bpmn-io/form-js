@@ -66,7 +66,7 @@
 
 // Themed icons /////////////
 
-.cds--g10 {
+[data-carbon-theme='g10'] {
   .fjs-container {
     .fjs-form-field-number .fjs-input-group {
       .fjs-number-arrow-container {
@@ -114,7 +114,7 @@
   }
 }
 
-.cds--g100 {
+[data-carbon-theme='g100'] {
   .fjs-container {
     .fjs-form-field-number .fjs-input-group {
       .fjs-number-arrow-container {
@@ -1269,7 +1269,7 @@
   }
 
   .fjs-table-th {
-    color: var(--cds-color-primary);
+    color: var(--cds-text-primary);
     font-size: var(--cds-heading-compact-01-font-size);
     font-weight: var(--cds-heading-compact-01-font-weight);
     line-height: var(--cds-heading-compact-01-line-height);
