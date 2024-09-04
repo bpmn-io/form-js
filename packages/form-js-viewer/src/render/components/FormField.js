@@ -1,4 +1,6 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
+import Ids from 'ids';
+
+import { useRef, useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
 import isEqual from 'lodash/isEqual';
 
 import { get } from 'min-dash';
@@ -10,8 +12,11 @@ import { useCondition, useReadonly, useService } from '../hooks';
 import { gridColumnClasses, prefixId } from './Util';
 
 const noop = () => false;
+const ids = new Ids([32, 36, 1]);
 
 export function FormField(props) {
+  const instanceIdRef = useRef(ids.next());
+
   const { field, indexes, onChange: _onChange } = props;
 
   const formFields = useService('formFields'),
@@ -53,26 +58,30 @@ export function FormField(props) {
 
   const hidden = useCondition((field.conditional && field.conditional.hide) || null);
 
-  const fieldInstance = useMemo(
-    () => ({
+  const instanceId = useMemo(() => {
+    if (!formFieldInstanceRegistry) {
+      return null;
+    }
+
+    return formFieldInstanceRegistry.syncInstance(instanceIdRef.current, {
       id: field.id,
       expressionContextInfo: localExpressionContext,
       valuePath,
       indexes,
-    }),
-    [field.id, valuePath, localExpressionContext, indexes],
-  );
+      hidden,
+    });
+  }, [formFieldInstanceRegistry, field.id, localExpressionContext, valuePath, indexes, hidden]);
 
-  // register form field instance
+  const fieldInstance = instanceId ? formFieldInstanceRegistry.get(instanceId) : null;
+
+  // cleanup the instance on unmount
   useEffect(() => {
-    if (formFieldInstanceRegistry && !hidden) {
-      const instanceId = formFieldInstanceRegistry.add(fieldInstance);
+    const instanceId = instanceIdRef.current;
 
-      return () => {
-        formFieldInstanceRegistry.remove(instanceId);
-      };
+    if (formFieldInstanceRegistry) {
+      return () => formFieldInstanceRegistry.cleanupInstance(instanceId);
     }
-  }, [fieldInstance, formFieldInstanceRegistry, hidden]);
+  }, [formFieldInstanceRegistry]);
 
   // ensures the initial validation behavior can be re-triggered upon form reset
   useEffect(() => {

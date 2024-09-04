@@ -9,36 +9,59 @@ export class FormFieldInstanceRegistry {
     eventBus.on('form.clear', () => this.clear());
   }
 
-  add(instance) {
-    const { id, expressionContextInfo, valuePath, indexes } = instance;
+  syncInstance(instanceId, formFieldInfo) {
+    const { id, expressionContextInfo, valuePath, indexes, hidden } = formFieldInfo;
 
-    const instanceId = [id, ...Object.values(indexes || {})].join('_');
+    const instanceIsExpected = !hidden;
+    const instanceExists = this._formFieldInstances[instanceId];
 
-    if (this._formFieldInstances[instanceId]) {
-      throw new Error('this form field instance is already registered');
+    if (instanceIsExpected && !instanceExists) {
+      this._formFieldInstances[instanceId] = {
+        id,
+        instanceId,
+        expressionContextInfo,
+        valuePath,
+        indexes,
+      };
+
+      this._eventBus.fire('formFieldInstance.added', { instanceId });
+    } else if (!instanceIsExpected && instanceExists) {
+      delete this._formFieldInstances[instanceId];
+
+      this._eventBus.fire('formFieldInstance.removed', { instanceId });
+    } else if (instanceIsExpected && instanceExists) {
+      const instanceChanged =
+        this._formFieldInstances[instanceId].id !== id ||
+        // todo: not a new problem, but this almost always changes due to fact that we don't trim the expression context based on used variables
+        this._formFieldInstances[instanceId].expressionContextInfo !== expressionContextInfo ||
+        this._formFieldInstances[instanceId].valuePath !== valuePath ||
+        this._formFieldInstances[instanceId].indexes !== indexes;
+
+      if (instanceChanged) {
+        this._formFieldInstances[instanceId] = {
+          id,
+          instanceId,
+          expressionContextInfo,
+          valuePath,
+          indexes,
+        };
+
+        this._eventBus.fire('formFieldInstance.changed', { instanceId });
+      }
     }
-
-    this._formFieldInstances[instanceId] = {
-      id,
-      instanceId,
-      expressionContextInfo,
-      valuePath,
-      indexes,
-    };
-
-    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'added' });
 
     return instanceId;
   }
 
-  remove(instanceId) {
-    if (!this._formFieldInstances[instanceId]) {
-      return;
+  cleanupInstance(instanceId) {
+    if (this._formFieldInstances[instanceId]) {
+      delete this._formFieldInstances[instanceId];
+      this._eventBus.fire('formFieldInstance.removed', { instanceId });
     }
+  }
 
-    delete this._formFieldInstances[instanceId];
-
-    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'removed' });
+  get(instanceId) {
+    return this._formFieldInstances[instanceId];
   }
 
   getAll() {
