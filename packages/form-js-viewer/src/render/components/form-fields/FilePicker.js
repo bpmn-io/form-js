@@ -64,6 +64,8 @@ export function FilePicker(props) {
     onChange({ value: _filesKey });
   };
 
+  const _disabled = disabled || readonly || fileRegistry === null;
+
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>
       <Label htmlFor={domId} label={label} required={required} />
@@ -73,6 +75,7 @@ export function FilePicker(props) {
         ref={fileInputRef}
         id={domId}
         name={domId}
+        disabled={_disabled}
         multiple={evaluatedMultiple || undefined}
         accept={evaluatedAccept || undefined}
         onChange={onFileChange}
@@ -80,7 +83,7 @@ export function FilePicker(props) {
       <div className="fjs-filepicker-container">
         <button
           type="button"
-          disabled={disabled || readonly || fileRegistry === null}
+          disabled={_disabled}
           readonly={readonly}
           className="fjs-button"
           onClick={() => {
