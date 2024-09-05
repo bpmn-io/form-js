@@ -33,11 +33,13 @@ export function FilePicker(props) {
   const fileInputRef = useRef(null);
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
-  const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey = '' } = props;
+  const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey } = props;
   const { label, multiple = false, accept = '' } = field;
+  /** @type {string} */
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
   const evaluatedMultiple = useBooleanExpressionEvaluation(multiple);
   const errorMessageId = `${domId}-error-message`;
+  /** @type {File[]} */
   const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
 
   useEffect(() => {
@@ -46,6 +48,9 @@ export function FilePicker(props) {
     fileInputRef.current.files = data.files;
   }, [selectedFiles]);
 
+  /**
+   * @type import("preact").JSX.GenericEventHandler<HTMLInputElement>
+   */
   const onFileChange = (event) => {
     const input = /** @type {HTMLInputElement} */ (event.target);
 
@@ -59,12 +64,13 @@ export function FilePicker(props) {
     const files = Array.from(input.files);
 
     // ensure fileKey exists
-    const _filesKey = filesKey || ids.nextPrefixed(FILE_PICKER_FILE_KEY_PREFIX);
-    fileRegistry.setFiles(_filesKey, files);
-    onChange({ value: _filesKey });
+    const calculatedFilesKey = filesKey || ids.nextPrefixed(FILE_PICKER_FILE_KEY_PREFIX);
+
+    fileRegistry.setFiles(calculatedFilesKey, files);
+    onChange({ value: calculatedFilesKey });
   };
 
-  const _disabled = disabled || readonly || fileRegistry === null;
+  const isInputDisabled = disabled || readonly || fileRegistry === null;
 
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>
@@ -75,7 +81,7 @@ export function FilePicker(props) {
         ref={fileInputRef}
         id={domId}
         name={domId}
-        disabled={_disabled}
+        disabled={isInputDisabled}
         multiple={evaluatedMultiple || undefined}
         accept={evaluatedAccept || undefined}
         onChange={onFileChange}
@@ -83,7 +89,7 @@ export function FilePicker(props) {
       <div className="fjs-filepicker-container">
         <button
           type="button"
-          disabled={_disabled}
+          disabled={isInputDisabled}
           readonly={readonly}
           className="fjs-button"
           onClick={() => {
