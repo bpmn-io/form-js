@@ -12,26 +12,26 @@ export class FormFieldInstanceRegistry {
   syncInstance(instanceId, formFieldInfo) {
     const { hidden, ...restInfo } = formFieldInfo;
 
-    const instanceIsExpected = !hidden;
-    const instanceExists = this._formFieldInstances[instanceId];
+    const isInstanceExpected = !hidden;
+    const doesInstanceExist = this._formFieldInstances[instanceId];
 
-    if (instanceIsExpected && !instanceExists) {
+    if (isInstanceExpected && !doesInstanceExist) {
       this._formFieldInstances[instanceId] = {
         instanceId,
         ...restInfo,
       };
 
       this._eventBus.fire('formFieldInstance.added', { instanceId });
-    } else if (!instanceIsExpected && instanceExists) {
+    } else if (!isInstanceExpected && doesInstanceExist) {
       delete this._formFieldInstances[instanceId];
 
       this._eventBus.fire('formFieldInstance.removed', { instanceId });
-    } else if (instanceIsExpected && instanceExists) {
-      const instanceChanged = Object.keys(restInfo).some((key) => {
+    } else if (isInstanceExpected && doesInstanceExist) {
+      const wasInstanceChaged = Object.keys(restInfo).some((key) => {
         return this._formFieldInstances[instanceId][key] !== restInfo[key];
       });
 
-      if (instanceChanged) {
+      if (wasInstanceChaged) {
         this._formFieldInstances[instanceId] = {
           instanceId,
           ...restInfo,
