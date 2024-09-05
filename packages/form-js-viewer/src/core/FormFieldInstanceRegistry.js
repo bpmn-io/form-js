@@ -10,18 +10,15 @@ export class FormFieldInstanceRegistry {
   }
 
   syncInstance(instanceId, formFieldInfo) {
-    const { id, expressionContextInfo, valuePath, indexes, hidden } = formFieldInfo;
+    const { hidden, ...restInfo } = formFieldInfo;
 
     const instanceIsExpected = !hidden;
     const instanceExists = this._formFieldInstances[instanceId];
 
     if (instanceIsExpected && !instanceExists) {
       this._formFieldInstances[instanceId] = {
-        id,
         instanceId,
-        expressionContextInfo,
-        valuePath,
-        indexes,
+        ...restInfo,
       };
 
       this._eventBus.fire('formFieldInstance.added', { instanceId });
@@ -30,20 +27,14 @@ export class FormFieldInstanceRegistry {
 
       this._eventBus.fire('formFieldInstance.removed', { instanceId });
     } else if (instanceIsExpected && instanceExists) {
-      const instanceChanged =
-        this._formFieldInstances[instanceId].id !== id ||
-        // todo: not a new problem, but this almost always changes due to fact that we don't trim the expression context based on used variables
-        this._formFieldInstances[instanceId].expressionContextInfo !== expressionContextInfo ||
-        this._formFieldInstances[instanceId].valuePath !== valuePath ||
-        this._formFieldInstances[instanceId].indexes !== indexes;
+      const instanceChanged = Object.keys(restInfo).some((key) => {
+        return this._formFieldInstances[instanceId][key] !== restInfo[key];
+      });
 
       if (instanceChanged) {
         this._formFieldInstances[instanceId] = {
-          id,
           instanceId,
-          expressionContextInfo,
-          valuePath,
-          indexes,
+          ...restInfo,
         };
 
         this._eventBus.fire('formFieldInstance.changed', { instanceId });

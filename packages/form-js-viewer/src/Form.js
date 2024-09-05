@@ -168,7 +168,7 @@ export class Form {
 
     const errors = this.validate();
 
-    const files = this.get('fileRegistry').getAllFiles();
+    const files = this.get('fileRegistry').getSubmitFiles();
 
     const result = {
       data,

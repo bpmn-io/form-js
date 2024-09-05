@@ -13,11 +13,9 @@ import DeleteSvg from '../../render/components/form-fields/icons/Delete.svg';
 import { buildExpressionContext } from '../../util';
 import { useScrollIntoView } from '../../render/hooks';
 import classNames from 'classnames';
-import { valuePathArrayToString, pathStringToValuePathArray } from '../../util/objectPath';
-import { FILE_PICKER_FILE_KEY_PREFIX } from '../../util/constants/FilePickerConstants';
 
 export class RepeatRenderManager {
-  constructor(form, formFields, formFieldRegistry, pathRegistry, fileRegistry) {
+  constructor(form, formFields, formFieldRegistry, pathRegistry, eventBus) {
     this._form = form;
     /** @type {import('../../render/FormFields').FormFields} */
     this._formFields = formFields;
@@ -25,8 +23,8 @@ export class RepeatRenderManager {
     this._formFieldRegistry = formFieldRegistry;
     /** @type {import('../../core/PathRegistry').PathRegistry} */
     this._pathRegistry = pathRegistry;
-    /** @type {import('../../render/FileRegistry').FileRegistry} */
-    this._fileRegistry = fileRegistry;
+    /** @type {import('../../core/EventBus').EventBus} */
+    this._eventBus = eventBus;
     this.Repeater = this.Repeater.bind(this);
     this.RepeatFooter = this.RepeatFooter.bind(this);
   }
@@ -53,7 +51,6 @@ export class RepeatRenderManager {
     const [sharedRepeatState] = useSharedState;
 
     const { data } = this._form._getState();
-    const fileRegistry = this._fileRegistry;
 
     const repeaterField = props.field;
     const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
@@ -71,79 +68,16 @@ export class RepeatRenderManager {
 
     /**
      * @param {number} index
-     * @typedef Diff
-     * @property {[string, string][]} keysToUpdate
-     * @property {string[]} keysToDelete
-     *
-     * @returns {Diff}
-     */
-    const getFilesKeyDiff = (index) => {
-      const listPrefix = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString(dataPath)}`;
-      const itemPrefix = `${FILE_PICKER_FILE_KEY_PREFIX}${valuePathArrayToString([...dataPath, index])}`;
-      const availableKeys = fileRegistry.getKeys();
-
-      const keysToDelete = availableKeys.filter((key) => key.startsWith(itemPrefix));
-
-      /** @type {[string, string][]} */
-      const keysToUpdate = availableKeys
-        .map((key) => {
-          if (key.startsWith(listPrefix)) {
-            return pathStringToValuePathArray(key.replace(listPrefix, ''));
-          }
-
-          return key;
-        })
-        .filter((path) => path.length > 0 && typeof path[0] === 'number' && path[0] > index)
-        .map((/** @type {number[]} */ path) => {
-          const oldKey = `${listPrefix}${valuePathArrayToString(path)}`;
-
-          path[0]--;
-
-          return [oldKey, `${listPrefix}${valuePathArrayToString(path)}`];
-        });
-
-      return { keysToDelete, keysToUpdate };
-    };
-
-    /**
-     * @param {Diff} diff
-     */
-    const updateFiles = (diff) => {
-      diff.keysToDelete.forEach((key) => {
-        fileRegistry.deleteFiles(key);
-      });
-      diff.keysToUpdate.forEach(([oldKey, newKey]) => {
-        const files = fileRegistry.getFiles(oldKey);
-        fileRegistry.deleteFiles(oldKey);
-        fileRegistry.setFiles(newKey, files);
-      });
-    };
-
-    /**
-     * @param {string} value
-     * @param {[string, string][]} diff
-     * @returns {string}
-     */
-    const updateFileKeyValues = (value, diff) => {
-      return diff.reduce((acc, [oldKey, newKey]) => {
-        return acc.replace(oldKey, newKey);
-      }, value);
-    };
-
-    /**
-     * @param {number} index
      */
     const onDeleteItem = (index) => {
       const updatedValues = values.slice();
-      updatedValues.splice(index, 1);
+      const removedItem = updatedValues.splice(index, 1)[0];
 
-      const diff = getFilesKeyDiff(index);
-
-      updateFiles(diff);
+      this._eventBus.fire('repeatRenderManager.remove', { dataPath, index, item: removedItem });
 
       props.onChange({
         field: repeaterField,
-        value: JSON.parse(updateFileKeyValues(JSON.stringify(updatedValues), diff.keysToUpdate)),
+        value: updatedValues,
         indexes,
       });
     };
@@ -221,6 +155,8 @@ export class RepeatRenderManager {
       updatedValues.push(newItem);
 
       shouldScroll.current = true;
+
+      this._eventBus.fire('repeatRenderManager.add', { dataPath, index: updatedValues.length - 1, item: newItem });
 
       props.onChange({
         value: updatedValues,
@@ -353,4 +289,4 @@ const RepetitionScaffold = (props) => {
   );
 };
 
-RepeatRenderManager.$inject = ['form', 'formFields', 'formFieldRegistry', 'pathRegistry', 'fileRegistry'];
+RepeatRenderManager.$inject = ['form', 'formFields', 'formFieldRegistry', 'pathRegistry', 'eventBus'];

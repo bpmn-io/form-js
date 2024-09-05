@@ -67,10 +67,11 @@ export function FormField(props) {
       id: field.id,
       expressionContextInfo: localExpressionContext,
       valuePath,
+      value,
       indexes,
       hidden,
     });
-  }, [formFieldInstanceRegistry, field.id, localExpressionContext, valuePath, indexes, hidden]);
+  }, [formFieldInstanceRegistry, field.id, localExpressionContext, valuePath, value, indexes, hidden]);
 
   const fieldInstance = instanceId ? formFieldInstanceRegistry.get(instanceId) : null;
 
