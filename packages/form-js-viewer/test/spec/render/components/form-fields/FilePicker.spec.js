@@ -49,17 +49,51 @@ describe('FilePicker', function () {
     expect(screen.getByText('Something went wrong')).to.exist;
   });
 
-  it('should change the label with single file selected', function () {
+  it('should render single file selected', function () {
     // given
     const file = new File([''], 'test.png', { type: 'image/png' });
     const fileRegistry = getMockFileRegistry();
-    const { container } = createFilePicker({
-      field: {
-        id: 'Filepicker_1',
-      },
+    fileRegistry.setFiles(null, [file]);
+
+    // when
+    createFilePicker({
       services: {
         fileRegistry,
       },
+    });
+
+    // then
+    expect(screen.getByText('test.png')).to.exist;
+  });
+
+  it('should render multiple files selected', function () {
+    // given
+    const file1 = new File([''], 'test1.png', { type: 'image/png' });
+    const file2 = new File([''], 'test2.png', { type: 'image/png' });
+    const fileRegistry = getMockFileRegistry();
+    fileRegistry.setFiles(null, [file1, file2]);
+
+    // when
+    createFilePicker({
+      services: {
+        fileRegistry,
+      },
+    });
+
+    // then
+    expect(screen.getByText('2 files selected')).to.exist;
+  });
+
+  it('should set file registry', function () {
+    // given
+    const file = new File([''], 'test.png', { type: 'image/png' });
+    const fileRegistry = getMockFileRegistry();
+
+    const { container } = createFilePicker({
+      services: {
+        fileRegistry,
+      },
+      value: 'files::fileTestId',
     });
 
     // when
@@ -71,36 +105,7 @@ describe('FilePicker', function () {
     });
 
     // then
-
-    expect(screen.getByText('test.png')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('files::Filepicker_1', [file]);
-  });
-
-  it('should change the label with multiple files selected', function () {
-    // given
-    const file = new File([''], 'test1.png', { type: 'image/png' });
-    const fileRegistry = getMockFileRegistry();
-    const { container } = createFilePicker({
-      field: {
-        id: 'Filepicker_1',
-      },
-      services: {
-        fileRegistry,
-      },
-    });
-
-    // when
-
-    fireEvent.change(container.querySelector('input[type="file"]'), {
-      target: {
-        files: [file, file],
-      },
-    });
-
-    // then
-
-    expect(screen.getByText('2 files selected')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('files::Filepicker_1', [file, file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('files::fileTestId', [file]);
   });
 
   it('should files with nested filepickers', function () {
@@ -108,15 +113,10 @@ describe('FilePicker', function () {
     const file = new File([''], 'test.png', { type: 'image/png' });
     const fileRegistry = getMockFileRegistry();
     const { container } = createFilePicker({
-      field: {
-        id: 'Filepicker_1',
-      },
-      fieldInstance: {
-        valuePath: ['foo', 'bar', 0, 'foo', 2, 'Filepicker_1'],
-      },
       services: {
         fileRegistry,
       },
+      value: 'files::fileTestId',
     });
 
     // when
@@ -129,7 +129,7 @@ describe('FilePicker', function () {
 
     // then
 
-    expect(fileRegistry.setFiles).to.have.been.calledWith('files::foo.bar[0].foo[2].Filepicker_1', [file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('files::fileTestId', [file]);
   });
 
   it('should accept multiple files and limit the file types', function () {
@@ -287,9 +287,12 @@ function createFilePicker({ services, ...restOptions } = {}) {
 }
 
 function getMockFileRegistry() {
+  let _files = [];
   return {
     deleteFiles: sinon.spy(),
-    setFiles: sinon.spy(),
-    getFiles: sinon.spy(() => []),
+    setFiles: sinon.spy((_, files) => {
+      _files = files;
+    }),
+    getFiles: sinon.spy(() => _files),
   };
 }
