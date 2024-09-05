@@ -73,7 +73,7 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('test.png')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('file::Filepicker_1', [file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('files::Filepicker_1', [file]);
   });
 
   it('should change the label with multiple files selected', function () {
@@ -100,7 +100,7 @@ describe('FilePicker', function () {
     // then
 
     expect(screen.getByText('2 files selected')).to.exist;
-    expect(fileRegistry.setFiles).to.have.been.calledWith('file::Filepicker_1', [file, file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('files::Filepicker_1', [file, file]);
   });
 
   it('should files with nested filepickers', function () {
@@ -129,7 +129,7 @@ describe('FilePicker', function () {
 
     // then
 
-    expect(fileRegistry.setFiles).to.have.been.calledWith('file::foo.bar[0].foo[2].Filepicker_1', [file]);
+    expect(fileRegistry.setFiles).to.have.been.calledWith('files::foo.bar[0].foo[2].Filepicker_1', [file]);
   });
 
   it('should accept multiple files and limit the file types', function () {
