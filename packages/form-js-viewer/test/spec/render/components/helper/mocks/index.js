@@ -27,6 +27,10 @@ function _createMockModule(services, options) {
     viewerCommands: ['value', services.viewerCommands || new ViewerCommandsMock(options)],
     formLayouter: ['value', services.formLayouter || new FormLayouterMock(options)],
     formFieldRegistry: ['value', services.formFieldRegistry || new FormFieldRegistryMock(options)],
+    formFieldInstanceRegistry: [
+      'value',
+      services.formFieldInstanceRegistry || new FormFieldInstanceRegistryMock(options),
+    ],
     pathRegistry: ['value', services.pathRegistry || new PathRegistryMock(options)],
     eventBus: ['value', services.eventBus || new EventBusMock(options)],
     debounce: ['value', services.debounce || ((fn) => fn)],
@@ -101,6 +105,26 @@ export class FormFieldRegistryMock {
 
   get(id) {
     return this._fields.find((field) => field.id === id);
+  }
+}
+
+export class FormFieldInstanceRegistryMock {
+  constructor() {
+    this._instances = {};
+  }
+
+  syncInstance(instanceId, instance) {
+    this._instances[instanceId] = instance;
+
+    return instanceId;
+  }
+
+  get(instanceId) {
+    return this._instances[instanceId];
+  }
+
+  cleanupInstance(instanceId) {
+    delete this._instances[instanceId];
   }
 }
 
