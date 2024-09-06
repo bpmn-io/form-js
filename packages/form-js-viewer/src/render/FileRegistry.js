@@ -1,26 +1,39 @@
-import { getDataFileReferences } from '../util/files';
-import { FILE_PICKER_FILE_KEY_PREFIX } from '../util/constants/FilePickerConstants';
+import { extractFileReferencesFromRemovedData } from '../util/extractFileReferencesFromRemovedData';
 
 const fileRegistry = Symbol('fileRegistry');
+const eventBusSymbol = Symbol('eventBus');
+const formFieldRegistrySymbol = Symbol('formFieldRegistry');
+const formFieldInstanceRegistrySymbol = Symbol('formFieldInstanceRegistry');
 const EMPTY_ARRAY = [];
 
 class FileRegistry {
+  /**
+   * @param {import('../core/EventBus').EventBus} eventBus
+   * @param {import('../core/FormFieldRegistry').FormFieldRegistry} formFieldRegistry
+   * @param {import('../core/FormFieldInstanceRegistry').FormFieldInstanceRegistry} formFieldInstanceRegistry
+   */
   constructor(eventBus, formFieldRegistry, formFieldInstanceRegistry) {
     /** @type {Map<string, File[]>} */
     this[fileRegistry] = new Map();
-    this._eventBus = eventBus;
-    this._formFieldRegistry = formFieldRegistry;
-    this._formFieldInstanceRegistry = formFieldInstanceRegistry;
+    /** @type {import('../core/EventBus').EventBus} */
+    this[eventBusSymbol] = eventBus;
+    /** @type {import('../core/FormFieldRegistry').FormFieldRegistry} */
+    this[formFieldRegistrySymbol] = formFieldRegistry;
+    /** @type {import('../core/FormFieldInstanceRegistry').FormFieldInstanceRegistry} */
+    this[formFieldInstanceRegistrySymbol] = formFieldInstanceRegistry;
 
-    eventBus.on('form.clear', () => this.clear());
-    eventBus.on('repeatRenderManager.remove', ({ item }) => {
-      const fileReferences = getDataFileReferences(item);
+    const removeFileHandler = ({ item }) => {
+      const fileReferences = extractFileReferencesFromRemovedData(item);
 
       // Remove all file references from the registry
       fileReferences.forEach((fileReference) => {
         this.deleteFiles(fileReference);
       });
-    });
+    };
+
+    eventBus.on('form.clear', () => this.clear());
+    eventBus.on('conditionChecker.remove', removeFileHandler);
+    eventBus.on('repeatRenderManager.remove', removeFileHandler);
   }
 
   /**
@@ -58,27 +71,6 @@ class FileRegistry {
    */
   getAllFiles() {
     return new Map(this[fileRegistry]);
-  }
-
-  /**
-   * @returns {Map<string, File[]>}
-   */
-  getSubmitFiles() {
-    const instancedFileReferences = this._formFieldInstanceRegistry
-      .getAll()
-      .filter(
-        (instance) =>
-          this._formFieldRegistry.get(instance.id).type === 'filepicker' &&
-          typeof instance.value === 'string' &&
-          instance.value.startsWith(FILE_PICKER_FILE_KEY_PREFIX),
-      )
-      .map((formFieldInstance) => formFieldInstance.value);
-
-    return new Map(
-      Array.from(this[fileRegistry]).filter(([key]) => {
-        return instancedFileReferences.includes(key);
-      }),
-    );
   }
 
   clear() {

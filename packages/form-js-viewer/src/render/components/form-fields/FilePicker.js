@@ -64,10 +64,10 @@ export function FilePicker(props) {
     const files = Array.from(input.files);
 
     // ensure fileKey exists
-    const calculatedFilesKey = filesKey || ids.nextPrefixed(FILE_PICKER_FILE_KEY_PREFIX);
+    const updatedFilesKey = filesKey || ids.nextPrefixed(FILE_PICKER_FILE_KEY_PREFIX);
 
-    fileRegistry.setFiles(calculatedFilesKey, files);
-    onChange({ value: calculatedFilesKey });
+    fileRegistry.setFiles(updatedFilesKey, files);
+    onChange({ value: updatedFilesKey });
   };
 
   const isInputDisabled = disabled || readonly || fileRegistry === null;
