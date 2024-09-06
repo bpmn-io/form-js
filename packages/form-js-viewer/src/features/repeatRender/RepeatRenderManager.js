@@ -63,9 +63,6 @@ export class RepeatRenderManager {
     const hasChildren = repeaterField.components && repeaterField.components.length > 0;
     const showRemove = repeaterField.allowAddRemove && hasChildren;
 
-    const displayValues = isCollapsed ? values.slice(0, nonCollapsedItems) : values;
-    const hiddenValues = isCollapsed ? values.slice(nonCollapsedItems) : [];
-
     /**
      * @param {number} index
      */
@@ -86,38 +83,24 @@ export class RepeatRenderManager {
 
     return (
       <>
-        {displayValues.map((itemValue, itemIndex) => (
-          <RepetitionScaffold
-            key={itemIndex}
-            itemIndex={itemIndex}
-            itemValue={itemValue}
-            parentExpressionContextInfo={parentExpressionContextInfo}
-            repeaterField={repeaterField}
-            RowsRenderer={RowsRenderer}
-            indexes={indexes}
-            onDeleteItem={onDeleteItem}
-            showRemove={showRemove}
-            {...restProps}
-          />
-        ))}
-        {hiddenValues.length > 0 ? (
-          <div className="fjs-repeat-row-collapsed">
-            {hiddenValues.map((itemValue, itemIndex) => (
-              <RepetitionScaffold
-                key={itemIndex}
-                itemIndex={itemIndex + nonCollapsedItems}
-                itemValue={itemValue}
-                parentExpressionContextInfo={parentExpressionContextInfo}
-                repeaterField={repeaterField}
-                RowsRenderer={RowsRenderer}
-                indexes={indexes}
-                onDeleteItem={onDeleteItem}
-                showRemove={showRemove}
-                {...restProps}
-              />
-            ))}
+        {values.map((itemValue, itemIndex) => (
+          <div
+            class={classNames({
+              'fjs-repeat-row-collapsed': isCollapsed ? itemIndex >= nonCollapsedItems : false,
+            })}>
+            <RepetitionScaffold
+              itemIndex={itemIndex}
+              itemValue={itemValue}
+              parentExpressionContextInfo={parentExpressionContextInfo}
+              repeaterField={repeaterField}
+              RowsRenderer={RowsRenderer}
+              indexes={indexes}
+              onDeleteItem={onDeleteItem}
+              showRemove={showRemove}
+              {...restProps}
+            />
           </div>
-        ) : null}
+        ))}
       </>
     );
   }
