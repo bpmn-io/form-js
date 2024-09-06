@@ -270,5 +270,6 @@ function getMockFileRegistry() {
       _files = files;
     }),
     getFiles: sinon.spy(() => _files),
+    hasKey: sinon.spy(),
   };
 }

@@ -61,6 +61,14 @@ class FileRegistry {
 
   /**
    * @param {string} id
+   * @returns {boolean}
+   */
+  hasKey(id) {
+    return this[fileRegistry].has(id);
+  }
+
+  /**
+   * @param {string} id
    */
   deleteFiles(id) {
     this[fileRegistry].delete(id);

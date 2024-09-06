@@ -33,7 +33,7 @@ export function FilePicker(props) {
   const fileInputRef = useRef(null);
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
-  const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey } = props;
+  const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey = '' } = props;
   const { label, multiple = false, accept = '' } = field;
   /** @type {string} */
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
@@ -41,6 +41,12 @@ export function FilePicker(props) {
   const errorMessageId = `${domId}-error-message`;
   /** @type {File[]} */
   const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
+
+  useEffect(() => {
+    if (filesKey.length > 0 && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
+      onChange({ value: null });
+    }
+  }, [fileRegistry, filesKey, onChange, selectedFiles.length]);
 
   useEffect(() => {
     const data = new DataTransfer();
