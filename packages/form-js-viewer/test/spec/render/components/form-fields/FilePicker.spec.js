@@ -108,30 +108,6 @@ describe('FilePicker', function () {
     expect(fileRegistry.setFiles).to.have.been.calledWith('files::fileTestId', [file]);
   });
 
-  it('should files with nested filepickers', function () {
-    // given
-    const file = new File([''], 'test.png', { type: 'image/png' });
-    const fileRegistry = getMockFileRegistry();
-    const { container } = createFilePicker({
-      services: {
-        fileRegistry,
-      },
-      value: 'files::fileTestId',
-    });
-
-    // when
-
-    fireEvent.change(container.querySelector('input[type="file"]'), {
-      target: {
-        files: [file],
-      },
-    });
-
-    // then
-
-    expect(fileRegistry.setFiles).to.have.been.calledWith('files::fileTestId', [file]);
-  });
-
   it('should accept multiple files and limit the file types', function () {
     // when
     const { container } = createFilePicker({
