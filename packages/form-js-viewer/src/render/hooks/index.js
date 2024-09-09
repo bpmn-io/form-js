@@ -5,6 +5,7 @@ export { useSecurityAttributesMap } from './useSecurityAttributesMap';
 export { useGetLabelCorrelation } from './useGetLabelCorrelation';
 export { useScrollIntoView } from './useScrollIntoView';
 export { useExpressionEvaluation } from './useExpressionEvaluation';
+export { useBooleanExpressionEvaluation } from './useBooleanExpressionEvaluation';
 export { useFilteredFormData } from './useFilteredFormData';
 export { useKeyDownAction } from './useKeyDownAction';
 export { useReadonly } from './useReadonly';

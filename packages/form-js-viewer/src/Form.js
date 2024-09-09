@@ -153,7 +153,7 @@ export class Form {
   /**
    * Submit the form, triggering all field validations.
    *
-   * @returns { { data: Data, errors: Errors } }
+   * @returns { { data: Data, errors: Errors, files: Map<string, File[]> } }
    */
   submit() {
     const { properties } = this._getState();
@@ -168,9 +168,12 @@ export class Form {
 
     const errors = this.validate();
 
+    const files = this.get('fileRegistry').getAllFiles();
+
     const result = {
       data,
       errors,
+      files,
     };
 
     this._emit('submit', result);
