@@ -23,6 +23,8 @@ const EXPRESSION_PROPERTIES = [
   'dataSource',
   'columnsExpression',
   'expression',
+  'accept',
+  'multiple',
 ];
 
 const TEMPLATE_PROPERTIES = [
