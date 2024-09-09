@@ -18,11 +18,10 @@ export function buildExpressionContext(context) {
 }
 
 /**
- * Evaluate a string based on the expressionLanguage and context information.
- * If the string is not an expression, it is returned as is.
+ * If the value is a valid expression, it is evaluated and returned. Otherwise, it is returned as-is.
  *
  * @param {any} expressionLanguage - The expression language to use.
- * @param {string} value - The string to evaluate.
+ * @param {any} value - The static value or expression to evaluate.
  * @param {Object} expressionContextInfo - The context information to use.
  * @returns {any} - Evaluated value or the original value if not an expression.
  */

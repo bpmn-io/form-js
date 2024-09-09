@@ -84,11 +84,17 @@ export class ConditionChecker {
         // if we have a hidden repeatable field, and the data structure allows, we clear it directly at the root and stop recursion
         if (context.isHidden && isRepeatable) {
           context.preventRecursion = true;
+          this._eventBus.fire('conditionChecker.remove', {
+            item: { [field.key]: get(workingData, getFilterPath(field, indexes)) },
+          });
           this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
         }
 
         // for simple leaf fields, we always clear
         if (context.isHidden && isClosed) {
+          this._eventBus.fire('conditionChecker.remove', {
+            item: { [field.key]: get(workingData, getFilterPath(field, indexes)) },
+          });
           this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
         }
       });
