@@ -644,6 +644,12 @@
       "id": "Field_1a82jjsdasd"
     },
     {
+      "type": "filepicker",
+      "key": "filepicker",
+      "accept": ".png,.jpg",
+      "multiple": true
+    },
+    {
       "action": "reset",
       "label": "reset",
       "type": "button",

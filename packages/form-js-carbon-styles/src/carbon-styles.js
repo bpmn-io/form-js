@@ -676,7 +676,8 @@ const RADIO_STYLES = css`
 
 const BUTTON_STYLES = css`
   .fjs-container {
-    .fjs-form-field.fjs-form-field-button .fjs-button {
+    .fjs-form-field.fjs-form-field-button .fjs-button,
+    .fjs-form-field.fjs-form-field-filepicker .fjs-button {
       font-size: var(--cds-body-short-01-font-size);
       font-weight: var(--cds-body-short-01-font-weight);
       line-height: var(--cds-body-short-01-line-height);

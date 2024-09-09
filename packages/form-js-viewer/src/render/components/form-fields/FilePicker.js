@@ -43,7 +43,7 @@ export function FilePicker(props) {
   const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
 
   useEffect(() => {
-    if (filesKey.length > 0 && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
+    if (filesKey && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
       onChange({ value: null });
     }
   }, [fileRegistry, filesKey, onChange, selectedFiles.length]);
@@ -97,7 +97,7 @@ export function FilePicker(props) {
           type="button"
           disabled={isInputDisabled}
           readonly={readonly}
-          className="fjs-button"
+          className="fjs-button fjs-filepicker-button"
           onClick={() => {
             fileInputRef.current.click();
           }}>
