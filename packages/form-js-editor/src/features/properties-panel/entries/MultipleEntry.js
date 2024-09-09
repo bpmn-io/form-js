@@ -44,7 +44,7 @@ function Multiple(props) {
     feel: 'optional',
     getValue,
     id,
-    label: 'Upload multiple files',
+    label: 'Select multiple files',
     inline: true,
     setValue,
     variables,
