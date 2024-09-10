@@ -58,6 +58,14 @@ export function Table(props) {
     setCurrentPage(0);
   }, [rowCount, sortBy]);
 
+  const serializeCellData = (cellData) => {
+    if (cellData !== null && typeof cellData === 'object') {
+      return JSON.stringify(cellData);
+    }
+
+    return cellData;
+  };
+
   /** @param {string} key */
   function toggleSortBy(key) {
     setSortBy((current) => {
@@ -141,7 +149,7 @@ export function Table(props) {
                     <tr key={index} class="fjs-table-tr">
                       {columnKeys.map((key) => (
                         <td key={key} class="fjs-table-td">
-                          {row[key]}
+                          {serializeCellData(row[key])}
                         </td>
                       ))}
                     </tr>

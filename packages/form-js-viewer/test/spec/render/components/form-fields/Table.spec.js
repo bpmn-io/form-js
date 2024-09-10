@@ -152,6 +152,55 @@ describe('Table', function () {
     expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('2020-01-02');
   });
 
+  it('should serialize object table cells', function () {
+    // when
+    const DATA = [
+      {
+        id: 1,
+        name: { foo: 'bar' },
+        date: ['2020-01-01', '2020-01-02'],
+      },
+      {
+        id: { value: 2 },
+        name: 'bar',
+        date: null,
+      },
+    ];
+
+    const { container } = createTable({
+      initialData: {
+        data: DATA,
+      },
+      field: {
+        ...defaultField,
+        columns: MOCK_COLUMNS,
+        dataSource: '=data',
+      },
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => DATA,
+        },
+      },
+    });
+
+    // then
+    const bodyRows = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
+    expect(bodyRows).to.have.length(2);
+
+    const [firstRow, secondRow] = bodyRows;
+
+    expect(firstRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(firstRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('1');
+    expect(firstRow.querySelectorAll('.fjs-table-td')[1].textContent).to.eql('{"foo":"bar"}');
+    expect(firstRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('["2020-01-01","2020-01-02"]');
+
+    expect(secondRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(secondRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('{"value":2}');
+    expect(secondRow.querySelectorAll('.fjs-table-td')[1].textContent).to.eql('bar');
+    expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('');
+  });
+
   it('should have pagination', function () {
     // when
     const DATA = [
