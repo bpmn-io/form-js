@@ -14,6 +14,7 @@ npm install @bpmn-io/form-js-editor
 import { FormEditor } from '@bpmn-io/form-js-editor';
 
 const schema = {
+  type: 'default',
   components: [
     {
       key: 'creditor',

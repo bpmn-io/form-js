@@ -14,6 +14,7 @@ npm install @bpmn-io/form-js-viewer
 import { Form } from '@bpmn-io/form-js-viewer';
 
 const schema = {
+  type: 'default',
   components: [
     {
       key: 'creditor',

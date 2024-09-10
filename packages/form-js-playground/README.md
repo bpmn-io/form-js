@@ -13,6 +13,24 @@ Integrate the playground into your application:
 ```javascript
 import { Playground } from '@bpmn-io/form-js-playground';
 
+const schema = {
+  type: 'default',
+  components: [
+    {
+      key: 'creditor',
+      label: 'Creditor',
+      type: 'textfield',
+      validate: {
+        required: true,
+      },
+    },
+  ],
+};
+
+const data = {
+  creditor: 'John Doe Company',
+};
+
 const playground = new Playground({
   container: document.querySelector('#container'),
   schema,

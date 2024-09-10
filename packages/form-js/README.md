@@ -15,6 +15,24 @@ Renders a form based on [a form schema](./docs/FORM_SCHEMA.md) and existing data
 ```javascript
 import { Form } from '@bpmn-io/form-js';
 
+const schema = {
+  type: 'default',
+  components: [
+    {
+      key: 'creditor',
+      label: 'Creditor',
+      type: 'textfield',
+      validate: {
+        required: true,
+      },
+    },
+  ],
+};
+
+const data = {
+  creditor: 'John Doe Company',
+};
+
 const form = new Form({
   container: document.querySelector('#form'),
 });
@@ -50,6 +68,24 @@ Create and simulate a form with input and output data:
 
 ```javascript
 import { FormPlayground } from '@bpmn-io/form-js';
+
+const schema = {
+  type: 'default',
+  components: [
+    {
+      key: 'creditor',
+      label: 'Creditor',
+      type: 'textfield',
+      validate: {
+        required: true,
+      },
+    },
+  ],
+};
+
+const data = {
+  creditor: 'John Doe Company',
+};
 
 const formPlayground = new FormPlayground({
   container: document.querySelector('#form-playground'),
