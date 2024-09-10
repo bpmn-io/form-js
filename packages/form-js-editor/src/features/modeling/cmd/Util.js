@@ -4,7 +4,7 @@ export function arrayAdd(array, index, item) {
   return array;
 }
 
-export { mutate as arrayMove } from 'array-move';
+export { arrayMoveMutable as arrayMove } from 'array-move';
 
 export function arrayRemove(array, index) {
   array.splice(index, 1);
