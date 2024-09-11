@@ -10,7 +10,7 @@
     },
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/form-js-editor-base.css": "./dist/assets/form-js-editor-base.css",
-    "./dist/assets/dragula.css": "./dist/assets/dragula.css",
+    "./dist/assets/draggle.css": "./dist/assets/draggle.css",
     "./dist/assets/properties-panel.css": "./dist/assets/properties-panel.css",
     "./package.json": "./package.json"
   },
@@ -47,7 +47,7 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/draggle": "^4.0.0",
+    "@bpmn-io/draggle": "^4.1.1",
     "@bpmn-io/form-js-viewer": "^1.10.1",
     "@bpmn-io/properties-panel": "^3.23.0",
     "array-move": "^4.0.0",
