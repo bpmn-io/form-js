@@ -64,14 +64,14 @@ export default [
       'preact/jsx-runtime',
       'preact/hooks',
       'preact/compat',
-      '@bpmn-o/draggle',
+      '@bpmn-io/draggle',
       '@bpmn-io/form-js-viewer',
     ],
     plugins: pgl([
       copy({
         targets: [
           { src: 'assets/form-js-editor-base.css', dest: 'dist/assets' },
-          { src: '../../node_modules/@bpmn-io/draggle/dist/dragula.css', dest: 'dist/assets' },
+          { src: '../../node_modules/@bpmn-io/draggle/dist/draggle.css', dest: 'dist/assets' },
           { src: '../../node_modules/@bpmn-io/properties-panel/dist/assets/properties-panel.css', dest: 'dist/assets' },
         ],
       }),
