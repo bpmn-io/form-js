@@ -26,9 +26,7 @@ test('theming - viewer', async ({ page, makeAxeBuilder }) => {
   });
 
   await page.evaluate(() => {
-    const container = document.querySelector('body');
-    container.classList.remove('cds--g10');
-    container.classList.add('cds--g100');
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
   });
 
   // then
@@ -63,9 +61,7 @@ test('theming - editor', async ({ page, makeAxeBuilder }) => {
   });
 
   await page.evaluate(() => {
-    const container = document.querySelector('body');
-    container.classList.remove('cds--g10');
-    container.classList.add('cds--g100');
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
   });
 
   // then
