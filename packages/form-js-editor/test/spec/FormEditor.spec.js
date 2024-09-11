@@ -86,7 +86,7 @@ describe('FormEditor', function () {
 
   (singleStartTheme ? it.only : it)('should render theme', async function () {
     // given
-    container.classList.add('cds--g100');
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
     insertTheme();
 
     // when
@@ -104,7 +104,7 @@ describe('FormEditor', function () {
 
   (singleStartNoTheme ? it.only : it)('should render with no theme', async function () {
     // given
-    container.classList.add('cds--g10');
+    document.documentElement.setAttribute('data-carbon-theme', 'g10');
     container.style.backgroundColor = 'white';
     insertTheme();
 

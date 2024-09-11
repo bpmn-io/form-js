@@ -50,9 +50,9 @@ describe('Carbon styles', function () {
 
   beforeEach(function () {
     container = document.createElement('div');
-    container.classList.add('cds--g100');
 
     document.body.appendChild(container);
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
   });
 
   !singleStart &&
@@ -107,7 +107,7 @@ describe('Carbon styles', function () {
     });
 
     toggle.addEventListener('click', () => {
-      toggleTheme(container);
+      toggleTheme();
       theme = theme === 'dark' ? 'light' : 'dark';
       createFormView(
         {
@@ -191,7 +191,7 @@ describe('Carbon styles', function () {
     });
 
     toggle.addEventListener('click', () => {
-      toggleTheme(container);
+      toggleTheme();
       theme = theme === 'dark' ? 'light' : 'dark';
       createFormView(
         {
@@ -284,7 +284,10 @@ function WithTheme(props) {
   return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
 }
 
-function toggleTheme(node) {
-  node.classList.toggle('cds--g100');
-  node.classList.toggle('cds--g10');
+function toggleTheme() {
+  if (document.documentElement.dataset.carbonTheme === 'cds--g100') {
+    document.documentElement.setAttribute('data-carbon-theme', 'g10');
+  } else {
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
+  }
 }

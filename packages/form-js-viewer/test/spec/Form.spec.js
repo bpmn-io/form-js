@@ -162,7 +162,7 @@ describe('Form', function () {
 
   (singleStartTheme ? it.only : it)('should render theme', async function () {
     // given
-    container.classList.add('cds--g100');
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
     insertTheme();
 
     const data = {
@@ -199,7 +199,7 @@ describe('Form', function () {
 
   (singleStartNoTheme ? it.only : it)('should render with no theme', async function () {
     // given
-    container.classList.add('cds--g10');
+    document.documentElement.setAttribute('data-carbon-theme', 'g100');
     container.style.backgroundColor = 'white';
     insertTheme();
 
