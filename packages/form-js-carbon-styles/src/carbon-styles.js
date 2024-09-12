@@ -301,8 +301,7 @@ const READONLY_STYLES = css`
             }
           }
 
-          &.fjs-checked .fjs-input[type='checkbox'],
-          .fjs-form-field-label.fjs-checked .fjs-input[type='checkbox'] {
+          &.fjs-checked .fjs-input[type='checkbox'] {
             &:before {
               border: 1px solid var(--cds-icon-disabled);
               background: transparent;
@@ -418,8 +417,8 @@ const LABEL_DESCRIPTION_ERROR_STYLES = css`
       margin-bottom: var(--cds-spacing-03);
     }
 
-    .fjs-form-field.fjs-form-field-radio .fjs-form-field-label:not(:first-of-type),
-    .fjs-form-field.fjs-form-field-checklist .fjs-form-field-label:not(:first-of-type) {
+    .fjs-form-field.fjs-form-field-radio .fjs-inline-label,
+    .fjs-form-field.fjs-form-field-checklist .fjs-inline-label {
       margin: 0;
       margin-bottom: 0.1875rem;
     }
@@ -515,7 +514,7 @@ const CHECKBOX_STYLES = css`
     }
 
     .fjs-form-field.fjs-checked .fjs-input[type='checkbox'],
-    .fjs-form-field .fjs-form-field-label.fjs-checked .fjs-input[type='checkbox'] {
+    .fjs-form-field .fjs-inline-label.fjs-checked .fjs-input[type='checkbox'] {
       &:before {
         border: none;
         border-width: 1px;

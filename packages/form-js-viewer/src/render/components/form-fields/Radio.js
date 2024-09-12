@@ -69,7 +69,11 @@ export function Radio(props) {
           const isChecked = isEqual(option.value, value);
 
           return (
-            <div className="fjs-inline-label" key={option.value}>
+            <div
+              className={classNames('fjs-inline-label', {
+                'fjs-checked': isChecked,
+              })}
+              key={option.value}>
               <input
                 checked={isChecked}
                 class="fjs-input"
