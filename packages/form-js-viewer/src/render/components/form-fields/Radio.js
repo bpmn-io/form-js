@@ -69,12 +69,7 @@ export function Radio(props) {
           const isChecked = isEqual(option.value, value);
 
           return (
-            <Label
-              htmlFor={itemDomId}
-              key={index}
-              label={option.label}
-              class={classNames({ 'fjs-checked': isChecked })}
-              required={false}>
+            <div className="fjs-inline-label" key={index}>
               <input
                 checked={isChecked}
                 class="fjs-input"
@@ -89,7 +84,13 @@ export function Radio(props) {
                 required={required}
                 aria-invalid={errors.length > 0}
               />
-            </Label>
+              <Label
+                htmlFor={itemDomId}
+                label={option.label}
+                class={classNames({ 'fjs-checked': isChecked })}
+                required={false}
+              />
+            </div>
           );
         })}
       <Description id={descriptionId} description={description} />

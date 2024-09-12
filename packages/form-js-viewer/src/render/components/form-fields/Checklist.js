@@ -73,13 +73,7 @@ export function Checklist(props) {
           const isChecked = hasEqualValue(o.value, values);
 
           return (
-            <Label
-              htmlFor={itemDomId}
-              label={o.label}
-              class={classNames({
-                'fjs-checked': isChecked,
-              })}
-              required={false}>
+            <div className="fjs-inline-label" key={index}>
               <input
                 checked={isChecked}
                 class="fjs-input"
@@ -94,7 +88,15 @@ export function Checklist(props) {
                 aria-invalid={errors.length > 0}
                 aria-describedby={[descriptionId, errorMessageId].join(' ')}
               />
-            </Label>
+              <Label
+                htmlFor={itemDomId}
+                label={o.label}
+                class={classNames({
+                  'fjs-checked': isChecked,
+                })}
+                required={false}
+              />
+            </div>
           );
         })}
       <Description id={descriptionId} description={description} />

@@ -283,10 +283,15 @@
   opacity: 1;
 }
 
+.fjs-container .fjs-inline-label {
+  display: flex;
+}
+
 .fjs-container .fjs-form-field-label {
   display: flex;
   align-items: center;
   white-space: nowrap;
+  overflow: hidden;
   color: var(--color-text-light);
 }
 
