@@ -31,7 +31,7 @@ export function SimpleSelect(props) {
 
   const valueLabel = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
 
-  const setValue = useCallback(
+  const pickOption = useCallback(
     (option) => {
       props.onChange({ value: (option && option.value) || null });
     },
@@ -68,7 +68,7 @@ export function SimpleSelect(props) {
   );
 
   const initialFocusIndex = useMemo(
-    () => (value && findIndex(options, (o) => o.value === value)) || 0,
+    () => (value && findIndex(options, (option) => option.value === value)) || 0,
     [options, value],
   );
 
@@ -112,7 +112,7 @@ export function SimpleSelect(props) {
           <span
             class="fjs-select-cross"
             onMouseDown={(e) => {
-              setValue(null);
+              pickOption(null);
               e.stopPropagation();
             }}>
             <XMarkIcon />
@@ -124,10 +124,10 @@ export function SimpleSelect(props) {
         {displayState.displayDropdown && (
           <DropdownList
             values={options}
-            getLabel={(o) => o.label}
+            getLabel={(option) => option.label}
             initialFocusIndex={initialFocusIndex}
-            onValueSelected={(o) => {
-              setValue(o);
+            onValueSelected={(option) => {
+              pickOption(option);
               setIsDropdownExpanded(false);
             }}
             listenerElement={selectRef.current}

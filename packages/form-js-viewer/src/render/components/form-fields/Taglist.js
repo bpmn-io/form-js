@@ -225,8 +225,8 @@ export function Taglist(props) {
         {shouldDisplayDropdown && (
           <DropdownList
             values={filteredOptions}
-            getLabel={(o) => o.label}
-            onValueSelected={(o) => selectValue(o.value)}
+            getLabel={(option) => option.label}
+            onValueSelected={(option) => selectValue(option.value)}
             emptyListMessage={hasOptionsLeft ? 'No results' : 'All values selected'}
             listenerElement={inputRef.current}
           />

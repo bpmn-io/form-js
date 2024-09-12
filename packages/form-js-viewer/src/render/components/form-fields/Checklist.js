@@ -68,12 +68,12 @@ export function Checklist(props) {
     <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }))} ref={outerDivRef}>
       <Label label={label} required={required} />
       {loadState == LOAD_STATES.LOADED &&
-        options.map((o, index) => {
+        options.map((option, index) => {
           const itemDomId = `${domId}-${index}`;
-          const isChecked = hasEqualValue(o.value, values);
+          const isChecked = hasEqualValue(option.value, values);
 
           return (
-            <div className="fjs-inline-label" key={index}>
+            <div className="fjs-inline-label" key={option.value}>
               <input
                 checked={isChecked}
                 class="fjs-input"
@@ -81,7 +81,7 @@ export function Checklist(props) {
                 readOnly={readonly}
                 id={itemDomId}
                 type="checkbox"
-                onClick={() => toggleCheckbox(o.value)}
+                onClick={() => toggleCheckbox(option.value)}
                 onBlur={onCheckboxBlur}
                 onFocus={onCheckboxFocus}
                 required={required}
@@ -90,7 +90,7 @@ export function Checklist(props) {
               />
               <Label
                 htmlFor={itemDomId}
-                label={o.label}
+                label={option.label}
                 class={classNames({
                   'fjs-checked': isChecked,
                 })}
