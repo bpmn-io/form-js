@@ -26,7 +26,7 @@ export function Checkbox(props) {
 
   return (
     <div class={classNames(formFieldClasses(type, { errors, disabled, readonly }), { 'fjs-checked': value })}>
-      <Label htmlFor={domId} label={label} required={required}>
+      <div class="fjs-inline-label">
         <input
           checked={value}
           class="fjs-input"
@@ -41,7 +41,8 @@ export function Checkbox(props) {
           aria-invalid={errors.length > 0}
           aria-describedby={[descriptionId, errorMessageId].join(' ')}
         />
-      </Label>
+        <Label htmlFor={domId} label={label} required={required} />
+      </div>
       <Description id={descriptionId} description={description} />
       <Errors id={errorMessageId} errors={errors} />
     </div>
