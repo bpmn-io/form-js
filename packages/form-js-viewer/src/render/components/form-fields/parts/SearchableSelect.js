@@ -48,10 +48,12 @@ export function SearchableSelect(props) {
       return options;
     }
 
-    return options.filter((o) => o.label && o.value && o.label.toLowerCase().includes(filter.toLowerCase()));
+    return options.filter(
+      (option) => option.label && option.value && option.label.toLowerCase().includes(filter.toLowerCase()),
+    );
   }, [filter, loadState, options, isFilterActive]);
 
-  const setValue = useCallback(
+  const pickOption = useCallback(
     (option) => {
       setFilter((option && option.label) || '');
       props.onChange({ value: (option && option.value) || null });
@@ -159,7 +161,7 @@ export function SearchableSelect(props) {
           <span
             class="fjs-select-cross"
             onMouseDown={(e) => {
-              setValue(null);
+              pickOption(null);
               e.preventDefault();
             }}>
             <XMarkIcon />{' '}
@@ -173,9 +175,9 @@ export function SearchableSelect(props) {
         {displayState.displayDropdown && (
           <DropdownList
             values={filteredOptions}
-            getLabel={(o) => o.label}
-            onValueSelected={(o) => {
-              setValue(o);
+            getLabel={(option) => option.label}
+            onValueSelected={(option) => {
+              pickOption(option);
               setIsDropdownExpanded(false);
             }}
             listenerElement={searchbarRef.current}
