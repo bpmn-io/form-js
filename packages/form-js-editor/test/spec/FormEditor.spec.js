@@ -1475,6 +1475,16 @@ function dispatchEvent(element, type, options = {}) {
   element.dispatchEvent(event);
 }
 
+function dispatchPointerEvent(element, type, options = {}) {
+  const event = new PointerEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    ...options,
+  });
+
+  element.dispatchEvent(event);
+}
+
 function startResizing(node, position) {
   if (!position) {
     const bounds = node.getBoundingClientRect();
@@ -1500,7 +1510,7 @@ function startDragging(container, node) {
     node = container.querySelector('.fjs-palette-field[data-field-type="textfield"]');
   }
 
-  dispatchEvent(node, 'mousedown', { which: 1 });
+  dispatchPointerEvent(node, 'pointerdown', { pointerId: 1, buttons: 1 });
 }
 
 function moveDragging(container, position) {
@@ -1514,12 +1524,12 @@ function moveDragging(container, position) {
     };
   }
 
-  dispatchEvent(form, 'mousemove', position);
+  dispatchPointerEvent(form, 'pointermove', { pointerId: 1, buttons: 1, ...position });
 }
 
 function endDragging(container) {
   const form = container.querySelector('.fjs-drop-container-vertical[data-id="Form_1"]');
-  dispatchEvent(form, 'mouseup');
+  dispatchPointerEvent(form, 'pointerup', { pointerId: 1 });
 }
 
 function getRowOrder(container) {
