@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@carbon/grid": "^11.26.0",
-    "big.js": "^6.2.1",
+    "big.js": "^6.2.2",
     "classnames": "^2.5.1",
     "didi": "^10.2.2",
     "dompurify": "^3.1.6",

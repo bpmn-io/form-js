@@ -76,7 +76,7 @@
     "@svgr/webpack": "^8.1.0",
     "@testing-library/preact": "^3.2.3",
     "@types/chai": "^4.3.19",
-    "@types/mocha": "^10.0.7",
+    "@types/mocha": "^10.0.8",
     "@types/node": "^22.5.4",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
@@ -90,7 +90,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "del-cli": "^5.1.0",
-    "diagram-js": "^14.9.0",
+    "diagram-js": "^14.10.0",
     "didi": "^10.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -117,7 +117,7 @@
     "prettier": "^3.3.3",
     "puppeteer": "^23.0.0",
     "raw-loader": "^4.0.2",
-    "rollup": "^4.21.2",
+    "rollup": "^4.21.3",
     "rollup-plugin-copy": "^3.5.0",
     "sass": "^1.78.0",
     "sass-loader": "^16.0.1",
@@ -126,7 +126,7 @@
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
     "typescript": "^5.4.5",
-    "vite": "^5.4.3",
+    "vite": "^5.4.5",
     "webpack": "^5.94.0"
   }
 }
