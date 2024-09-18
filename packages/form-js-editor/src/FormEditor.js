@@ -63,7 +63,7 @@ export class FormEditor {
      */
     this._container = createFormContainer();
 
-    this._container.setAttribute('input-handle-modified-keys', 'z,y');
+    this._container.setAttribute('tabindex', '0');
 
     const { container, exporter, injector = this._createInjector(options, this._container), properties = {} } = options;
 

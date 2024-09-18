@@ -22,6 +22,31 @@ export class Renderer {
   constructor(renderConfig, eventBus, formEditor, injector) {
     const { container, compact = false } = renderConfig;
 
+    eventBus.on('form.init', function () {
+      // emit <canvas.init> so dependent components can hook in
+      // this is required to register keyboard bindings
+      eventBus.fire('canvas.init', {
+        svg: container,
+        viewport: null,
+      });
+    });
+
+    // focus container on over if no selection
+    container.addEventListener('mouseover', function () {
+      if (document.activeElement === document.body) {
+        container.focus({ preventScroll: true });
+      }
+    });
+
+    // ensure we focus the container if the users clicks
+    // inside; this follows input focus handling closely
+    container.addEventListener('click', function (event) {
+      // force focus when clicking container
+      if (!container.contains(document.activeElement)) {
+        container.focus({ preventScroll: true });
+      }
+    });
+
     const App = () => {
       const [state, setState] = useState(formEditor._getState());
 
