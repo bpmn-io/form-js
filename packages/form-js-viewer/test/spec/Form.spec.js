@@ -208,9 +208,6 @@ describe('Form', function () {
     await bootstrapForm({
       container,
       schema,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     // when
