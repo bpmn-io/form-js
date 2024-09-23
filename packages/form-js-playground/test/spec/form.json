@@ -2,6 +2,12 @@
   "$schema": "../../../form-json-schema/resources/schema.json",
   "components": [
     {
+      "type": "filepicker",
+      "key": "filepicker",
+      "accept": ".png,.jpg",
+      "multiple": true
+    },
+    {
       "type": "expression",
       "key": "expressionResult",
       "expression": "= 3 + 4",

@@ -24,6 +24,8 @@ import {
   PaginationEntry,
   RowCountEntry,
   VersionTagEntry,
+  AcceptEntry,
+  MultipleEntry,
 } from '../entries';
 
 export function GeneralGroup(field, editField, getService) {
@@ -48,6 +50,8 @@ export function GeneralGroup(field, editField, getService) {
     ...ImageSourceEntry({ field, editField }),
     ...AltTextEntry({ field, editField }),
     ...SelectEntries({ field, editField }),
+    ...AcceptEntry({ field, editField }),
+    ...MultipleEntry({ field, editField }),
     ...DisabledEntry({ field, editField }),
     ...ReadonlyEntry({ field, editField }),
     ...TableDataSourceEntry({ field, editField }),

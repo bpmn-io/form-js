@@ -239,6 +239,14 @@
       "type": "image"
     },
     {
+      "label": "Image files",
+      "type": "filepicker",
+      "id": "files",
+      "key": "files",
+      "multiple": true,
+      "accept": ".jpg,.png"
+    },
+    {
       "id": "Spacer_1",
       "type": "spacer",
       "height": 60
