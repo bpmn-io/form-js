@@ -8,7 +8,7 @@ _**Note:** Yet to be released changes appear here._
 
 ## 1.10.1
 
-- `FIX`: serialize object table cells using the JSON serializer ([#1139](https://github.com/camunda/camunda-modeler/issues/1139))
+- `FIX`: serialize object table cells using the JSON serializer ([#1139](https://github.com/bpmn-io/form-js/issues/1139))
 - `CHORE`: dep updates ([#1258](https://github.com/bpmn-io/form-js/pull/1258))
 - `FIX`: fix carbonization ([#1253](https://github.com/bpmn-io/form-js/pull/1253))
 - `FIX`: don't clip radio buttons ([#1261](https://github.com/bpmn-io/form-js/pull/1261))
