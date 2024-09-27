@@ -17,6 +17,8 @@ export function SearchableSelect(props) {
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const [isFilterActive, setIsFilterActive] = useState(true);
   const [isEscapeClosed, setIsEscapeClose] = useState(false);
+
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const searchbarRef = useRef();
   const eventBus = useService('eventBus');
 

@@ -24,7 +24,10 @@ export function Datepicker(props) {
     setDate,
   } = props;
 
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const dateInputRef = useRef();
+
+  /** @type {import("preact").RefObject<HTMLElement>} */
   const focusScopeRef = useRef();
 
   const [flatpickrInstance, setFlatpickrInstance] = useState(null);

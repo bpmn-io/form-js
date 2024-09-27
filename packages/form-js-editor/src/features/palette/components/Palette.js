@@ -51,6 +51,7 @@ export function Palette(props) {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
 
   const groups = groupEntries(paletteEntries);

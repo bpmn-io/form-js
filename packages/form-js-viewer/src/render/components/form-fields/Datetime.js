@@ -46,6 +46,8 @@ export function Datetime(props) {
 
   const { required } = validate;
   const { formId } = useContext(FormContext);
+
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const dateTimeGroupRef = useRef();
 
   const [dateTime, setDateTime] = useState(getNullDateTime());

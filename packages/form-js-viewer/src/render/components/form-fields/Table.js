@@ -41,8 +41,7 @@ export function Table(props) {
   const { field } = props;
   const { columns = [], columnsExpression, dataSource = '', rowCount, id, label } = field;
 
-  /** @type {[(null|Sorting), import("preact/hooks").StateUpdater<null|Sorting>]} */
-  const [sortBy, setSortBy] = useState(null);
+  const [sortBy, setSortBy] = useState(/** @type {Sorting | null} */ null);
   const evaluatedColumns = useEvaluatedColumns(columnsExpression || '', columns);
   const columnKeys = evaluatedColumns.map(({ key }) => key);
   const evaluatedDataSource = useExpressionEvaluation(dataSource);
