@@ -15,6 +15,8 @@ export function SimpleSelect(props) {
 
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const selectRef = useRef();
+
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
 
   const { loadState, options } = useOptionsAsync(field);

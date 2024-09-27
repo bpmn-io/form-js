@@ -19,7 +19,11 @@ export function DropdownList(props) {
   const [mouseControl, setMouseControl] = useState(false);
   const [focusedValueIndex, setFocusedValueIndex] = useState(initialFocusIndex);
   const [smoothScrolling, setSmoothScrolling] = useState(false);
+
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const dropdownContainer = useRef();
+
+  /** @type {import("preact").RefObject<{ x: number, y: number }>} */
   const mouseScreenPos = useRef();
 
   const focusedItem = useMemo(() => (values.length ? values[focusedValueIndex] : null), [focusedValueIndex, values]);

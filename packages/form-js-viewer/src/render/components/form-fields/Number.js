@@ -26,6 +26,7 @@ export function Numberfield(props) {
 
   const { required } = validate;
 
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
 
   const [cachedValue, setCachedValue] = useState(value);

@@ -21,6 +21,7 @@ export function Radio(props) {
 
   const { description, label, validate = {} } = field;
 
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const outerDivRef = useRef();
 
   const { required } = validate;

@@ -216,7 +216,7 @@ export class RepeatRenderManager {
  * @param {Object} props.itemValue
  * @param {Object} props.parentExpressionContextInfo
  * @param {Object} props.repeaterField
- * @param {Function} props.RowsRenderer
+ * @param {import('preact').FunctionComponent} props.RowsRenderer
  * @param {Object} props.indexes
  * @param {Function} props.onDeleteItem
  * @param {boolean} props.showRemove

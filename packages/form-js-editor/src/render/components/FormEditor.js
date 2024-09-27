@@ -87,6 +87,7 @@ function Element(props) {
 
   const { id, type, showOutline } = field;
 
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const ref = useRef();
 
   const [hovered, setHovered] = useState(false);

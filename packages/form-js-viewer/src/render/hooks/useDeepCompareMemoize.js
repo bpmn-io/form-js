@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual';
  * @returns {T} - Returns the current state.
  */
 export function useDeepCompareMemoize(value) {
+  /** @type {import("preact").RefObject<T>} */
   const ref = useRef();
 
   if (!isEqual(value, ref.current)) {

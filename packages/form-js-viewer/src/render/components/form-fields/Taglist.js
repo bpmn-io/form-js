@@ -34,7 +34,11 @@ export function Taglist(props) {
   const [filter, setFilter] = useState('');
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const [isEscapeClosed, setIsEscapeClose] = useState(false);
+
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const focusScopeRef = useRef();
+
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
   const eventBus = useService('eventBus');
 
