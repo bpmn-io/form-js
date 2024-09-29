@@ -1,10 +1,9 @@
-import { render } from '@testing-library/preact/pure';
+import { render, act } from '@testing-library/preact/pure';
 
 import { ExpressionField } from '../../../../../src/render/components/form-fields/ExpressionField';
 
 import { MockFormContext } from '../helper';
 import { EventBusMock } from '../helper/mocks';
-import { act } from 'preact/test-utils';
 
 import { createFormContainer } from '../../../../TestHelper';
 
