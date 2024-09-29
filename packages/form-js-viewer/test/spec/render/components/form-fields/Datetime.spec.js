@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
 
@@ -113,7 +114,7 @@ describe('Datetime', function () {
     });
 
     describe('change handling', function () {
-      it('should change date (keyboard)', function () {
+      it('should change date (keyboard)', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -124,9 +125,9 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-
-        fireEvent.input(dateInput, { target: { value: '01/01/2000' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.type(dateInput, '01/01/2000');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -134,7 +135,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should change date (mouse)', function () {
+      it('should change date (mouse)', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -145,10 +146,10 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(dateInput);
+        await userEvent.click(dateInput);
 
         const firstDayNode = container.querySelectorAll('.flatpickr-day')[0];
-        fireEvent.click(firstDayNode);
+        await userEvent.click(firstDayNode);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -156,7 +157,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should clear date', function () {
+      it('should clear date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -168,8 +169,8 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelector('input[type="text"]');
 
-        fireEvent.input(dateInput, { target: { value: '' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -179,7 +180,7 @@ describe('Datetime', function () {
     });
 
     describe('interaction', function () {
-      it('should navigate to next month and select date', function () {
+      it('should navigate to next month and select date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -190,13 +191,13 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(dateInput);
+        await userEvent.click(dateInput);
 
         const nextMonthButton = container.querySelector('.flatpickr-next-month');
-        fireEvent.click(nextMonthButton);
+        await userEvent.click(nextMonthButton);
 
         const firstDayNode = container.querySelectorAll('.flatpickr-day')[0];
-        fireEvent.click(firstDayNode);
+        await userEvent.click(firstDayNode);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -204,7 +205,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should navigate to previous month and select date', function () {
+      it('should navigate to previous month and select date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -215,13 +216,13 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(dateInput);
+        await userEvent.click(dateInput);
 
         const prevMonthButton = container.querySelector('.flatpickr-prev-month');
-        fireEvent.click(prevMonthButton);
+        await userEvent.click(prevMonthButton);
 
         const firstDayNode = container.querySelectorAll('.flatpickr-day')[0];
-        fireEvent.click(firstDayNode);
+        await userEvent.click(firstDayNode);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -229,7 +230,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should navigate to specific month and select date', function () {
+      it('should navigate to specific month and select date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -240,13 +241,13 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(dateInput);
+        await userEvent.click(dateInput);
 
         const monthSelect = container.querySelector('.flatpickr-monthDropdown-months');
-        fireEvent.change(monthSelect, { target: { value: 0 } });
+        await userEvent.selectOptions(monthSelect, '0');
 
         const firstDayNode = container.querySelectorAll('.flatpickr-day')[0];
-        fireEvent.click(firstDayNode);
+        await userEvent.click(firstDayNode);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -256,7 +257,7 @@ describe('Datetime', function () {
     });
 
     describe('configuration', function () {
-      it('should disable past dates', function () {
+      it('should disable past dates', async function () {
         // given
         const { container } = createDatetime({
           value: '1996-11-13',
@@ -268,7 +269,7 @@ describe('Datetime', function () {
 
         // when
         const dateInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(dateInput);
+        await userEvent.click(dateInput);
 
         const previousMonthButton = container.querySelector('.flatpickr-prev-month');
 
@@ -278,7 +279,7 @@ describe('Datetime', function () {
       });
     });
 
-    it('should disable dates prior to 1900', function () {
+    it('should disable dates prior to 1900', async function () {
       // given
       const { container } = createDatetime({
         value: '1900-01-01',
@@ -290,7 +291,7 @@ describe('Datetime', function () {
 
       // when
       const dateInput = container.querySelector('input[type="text"]');
-      fireEvent.focus(dateInput);
+      await userEvent.click(dateInput);
 
       const previousMonthButton = container.querySelector('.flatpickr-prev-month');
 
@@ -421,12 +422,12 @@ describe('Datetime', function () {
         expect(dropdown).to.not.exist;
       });
 
-      it('should render on input focus', function () {
+      it('should render on input focus', async function () {
         // when
         const { container } = createDatetime({ field: timeField });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -447,12 +448,12 @@ describe('Datetime', function () {
         expect(midItem).to.equal(focusedItem);
       });
 
-      it('should render custom increment', function () {
+      it('should render custom increment', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: 30 } });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -468,12 +469,12 @@ describe('Datetime', function () {
         expect(secondItem.innerText).to.equal('12:30 AM');
       });
 
-      it('should default to 15 increment with invalid intervals', function () {
+      it('should default to 15 increment with invalid intervals', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: -72 } });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -489,12 +490,12 @@ describe('Datetime', function () {
         expect(secondItem.innerText).to.equal('12:15 AM');
       });
 
-      it('should default to 15 increment with no interval', function () {
+      it('should default to 15 increment with no interval', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: undefined } });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -510,12 +511,12 @@ describe('Datetime', function () {
         expect(secondItem.innerText).to.equal('12:15 AM');
       });
 
-      it('should render 24h', function () {
+      it('should render 24h', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, use24h: true } });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -531,24 +532,24 @@ describe('Datetime', function () {
         expect(secondItem.innerText).to.equal('00:15');
       });
 
-      it('should not render for 1m increments', function () {
+      it('should not render for 1m increments', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, timeInterval: 1 } });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
         expect(dropdown).to.not.exist;
       });
 
-      it('should focus current value on open', function () {
+      it('should focus current value on open', async function () {
         // when
         const { container } = createDatetime({ field: { ...timeField, use24h: true }, value: '11:00' });
 
         const timeInput = container.querySelector('input[type="text"]');
-        fireEvent.focus(timeInput);
+        await userEvent.click(timeInput);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -559,7 +560,7 @@ describe('Datetime', function () {
     });
 
     describe('change handling', function () {
-      it('should change time (24h)', function () {
+      it('should change time (24h)', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -572,8 +573,9 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelector('input[type="text"]');
 
-        fireEvent.input(dateInput, { target: { value: '13:00' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.type(dateInput, '13:00');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -581,7 +583,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should change time (AM/PM)', function () {
+      it('should change time (AM/PM)', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -594,8 +596,9 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelector('input[type="text"]');
 
-        fireEvent.input(dateInput, { target: { value: '1PM' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.type(dateInput, '1PM');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -603,7 +606,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should clear time', function () {
+      it('should clear time', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -616,8 +619,8 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelector('input[type="text"]');
 
-        fireEvent.input(dateInput, { target: { value: '' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -751,14 +754,14 @@ describe('Datetime', function () {
       expect(timeInput.value).to.be.equal('10:00');
     });
 
-    it('should display an error state if only date is set', function () {
+    it('should display an error state if only date is set', async function () {
       // given
       const { container } = createDatetime({ field: datetimeField });
       const dateInput = container.querySelectorAll('input[type="text"]')[0];
 
       // when
-      fireEvent.input(dateInput, { target: { value: '01/01/2000' } });
-      fireEvent.blur(dateInput);
+      await userEvent.type(dateInput, '01/01/2000');
+      await userEvent.tab();
 
       // then
       const errorGroup = container.querySelector('.fjs-form-field-error');
@@ -770,7 +773,7 @@ describe('Datetime', function () {
       expect(errorItem.innerText).to.equal('Date and time must both be entered.');
     });
 
-    it('should display an error state if only time is set', function () {
+    it('should display an error state if only time is set', async function () {
       // given
       const { container } = createDatetime({ field: datetimeField });
 
@@ -779,8 +782,8 @@ describe('Datetime', function () {
       const timeInput = container.querySelectorAll('input[type="text"]')[1];
 
       // when
-      fireEvent.input(timeInput, { target: { value: '10:00' } });
-      fireEvent.blur(timeInput);
+      await userEvent.type(timeInput, '10:00');
+      await userEvent.tab();
 
       // then
       const errorGroup = container.querySelector('.fjs-form-field-error');
@@ -792,7 +795,7 @@ describe('Datetime', function () {
     });
 
     describe('change handling', function () {
-      it('should change date', function () {
+      it('should change date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -805,8 +808,9 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelectorAll('input[type="text"]')[0];
 
-        fireEvent.input(dateInput, { target: { value: '01/01/2000' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.type(dateInput, '01/01/2000');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -814,7 +818,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should change time', function () {
+      it('should change time', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -827,8 +831,9 @@ describe('Datetime', function () {
         // when
         const timeInput = container.querySelectorAll('input[type="text"]')[1];
 
-        fireEvent.input(timeInput, { target: { value: '12:00' } });
-        fireEvent.blur(timeInput);
+        await userEvent.clear(timeInput);
+        await userEvent.type(timeInput, '12:00');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -836,7 +841,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should clear from date', function () {
+      it('should clear from date', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -849,8 +854,8 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelectorAll('input[type="text"]')[0];
 
-        fireEvent.input(dateInput, { target: { value: '' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -858,7 +863,7 @@ describe('Datetime', function () {
         });
       });
 
-      it('should clear from time', function () {
+      it('should clear from time', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -871,8 +876,8 @@ describe('Datetime', function () {
         // when
         const dateInput = container.querySelectorAll('input[type="text"]')[1];
 
-        fireEvent.input(dateInput, { target: { value: '' } });
-        fireEvent.blur(dateInput);
+        await userEvent.clear(dateInput);
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({

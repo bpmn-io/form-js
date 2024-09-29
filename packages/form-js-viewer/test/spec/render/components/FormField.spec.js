@@ -1,4 +1,5 @@
 import { fireEvent, render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { classes } from 'min-dom';
 
@@ -266,8 +267,8 @@ describe('FormField', function () {
   });
 
   describe('eager validation', function () {
-    it('should trigger validation on blur', function () {
-      // when
+    it('should trigger validation on blur', async function () {
+      // given
       const setStateSpy = sinon.spy();
       const { container } = createFormField({
         field: {
@@ -277,15 +278,17 @@ describe('FormField', function () {
         validationErrors: ['validation-error'],
       });
 
-      // then
       const formField = container.querySelector('.fjs-form-field');
       expect(formField).to.exist;
 
       const input = container.querySelector('input[type="text"]');
       expect(setStateSpy).not.to.have.been.called;
 
+      // when
+      await userEvent.click(input);
+      await userEvent.tab();
+
       // then
-      fireEvent.blur(input);
       expect(setStateSpy).to.have.been.calledWith({
         errors: {
           Creditor_ID: ['validation-error'],
