@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Taglist } from '../../../../../src/render/components/form-fields/Taglist';
 
@@ -183,7 +184,7 @@ describe('Taglist', function () {
     expect(getTagValues(result.container)).to.eql(['Value 1', 'Value 5']);
   });
 
-  it('should render dropdown when filter focused', function () {
+  it('should render dropdown when filter focused', async function () {
     // when
     const { container } = createTaglist({
       value: ['tag1', 'tag2', 'tag3'],
@@ -192,7 +193,7 @@ describe('Taglist', function () {
 
     const filterInput = container.querySelector('input[type="text"]');
 
-    fireEvent.focus(filterInput);
+    await userEvent.click(filterInput);
 
     // then
     const taglistAnchor = container.querySelector('.fjs-taglist-anchor');
@@ -296,7 +297,7 @@ describe('Taglist', function () {
 
   describe('interaction', function () {
     describe('tag deletion', function () {
-      it('should work via mouse', function () {
+      it('should work via mouse', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -308,7 +309,7 @@ describe('Taglist', function () {
         // when
         const removeButton = container.querySelectorAll('.fjs-taglist-tag-remove')[1];
 
-        fireEvent.click(removeButton);
+        await userEvent.click(removeButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -376,7 +377,7 @@ describe('Taglist', function () {
     });
 
     describe('filtering', function () {
-      it('should filter dropdown', function () {
+      it('should filter dropdown', async function () {
         // given
         const eventBusFireSpy = spy();
         const eventBus = {
@@ -391,21 +392,22 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: '4' } });
+        await userEvent.type(filterInput, '4');
         expect(dropdownList.children.length).to.equal(1);
         expect(eventBusFireSpy).to.have.been.calledWith('formField.search', {
           formField: defaultField,
           value: '4',
         });
 
-        fireEvent.input(filterInput, { target: { value: 'Tag' } });
+        await userEvent.clear(filterInput);
+        await userEvent.type(filterInput, 'Tag');
         expect(dropdownList.children.length).to.equal(8);
         expect(eventBusFireSpy).to.have.been.calledWith('formField.search', {
           formField: defaultField,
@@ -413,7 +415,7 @@ describe('Taglist', function () {
         });
       });
 
-      it('should filter dropdown case insensitively', function () {
+      it('should filter dropdown case insensitively', async function () {
         const { container } = createTaglist({
           onChange: () => {},
           value: ['tag1', 'tag2', 'tag3'],
@@ -421,22 +423,24 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
-        fireEvent.input(filterInput, { target: { value: 'Tag' } });
+        await userEvent.type(filterInput, 'Tag');
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: 'TAG' } });
+        await userEvent.clear(filterInput);
+        await userEvent.type(filterInput, 'TAG');
         expect(dropdownList.children.length).to.equal(8);
 
-        fireEvent.input(filterInput, { target: { value: 'tAg' } });
+        await userEvent.clear(filterInput);
+        await userEvent.type(filterInput, 'tAg');
         expect(dropdownList.children.length).to.equal(8);
       });
 
-      it('should filter dropdown for dynamic data', function () {
+      it('should filter dropdown for dynamic data', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -449,17 +453,18 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
         expect(dropdownList.children.length).to.equal(2);
 
         // then
-        fireEvent.input(filterInput, { target: { value: '4' } });
+        await userEvent.type(filterInput, '4');
         expect(dropdownList.children.length).to.equal(1);
 
-        fireEvent.input(filterInput, { target: { value: 'dyna' } });
+        await userEvent.clear(filterInput);
+        await userEvent.type(filterInput, 'dyna');
         expect(dropdownList.children.length).to.equal(2);
       });
     });
@@ -467,7 +472,7 @@ describe('Taglist', function () {
 
   describe('dropdown', function () {
     describe('items', function () {
-      it('should not render invalid items', function () {
+      it('should not render invalid items', async function () {
         // when
         const { container } = createTaglist({
           onchange: () => {},
@@ -486,8 +491,7 @@ describe('Taglist', function () {
 
         // then
         const filterInput = container.querySelector('input[type="text"]');
-
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         // then
         const taglistAnchor = container.querySelector('.fjs-taglist-anchor');
@@ -502,7 +506,7 @@ describe('Taglist', function () {
     });
 
     describe('filtering', function () {
-      it('should render no results state', function () {
+      it('should render no results state', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -513,14 +517,14 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
         expect(dropdownList.children.length).to.equal(8);
 
         // then
-        fireEvent.input(filterInput, { target: { value: 'iahdisdisad' } });
+        await userEvent.type(filterInput, 'iahdisdisad');
         expect(dropdownList.children.length).to.equal(1);
 
         const noResults = dropdownList.querySelector('.fjs-dropdownlist-empty');
@@ -528,7 +532,7 @@ describe('Taglist', function () {
         expect(noResults.innerText).to.equal('No results');
       });
 
-      it('should render all selected state', function () {
+      it('should render all selected state', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -539,7 +543,7 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
         expect(dropdownList).to.exist;
@@ -554,7 +558,7 @@ describe('Taglist', function () {
     });
 
     describe('navigation', function () {
-      it('should work via keyboard', function () {
+      it('should work via keyboard', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -565,7 +569,7 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
 
@@ -573,19 +577,21 @@ describe('Taglist', function () {
         let focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
         expect(focusedItem.innerText).to.equal('Tag4');
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
-        fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
+        await userEvent.keyboard('{arrowdown}{arrowdown}');
+        // fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
+        // fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
         focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
         expect(focusedItem.innerText).to.equal('Tag6');
 
-        fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
+        await userEvent.keyboard('{arrowup}');
+        // fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
         focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
         expect(focusedItem.innerText).to.equal('Tag5');
       });
 
-      it('should work via mouse', function () {
+      it('should work via mouse', async function () {
         const onChangeSpy = spy();
 
         const { container } = createTaglist({
@@ -595,7 +601,7 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const dropdownList = container.querySelector('.fjs-dropdownlist');
 
@@ -634,7 +640,7 @@ describe('Taglist', function () {
     });
 
     describe('selection', function () {
-      it('should work via mouse', function () {
+      it('should work via mouse', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -645,10 +651,10 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
+        await userEvent.click(filterInput);
 
         const focusedItem = container.querySelector('.fjs-dropdownlist-item.focused');
-        fireEvent.mouseDown(focusedItem);
+        await userEvent.click(focusedItem);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -656,7 +662,7 @@ describe('Taglist', function () {
         });
       });
 
-      it('should work via keyboard', function () {
+      it('should work via keyboard', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -667,8 +673,8 @@ describe('Taglist', function () {
 
         // when
         const filterInput = taglist.container.querySelector('.fjs-taglist-input');
-        fireEvent.focus(filterInput);
-        fireEvent.keyDown(filterInput, { key: 'Enter', code: 'Enter' });
+        await userEvent.click(filterInput);
+        await userEvent.keyboard('{enter}');
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({

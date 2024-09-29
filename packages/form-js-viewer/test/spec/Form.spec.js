@@ -1,4 +1,5 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { createForm, Form, schemaVersion } from '../../src';
 
@@ -666,12 +667,11 @@ describe('Form', function () {
       const elements = container.querySelector('.fjs-element').querySelectorAll('.fjs-element');
       const element = elements[index];
       const focusTarget = element.querySelector(selector);
+      const formRoot = container.querySelector('.fjs-form');
 
       // when
-      await act(() => {
-        fireEvent.focus(focusTarget);
-        fireEvent.blur(focusTarget);
-      });
+      await userEvent.click(focusTarget);
+      await userEvent.click(formRoot);
 
       // then
       expect(focusSpy).to.have.been.calledWithMatch({ formField });
