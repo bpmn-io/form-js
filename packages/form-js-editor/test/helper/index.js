@@ -4,7 +4,7 @@ import { FormEditorContext } from '../../src/render/context';
 
 import { createMockInjector } from './mocks';
 
-import { act } from 'preact/test-utils';
+import { act } from '@testing-library/preact/pure';
 
 import TestContainer from 'mocha-test-container-support';
 
