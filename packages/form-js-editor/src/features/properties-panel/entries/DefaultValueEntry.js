@@ -16,7 +16,7 @@ import { useService } from '../hooks';
 import { countDecimals, INPUTS, isValidNumber, OPTIONS_INPUTS } from '../Util';
 import { useCallback } from 'preact/hooks';
 
-export const EMPTY_OPTION = null;
+export const EMPTY_OPTION = '';
 
 export function DefaultValueEntry(props) {
   const { editField, field } = props;
