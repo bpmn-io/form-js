@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Radio } from '../../../../../src/render/components/form-fields/Radio';
 
@@ -181,7 +182,7 @@ describe('Radio', function () {
   });
 
   describe('handle change (dynamic)', function () {
-    it('should handle change', function () {
+    it('should handle change', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -195,7 +196,7 @@ describe('Radio', function () {
       // when
       const input = container.querySelectorAll('input[type="radio"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -203,7 +204,7 @@ describe('Radio', function () {
       });
     });
 
-    it('should handle toggle', function () {
+    it('should handle toggle', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -216,8 +217,7 @@ describe('Radio', function () {
 
       // when
       const input = container.querySelectorAll('input[type="radio"]')[0];
-
-      fireEvent.click(input, { target: { checked: false } });
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -227,7 +227,7 @@ describe('Radio', function () {
   });
 
   describe('handle change (static)', function () {
-    it('should handle change', function () {
+    it('should handle change', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -239,7 +239,7 @@ describe('Radio', function () {
       // when
       const input = container.querySelectorAll('input[type="radio"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -247,7 +247,7 @@ describe('Radio', function () {
       });
     });
 
-    it('should handle toggle', function () {
+    it('should handle toggle', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -259,7 +259,7 @@ describe('Radio', function () {
       // when
       const input = container.querySelectorAll('input[type="radio"]')[0];
 
-      fireEvent.click(input, { target: { checked: false } });
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({

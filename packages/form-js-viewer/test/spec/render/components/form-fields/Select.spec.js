@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/preact/pure';
+import { render, screen } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Select } from '../../../../../src/render/components/form-fields/Select';
@@ -235,7 +235,7 @@ describe('Select', function () {
       expect(dropdownList).to.not.exist;
     });
 
-    it('should focus input on mouse down', function () {
+    it('should focus input on click', async function () {
       // given
       const focusSpy = spy();
 
@@ -246,13 +246,13 @@ describe('Select', function () {
       const select = container.querySelector('.fjs-input-group');
 
       // when
-      fireEvent.mouseDown(select);
+      await userEvent.click(select);
 
       // then
       expect(focusSpy).to.have.been.called;
     });
 
-    it('should blur input on second mouse down', function () {
+    it('should blur input on second click', async function () {
       // given
       const blurSpy = spy();
 
@@ -263,8 +263,8 @@ describe('Select', function () {
       const select = container.querySelector('.fjs-input-group');
 
       // when
-      fireEvent.mouseDown(select);
-      fireEvent.mouseDown(select);
+      await userEvent.click(select);
+      await userEvent.click(select);
 
       // then
       expect(blurSpy).to.have.been.called;
@@ -293,7 +293,7 @@ describe('Select', function () {
         });
       });
 
-      it('should clear', function () {
+      it('should clear', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -304,7 +304,7 @@ describe('Select', function () {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await userEvent.click(cross);
 
         // then
         const dropdown = container.querySelector('.fjs-dropdownlist');
@@ -340,7 +340,7 @@ describe('Select', function () {
         });
       });
 
-      it('should clear', function () {
+      it('should clear', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -353,7 +353,7 @@ describe('Select', function () {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await userEvent.click(cross);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -556,7 +556,7 @@ describe('Select', function () {
         expect(getSelectValues(result.container)).to.eql(['Value 1', 'Value 2', 'Value 3', 'Value 4']);
       });
 
-      it('should clear', function () {
+      it('should clear', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -577,7 +577,7 @@ describe('Select', function () {
 
         // when
         const cross = container.querySelector('.fjs-select-cross');
-        fireEvent.mouseDown(cross);
+        await userEvent.click(cross);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -818,7 +818,7 @@ describe('Select', function () {
         });
       });
 
-      it('should not set value through filter only', function () {
+      it('should not set value through filter only', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -831,15 +831,15 @@ describe('Select', function () {
         const filterInput = container.querySelector('input[type="text"]');
 
         // when
-        fireEvent.focus(filterInput);
-        fireEvent.input(filterInput, { target: { value: 'English' } });
-        fireEvent.blur(filterInput);
+        await userEvent.click(filterInput);
+        await userEvent.type(filterInput, 'English');
+        await userEvent.tab();
 
         // then
         expect(onChangeSpy).to.not.have.been.called;
       });
 
-      it('should clear', function () {
+      it('should clear', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -853,7 +853,7 @@ describe('Select', function () {
         const cross = container.querySelector('.fjs-select-cross');
 
         // when
-        fireEvent.mouseDown(cross);
+        await userEvent.click(cross);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -863,7 +863,7 @@ describe('Select', function () {
         expect(filterInput.value).to.equal('');
       });
 
-      it('should not submit form on enter', function () {
+      it('should not submit form on enter', async function () {
         // given
         const onSubmitSpy = spy();
 
@@ -878,8 +878,8 @@ describe('Select', function () {
         // when
         const input = container.querySelector('.fjs-input');
 
-        fireEvent.focus(input);
-        fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+        await userEvent.click(input);
+        await userEvent.keyboard('{enter}');
 
         // then
 
@@ -1063,7 +1063,7 @@ describe('Select', function () {
       const filterInput = screen.getByLabelText('Language');
 
       // when
-      fireEvent.focus(filterInput);
+      await userEvent.click(filterInput);
 
       // then
       await expectNoViolations(container);

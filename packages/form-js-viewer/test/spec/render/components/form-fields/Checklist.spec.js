@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Checklist } from '../../../../../src/render/components/form-fields/Checklist';
 
@@ -233,7 +234,7 @@ describe('Checklist', function () {
   });
 
   describe('handle change (static)', function () {
-    it('should handle change', function () {
+    it('should handle change', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -245,7 +246,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -253,7 +254,7 @@ describe('Checklist', function () {
       });
     });
 
-    it('should handle toggle', function () {
+    it('should handle toggle', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -265,7 +266,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[0];
 
-      fireEvent.click(input, { target: { checked: false } });
+      await userEvent.click(input, { target: { checked: false } });
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -275,7 +276,7 @@ describe('Checklist', function () {
   });
 
   describe('handle change (dynamic)', function () {
-    it('should handle change', function () {
+    it('should handle change', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -289,7 +290,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -297,7 +298,7 @@ describe('Checklist', function () {
       });
     });
 
-    it('should handle change simplified values', function () {
+    it('should handle change simplified values', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -311,7 +312,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -319,7 +320,7 @@ describe('Checklist', function () {
       });
     });
 
-    it('should handle change object values', function () {
+    it('should handle change object values', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -339,7 +340,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[1];
 
-      fireEvent.click(input);
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -358,7 +359,7 @@ describe('Checklist', function () {
       });
     });
 
-    it('should handle toggle', function () {
+    it('should handle toggle', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -372,7 +373,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[0];
 
-      fireEvent.click(input, { target: { checked: false } });
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -380,7 +381,7 @@ describe('Checklist', function () {
       });
     });
 
-    it('should handle toggle object values', function () {
+    it('should handle toggle object values', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -400,7 +401,7 @@ describe('Checklist', function () {
       // when
       const input = container.querySelectorAll('input[type="checkbox"]')[2];
 
-      fireEvent.click(input, { target: { checked: false } });
+      await userEvent.click(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({

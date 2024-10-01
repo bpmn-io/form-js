@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/preact/pure';
+import { render, screen, fireEvent } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Taglist } from '../../../../../src/render/components/form-fields/Taglist';
@@ -317,7 +317,7 @@ describe('Taglist', function () {
         });
       });
 
-      it('should work via backspace keyboard', function () {
+      it('should work via backspace keyboard', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -328,7 +328,7 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
+        await userEvent.type(filterInput, '{backspace}');
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -336,7 +336,7 @@ describe('Taglist', function () {
         });
       });
 
-      it('should work with dynamic data', function () {
+      it('should work with dynamic data', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -349,7 +349,7 @@ describe('Taglist', function () {
 
         // when
         const filterInput = container.querySelector('.fjs-taglist-input');
-        fireEvent.keyDown(filterInput, { key: 'Backspace', code: 'Backspace' });
+        await userEvent.type(filterInput, '{backspace}');
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -357,7 +357,7 @@ describe('Taglist', function () {
         });
       });
 
-      it('restore focus if last tag got removed', function () {
+      it('restore focus if last tag got removed', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -368,8 +368,7 @@ describe('Taglist', function () {
 
         // when
         const removeButton = container.querySelectorAll('.fjs-taglist-tag-remove')[2];
-
-        fireEvent.click(removeButton);
+        await userEvent.click(removeButton);
 
         // then
         expect(document.activeElement).to.equal(container.querySelector('.fjs-taglist-input'));
@@ -578,14 +577,11 @@ describe('Taglist', function () {
         expect(focusedItem.innerText).to.equal('Tag4');
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
-        // fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
-        // fireEvent.keyDown(filterInput, { key: 'ArrowDown', code: 'ArrowDown' });
         focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
         expect(focusedItem.innerText).to.equal('Tag6');
 
         await userEvent.keyboard('{arrowup}');
-        // fireEvent.keyDown(filterInput, { key: 'ArrowUp', code: 'ArrowUp' });
         focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
         expect(focusedItem.innerText).to.equal('Tag5');
@@ -764,7 +760,7 @@ describe('Taglist', function () {
       });
 
       const input = screen.getByLabelText('Taglist');
-      fireEvent.focus(input);
+      await userEvent.click(input);
 
       // then
       // @Note: we ignore the dropdownlist is not focussable,
@@ -779,7 +775,7 @@ describe('Taglist', function () {
     });
   });
 
-  it('should not submit form on enter', function () {
+  it('should not submit form on enter', async function () {
     // given
     const onSubmitSpy = spy();
 
@@ -792,8 +788,8 @@ describe('Taglist', function () {
 
     // when
     const filterInput = container.querySelector('.fjs-taglist-input');
-    fireEvent.focus(filterInput);
-    fireEvent.keyDown(filterInput, { key: 'Enter', code: 'Enter' });
+    await userEvent.click(filterInput);
+    await userEvent.type(filterInput, '{enter}');
 
     // then
 

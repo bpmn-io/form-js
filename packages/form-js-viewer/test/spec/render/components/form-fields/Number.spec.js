@@ -1,4 +1,5 @@
-import { fireEvent, createEvent, render } from '@testing-library/preact/pure';
+import { render, createEvent, fireEvent } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Numberfield } from '../../../../../src/render/components/form-fields/Number';
 
@@ -146,7 +147,7 @@ describe('Number', function () {
     expect(input.value).to.equal('');
   });
 
-  it('should render default value on value removed', function () {
+  it('should render default value on value removed', async function () {
     // given
     const props = {
       disabled: false,
@@ -163,7 +164,7 @@ describe('Number', function () {
     const input = container.querySelector('input[type="text"]');
 
     // when
-    fireEvent.change(input, { target: { value: null } });
+    await userEvent.clear(input);
 
     // then
     expect(input).to.exist;
@@ -213,7 +214,7 @@ describe('Number', function () {
   });
 
   describe('change handling', function () {
-    it('should change number', function () {
+    it('should change number', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -225,7 +226,8 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '124' } });
+      await userEvent.clear(input);
+      await userEvent.type(input, '124');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -233,7 +235,7 @@ describe('Number', function () {
       });
     });
 
-    it('should not serialize standalone minus', function () {
+    it('should not serialize standalone minus', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -245,13 +247,13 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '-' } });
+      await userEvent.type(input, '-');
 
       // then
       expect(onChangeSpy).to.not.have.been.called;
     });
 
-    it('should clear', function () {
+    it('should clear', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -263,7 +265,7 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '' } });
+      await userEvent.clear(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -274,7 +276,7 @@ describe('Number', function () {
 
   describe('interaction', function () {
     describe('increment button', function () {
-      it('should increment', function () {
+      it('should increment', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -285,7 +287,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-up');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -293,7 +295,7 @@ describe('Number', function () {
         });
       });
 
-      it('should increment according to `decimalDigits`', function () {
+      it('should increment according to `decimalDigits`', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -305,7 +307,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-up');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -313,7 +315,7 @@ describe('Number', function () {
         });
       });
 
-      it('should increment according to `step`', function () {
+      it('should increment according to `step`', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -325,7 +327,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-up');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -333,7 +335,7 @@ describe('Number', function () {
         });
       });
 
-      it('should increment to exact step when not aligned', function () {
+      it('should increment to exact step when not aligned', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -345,7 +347,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-up');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -353,7 +355,7 @@ describe('Number', function () {
         });
       });
 
-      it('should increment properly when negative', function () {
+      it('should increment properly when negative', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -365,7 +367,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-up');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -375,7 +377,7 @@ describe('Number', function () {
     });
 
     describe('decrement button', function () {
-      it('should decrement', function () {
+      it('should decrement', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -386,7 +388,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-down');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -394,7 +396,7 @@ describe('Number', function () {
         });
       });
 
-      it('should decrement according to `decimalDigits`', function () {
+      it('should decrement according to `decimalDigits`', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -406,7 +408,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-down');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -414,7 +416,7 @@ describe('Number', function () {
         });
       });
 
-      it('should decrement according to `step`', function () {
+      it('should decrement according to `step`', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -426,7 +428,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-down');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -434,7 +436,7 @@ describe('Number', function () {
         });
       });
 
-      it('should decrement to exact step when not aligned', function () {
+      it('should decrement to exact step when not aligned', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -446,7 +448,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-down');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -454,7 +456,7 @@ describe('Number', function () {
         });
       });
 
-      it('should decrement properly when negative', function () {
+      it('should decrement properly when negative', async function () {
         // given
         const onChangeSpy = spy();
 
@@ -466,7 +468,7 @@ describe('Number', function () {
 
         // when
         const incrementButton = container.querySelector('.fjs-number-arrow-down');
-        fireEvent.click(incrementButton);
+        await userEvent.click(incrementButton);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -477,7 +479,7 @@ describe('Number', function () {
   });
 
   describe('formatting', function () {
-    it('should handle string inputs as numbers by default', function () {
+    it('should serialize inputs as numbers by default', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -489,7 +491,8 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '124' } });
+      await userEvent.clear(input);
+      await userEvent.type(input, '124');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -497,7 +500,7 @@ describe('Number', function () {
       });
     });
 
-    it('should handle number inputs as strings if configured', function () {
+    it('should serialize inputs as strings if configured', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -510,7 +513,8 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 124 } });
+      await userEvent.clear(input);
+      await userEvent.type(input, '124');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -518,7 +522,7 @@ describe('Number', function () {
       });
     });
 
-    it('should handle string inputs as strings if configured', function () {
+    it('should handle string inputs as strings if configured', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -531,7 +535,8 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '125' } });
+      await userEvent.clear(input);
+      await userEvent.type(input, '125');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -539,7 +544,7 @@ describe('Number', function () {
       });
     });
 
-    it('should handle high precision string numbers without trimming', function () {
+    it('should handle high precision string numbers without trimming', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -555,7 +560,8 @@ describe('Number', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: highPrecisionStringNumber } });
+      await userEvent.clear(input);
+      await userEvent.type(input, highPrecisionStringNumber);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -587,7 +593,7 @@ describe('Number', function () {
   });
 
   describe('user input', function () {
-    it('should prevent key presses generating non-number characters', function () {
+    it('should prevent key presses generating non-number characters', async function () {
       // given
       const { container } = createNumberField({
         value: 123,
@@ -605,7 +611,7 @@ describe('Number', function () {
       const minusKeyPress = createEvent.keyPress(input, { key: 'a', code: 'KeyA' });
 
       // when
-      fireEvent.focus(input);
+      await userEvent.click(input);
       fireEvent(input, periodKeyPress);
       fireEvent(input, commaKeyPress);
       fireEvent(input, letterKeyPress);
@@ -620,7 +626,7 @@ describe('Number', function () {
       expect(minusKeyPress.defaultPrevented).to.be.true;
     });
 
-    it('should prevent second comma or period', function () {
+    it('should prevent second comma or period', async function () {
       // given
       const { container } = createNumberField({
         value: 123.5,
@@ -635,7 +641,7 @@ describe('Number', function () {
       const commaKeyPress = createEvent.keyPress(input, { key: '.', code: 'Comma' });
 
       // when
-      fireEvent.focus(input);
+      await userEvent.click(input);
       fireEvent(input, periodKeyPress);
       fireEvent(input, commaKeyPress);
 
@@ -644,7 +650,7 @@ describe('Number', function () {
       expect(commaKeyPress.defaultPrevented).to.be.true;
     });
 
-    it('should allow a minus at the start', function () {
+    it('should allow a minus at the start', async function () {
       // given
       const { container } = createNumberField({
         value: null,
@@ -658,14 +664,14 @@ describe('Number', function () {
       const minusKeyPress = createEvent.keyPress(input, { key: '-', code: 'Minus' });
 
       // when
-      fireEvent.focus(input);
+      await userEvent.click(input);
       fireEvent(input, minusKeyPress);
 
       // then
       expect(minusKeyPress.defaultPrevented).to.be.false;
     });
 
-    it('should clear NaN state on backspace', function () {
+    it('should clear NaN state on backspace', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -680,7 +686,7 @@ describe('Number', function () {
       expect(input).to.exist;
       expect(input.value).to.equal('NaN');
 
-      fireEvent.keyDown(input, { key: 'Backspace', code: 'Backspace' });
+      await userEvent.type(input, '{backspace}');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -688,7 +694,7 @@ describe('Number', function () {
       });
     });
 
-    it('should clear NaN state on delete', function () {
+    it('should clear NaN state on delete', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -703,7 +709,8 @@ describe('Number', function () {
       expect(input).to.exist;
       expect(input.value).to.equal('NaN');
 
-      fireEvent.keyDown(input, { key: 'Delete', code: 'Delete' });
+      await userEvent.click(input);
+      await userEvent.keyboard('{delete}');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -711,7 +718,7 @@ describe('Number', function () {
       });
     });
 
-    it('should increment on arrow up', function () {
+    it('should increment on arrow up', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -726,7 +733,7 @@ describe('Number', function () {
       expect(input).to.exist;
       expect(input.value).to.equal('0');
 
-      fireEvent.keyDown(input, { key: 'ArrowUp', code: 'ArrowUp' });
+      await userEvent.type(input, '{arrowup}');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -734,7 +741,7 @@ describe('Number', function () {
       });
     });
 
-    it('should decrement on arrow down', function () {
+    it('should decrement on arrow down', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -749,7 +756,7 @@ describe('Number', function () {
       expect(input).to.exist;
       expect(input.value).to.equal('0');
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
+      await userEvent.type(input, '{arrowdown}');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
