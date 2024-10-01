@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Textfield } from '../../../../../src/render/components/form-fields/Textfield';
 
@@ -145,7 +146,7 @@ describe('Textfield', function () {
     expect(input.value).to.equal('');
   });
 
-  it('should render default value on value removed', function () {
+  it('should render default value on value removed', async function () {
     // given
     const props = {
       disabled: false,
@@ -162,7 +163,7 @@ describe('Textfield', function () {
     const input = container.querySelector('input[type="text"]');
 
     // when
-    fireEvent.change(input, { target: { value: null } });
+    await userEvent.clear(input);
 
     // then
     expect(input).to.exist;
@@ -212,7 +213,7 @@ describe('Textfield', function () {
   });
 
   describe('change handling', function () {
-    it('should change text', function () {
+    it('should change text', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -224,7 +225,8 @@ describe('Textfield', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      await userEvent.clear(input);
+      await userEvent.type(input, 'Jane Doe Company');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -232,7 +234,7 @@ describe('Textfield', function () {
       });
     });
 
-    it('should clear', function () {
+    it('should clear', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -244,7 +246,7 @@ describe('Textfield', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: '' } });
+      await userEvent.clear(input);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({

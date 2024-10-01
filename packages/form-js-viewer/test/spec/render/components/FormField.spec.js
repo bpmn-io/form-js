@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { classes } from 'min-dom';
@@ -122,7 +122,7 @@ describe('FormField', function () {
       });
     });
 
-    it('should not handle change', function () {
+    it('should not handle change', async function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -140,7 +140,7 @@ describe('FormField', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      await userEvent.type(input, 'Jane Doe Company');
 
       // then
       expect(onChangeSpy).not.to.have.been.called;
@@ -168,7 +168,7 @@ describe('FormField', function () {
       });
     });
 
-    it('should not handle change', function () {
+    it('should not handle change', async function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -186,7 +186,7 @@ describe('FormField', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      await userEvent.type(input, 'Jane Doe Company');
 
       // then
       expect(onChangeSpy).not.to.have.been.called;
@@ -240,7 +240,7 @@ describe('FormField', function () {
       });
     });
 
-    it('should not handle change', function () {
+    it('should not handle change', async function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -259,7 +259,7 @@ describe('FormField', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      await userEvent.type(input, 'Jane Doe Company');
 
       // then
       expect(onChangeSpy).not.to.have.been.called;
@@ -381,7 +381,7 @@ describe('FormField', function () {
       });
     });
 
-    it('should not handle change', function () {
+    it('should not handle change', async function () {
       // given
       const componentSpy = sinon.spy(Textfield);
 
@@ -400,7 +400,7 @@ describe('FormField', function () {
       // when
       const input = container.querySelector('input[type="text"]');
 
-      fireEvent.input(input, { target: { value: 'Jane Doe Company' } });
+      await userEvent.type(input, 'Jane Doe Company');
 
       // then
       expect(onChangeSpy).not.to.have.been.called;

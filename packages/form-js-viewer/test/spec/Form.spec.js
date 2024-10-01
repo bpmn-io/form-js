@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';
+import { act, screen, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { createForm, Form, schemaVersion } from '../../src';
@@ -535,7 +535,7 @@ describe('Form', function () {
     const collapseButton = container.querySelector('.fjs-repeat-render-collapse');
     expect(collapseButton).to.exist;
 
-    fireEvent.click(collapseButton);
+    await userEvent.click(collapseButton);
 
     // then
     expect(form.submit().data.list).to.have.length(10);
@@ -626,7 +626,7 @@ describe('Form', function () {
 
     // when
     const submitButton = container.querySelector('.fjs-button');
-    fireEvent.click(submitButton);
+    await userEvent.click(submitButton);
 
     const validateCount = requiredSchema.components.filter((c) => (c.validate || {}).required).length;
 
@@ -1421,7 +1421,7 @@ describe('Form', function () {
       // when
       const input = await screen.getByLabelText('Creditor*');
 
-      fireEvent.input(input, { target: { value: '' } });
+      await userEvent.clear(input);
 
       // then
       expect(screen.getByText('Field is required.')).to.exist;
@@ -1459,7 +1459,7 @@ describe('Form', function () {
       // when
       const input = await screen.getByLabelText('Invoice Number');
 
-      fireEvent.input(input, { target: { value: 'foo' } });
+      await userEvent.type(input, 'foo');
 
       // then
       expect(screen.getByText('Field must match pattern ^C-[0-9]+$.')).to.exist;
@@ -1656,17 +1656,17 @@ describe('Form', function () {
 
       // when
       const inputB = screen.getByLabelText('b');
-      fireEvent.change(inputB, { target: { checked: true } });
+      await userEvent.click(inputB);
 
       const inputC = screen.getByLabelText('c');
-      fireEvent.change(inputC, { target: { checked: true } });
+      await userEvent.click(inputC);
 
       // then
       expect(getText(container)).to.not.exist;
 
       // but when
       const inputA = screen.getByLabelText('a');
-      fireEvent.change(inputA, { target: { checked: true } });
+      await userEvent.click(inputA);
 
       // then
       expect(getText(container)).to.exist;
@@ -1688,18 +1688,15 @@ describe('Form', function () {
       expect(getText(container)).to.exist;
 
       // when
-      const inputB = screen.getByLabelText('b');
-      fireEvent.change(inputB, { target: { checked: true } });
-
-      const inputC = screen.getByLabelText('c');
-      fireEvent.change(inputC, { target: { checked: true } });
+      const inputC = screen.getByLabelText('b');
+      await userEvent.click(inputC);
 
       // then
       expect(getText(container)).to.not.exist;
 
       // but when
       const inputA = screen.getByLabelText('a');
-      fireEvent.change(inputA, { target: { checked: true } });
+      await userEvent.click(inputA);
 
       // then
       // text is still not visible because of initial data
@@ -1718,17 +1715,17 @@ describe('Form', function () {
 
       // when
       const inputB = screen.getByLabelText('b');
-      fireEvent.input(inputB, { target: { value: 'foo' } });
+      await userEvent.type(inputB, 'foo');
 
       const inputC = screen.getByLabelText('c');
-      fireEvent.input(inputC, { target: { value: 'bar' } });
+      await userEvent.type(inputC, 'bar');
 
       // then
       expect(getImage(container).alt).to.eql('foobar');
 
       // but when
       const inputA = screen.getByLabelText('a');
-      fireEvent.change(inputA, { target: { checked: true } });
+      await userEvent.click(inputA);
 
       // then
       expect(getImage(container).alt).to.eql('foo');
@@ -1751,17 +1748,18 @@ describe('Form', function () {
 
       // when
       const inputB = screen.getByLabelText('b');
-      fireEvent.input(inputB, { target: { value: 'foo' } });
+      await userEvent.type(inputB, 'foo');
 
       const inputC = screen.getByLabelText('c');
-      fireEvent.input(inputC, { target: { value: 'bar' } });
+      await userEvent.clear(inputC);
+      await userEvent.type(inputC, 'bar');
 
       // then
       expect(getImage(container).alt).to.eql('foobar');
 
       // but when
       const inputA = screen.getByLabelText('a');
-      fireEvent.change(inputA, { target: { checked: true } });
+      await userEvent.click(inputA);
 
       // then
       expect(getImage(container).alt).to.eql('fooexternal');

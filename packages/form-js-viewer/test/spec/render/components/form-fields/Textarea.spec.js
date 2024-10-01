@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render, fireEvent } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Textarea } from '../../../../../src/render/components/form-fields/Textarea';
 
@@ -89,8 +90,7 @@ describe('Textarea', function () {
     });
 
     const textarea = container.querySelector('textarea');
-
-    fireEvent.change(textarea, { target: { value: null } });
+    userEvent.clear(textarea);
 
     // then
     expect(textarea).to.exist;
@@ -140,7 +140,7 @@ describe('Textarea', function () {
   });
 
   describe('change handling', function () {
-    it('should change text', function () {
+    it('should change text', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -151,8 +151,8 @@ describe('Textarea', function () {
 
       // when
       const textarea = container.querySelector('textarea');
-
-      fireEvent.input(textarea, { target: { value: 'A different text area value' } });
+      await userEvent.clear(textarea);
+      await userEvent.type(textarea, 'A different text area value');
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -160,7 +160,7 @@ describe('Textarea', function () {
       });
     });
 
-    it('should autosize', function () {
+    it('should autosize', async function () {
       // given
       const { container } = createTextarea({
         value: '',
@@ -183,7 +183,7 @@ describe('Textarea', function () {
       expect(textarea.style.height === '350px');
     });
 
-    it('should clear', function () {
+    it('should clear', async function () {
       // given
       const onChangeSpy = spy();
 
@@ -195,7 +195,7 @@ describe('Textarea', function () {
       // when
       const textarea = container.querySelector('textarea');
 
-      fireEvent.input(textarea, { target: { value: '' } });
+      await userEvent.clear(textarea);
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({

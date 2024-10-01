@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Checkbox } from '../../../../../src/render/components/form-fields/Checkbox';
 
@@ -129,7 +130,7 @@ describe('Checkbox', function () {
     expect(description.textContent).to.equal('foo');
   });
 
-  it('should handle change', function () {
+  it('should handle change', async function () {
     // given
     const onChangeSpy = spy();
 
@@ -140,8 +141,7 @@ describe('Checkbox', function () {
 
     // when
     const input = container.querySelector('input[type="checkbox"]');
-
-    fireEvent.change(input, { target: { checked: false } });
+    await userEvent.click(input);
 
     // then
     expect(onChangeSpy).to.have.been.calledWithMatch({

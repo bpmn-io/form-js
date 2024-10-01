@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 
 import { Table } from '../../../../../src/render/components/form-fields/Table';
 
@@ -201,7 +202,7 @@ describe('Table', function () {
     expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('');
   });
 
-  it('should have pagination', function () {
+  it('should have pagination', async function () {
     // when
     const DATA = [
       {
@@ -254,7 +255,7 @@ describe('Table', function () {
     expect(firstRow.querySelectorAll('.fjs-table-td')[1].textContent).to.eql('foo');
     expect(firstRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('2020-01-01');
 
-    fireEvent.click(container.querySelector('.fjs-table-nav-button[aria-label="Next page"]'));
+    await userEvent.click(container.querySelector('.fjs-table-nav-button[aria-label="Next page"]'));
 
     expect(container.querySelector('.fjs-table-nav-label').textContent).to.eql('2 of 2');
 
@@ -276,7 +277,7 @@ describe('Table', function () {
     expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('2020-01-02');
   });
 
-  it('should sort rows', function () {
+  it('should sort rows', async function () {
     // when
     const DATA = [
       {
@@ -320,7 +321,7 @@ describe('Table', function () {
     const headers = container.querySelectorAll('.fjs-table-th');
     expect(headers).to.have.length(3);
 
-    fireEvent.click(headers[0]);
+    await userEvent.click(headers[0]);
 
     expect(container.querySelector('.fjs-table-sort-icon-asc')).to.exist;
 
@@ -333,7 +334,7 @@ describe('Table', function () {
     expect(secondRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
     expect(secondRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('1');
 
-    fireEvent.click(headers[0]);
+    await userEvent.click(headers[0]);
 
     expect(container.querySelector('.fjs-table-sort-icon-asc')).not.to.exist;
     expect(container.querySelector('.fjs-table-sort-icon-desc')).to.exist;
@@ -347,7 +348,7 @@ describe('Table', function () {
     expect(thirdRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
     expect(thirdRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('2');
 
-    fireEvent.click(headers[0]);
+    await userEvent.click(headers[0]);
 
     expect(container.querySelector('.fjs-table-sort-icon-asc')).not.to.exist;
     expect(container.querySelector('.fjs-table-sort-icon-desc')).not.to.exist;
