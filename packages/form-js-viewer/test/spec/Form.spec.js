@@ -21,6 +21,7 @@ import chainExpressionsSchema from './chain-expressions.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
 import disabledSchema from './disabled.json';
+import radioTabbingSchema from './radio-tabbing.json';
 import requiredSchema from './required.json';
 import schema from './form.json';
 import groupsSchema from './groups.json';
@@ -1590,6 +1591,31 @@ describe('Form', function () {
       // then
       expect(errors).to.not.have.property('Field_17uk1c9');
       expect(stateErrors).to.not.have.property('Field_17uk1c9');
+    });
+  });
+
+  describe('integration - radio fields', function () {
+    it('should tab once into radio group from the incoming direction', async function () {
+      // given
+      await bootstrapForm({
+        container,
+        schema: radioTabbingSchema,
+      });
+
+      // then
+      await userEvent.click(screen.getByRole('textbox', { name: /Textarea 1/i }));
+      await userEvent.tab();
+      expect(screen.getByRole('radio', { name: /Radio button 1/i })).to.equal(document.activeElement);
+
+      await userEvent.tab();
+      expect(screen.getByRole('radio', { name: /Radio button 4/i })).to.equal(document.activeElement);
+
+      await userEvent.click(screen.getByRole('textbox', { name: /Textarea 2/i }));
+      await userEvent.tab({ shift: true });
+      expect(screen.getByRole('radio', { name: /Radio button 6/i })).to.equal(document.activeElement);
+
+      await userEvent.tab({ shift: true });
+      expect(screen.getByRole('radio', { name: /Radio button 3/i })).to.equal(document.activeElement);
     });
   });
 

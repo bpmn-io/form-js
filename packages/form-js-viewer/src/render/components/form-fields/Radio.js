@@ -80,6 +80,7 @@ export function Radio(props) {
                 class="fjs-input"
                 disabled={disabled}
                 readOnly={readonly}
+                name={domId}
                 id={itemDomId}
                 type="radio"
                 onClick={() => onChange(option.value)}

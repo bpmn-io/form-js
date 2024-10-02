@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "components": [
+    {
+      "key": "textarea",
+      "label": "Textarea 1",
+      "type": "textarea"
+    },
+    {
+      "key": "radio",
+      "label": "Radio 1",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Radio button 1",
+          "value": "radio-button-1"
+        },
+        {
+          "label": "Radio button 2",
+          "value": "radio-button-2"
+        },
+        {
+          "label": "Radio button 3",
+          "value": "radio-button-3"
+        }
+      ]
+    },
+    {
+      "key": "radio2",
+      "label": "Radio 2",
+      "type": "radio",
+      "values": [
+        {
+          "label": "Radio button 4",
+          "value": "radio-button-1"
+        },
+        {
+          "label": "Radio button 5",
+          "value": "radio-button-2"
+        },
+        {
+          "label": "Radio button 6",
+          "value": "radio-button-3"
+        }
+      ]
+    },
+    {
+      "key": "textarea2",
+      "label": "Textarea 2",
+      "type": "textarea"
+    }
+  ],
+  "type": "default"
+}
