@@ -317,7 +317,7 @@ describe('Datetime', function () {
       const timeInput = formField.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
-      expect(timeInput.placeholder).to.equal('hh:mm ?m');
+      expect(timeInput.placeholder).to.equal('hh:mm --');
 
       const adornment = formField.querySelector('.fjs-input-adornment');
       expect(adornment).to.exist;
@@ -331,7 +331,7 @@ describe('Datetime', function () {
       const timeInput = container.querySelector('input[type="text"]');
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
-      expect(timeInput.placeholder).to.equal('hh:mm ?m');
+      expect(timeInput.placeholder).to.equal('hh:mm --');
     });
 
     it('should render required label', function () {
@@ -659,7 +659,7 @@ describe('Datetime', function () {
 
       expect(timeInput).to.exist;
       expect(timeInput.value).to.be.empty;
-      expect(timeInput.placeholder).to.equal('hh:mm ?m');
+      expect(timeInput.placeholder).to.equal('hh:mm --');
 
       const adornments = formField.querySelectorAll('.fjs-input-adornment');
       expect(adornments.length).to.equal(2);

@@ -157,7 +157,7 @@ export function Timepicker(props) {
             value={rawValue}
             disabled={disabled}
             readOnly={readonly}
-            placeholder={use24h ? 'hh:mm' : 'hh:mm ?m'}
+            placeholder={use24h ? 'hh:mm' : 'hh:mm --'}
             autoComplete="off"
             onInput={(e) => {
               // @ts-expect-error
