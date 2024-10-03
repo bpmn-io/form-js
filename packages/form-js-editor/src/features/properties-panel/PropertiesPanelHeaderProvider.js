@@ -13,6 +13,9 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
       if (headerlessTypes.includes(type)) {
         return '';
       }
+      if (type === 'datetime') {
+        return field.dateLabel || field.timeLabel;
+      }
       if (type === 'text') {
         return textToLabel(field.text);
       }

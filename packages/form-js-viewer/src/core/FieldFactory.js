@@ -60,15 +60,12 @@ export class FieldFactory {
       throw new Error(`binding path '${[...parentPath, ...path.split('.')].join('.')}' is already claimed`);
     }
 
-    const labelAttrs =
-      applyDefaults && config.label
-        ? {
-            label: config.label,
-          }
-        : {};
+    // currently using a hard coded solution while we evaluate refactoring
+    // cf. https://github.com/bpmn-io/form-js/issues/1291
+    const shouldApplyLabel = applyDefaults && !(config.type === 'datetime') && config.label;
 
     const field = config.create({
-      ...labelAttrs,
+      ...(shouldApplyLabel ? { label: config.label } : {}),
       ...attrs,
     });
 
