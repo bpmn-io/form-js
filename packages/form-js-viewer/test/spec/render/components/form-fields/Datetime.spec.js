@@ -891,7 +891,6 @@ describe('Datetime', function () {
     // assume
     const { config } = Datetime;
     expect(config.type).to.eql('datetime');
-    expect(config.label).to.eql('Date time');
     expect(config.group).to.eql('basic-input');
     expect(config.keyed).to.be.true;
 

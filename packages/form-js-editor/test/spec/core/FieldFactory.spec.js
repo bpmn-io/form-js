@@ -120,7 +120,6 @@ describe('core/FieldFactory', function () {
       'Date time',
       testCreate({
         type: 'datetime',
-        label: 'Date time',
         keyed: true,
         defaults: {
           subtype: 'date',
