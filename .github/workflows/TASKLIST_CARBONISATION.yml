@@ -67,7 +67,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./zeebe/tasklist/client
         run: yarn playwright form-js-integration
-      - uses: actions/upload-artifact@604373da6381bf24206979c74d06a550515601b9
+      - uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097
         if: always()
         with:
           name: playwright-report
