@@ -65,7 +65,7 @@ export function Textfield(props) {
 Textfield.config = {
   type,
   keyed: true,
-  label: 'Text field',
+  name: 'Text field',
   group: 'basic-input',
   emptyValue: '',
   sanitizeValue: ({ value }) => {
@@ -80,5 +80,5 @@ Textfield.config = {
 
     return String(value);
   },
-  create: (options = {}) => ({ ...options }),
+  create: (options = {}) => ({ label: 'Text field', ...options }),
 };

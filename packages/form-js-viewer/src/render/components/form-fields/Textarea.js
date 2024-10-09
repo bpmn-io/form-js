@@ -76,11 +76,11 @@ export function Textarea(props) {
 Textarea.config = {
   type,
   keyed: true,
-  label: 'Text area',
+  name: 'Text area',
   group: 'basic-input',
   emptyValue: '',
   sanitizeValue: ({ value }) => (isArray(value) || isObject(value) || isNil(value) ? '' : String(value)),
-  create: (options = {}) => ({ ...options }),
+  create: (options = {}) => ({ label: 'Text area', ...options }),
 };
 
 const autoSizeTextarea = (textarea) => {

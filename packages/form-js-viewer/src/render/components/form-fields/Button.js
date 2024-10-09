@@ -27,9 +27,10 @@ export function Button(props) {
 Button.config = {
   type,
   keyed: false,
-  label: 'Button',
+  name: 'Button',
   group: 'action',
   create: (options = {}) => ({
+    label: 'Button',
     action: 'submit',
     ...options,
   }),

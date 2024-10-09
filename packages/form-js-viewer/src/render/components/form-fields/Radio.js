@@ -108,9 +108,12 @@ export function Radio(props) {
 Radio.config = {
   type,
   keyed: true,
-  label: 'Radio group',
+  name: 'Radio group',
   group: 'selection',
   emptyValue: null,
   sanitizeValue: sanitizeSingleSelectValue,
-  create: createEmptyOptions,
+  create: (options = {}) => ({
+    label: 'Radio group',
+    ...createEmptyOptions(options),
+  }),
 };
