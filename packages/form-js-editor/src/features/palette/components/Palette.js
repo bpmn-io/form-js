@@ -175,7 +175,8 @@ export function collectPaletteEntries(formFields) {
       const { config: fieldConfig } = formField;
 
       return {
-        label: fieldConfig.label,
+        // fieldConfig.label is used to maintain backwards compatibility with custom form fields
+        label: fieldConfig.name || fieldConfig.label,
         type: type,
         group: fieldConfig.group,
         icon: fieldConfig.icon,

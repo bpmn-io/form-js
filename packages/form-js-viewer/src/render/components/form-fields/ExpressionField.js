@@ -42,7 +42,7 @@ export function ExpressionField(props) {
 
 ExpressionField.config = {
   type,
-  label: 'Expression',
+  name: 'Expression',
   group: 'basic-input',
   keyed: true,
   emptyValue: null,

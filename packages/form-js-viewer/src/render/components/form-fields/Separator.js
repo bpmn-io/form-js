@@ -13,7 +13,7 @@ export function Separator() {
 Separator.config = {
   type,
   keyed: false,
-  label: 'Separator',
+  name: 'Separator',
   group: 'presentation',
   create: (options = {}) => ({
     ...options,

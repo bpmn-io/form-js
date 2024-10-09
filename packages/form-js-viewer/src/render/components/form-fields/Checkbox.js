@@ -52,11 +52,12 @@ export function Checkbox(props) {
 Checkbox.config = {
   type,
   keyed: true,
-  label: 'Checkbox',
+  name: 'Checkbox',
   group: 'selection',
   emptyValue: false,
   sanitizeValue: ({ value }) => value === true,
   create: (options = {}) => ({
+    label: 'Checkbox',
     ...options,
   }),
 };
