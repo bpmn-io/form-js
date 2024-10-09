@@ -892,7 +892,7 @@ describe('Select', function () {
     // assume
     const { config } = Select;
     expect(config.type).to.eql('select');
-    expect(config.label).to.eql('Select');
+    expect(config.name).to.eql('Select');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -901,6 +901,7 @@ describe('Select', function () {
 
     // then
     expect(field).to.eql({
+      label: 'Select',
       values: [
         {
           label: 'Value',
@@ -924,7 +925,7 @@ describe('Select', function () {
     // assume
     const { config } = Select;
     expect(config.type).to.eql('select');
-    expect(config.label).to.eql('Select');
+    expect(config.name).to.eql('Select');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -950,7 +951,7 @@ describe('Select', function () {
     // assume
     const { config } = Select;
     expect(config.type).to.eql('select');
-    expect(config.label).to.eql('Select');
+    expect(config.name).to.eql('Select');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 

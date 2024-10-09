@@ -103,7 +103,7 @@ describe('Group', () => {
     // assume
     const { config } = Group;
     expect(config.type).to.eql('group');
-    expect(config.label).to.eql('Group');
+    expect(config.name).to.eql('Group');
     expect(config.group).to.eql('container');
     expect(config.pathed).to.be.true;
 
@@ -112,6 +112,7 @@ describe('Group', () => {
 
     // then
     expect(field).to.eql({
+      label: 'Group',
       components: [],
       showOutline: true,
     });
