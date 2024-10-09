@@ -895,12 +895,28 @@ describe('Datetime', function () {
     expect(config.keyed).to.be.true;
 
     // when
-    const field = config.create();
+    const field = config.create({}, true);
 
     // then
     expect(field).to.eql({
       subtype: 'date',
       dateLabel: 'Date',
+    });
+
+    // but when
+    const timeField = config.create({
+      subtype: 'time',
+      timeLabel: 'Time',
+      timeSerializingFormat: 'no_timezone',
+      timeInterval: 15,
+    });
+
+    // then
+    expect(timeField).to.eql({
+      subtype: 'time',
+      timeLabel: 'Time',
+      timeSerializingFormat: 'no_timezone',
+      timeInterval: 15,
     });
 
     // but when

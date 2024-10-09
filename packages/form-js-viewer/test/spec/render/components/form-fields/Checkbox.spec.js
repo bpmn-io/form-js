@@ -153,7 +153,7 @@ describe('Checkbox', function () {
     // assume
     const { config } = Checkbox;
     expect(config.type).to.eql('checkbox');
-    expect(config.label).to.eql('Checkbox');
+    expect(config.name).to.eql('Checkbox');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -161,7 +161,9 @@ describe('Checkbox', function () {
     const field = config.create();
 
     // then
-    expect(field).to.eql({});
+    expect(field).to.eql({
+      label: 'Checkbox',
+    });
 
     // but when
     const customField = config.create({

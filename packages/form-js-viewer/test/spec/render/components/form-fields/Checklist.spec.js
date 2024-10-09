@@ -414,7 +414,7 @@ describe('Checklist', function () {
     // assume
     const { config } = Checklist;
     expect(config.type).to.eql('checklist');
-    expect(config.label).to.eql('Checkbox group');
+    expect(config.name).to.eql('Checkbox group');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -423,6 +423,7 @@ describe('Checklist', function () {
 
     // then
     expect(field).to.eql({
+      label: 'Checkbox group',
       values: [
         {
           label: 'Value',
