@@ -26,9 +26,10 @@ export function Group(props) {
 Group.config = {
   type: 'group',
   pathed: true,
-  label: 'Group',
+  name: 'Group',
   group: 'container',
   create: (options = {}) => ({
+    label: 'Group',
     components: [],
     showOutline: true,
     ...options,

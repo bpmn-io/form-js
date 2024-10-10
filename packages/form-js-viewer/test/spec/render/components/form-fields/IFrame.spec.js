@@ -229,7 +229,7 @@ describe('IFrame', function () {
     // assume
     const { config } = IFrame;
     expect(config.type).to.eql('iframe');
-    expect(config.label).to.eql('iFrame');
+    expect(config.name).to.eql('iFrame');
     expect(config.group).to.eql('container');
     expect(config.keyed).to.be.false;
 
@@ -237,7 +237,12 @@ describe('IFrame', function () {
     const field = config.create();
 
     // then
-    expect(field).to.exist;
+    expect(field).to.eql({
+      label: 'iFrame',
+      security: {
+        allowScripts: true,
+      },
+    });
 
     // but when
     const customField = config.create({

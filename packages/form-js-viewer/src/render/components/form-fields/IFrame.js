@@ -65,9 +65,10 @@ function IFramePlaceholder(props) {
 IFrame.config = {
   type,
   keyed: false,
-  label: 'iFrame',
+  name: 'iFrame',
   group: 'container',
   create: (options = {}) => ({
+    label: 'iFrame',
     security: {
       allowScripts: true,
     },

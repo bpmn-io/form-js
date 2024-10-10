@@ -684,7 +684,7 @@ describe('Taglist', function () {
     // assume
     const { config } = Taglist;
     expect(config.type).to.eql('taglist');
-    expect(config.label).to.eql('Tag list');
+    expect(config.name).to.eql('Tag list');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -693,6 +693,7 @@ describe('Taglist', function () {
 
     // then
     expect(field).to.eql({
+      label: 'Tag list',
       values: [
         {
           label: 'Value',

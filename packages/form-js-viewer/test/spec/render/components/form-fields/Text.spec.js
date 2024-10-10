@@ -262,7 +262,7 @@ Some _em_ **strong** [text](#text) \`code\`.
     // assume
     const { config } = Text;
     expect(config.type).to.eql('text');
-    expect(config.label).to.eql('Text view');
+    expect(config.name).to.eql('Text view');
     expect(config.group).to.eql('presentation');
     expect(config.keyed).to.be.false;
 

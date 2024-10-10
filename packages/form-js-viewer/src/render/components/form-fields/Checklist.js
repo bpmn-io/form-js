@@ -106,9 +106,12 @@ export function Checklist(props) {
 Checklist.config = {
   type,
   keyed: true,
-  label: 'Checkbox group',
+  name: 'Checkbox group',
   group: 'selection',
   emptyValue: [],
   sanitizeValue: sanitizeMultiSelectValue,
-  create: createEmptyOptions,
+  create: (options = {}) => ({
+    label: 'Checkbox group',
+    ...createEmptyOptions(options),
+  }),
 };

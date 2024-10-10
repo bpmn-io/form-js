@@ -272,7 +272,7 @@ describe('Radio', function () {
     // assume
     const { config } = Radio;
     expect(config.type).to.eql('radio');
-    expect(config.label).to.eql('Radio group');
+    expect(config.name).to.eql('Radio group');
     expect(config.group).to.eql('selection');
     expect(config.keyed).to.be.true;
 
@@ -281,6 +281,7 @@ describe('Radio', function () {
 
     // then
     expect(field).to.eql({
+      label: 'Radio group',
       values: [
         {
           label: 'Value',

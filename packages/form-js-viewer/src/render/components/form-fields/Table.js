@@ -194,7 +194,7 @@ export function Table(props) {
 Table.config = {
   type,
   keyed: false,
-  label: 'Table',
+  name: 'Table',
   group: 'presentation',
   create: (options = {}) => {
     const { id, columnsExpression, columns, rowCount, ...remainingOptions } = options;
@@ -221,6 +221,7 @@ Table.config = {
 
     return {
       ...remainingOptions,
+      label: 'Table',
       rowCount: 10,
       columns: [
         {

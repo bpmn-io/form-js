@@ -47,9 +47,7 @@ export function Image(props) {
 Image.config = {
   type,
   keyed: false,
-  label: 'Image view',
+  name: 'Image view',
   group: 'presentation',
-  create: (options = {}) => ({
-    ...options,
-  }),
+  create: (options = {}) => options,
 };

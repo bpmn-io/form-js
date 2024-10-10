@@ -208,7 +208,7 @@ describe('Textarea', function () {
     // assume
     const { config } = Textarea;
     expect(config.type).to.eql('textarea');
-    expect(config.label).to.eql('Text area');
+    expect(config.name).to.eql('Text area');
     expect(config.group).to.eql('basic-input');
     expect(config.keyed).to.be.true;
 
@@ -216,7 +216,9 @@ describe('Textarea', function () {
     const field = config.create();
 
     // then
-    expect(field).to.eql({});
+    expect(field).to.eql({
+      label: 'Text area',
+    });
 
     // but when
     const customField = config.create({

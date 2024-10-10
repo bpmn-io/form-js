@@ -2,17 +2,12 @@ import { textToLabel } from './Util';
 import { iconsByType } from '../../render/components/icons';
 import { getPaletteIcon } from '../palette/components/Palette';
 
-const headerlessTypes = ['spacer', 'separator', 'expression', 'html'];
-
 export function getPropertiesPanelHeaderProvider(options = {}) {
   const { getDocumentationRef, formFields } = options;
 
   return {
     getElementLabel: (field) => {
       const { type } = field;
-      if (headerlessTypes.includes(type)) {
-        return '';
-      }
       if (type === 'datetime') {
         return field.dateLabel || field.timeLabel;
       }
@@ -45,7 +40,7 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
         return 'Form';
       }
       const fieldDefinition = formFields.get(type).config;
-      return fieldDefinition.label || type;
+      return fieldDefinition.name || fieldDefinition.label || type;
     },
 
     getDocumentationRef,

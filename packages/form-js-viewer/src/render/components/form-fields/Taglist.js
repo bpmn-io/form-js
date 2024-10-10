@@ -245,9 +245,12 @@ export function Taglist(props) {
 Taglist.config = {
   type,
   keyed: true,
-  label: 'Tag list',
+  name: 'Tag list',
   group: 'selection',
   emptyValue: [],
   sanitizeValue: sanitizeMultiSelectValue,
-  create: createEmptyOptions,
+  create: (options = {}) => ({
+    label: 'Tag list',
+    ...createEmptyOptions(options),
+  }),
 };

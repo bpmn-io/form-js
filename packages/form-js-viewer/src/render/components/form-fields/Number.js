@@ -224,7 +224,7 @@ export function Numberfield(props) {
 Numberfield.config = {
   type,
   keyed: true,
-  label: 'Number',
+  name: 'Number',
   group: 'basic-input',
   emptyValue: null,
   sanitizeValue: ({ value, formField }) => {
@@ -235,6 +235,7 @@ Numberfield.config = {
     return formField.serializeToString ? value.toString() : Number(value);
   },
   create: (options = {}) => ({
+    label: 'Number',
     ...options,
   }),
 };

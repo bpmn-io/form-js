@@ -217,7 +217,7 @@ describe('Image', function () {
     // assume
     const { config } = Image;
     expect(config.type).to.eql('image');
-    expect(config.label).to.eql('Image view');
+    expect(config.name).to.eql('Image view');
     expect(config.group).to.eql('presentation');
     expect(config.keyed).to.be.false;
 
@@ -225,7 +225,7 @@ describe('Image', function () {
     const field = config.create();
 
     // then
-    expect(field).to.exist;
+    expect(field).to.eql({});
 
     // but when
     const customField = config.create({

@@ -6,6 +6,7 @@ import { Table } from '../../../../../src/render/components/form-fields/Table';
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
+import { expect } from 'chai';
 
 let container;
 
@@ -433,7 +434,7 @@ describe('Table', function () {
     // assume
     const { config } = Table;
     expect(config.type).to.eql('table');
-    expect(config.label).to.eql('Table');
+    expect(config.name).to.eql('Table');
     expect(config.group).to.eql('presentation');
     expect(config.keyed).to.be.false;
 
@@ -442,6 +443,7 @@ describe('Table', function () {
 
     // then
     expect(field).to.exist;
+    expect(field.label).to.eql('Table');
 
     // but when
     const customField = config.create({

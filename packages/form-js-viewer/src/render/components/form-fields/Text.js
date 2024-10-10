@@ -60,7 +60,7 @@ export function Text(props) {
 Text.config = {
   type,
   keyed: false,
-  label: 'Text view',
+  name: 'Text view',
   group: 'presentation',
   create: (options = {}) => ({
     text: '# Text',

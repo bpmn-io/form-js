@@ -769,7 +769,7 @@ describe('Number', function () {
     // assume
     const { config } = Numberfield;
     expect(config.type).to.eql('number');
-    expect(config.label).to.eql('Number');
+    expect(config.name).to.eql('Number');
     expect(config.group).to.eql('basic-input');
     expect(config.keyed).to.be.true;
 
@@ -777,7 +777,9 @@ describe('Number', function () {
     const field = config.create();
 
     // then
-    expect(field).to.eql({});
+    expect(field).to.eql({
+      label: 'Number',
+    });
 
     // but when
     const customField = config.create({
