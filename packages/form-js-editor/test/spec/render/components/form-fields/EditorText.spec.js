@@ -105,7 +105,7 @@ describe('Text', function () {
     // assume
     const { config } = EditorText;
     expect(config.type).to.eql('text');
-    expect(config.label).to.eql('Text view');
+    expect(config.name).to.eql('Text view');
     expect(config.group).to.eql('presentation');
     expect(config.keyed).to.be.false;
 
