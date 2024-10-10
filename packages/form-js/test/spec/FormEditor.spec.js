@@ -94,6 +94,7 @@ describe('editor exports', function () {
         components: [
           {
             id: 'number',
+            label: '',
             type: 'number',
             key: 'number',
           },
