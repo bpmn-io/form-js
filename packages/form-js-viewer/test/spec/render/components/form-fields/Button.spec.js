@@ -106,7 +106,7 @@ describe('Button', function () {
     // assume
     const { config } = Button;
     expect(config.type).to.eql('button');
-    expect(config.label).to.eql('Button');
+    expect(config.name).to.eql('Button');
     expect(config.group).to.eql('action');
     expect(config.keyed).to.be.false;
 
@@ -115,6 +115,7 @@ describe('Button', function () {
 
     // then
     expect(field).to.eql({
+      label: 'Button',
       action: 'submit',
     });
 

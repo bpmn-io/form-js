@@ -55,9 +55,12 @@ export function Select(props) {
 Select.config = {
   type,
   keyed: true,
-  label: 'Select',
+  name: 'Select',
   group: 'selection',
   emptyValue: null,
   sanitizeValue: sanitizeSingleSelectValue,
-  create: createEmptyOptions,
+  create: (options = {}) => ({
+    label: 'Select',
+    ...createEmptyOptions(options),
+  }),
 };

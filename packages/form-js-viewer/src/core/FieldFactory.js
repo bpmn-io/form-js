@@ -13,7 +13,7 @@ export class FieldFactory {
     this._formFields = formFields;
   }
 
-  create(attrs, applyDefaults = true) {
+  create(attrs, isNewField = true) {
     const { id, type, key, path, _parent } = attrs;
 
     const fieldDefinition = this._formFields.get(type);
@@ -60,14 +60,13 @@ export class FieldFactory {
       throw new Error(`binding path '${[...parentPath, ...path.split('.')].join('.')}' is already claimed`);
     }
 
-    // currently using a hard coded solution while we evaluate refactoring
-    // cf. https://github.com/bpmn-io/form-js/issues/1291
-    const shouldApplyLabel = applyDefaults && !(config.type === 'datetime') && config.label;
-
-    const field = config.create({
-      ...(shouldApplyLabel ? { label: config.label } : {}),
-      ...attrs,
-    });
+    const field = config.create(
+      {
+        ...(config.label ? { label: config.label } : {}),
+        ...attrs,
+      },
+      isNewField,
+    );
 
     this._ensureId(field);
 

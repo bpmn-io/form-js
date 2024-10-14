@@ -31,9 +31,10 @@ DynamicList.config = {
   type: 'dynamiclist',
   pathed: true,
   repeatable: true,
-  label: 'Dynamic list',
+  name: 'Dynamic list',
   group: 'container',
   create: (options = {}) => ({
+    label: 'Dynamic list',
     components: [],
     showOutline: true,
     isRepeating: true,

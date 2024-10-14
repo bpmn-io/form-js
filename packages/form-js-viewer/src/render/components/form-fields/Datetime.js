@@ -210,14 +210,17 @@ export function Datetime(props) {
 Datetime.config = {
   type,
   keyed: true,
-  label: 'Date time',
+  name: 'Date time',
   group: 'basic-input',
   emptyValue: null,
   sanitizeValue: sanitizeDateTimePickerValue,
-  create: (options = {}) => {
+  create: (options = {}, isNewField) => {
     const defaults = {};
     set(defaults, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
-    set(defaults, DATE_LABEL_PATH, 'Date');
+
+    if (isNewField) {
+      set(defaults, DATE_LABEL_PATH, 'Date');
+    }
 
     return { ...defaults, ...options };
   },

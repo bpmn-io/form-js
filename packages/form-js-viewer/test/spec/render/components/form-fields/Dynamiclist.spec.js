@@ -234,11 +234,13 @@ describe('Dynamic List', () => {
 
     // then
     expect(config.type).to.eql('dynamiclist');
+    expect(config.name).to.eql('Dynamic list');
     expect(config.repeatable).to.be.true;
     expect(config.pathed).to.be.true;
 
     const field = config.create();
     expect(field).to.eql({
+      label: 'Dynamic list',
       components: [],
       showOutline: true,
       isRepeating: true,

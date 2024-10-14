@@ -13,7 +13,7 @@ describe('core/FieldFactory', function () {
       testCreate({
         type: 'button',
         label: 'Button',
-        defaults: {
+        expected: {
           action: 'submit',
         },
       }),
@@ -34,7 +34,7 @@ describe('core/FieldFactory', function () {
         type: 'checklist',
         label: 'Checkbox group',
         keyed: true,
-        defaults: {
+        expected: {
           values: [
             {
               label: 'Value',
@@ -50,7 +50,7 @@ describe('core/FieldFactory', function () {
       testCreate({
         type: 'default',
         keyed: false,
-        defaults: {
+        expected: {
           components: [],
         },
       }),
@@ -71,7 +71,7 @@ describe('core/FieldFactory', function () {
         type: 'radio',
         label: 'Radio group',
         keyed: true,
-        defaults: {
+        expected: {
           values: [
             {
               label: 'Value',
@@ -88,7 +88,7 @@ describe('core/FieldFactory', function () {
         type: 'select',
         label: 'Select',
         keyed: true,
-        defaults: {
+        expected: {
           values: [
             {
               label: 'Value',
@@ -105,7 +105,7 @@ describe('core/FieldFactory', function () {
         type: 'taglist',
         label: 'Tag list',
         keyed: true,
-        defaults: {
+        expected: {
           values: [
             {
               label: 'Value',
@@ -118,14 +118,17 @@ describe('core/FieldFactory', function () {
 
     it(
       'Date time',
-      testCreate({
-        type: 'datetime',
-        keyed: true,
-        defaults: {
-          subtype: 'date',
-          dateLabel: 'Date',
+      testCreate(
+        {
+          type: 'datetime',
+          keyed: true,
+          expected: {
+            subtype: 'date',
+            dateLabel: 'Date',
+          },
         },
-      }),
+        true,
+      ),
     );
 
     it(
@@ -141,19 +144,24 @@ describe('core/FieldFactory', function () {
       'Image view',
       testCreate({
         type: 'image',
-        label: 'Image view',
       }),
     );
   });
 
-  describe('#create (no defaults)', function () {
+  describe('#create (from import)', function () {
     it(
-      'Button',
+      'Datetime',
       testCreate(
         {
-          type: 'button',
-          defaults: {
-            action: 'submit',
+          type: 'datetime',
+          keyed: true,
+          initial: {
+            subtype: 'time',
+            timeLabel: 'Time',
+          },
+          expected: {
+            subtype: 'time',
+            timeLabel: 'Time',
           },
         },
         false,
@@ -302,12 +310,12 @@ describe('core/FieldFactory', function () {
 
 // helpers //////////////
 
-function testCreate(options, applyDefaults = true) {
-  const { type, label, keyed = false, defaults = {} } = options;
+function testCreate(options, isNewField = true) {
+  const { type, label, keyed = false, initial = {}, expected = {} } = options;
 
   return inject(function (fieldFactory) {
     // when
-    const field = fieldFactory.create({ type }, applyDefaults);
+    const field = fieldFactory.create({ type, ...initial }, isNewField);
 
     // then
     expect(field.id).to.exist;
@@ -326,6 +334,6 @@ function testCreate(options, applyDefaults = true) {
       expect(field.label).not.to.exist;
     }
 
-    expect(field).to.deep.contain(defaults);
+    expect(field).to.deep.contain(expected);
   });
 }

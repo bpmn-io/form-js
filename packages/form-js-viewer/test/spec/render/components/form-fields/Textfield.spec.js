@@ -349,7 +349,7 @@ describe('Textfield', function () {
     // assume
     const { config } = Textfield;
     expect(config.type).to.eql('textfield');
-    expect(config.label).to.eql('Text field');
+    expect(config.name).to.eql('Text field');
     expect(config.group).to.eql('basic-input');
     expect(config.keyed).to.be.true;
 
@@ -357,7 +357,9 @@ describe('Textfield', function () {
     const field = config.create();
 
     // then
-    expect(field).to.eql({});
+    expect(field).to.eql({
+      label: 'Text field',
+    });
 
     // but when
     const customField = config.create({
