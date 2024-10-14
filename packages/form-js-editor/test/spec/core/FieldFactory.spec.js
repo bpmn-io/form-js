@@ -310,12 +310,12 @@ describe('core/FieldFactory', function () {
 
 // helpers //////////////
 
-function testCreate(options, isNew = true) {
+function testCreate(options, isNewField = true) {
   const { type, label, keyed = false, initial = {}, expected = {} } = options;
 
   return inject(function (fieldFactory) {
     // when
-    const field = fieldFactory.create({ type, ...initial }, isNew);
+    const field = fieldFactory.create({ type, ...initial }, isNewField);
 
     // then
     expect(field.id).to.exist;

@@ -13,7 +13,7 @@ export class FieldFactory {
     this._formFields = formFields;
   }
 
-  create(attrs, isNew = true) {
+  create(attrs, isNewField = true) {
     const { id, type, key, path, _parent } = attrs;
 
     const fieldDefinition = this._formFields.get(type);
@@ -65,7 +65,7 @@ export class FieldFactory {
         ...(config.label ? { label: config.label } : {}),
         ...attrs,
       },
-      isNew,
+      isNewField,
     );
 
     this._ensureId(field);
