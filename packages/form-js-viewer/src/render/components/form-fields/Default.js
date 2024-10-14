@@ -19,4 +19,5 @@ Default.config = {
     components: [],
     ...options,
   }),
+  getSubheading: (field) => field.id,
 };
