@@ -1,4 +1,3 @@
-import { textToLabel } from './Util';
 import { iconsByType } from '../../render/components/icons';
 import { getPaletteIcon } from '../palette/components/Palette';
 
@@ -8,19 +7,8 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
   return {
     getElementLabel: (field) => {
       const { type } = field;
-      if (type === 'datetime') {
-        return field.dateLabel || field.timeLabel;
-      }
-      if (type === 'text') {
-        return textToLabel(field.text);
-      }
-      if (type === 'image') {
-        return field.alt;
-      }
-      if (type === 'default') {
-        return field.id;
-      }
-      return field.label;
+      const fieldDefinition = formFields.get(type).config;
+      return fieldDefinition.getSubheading ? fieldDefinition.getSubheading(field) : field.label;
     },
 
     getElementIcon: (field) => {

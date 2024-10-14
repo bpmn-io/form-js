@@ -50,4 +50,5 @@ Image.config = {
   name: 'Image view',
   group: 'presentation',
   create: (options = {}) => options,
+  getSubheading: (field) => field.alt,
 };

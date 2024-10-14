@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'preact/hooks';
 import { useDangerousHTMLWrapper, useService, useTemplateEvaluation } from '../../hooks';
 import { sanitizeHTML } from '../Sanitizer';
 
-import { formFieldClasses } from '../Util';
+import { formFieldClasses, textToLabel } from '../Util';
 
 const type = 'text';
 
@@ -66,4 +66,7 @@ Text.config = {
     text: '# Text',
     ...options,
   }),
+  getSubheading: (field) => {
+    textToLabel(field.text);
+  },
 };

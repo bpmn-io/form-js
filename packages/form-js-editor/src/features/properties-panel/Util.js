@@ -43,21 +43,6 @@ export function stopPropagation(listener) {
   };
 }
 
-export function textToLabel(text) {
-  if (typeof text != 'string') return null;
-
-  for (const line of text.split('\n')) {
-    const displayLine = line.trim();
-
-    // we use the first non-whitespace line in the text as label
-    if (displayLine !== '') {
-      return displayLine;
-    }
-  }
-
-  return null;
-}
-
 /**
  * @param {string} path
  */

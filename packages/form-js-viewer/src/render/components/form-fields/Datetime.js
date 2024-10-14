@@ -224,4 +224,7 @@ Datetime.config = {
 
     return { ...defaults, ...options };
   },
+  getSubheading: (field) => {
+    return field.dateLabel || field.timeLabel;
+  },
 };
