@@ -214,11 +214,11 @@ Datetime.config = {
   group: 'basic-input',
   emptyValue: null,
   sanitizeValue: sanitizeDateTimePickerValue,
-  create: (options = {}, isNew) => {
+  create: (options = {}, isNewField) => {
     const defaults = {};
     set(defaults, DATETIME_SUBTYPE_PATH, DATETIME_SUBTYPES.DATE);
 
-    if (isNew) {
+    if (isNewField) {
       set(defaults, DATE_LABEL_PATH, 'Date');
     }
 
