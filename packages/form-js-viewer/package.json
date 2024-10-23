@@ -57,7 +57,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
     "marked": "^14.1.2",
-    "min-dash": "^4.2.1",
+    "min-dash": "^4.2.2",
     "preact": "^10.5.14"
   },
   "sideEffects": [
