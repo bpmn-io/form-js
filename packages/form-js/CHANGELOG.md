@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.11.0
+
+- `FEAT`: implement `filepicker` component ([#1264](https://github.com/bpmn-io/form-js/pull/1264))
+- `FIX`: align drag preview/sticker properly ([#1267](https://github.com/bpmn-io/form-js/pull/1267))
+- `DEPS`: update preact to 10.15.1 in lockfile ([#1283](https://github.com/bpmn-io/form-js/pull/1283))
+- `FIX`: set radio name to properly imply tabindexes in firefox ([#1288](https://github.com/bpmn-io/form-js/pull/1288))
+- `FIX`: adjust the am/pm time placeholder to `hh:mm --` ([#1289](https://github.com/bpmn-io/form-js/pull/1289))
+- `FIX`: do not create a simple label in datetime components ([#1292](https://github.com/bpmn-io/form-js/pull/1292))
+- `FEAT`: parameterized the properties panel subheading getter logic ([#1303](https://github.com/bpmn-io/form-js/pull/1303))
+
 ## 1.10.1
 
 - `FIX`: serialize object table cells using the JSON serializer ([#1139](https://github.com/bpmn-io/form-js/issues/1139))
