@@ -106,7 +106,7 @@ export function FormField(props) {
   useEffect(() => {
     const hasInitialValue = initialValue && !isEqual(initialValue, []);
 
-    if (initialValidationTrigger && hasInitialValue) {
+    if (initialValidationTrigger && hasInitialValue && fieldInstance) {
       setInitialValidationTrigger(false);
       viewerCommands.updateFieldInstanceValidation(fieldInstance, initialValue);
     }
