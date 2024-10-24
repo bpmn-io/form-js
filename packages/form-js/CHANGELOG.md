@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.11.1
+
+- `FIX`: fix `filepicker` component merge error ([#1309](https://github.com/bpmn-io/form-js/pull/1309))
+
 ## 1.11.0
 
 - `FEAT`: implement `filepicker` component ([#1264](https://github.com/bpmn-io/form-js/pull/1264))
