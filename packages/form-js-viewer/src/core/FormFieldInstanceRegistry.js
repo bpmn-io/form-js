@@ -27,11 +27,11 @@ export class FormFieldInstanceRegistry {
 
       this._eventBus.fire('formFieldInstance.removed', { instanceId });
     } else if (isInstanceExpected && doesInstanceExist) {
-      const wasInstanceChaged = Object.keys(restInfo).some((key) => {
+      const wasInstanceChanged = Object.keys(restInfo).some((key) => {
         return this._formFieldInstances[instanceId][key] !== restInfo[key];
       });
 
-      if (wasInstanceChaged) {
+      if (wasInstanceChanged) {
         this._formFieldInstances[instanceId] = {
           instanceId,
           ...restInfo,
