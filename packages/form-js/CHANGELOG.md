@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.11.2
+
+- `FIX`: make `getSchemaVariables` include `filepicker` property variables ([739343c](https://github.com/bpmn-io/form-js/commit/739343c6602806600aaca67656b323f93b033c05))
+
 ## 1.11.1
 
 - `FIX`: fix `filepicker` component merge error ([#1309](https://github.com/bpmn-io/form-js/pull/1309))
