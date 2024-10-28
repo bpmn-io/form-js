@@ -19,6 +19,7 @@ import shipsExampleSchema from '../ships-example.json';
 import iframesSchema from '../iframes.json';
 import htmlSchema from '../html.json';
 import expressionFieldSchema from '../expressionField.json';
+import filepickerSchema from '../filepicker.json';
 
 describe('util/getSchemaVariables', () => {
   it('should include form field keys', () => {
@@ -210,5 +211,21 @@ describe('util/getSchemaVariables', () => {
     const variables = getSchemaVariables(expressionFieldSchema);
 
     expect(variables).to.include.members(['exp_expression', 'data', 'selected', 'filter']);
+  });
+
+  it('should include variables in filepickers', () => {
+    const variables = getSchemaVariables(filepickerSchema);
+
+    expect(variables).to.eql([
+      'root_multiple',
+      'root_formats',
+      'group_multiple',
+      'group_formats',
+      'list_multiple',
+      'list_formats',
+      'root_filepicker',
+      'group_path',
+      'dynamiclist_path',
+    ]);
   });
 });

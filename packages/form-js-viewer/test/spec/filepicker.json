@@ -1,0 +1,52 @@
+{
+  "components": [
+    {
+      "label": "Root filepicker",
+      "type": "filepicker",
+      "id": "Field_0ix8ssu",
+      "key": "root_filepicker",
+      "accept": "=root_formats",
+      "multiple": "=root_multiple"
+    },
+    {
+      "label": "",
+      "components": [
+        {
+          "label": "Group filepicker",
+          "type": "filepicker",
+          "id": "Field_1afqrsw",
+          "key": "group_filepicker",
+          "accept": "=group_formats",
+          "multiple": "=group_multiple"
+        }
+      ],
+      "showOutline": true,
+      "type": "group",
+      "id": "Field_1r2phwv",
+      "path": "group_path"
+    },
+    {
+      "label": "",
+      "components": [
+        {
+          "label": "List filepicker",
+          "type": "filepicker",
+          "id": "Field_0ngzqh9",
+          "key": "list_filepicker",
+          "accept": "=list_formats",
+          "multiple": "=list_multiple"
+        }
+      ],
+      "showOutline": true,
+      "isRepeating": true,
+      "allowAddRemove": true,
+      "defaultRepetitions": 1,
+      "type": "dynamiclist",
+      "id": "Field_1mfpipo",
+      "path": "dynamiclist_path"
+    }
+  ],
+  "type": "default",
+  "id": "filepicker_form",
+  "schemaVersion": 17
+}
