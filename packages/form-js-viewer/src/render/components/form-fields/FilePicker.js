@@ -36,7 +36,7 @@ export function FilePicker(props) {
   const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey = '' } = props;
   const { label, multiple = false, accept = '' } = field;
   /** @type {string} */
-  const evaluatedAccept = useSingleLineTemplateEvaluation(accept);
+  const evaluatedAccept = useSingleLineTemplateEvaluation(accept, { debug: true });
   const evaluatedMultiple = useBooleanExpressionEvaluation(multiple);
   const errorMessageId = `${domId}-error-message`;
   /** @type {File[]} */
