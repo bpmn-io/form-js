@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.11.3
+
+- `FIX`: prevent form editor from breaking on invalid expression on filepicker prop ([#1311](https://github.com/bpmn-io/form-js/pull/1311))
+
 ## 1.11.2
 
 - `FIX`: make `getSchemaVariables` include `filepicker` property variables ([739343c](https://github.com/bpmn-io/form-js/commit/739343c6602806600aaca67656b323f93b033c05))
