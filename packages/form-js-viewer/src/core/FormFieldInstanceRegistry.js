@@ -9,36 +9,50 @@ export class FormFieldInstanceRegistry {
     eventBus.on('form.clear', () => this.clear());
   }
 
-  add(instance) {
-    const { id, expressionContextInfo, valuePath, indexes } = instance;
+  syncInstance(instanceId, formFieldInfo) {
+    const { hidden, ...restInfo } = formFieldInfo;
 
-    const instanceId = [id, ...Object.values(indexes || {})].join('_');
+    const isInstanceExpected = !hidden;
+    const doesInstanceExist = this._formFieldInstances[instanceId];
 
-    if (this._formFieldInstances[instanceId]) {
-      throw new Error('this form field instance is already registered');
+    if (isInstanceExpected && !doesInstanceExist) {
+      this._formFieldInstances[instanceId] = {
+        instanceId,
+        ...restInfo,
+      };
+
+      this._eventBus.fire('formFieldInstance.added', { instanceId });
+    } else if (!isInstanceExpected && doesInstanceExist) {
+      delete this._formFieldInstances[instanceId];
+
+      this._eventBus.fire('formFieldInstance.removed', { instanceId });
+    } else if (isInstanceExpected && doesInstanceExist) {
+      const wasInstanceChanged = Object.keys(restInfo).some((key) => {
+        return this._formFieldInstances[instanceId][key] !== restInfo[key];
+      });
+
+      if (wasInstanceChanged) {
+        this._formFieldInstances[instanceId] = {
+          instanceId,
+          ...restInfo,
+        };
+
+        this._eventBus.fire('formFieldInstance.changed', { instanceId });
+      }
     }
-
-    this._formFieldInstances[instanceId] = {
-      id,
-      instanceId,
-      expressionContextInfo,
-      valuePath,
-      indexes,
-    };
-
-    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'added' });
 
     return instanceId;
   }
 
-  remove(instanceId) {
-    if (!this._formFieldInstances[instanceId]) {
-      return;
+  cleanupInstance(instanceId) {
+    if (this._formFieldInstances[instanceId]) {
+      delete this._formFieldInstances[instanceId];
+      this._eventBus.fire('formFieldInstance.removed', { instanceId });
     }
+  }
 
-    delete this._formFieldInstances[instanceId];
-
-    this._eventBus.fire('formFieldInstanceRegistry.changed', { instanceId, action: 'removed' });
+  get(instanceId) {
+    return this._formFieldInstances[instanceId];
   }
 
   getAll() {

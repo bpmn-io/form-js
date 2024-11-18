@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-editor",
-  "version": "1.10.1",
+  "version": "1.11.3",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -48,12 +48,12 @@
   },
   "dependencies": {
     "@bpmn-io/draggle": "^4.1.1",
-    "@bpmn-io/form-js-viewer": "^1.10.1",
+    "@bpmn-io/form-js-viewer": "^1.11.3",
     "@bpmn-io/properties-panel": "^3.24.1",
     "array-move": "^4.0.0",
     "big.js": "^6.2.2",
     "ids": "^1.0.5",
-    "min-dash": "^4.2.1",
+    "min-dash": "^4.2.2",
     "min-dom": "^4.1.0",
     "preact": "^10.5.14"
   },

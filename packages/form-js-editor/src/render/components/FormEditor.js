@@ -121,14 +121,23 @@ function Element(props) {
     }
   }, [selection, field]);
 
-  function onClick(event) {
-    event.stopPropagation();
+  const onClick = useCallback(
+    (event) => {
+      // TODO(nikku): refactor this to use proper DOM delegation
+      const fieldEl = event.target.closest('[data-id]');
 
-    selection.toggle(field);
+      if (!fieldEl) {
+        return;
+      }
 
-    // properly focus on field
-    ref.current.focus();
-  }
+      const id = fieldEl.dataset.id;
+
+      if (id === field.id) {
+        selection.toggle(field);
+      }
+    },
+    [field, selection],
+  );
 
   const isSelected = selection.isSelected(field);
 

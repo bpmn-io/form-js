@@ -15,11 +15,16 @@ import { useScrollIntoView } from '../../render/hooks';
 import classNames from 'classnames';
 
 export class RepeatRenderManager {
-  constructor(form, formFields, formFieldRegistry, pathRegistry) {
+  constructor(form, formFields, formFieldRegistry, pathRegistry, eventBus) {
     this._form = form;
+    /** @type {import('../../render/FormFields').FormFields} */
     this._formFields = formFields;
+    /** @type {import('../../core/FormFieldRegistry').FormFieldRegistry} */
     this._formFieldRegistry = formFieldRegistry;
+    /** @type {import('../../core/PathRegistry').PathRegistry} */
     this._pathRegistry = pathRegistry;
+    /** @type {import('../../core/EventBus').EventBus} */
+    this._eventBus = eventBus;
     this.Repeater = this.Repeater.bind(this);
     this.RepeatFooter = this.RepeatFooter.bind(this);
   }
@@ -58,12 +63,14 @@ export class RepeatRenderManager {
     const hasChildren = repeaterField.components && repeaterField.components.length > 0;
     const showRemove = repeaterField.allowAddRemove && hasChildren;
 
-    const displayValues = isCollapsed ? values.slice(0, nonCollapsedItems) : values;
-    const hiddenValues = isCollapsed ? values.slice(nonCollapsedItems) : [];
-
+    /**
+     * @param {number} index
+     */
     const onDeleteItem = (index) => {
       const updatedValues = values.slice();
-      updatedValues.splice(index, 1);
+      const removedItem = updatedValues.splice(index, 1)[0];
+
+      this._eventBus.fire('repeatRenderManager.remove', { dataPath, index, item: removedItem });
 
       props.onChange({
         field: repeaterField,
@@ -76,38 +83,24 @@ export class RepeatRenderManager {
 
     return (
       <>
-        {displayValues.map((itemValue, itemIndex) => (
-          <RepetitionScaffold
-            key={itemIndex}
-            itemIndex={itemIndex}
-            itemValue={itemValue}
-            parentExpressionContextInfo={parentExpressionContextInfo}
-            repeaterField={repeaterField}
-            RowsRenderer={RowsRenderer}
-            indexes={indexes}
-            onDeleteItem={onDeleteItem}
-            showRemove={showRemove}
-            {...restProps}
-          />
-        ))}
-        {hiddenValues.length > 0 ? (
-          <div className="fjs-repeat-row-collapsed">
-            {hiddenValues.map((itemValue, itemIndex) => (
-              <RepetitionScaffold
-                key={itemIndex}
-                itemIndex={itemIndex + nonCollapsedItems}
-                itemValue={itemValue}
-                parentExpressionContextInfo={parentExpressionContextInfo}
-                repeaterField={repeaterField}
-                RowsRenderer={RowsRenderer}
-                indexes={indexes}
-                onDeleteItem={onDeleteItem}
-                showRemove={showRemove}
-                {...restProps}
-              />
-            ))}
+        {values.map((itemValue, itemIndex) => (
+          <div
+            class={classNames({
+              'fjs-repeat-row-collapsed': isCollapsed ? itemIndex >= nonCollapsedItems : false,
+            })}>
+            <RepetitionScaffold
+              itemIndex={itemIndex}
+              itemValue={itemValue}
+              parentExpressionContextInfo={parentExpressionContextInfo}
+              repeaterField={repeaterField}
+              RowsRenderer={RowsRenderer}
+              indexes={indexes}
+              onDeleteItem={onDeleteItem}
+              showRemove={showRemove}
+              {...restProps}
+            />
           </div>
-        ) : null}
+        ))}
       </>
     );
   }
@@ -145,6 +138,8 @@ export class RepeatRenderManager {
       updatedValues.push(newItem);
 
       shouldScroll.current = true;
+
+      this._eventBus.fire('repeatRenderManager.add', { dataPath, index: updatedValues.length - 1, item: newItem });
 
       props.onChange({
         value: updatedValues,
@@ -186,7 +181,7 @@ export class RepeatRenderManager {
           <button type="button" class="fjs-repeat-render-collapse" onClick={toggle}>
             {isCollapsed ? (
               <>
-                <ExpandSvg /> {`Expand all (${values.length})`}
+                <ExpandSvg /> {`Expand all (${values.length - 1})`}
               </>
             ) : (
               <>
@@ -277,4 +272,4 @@ const RepetitionScaffold = (props) => {
   );
 };
 
-RepeatRenderManager.$inject = ['form', 'formFields', 'formFieldRegistry', 'pathRegistry'];
+RepeatRenderManager.$inject = ['form', 'formFields', 'formFieldRegistry', 'pathRegistry', 'eventBus'];

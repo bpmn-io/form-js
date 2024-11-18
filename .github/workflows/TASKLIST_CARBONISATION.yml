@@ -15,24 +15,24 @@ jobs:
       options: --user 1001:1000
     steps:
       - name: Checkout form-js
-        uses: actions/checkout@163217dfcd28294438ea1c1c149cfaf66eec283e
+        uses: actions/checkout@cbb722410c2e876e24abbe8de2cc27693e501dcb
         with:
           path: form-js
       - name: Checkout Tasklist
-        uses: actions/checkout@163217dfcd28294438ea1c1c149cfaf66eec283e
+        uses: actions/checkout@cbb722410c2e876e24abbe8de2cc27693e501dcb
         with:
           repository: camunda/zeebe
           token: ${{ secrets.ADD_TO_HTO_PROJECT_PAT }}
           path: zeebe
           ref: 'main'
       - name: Setup form-js cache
-        uses: actions/setup-node@abb238b1313d8ef4d3e3a96d204e08329cafbf85
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: ./form-js/package-lock.json
       - name: Setup Tasklist cache
-        uses: actions/setup-node@abb238b1313d8ef4d3e3a96d204e08329cafbf85
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
         with:
           node-version: '20'
           cache: 'yarn'

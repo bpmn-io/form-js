@@ -192,7 +192,13 @@ describe('Dynamic List', () => {
     };
 
     const onChangeSpy = sinon.spy();
-    const { container } = createDynamicList({ field, onChange: onChangeSpy });
+    const { container } = createDynamicList({
+      field,
+      onChange: onChangeSpy,
+      services: {
+        fileRegistry: getMockFileRegistry(),
+      },
+    });
     const removeButtons = container.querySelectorAll('.fjs-repeat-row-remove');
 
     // when
@@ -323,4 +329,11 @@ function createDynamicList({ services, ...restOptions } = {}) {
       container: options.container || container.querySelector('.fjs-form'),
     },
   );
+}
+
+function getMockFileRegistry() {
+  return {
+    getKeys: sinon.spy(() => []),
+    deleteFiles: sinon.spy(),
+  };
 }

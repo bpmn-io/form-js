@@ -52,9 +52,6 @@ describe('FormEditor', function () {
     await bootstrapFormEditor({
       container,
       schema,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     formEditor.on('changed', (event) => {
@@ -70,9 +67,6 @@ describe('FormEditor', function () {
     await bootstrapFormEditor({
       container,
       schema: schemaRows,
-      keyboard: {
-        bindTo: document,
-      },
       debugColumns: true,
     });
 
@@ -93,9 +87,6 @@ describe('FormEditor', function () {
     await bootstrapFormEditor({
       container,
       schema,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     // then
@@ -111,9 +102,6 @@ describe('FormEditor', function () {
     await bootstrapFormEditor({
       container,
       schema,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     // when
@@ -131,9 +119,6 @@ describe('FormEditor', function () {
       debounce: true,
       renderer: {
         compact: true,
-      },
-      keyboard: {
-        bindTo: document,
       },
     });
 
@@ -153,9 +138,6 @@ describe('FormEditor', function () {
         type: 'default',
       },
       debounce: true,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     // then
@@ -181,9 +163,6 @@ describe('FormEditor', function () {
         ],
       },
       debounce: true,
-      keyboard: {
-        bindTo: document,
-      },
     });
 
     // then
