@@ -6,6 +6,16 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.12.0
+
+- `DEPS`: Add implicit keyboard binding / migrate to diagram-js@15 ([#1269](https://github.com/bpmn-io/form-js/pull/1269))
+- `DEPS`: bump bpmn.io deps ([605a8fb](https://github.com/bpmn-io/form-js/commit/605a8fbb1d9b05fb1fd2c651b9ea2cc5383a5a98))
+- `DEPS`: bump carbon deps ([dff24f8](https://github.com/bpmn-io/form-js/commit/dff24f8a73e11d1e1018a8a94f0c370dc9203aef))
+- `DEPS`: bump build deps ([920e4a0](https://github.com/bpmn-io/form-js/commit/920e4a016b0c3d555daa2c9d32ed818eb03442e7))
+- `DEPS`: bump codemirror deps ([27e0f40](https://github.com/bpmn-io/form-js/commit/27e0f401858c70482e6b8963e8aab6ea04656b94))
+- `DEPS`: bump dompurify ([fd117ae](https://github.com/bpmn-io/form-js/commit/fd117aebe8fbca21111b39fc3d8f10b3e8084a08))
+- `DEPS`: bump marked ([8ef9453](https://github.com/bpmn-io/form-js/commit/8ef9453815c20d13ffc637609e1977dc3d81c279))
+
 ## 1.11.3
 
 - `FIX`: prevent form editor from breaking on invalid expression on filepicker prop ([#1311](https://github.com/bpmn-io/form-js/pull/1311))
