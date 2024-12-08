@@ -20,6 +20,7 @@ import { Textfield } from './form-fields/Textfield';
 import { Textarea } from './form-fields/Textarea';
 import { Table } from './form-fields/Table';
 import { FilePicker } from './form-fields/FilePicker';
+import { DocumentPreview } from './form-fields/DocumentPreview';
 
 import { Label } from './Label';
 import { Description } from './Description';
@@ -54,6 +55,7 @@ export {
   Textarea,
   Table,
   FilePicker,
+  DocumentPreview,
 };
 
 export const formFields = [
@@ -79,6 +81,7 @@ export const formFields = [
   Html,
   Spacer,
   Separator,
+  DocumentPreview,
 
   /* Containers */
   Group,

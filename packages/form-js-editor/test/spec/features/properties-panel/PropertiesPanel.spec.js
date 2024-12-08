@@ -3436,6 +3436,26 @@ describe('properties panel', function () {
         });
       });
     });
+
+    describe('documentPreview', function () {
+      it('entries', function () {
+        // given
+        const field = schema.components.find(({ id }) => id === 'myDocuments');
+
+        bootstrapPropertiesPanel({
+          container,
+          field,
+        });
+
+        // then
+        expectPanelStructure(container, {
+          General: ['Title', 'Documents metadata source', 'Document API endpoint key'],
+          Condition: [],
+          Appearance: ['Max height'],
+          'Custom properties': [],
+        });
+      });
+    });
   });
 
   describe('custom properties', function () {

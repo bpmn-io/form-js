@@ -37,7 +37,7 @@ export function LabelEntry(props) {
     },
   });
 
-  const isSimplyLabled = (field) => {
+  const isSimplyLabeled = (field) => {
     return [...INPUTS.filter((input) => input !== 'datetime'), ...LABELED_NON_INPUTS].includes(field.type);
   };
 
@@ -47,7 +47,7 @@ export function LabelEntry(props) {
     editField,
     field,
     isEdited: isFeelEntryEdited,
-    isDefaultVisible: isSimplyLabled,
+    isDefaultVisible: isSimplyLabeled,
   });
 
   return entries;

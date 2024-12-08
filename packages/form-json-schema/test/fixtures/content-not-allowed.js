@@ -12,14 +12,14 @@ export const form = {
 export const errors = [
   {
     instancePath: '/components/0/content',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/19/then/properties/content/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/20/then/properties/content/false schema',
     keyword: 'false schema',
     params: {},
     message: 'boolean schema is false',
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/19/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/20/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
     message: 'must match "then" schema',

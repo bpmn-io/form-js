@@ -23,6 +23,7 @@
     "table",
     "iframe",
     "expression",
-    "filepicker"
+    "filepicker",
+    "documentPreview"
   ]
 }
