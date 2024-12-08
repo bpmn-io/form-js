@@ -11,7 +11,7 @@ export const form = {
 export const errors = [
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/0/allOf/2/then/required',
+    schemaPath: '#/properties/components/items/allOf/0/allOf/3/then/required',
     keyword: 'required',
     params: {
       missingProperty: 'expression',
@@ -20,7 +20,7 @@ export const errors = [
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/0/allOf/2/then/required',
+    schemaPath: '#/properties/components/items/allOf/0/allOf/3/then/required',
     keyword: 'required',
     params: {
       missingProperty: 'computeOn',
@@ -34,6 +34,6 @@ export const errors = [
     params: {
       failingKeyword: 'then',
     },
-    schemaPath: '#/properties/components/items/allOf/0/allOf/2/if',
+    schemaPath: '#/properties/components/items/allOf/0/allOf/3/if',
   },
 ];

@@ -11,7 +11,12 @@
     },
     {
       "if": {
-        "$ref": "../field-types/presentation-components.json"
+        "properties": {
+          "type": {
+            "const": "table"
+          }
+        },
+        "required": ["type"]
       },
       "then": {
         "oneOf": [
@@ -22,6 +27,14 @@
             "required": ["dataSource", "columnsExpression"]
           }
         ]
+      }
+    },
+    {
+      "if": {
+        "$ref": "../field-types/presentation-components.json"
+      },
+      "then": {
+        "required": ["dataSource"]
       }
     },
     {

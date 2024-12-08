@@ -42,3 +42,7 @@ export { StaticColumnsSourceEntry } from './StaticColumnsSourceEntry';
 export { VersionTagEntry } from './VersionTagEntry';
 export { AcceptEntry } from './AcceptEntry';
 export { MultipleEntry } from './MultipleEntry';
+export { TitleEntry } from './TitleEntry';
+export { DocumentsDataSourceEntry } from './DocumentsDataSource';
+export { EndpointKeyEntry } from './EndpointKey';
+export { MaxHeightEntry } from './MaxHeightEntry';

@@ -20,6 +20,7 @@ import iframesSchema from '../iframes.json';
 import htmlSchema from '../html.json';
 import expressionFieldSchema from '../expressionField.json';
 import filepickerSchema from '../filepicker.json';
+import documentPreviewSchema from '../documentPreview.json';
 
 describe('util/getSchemaVariables', () => {
   it('should include form field keys', () => {
@@ -227,5 +228,11 @@ describe('util/getSchemaVariables', () => {
       'group_path',
       'dynamiclist_path',
     ]);
+  });
+
+  it('should include variables in document preview', () => {
+    const variables = getSchemaVariables(documentPreviewSchema);
+
+    expect(variables).to.eql(['my_documents', 'my_documents_endpoint', 'case_id']);
   });
 });
