@@ -342,21 +342,30 @@
     {
       "if": {
         "not": {
-          "$ref": "../field-types/presentation-components.json"
+          "properties": {
+            "type": {
+              "const": "table"
+            }
+          },
+          "required": ["type"]
         }
       },
       "then": {
         "properties": {
           "columns": false,
           "columnsExpression": false,
-          "rowCount": false,
-          "dataSource": false
+          "rowCount": false
         }
       }
     },
     {
       "if": {
-        "$ref": "../field-types/presentation-components.json"
+        "properties": {
+          "type": {
+            "const": "table"
+          }
+        },
+        "required": ["type"]
       },
       "then": {
         "oneOf": [
@@ -379,6 +388,18 @@
             "errorMessage": "Invalid combination of properties. 'columns' and 'columnsExpression' not should exist together."
           }
         ]
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "$ref": "../field-types/presentation-components.json"
+        }
+      },
+      "then": {
+        "properties": {
+          "dataSource": false
+        }
       }
     },
     {
@@ -428,6 +449,25 @@
       "then": {
         "properties": {
           "description": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "documentPreview"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "title": false,
+          "endpointKey": false,
+          "maxHeight": false
         }
       }
     }

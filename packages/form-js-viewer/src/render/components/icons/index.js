@@ -21,6 +21,7 @@ import ImageIcon from './Image.svg';
 import GroupIcon from './Group.svg';
 import TableIcon from './Table.svg';
 import FilePickerIcon from './FilePicker.svg';
+import DocumentPreviewIcon from './DocumentPreview.svg';
 
 export const iconsByType = (type) => {
   return {
@@ -46,6 +47,7 @@ export const iconsByType = (type) => {
     textarea: TextareaIcon,
     table: TableIcon,
     filepicker: FilePickerIcon,
+    documentPreview: DocumentPreviewIcon,
     default: FormIcon,
   }[type];
 };

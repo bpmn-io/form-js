@@ -4,22 +4,22 @@ export const form = {
     {
       type: 'textfield',
       key: 'textfield_g35o3e',
-      accept: '.png,.jpg',
+      endpointKey: '=myKey',
     },
   ],
 };
 
 export const errors = [
   {
-    instancePath: '/components/0/accept',
+    instancePath: '/components/0/endpointKey',
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath: '#/properties/components/items/allOf/1/allOf/21/then/properties/accept/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/23/then/properties/endpointKey/false schema',
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/21/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/23/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
     message: 'must match "then" schema',

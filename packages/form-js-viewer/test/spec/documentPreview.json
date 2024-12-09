@@ -1,0 +1,15 @@
+{
+  "components": [
+    {
+      "title": "Case {{case_id}} documents",
+      "type": "documentPreview",
+      "id": "Field_0wy8tws",
+      "dataSource": "=my_documents",
+      "endpointKey": "=my_documents_endpoint"
+    }
+  ],
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "type": "default",
+  "id": "Form_1bd2k8m",
+  "schemaVersion": 18
+}

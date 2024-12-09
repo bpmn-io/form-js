@@ -247,6 +247,14 @@
       "accept": ".jpg,.png"
     },
     {
+      "title": "My documents",
+      "type": "documentPreview",
+      "id": "myDocuments",
+      "dataSource": "=myDocuments",
+      "endpointKey": "=myDocumentsEndpointKey",
+      "maxHeight": 500
+    },
+    {
       "id": "Spacer_1",
       "type": "spacer",
       "height": 60

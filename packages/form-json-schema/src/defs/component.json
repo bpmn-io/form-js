@@ -251,7 +251,7 @@
     },
     "dataSource": {
       "$id": "#/component/dataSource",
-      "description": "Specifies the data source which will populate the table component.",
+      "description": "Specifies the data source which will populate the table or the document preview components.",
       "type": "string"
     },
     "security": {
@@ -272,6 +272,21 @@
       "$id": "#/component/multiple",
       "description": "Allow multiple files to be selected.",
       "type": ["boolean", "string"]
+    },
+    "title": {
+      "$id": "#/component/title",
+      "description": "The title displayed on top of the document preview component.",
+      "type": "string"
+    },
+    "maxHeight": {
+      "$id": "#/component/maxHeight",
+      "description": "The maximum height of a document item in the document preview component.",
+      "type": "number"
+    },
+    "endpointKey": {
+      "$id": "#/component/endpointKey",
+      "description": "The endpoint key used to fetch the document data.",
+      "type": "string"
     }
   },
   "required": ["type"]

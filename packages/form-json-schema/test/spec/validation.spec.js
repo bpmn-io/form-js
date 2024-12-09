@@ -180,6 +180,14 @@ describe('validation', function () {
     testForm('accept-not-allowed');
 
     testForm('multiple-not-allowed');
+
+    testForm('documentPreview');
+
+    testForm('title-not-allowed');
+
+    testForm('maxHeight-not-allowed');
+
+    testForm('endpointKey-not-allowed');
   });
 
   describe('rules - default', function () {

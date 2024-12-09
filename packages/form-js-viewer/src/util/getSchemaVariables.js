@@ -25,6 +25,8 @@ const EXPRESSION_PROPERTIES = [
   'expression',
   'multiple',
   'accept',
+  'endpointKey',
+  'title',
 ];
 
 const TEMPLATE_PROPERTIES = [
@@ -37,6 +39,7 @@ const TEMPLATE_PROPERTIES = [
   'text',
   'content',
   'url',
+  'title',
 ];
 
 /**
