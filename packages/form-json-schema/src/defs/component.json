@@ -273,11 +273,6 @@
       "description": "Allow multiple files to be selected.",
       "type": ["boolean", "string"]
     },
-    "title": {
-      "$id": "#/component/title",
-      "description": "The title displayed on top of the document preview component.",
-      "type": "string"
-    },
     "maxHeight": {
       "$id": "#/component/maxHeight",
       "description": "The maximum height of a document item in the document preview component.",

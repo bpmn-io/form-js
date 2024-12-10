@@ -59,7 +59,7 @@ export function isProhibitedPath(path) {
   return path.split('.').some((segment) => prohibitedSegments.includes(segment));
 }
 
-export const LABELED_NON_INPUTS = ['button', 'group', 'dynamiclist', 'iframe', 'table'];
+export const LABELED_NON_INPUTS = ['button', 'group', 'dynamiclist', 'iframe', 'table', 'documentPreview'];
 
 export const INPUTS = [
   'checkbox',

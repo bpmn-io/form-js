@@ -465,7 +465,6 @@
       },
       "then": {
         "properties": {
-          "title": false,
           "endpointKey": false,
           "maxHeight": false
         }

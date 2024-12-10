@@ -183,8 +183,6 @@ describe('validation', function () {
 
     testForm('documentPreview');
 
-    testForm('title-not-allowed');
-
     testForm('maxHeight-not-allowed');
 
     testForm('endpointKey-not-allowed');

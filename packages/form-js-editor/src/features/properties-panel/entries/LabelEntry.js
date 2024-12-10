@@ -156,6 +156,7 @@ function getLabelText(type) {
     case 'table':
       return 'Table label';
     case 'iframe':
+    case 'documentPreview':
       return 'Title';
     default:
       return 'Field label';
