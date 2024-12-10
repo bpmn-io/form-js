@@ -1,7 +1,7 @@
 {
   "components": [
     {
-      "title": "Case {{case_id}} documents",
+      "label": "Case {{case_id}} documents",
       "type": "documentPreview",
       "id": "Field_0wy8tws",
       "dataSource": "=my_documents",

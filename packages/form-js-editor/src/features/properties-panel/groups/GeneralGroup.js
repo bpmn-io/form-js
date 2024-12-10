@@ -26,7 +26,6 @@ import {
   VersionTagEntry,
   AcceptEntry,
   MultipleEntry,
-  TitleEntry,
   DocumentsDataSourceEntry,
   EndpointKeyEntry,
 } from '../entries';
@@ -36,7 +35,6 @@ export function GeneralGroup(field, editField, getService) {
     ...IdEntry({ field, editField }),
     ...VersionTagEntry({ field, editField }),
     ...LabelEntry({ field, editField }),
-    ...TitleEntry({ field, editField }),
     ...DescriptionEntry({ field, editField }),
     ...KeyEntry({ field, editField, getService }),
     ...PathEntry({ field, editField, getService }),
