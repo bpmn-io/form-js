@@ -42,8 +42,8 @@ function DocumentsDataSource(props) {
   {
     "documentId": "u123",
     "metadata": {
-      "filename": "Document.pdf",
-      "mimeType": "application/pdf"
+      "fileName": "Document.pdf",
+      "contentType": "application/pdf"
     }
   }
 ]`;

@@ -202,22 +202,22 @@ const initialData = {
     {
       documentId: 'document0',
       metadata: {
-        filename: 'My document.pdf',
-        mimeType: 'application/pdf',
+        fileName: 'My document.pdf',
+        contentType: 'application/pdf',
       },
     },
     {
       documentId: 'document1',
       metadata: {
-        filename: 'My document.png',
-        mimeType: 'image/png',
+        fileName: 'My document.png',
+        contentType: 'image/png',
       },
     },
     {
       documentId: 'document2',
       metadata: {
-        filename: 'My document.zip',
-        mimeType: 'application/zip',
+        fileName: 'My document.zip',
+        contentType: 'application/zip',
       },
     },
   ],
