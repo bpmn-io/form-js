@@ -9,6 +9,7 @@ import { domify, query as domQuery, queryAll as domQueryAll } from 'min-dom';
 import { Playground } from '../../src';
 
 import schema from './form.json';
+// import schema from './temp.json';
 import otherSchema from './other-form.json';
 import rowsSchema from './rows-form.json';
 import customSchema from './custom.json';
@@ -82,6 +83,30 @@ describe('playground', function () {
       tags: ['tag1', 'tag2', 'tag3'],
       conversation: '2010-06-06T12:00Z',
       language: 'english',
+      documents: [
+        {
+          documentId: 'document0',
+          metadata: {
+            filename: 'My document.pdf',
+            mimeType: 'application/pdf',
+          },
+        },
+        {
+          documentId: 'document1',
+          metadata: {
+            filename: 'My document.png',
+            mimeType: 'image/png',
+          },
+        },
+        {
+          documentId: 'document2',
+          metadata: {
+            filename: 'My document.zip',
+            mimeType: 'application/zip',
+          },
+        },
+      ],
+      defaultDocumentsEndpointKey: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/{documentId}',
     };
 
     // when

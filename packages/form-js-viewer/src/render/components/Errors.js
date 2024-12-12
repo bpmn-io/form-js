@@ -1,3 +1,11 @@
+/**
+ * @typedef Props
+ * @property {string} id
+ * @property {string[]} errors
+ *
+ * @param {Props} props
+ * @returns {import("preact").JSX.Element}
+ */
 export function Errors(props) {
   const { errors, id } = props;
 
