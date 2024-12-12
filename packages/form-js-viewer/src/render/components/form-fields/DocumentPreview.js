@@ -13,8 +13,8 @@ const type = 'documentPreview';
  * @typedef DocumentMetadata
  * @property {string} documentId
  * @property {Object} metadata
- * @property {string} metadata.mimeType
- * @property {string} metadata.filename
+ * @property {string} metadata.contentType
+ * @property {string} metadata.fileName
  *
  * @typedef Field
  * @property {string} id
@@ -133,8 +133,8 @@ function isValidDocument(document) {
     'documentId' in document &&
     'metadata' in document &&
     typeof document.metadata === 'object' &&
-    'mimeType' in document.metadata &&
-    'filename' in document.metadata
+    'contentType' in document.metadata &&
+    'fileName' in document.metadata
   );
 }
 
@@ -173,16 +173,16 @@ function DocumentRenderer(props) {
   const errorMessageId = `${domId}-error-message`;
   const errorMessage = 'Unable to download document';
 
-  if (metadata.mimeType.toLowerCase().startsWith('image/') && isInViewport) {
+  if (metadata.contentType.toLowerCase().startsWith('image/') && isInViewport) {
     return (
       <div
         class={singleDocumentContainerClassName}
         style={{ maxHeight }}
         aria-describedby={hasError ? errorMessageId : undefined}>
-        <img src={fullUrl} alt={metadata.filename} class={`fjs-${type}-image`} />
+        <img src={fullUrl} alt={metadata.fileName} class={`fjs-${type}-image`} />
         <DownloadButton
           endpoint={fullUrl}
-          filename={metadata.filename}
+          fileName={metadata.fileName}
           onDownloadError={() => {
             setHasError(true);
           }}
@@ -192,7 +192,7 @@ function DocumentRenderer(props) {
     );
   }
 
-  if (metadata.mimeType.toLowerCase() === 'application/pdf' && isInViewport) {
+  if (metadata.contentType.toLowerCase() === 'application/pdf' && isInViewport) {
     return (
       <div
         class={singleDocumentContainerClassName}
@@ -201,7 +201,7 @@ function DocumentRenderer(props) {
         <iframe src={fullUrl} class={`fjs-${type}-iframe`} />
         <DownloadButton
           endpoint={fullUrl}
-          filename={metadata.filename}
+          fileName={metadata.fileName}
           onDownloadError={() => {
             setHasError(true);
           }}
@@ -217,12 +217,12 @@ function DocumentRenderer(props) {
       ref={ref}
       aria-describedby={hasError ? errorMessageId : undefined}>
       <div>
-        <div class="fjs-document-preview-title">{metadata.filename}</div>
+        <div class="fjs-document-preview-title">{metadata.fileName}</div>
         {hasError ? <Errors id={errorMessageId} errors={[errorMessage]} /> : null}
       </div>
       <DownloadButton
-        endpoint={endpoint}
-        filename={metadata.filename}
+        endpoint={fullUrl}
+        fileName={metadata.fileName}
         onDownloadError={() => {
           setHasError(true);
         }}
@@ -234,13 +234,13 @@ function DocumentRenderer(props) {
 /**
  * @param {Object} props
  * @param {string} props.endpoint
- * @param {string} props.filename
+ * @param {string} props.fileName
  * @param {Function} props.onDownloadError
  *
  * @returns {import("preact").JSX.Element}
  */
 function DownloadButton(props) {
-  const { endpoint, filename, onDownloadError } = props;
+  const { endpoint, fileName, onDownloadError } = props;
 
   const handleDownload = async () => {
     try {
@@ -255,7 +255,7 @@ function DownloadButton(props) {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename;
+      link.download = fileName;
       link.click();
       window.URL.revokeObjectURL(url);
     } catch {
@@ -268,7 +268,7 @@ function DownloadButton(props) {
       type="button"
       onClick={handleDownload}
       class={classNames(`fjs-${type}-download-button`)}
-      aria-label={`Download ${filename}`}>
+      aria-label={`Download ${fileName}`}>
       <DownloadIcon />
     </button>
   );
