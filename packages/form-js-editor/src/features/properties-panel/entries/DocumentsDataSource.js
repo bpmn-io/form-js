@@ -64,7 +64,7 @@ function DocumentsDataSource(props) {
     element: field,
     getValue,
     id,
-    label: 'Documents metadata source',
+    label: 'Document reference',
     feel: 'required',
     singleLine: true,
     setValue,

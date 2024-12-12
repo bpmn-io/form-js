@@ -40,21 +40,17 @@ function EndpointKey(props) {
 
   const tooltip = (
     <div>
-      <p>A context key that will be evaluated to a string containing the API endpoint for downloading a document.</p>
+      <p>Enter a context key that generates a string with the API endpoint to download a document.</p>
       <p>
-        This string must contain <br />
-        the <code>{'{ documentId }'}</code> placeholder which will be replaced with the document ID from the documents
-        metadata.
+        The string must contain <code>{'{ documentId }'}</code>, which will be replaced with the document ID from the
+        document's reference.
       </p>
+      <p>If you're using the Camunda Tasklist, this variable is automatically added to the context for you.</p>
       <p>
-        If you're using the Camunda Tasklist UI this variable will be automatically injected in the context for you.
-      </p>
-      <p>
-        Find more details in the{' '}
+        For more details, see the{' '}
         <a href="https://docs.camunda.io" rel="noopener noreferrer" target="_blank">
           Camunda documentation
         </a>
-        .
       </p>
     </div>
   );

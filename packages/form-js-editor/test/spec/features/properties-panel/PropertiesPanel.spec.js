@@ -3449,7 +3449,7 @@ describe('properties panel', function () {
 
         // then
         expectPanelStructure(container, {
-          General: ['Title', 'Documents metadata source'],
+          General: ['Title', 'Document reference'],
           'Download settings': ['Document URL'],
           Condition: [],
           Appearance: ['Max height of preview container'],
