@@ -198,14 +198,7 @@ function DocumentRenderer(props) {
         class={singleDocumentContainerClassName}
         style={{ maxHeight }}
         aria-describedby={hasError ? errorMessageId : undefined}>
-        <iframe src={fullUrl} class={`fjs-${type}-iframe`} />
-        <DownloadButton
-          endpoint={fullUrl}
-          fileName={metadata.fileName}
-          onDownloadError={() => {
-            setHasError(true);
-          }}
-        />
+        <embed src={fullUrl} type="application/pdf" class={`fjs-${type}-pdf-viewer`} />
         {hasError ? <Errors id={errorMessageId} errors={[errorMessage]} /> : null}
       </div>
     );

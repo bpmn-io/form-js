@@ -1197,10 +1197,9 @@
   z-index: 1;
 }
 
-.fjs-container .fjs-documentPreview-iframe {
+.fjs-container .fjs-documentPreview-pdf-viewer {
   all: unset;
   width: 100%;
-  overflow: auto;
   min-height: 400px;
 }
 
