@@ -42,8 +42,8 @@ function DocumentsDataSource(props) {
   {
     "documentId": "u123",
     "metadata": {
-      "filename": "Document.pdf",
-      "mimeType": "application/pdf"
+      "fileName": "Document.pdf",
+      "contentType": "application/pdf"
     }
   }
 ]`;
@@ -70,5 +70,18 @@ function DocumentsDataSource(props) {
     setValue,
     variables,
     tooltip,
+    validate,
   });
 }
+
+// helpers //////////
+
+/**
+ * @param {string|undefined} value
+ * @returns {string|null}
+ */
+const validate = (value) => {
+  if (typeof value !== 'string' || value.length === 0) {
+    return 'The document data source is required.';
+  }
+};

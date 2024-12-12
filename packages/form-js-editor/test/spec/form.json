@@ -247,7 +247,7 @@
       "accept": ".jpg,.png"
     },
     {
-      "title": "My documents",
+      "label": "My documents",
       "type": "documentPreview",
       "id": "myDocuments",
       "dataSource": "=myDocuments",

@@ -3449,9 +3449,10 @@ describe('properties panel', function () {
 
         // then
         expectPanelStructure(container, {
-          General: ['Title', 'Documents metadata source', 'Document API endpoint key'],
+          General: ['Title', 'Documents metadata source'],
+          'Download settings': ['Document URL'],
           Condition: [],
-          Appearance: ['Max height'],
+          Appearance: ['Max height of preview container'],
           'Custom properties': [],
         });
       });

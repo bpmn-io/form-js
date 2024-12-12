@@ -38,12 +38,13 @@ function MaxHeight(props) {
 
   return NumberFieldEntry({
     debounce,
-    label: 'Max height',
+    label: 'Max height of preview container',
     element: field,
     id,
     getValue,
     setValue,
     validate,
+    description,
   });
 }
 
@@ -70,3 +71,5 @@ const validate = (value) => {
     return 'Should be greater than zero.';
   }
 };
+
+const description = <>Documents with height that exceeds the defined value will be vertically scrollable</>;

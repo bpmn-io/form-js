@@ -260,6 +260,12 @@
       "type": "image"
     },
     {
+      "label": "Document preview",
+      "type": "documentPreview",
+      "dataSource": "=documents",
+      "id": "Field_1w82te0"
+    },
+    {
       "label": "Submit",
       "type": "button"
     },
