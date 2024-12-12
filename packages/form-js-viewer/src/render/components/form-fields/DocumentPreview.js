@@ -13,7 +13,7 @@ const type = 'documentPreview';
  * @typedef DocumentMetadata
  * @property {string} documentId
  * @property {Object} metadata
- * @property {string} metadata.contentType
+ * @property {string|undefined} [metadata.contentType]
  * @property {string} metadata.fileName
  *
  * @typedef Field
@@ -133,7 +133,6 @@ function isValidDocument(document) {
     'documentId' in document &&
     'metadata' in document &&
     typeof document.metadata === 'object' &&
-    'contentType' in document.metadata &&
     'fileName' in document.metadata
   );
 }
@@ -172,8 +171,9 @@ function DocumentRenderer(props) {
   const singleDocumentContainerClassName = `fjs-${type}-single-document-container`;
   const errorMessageId = `${domId}-error-message`;
   const errorMessage = 'Unable to download document';
+  const isContentTypePresent = typeof metadata.contentType === 'string';
 
-  if (metadata.contentType.toLowerCase().startsWith('image/') && isInViewport) {
+  if (isContentTypePresent && metadata.contentType.toLowerCase().startsWith('image/') && isInViewport) {
     return (
       <div
         class={singleDocumentContainerClassName}
@@ -192,7 +192,7 @@ function DocumentRenderer(props) {
     );
   }
 
-  if (metadata.contentType.toLowerCase() === 'application/pdf' && isInViewport) {
+  if (isContentTypePresent && metadata.contentType.toLowerCase() === 'application/pdf' && isInViewport) {
     return (
       <div
         class={singleDocumentContainerClassName}
