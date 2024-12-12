@@ -27,7 +27,6 @@ import {
   AcceptEntry,
   MultipleEntry,
   DocumentsDataSourceEntry,
-  EndpointKeyEntry,
 } from '../entries';
 
 export function GeneralGroup(field, editField, getService) {
@@ -60,7 +59,6 @@ export function GeneralGroup(field, editField, getService) {
     ...PaginationEntry({ field, editField }),
     ...RowCountEntry({ field, editField }),
     ...DocumentsDataSourceEntry({ field, editField }),
-    ...EndpointKeyEntry({ field, editField }),
   ];
 
   if (entries.length === 0) {
