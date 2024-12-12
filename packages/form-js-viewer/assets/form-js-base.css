@@ -1215,6 +1215,14 @@
   border: 1px solid var(--color-borders-documentPreview);
   background: var(--color-layer);
   padding: 0;
+
+  svg {
+    color: var(--color-text);
+  }
+
+  svg:focus {
+    outline: none;
+  }
 }
 
 .fjs-container .fjs-documentPreview-non-preview-item {

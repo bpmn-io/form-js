@@ -1395,3 +1395,24 @@
     }
   }
 }
+
+// Document preview ////////////
+
+.fjs-container .fjs-form-field-documentPreview {
+  .fjs-documentPreview-single-document-container {
+    border-radius: 0;
+  }
+
+  .fjs-documentPreview-download-button {
+    border-radius: 0;
+    background-color: var(--cds-background);
+    border-color: var(--cds-button-tertiary);
+    color: var(--cds-button-tertiary);
+    cursor: pointer;
+
+    &:focus {
+      outline: 2px solid var(--cds-focus);
+      outline-offset: -2px;
+    }
+  }
+}
