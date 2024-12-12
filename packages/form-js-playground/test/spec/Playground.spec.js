@@ -9,7 +9,6 @@ import { domify, query as domQuery, queryAll as domQueryAll } from 'min-dom';
 import { Playground } from '../../src';
 
 import schema from './form.json';
-// import schema from './temp.json';
 import otherSchema from './other-form.json';
 import rowsSchema from './rows-form.json';
 import customSchema from './custom.json';
