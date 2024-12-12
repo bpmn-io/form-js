@@ -64,16 +64,27 @@ function EndpointKey(props) {
     element: field,
     getValue,
     id,
-    label: 'Document API endpoint key',
+    label: 'Document URL',
     feel: 'required',
     singleLine: true,
     setValue,
     variables,
     description,
     tooltip,
+    validate,
   });
 }
 
 // helpers //////////
 
-const description = <>An API endpoint for downloading a document</>;
+/**
+ * @param {string|undefined} value
+ * @returns {string|null}
+ */
+const validate = (value) => {
+  if (typeof value !== 'string' || value.length === 0) {
+    return 'The document reference is required.';
+  }
+};
+
+const description = <>Define an API URL for downloading a document</>;

@@ -10,6 +10,7 @@ import {
   TableHeaderGroups,
   LayoutGroup,
   SecurityAttributesGroup,
+  DownloadSettings,
 } from './groups';
 
 import { hasEntryConfigured } from './Util';
@@ -57,6 +58,7 @@ export class PropertiesProvider {
       groups = [
         ...groups,
         GeneralGroup(field, editField, getService),
+        DownloadSettings(field, editField),
         ...OptionsGroups(field, editField, getService),
         ...TableHeaderGroups(field, editField),
         SecurityAttributesGroup(field, editField),

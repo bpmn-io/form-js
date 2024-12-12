@@ -70,5 +70,18 @@ function DocumentsDataSource(props) {
     setValue,
     variables,
     tooltip,
+    validate,
   });
 }
+
+// helpers //////////
+
+/**
+ * @param {string|undefined} value
+ * @returns {string|null}
+ */
+const validate = (value) => {
+  if (typeof value !== 'string' || value.length === 0) {
+    return 'The document data source is required.';
+  }
+};
