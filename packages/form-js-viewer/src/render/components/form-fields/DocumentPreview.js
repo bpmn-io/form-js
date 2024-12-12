@@ -75,7 +75,7 @@ DocumentPreview.config = {
   name: 'Document preview',
   create: (options = {}) => ({
     label: 'Document preview',
-    endpointKey: '=defaultDocumentsEndpointKey',
+    endpointKey: DEFAULT_ENDPOINT_KEY,
     ...options,
   }),
 };
@@ -83,6 +83,7 @@ DocumentPreview.config = {
 // helpers /////////////////////////////
 
 const DOCUMENT_ID_PLACEHOLDER = '{documentId}';
+const DEFAULT_ENDPOINT_KEY = '=defaultDocumentsEndpointKey';
 
 /**
  * @typedef GetErrorOptions
@@ -98,16 +99,18 @@ function getErrors(options) {
   let errors = [];
 
   if (!isString(dataSource) || dataSource.length < 1) {
-    errors.push('Data source is not defined.');
+    errors.push('Document reference is not defined.');
   }
 
   if (!isString(endpointKey) || endpointKey.length < 1) {
     errors.push('Endpoint key is not defined.');
   }
 
-  if (!URL.canParse(endpoint)) {
-    errors.push('Endpoint is not valid.');
-  } else if (!isValidDocumentEndpoint(endpoint)) {
+  if (endpointKey !== DEFAULT_ENDPOINT_KEY && !URL.canParse(endpoint)) {
+    errors.push(
+      `If you change the endpoint key from "${DEFAULT_ENDPOINT_KEY}", the document preview won't work with Camunda Tasklist and you must provide a valid URL.`,
+    );
+  } else if (endpointKey !== DEFAULT_ENDPOINT_KEY && !isValidDocumentEndpoint(endpoint)) {
     errors.push('Endpoint must contain "{documentId}".');
   }
 

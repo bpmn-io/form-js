@@ -42,7 +42,11 @@ describe('DocumentPreview', function () {
     // when
     const { container } = createDocumentPreview({
       initialData: {
-        defaultDocumentsEndpointKey: false,
+        foobar: false,
+      },
+      field: {
+        ...defaultField,
+        endpointKey: '=foobar',
       },
       services: {
         expressionLanguage: mockExpressionLanguageService,
@@ -55,7 +59,11 @@ describe('DocumentPreview', function () {
     expect(formField).to.exist;
     expect(formField.classList.contains('fjs-form-field-documentPreview')).to.be.true;
 
-    expect(screen.queryByText('Endpoint is not valid.')).to.exist;
+    expect(
+      screen.queryByText(
+        'If you change the endpoint key from "=defaultDocumentsEndpointKey", the document preview won\'t work with Camunda Tasklist and you must provide a valid URL.',
+      ),
+    ).to.exist;
   });
 
   it('should handle bad endpoint format', function () {
@@ -77,30 +85,7 @@ describe('DocumentPreview', function () {
     expect(formField).to.exist;
     expect(formField.classList.contains('fjs-form-field-documentPreview')).to.be.true;
 
-    expect(screen.queryByText('Data source is not defined.')).to.exist;
-  });
-
-  it('should handle missing endpoint', function () {
-    // when
-    const { container } = createDocumentPreview({
-      initialData,
-      field: {
-        ...defaultField,
-        endpointKey: undefined,
-      },
-      services: {
-        expressionLanguage: mockExpressionLanguageService,
-      },
-    });
-
-    // then
-    const formField = container.querySelector('.fjs-form-field');
-
-    expect(formField).to.exist;
-    expect(formField.classList.contains('fjs-form-field-documentPreview')).to.be.true;
-
-    expect(screen.queryByText('Endpoint key is not defined.')).to.exist;
-    expect(screen.queryByText('Endpoint is not valid.')).to.exist;
+    expect(screen.queryByText('Document reference is not defined.')).to.exist;
   });
 
   it('should handle missing data source', function () {
