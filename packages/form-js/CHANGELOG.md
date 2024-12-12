@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.13.0
+
+- `FEAT`: implement `documentPreview` component ([#1329](https://github.com/bpmn-io/form-js/pull/1329), [#1332](https://github.com/bpmn-io/form-js/pull/1332))
+
 ## 1.12.0
 
 - `DEPS`: Add implicit keyboard binding / migrate to diagram-js@15 ([#1269](https://github.com/bpmn-io/form-js/pull/1269))
