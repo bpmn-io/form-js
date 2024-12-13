@@ -48,7 +48,10 @@ function EndpointKey(props) {
       <p>If you're using the Camunda Tasklist, this variable is automatically added to the context for you.</p>
       <p>
         For more details, see the{' '}
-        <a href="https://docs.camunda.io" rel="noopener noreferrer" target="_blank">
+        <a
+          href="https://docs.camunda.io/docs/next/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
+          rel="noopener noreferrer"
+          target="_blank">
           Camunda documentation
         </a>
       </p>
