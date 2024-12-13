@@ -79,9 +79,9 @@ export const formFields = [
   Image,
   Table,
   Html,
+  DocumentPreview,
   Spacer,
   Separator,
-  DocumentPreview,
 
   /* Containers */
   Group,
