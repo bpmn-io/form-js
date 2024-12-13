@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.13.1
+
+- `REFACTOR`: change endpoint key docs reference link ([3119f2e](https://github.com/bpmn-io/form-js/commit/3119f2ed29084951837f7ac48487a309027bda7b))
+- `CHORE`: change order of document preview in the palette ([211c7f5](https://github.com/bpmn-io/form-js/commit/211c7f53d0f23627cb37aec5679dcf9e163ab202))
+
 ## 1.13.0
 
 - `FEAT`: implement `documentPreview` component ([#1329](https://github.com/bpmn-io/form-js/pull/1329), [#1332](https://github.com/bpmn-io/form-js/pull/1332))
