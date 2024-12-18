@@ -117,8 +117,6 @@ describe('DocumentPreview', function () {
     // when
     const field = config.create();
 
-    console.log({ field });
-
     // then
     expect(field).to.eql({
       label: 'Document preview',
