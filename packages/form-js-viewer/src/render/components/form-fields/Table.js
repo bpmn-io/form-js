@@ -1,4 +1,4 @@
-import { isDefined, isNumber, isObject, isString } from 'min-dash';
+import { isDefined, isNil, isNumber, isObject, isString } from 'min-dash';
 import { useExpressionEvaluation } from '../../hooks';
 import { useEffect, useState } from 'preact/hooks';
 import { formFieldClasses, prefixId } from '../Util';
@@ -45,7 +45,9 @@ export function Table(props) {
   const evaluatedColumns = useEvaluatedColumns(columnsExpression || '', columns);
   const columnKeys = evaluatedColumns.map(({ key }) => key);
   const evaluatedDataSource = useExpressionEvaluation(dataSource);
-  const data = Array.isArray(evaluatedDataSource) ? evaluatedDataSource.filter((i) => i !== undefined) : [];
+  const data = Array.isArray(evaluatedDataSource)
+    ? evaluatedDataSource.filter((entry) => !isNil(entry) || typeof entry !== 'object')
+    : [];
   const sortedData = sortBy === null ? data : sortByColumn(data, sortBy.key, sortBy.direction);
 
   /** @type {unknown[][]} */
@@ -56,14 +58,6 @@ export function Table(props) {
   useEffect(() => {
     setCurrentPage(0);
   }, [rowCount, sortBy]);
-
-  const serializeCellData = (cellData) => {
-    if (cellData !== null && typeof cellData === 'object') {
-      return JSON.stringify(cellData);
-    }
-
-    return cellData;
-  };
 
   /** @param {string} key */
   function toggleSortBy(key) {
@@ -341,4 +335,16 @@ function getHeaderAriaLabel(sortBy, key, label) {
   }
 
   return `Click to sort by ${label} ascending`;
+}
+
+/**
+ * @param {unknown} cellData
+ * @returns string
+ */
+function serializeCellData(cellData) {
+  if (cellData !== null && typeof cellData === 'object') {
+    return JSON.stringify(cellData);
+  }
+
+  return `${cellData || ''}`;
 }
