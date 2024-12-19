@@ -15,6 +15,8 @@ const type = 'documentPreview';
  * @property {Object} metadata
  * @property {string|undefined} [metadata.contentType]
  * @property {string} metadata.fileName
+ * @property {Object} [metadata.customProperties]
+ * @property {string|undefined} [metadata.customProperties.contentHash]
  *
  * @typedef Field
  * @property {string} id
@@ -170,7 +172,11 @@ function DocumentRenderer(props) {
   const [hasError, setHasError] = useState(false);
   const ref = useRef(null);
   const isInViewport = useInViewport(ref);
-  const fullUrl = endpoint.replace(DOCUMENT_ID_PLACEHOLDER, documentMetadata.documentId);
+  const fullUrl = buildUrl({
+    baseUrl: endpoint,
+    documentId: documentMetadata.documentId,
+    customProperties: metadata.customProperties,
+  });
   const singleDocumentContainerClassName = `fjs-${type}-single-document-container`;
   const errorMessageId = `${domId}-error-message`;
   const errorMessage = 'Unable to download document';
@@ -302,4 +308,26 @@ function useInViewport(ref) {
   }, [ref]);
 
   return isInViewport;
+}
+
+/**
+ * This solution should be a temporary fix, we should try to remove it via: https://github.com/bpmn-io/form-js/issues/1341
+ *
+ * @param {Object} options
+ * @param {string} options.baseUrl
+ * @param {string} options.documentId
+ * @param {Object} [options.customProperties]
+ * @param {string|undefined} [options.customProperties.contentHash]
+ *
+ * @returns {string}
+ */
+function buildUrl(options) {
+  const { baseUrl, documentId, customProperties } = options;
+  const finalUrl = new URL(baseUrl.replace(DOCUMENT_ID_PLACEHOLDER, documentId));
+
+  if (customProperties !== undefined && customProperties.contentHash !== undefined) {
+    finalUrl.searchParams.set('contentHash', customProperties.contentHash);
+  }
+
+  return decodeURI(finalUrl.toString());
 }
