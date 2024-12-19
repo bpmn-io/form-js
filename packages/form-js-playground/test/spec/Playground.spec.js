@@ -88,6 +88,9 @@ describe('playground', function () {
           metadata: {
             fileName: 'My document.pdf',
             contentType: 'application/pdf',
+            customProperties: {
+              contentHash: '1234567890',
+            },
           },
         },
         {
