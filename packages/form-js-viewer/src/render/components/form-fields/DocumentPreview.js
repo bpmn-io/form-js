@@ -277,13 +277,19 @@ function DownloadButton(props) {
 
 /**
  *
- * @param {import("preact").RefObject<HTMLElement>} ref
+ * @param {import("preact").RefObject<HTMLElement|null>} ref
  * @returns boolean
  */
 function useInViewport(ref) {
   const [isInViewport, setIsInViewport] = useState(false);
 
   useEffect(() => {
+    const container = ref.current;
+
+    if (!container) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -295,13 +301,11 @@ function useInViewport(ref) {
       },
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(container);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (container) {
+        observer.unobserve(container);
       }
     };
   }, [ref]);
