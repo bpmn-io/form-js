@@ -12,11 +12,10 @@ const type = 'documentPreview';
 /**
  * @typedef DocumentMetadata
  * @property {string} documentId
+ * @property {string} contentHash
  * @property {Object} metadata
  * @property {string|undefined} [metadata.contentType]
  * @property {string} metadata.fileName
- * @property {Object} [metadata.customProperties]
- * @property {string|undefined} [metadata.customProperties.contentHash]
  *
  * @typedef Field
  * @property {string} id
@@ -175,7 +174,7 @@ function DocumentRenderer(props) {
   const fullUrl = buildUrl({
     baseUrl: endpoint,
     documentId: documentMetadata.documentId,
-    customProperties: metadata.customProperties,
+    contentHash: documentMetadata.contentHash,
   });
   const singleDocumentContainerClassName = `fjs-${type}-single-document-container`;
   const errorMessageId = `${domId}-error-message`;
@@ -316,17 +315,16 @@ function useInViewport(ref) {
  * @param {Object} options
  * @param {string} options.baseUrl
  * @param {string} options.documentId
- * @param {Object} [options.customProperties]
- * @param {string|undefined} [options.customProperties.contentHash]
+ * @param {string} [options.contentHash]
  *
  * @returns {string}
  */
 function buildUrl(options) {
-  const { baseUrl, documentId, customProperties } = options;
+  const { baseUrl, documentId, contentHash } = options;
   const finalUrl = new URL(baseUrl.replace(DOCUMENT_ID_PLACEHOLDER, documentId));
 
-  if (customProperties !== undefined && customProperties.contentHash !== undefined) {
-    finalUrl.searchParams.set('contentHash', customProperties.contentHash);
+  if (contentHash !== undefined) {
+    finalUrl.searchParams.set('contentHash', contentHash);
   }
 
   return decodeURI(finalUrl.toString());

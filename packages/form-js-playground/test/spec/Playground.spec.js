@@ -85,12 +85,10 @@ describe('playground', function () {
       documents: [
         {
           documentId: 'document0',
+          contentHash: '1234567890',
           metadata: {
             fileName: 'My document.pdf',
             contentType: 'application/pdf',
-            customProperties: {
-              contentHash: '1234567890',
-            },
           },
         },
         {
