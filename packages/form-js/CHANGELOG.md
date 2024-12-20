@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.13.2
+
+- `FIX`: prevent table component from breaking with invalid data ([#1337](https://github.com/bpmn-io/form-js/issues/1337))
+- `FEAT`: inject content hash into document preview URL ([#1340](https://github.com/bpmn-io/form-js/pull/1342))
+
 ## 1.13.1
 
 - `REFACTOR`: change endpoint key docs reference link ([3119f2e](https://github.com/bpmn-io/form-js/commit/3119f2ed29084951837f7ac48487a309027bda7b))
