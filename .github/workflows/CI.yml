@@ -4,7 +4,7 @@ jobs:
   Build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-20.04, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         node-version: [20]
 
     runs-on: ${{ matrix.os }}
@@ -27,6 +27,8 @@ jobs:
             ${{ runner.OS }}-
       - name: Install dependencies
         run: npm ci
+      - name: Setup project
+        uses: bpmn-io/actions/setup@latest
       - name: Build
         if: runner.os == 'Linux'
         env:
