@@ -183,12 +183,13 @@ export function Taglist(props) {
       <div class={classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
         {loadState === LOAD_STATES.LOADED && (
           <div class="fjs-taglist-tags">
-            {values.map((v) => {
+            {values.map((entry) => {
               return (
                 <div
+                  key={entry}
                   class={classNames('fjs-taglist-tag', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}
                   onMouseDown={(e) => e.preventDefault()}>
-                  <span class="fjs-taglist-tag-label">{getLabelCorrelation(v)}</span>
+                  <span class="fjs-taglist-tag-label">{getLabelCorrelation(entry)}</span>
                   {!disabled && !readonly && (
                     <button
                       type="button"
@@ -196,7 +197,7 @@ export function Taglist(props) {
                       class="fjs-taglist-tag-remove"
                       onFocus={onElementFocus}
                       onBlur={onElementBlur}
-                      onClick={(event) => onTagRemoveClick(event, v)}>
+                      onClick={(event) => onTagRemoveClick(event, entry)}>
                       <XMarkIcon />
                     </button>
                   )}

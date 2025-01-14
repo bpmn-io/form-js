@@ -3146,7 +3146,7 @@ describe('properties panel', function () {
         });
       });
 
-      it('entries static headers', function () {
+      it('entries dynamic headers', function () {
         // given
         const field = tableSchema.components.find(({ label }) => label === 'dynamic-headers-table');
 

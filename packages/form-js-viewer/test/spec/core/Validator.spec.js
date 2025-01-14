@@ -62,7 +62,7 @@ describe('Validator', function () {
         expect(errors[0]).to.equal('Value is expected to be an integer.');
       });
 
-      it('should restrict decimals', function () {
+      it('should restrict decimals (string)', function () {
         // given
         const field = {
           type: 'number',

@@ -6,9 +6,13 @@ const spy = sinon.spy;
 let root;
 
 describe('useCleanupSingleSelectValue', function () {
-  beforeEach(() => (root = document.createElement('div')));
+  beforeEach(function () {
+    root = document.createElement('div');
+  });
 
-  afterEach(() => root.remove());
+  afterEach(function () {
+    root.remove();
+  });
 
   it('should fire onChange when the value is no longer in the options', function () {
     // given

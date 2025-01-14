@@ -59,7 +59,8 @@ const description = (
     Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component.{' '}
     <a
       href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/"
-      target="_blank">
+      target="_blank"
+      rel="noreferrer">
       Learn more
     </a>
   </>

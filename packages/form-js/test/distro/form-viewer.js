@@ -1,7 +1,7 @@
 describe('form-viewer', function () {
   let container;
 
-  beforeEach(() => {
+  beforeEach(function () {
     container = document.createElement('div');
 
     document.body.appendChild(container);

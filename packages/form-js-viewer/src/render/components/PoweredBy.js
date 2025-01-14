@@ -43,13 +43,13 @@ function Lightbox(props) {
         <a
           href="https://bpmn.io"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           style="margin: 15px 20px 15px 10px; align-self: center; color: var(--cds-icon-primary, #404040)">
           <Logo />
         </a>
         <span>
           Web-based tooling for BPMN, DMN, and forms powered by{' '}
-          <a href="https://bpmn.io" target="_blank" rel="noopener">
+          <a href="https://bpmn.io" target="_blank" rel="noopener noreferrer">
             bpmn.io
           </a>
           .
@@ -65,7 +65,7 @@ function Link(props) {
       <a
         href="https://bpmn.io"
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         class="fjs-powered-by-link"
         title="Powered by bpmn.io"
         style="color: var(--cds-text-primary, #404040)"

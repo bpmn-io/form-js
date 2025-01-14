@@ -122,11 +122,11 @@ export function Palette(props) {
       </div>
       <div class="fjs-palette-entries">
         {groups.map(({ label, entries, id }) => (
-          <div class="fjs-palette-group" data-group-id={id}>
+          <div class="fjs-palette-group" data-group-id={id} key={id}>
             <span class="fjs-palette-group-title">{label}</span>
             <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
               {entries.map((entry) => {
-                return <PaletteEntry getPaletteIcon={getPaletteIcon} {...entry} />;
+                return <PaletteEntry key={entry.type} getPaletteIcon={getPaletteIcon} {...entry} />;
               })}
             </div>
           </div>
@@ -199,15 +199,17 @@ export function getPaletteIcon(entry) {
   let Icon;
 
   if (iconUrl) {
-    Icon = () => (
-      <img
-        class="fjs-field-icon-image"
-        width={36}
-        style={{ margin: 'auto' }}
-        alt={label}
-        src={sanitizeImageSource(iconUrl)}
-      />
-    );
+    Icon = function Icon() {
+      return (
+        <img
+          class="fjs-field-icon-image"
+          width={36}
+          style={{ margin: 'auto' }}
+          alt={label}
+          src={sanitizeImageSource(iconUrl)}
+        />
+      );
+    };
   } else {
     Icon = icon || iconsByType(type);
   }

@@ -20,7 +20,7 @@ describe('Select', function () {
     container.remove();
   });
 
-  describe('(simple)', () => {
+  describe('(simple)', function () {
     it('should render', function () {
       // when
       const { container } = createSelect({
@@ -587,7 +587,7 @@ describe('Select', function () {
     });
   });
 
-  describe('(searchable)', () => {
+  describe('(searchable)', function () {
     it('should render', function () {
       // when
       const { container } = createSelect({

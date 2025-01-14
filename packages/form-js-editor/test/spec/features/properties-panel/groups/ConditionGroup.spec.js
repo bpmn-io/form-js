@@ -9,7 +9,9 @@ import { INPUTS } from '../../../../../src/features/properties-panel/Util';
 const HIDE_CONDITION = 'conditional-hide';
 
 describe('ConditionGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   describe('condition', function () {
     it('should NOT render for default', function () {

@@ -87,7 +87,7 @@ describe('Description', function () {
       // cf. https://github.com/bpmn-io/form-js/pull/824
       const result = render(
         <MockFormContext>
-          <label for="foo">Foo</label>
+          <label htmlFor="foo">Foo</label>
           <input id="foo" />
           <Description id="foo" description="This a description" />
         </MockFormContext>,

@@ -47,7 +47,7 @@ function Range(props) {
 
   return (
     <div class={formFieldClasses(rangeType)}>
-      <label class="fjs-form-field-label" for={prefixId(id, formId)}>
+      <label class="fjs-form-field-label" htmlFor={prefixId(id, formId)}>
         {label}
       </label>
       <input type="range" id={prefixId(id, formId)} onInput={onChange} min={min} max={max} value={value} step={step} />

@@ -6,9 +6,13 @@ const spy = sinon.spy;
 let root;
 
 describe('useKeyDownAction', function () {
-  beforeEach(() => (root = document.createElement('div')));
+  beforeEach(function () {
+    root = document.createElement('div');
+  });
 
-  afterEach(() => root.remove());
+  afterEach(function () {
+    root.remove();
+  });
 
   it('should subscribe to key event', function () {
     // given

@@ -12,7 +12,7 @@ import {
 
 describe('DateTimeUtil', function () {
   describe('#formatTime', function () {
-    it('should format to AM/PM format', () => {
+    it('should format to AM/PM format', function () {
       // given
       const use24h = false;
       const testCases = [
@@ -32,7 +32,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should format to 24h format', () => {
+    it('should format to 24h format', function () {
       // given
       const use24h = true;
       const testCases = [
@@ -54,7 +54,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#parseInputTime', function () {
-    it('should parse AM/PM formats', () => {
+    it('should parse AM/PM formats', function () {
       // given
       const testCases = [
         ['12:00 AM', 0],
@@ -74,7 +74,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should parse 24h formats', () => {
+    it('should parse 24h formats', function () {
       // given
       const testCases = [
         ['24:00', null],
@@ -96,7 +96,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#serializeTime', function () {
-    it('should serialize with full timezone', () => {
+    it('should serialize with full timezone', function () {
       // given
       const serializingFormat = 'utc_offset';
       const testCases = [
@@ -116,7 +116,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should serialize with normalized timezone', () => {
+    it('should serialize with normalized timezone', function () {
       // given
       const serializingFormat = 'utc_normalized';
       const testCases = [
@@ -135,7 +135,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should serialize without timezone', () => {
+    it('should serialize without timezone', function () {
       // given
       const serializingFormat = 'no_timezone';
       const testCases = [
@@ -154,7 +154,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#parseIsoTime', function () {
-    it('should parse full timezones', () => {
+    it('should parse full timezones', function () {
       // given
       const localOffset = new Date().getTimezoneOffset();
       const testCases = [
@@ -176,7 +176,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should parse normalized timezones', () => {
+    it('should parse normalized timezones', function () {
       // given
       const localOffset = new Date().getTimezoneOffset();
       const testCases = [
@@ -193,7 +193,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should parse local times', () => {
+    it('should parse local times', function () {
       // given
       const testCases = [
         ['00:00', 0],
@@ -210,7 +210,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#serializeDate', function () {
-    it('should serialize date to iso format', () => {
+    it('should serialize date to iso format', function () {
       // given
       const testCases = [
         [new Date(2005, 3, 7), '2005-04-07'],
@@ -226,7 +226,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#isDateTimeInputInformationSufficient', function () {
-    it('should reject partially defined dateTime', () => {
+    it('should reject partially defined dateTime', function () {
       // given
       const invalidTestCases = ['2005', '2005-04', '2005-04-07'];
 
@@ -236,7 +236,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should accept fully defined dateTime', () => {
+    it('should accept fully defined dateTime', function () {
       // given
       const validTestCases = ['2005-04-07T02:01', '2005-04-07T02:01:15', '2005-04-07T02:01:15.1000'];
 
@@ -248,7 +248,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#serializeDateTime', function () {
-    it('should serialize with full timezone', () => {
+    it('should serialize with full timezone', function () {
       // given
       const getTimezoneOffsetSuffix = (date) => formatTimezoneOffset(date.getTimezoneOffset());
       const serializingFormat = 'utc_offset';
@@ -268,7 +268,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should serialize with normalized timezone', () => {
+    it('should serialize with normalized timezone', function () {
       // given
       const serializingFormat = 'utc_normalized';
       const testCases = [
@@ -287,7 +287,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should serialize without timezone', () => {
+    it('should serialize without timezone', function () {
       // given
       const serializingFormat = 'no_timezone';
       const testCases = [
@@ -307,7 +307,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#formatTimezoneOffset', function () {
-    it('should format offsets', () => {
+    it('should format offsets', function () {
       // given
       const testCases = [
         [0, '+00:00'],
@@ -327,7 +327,7 @@ describe('DateTimeUtil', function () {
   });
 
   describe('#isInvalidDateString', function () {
-    it('should return false for valid dates', () => {
+    it('should return false for valid dates', function () {
       // given
       const validDates = ['1996-12-01', '2000-01-15', '1133-11-30'];
 
@@ -337,7 +337,7 @@ describe('DateTimeUtil', function () {
       }
     });
 
-    it('should return true for invalid dates', () => {
+    it('should return true for invalid dates', function () {
       // given
       const invalidDates = ['qwertyuiop', '2000-031-152', '11-320'];
 

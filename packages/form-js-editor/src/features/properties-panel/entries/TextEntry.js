@@ -56,7 +56,8 @@ const description = (
     Supports markdown and templating.{' '}
     <a
       href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/"
-      target="_blank">
+      target="_blank"
+      rel="noreferrer">
       Learn more
     </a>
   </>

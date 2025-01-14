@@ -109,14 +109,15 @@ export function DropdownList(props) {
       onMouseDown={(e) => e.preventDefault()}
       style={{ maxHeight: height, scrollBehavior: smoothScrolling ? 'smooth' : 'auto' }}>
       {values.length > 0 &&
-        values.map((v, i) => {
+        values.map((entry, index) => {
           return (
             <div
-              class={classNames('fjs-dropdownlist-item', { focused: focusedValueIndex === i })}
-              onMouseMove={mouseControl ? undefined : (e) => onMouseMovedInKeyboardMode(e, i)}
-              onMouseEnter={mouseControl ? () => setFocusedValueIndex(i) : undefined}
-              onMouseDown={(e) => onValueSelected(v)}>
-              {getLabel(v)}
+              key={entry.value}
+              class={classNames('fjs-dropdownlist-item', { focused: focusedValueIndex === index })}
+              onMouseMove={mouseControl ? undefined : (e) => onMouseMovedInKeyboardMode(e, index)}
+              onMouseEnter={mouseControl ? () => setFocusedValueIndex(index) : undefined}
+              onMouseDown={(e) => onValueSelected(entry)}>
+              {getLabel(entry)}
             </div>
           );
         })}

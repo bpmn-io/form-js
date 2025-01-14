@@ -685,7 +685,7 @@ describe('Datetime', function () {
       expect(dateTimeLabels[1].textContent).to.equal('Required_time*');
     });
 
-    it('should render date label with height when time label is not empty', () => {
+    it('should render date label with height when time label is not empty', function () {
       // when
       const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined } });
 
@@ -700,7 +700,7 @@ describe('Datetime', function () {
       expect(dateLabel.offsetHeight).to.equal(16);
     });
 
-    it('should render time label with height when date label is not empty', () => {
+    it('should render time label with height when date label is not empty', function () {
       // when
       const { container } = createDatetime({ field: { ...datetimeField, timeLabel: undefined } });
 
@@ -715,7 +715,7 @@ describe('Datetime', function () {
       expect(timeLabel.offsetHeight).to.equal(16);
     });
 
-    it('should render labels without height when both are empty', () => {
+    it('should render labels without height when both are empty', function () {
       // when
       const { container } = createDatetime({ field: { ...datetimeField, dateLabel: undefined, timeLabel: undefined } });
 

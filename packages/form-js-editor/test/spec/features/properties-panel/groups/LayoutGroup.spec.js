@@ -7,7 +7,9 @@ import { AUTO_OPTION_VALUE } from '../../../../../src/features/properties-panel/
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 describe('LayoutGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   it('should NOT render for default', function () {
     // given

@@ -223,7 +223,6 @@ describe('validation', function () {
 
 // helpers /////////////////
 
-// eslint-disable-next-line no-unused-vars
 function printNested(object) {
   console.log(
     util.inspect(object, {

@@ -16,7 +16,9 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
       const fieldDefinition = formFields.get(type).config;
       const Icon = fieldDefinition.icon || iconsByType(type);
       if (Icon) {
-        return () => <Icon width="36" height="36" viewBox="0 0 54 54" />;
+        return function IconComponent() {
+          return <Icon width="36" height="36" viewBox="0 0 54 54" />;
+        };
       } else if (fieldDefinition.iconUrl) {
         return getPaletteIcon({ iconUrl: fieldDefinition.iconUrl, label: fieldDefinition.label });
       }
