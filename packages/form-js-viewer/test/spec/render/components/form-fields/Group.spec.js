@@ -8,7 +8,7 @@ import { MockFormContext } from '../helper';
 
 let container;
 
-describe('Group', () => {
+describe('Group', function () {
   beforeEach(function () {
     container = createFormContainer();
   });

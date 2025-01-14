@@ -4,7 +4,7 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-const HTTPS_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
+const HTTPS_PATTERN = /^(https):\/\/*/i;
 
 export function IFrameUrlEntry(props) {
   const { editField, field } = props;
@@ -66,7 +66,10 @@ function getTooltip() {
       <p>Please make sure that the URL is safe as it might impose security risks.</p>
       <p>
         Not all external sources can be displayed in the iFrame. Read more about it in the{' '}
-        <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">
+        <a
+          target="_blank"
+          href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
+          rel="noreferrer">
           X-FRAME-OPTIONS documentation
         </a>
         .

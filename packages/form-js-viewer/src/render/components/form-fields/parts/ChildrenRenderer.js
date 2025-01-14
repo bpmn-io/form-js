@@ -91,7 +91,7 @@ function RowsRenderer(props) {
         }
 
         return (
-          <Row row={row} class="fjs-layout-row cds--row" style={{ alignItems: verticalAlignment }}>
+          <Row key={row.id} row={row} class="fjs-layout-row cds--row" style={{ alignItems: verticalAlignment }}>
             {components.map((childId) => {
               const childField = formFieldRegistry.get(childId);
 

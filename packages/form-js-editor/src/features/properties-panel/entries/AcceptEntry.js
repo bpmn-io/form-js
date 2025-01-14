@@ -58,7 +58,8 @@ const description = (
     A comma-separated list of{' '}
     <a
       href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers"
-      target="_blank">
+      target="_blank"
+      rel="noreferrer">
       file type specifiers
     </a>
   </>

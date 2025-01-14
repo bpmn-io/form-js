@@ -23,7 +23,7 @@ export function Label(props) {
   return (
     <label
       id={id}
-      for={htmlFor}
+      htmlFor={htmlFor}
       class={classNames('fjs-form-field-label', { 'fjs-incollapsible-label': !collapseOnEmpty }, props['class'])}>
       {props.children}
       {evaluatedLabel}

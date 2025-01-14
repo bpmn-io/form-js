@@ -343,36 +343,7 @@ describe('Textfield', function () {
       // then
       expect(sanitizedValue).to.equal('foo   bar');
     });
-  });
 
-  it('#create', function () {
-    // assume
-    const { config } = Textfield;
-    expect(config.type).to.eql('textfield');
-    expect(config.name).to.eql('Text field');
-    expect(config.group).to.eql('basic-input');
-    expect(config.keyed).to.be.true;
-
-    // when
-    const field = config.create();
-
-    // then
-    expect(field).to.eql({
-      label: 'Text field',
-    });
-
-    // but when
-    const customField = config.create({
-      custom: true,
-    });
-
-    // then
-    expect(customField).to.contain({
-      custom: true,
-    });
-  });
-
-  describe('#sanitizeValue', function () {
     it('should convert integers', function () {
       // given
       const { sanitizeValue } = Textfield.config;
@@ -449,6 +420,33 @@ describe('Textfield', function () {
       // then
       expect(sanitizedValue1).to.equal('');
       expect(sanitizedValue2).to.equal('');
+    });
+  });
+
+  it('#create', function () {
+    // assume
+    const { config } = Textfield;
+    expect(config.type).to.eql('textfield');
+    expect(config.name).to.eql('Text field');
+    expect(config.group).to.eql('basic-input');
+    expect(config.keyed).to.be.true;
+
+    // when
+    const field = config.create();
+
+    // then
+    expect(field).to.eql({
+      label: 'Text field',
+    });
+
+    // but when
+    const customField = config.create({
+      custom: true,
+    });
+
+    // then
+    expect(customField).to.contain({
+      custom: true,
     });
   });
 

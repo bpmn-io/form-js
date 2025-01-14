@@ -7,7 +7,9 @@ import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 import { setEditorValue } from '../../../../helper';
 
 describe('ValidationGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   describe('required', function () {
     it('should render for textfield', function () {

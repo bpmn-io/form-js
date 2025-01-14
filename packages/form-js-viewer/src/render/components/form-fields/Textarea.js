@@ -56,7 +56,7 @@ export function Textarea(props) {
       <textarea
         class="fjs-textarea"
         disabled={disabled}
-        readonly={readonly}
+        readOnly={readonly}
         id={domId}
         onInput={onInputChange}
         onBlur={onInputBlur}

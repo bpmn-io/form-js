@@ -7,7 +7,9 @@ import { getPropertiesPanelHeaderProvider } from '../../../../src/features/prope
 import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
 describe('PropertiesPanelHeaderProvider', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   it('should render icon', function () {
     // given

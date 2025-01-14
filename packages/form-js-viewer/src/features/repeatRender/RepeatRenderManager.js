@@ -85,6 +85,7 @@ export class RepeatRenderManager {
       <>
         {values.map((itemValue, itemIndex) => (
           <div
+            key={itemIndex}
             class={classNames({
               'fjs-repeat-row-collapsed': isCollapsed ? itemIndex >= nonCollapsedItems : false,
             })}>

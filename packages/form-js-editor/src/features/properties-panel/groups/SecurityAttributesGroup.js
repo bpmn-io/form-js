@@ -65,7 +65,7 @@ function getTooltip() {
       <p>
         Allow the iframe to access more functionality of your browser, details regarding the various options can be
         found in the{' '}
-        <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe">
+        <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" rel="noreferrer">
           MDN iFrame documentation.
         </a>
       </p>

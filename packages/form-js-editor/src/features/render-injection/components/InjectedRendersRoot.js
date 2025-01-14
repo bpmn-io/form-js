@@ -25,8 +25,8 @@ export const InjectedRendersRoot = () => {
 
   return (
     <Fragment>
-      {injectedRenderers.map(({ Renderer }) => (
-        <Renderer {...injectedProps} />
+      {injectedRenderers.map(({ Renderer }, index) => (
+        <Renderer key={index} {...injectedProps} />
       ))}
     </Fragment>
   );

@@ -7,7 +7,9 @@ import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 import { setEditorValue } from '../../../../helper';
 
 describe('AppearanceGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   it('should NOT render for checkbox', function () {
     // given

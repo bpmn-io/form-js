@@ -12,7 +12,9 @@ import { set } from 'min-dash';
 import { INPUTS, OPTIONS_INPUTS } from '../../../../../src/features/properties-panel/Util';
 
 describe('GeneralGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   describe('id', function () {
     it('should render for default', function () {
@@ -511,10 +513,10 @@ describe('GeneralGroup', function () {
       expect(defaultValueInput).to.not.exist;
     });
 
-    describe('for singleSelect-like INPUTS', () => {
+    describe('for singleSelect-like INPUTS', function () {
       const singleSelectInputTypes = ['radio', 'select'];
 
-      it('should NOT render by default', () => {
+      it('should NOT render by default', function () {
         // given
         for (const type of singleSelectInputTypes) {
           const field = { type };
@@ -529,7 +531,7 @@ describe('GeneralGroup', function () {
         }
       });
 
-      it('should render when static values are defined', () => {
+      it('should render when static values are defined', function () {
         // given
         for (const type of singleSelectInputTypes) {
           const field = { type, values: [{ value: 'value1', label: 'Value 1' }] };
@@ -545,10 +547,10 @@ describe('GeneralGroup', function () {
       });
     });
 
-    describe('for multiSelect-like INPUTS', () => {
+    describe('for multiSelect-like INPUTS', function () {
       const multiSelectInputTypes = ['taglist', 'checklist'];
 
-      it('should NOT render by default', () => {
+      it('should NOT render by default', function () {
         // given
         for (const type of multiSelectInputTypes) {
           const field = { type };
@@ -563,7 +565,7 @@ describe('GeneralGroup', function () {
         }
       });
 
-      it('should NOT render when static values are defined', () => {
+      it('should NOT render when static values are defined', function () {
         // given
         for (const type of multiSelectInputTypes) {
           const field = { type, values: [{ value: 'value1', label: 'Value 1' }] };
@@ -579,7 +581,7 @@ describe('GeneralGroup', function () {
       });
     });
 
-    describe('for all other INPUTS', () => {
+    describe('for all other INPUTS', function () {
       const nonDefaultValueInputs = new Set(['datetime', 'filepicker']);
       const defaultValueInputs = INPUTS.filter(
         (input) => !OPTIONS_INPUTS.includes(input) && !nonDefaultValueInputs.has(input),
@@ -1035,7 +1037,7 @@ describe('GeneralGroup', function () {
       expect(field.subtype).to.equal('date');
     });
 
-    it('should write and initialize (time => date)', function () {
+    it('should write and initialize (date => time)', function () {
       // given
       const field = {
         type: 'datetime',

@@ -8,8 +8,8 @@ import {
 } from './dateTimeUtil';
 import { getSimpleOptionsData, normalizeOptionsData } from './optionsUtil';
 
-const ALLOWED_IMAGE_SRC_PATTERN = /^(https?|data):.*/i; // eslint-disable-line no-useless-escape
-const ALLOWED_IFRAME_SRC_PATTERN = /^(https):\/\/*/i; // eslint-disable-line no-useless-escape
+const ALLOWED_IMAGE_SRC_PATTERN = /^(https?|data):.*/i;
+const ALLOWED_IFRAME_SRC_PATTERN = /^(https):\/\/*/i;
 
 export function sanitizeDateTimePickerValue(options) {
   const { formField, value } = options;

@@ -1,6 +1,6 @@
 import { getFlavouredFeelVariableNames } from '../../../../src/features/expressionLanguage/variableExtractionHelpers';
 
-describe('getFlavouredFeelVariableNames', () => {
+describe('getFlavouredFeelVariableNames', function () {
   expectVariables('SimpleAddition', '2 + 2', []);
 
   expectVariables('SingleVariable', 'variable1 + 2', ['variable1']);
@@ -64,7 +64,7 @@ describe('getFlavouredFeelVariableNames', () => {
   // TODO(@skaiir) these tests should ideally pass, but right now our variable extraction logic doesn't ignore certain keywords
   // https://github.com/bpmn-io/form-js/issues/710
 
-  describe.skip('Oversensitive', () => {
+  describe.skip('Oversensitive', function () {
     expectVariables('FunctionWithConstants', 'sum(1, 2, 3)', []);
 
     expectVariables('FunctionWithVariable', 'sum(variable1, 2, 3)', ['variable1']);
@@ -129,5 +129,7 @@ describe('getFlavouredFeelVariableNames', () => {
 // helpers ///////////////
 
 function expectVariables(name, feel, variables) {
-  it(name, () => expect(getFlavouredFeelVariableNames(feel)).to.eql(variables));
+  it(name, function () {
+    return expect(getFlavouredFeelVariableNames(feel)).to.eql(variables);
+  });
 }

@@ -5,7 +5,7 @@ import { MockFormContext } from '../helper';
 
 let container;
 
-describe('Dynamic List', () => {
+describe('Dynamic List', function () {
   beforeEach(function () {
     container = createFormContainer();
   });

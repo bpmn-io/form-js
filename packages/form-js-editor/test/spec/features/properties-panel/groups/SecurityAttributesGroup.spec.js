@@ -7,7 +7,9 @@ import { SecurityAttributesGroup } from '../../../../../src/features/properties-
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 describe('SecurityAttributesGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   it('should NOT render for checkbox', function () {
     // given

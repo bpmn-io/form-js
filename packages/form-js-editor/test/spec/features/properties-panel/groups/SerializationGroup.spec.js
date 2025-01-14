@@ -7,7 +7,9 @@ import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 import { set } from 'min-dash';
 
 describe('SerializationGroup', function () {
-  afterEach(() => cleanup());
+  afterEach(function () {
+    return cleanup();
+  });
 
   it('should NOT render for most types', function () {
     // given

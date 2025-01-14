@@ -16,8 +16,8 @@ export function Errors(props) {
   return (
     <div class="fjs-form-field-error" aria-live="polite" id={id}>
       <ul>
-        {errors.map((error) => {
-          return <li>{error}</li>;
+        {errors.map((error, index) => {
+          return <li key={index}>{error}</li>;
         })}
       </ul>
     </div>

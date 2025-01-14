@@ -43,9 +43,9 @@ function EndpointKey(props) {
       <p>Enter a context key that generates a string with the API endpoint to download a document.</p>
       <p>
         The string must contain <code>{'{ documentId }'}</code>, which will be replaced with the document ID from the
-        document's reference.
+        document&lsquo;s reference.
       </p>
-      <p>If you're using the Camunda Tasklist, this variable is automatically added to the context for you.</p>
+      <p>If you&lsquo;re using the Camunda Tasklist, this variable is automatically added to the context for you.</p>
       <p>
         For more details, see the{' '}
         <a
