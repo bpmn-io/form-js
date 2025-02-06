@@ -23,6 +23,8 @@ const EMPTY_ARRAY = [];
  * @property {string} [field.label]
  * @property {string} [field.accept]
  * @property {string|boolean} [field.multiple]
+ * @property {Object} [field.validate]
+ * @property {boolean} [field.validate.required]
  * @property {string} [value]
  *
  * @param {Props} props
@@ -33,8 +35,8 @@ export function FilePicker(props) {
   const fileInputRef = useRef(null);
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
-  const { field, onChange, domId, errors = [], disabled, readonly, required, value: filesKey = '' } = props;
-  const { label, multiple = false, accept = '' } = field;
+  const { field, onChange, domId, errors = [], disabled, readonly, value: filesKey = '' } = props;
+  const { label, multiple = false, accept = '', validate = {} } = field;
   /** @type {string} */
   const evaluatedAccept = useSingleLineTemplateEvaluation(accept, { debug: true });
   const evaluatedMultiple = useBooleanExpressionEvaluation(multiple);
@@ -80,7 +82,7 @@ export function FilePicker(props) {
 
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>
-      <Label htmlFor={domId} label={label} required={required} />
+      <Label htmlFor={domId} label={label} required={validate.required} />
       <input
         type="file"
         className="fjs-hidden"
@@ -91,6 +93,7 @@ export function FilePicker(props) {
         multiple={evaluatedMultiple || undefined}
         accept={evaluatedAccept || undefined}
         onChange={onFileChange}
+        required={validate.required}
       />
       <div className="fjs-filepicker-container">
         <button

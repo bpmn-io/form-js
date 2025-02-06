@@ -175,6 +175,27 @@ describe('FilePicker', function () {
     });
   });
 
+  it('should render with required validation', function () {
+    // when
+    createFilePicker({
+      field: {
+        ...defaultField,
+        label: 'My filepicker',
+        validate: {
+          required: true,
+        },
+      },
+      services: {
+        fileRegistry: getMockFileRegistry(),
+      },
+    });
+
+    // then
+    expect(screen.getByText('My filepicker')).to.exist;
+    expect(screen.getByText('*')).to.exist;
+    expect(container.querySelector('input')).to.have.property('required', true);
+  });
+
   describe('a11y', function () {
     it('should have no violations', async function () {
       // given
