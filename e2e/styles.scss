@@ -1,0 +1,11 @@
+$font-prefix: '../node_modules/@ibm/plex';
+@import '../node_modules/@ibm/plex/scss/ibm-plex.scss';
+
+html,
+body,
+#container {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
