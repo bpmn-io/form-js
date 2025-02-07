@@ -66,6 +66,7 @@
     "@bpmn-io/properties-panel": "^3.25.1",
     "@carbon/react": "^1.73.0",
     "@carbon/styles": "^1.72.0",
+    "@ibm/plex": "^6.4.1",
     "@playwright/test": "^1.49.1",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-babel": "^6.0.4",
