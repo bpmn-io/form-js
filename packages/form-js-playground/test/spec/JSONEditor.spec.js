@@ -124,6 +124,38 @@ describe('JSONEditor', function () {
         expect(completions[0].label).to.eql('foobaz');
       });
     });
+
+    it('should add comma after property name completion', async function () {
+      // given
+      const initialValue = '{"foo": "bar",}';
+      const variables = ['amount', 'baz'];
+
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+      editor.setVariables(variables);
+
+      const cm = editor.getView();
+
+      select(cm, 14);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(2);
+
+        // Apply the completion (amount)
+        completions[0].apply(cm, completions[0], 14, 14);
+
+        // Check that the property was inserted with a comma
+        expect(cm.state.doc.toString()).to.equal('{"foo": "bar",\n"amount": ,}');
+
+        // Check that cursor is positioned before the comma
+        expect(cm.state.selection.main.head).to.equal(25);
+      });
+    });
   });
 
   describe('autocompletion', function () {

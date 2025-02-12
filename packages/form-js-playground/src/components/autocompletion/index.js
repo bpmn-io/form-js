@@ -29,7 +29,19 @@ function completions(context) {
       const baseInsert = completion.label;
 
       if (beforeChar === '{') {
-        const insert = `\n  ${indentation}${baseInsert}\n`;
+        const insert = `\n  ${indentation}${baseInsert},\n`;
+        view.dispatch({
+          changes: {
+            from,
+            to,
+            insert,
+          },
+          selection: {
+            anchor: from + insert.length - 2,
+          },
+        });
+      } else if (beforeChar === ',') {
+        const insert = `\n${indentation}${baseInsert},`;
         view.dispatch({
           changes: {
             from,
@@ -40,8 +52,8 @@ function completions(context) {
             anchor: from + insert.length - 1,
           },
         });
-      } else if (beforeChar === ',') {
-        const insert = `\n${indentation}${baseInsert}`;
+      } else {
+        const insert = `${baseInsert},`;
         view.dispatch({
           changes: {
             from,
@@ -49,18 +61,7 @@ function completions(context) {
             insert,
           },
           selection: {
-            anchor: from + insert.length,
-          },
-        });
-      } else {
-        view.dispatch({
-          changes: {
-            from,
-            to,
-            insert: baseInsert,
-          },
-          selection: {
-            anchor: from + baseInsert.length,
+            anchor: from + insert.length - 1,
           },
         });
       }
