@@ -42,13 +42,15 @@ describe('JSONEditor', function () {
 
     it('should suggest updated variables', async function () {
       // given
-      const value = '';
+      const value = '{}';
 
       const editor = new JSONEditor();
 
       editor.setValue(value);
 
       const cm = editor.getView();
+
+      select(cm, 1);
 
       // when
       editor.setVariables(['foobar', 'baz']);
@@ -59,7 +61,7 @@ describe('JSONEditor', function () {
       await expectEventually(() => {
         const completions = currentCompletions(cm.state);
         expect(completions).to.have.length(2);
-        expect(completions[0].label).to.have.eql('baz');
+        expect(completions[0].displayLabel).to.have.eql('"baz"');
       });
     });
 
@@ -127,11 +129,11 @@ describe('JSONEditor', function () {
   describe('autocompletion', function () {
     it('should suggest applicable variables', function (done) {
       // given
-      const initalValue = 'fooba';
+      const initialValue = '{"fooba"}';
       const variables = ['foobar', 'baz'];
 
       const editor = new JSONEditor();
-      editor.setValue(initalValue), editor.setVariables(variables);
+      editor.setValue(initialValue), editor.setVariables(variables);
 
       const cm = editor.getView();
 
@@ -148,6 +150,166 @@ describe('JSONEditor', function () {
         expect(completions).to.have.length(1);
         expect(completions[0].label).to.have.eql('foobar');
         done();
+      });
+    });
+
+    it('should suggest property completion for empty object', async function () {
+      // given
+      const initialValue = '{}';
+      const variables = ['foobar', 'baz'];
+
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+      editor.setVariables(variables);
+
+      const cm = editor.getView();
+
+      // move cursor between the braces
+      select(cm, 1);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(2);
+
+        const completionLabels = completions.map(({ label }) => label);
+        const completionDisplayLabels = completions.map(({ displayLabel }) => displayLabel);
+
+        expect(completionLabels).to.include('"foobar": ');
+        expect(completionLabels).to.include('"baz": ');
+        expect(completionDisplayLabels).to.include('"foobar"');
+        expect(completionDisplayLabels).to.include('"baz"');
+      });
+    });
+
+    it('should suggest property value completions', async function () {
+      // given
+      const initialValue = '{ "prop": }';
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+
+      const cm = editor.getView();
+
+      // move cursor between : and }
+      select(cm, 9);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(5);
+
+        const labels = completions.map(({ label }) => label);
+        const displayLabels = completions.map(({ displayLabel }) => displayLabel);
+
+        expect(labels).to.include('true');
+        expect(labels).to.include('false');
+        expect(labels).to.include('null');
+        expect(labels).to.include('[  ]');
+        expect(labels).to.include('{  }');
+        expect(displayLabels).to.include('[ .. ]');
+        expect(displayLabels).to.include('{ .. }');
+      });
+    });
+
+    it('should suggest array value completions', async function () {
+      // given
+      const initialValue = '[ ]';
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+
+      const cm = editor.getView();
+
+      // move cursor between the brackets
+      select(cm, 1);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(5);
+
+        const labels = completions.map(({ label }) => label);
+        const displayLabels = completions.map(({ displayLabel }) => displayLabel);
+
+        expect(labels).to.include('true');
+        expect(labels).to.include('false');
+        expect(labels).to.include('null');
+        expect(labels).to.include('[  ]');
+        expect(labels).to.include('{  }');
+        expect(displayLabels).to.include('[ .. ]');
+        expect(displayLabels).to.include('{ .. }');
+      });
+    });
+
+    it('should suggest property completion after opening brace', async function () {
+      // given
+      const initialValue = '{';
+      const variables = ['foobar', 'baz'];
+
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+      editor.setVariables(variables);
+
+      const cm = editor.getView();
+
+      // move cursor after the opening brace
+      select(cm, 1);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(2);
+
+        const completionLabels = completions.map(({ label }) => label);
+        const completionDisplayLabels = completions.map(({ displayLabel }) => displayLabel);
+
+        expect(completionLabels).to.include('"foobar": ');
+        expect(completionLabels).to.include('"baz": ');
+        expect(completionDisplayLabels).to.include('"foobar"');
+        expect(completionDisplayLabels).to.include('"baz"');
+      });
+    });
+
+    it('should suggest property completion after comma', async function () {
+      // given
+      const initialValue = '{ "foo": "bar",\n  }';
+      const variables = ['foobar', 'baz'];
+
+      const editor = new JSONEditor();
+      editor.setValue(initialValue);
+      editor.setVariables(variables);
+
+      const cm = editor.getView();
+
+      // move cursor after the comma and newline
+      select(cm, 15);
+
+      // when
+      startCompletion(cm);
+
+      // then
+      await expectEventually(() => {
+        const completions = currentCompletions(cm.state);
+        expect(completions).to.have.length(2);
+
+        const completionLabels = completions.map(({ label }) => label);
+        const completionDisplayLabels = completions.map(({ displayLabel }) => displayLabel);
+
+        expect(completionLabels).to.include('"foobar": ');
+        expect(completionLabels).to.include('"baz": ');
+        expect(completionDisplayLabels).to.include('"foobar"');
+        expect(completionDisplayLabels).to.include('"baz"');
       });
     });
   });
