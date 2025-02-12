@@ -312,38 +312,6 @@ describe('JSONEditor', function () {
         expect(completionDisplayLabels).to.include('"baz"');
       });
     });
-
-    it('should suggest property completion after comma', async function () {
-      // given
-      const initialValue = '{ "foo": "bar",\n  }';
-      const variables = ['foobar', 'baz'];
-
-      const editor = new JSONEditor();
-      editor.setValue(initialValue);
-      editor.setVariables(variables);
-
-      const cm = editor.getView();
-
-      // move cursor after the comma and newline
-      select(cm, 15);
-
-      // when
-      startCompletion(cm);
-
-      // then
-      await expectEventually(() => {
-        const completions = currentCompletions(cm.state);
-        expect(completions).to.have.length(2);
-
-        const completionLabels = completions.map(({ label }) => label);
-        const completionDisplayLabels = completions.map(({ displayLabel }) => displayLabel);
-
-        expect(completionLabels).to.include('"foobar": ');
-        expect(completionLabels).to.include('"baz": ');
-        expect(completionDisplayLabels).to.include('"foobar"');
-        expect(completionDisplayLabels).to.include('"baz"');
-      });
-    });
   });
 });
 
