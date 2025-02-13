@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.14.0
+
+- `FIX`: filter invalid data for document preview ([#1359](https://github.com/bpmn-io/form-js/pull/1359))
+- `FIX`: fix filepicker required label ([#1352](https://github.com/bpmn-io/form-js/pull/1352))
+- `DEPS`: migrate to eslint@9 ([#1302](https://github.com/bpmn-io/form-js/pull/1302))
+- `DEPS`: bump deps ([30b0f27](https://github.com/bpmn-io/form-js/commit/30b0f277ec7508cb30a15154685e9debf9875dfe))
+
 ## 1.13.2
 
 - `FIX`: prevent table component from breaking with invalid data ([#1337](https://github.com/bpmn-io/form-js/issues/1337))
