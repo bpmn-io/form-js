@@ -134,6 +134,7 @@ function isValidDocumentEndpoint(endpoint) {
 function isValidDocument(document) {
   return (
     typeof document === 'object' &&
+    document !== null &&
     'documentId' in document &&
     'metadata' in document &&
     typeof document.metadata === 'object' &&
