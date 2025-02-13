@@ -106,6 +106,38 @@ describe('DocumentPreview', function () {
     expect(formField.classList.contains('fjs-form-field-documentPreview')).to.be.true;
   });
 
+  it('should handle null documents in data source', function () {
+    // given
+    const documentsWithNull = [
+      null,
+      {
+        documentId: 'document0',
+        metadata: {
+          fileName: 'My document.txt',
+          contentType: 'text/plain',
+        },
+      },
+    ];
+
+    // when
+    const { container } = createDocumentPreview({
+      initialData: {
+        documents: documentsWithNull,
+        defaultDocumentsEndpointKey: 'https://example.com/{documentId}',
+      },
+      services: {
+        expressionLanguage: mockExpressionLanguageService,
+      },
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+    expect(formField).to.exist;
+
+    expect(screen.getAllByRole('button')).to.have.length(1);
+    expect(screen.getByText('My document.txt')).to.exist;
+  });
+
   it('#create', function () {
     // assume
     const { config } = DocumentPreview;
