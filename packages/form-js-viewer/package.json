@@ -45,18 +45,18 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@carbon/grid": "^11.30.0",
+    "@carbon/grid": "^11.31.0",
     "big.js": "^6.2.2",
     "classnames": "^2.5.1",
     "didi": "^10.2.2",
-    "dompurify": "^3.2.3",
+    "dompurify": "^3.2.4",
     "feelers": "^1.4.0",
     "feelin": "^4.3.0",
     "flatpickr": "^4.6.13",
     "ids": "^1.0.5",
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
-    "marked": "^15.0.6",
+    "marked": "^15.0.7",
     "min-dash": "^4.2.2",
     "preact": "^10.5.14"
   },
