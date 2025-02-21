@@ -874,6 +874,34 @@ describe('properties panel', function () {
           expect(editFieldSpy).to.have.been.calledWith(field, ['values'], [field.values[1], field.values[2]]);
         });
 
+        it('should remove option and clear default value if option was default', function () {
+          // given
+          const editFieldSpy = spy();
+
+          const field = {
+            ...schema.components.find(({ key }) => key === 'mailto'),
+            defaultValue: 'approver', // Set first option as default
+          };
+
+          bootstrapPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field,
+          });
+
+          const group = findGroup(container, 'Static options');
+
+          // when
+          const removeEntry = group.querySelector('.bio-properties-panel-remove-entry');
+          fireEvent.click(removeEntry);
+
+          // then
+          expect(editFieldSpy).to.have.been.calledWith(field, {
+            values: [field.values[1], field.values[2]],
+            defaultValue: undefined,
+          });
+        });
+
         describe('validation', function () {
           describe('value', function () {
             it('should not be empty', function () {
