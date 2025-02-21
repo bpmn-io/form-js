@@ -99,7 +99,7 @@
     "eslint-plugin-bpmn-io": "^2.1.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "globals": "^15.15.0",
+    "globals": "^16.0.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.2.1",
