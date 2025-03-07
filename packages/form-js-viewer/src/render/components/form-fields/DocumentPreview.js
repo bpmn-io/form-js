@@ -157,6 +157,58 @@ function useValidDocumentData(dataSource) {
 }
 
 /**
+ * @param {Object} props
+ * @param {string} props.url
+ * @param {string} props.fileName
+ * @param {Function} props.onError
+ * @param {string} props.errorMessageId
+ * @returns {import("preact").JSX.Element}
+ */
+function PdfRenderer(props) {
+  const { url, onError, errorMessageId } = props;
+  const [pdfObjectUrl, setPdfObjectUrl] = useState(null);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    let objectUrl = null;
+
+    const fetchPdf = async () => {
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          setHasError(true);
+          onError();
+          return;
+        }
+
+        const blob = await response.blob();
+        objectUrl = URL.createObjectURL(blob);
+        setPdfObjectUrl(objectUrl);
+      } catch {
+        setHasError(true);
+        onError();
+      }
+    };
+
+    fetchPdf();
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [url, onError]);
+
+  return (
+    <>
+      {pdfObjectUrl ? <embed src={pdfObjectUrl} type="application/pdf" class={`fjs-${type}-pdf-viewer`} /> : null}
+      {hasError ? <Errors id={errorMessageId} errors={['Unable to download document']} /> : null}
+    </>
+  );
+}
+
+/**
  *
  * @param {Object} props
  * @param {DocumentMetadata} props.documentMetadata
@@ -207,8 +259,12 @@ function DocumentRenderer(props) {
         class={singleDocumentContainerClassName}
         style={{ maxHeight }}
         aria-describedby={hasError ? errorMessageId : undefined}>
-        <embed src={fullUrl} type="application/pdf" class={`fjs-${type}-pdf-viewer`} />
-        {hasError ? <Errors id={errorMessageId} errors={[errorMessage]} /> : null}
+        <PdfRenderer
+          url={fullUrl}
+          fileName={metadata.fileName}
+          onError={() => setHasError(true)}
+          errorMessageId={errorMessageId}
+        />
       </div>
     );
   }
