@@ -19,7 +19,14 @@ export function StaticOptionsSourceEntry(props) {
   };
 
   const removeEntry = (entry) => {
-    editField(field, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.STATIC], without(values, entry));
+    if (field.defaultValue === entry.value) {
+      editField(field, {
+        values: without(values, entry),
+        defaultValue: undefined,
+      });
+    } else {
+      editField(field, OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.STATIC], without(values, entry));
+    }
   };
 
   const validateFactory = (key, getValue) => {
