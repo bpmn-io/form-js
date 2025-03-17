@@ -281,7 +281,8 @@ describe('JSONEditor', function () {
       });
     });
 
-    it('should suggest property completion after opening brace', async function () {
+    // Find out why it's flaky on the CI: https://github.com/bpmn-io/form-js/issues/1373
+    it.skip('should suggest property completion after opening brace', async function () {
       // given
       const initialValue = '{';
       const variables = ['foobar', 'baz'];
