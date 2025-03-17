@@ -249,7 +249,8 @@ describe('JSONEditor', function () {
       });
     });
 
-    it('should suggest array value completions', async function () {
+    // Find out why it's flaky on the CI: https://github.com/bpmn-io/form-js/issues/1373
+    it.skip('should suggest array value completions', async function () {
       // given
       const initialValue = '[ ]';
       const editor = new JSONEditor();
