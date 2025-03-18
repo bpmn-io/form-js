@@ -85,7 +85,7 @@ describe('playground', function () {
       documents: [
         {
           documentId: 'document0',
-          contentHash: '1234567890',
+          endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
           metadata: {
             fileName: 'My document.pdf',
             contentType: 'application/pdf',
@@ -93,6 +93,7 @@ describe('playground', function () {
         },
         {
           documentId: 'document1',
+          endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document1',
           metadata: {
             fileName: 'My document.png',
             contentType: 'image/png',
@@ -100,13 +101,13 @@ describe('playground', function () {
         },
         {
           documentId: 'document2',
+          endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document2',
           metadata: {
             fileName: 'My document.zip',
             contentType: 'application/zip',
           },
         },
       ],
-      defaultDocumentsEndpointKey: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/{documentId}',
     };
 
     // when
