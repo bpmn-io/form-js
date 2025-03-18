@@ -25,7 +25,6 @@ const EXPRESSION_PROPERTIES = [
   'expression',
   'multiple',
   'accept',
-  'endpointKey',
   'title',
 ];
 

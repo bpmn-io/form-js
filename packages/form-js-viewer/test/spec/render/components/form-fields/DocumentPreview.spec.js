@@ -38,34 +38,6 @@ describe('DocumentPreview', function () {
     expect(screen.getByText('My document.zip')).to.exist;
   });
 
-  it('should handle invalid endpoint value', function () {
-    // when
-    const { container } = createDocumentPreview({
-      initialData: {
-        foobar: false,
-      },
-      field: {
-        ...defaultField,
-        endpointKey: '=foobar',
-      },
-      services: {
-        expressionLanguage: mockExpressionLanguageService,
-      },
-    });
-
-    // then
-    const formField = container.querySelector('.fjs-form-field');
-
-    expect(formField).to.exist;
-    expect(formField.classList.contains('fjs-form-field-documentPreview')).to.be.true;
-
-    expect(
-      screen.queryByText(
-        'If you change the endpoint key from "=defaultDocumentsEndpointKey", the document preview won\'t work with Camunda Tasklist and you must provide a valid URL.',
-      ),
-    ).to.exist;
-  });
-
   it('should handle bad endpoint format', function () {
     // when
     const { container } = createDocumentPreview({
@@ -91,9 +63,7 @@ describe('DocumentPreview', function () {
   it('should handle missing data source', function () {
     // when
     const { container } = createDocumentPreview({
-      initialData: {
-        defaultDocumentsEndpointKey: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/{documentId}',
-      },
+      initialData: {},
       services: {
         expressionLanguage: mockExpressionLanguageService,
       },
@@ -112,6 +82,7 @@ describe('DocumentPreview', function () {
       null,
       {
         documentId: 'document0',
+        endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
         metadata: {
           fileName: 'My document.txt',
           contentType: 'text/plain',
@@ -123,7 +94,6 @@ describe('DocumentPreview', function () {
     const { container } = createDocumentPreview({
       initialData: {
         documents: documentsWithNull,
-        defaultDocumentsEndpointKey: 'https://example.com/{documentId}',
       },
       services: {
         expressionLanguage: mockExpressionLanguageService,
@@ -136,6 +106,36 @@ describe('DocumentPreview', function () {
 
     expect(screen.getAllByRole('button')).to.have.length(1);
     expect(screen.getByText('My document.txt')).to.exist;
+  });
+
+  it('should accept a custom endpoint builder', async function () {
+    // given
+    const mockDocumentEndpointBuilder = {
+      buildUrl: sinon.spy((document) => `${document.endpoint}/transformed`),
+    };
+    const mockDocument = {
+      documentId: 'document0',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
+      metadata: {
+        fileName: 'My document.png',
+        contentType: 'image/png',
+      },
+    };
+
+    const { container } = createDocumentPreview({
+      initialData: {
+        documents: [mockDocument],
+      },
+      services: {
+        expressionLanguage: mockExpressionLanguageService,
+        documentEndpointBuilder: mockDocumentEndpointBuilder,
+      },
+    });
+
+    // then
+    const formField = container.querySelector('.fjs-form-field');
+    expect(formField).to.exist;
+    expect(mockDocumentEndpointBuilder.buildUrl).to.have.been.calledWith(mockDocument);
   });
 
   it('#create', function () {
@@ -152,19 +152,16 @@ describe('DocumentPreview', function () {
     // then
     expect(field).to.eql({
       label: 'Document preview',
-      endpointKey: '=defaultDocumentsEndpointKey',
     });
 
     // but when
     const customField = config.create({
       custom: true,
-      endpointKey: '=foobar',
     });
 
     // then
     expect(customField).to.contain({
       custom: true,
-      endpointKey: '=foobar',
     });
   });
 
@@ -207,7 +204,6 @@ const defaultField = {
   title: 'Document preview',
   type: 'documentPreview',
   dataSource: '=documents',
-  endpointKey: '=defaultDocumentsEndpointKey',
   id: 'myDocument',
   label: 'Document preview',
 };
@@ -216,6 +212,7 @@ const initialData = {
   documents: [
     {
       documentId: 'document0',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
       metadata: {
         fileName: 'My document.pdf',
         contentType: 'application/pdf',
@@ -223,6 +220,7 @@ const initialData = {
     },
     {
       documentId: 'document1',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document1',
       metadata: {
         fileName: 'My document.png',
         contentType: 'image/png',
@@ -230,13 +228,13 @@ const initialData = {
     },
     {
       documentId: 'document2',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document2',
       metadata: {
         fileName: 'My document.zip',
         contentType: 'application/zip',
       },
     },
   ],
-  defaultDocumentsEndpointKey: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/{documentId}',
 };
 
 const mockExpressionLanguageService = {

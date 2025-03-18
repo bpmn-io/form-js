@@ -3464,27 +3464,6 @@ describe('properties panel', function () {
         });
       });
     });
-
-    describe('documentPreview', function () {
-      it('entries', function () {
-        // given
-        const field = schema.components.find(({ id }) => id === 'myDocuments');
-
-        bootstrapPropertiesPanel({
-          container,
-          field,
-        });
-
-        // then
-        expectPanelStructure(container, {
-          General: ['Title', 'Document reference'],
-          'Download settings': ['Document URL'],
-          Condition: [],
-          Appearance: ['Max height of preview container'],
-          'Custom properties': [],
-        });
-      });
-    });
   });
 
   describe('custom properties', function () {
