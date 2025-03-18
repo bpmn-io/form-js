@@ -5,7 +5,6 @@ export const form = {
       type: 'documentPreview',
       dataSource: '=someSource',
       label: 'My documents',
-      endpointKey: '=someEndpointKey',
       maxHeight: 100,
     },
   ],

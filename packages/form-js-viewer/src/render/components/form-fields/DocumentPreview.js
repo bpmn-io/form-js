@@ -26,7 +26,6 @@ const type = 'documentPreview';
  * @property {string} id
  * @property {string} [title]
  * @property {string} [dataSource]
- * @property {string} [endpointKey]
  * @property {number} [maxHeight]
  * @property {string} [label]
  *
