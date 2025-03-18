@@ -233,6 +233,6 @@ describe('util/getSchemaVariables', function () {
   it('should include variables in document preview', function () {
     const variables = getSchemaVariables(documentPreviewSchema);
 
-    expect(variables).to.eql(['my_documents', 'my_documents_endpoint', 'case_id']);
+    expect(variables).to.eql(['my_documents', 'case_id']);
   });
 });

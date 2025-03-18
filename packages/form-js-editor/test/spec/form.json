@@ -251,7 +251,6 @@
       "type": "documentPreview",
       "id": "myDocuments",
       "dataSource": "=myDocuments",
-      "endpointKey": "=myDocumentsEndpointKey",
       "maxHeight": 500
     },
     {

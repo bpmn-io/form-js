@@ -157,13 +157,11 @@ describe('DocumentPreview', function () {
     // but when
     const customField = config.create({
       custom: true,
-      endpointKey: '=foobar',
     });
 
     // then
     expect(customField).to.contain({
       custom: true,
-      endpointKey: '=foobar',
     });
   });
 

@@ -43,5 +43,4 @@ export { VersionTagEntry } from './VersionTagEntry';
 export { AcceptEntry } from './AcceptEntry';
 export { MultipleEntry } from './MultipleEntry';
 export { DocumentsDataSourceEntry } from './DocumentsDataSource';
-export { EndpointKeyEntry } from './EndpointKey';
 export { MaxHeightEntry } from './MaxHeightEntry';

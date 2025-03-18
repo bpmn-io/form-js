@@ -277,11 +277,6 @@
       "$id": "#/component/maxHeight",
       "description": "The maximum height of a document item in the document preview component.",
       "type": "number"
-    },
-    "endpointKey": {
-      "$id": "#/component/endpointKey",
-      "description": "The endpoint key used to fetch the document data.",
-      "type": "string"
     }
   },
   "required": ["type"]

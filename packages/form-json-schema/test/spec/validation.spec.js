@@ -184,8 +184,6 @@ describe('validation', function () {
     testForm('documentPreview');
 
     testForm('maxHeight-not-allowed');
-
-    testForm('endpointKey-not-allowed');
   });
 
   describe('rules - default', function () {
