@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.15.0
+
+- `REFACTOR`: remove Camunda special document endpoint logic ([#1375](https://github.com/bpmn-io/form-js/pull/1375))
+- `FIX`: make PDF rendering more resilient ([#1372](https://github.com/bpmn-io/form-js/pull/1372))
+- `FIX`: reset default value when statid option is deleted ([#1364](https://github.com/bpmn-io/form-js/pull/1364))
+- `FIX`: form editor input autocomplete ([#1356](https://github.com/bpmn-io/form-js/pull/1356))
+- `DEPS`: bump deps ([3c0507a2](https://github.com/bpmn-io/form-js/commit/3c0507a2))
+
 ## 1.14.0
 
 - `FIX`: filter invalid data for document preview ([#1359](https://github.com/bpmn-io/form-js/pull/1359))
