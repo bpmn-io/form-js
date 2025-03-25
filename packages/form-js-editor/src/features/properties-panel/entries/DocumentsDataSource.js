@@ -41,6 +41,7 @@ function DocumentsDataSource(props) {
   const schema = `[
   {
     "documentId": "u123",
+    "endpoint": "https://api.example.com/documents/u123",
     "metadata": {
       "fileName": "Document.pdf",
       "contentType": "application/pdf"
