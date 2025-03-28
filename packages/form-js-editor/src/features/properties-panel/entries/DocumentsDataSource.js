@@ -41,6 +41,7 @@ function DocumentsDataSource(props) {
   const schema = `[
   {
     "documentId": "u123",
+    "endpoint": "https://api.example.com/documents/u123",
     "metadata": {
       "fileName": "Document.pdf",
       "contentType": "application/pdf"
@@ -56,6 +57,20 @@ function DocumentsDataSource(props) {
       <pre>
         <code>{schema}</code>
       </pre>
+      <p>
+        When using Camunda Tasklist UI, additional document reference attributes are automatically handled. Modifying
+        the document reference may affect the document preview functionality.
+      </p>
+      <p>
+        Learn more in our{' '}
+        <a
+          href="https://docs.camunda.io/docs/8.7/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
+          target="_blank"
+          rel="noopener noreferrer">
+          documentation
+        </a>
+        .
+      </p>
     </div>
   );
 
