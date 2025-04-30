@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.15.2
+
+- `FIX`: explicitly pass textfield change event target ([#1400](https://github.com/bpmn-io/form-js/pull/1400))
+
 ## 1.15.1
 
 - `FIX`: fix document preview tooltip example ([#1379](https://github.com/bpmn-io/form-js/pull/1379))
