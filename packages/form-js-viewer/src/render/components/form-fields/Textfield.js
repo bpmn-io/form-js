@@ -19,11 +19,18 @@ export function Textfield(props) {
 
   const { required } = validate;
 
-  const [onInputChange, flushOnChange] = useFlushDebounce(({ target }) => {
+  const [onChange, flushOnChange] = useFlushDebounce(({ target }) => {
     props.onChange({
       value: target.value,
     });
   });
+
+  /**
+   * @param {import('preact').JSX.TargetedEvent<HTMLInputElement, Event>} event
+   */
+  const onInputChange = (event) => {
+    onChange({ target: event.target });
+  };
 
   const onInputBlur = () => {
     flushOnChange && flushOnChange();
