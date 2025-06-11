@@ -203,6 +203,55 @@ describe('Table', function () {
     expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('');
   });
 
+  it('should handle falsy values in table cells', function () {
+    // when
+    const DATA = [
+      {
+        id: 0,
+        name: false,
+        date: '',
+      },
+      {
+        id: null,
+        name: undefined,
+        date: 'valid',
+      },
+    ];
+
+    const { container } = createTable({
+      initialData: {
+        data: DATA,
+      },
+      field: {
+        ...defaultField,
+        columns: MOCK_COLUMNS,
+        dataSource: '=data',
+      },
+      services: {
+        expressionLanguage: {
+          isExpression: () => true,
+          evaluate: () => DATA,
+        },
+      },
+    });
+
+    // then
+    const bodyRows = container.querySelectorAll('.fjs-table-body .fjs-table-tr');
+    expect(bodyRows).to.have.length(2);
+
+    const [firstRow, secondRow] = bodyRows;
+
+    expect(firstRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(firstRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('0');
+    expect(firstRow.querySelectorAll('.fjs-table-td')[1].textContent).to.eql('false');
+    expect(firstRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('');
+
+    expect(secondRow.querySelectorAll('.fjs-table-td')).to.have.length(3);
+    expect(secondRow.querySelectorAll('.fjs-table-td')[0].textContent).to.eql('');
+    expect(secondRow.querySelectorAll('.fjs-table-td')[1].textContent).to.eql('');
+    expect(secondRow.querySelectorAll('.fjs-table-td')[2].textContent).to.eql('valid');
+  });
+
   it('should have pagination', async function () {
     // when
     const DATA = [
