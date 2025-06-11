@@ -346,5 +346,9 @@ function serializeCellData(cellData) {
     return JSON.stringify(cellData);
   }
 
-  return `${cellData || ''}`;
+  if (cellData === null || cellData === undefined) {
+    return '';
+  }
+
+  return `${cellData}`;
 }
