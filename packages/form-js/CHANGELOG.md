@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.15.3
+
+- `FIX`: handle falsy values on table serialization ([#1404](https://github.com/bpmn-io/form-js/pull/1404))
+
 ## 1.15.2
 
 - `FIX`: explicitly pass textfield change event target ([#1400](https://github.com/bpmn-io/form-js/pull/1400))
