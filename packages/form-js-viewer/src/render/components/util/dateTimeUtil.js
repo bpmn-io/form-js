@@ -181,8 +181,7 @@ export function isDateInputInformationMatching(value) {
 }
 
 export function serializeDateTime(date, time, timeSerializingFormat) {
-  const workingDate = new Date();
-  workingDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+  const workingDate = new Date(date.getTime());
   workingDate.setHours(Math.floor(time / 60), time % 60, 0, 0);
 
   if (timeSerializingFormat === TIME_SERIALISING_FORMATS.UTC_NORMALIZED) {
