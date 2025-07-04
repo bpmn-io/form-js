@@ -101,7 +101,12 @@ export function Datepicker(props) {
   useEffect(() => {
     if (!flatpickrInstance || !flatpickrInstance.config) return;
 
-    flatpickrInstance.config.onChange = [(date) => setDate(new Date(date)), () => setIsInputDirty(false)];
+    flatpickrInstance.config.onChange = [
+      (dates) => {
+        setDate(dates[0]);
+        setIsInputDirty(false);
+      },
+    ];
   }, [flatpickrInstance, setDate]);
 
   const onInputKeyDown = useCallback(
