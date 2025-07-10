@@ -2,7 +2,11 @@ import { get } from 'min-dash';
 
 import { useService, useVariables } from '../hooks';
 
-import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelTemplatingEntry } from '@bpmn-io/properties-panel';
+import { TEXT_VIEW_DEFAULT_TEXT } from '@bpmn-io/form-js-viewer';
+import { isEditedFromDefaultFactory } from '../Util';
+
+const isTextEdited = isEditedFromDefaultFactory(TEXT_VIEW_DEFAULT_TEXT, false);
 
 export function TextEntry(props) {
   const { editField, field } = props;
@@ -13,7 +17,7 @@ export function TextEntry(props) {
       component: Text,
       editField: editField,
       field: field,
-      isEdited: isFeelEntryEdited,
+      isEdited: isTextEdited,
       isDefaultVisible: (field) => field.type === 'text',
     },
   ];
