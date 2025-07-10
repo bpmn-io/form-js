@@ -1,4 +1,4 @@
-import { isSelectEntryEdited } from '@bpmn-io/properties-panel';
+import { isEditedFromDefaultFactory } from '../Util';
 
 import { AutoFocusSelectEntry } from '../components';
 
@@ -10,6 +10,8 @@ import {
   OPTIONS_SOURCES_PATHS,
 } from '@bpmn-io/form-js-viewer';
 
+const isOptionsSourceEdited = isEditedFromDefaultFactory(OPTIONS_SOURCES.STATIC);
+
 export function OptionsSourceSelectEntry(props) {
   const { editField, field, id } = props;
 
@@ -17,7 +19,7 @@ export function OptionsSourceSelectEntry(props) {
     {
       id: id + '-select',
       component: ValuesSourceSelect,
-      isEdited: isSelectEntryEdited,
+      isEdited: isOptionsSourceEdited,
       editField,
       field,
     },
