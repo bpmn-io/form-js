@@ -108,7 +108,7 @@ export function hasIntegerPathSegment(path) {
  *
  * @param {string|boolean} defaultValue The default value to check against.
  * @param {boolean} [includeEmptyAsDefault=true] If true, an empty value (e.g., '') is also considered a default state.
- * @return {(node: { value: string|boolean }) => boolean} A function that returns true if the node's value is edited.
+ * @return {(node: HTMLElement) => boolean} A function that returns true if the node's value is edited.
  */
 export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault = true) {
   return (node) => {
@@ -116,7 +116,15 @@ export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault =
       return false;
     }
 
-    const { value } = node;
+    /**
+     * @type {HTMLElement|null}
+     */
+    const codeMirrorContent = node.querySelector('.cm-content');
+    const isCodeMirrorEditor = !!codeMirrorContent;
+
+    const value = isCodeMirrorEditor
+      ? codeMirrorContent.innerText
+      : /** @type {HTMLInputElement} */ (node).value;
 
     if (includeEmptyAsDefault && !value) {
       return false;
