@@ -39,7 +39,7 @@ function Disabled(props) {
     getValue,
     id,
     label: 'Disabled',
-    tooltip: 'Field cannot be edited by the end-user, and the data is not submitted. Takes precedence over read only.',
+    tooltip: 'Disable this field when it should not be interactive for end-users. Its data will not be submitted. This setting takes precedence over read-only.',
     inline: true,
     setValue,
   });
