@@ -106,7 +106,7 @@ export function hasIntegerPathSegment(path) {
 /**
  * Factory for isEdited functions that check against a default.
  *
- * @param {string|boolean} defaultValue The default value to check against.
+ * @param {string} defaultValue The default value to check against.
  * @param {boolean} [includeEmptyAsDefault=true] If true, an empty value (e.g., '') is also considered a default state.
  * @return {(node: HTMLElement) => boolean} A function that returns true if the node's value is edited.
  */
@@ -132,4 +132,8 @@ export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault =
 
     return value !== defaultValue;
   };
+}
+
+export function isTrueDefaultToggleSwitchEntryEdited(node) {
+  return node && !node.checked;
 }
