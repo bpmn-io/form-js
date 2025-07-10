@@ -102,3 +102,26 @@ export function hasOptionsGroupsConfigured(formFieldDefinition) {
 export function hasIntegerPathSegment(path) {
   return path.split('.').some((segment) => /^\d+$/.test(segment));
 }
+
+/**
+ * Factory for isEdited functions that check against a default.
+ *
+ * @param {string|boolean} defaultValue The default value to check against.
+ * @param {boolean} [includeEmptyAsDefault=true] If true, an empty value (e.g., '') is also considered a default state.
+ * @return {(node: { value: string|boolean }) => boolean} A function that returns true if the node's value is edited.
+ */
+export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault = true) {
+  return (node) => {
+    if (!node) {
+      return false;
+    }
+
+    const { value } = node;
+
+    if (includeEmptyAsDefault && !value) {
+      return false;
+    }
+
+    return value !== defaultValue;
+  };
+}
