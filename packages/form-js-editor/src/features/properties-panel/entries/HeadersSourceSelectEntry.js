@@ -1,8 +1,7 @@
-import { isSelectEntryEdited } from '@bpmn-io/properties-panel';
-
 import { AutoFocusSelectEntry } from '../components';
 
 import { get, isString, isArray } from 'min-dash';
+import { isEditedFromDefaultFactory } from '../Util';
 
 const OPTIONS = {
   static: {
@@ -21,6 +20,8 @@ const COLUMNS_PATH = ['columns'];
 
 const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
 
+const isHeadersSourceEdited = isEditedFromDefaultFactory(OPTIONS.static.value);
+
 export function HeadersSourceSelectEntry(props) {
   const { editField, field, id } = props;
 
@@ -28,7 +29,7 @@ export function HeadersSourceSelectEntry(props) {
     {
       id: id + '-select',
       component: HeadersSourceSelect,
-      isEdited: isSelectEntryEdited,
+      isEdited: isHeadersSourceEdited,
       editField,
       field,
     },
