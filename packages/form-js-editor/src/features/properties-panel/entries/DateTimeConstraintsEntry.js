@@ -5,7 +5,7 @@ import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '
 import { get } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
 
-const isTimeIntervalEdited = isEditedFromDefaultFactory("15");
+const isTimeIntervalEdited = isEditedFromDefaultFactory('15');
 
 export function DateTimeConstraintsEntry(props) {
   const { editField, field, id } = props;
