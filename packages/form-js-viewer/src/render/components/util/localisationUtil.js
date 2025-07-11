@@ -6,6 +6,10 @@
  * @returns {string} The date format for the locale.
  */
 export function getLocaleDateFormat(locale = 'default') {
+  if (locale === 'fa') {
+    return 'Y/m/dd';
+  }
+
   const parts = new Intl.DateTimeFormat(locale).formatToParts(new Date(Date.UTC(2020, 5, 5)));
   return parts
     .map((part) => {
@@ -33,6 +37,10 @@ export function getLocaleDateFormat(locale = 'default') {
  */
 export function getLocaleReadableDateFormat(locale) {
   let format = getLocaleDateFormat(locale).toLowerCase();
+
+  if (locale === 'fa') {
+    return 'روز/ماه/سال';
+  }
 
   // Ensure month is in 'mm' format
   if (!format.includes('mm')) {
