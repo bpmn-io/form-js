@@ -122,9 +122,7 @@ export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault =
     const codeMirrorContent = node.querySelector('.cm-content');
     const isCodeMirrorEditor = !!codeMirrorContent;
 
-    const value = isCodeMirrorEditor
-      ? codeMirrorContent.innerText
-      : /** @type {HTMLInputElement} */ (node).value;
+    const value = isCodeMirrorEditor ? codeMirrorContent.innerText : /** @type {HTMLInputElement} */ (node).value;
 
     if (includeEmptyAsDefault && !value) {
       return false;
