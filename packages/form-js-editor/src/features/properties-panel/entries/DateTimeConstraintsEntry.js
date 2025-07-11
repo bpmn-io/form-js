@@ -1,8 +1,11 @@
-import { CheckboxEntry, isCheckboxEntryEdited, SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
+import { CheckboxEntry, isCheckboxEntryEdited, SelectEntry } from '@bpmn-io/properties-panel';
 
 import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '@bpmn-io/form-js-viewer';
 
 import { get } from 'min-dash';
+import { isEditedFromDefaultFactory } from '../Util';
+
+const isTimeIntervalEdited = isEditedFromDefaultFactory('15');
 
 export function DateTimeConstraintsEntry(props) {
   const { editField, field, id } = props;
@@ -22,7 +25,7 @@ export function DateTimeConstraintsEntry(props) {
   entries.push({
     id: id + '-timeInterval',
     component: TimeIntervalSelect,
-    isEdited: isSelectEntryEdited,
+    isEdited: isTimeIntervalEdited,
     editField,
     field,
     isDefaultVisible: isDefaultVisible([DATETIME_SUBTYPES.TIME, DATETIME_SUBTYPES.DATETIME]),

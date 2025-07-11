@@ -14,6 +14,7 @@ export function GroupAppearanceEntry(props) {
       id: 'showOutline',
       path: ['showOutline'],
       label: 'Show outline',
+      isTrueDefault: true,
       props,
     }),
   ];

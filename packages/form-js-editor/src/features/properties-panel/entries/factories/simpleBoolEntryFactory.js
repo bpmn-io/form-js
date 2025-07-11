@@ -1,8 +1,9 @@
 import { get } from 'min-dash';
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
+import { isTrueDefaultToggleSwitchEntryEdited } from '../../Util';
 
 export function simpleBoolEntryFactory(options) {
-  const { id, label, description, path, props, getValue, setValue, isDefaultVisible } = options;
+  const { id, label, description, path, props, getValue, setValue, isDefaultVisible, isTrueDefault = false } = options;
 
   const { editField, field } = props;
 
@@ -14,7 +15,7 @@ export function simpleBoolEntryFactory(options) {
     editField,
     description,
     component: SimpleBoolComponent,
-    isEdited: isToggleSwitchEntryEdited,
+    isEdited: isTrueDefault ? isTrueDefaultToggleSwitchEntryEdited : isToggleSwitchEntryEdited,
     isDefaultVisible,
     getValue,
     setValue,

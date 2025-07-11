@@ -1,4 +1,4 @@
-import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
+import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
   DATETIME_SUBTYPES,
@@ -8,6 +8,9 @@ import {
 } from '@bpmn-io/form-js-viewer';
 
 import { get } from 'min-dash';
+import { isEditedFromDefaultFactory } from '../Util';
+
+const isTimeFormatEdited = isEditedFromDefaultFactory(TIME_SERIALISING_FORMATS.UTC_OFFSET);
 
 export function DateTimeFormatEntry(props) {
   const { editField, field } = props;
@@ -17,7 +20,7 @@ export function DateTimeFormatEntry(props) {
   entries.push({
     id: 'time-format',
     component: TimeFormatSelect,
-    isEdited: isSelectEntryEdited,
+    isEdited: isTimeFormatEdited,
     editField,
     field,
     isDefaultVisible: (field) =>
