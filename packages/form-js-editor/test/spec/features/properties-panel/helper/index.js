@@ -1,6 +1,5 @@
 import { PropertiesPanel } from '@bpmn-io/properties-panel';
 import { FormPropertiesPanelContext } from '../../../../../src/features/properties-panel/context';
-
 import { createMockInjector } from '../../../../helper/mocks';
 
 // to delete once we have unified the context of the properties panel and editors
@@ -31,6 +30,14 @@ const noopHeaderProvider = {
   getTypeLabel: noop,
 };
 
+// recent versions of the properties panel (between 3.26.3 -> 3.30.2) fire certain eventbus events on unmount causing test failures, this silences them
+const noopEventBus = {
+  on: noop,
+  off: noop,
+  once: noop,
+  fire: noop,
+};
+
 export const TestPropertiesPanel = (props) => {
   const { field = noopField, headerProvider = noopHeaderProvider } = props;
 
@@ -38,7 +45,7 @@ export const TestPropertiesPanel = (props) => {
 
   groups = applyDefaultVisible(field, groups);
 
-  return <PropertiesPanel element={field} groups={groups} headerProvider={headerProvider} />;
+  return <PropertiesPanel element={field} groups={groups} headerProvider={headerProvider} eventBus={noopEventBus} />;
 };
 
 // helpers //////////////////////
