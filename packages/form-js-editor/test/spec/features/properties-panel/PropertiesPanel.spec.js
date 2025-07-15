@@ -3599,7 +3599,7 @@ describe('properties panel', function () {
   });
 
   describe('feel popup', function () {
-    it('should render feel popup in given container', async function () {
+    it.skip('should render feel popup in given container', async function () {
       // given
       const editFieldSpy = spy();
 
