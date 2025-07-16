@@ -39,7 +39,8 @@ function Disabled(props) {
     getValue,
     id,
     label: 'Disabled',
-    tooltip: 'Disable this field when it should not be interactive for end-users. Its data will not be submitted. This setting takes precedence over read-only.',
+    tooltip:
+      'Disable this field when it should not be interactive for end-users. Its data will not be submitted. This setting takes precedence over read-only.',
     inline: true,
     setValue,
   });
