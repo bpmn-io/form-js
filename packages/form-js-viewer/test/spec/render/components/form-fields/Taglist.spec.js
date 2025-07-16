@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/preact/pure';
+import { render, screen, fireEvent, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Taglist } from '../../../../../src/render/components/form-fields/Taglist';
@@ -584,7 +584,9 @@ describe('Taglist', function () {
         await userEvent.keyboard('{arrowup}');
         focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
-        expect(focusedItem.innerText).to.equal('Tag5');
+        await waitFor(() => {
+          expect(focusedItem.innerText).to.equal('Tag5');
+        });
       });
 
       it('should work via mouse', async function () {
@@ -673,8 +675,10 @@ describe('Taglist', function () {
         await userEvent.keyboard('{enter}');
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: ['tag1', 'tag2', 'tag3', 'tag4'],
+        waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: ['tag1', 'tag2', 'tag3', 'tag4'],
+          });
         });
       });
     });

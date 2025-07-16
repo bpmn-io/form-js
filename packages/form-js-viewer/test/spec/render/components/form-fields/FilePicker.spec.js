@@ -1,10 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/preact/pure';
+import { render, screen } from '@testing-library/preact/pure';
 
 import { FilePicker } from '../../../../../src/render/components/form-fields/FilePicker';
 
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
+import userEvent from '@testing-library/user-event';
 
 let container;
 
@@ -84,7 +85,7 @@ describe('FilePicker', function () {
     expect(screen.getByText('2 files selected')).to.exist;
   });
 
-  it('should set file registry', function () {
+  it('should set file registry', async function () {
     // given
     const file = new File([''], 'test.png', { type: 'image/png' });
     const fileRegistry = getMockFileRegistry();
@@ -98,11 +99,7 @@ describe('FilePicker', function () {
 
     // when
 
-    fireEvent.change(container.querySelector('input[type="file"]'), {
-      target: {
-        files: [file],
-      },
-    });
+    await userEvent.upload(container.querySelector('input[type="file"]'), file);
 
     // then
     expect(fileRegistry.setFiles).to.have.been.calledWith('files::fileTestId', [file]);
