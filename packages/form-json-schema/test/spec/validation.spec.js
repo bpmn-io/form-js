@@ -141,6 +141,10 @@ describe('validation', function () {
 
     testForm('validate-pattern-not-allowed');
 
+    testForm('validate-patternErrorMessage-not-allowed');
+
+    testForm('validate-patternErrorMessage-without-pattern');
+
     testForm('validate-validationType-not-allowed');
 
     testForm('validate-maxLength-not-allowed');
