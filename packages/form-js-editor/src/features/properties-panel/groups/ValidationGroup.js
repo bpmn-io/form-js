@@ -33,6 +33,7 @@ export function ValidationGroup(field, editField) {
   const { type } = field;
   const validate = get(field, ['validate'], {});
   const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS.custom.value].includes(validate.validationType);
+  const hasPattern = !!get(field, ['validate', 'pattern']);
 
   const onChange = (key) => {
     return (value) => {
@@ -102,6 +103,19 @@ export function ValidationGroup(field, editField) {
     isEdited: isTextFieldEntryEdited,
     onChange,
     isDefaultVisible: (field) => INPUTS.includes(field.type) && type === 'textfield' && isCustomValidation,
+  });
+
+   entries.push({
+    id: 'patternErrorMessage',
+    component: PatternErrorMessage,
+    getValue,
+    field,
+    isEdited: isTextFieldEntryEdited,
+    onChange,
+    isDefaultVisible: (field) =>
+      INPUTS.includes(field.type) &&
+      type === 'textfield' &&
+      isCustomValidation && hasPattern,
   });
 
   entries.push(
@@ -196,6 +210,22 @@ function Pattern(props) {
     id,
     label: 'Custom regular expression',
     setValue: onChange('pattern'),
+  });
+}
+
+function PatternErrorMessage(props) {
+  const { field, getValue, id, onChange } = props;
+
+  const debounce = useService('debounce');
+
+  return TextFieldEntry({
+    debounce,
+    element: field,
+    getValue: getValue('patternErrorMessage'),
+    id,
+    label: 'Custom error message',
+    tooltip: 'The error message to display when the input does not match the regular expression.',
+    setValue: onChange('patternErrorMessage'),
   });
 }
 
