@@ -41,6 +41,12 @@ export function Textfield(props) {
     onFocus && onFocus();
   };
 
+  const onKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      flushOnChange && flushOnChange();
+    }
+  };
+
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
 
@@ -56,6 +62,7 @@ export function Textfield(props) {
           onInput={onInputChange}
           onBlur={onInputBlur}
           onFocus={onInputFocus}
+          onKeyDown={onKeyDown}
           type="text"
           value={value}
           aria-describedby={[descriptionId, errorMessageId].join(' ')}

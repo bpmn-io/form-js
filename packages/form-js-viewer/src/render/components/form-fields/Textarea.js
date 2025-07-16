@@ -39,6 +39,12 @@ export function Textarea(props) {
     autoSizeTextarea(textareaRef.current);
   };
 
+  const onKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      flushOnChange && flushOnChange();
+    }
+  };
+
   useLayoutEffect(() => {
     autoSizeTextarea(textareaRef.current);
   }, [value]);
@@ -61,6 +67,7 @@ export function Textarea(props) {
         onInput={onInputChange}
         onBlur={onInputBlur}
         onFocus={onInputFocus}
+        onKeyDown={onKeyDown}
         value={value}
         ref={textareaRef}
         aria-describedby={[descriptionId, errorMessageId].join(' ')}
