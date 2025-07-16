@@ -165,7 +165,7 @@ describe('JSONEditor', function () {
       const variables = ['foobar', 'baz'];
 
       const editor = new JSONEditor();
-      editor.setValue(initialValue), editor.setVariables(variables);
+      (editor.setValue(initialValue), editor.setVariables(variables));
 
       const cm = editor.getView();
 

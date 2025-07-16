@@ -50,7 +50,7 @@ export function Numberfield(props) {
   const onInputFocus = () => {
     onFocus && onFocus();
   };
-  
+
   // all value changes must go through this function
   const setValue = useCallback(
     (stringValue) => {
