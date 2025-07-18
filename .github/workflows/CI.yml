@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   Build:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-22.04, windows-latest]
         node-version: [20]
