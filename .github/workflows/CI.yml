@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   Build:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-22.04, windows-latest]
         node-version: [20]
@@ -37,7 +38,6 @@ jobs:
         if: runner.os != 'Linux'
         env:
           TEST_BROWSERS: ChromeHeadless
-          NODE_OPTIONS: '--max_old_space_size=4096'
         run: npm run all
       - name: Upload coverage
         uses: codecov/codecov-action@v5

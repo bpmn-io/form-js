@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/preact/pure';
+import { render, screen, fireEvent, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Taglist } from '../../../../../src/render/components/form-fields/Taglist';
@@ -570,21 +570,23 @@ describe('Taglist', function () {
         const filterInput = container.querySelector('.fjs-taglist-input');
         await userEvent.click(filterInput);
 
-        const dropdownList = container.querySelector('.fjs-dropdownlist');
-
         // then
-        let focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
-        expect(focusedItem.innerText).to.equal('Tag4');
+        const tag4Item = screen.getByText('Tag4');
+        expect(tag4Item.classList.contains('focused')).to.be.true;
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
-        expect(focusedItem.innerText).to.equal('Tag6');
+        await waitFor(() => {
+          const tag6Item = screen.getByText('Tag6');
+          expect(tag6Item.classList.contains('focused')).to.be.true;
+        });
 
         await userEvent.keyboard('{arrowup}');
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
-        expect(focusedItem.innerText).to.equal('Tag5');
+        await waitFor(() => {
+          const tag5Item = screen.getByText('Tag5');
+          expect(tag5Item.classList.contains('focused')).to.be.true;
+        });
       });
 
       it('should work via mouse', async function () {
@@ -649,8 +651,8 @@ describe('Taglist', function () {
         const filterInput = container.querySelector('.fjs-taglist-input');
         await userEvent.click(filterInput);
 
-        const focusedItem = container.querySelector('.fjs-dropdownlist-item.focused');
-        await userEvent.click(focusedItem);
+        const tag4Item = screen.getByText('Tag4');
+        await userEvent.click(tag4Item);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
@@ -673,8 +675,10 @@ describe('Taglist', function () {
         await userEvent.keyboard('{enter}');
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: ['tag1', 'tag2', 'tag3', 'tag4'],
+        waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: ['tag1', 'tag2', 'tag3', 'tag4'],
+          });
         });
       });
     });
