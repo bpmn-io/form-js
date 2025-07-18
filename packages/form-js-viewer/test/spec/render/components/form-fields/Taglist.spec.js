@@ -577,14 +577,16 @@ describe('Taglist', function () {
         expect(focusedItem.innerText).to.equal('Tag4');
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
-
-        expect(focusedItem.innerText).to.equal('Tag6');
-
-        await userEvent.keyboard('{arrowup}');
-        focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
 
         await waitFor(() => {
+          focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
+          expect(focusedItem.innerText).to.equal('Tag6');
+        });
+
+        await userEvent.keyboard('{arrowup}');
+
+        await waitFor(() => {
+          focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
           expect(focusedItem.innerText).to.equal('Tag5');
         });
       });
