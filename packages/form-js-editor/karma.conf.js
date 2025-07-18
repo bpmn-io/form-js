@@ -45,6 +45,7 @@ module.exports = function (karma) {
       reporters: [{ type: 'lcov', subdir: '.' }],
     },
 
+    // these custom viewport sizes are necessary so draggle works in the tests
     customLaunchers: {
       ChromeHeadlessLarge: {
         base: 'ChromeHeadless',
