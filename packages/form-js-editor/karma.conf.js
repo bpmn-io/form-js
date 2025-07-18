@@ -45,7 +45,22 @@ module.exports = function (karma) {
       reporters: [{ type: 'lcov', subdir: '.' }],
     },
 
-    browsers,
+    customLaunchers: {
+      ChromeHeadlessLarge: {
+        base: 'ChromeHeadless',
+        flags: ['--window-size=1920,1080', '--disable-web-security'],
+      },
+      ChromeLarge: {
+        base: 'Chrome',
+        flags: ['--window-size=1920,1080', '--disable-web-security'],
+      },
+    },
+
+    browsers: browsers.map((browser) => {
+      if (browser === 'ChromeHeadless') return 'ChromeHeadlessLarge';
+      if (browser === 'Chrome') return 'ChromeLarge';
+      return browser;
+    }),
 
     singleRun: true,
     autoWatch: false,
