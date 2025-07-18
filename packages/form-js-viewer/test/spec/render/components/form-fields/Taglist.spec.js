@@ -570,24 +570,22 @@ describe('Taglist', function () {
         const filterInput = container.querySelector('.fjs-taglist-input');
         await userEvent.click(filterInput);
 
-        const dropdownList = container.querySelector('.fjs-dropdownlist');
-
         // then
-        let focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
-        expect(focusedItem.innerText).to.equal('Tag4');
+        const tag4Item = screen.getByText('Tag4');
+        expect(tag4Item.classList.contains('focused')).to.be.true;
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
 
         await waitFor(() => {
-          focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
-          expect(focusedItem.innerText).to.equal('Tag6');
+          const tag6Item = screen.getByText('Tag6');
+          expect(tag6Item.classList.contains('focused')).to.be.true;
         });
 
         await userEvent.keyboard('{arrowup}');
 
         await waitFor(() => {
-          focusedItem = dropdownList.querySelector('.fjs-dropdownlist-item.focused');
-          expect(focusedItem.innerText).to.equal('Tag5');
+          const tag5Item = screen.getByText('Tag5');
+          expect(tag5Item.classList.contains('focused')).to.be.true;
         });
       });
 
@@ -653,8 +651,8 @@ describe('Taglist', function () {
         const filterInput = container.querySelector('.fjs-taglist-input');
         await userEvent.click(filterInput);
 
-        const focusedItem = container.querySelector('.fjs-dropdownlist-item.focused');
-        await userEvent.click(focusedItem);
+        const tag4Item = screen.getByText('Tag4');
+        await userEvent.click(tag4Item);
 
         // then
         expect(onChangeSpy).to.have.been.calledWithMatch({
