@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.16.0
+
+- `FEAT`: support pattern validation custom message ([#1360](https://github.com/bpmn-io/form-js/issues/1360))
+- `FIX`: support patternErrorMessage in json schema ([9a810fd](https://github.com/bpmn-io/form-js/commit/9a810fd362a89dd658345305b1760de6e30947ae))
+- `FIX`: flush debounced fields on enter ([#35032](https://github.com/camunda/camunda/issues/35032))
+- `DEPS`: bump deps ([e573f01](https://github.com/bpmn-io/form-js/commit/e573f011450439a4f2972ab51d1ca920379b7116), [b23eeab](https://github.com/bpmn-io/form-js/commit/b23eeab8c0351b1e6ab5f5f2e3ac95515ba63d48), [5df5bf5](https://github.com/bpmn-io/form-js/commit/5df5bf58ea43045bb8693f6eb5411f5fcbfcf8b2), [2ecde86](https://github.com/bpmn-io/form-js/commit/2ecde868f6286682bd530a81deabd61144cb4906), [eda98d7](https://github.com/bpmn-io/form-js/commit/eda98d7ce47250d835a9616d78b32d6a73a843c8))
+- `CHORE`: refresh lockfile ([#1412](https://github.com/bpmn-io/form-js/pull/1412))
+
 ## 1.15.3
 
 - `FIX`: handle falsy values on table serialization ([#1404](https://github.com/bpmn-io/form-js/pull/1404))
