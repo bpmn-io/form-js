@@ -128,7 +128,7 @@ function runPresetValidation(field, validation, value) {
   const errors = [];
 
   if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
-    errors.push(`Field must match pattern ${validation.pattern}.`);
+    errors.push(validation.patternErrorMessage || `Field must match pattern ${validation.pattern}.`);
   }
 
   if (validation.required) {
