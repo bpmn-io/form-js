@@ -7,7 +7,7 @@ import { spy } from 'sinon';
 
 import { CustomFormFieldsModule } from './custom';
 
-import { range } from 'lodash';
+import range from 'lodash/range';
 
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
