@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>form-js CDN Test</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 2em;
+      }
+      #form {
+        border: 1px solid #ccc;
+        padding: 1em;
+        min-height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>form-js CDN Delivery Test</h1>
+    <div id="form"></div>
+    <script type="module">
+      import formJs from 'https://cdn.jsdelivr.net/npm/@bpmn-io/form-js@1.16.0/+esm';
+
+      // Minimal schema for demonstration
+      const schema = {
+        components: [
+          {
+            key: 'name',
+            label: 'Name',
+            type: 'textfield',
+            validate: { required: true },
+          },
+        ],
+      };
+
+      // Render the form using form-js
+      const container = document.getElementById('form');
+      const form = new formJs.Form({
+        container,
+        schema,
+      });
+      form.importSchema(schema);
+    </script>
+  </body>
+</html>
