@@ -51,7 +51,7 @@
     "@bpmn-io/form-js-viewer": "^1.16.0",
     "@bpmn-io/properties-panel": "^3.30.2",
     "array-move": "^4.0.0",
-    "big.js": "^6.2.2",
+    "big.js": "^7.0.0",
     "ids": "^1.0.5",
     "min-dash": "^4.2.3",
     "min-dom": "^4.1.0",
