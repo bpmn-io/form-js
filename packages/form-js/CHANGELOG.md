@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.17.0
+
+- `FIX`: fix lodash bundling ([#1427](https://github.com/bpmn-io/form-js/pull/1427))
+- `DEPS`: bump deps [3797d8e](https://github.com/bpmn-io/form-js/commit/3797d8eb42b6df23b5e1213b1c557e6b4662ac56), [7836da3](https://github.com/bpmn-io/form-js/commit/7836da37a03ad4d4e21dd388b733e5bdc27b794c), [40583fc](https://github.com/bpmn-io/form-js/commit/40583fce5e0c3f0283af0bf9b4597481a125ec9f), [75e1b96](https://github.com/bpmn-io/form-js/commit/75e1b96353bc82b5dea1cef4e49d53157d3e36b9), [3620764](https://github.com/bpmn-io/form-js/commit/3620764b9e45e26b9f3767ecca0c78915f4c96b7), [0810170](https://github.com/bpmn-io/form-js/commit/08101701a063c8d1597771381cc6b80348dba95f), [07a7d2a](https://github.com/bpmn-io/form-js/commit/07a7d2aab9162117be54fb5b8e13b3d13c89c27e), [e151b86](https://github.com/bpmn-io/form-js/commit/e151b8617f534f6b0d954f3f289c2c4b8d7a85b4), [cc7aef8](https://github.com/bpmn-io/form-js/commit/cc7aef8871731a9e9dc35a7158a6aec8eea83853), [f2b44be](https://github.com/bpmn-io/form-js/commit/f2b44beeabed5549208764833f5097f87177af3a), [bfdb36e](https://github.com/bpmn-io/form-js/commit/bfdb36e59033fdf3a12113c0170a44a6a79d6bed)
+
 ## 1.16.0
 
 - `FEAT`: support pattern validation custom message ([#1360](https://github.com/bpmn-io/form-js/issues/1360))
