@@ -128,7 +128,7 @@ describe('Validator', function () {
         // given
         const field = {
           validate: {
-            pattern: "/foo/",
+            pattern: '/foo/',
           },
         };
 
