@@ -787,7 +787,6 @@ describe('Datetime', function () {
     });
 
     it('should display an error state if only time is set', async function () {
-
       // given
       const { container } = createDatetime({ field: datetimeField });
 
@@ -798,7 +797,7 @@ describe('Datetime', function () {
       // when
       await userEvent.type(timeInput, '10:00');
       await userEvent.tab();
-      
+
       // then
       const error = await screen.findByText('Date and time must both be entered.');
       expect(error).to.exist;
