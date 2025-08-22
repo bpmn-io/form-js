@@ -146,6 +146,10 @@ export function Numberfield(props) {
       e.preventDefault();
       return;
     }
+
+    if (e.code === 'Enter') {
+      flushOnChange && flushOnChange();
+    }
   };
 
   // intercept key presses which would lead to an invalid number

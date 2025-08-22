@@ -31,6 +31,6 @@ jobs:
       - name: Run Playwright tests
         run: npm run test:visual -- --update-snapshots
       - name: Commit screenshots
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: 'chore: updated snapshots'

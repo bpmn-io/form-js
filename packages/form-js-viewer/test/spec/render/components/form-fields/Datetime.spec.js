@@ -1,4 +1,4 @@
-import { render } from '@testing-library/preact/pure';
+import { render, waitFor, screen } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
@@ -130,8 +130,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '2000-01-01',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '2000-01-01',
+          });
         });
       });
 
@@ -152,8 +154,10 @@ describe('Datetime', function () {
         await userEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '1996-10-27',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '1996-10-27',
+          });
         });
       });
 
@@ -173,8 +177,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: null,
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: null,
+          });
         });
       });
     });
@@ -200,8 +206,10 @@ describe('Datetime', function () {
         await userEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '1996-12-01',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '1996-12-01',
+          });
         });
       });
 
@@ -225,8 +233,10 @@ describe('Datetime', function () {
         await userEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '1996-09-29',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '1996-09-29',
+          });
         });
       });
 
@@ -250,8 +260,10 @@ describe('Datetime', function () {
         await userEvent.click(firstDayNode);
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '1995-12-31',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '1995-12-31',
+          });
         });
       });
     });
@@ -578,8 +590,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '13:00',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '13:00',
+          });
         });
       });
 
@@ -601,8 +615,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '13:00',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '13:00',
+          });
         });
       });
 
@@ -623,8 +639,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: null,
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: null,
+          });
         });
       });
     });
@@ -764,13 +782,8 @@ describe('Datetime', function () {
       await userEvent.tab();
 
       // then
-      const errorGroup = container.querySelector('.fjs-form-field-error');
-      expect(errorGroup).to.exist;
-
-      const errorItem = errorGroup.querySelector('li');
-
-      expect(errorItem).to.exist;
-      expect(errorItem.innerText).to.equal('Date and time must both be entered.');
+      const error = await screen.findByText('Date and time must both be entered.');
+      expect(error).to.exist;
     });
 
     it('should display an error state if only time is set', async function () {
@@ -786,12 +799,8 @@ describe('Datetime', function () {
       await userEvent.tab();
 
       // then
-      const errorGroup = container.querySelector('.fjs-form-field-error');
-      expect(errorGroup).to.exist;
-
-      const errorItem = errorGroup.querySelector('li');
-      expect(errorItem).to.exist;
-      expect(errorItem.innerText).to.equal('Date and time must both be entered.');
+      const error = await screen.findByText('Date and time must both be entered.');
+      expect(error).to.exist;
     });
 
     describe('change handling', function () {
@@ -813,8 +822,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '2000-01-01T11:00',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '2000-01-01T11:00',
+          });
         });
       });
 
@@ -836,8 +847,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: '1996-11-13T12:00',
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: '1996-11-13T12:00',
+          });
         });
       });
 
@@ -858,8 +871,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: null,
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: null,
+          });
         });
       });
 
@@ -880,8 +895,10 @@ describe('Datetime', function () {
         await userEvent.tab();
 
         // then
-        expect(onChangeSpy).to.have.been.calledWithMatch({
-          value: null,
+        await waitFor(() => {
+          expect(onChangeSpy).to.have.been.calledWithMatch({
+            value: null,
+          });
         });
       });
     });

@@ -3,6 +3,7 @@ import { useDangerousHTMLWrapper, useService, useTemplateEvaluation } from '../.
 import { sanitizeHTML } from '../Sanitizer';
 
 import { formFieldClasses, textToLabel } from '../Util';
+import { TEXT_VIEW_DEFAULT_TEXT } from '../../../util/constants/TextConstants';
 
 const type = 'text';
 
@@ -63,7 +64,7 @@ Text.config = {
   name: 'Text view',
   group: 'presentation',
   create: (options = {}) => ({
-    text: '# Text',
+    text: TEXT_VIEW_DEFAULT_TEXT,
     ...options,
   }),
   getSubheading: (field) => {

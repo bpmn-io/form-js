@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'preact/hooks';
 import { useExpressionEvaluation, useDeepCompareMemoize, useService } from '../../hooks';
 
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 const type = 'expression';
 

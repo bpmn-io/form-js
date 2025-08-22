@@ -51,7 +51,8 @@ function Readonly(props) {
     getValue,
     id,
     label: 'Read only',
-    tooltip: 'Field cannot be edited by the end-user, but the data will still be submitted.',
+    tooltip:
+      'Make this field read-only when it cannot be edited by the end-user, but its content is important for them to see. Its data will still be submitted.',
     setValue,
     variables,
   });

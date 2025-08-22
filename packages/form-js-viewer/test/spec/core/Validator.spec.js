@@ -128,7 +128,7 @@ describe('Validator', function () {
         // given
         const field = {
           validate: {
-            pattern: /foo/,
+            pattern: '/foo/',
           },
         };
 
@@ -138,6 +138,23 @@ describe('Validator', function () {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must match pattern /foo/.');
+      });
+
+      it('should be invalid with a custom error message', function () {
+        // given
+        const field = {
+          validate: {
+            pattern: '^INV-\\d{6}$',
+            patternErrorMessage: 'Invoice number must be in the format INV-123456.',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 'invalid-invoice-number');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Invoice number must be in the format INV-123456.');
       });
     });
 

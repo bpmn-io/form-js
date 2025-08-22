@@ -102,3 +102,36 @@ export function hasOptionsGroupsConfigured(formFieldDefinition) {
 export function hasIntegerPathSegment(path) {
   return path.split('.').some((segment) => /^\d+$/.test(segment));
 }
+
+/**
+ * Factory for isEdited functions that check against a default.
+ *
+ * @param {string} defaultValue The default value to check against.
+ * @param {boolean} [includeEmptyAsDefault=true] If true, an empty value (e.g., '') is also considered a default state.
+ * @return {(node: HTMLElement) => boolean} A function that returns true if the node's value is edited.
+ */
+export function isEditedFromDefaultFactory(defaultValue, includeEmptyAsDefault = true) {
+  return (node) => {
+    if (!node) {
+      return false;
+    }
+
+    /**
+     * @type {HTMLElement|null}
+     */
+    const codeMirrorContent = node.querySelector('.cm-content');
+    const isCodeMirrorEditor = !!codeMirrorContent;
+
+    const value = isCodeMirrorEditor ? codeMirrorContent.innerText : /** @type {HTMLInputElement} */ (node).value;
+
+    if (includeEmptyAsDefault && !value) {
+      return false;
+    }
+
+    return value !== defaultValue;
+  };
+}
+
+export function isTrueDefaultToggleSwitchEntryEdited(node) {
+  return node && !node.checked;
+}
