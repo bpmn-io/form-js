@@ -44,6 +44,8 @@ export function FilePicker(props) {
   /** @type {File[]} */
   const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
 
+  const translate = useService('translate');
+
   useEffect(() => {
     if (filesKey && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
       onChange({ value: null });
@@ -106,7 +108,7 @@ export function FilePicker(props) {
           }}>
           Browse
         </button>
-        <span className="fjs-form-field-label">{getSelectedFilesLabel(selectedFiles)}</span>
+        <span className="fjs-form-field-label">{getSelectedFilesLabel(selectedFiles, translate)}</span>
       </div>
       <Errors id={errorMessageId} errors={errors} />
     </div>
@@ -126,16 +128,17 @@ FilePicker.config = {
 
 /**
  * @param {File[]} files
+ * @param {function} translate
  * @returns {string}
  */
-function getSelectedFilesLabel(files) {
+function getSelectedFilesLabel(files, translate) {
   if (files.length === 0) {
-    return 'No files selected';
+    return translate('No files selected');
   }
 
   if (files.length === 1) {
     return files[0].name;
   }
 
-  return `${files.length} files selected`;
+  return files.length > 1 ? translate('Number files selected plural' , {value : files.length}) : translate('Number files selected singular', {value : files.length});
 }

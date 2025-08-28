@@ -1,9 +1,13 @@
 import { iconsByType, DocumentPreview, Label } from '@bpmn-io/form-js-viewer';
 
+import { useService } from '../../hooks';
+
 import { editorFormFieldClasses } from '../Util';
 
 export function EditorDocumentPreview(props) {
   const { field, domId } = props;
+
+  const translate = useService('translate');
 
   const { label } = field;
 
@@ -15,7 +19,7 @@ export function EditorDocumentPreview(props) {
       <div class="fjs-documentPreview-placeholder" id={domId}>
         <p class="fjs-documentPreview-placeholder-text">
           <Icon width="32" height="24" viewBox="0 0 56 56" />
-          Document preview
+          {translate('Document preview')}
         </p>
       </div>
     </div>

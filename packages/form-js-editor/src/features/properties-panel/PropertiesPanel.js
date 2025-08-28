@@ -86,14 +86,16 @@ export function PropertiesPanel(props) {
   }, [providers, selectedFormField, editField]);
 
   const formFields = getService('formFields');
+  const translate = getService('translate');
 
   const PropertiesPanelHeaderProvider = useMemo(
     () =>
       getPropertiesPanelHeaderProvider({
         getDocumentationRef: propertiesPanelConfig.getDocumentationRef,
         formFields,
+        translate
       }),
-    [formFields, propertiesPanelConfig],
+    [formFields, propertiesPanelConfig, translate],
   );
 
   return (

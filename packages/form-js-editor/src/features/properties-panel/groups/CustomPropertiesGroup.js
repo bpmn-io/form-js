@@ -4,8 +4,10 @@ import { has } from 'min-dash';
 
 import { CustomValueEntry } from '../entries';
 
-export function CustomPropertiesGroup(field, editField) {
+export function CustomPropertiesGroup(field, editField, getService) {
   const { properties = {}, type } = field;
+
+  const translate = getService('translate');
 
   if (type === 'default') {
     return null;
@@ -30,11 +32,11 @@ export function CustomPropertiesGroup(field, editField) {
       }
 
       if (typeof value !== 'string' || value.length === 0) {
-        return 'Must not be empty.';
+        return translate('Must not be empty.');
       }
 
       if (has(properties, value)) {
-        return 'Must be unique.';
+        return translate('Must be unique.');
       }
     };
   };
@@ -58,19 +60,18 @@ export function CustomPropertiesGroup(field, editField) {
         validateFactory,
       }),
       id,
-      label: key || '',
+      label: translate(key || ''),
       remove: removeEntry,
     };
   });
 
   return {
     add: addEntry,
-    component: ListGroup,
+    component: (props) => ListGroup({ ...props, translate }),
     id: 'custom-values',
     items,
-    label: 'Custom properties',
-    tooltip:
-      'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
+    label: translate('Custom properties'),
+    tooltip: translate('Custom properties description')
   };
 }
 

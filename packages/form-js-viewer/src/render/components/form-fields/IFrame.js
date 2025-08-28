@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 
-import { useSingleLineTemplateEvaluation, useSecurityAttributesMap } from '../../hooks';
+import { useSingleLineTemplateEvaluation, useSecurityAttributesMap, useService } from '../../hooks';
 import { sanitizeIFrameSource } from '../util/sanitizerUtil';
 
 import { Label } from '../Label';
@@ -22,6 +22,8 @@ export function IFrame(props) {
 
   const evaluatedLabel = useSingleLineTemplateEvaluation(label, { debug: true });
 
+  const translate = useService('translate');
+
   const [sandbox, allow] = useSecurityAttributesMap(security);
   const [iframeRefresh, setIframeRefresh] = useState(0);
 
@@ -33,7 +35,7 @@ export function IFrame(props) {
   return (
     <div class={formFieldClasses(type, { disabled, readonly })}>
       <Label htmlFor={domId} label={evaluatedLabel} />
-      {!evaluatedUrl && <IFramePlaceholder text="No content to show." />}
+      {!evaluatedUrl && <IFramePlaceholder text={translate("No content to show.")} />}
       {evaluatedUrl && safeUrl && (
         <iframe
           src={safeUrl}
@@ -47,7 +49,7 @@ export function IFrame(props) {
           {...{ allow }}
         />
       )}
-      {evaluatedUrl && !safeUrl && <IFramePlaceholder text="External content couldn't be loaded." />}
+      {evaluatedUrl && !safeUrl && <IFramePlaceholder text={translate("External content couldn't be loaded.")} />}
     </div>
   );
 }

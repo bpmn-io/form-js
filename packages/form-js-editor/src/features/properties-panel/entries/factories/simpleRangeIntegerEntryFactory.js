@@ -28,6 +28,7 @@ const SimpleRangeIntegerEntry = (props) => {
   const { id, label, path, field, editField, min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const getValue = () => {
     const value = get(field, path);
@@ -49,16 +50,16 @@ const SimpleRangeIntegerEntry = (props) => {
         return;
       }
       if (!Number.isInteger(Number(value))) {
-        return 'Should be an integer.';
+        return translate('Should be an integer.');
       }
       if (Big(value).cmp(min) < 0) {
-        return `Should be at least ${min}.`;
+        return translate('validate number minlength', {value : min});
       }
       if (Big(value).cmp(max) > 0) {
-        return `Should be at most ${max}.`;
+        return translate('validate number maxlength', {value : max});
       }
     },
-    [min, max],
+    [min, max, translate],
   );
 
   return TextFieldEntry({

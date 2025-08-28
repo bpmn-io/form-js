@@ -41,30 +41,33 @@ function ContextPad(props) {
   return <div class="fjs-context-pad">{props.children}</div>;
 }
 
-function EmptyGroup() {
+function EmptyGroup({translate}) {
   return (
     <div class="fjs-empty-component">
-      <span class="fjs-empty-component-text">Drag and drop components here.</span>
+      <span class="fjs-empty-component-text">{translate('Drag and drop components here.')}</span>
     </div>
   );
 }
 
 function EmptyForm() {
+  const translate = useService('translate');
   return (
     <div class="fjs-empty-editor">
       <div class="fjs-empty-editor-card">
         <EmptyFormIcon />
-        <h2>Build your form</h2>
-        <span>Drag and drop components here to start designing.</span>
-        <span>Use the preview window to test your form.</span>
+        <h2>{translate('Build your form')}</h2>
+        <span>{translate('Drag and drop')}</span>
+        <span>{translate('Use preview window')}</span>
       </div>
     </div>
   );
 }
 
 function Empty(props) {
+  const translate = useService('translate');
+
   if (['group', 'dynamiclist'].includes(props.field.type)) {
-    return <EmptyGroup />;
+    return <EmptyGroup translate = {translate}/>;
   }
 
   if (props.field.type === 'default') {
@@ -79,7 +82,8 @@ function Element(props) {
     formFieldRegistry = useService('formFieldRegistry'),
     formFields = useService('formFields'),
     modeling = useService('modeling'),
-    selection = useService('selection');
+    selection = useService('selection'),
+    translate = useService('translate');
 
   const { hoverInfo } = useContext(FormRenderContext);
 
@@ -205,7 +209,7 @@ function Element(props) {
         {selection.isSelected(field) && field.type !== 'default' ? (
           <button
             type="button"
-            title={getRemoveButtonTitle(field, formFields)}
+            title={getRemoveButtonTitle(field, formFields, translate)}
             class="fjs-context-pad-item"
             onClick={onRemove}>
             <DeleteIcon />
@@ -316,7 +320,8 @@ export function FormEditor() {
     injector = useService('injector'),
     selection = useService('selection'),
     propertiesPanel = useService('propertiesPanel'),
-    propertiesPanelConfig = useService('config.propertiesPanel');
+    propertiesPanelConfig = useService('config.propertiesPanel'),
+    translate = useService('translate');
 
   const { schema, properties } = formEditor._getState();
 
@@ -356,6 +361,7 @@ export function FormEditor() {
     let dragulaInstance = dragging.createDragulaInstance({
       container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
       mirrorContainer: formContainerRef.current,
+      translate : translate,
     });
 
     setDrake(dragulaInstance);
@@ -373,6 +379,7 @@ export function FormEditor() {
       dragulaInstance = dragging.createDragulaInstance({
         container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
         mirrorContainer: formContainerRef.current,
+        translate : translate,
       });
       setDrake(dragulaInstance);
     };
@@ -581,12 +588,12 @@ function defaultPropertiesPanel(propertiesPanelConfig) {
   return !(propertiesPanelConfig && propertiesPanelConfig.parent);
 }
 
-function getRemoveButtonTitle(formField, formFields) {
+function getRemoveButtonTitle(formField, formFields, translate) {
   const entry = findPaletteEntry(formField.type, formFields);
 
   if (!entry) {
-    return 'Remove form field';
+    return translate('Remove form field');
   }
 
-  return `Remove ${entry.label}`;
+  return translate('Remove') + ' ' + translate(entry.label);
 }

@@ -2,13 +2,13 @@ import { iconsByType } from '../../render/components/icons';
 import { getPaletteIcon } from '../palette/components/Palette';
 
 export function getPropertiesPanelHeaderProvider(options = {}) {
-  const { getDocumentationRef, formFields } = options;
+  const { getDocumentationRef, formFields, translate } = options;
 
   return {
     getElementLabel: (field) => {
       const { type } = field;
       const fieldDefinition = formFields.get(type).config;
-      return fieldDefinition.getSubheading ? fieldDefinition.getSubheading(field) : field.label;
+      return (fieldDefinition.getSubheading ? fieldDefinition.getSubheading(field) : field.label);
     },
 
     getElementIcon: (field) => {
@@ -27,10 +27,10 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
     getTypeLabel: (field) => {
       const { type } = field;
       if (type === 'default') {
-        return 'Form';
+        return translate('Form');
       }
       const fieldDefinition = formFields.get(type).config;
-      return fieldDefinition.name || fieldDefinition.label || type;
+      return translate(fieldDefinition.name || fieldDefinition.label || type);
     },
 
     getDocumentationRef,

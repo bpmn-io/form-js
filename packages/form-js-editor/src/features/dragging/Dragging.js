@@ -27,14 +27,16 @@ export class Dragging {
    * @param { import('../../core/EventBus').EventBus } eventBus
    * @param { import('../modeling/Modeling').Modeling } modeling
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
+   * @param {function} translate
    */
-  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry) {
+  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry, translate) {
     this._formFieldRegistry = formFieldRegistry;
     this._formLayouter = formLayouter;
     this._formLayoutValidator = formLayoutValidator;
     this._eventBus = eventBus;
     this._modeling = modeling;
     this._pathRegistry = pathRegistry;
+    this._translate = translate;
   }
 
   /**
@@ -81,7 +83,7 @@ export class Dragging {
       formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
 
       if (!formField) {
-        return 'No associated form field in the registry';
+        return this._translate('No form field');
       }
 
       columns = (formField.layout || {}).columns;
@@ -89,7 +91,7 @@ export class Dragging {
       // (1) check for row constraints
       if (isRow(target)) {
         targetParentId = getFormParent(target).dataset.id;
-        const rowError = this._formLayoutValidator.validateField(formField, columns, targetRow);
+        const rowError = this._formLayoutValidator.validateField(formField, columns, targetRow, this._translate);
         if (rowError) {
           return rowError;
         }
@@ -99,7 +101,7 @@ export class Dragging {
 
       // (2) check target is a valid parent
       if (!targetParentId) {
-        return 'Drop is not a valid target';
+        return this._translate('Drop is not a valid target');
       }
 
       // (3) check  for path collisions
@@ -128,7 +130,7 @@ export class Dragging {
           );
 
           if (!isDropAllowedByPathRegistry) {
-            return 'Drop not allowed by path registry';
+            return this._translate('Drop not allowed');
           }
         }
       }
@@ -233,18 +235,18 @@ export class Dragging {
   }
 
   /**
-   * @param { { container: Array<string>, direction: string, mirrorContainer: string } } options
+   * @param { { container: Array<string>, direction: string, mirrorContainer: string, translate : function } } options
    */
   createDragulaInstance(options) {
-    const { container, mirrorContainer } = options || {};
+    const { container, mirrorContainer, translate } = options || {};
 
     let dragulaOptions = {
       direction: function (el, target) {
         if (isRow(target)) {
-          return 'horizontal';
+          return translate('horizontal');
         }
 
-        return 'vertical';
+        return translate('vertical');
       },
       mirrorContainer,
       isContainer(el) {
@@ -365,7 +367,7 @@ export class Dragging {
   }
 }
 
-Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry'];
+Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry', 'translate'];
 
 // helper //////////
 

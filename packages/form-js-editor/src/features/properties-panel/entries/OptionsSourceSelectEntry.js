@@ -13,7 +13,7 @@ import {
 const isOptionsSourceEdited = isEditedFromDefaultFactory(OPTIONS_SOURCES.STATIC);
 
 export function OptionsSourceSelectEntry(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   return [
     {
@@ -22,12 +22,13 @@ export function OptionsSourceSelectEntry(props) {
       isEdited: isOptionsSourceEdited,
       editField,
       field,
+      translate,
     },
   ];
 }
 
 function ValuesSourceSelect(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   const getValue = getOptionsSource;
 
@@ -44,14 +45,14 @@ function ValuesSourceSelect(props) {
 
   const getOptionsSourceOptions = () => {
     return Object.values(OPTIONS_SOURCES).map((valueSource) => ({
-      label: OPTIONS_SOURCES_LABELS[valueSource],
+      label: OPTIONS_SOURCES_LABELS(translate)[valueSource],
       value: valueSource,
     }));
   };
 
   return AutoFocusSelectEntry({
     autoFocusEntry: getAutoFocusEntryId(field),
-    label: 'Type',
+    label: translate('Type'),
     element: field,
     getOptions: getOptionsSourceOptions,
     getValue,

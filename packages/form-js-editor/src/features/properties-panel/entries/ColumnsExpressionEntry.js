@@ -4,6 +4,8 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from 'preact/hooks';
+
 const PATH = ['columnsExpression'];
 
 export function ColumnsExpressionEntry(props) {
@@ -26,6 +28,7 @@ function ColumnsExpression(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -50,7 +53,7 @@ function ColumnsExpression(props) {
 
   const tooltip = (
     <div>
-      The expression may result in an array of simple values or alternatively follow this schema:
+      {translate('Columns/OptionsExpression tooltip')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -59,17 +62,17 @@ function ColumnsExpression(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: 'Specify an expression to populate column items',
+    description: translate('Expression description'),
     element: field,
     feel: 'required',
     getValue,
     id,
-    label: 'Expression',
+    label: translate('Expression'),
     tooltip,
     setValue,
     singleLine: true,
     variables,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -77,11 +80,12 @@ function ColumnsExpression(props) {
 
 /**
  * @param {string|void} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (!isString(value) || value.length === 0 || value === '=') {
-    return 'Must not be empty.';
+    return translate('Must not be empty.');
   }
 
   return null;

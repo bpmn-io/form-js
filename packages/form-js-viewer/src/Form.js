@@ -1,5 +1,6 @@
 import Ids from 'ids';
 import { get, isObject, isString, isUndefined, set } from 'min-dash';
+import { CustomTranslateModule } from './features/customTranslate/customTranslate';
 
 import {
   ExpressionLanguageModule,
@@ -377,6 +378,7 @@ export class Form {
    */
   _getModules() {
     return [
+      CustomTranslateModule,
       ExpressionLanguageModule,
       ExpressionFieldModule,
       MarkdownRendererModule,

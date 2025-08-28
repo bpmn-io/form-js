@@ -44,6 +44,7 @@ export const PALETTE_GROUPS = [
 
 export function Palette(props) {
   const formFields = useService('formFields');
+  const translate = useService('translate');
 
   const initialPaletteEntries = useRef(collectPaletteEntries(formFields));
 
@@ -68,12 +69,12 @@ export function Palette(props) {
         return true;
       }
 
-      const simplifiedEntryLabel = simplifyString(entry.label);
+      const simplifiedEntryLabel = simplifyString(translate(entry.label));
       const simplifiedEntryType = simplifyString(entry.type);
 
       return simplifiedEntryLabel.includes(simplifiedSearchTerm) || simplifiedEntryType.includes(simplifiedSearchTerm);
     },
-    [searchTerm, simplifyString],
+    [searchTerm, simplifyString, translate],
   );
 
   // filter entries on search change
@@ -100,7 +101,7 @@ export function Palette(props) {
   return (
     <div class="fjs-palette">
       <div class="fjs-palette-header" title="Components">
-        Components
+        {translate('Components')}
       </div>
       <div class="fjs-palette-search-container">
         <span class="fjs-palette-search-icon">
@@ -110,7 +111,7 @@ export function Palette(props) {
           class="fjs-palette-search"
           ref={inputRef}
           type="text"
-          placeholder="Search components"
+          placeholder={translate('Search components')}
           value={searchTerm}
           onInput={handleInput}
         />
@@ -123,7 +124,7 @@ export function Palette(props) {
       <div class="fjs-palette-entries">
         {groups.map(({ label, entries, id }) => (
           <div class="fjs-palette-group" data-group-id={id} key={id}>
-            <span class="fjs-palette-group-title">{label}</span>
+            <span class="fjs-palette-group-title">{translate(label)}</span>
             <div class="fjs-palette-fields fjs-drag-container fjs-no-drop">
               {entries.map((entry) => {
                 return <PaletteEntry key={entry.type} getPaletteIcon={getPaletteIcon} {...entry} />;
@@ -131,7 +132,7 @@ export function Palette(props) {
             </div>
           </div>
         ))}
-        {groups.length == 0 && <div class="fjs-palette-no-entries">No components found.</div>}
+        {groups.length == 0 && <div class="fjs-palette-no-entries">{translate('No components found.')}</div>}
       </div>
       <div class="fjs-palette-footer">
         {/* @ts-ignore */}
@@ -181,6 +182,7 @@ export function collectPaletteEntries(formFields) {
         group: fieldConfig.group,
         icon: fieldConfig.icon,
         iconUrl: fieldConfig.iconUrl,
+        create: (options) => fieldConfig.create(options),
       };
     })
     .filter(({ type }) => type !== 'default');

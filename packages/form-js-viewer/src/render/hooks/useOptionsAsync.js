@@ -29,6 +29,7 @@ export function useOptionsAsync(field) {
   const { valuesExpression: optionsExpression, valuesKey: optionsKey, values: staticOptions } = field;
 
   const initialData = useService('form')._getState().initialData;
+  const translate = useService('translate');
   const expressionEvaluation = useExpressionEvaluation(optionsExpression);
   const evaluatedOptions = useDeepCompareMemoize(expressionEvaluation || []);
 
@@ -52,12 +53,12 @@ export function useOptionsAsync(field) {
 
       // error case
     } else {
-      return buildErrorState('No options source defined in the form definition');
+      return buildErrorState(translate('No options source error'));
     }
 
     // normalize data to support primitives and partially defined objects
     return buildLoadedState(normalizeOptionsData(options));
-  }, [optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions]);
+  }, [optionsKey, staticOptions, initialData, optionsExpression, evaluatedOptions, translate]);
 
   return optionsGetter;
 }

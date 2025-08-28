@@ -3,7 +3,8 @@ import { get, isNumber } from 'min-dash';
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 export function PaginationEntry(props) {
-  const { editField, field } = props;
+  const { editField, field, getService } = props;
+  const translate = getService('translate')
 
   const entries = [];
 
@@ -14,13 +15,14 @@ export function PaginationEntry(props) {
     field: field,
     isEdited: isToggleSwitchEntryEdited,
     isDefaultVisible: (field) => field.type === 'table',
+    translate,
   });
 
   return entries;
 }
 
 function Pagination(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
   const defaultRowCount = 10;
 
   const path = ['rowCount'];
@@ -40,7 +42,7 @@ function Pagination(props) {
     element: field,
     getValue,
     id,
-    label: 'Pagination',
+    label: translate('Pagination'),
     inline: true,
     setValue,
   });
