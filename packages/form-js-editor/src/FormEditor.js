@@ -13,6 +13,7 @@ import { PaletteModule } from './features/palette';
 import { PropertiesPanelModule } from './features/properties-panel';
 import { RenderInjectionModule } from './features/render-injection';
 import { RepeatRenderModule } from './features/repeat-render';
+import { CustomTranslateModule } from './features/customTranslate/customTranslate';
 
 import { MarkdownRendererModule } from '@bpmn-io/form-js-viewer';
 
@@ -279,6 +280,7 @@ export class FormEditor {
    */
   _getModules() {
     return [
+      CustomTranslateModule,
       ModelingModule,
       EditorActionsModule,
       FormEditorKeyboardModule,

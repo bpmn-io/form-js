@@ -19,7 +19,9 @@ import { useCallback } from 'preact/hooks';
 export const EMPTY_OPTION = '';
 
 export function DefaultValueEntry(props) {
-  const { editField, field } = props;
+  const { editField, field, getService } = props;
+
+  const translate = getService('translate');
 
   const { type } = field;
 
@@ -40,7 +42,7 @@ export function DefaultValueEntry(props) {
     editField,
     field,
     id: 'defaultValue',
-    label: 'Default value',
+    label: translate('Default value'),
   };
 
   entries.push({
@@ -86,6 +88,8 @@ export function DefaultValueEntry(props) {
 function DefaultValueCheckbox(props) {
   const { editField, field, id, label } = props;
 
+  const translate = useService('translate');
+
   const { defaultValue } = field;
 
   const path = ['defaultValue'];
@@ -93,11 +97,11 @@ function DefaultValueCheckbox(props) {
   const getOptions = () => {
     return [
       {
-        label: 'Checked',
+        label: translate('Checked'),
         value: 'true',
       },
       {
-        label: 'Not checked',
+        label: translate('Not checked'),
         value: 'false',
       },
     ];
@@ -127,6 +131,7 @@ function DefaultValueNumber(props) {
   const { decimalDigits, serializeToString = false } = field;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['defaultValue'];
 
@@ -162,13 +167,13 @@ function DefaultValueNumber(props) {
       }
 
       if (!isValidNumber(value)) {
-        return 'Should be a valid number';
+        return translate('validate number valid');
       }
       if (decimalDigitsSet && countDecimals(value) > decimalDigits) {
-        return `Should not contain more than ${decimalDigits} decimal digits`;
+        return translate('validate number decimal digits', {value : decimalDigits});
       }
     },
-    [decimalDigitsSet, decimalDigits],
+    [decimalDigitsSet, decimalDigits, translate],
   );
 
   return TextFieldEntry({
@@ -187,12 +192,14 @@ function DefaultValueSingleSelect(props) {
 
   const { defaultValue = EMPTY_OPTION, values = [] } = field;
 
+  const translate = useService('translate');
+
   const path = ['defaultValue'];
 
   const getOptions = () => {
     return [
       {
-        label: '<none>',
+        label: translate('<none>'),
         value: EMPTY_OPTION,
       },
       ...values,

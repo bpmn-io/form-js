@@ -29,13 +29,14 @@ function Columns(props) {
   const { field, editField, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
   const formLayoutValidator = useService('formLayoutValidator');
 
   const validate = useCallback(
     (value) => {
-      return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
+      return formLayoutValidator.validateField(field, value ? parseInt(value) : null, null, translate);
     },
-    [field, formLayoutValidator],
+    [field, formLayoutValidator, translate],
   );
 
   const setValue = (value, error) => {
@@ -57,7 +58,7 @@ function Columns(props) {
   const getOptions = () => {
     return [
       {
-        label: 'Auto',
+        label: translate('Auto'),
         value: AUTO_OPTION_VALUE,
       },
 
@@ -73,7 +74,7 @@ function Columns(props) {
     debounce,
     element: field,
     id,
-    label: 'Columns',
+    label: translate('Columns'),
     getOptions,
     getValue,
     setValue,

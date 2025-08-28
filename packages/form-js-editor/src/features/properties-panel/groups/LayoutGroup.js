@@ -1,7 +1,9 @@
 import { ColumnsEntry } from '../entries';
 
-export function LayoutGroup(field, editField) {
+export function LayoutGroup(field, editField, getService) {
   const { type } = field;
+
+  const translate = getService('translate');
 
   if (type === 'default') {
     return null;
@@ -15,7 +17,7 @@ export function LayoutGroup(field, editField) {
 
   return {
     id: 'layout',
-    label: 'Layout',
+    label: translate('Layout'),
     entries,
   };
 }

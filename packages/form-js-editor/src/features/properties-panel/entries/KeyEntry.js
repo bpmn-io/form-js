@@ -34,6 +34,7 @@ function Key(props) {
   const pathRegistry = useService('pathRegistry');
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['key'];
 
@@ -56,19 +57,19 @@ function Key(props) {
       }
 
       if (!isString(value) || value.length === 0) {
-        return 'Must not be empty.';
+        return translate('Must not be empty.');
       }
 
       if (!isValidDotPath(value)) {
-        return 'Must be a variable or a dot separated path.';
+        return translate('Must be a variable or a dot separated path.');
       }
 
       if (hasIntegerPathSegment(value)) {
-        return 'Must not contain numerical path segments.';
+        return translate('Must not contain numerical path segments.');
       }
 
       if (isProhibitedPath(value)) {
-        return 'Must not be a prohibited path.';
+        return translate('Must not be a prohibited path.');
       }
 
       const replacements = {
@@ -83,20 +84,20 @@ function Key(props) {
       const canClaim = pathRegistry.canClaimPath(newPath, { isClosed: true, claimerId: field.id });
       pathRegistry.claimPath(oldPath, { isClosed: true, claimerId: field.id });
 
-      return canClaim ? null : 'Must not conflict with other key/path assignments.';
+      return canClaim ? null : translate('conflict key/path assignments');
     },
-    [field, pathRegistry],
+    [field, pathRegistry, translate],
   );
 
   return TextFieldEntry({
     debounce,
-    description: 'Binds to a form variable',
+    description: translate('Binds to a form variable'),
     element: field,
     getValue,
     id,
-    label: 'Key',
+    label: translate('Key'),
     tooltip:
-      'Use a unique "key" to link the form element and the related input/output data. When dealing with nested data, break it down in the user task\'s input mapping before using it.',
+      translate('Key tooltip'),
     setValue,
     validate,
   });

@@ -25,6 +25,7 @@ function AltText(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -44,8 +45,8 @@ function AltText(props) {
     feel: 'optional',
     getValue,
     id,
-    label: 'Alternative text',
-    tooltip: 'Descriptive text for screen reader accessibility.',
+    label: translate('Alternative text'),
+    tooltip: translate('Alternative text tooltip'),
     setValue,
     singleLine: true,
     variables,

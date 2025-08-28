@@ -36,6 +36,7 @@ function Key(props) {
   const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const setValue = (value, error) => {
     if (error) {
@@ -61,7 +62,7 @@ function Key(props) {
     element: field,
     getValue,
     id,
-    label: 'Key',
+    label: translate('Key'),
     setValue,
     validate,
   });
@@ -71,6 +72,7 @@ function Value(props) {
   const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const setValue = (value) => {
     const properties = get(field, ['properties']);
@@ -89,7 +91,7 @@ function Value(props) {
     element: field,
     getValue,
     id,
-    label: 'Value',
+    label: translate('Value'),
     setValue,
     validate: validateFactory(getValue()),
   });

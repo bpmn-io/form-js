@@ -31,6 +31,7 @@ function Readonly(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -50,9 +51,9 @@ function Readonly(props) {
     feel: 'optional',
     getValue,
     id,
-    label: 'Read only',
+    label: translate('Read only'),
     tooltip:
-      'Make this field read-only when it cannot be edited by the end-user, but its content is important for them to see. Its data will still be submitted.',
+      translate('Read only tooltip'),
     setValue,
     variables,
   });

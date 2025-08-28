@@ -15,17 +15,17 @@ export class FormLayoutValidator {
     this._formFieldRegistry = formFieldRegistry;
   }
 
-  validateField(field = {}, columns, row) {
+  validateField(field = {}, columns, row, translate) {
     // allow empty (auto columns)
     if (Number.isInteger(columns)) {
       // allow minimum cols
       if (columns < MIN_COLUMNS) {
-        return `Minimum ${MIN_COLUMNS} columns are allowed`;
+        return translate(`Minimum allowed columns`, {value : MIN_COLUMNS});
       }
 
       // allow maximum cols
       if (columns > MAX_COLUMNS) {
-        return `Maximum ${MAX_COLUMNS} columns are allowed`;
+        return translate(`Maximum allowed columns`, {value : MAX_COLUMNS});
       }
     }
 
@@ -61,11 +61,11 @@ export class FormLayoutValidator {
       (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
       (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)
     ) {
-      return `New value exceeds the maximum of ${MAX_COLUMNS_PER_ROW} columns per row`;
+      return translate('New value exceeds', {value : MAX_COLUMNS_PER_ROW});
     }
 
     if (sumFields > MAX_FIELDS_PER_ROW) {
-      return `Maximum ${MAX_FIELDS_PER_ROW} fields per row are allowed`;
+      return translate('Maximum fields allowed', {value : MAX_FIELDS_PER_ROW});
     }
 
     return null;

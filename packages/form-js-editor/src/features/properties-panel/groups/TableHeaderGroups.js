@@ -4,8 +4,10 @@ import { ColumnsExpressionEntry, HeadersSourceSelectEntry, StaticColumnsSourceEn
 
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
-export function TableHeaderGroups(field, editField) {
+export function TableHeaderGroups(field, editField, getService) {
   const { type, id: fieldId } = field;
+
+  const translate = getService('translate');
 
   if (type !== 'table') {
     return [];
@@ -19,10 +21,10 @@ export function TableHeaderGroups(field, editField) {
   const groups = [
     {
       id: `${fieldId}-columnsSource`,
-      label: 'Headers source',
-      tooltip: TOOLTIP_TEXT,
+      label: translate('Headers source'),
+      tooltip: translate('Headers source tooltip'),
       component: Group,
-      entries: [...HeadersSourceSelectEntry({ field, editField }), ...ColumnsExpressionEntry({ field, editField })],
+      entries: [...HeadersSourceSelectEntry({ field, editField, translate }), ...ColumnsExpressionEntry({ field, editField })],
     },
   ];
 
@@ -32,7 +34,7 @@ export function TableHeaderGroups(field, editField) {
     groups.push({
       id,
       label: 'Header items',
-      component: ListGroup,
+      component: (props) => ListGroup({ ...props, translate }),
       ...StaticColumnsSourceEntry({ field, editField, id }),
     });
   }
@@ -42,7 +44,3 @@ export function TableHeaderGroups(field, editField) {
 
 // helpers //////////
 
-const TOOLTIP_TEXT = `"List of items" defines a constant, predefined set of form options.
-
-"Expression" defines options that are populated from a FEEL expression.
-`;
