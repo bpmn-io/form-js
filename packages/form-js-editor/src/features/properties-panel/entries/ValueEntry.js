@@ -1,4 +1,4 @@
-import { get, set } from 'min-dash';
+import { get, isNil, set } from 'min-dash';
 
 import { useService } from '../hooks';
 
@@ -76,7 +76,14 @@ function Value(props) {
       return;
     }
 
+    const { defaultValue } = field;
     const values = get(field, ['values']);
+    const previousValue = get(field, ['values', index, 'value']);
+
+    if (!isNil(defaultValue) && defaultValue === previousValue) {
+      set(field, ['defaultValue'], value);
+    }
+
     return editField(field, 'values', set(values, [index, 'value'], value));
   };
 
