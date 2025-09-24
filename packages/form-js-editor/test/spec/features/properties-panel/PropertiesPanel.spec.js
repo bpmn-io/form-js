@@ -3618,7 +3618,7 @@ describe('properties panel', function () {
           });
 
           // when
-          const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-property-0-key' });
+          const input = screen.getByLabelText('Key', { selector: `#bio-properties-panel-property-${field.id}-0-key` });
 
           fireEvent.input(input, { target: { value: '' } });
 
@@ -3643,7 +3643,7 @@ describe('properties panel', function () {
           });
 
           // when
-          const input = screen.getByLabelText('Key', { selector: '#bio-properties-panel-property-0-key' });
+          const input = screen.getByLabelText('Key', { selector: `#bio-properties-panel-property-${field.id}-0-key` });
 
           fireEvent.input(input, { target: { value: 'middleName' } });
 
