@@ -42,6 +42,7 @@ export function Datetime(props) {
     disallowPassedDates,
     timeInterval,
     timeSerializingFormat,
+    locale,
   } = field;
 
   const { required } = validate;
@@ -97,8 +98,14 @@ export function Datetime(props) {
         break;
       }
       case DATETIME_SUBTYPES.DATETIME: {
-        date = new Date(Date.parse(value));
-        time = isValidDate(date) ? 60 * date.getHours() + date.getMinutes() : null;
+        const luxonDate = typeof value === 'string' ? LuxonDateTime.fromISO(value) : null;
+        if (luxonDate && luxonDate.isValid) {
+          date = luxonDate.toJSDate();
+          time = 60 * luxonDate.hour + luxonDate.minute;
+        } else {
+          date = new Date(NaN);
+          time = null;
+        }
         break;
       }
     }
@@ -175,6 +182,7 @@ export function Datetime(props) {
     date: dateTime.date,
     readonly,
     setDate,
+    locale,
     'aria-describedby': [descriptionId, errorMessageId].join(' '),
   };
 
