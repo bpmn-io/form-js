@@ -57,7 +57,7 @@
     "classnames": "^2.5.1",
     "codemirror": "^6.0.2",
     "downloadjs": "^1.4.7",
-    "file-drops": "^0.6.1",
+    "file-drops": "^0.6.2",
     "mitt": "^3.0.1",
     "preact": "^10.5.14"
   },
