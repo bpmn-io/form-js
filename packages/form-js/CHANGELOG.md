@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.18.0
+
+- `FIX`: use field id as an identifier for custom properties ([#1443](https://github.com/bpmn-io/form-js/pull/1443))
+- `FIX`: fix radio group default value after edit ([#1439](https://github.com/bpmn-io/form-js/pull/1439))
+- `DEPS`: bump deps ([f1bface](https://github.com/bpmn-io/form-js/commit/f1bfacef7e773f78ac675b5df3a52c265147282d), [11c54d7](https://github.com/bpmn-io/form-js/commit/11c54d7024bbb71190b010643c7f5c208f0a6340), [0979f2d](https://github.com/bpmn-io/form-js/commit/0979f2d99fbd74f91286fb7cd023796adb077df3), [caddbd8](https://github.com/bpmn-io/form-js/commit/caddbd8747c401b8465123b95876086163aa378e))
+- `CHORE`: update old documentation ref docs preview ([#1446](https://github.com/bpmn-io/form-js/pull/1446))
+- `CHORE`: update GitHub Actions ([#1444](https://github.com/bpmn-io/form-js/pull/1439), [#1443](https://github.com/bpmn-io/form-js/pull/1433))
+
 ## 1.17.0
 
 - `FIX`: fix lodash bundling ([#1427](https://github.com/bpmn-io/form-js/pull/1427))
