@@ -68,7 +68,7 @@
     "css-loader": "^7.1.2",
     "min-dash": "^4.2.3",
     "min-dom": "^4.1.0",
-    "rollup-plugin-css-only": "^4.5.2",
+    "rollup-plugin-css-only": "^4.5.5",
     "style-loader": "^4.0.0"
   }
 }
