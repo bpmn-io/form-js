@@ -110,7 +110,7 @@
     "karma-sinon-chai": "^2.0.2",
     "karma-spec-reporter": "^0.0.36",
     "karma-webpack": "^5.0.1",
-    "lerna": "^8.2.1",
+    "lerna": "^9.0.0",
     "mocha": "^10.7.3",
     "mocha-test-container-support": "^0.2.0",
     "mri": "^1.2.0",
