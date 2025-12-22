@@ -839,3 +839,7 @@
 .gu-mirror.fjs-drag-row-move .cds--row {
   flex-wrap: nowrap !important;
 }
+
+.bio-properties-panel-description .bio-properties-panel-strong {
+  font-weight: bold;
+}
