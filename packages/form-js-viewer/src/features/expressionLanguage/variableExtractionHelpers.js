@@ -1,11 +1,11 @@
-import { parseExpression, parseUnaryTests } from 'feelin';
+import { parseExpression, parseUnaryTests } from '@bpmn-io/feelin';
 
 export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'expression', options = {}) => {
   const { depth = 0, specialDepthAccessors = {} } = options;
 
   if (!['expression', 'unaryTest'].includes(feelFlavour)) return [];
 
-  const tree = feelFlavour === 'expression' ? parseExpression(feelString) : parseUnaryTests(feelString);
+  const tree = feelFlavour === 'expression' ? parseExpression(feelString, {}, undefined) : parseUnaryTests(feelString, {}, undefined);
 
   const simpleExpressionTree = _buildSimpleFeelStructureTree(tree, feelString);
 

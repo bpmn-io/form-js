@@ -1,4 +1,4 @@
-import { unaryTest } from 'feelin';
+import { unaryTest } from '@bpmn-io/feelin';
 import { get, isString, set, values, isObject } from 'min-dash';
 import { buildExpressionContext, clone } from '../../util';
 
@@ -133,7 +133,7 @@ export class ConditionChecker {
 
     try {
       // cut off initial '='
-      const result = unaryTest(condition.slice(1), data);
+      const { value: result } = unaryTest(condition.slice(1), data);
 
       return result;
     } catch (error) {
