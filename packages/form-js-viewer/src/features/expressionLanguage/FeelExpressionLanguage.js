@@ -1,4 +1,4 @@
-import { evaluate } from 'feelin';
+import { evaluate } from '@bpmn-io/feelin';
 import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
@@ -59,7 +59,7 @@ export class FeelExpressionLanguage {
     }
 
     try {
-      const result = evaluate(expression.slice(1), data);
+      const { value: result } = evaluate(expression.slice(1), data);
 
       return result;
     } catch (error) {
