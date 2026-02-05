@@ -54,7 +54,7 @@
     "big.js": "^7.0.1",
     "ids": "^1.0.5",
     "min-dash": "^5.0.0",
-    "min-dom": "^4.1.0",
+    "min-dom": "^5.2.0",
     "preact": "^10.5.14"
   },
   "sideEffects": [
