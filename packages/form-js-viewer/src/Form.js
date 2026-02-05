@@ -1,4 +1,4 @@
-import Ids from 'ids';
+import { Ids } from 'ids';
 import { get, isObject, isString, isUndefined, set } from 'min-dash';
 
 import {

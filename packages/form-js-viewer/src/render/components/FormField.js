@@ -1,4 +1,4 @@
-import Ids from 'ids';
+import { Ids } from 'ids';
 
 import { useRef, useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
 import isEqual from 'lodash/isEqual';
