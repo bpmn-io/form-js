@@ -1169,8 +1169,8 @@ function buildGeneralGroupServiceMocks(options = {}) {
     pathRegistry: {
       getValuePath: options.getValuePath || ((field) => [field.key]),
       canClaimPath: options.canClaimPath || (() => true),
-      claimPath: options.claimPath || (() => { }),
-      unclaimPath: options.unclaimPath || (() => { }),
+      claimPath: options.claimPath || (() => {}),
+      unclaimPath: options.unclaimPath || (() => {}),
     },
   };
 }
