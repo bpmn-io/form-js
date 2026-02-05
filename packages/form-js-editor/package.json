@@ -52,7 +52,7 @@
     "@bpmn-io/properties-panel": "^3.33.1",
     "array-move": "^4.0.0",
     "big.js": "^7.0.1",
-    "ids": "^1.0.5",
+    "ids": "^3.0.1",
     "min-dash": "^5.0.0",
     "min-dom": "^5.2.0",
     "preact": "^10.5.14"

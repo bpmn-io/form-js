@@ -1,4 +1,4 @@
-import Ids from 'ids';
+import { Ids } from 'ids';
 import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import { isString, set } from 'min-dash';
 

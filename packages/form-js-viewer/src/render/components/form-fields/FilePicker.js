@@ -1,4 +1,4 @@
-import Ids from 'ids';
+import { Ids } from 'ids';
 import { formFieldClasses } from '../Util';
 import { Label } from '../Label';
 import { Errors } from '../Errors';
