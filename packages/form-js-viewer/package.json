@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@bpmn-io/feelin": "^6.1.0",
-    "@carbon/grid": "^11.41.0",
+    "@carbon/grid": "^11.49.0",
     "big.js": "^7.0.1",
     "classnames": "^2.5.1",
     "didi": "^11.0.0",
