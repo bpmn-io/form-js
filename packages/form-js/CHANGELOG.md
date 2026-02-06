@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.19.0
+
+- `DEPS`: update FEEL stack to `@bpmn-io/feelin@6.1.0` and `feelers@1.5.1` ([5cd6dcc1](https://github.com/bpmn-io/form-js/commit/5cd6dcc1), [5d1f844a](https://github.com/bpmn-io/form-js/commit/5d1f844a))
+- `DEPS`: bump runtime deps (diagram-js, ids, didi, min-dom, min-dash, properties-panel, file-drops, json-schema-ref-parser) ([4a007127](https://github.com/bpmn-io/form-js/commit/4a007127), [7dea0c05](https://github.com/bpmn-io/form-js/commit/7dea0c05), [b0ba9fc6](https://github.com/bpmn-io/form-js/commit/b0ba9fc6), [676b9d6b](https://github.com/bpmn-io/form-js/commit/676b9d6b), [55978322](https://github.com/bpmn-io/form-js/commit/55978322), [ec48bd63](https://github.com/bpmn-io/form-js/commit/ec48bd63), [83ff2a56](https://github.com/bpmn-io/form-js/commit/83ff2a56), [8e5be475](https://github.com/bpmn-io/form-js/commit/8e5be475))
+- `DEPS`: bump tooling/build/test deps (lerna, eslint, prettier, codemirror, carbon, typings, misc) ([7d9411be](https://github.com/bpmn-io/form-js/commit/7d9411be), [f2b2832f](https://github.com/bpmn-io/form-js/commit/f2b2832f), [6685a43a](https://github.com/bpmn-io/form-js/commit/6685a43a), [d072809f](https://github.com/bpmn-io/form-js/commit/d072809f), [997c72cf](https://github.com/bpmn-io/form-js/commit/997c72cf), [5d745b82](https://github.com/bpmn-io/form-js/commit/5d745b82), [4ace678a](https://github.com/bpmn-io/form-js/commit/4ace678a), [b79e25da](https://github.com/bpmn-io/form-js/commit/b79e25da), [bc8e3fb3](https://github.com/bpmn-io/form-js/commit/bc8e3fb3), [32f60b4a](https://github.com/bpmn-io/form-js/commit/32f60b4a))
+- `CHORE`: refresh CI and GitHub Actions, move to Node.js 24, update cache/actions ([7a7f5e2c](https://github.com/bpmn-io/form-js/commit/7a7f5e2c), [c49428ca](https://github.com/bpmn-io/form-js/commit/c49428ca), [6564b696](https://github.com/bpmn-io/form-js/commit/6564b696), [cb924f24](https://github.com/bpmn-io/form-js/commit/cb924f24), [e3dac0da](https://github.com/bpmn-io/form-js/commit/e3dac0da), [b8b832c4](https://github.com/bpmn-io/form-js/commit/b8b832c4), [ed680f87](https://github.com/bpmn-io/form-js/commit/ed680f87), [d30ed11e](https://github.com/bpmn-io/form-js/commit/d30ed11e), [94f0a287](https://github.com/bpmn-io/form-js/commit/94f0a287))
+
 ## 1.18.0
 
 - `FIX`: use field id as an identifier for custom properties ([#1443](https://github.com/bpmn-io/form-js/pull/1443))
