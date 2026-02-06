@@ -5,7 +5,10 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'express
 
   if (!['expression', 'unaryTest'].includes(feelFlavour)) return [];
 
-  const tree = feelFlavour === 'expression' ? parseExpression(feelString, {}, undefined) : parseUnaryTests(feelString, {}, undefined);
+  const tree =
+    feelFlavour === 'expression'
+      ? parseExpression(feelString, {}, undefined)
+      : parseUnaryTests(feelString, {}, undefined);
 
   const simpleExpressionTree = _buildSimpleFeelStructureTree(tree, feelString);
 
