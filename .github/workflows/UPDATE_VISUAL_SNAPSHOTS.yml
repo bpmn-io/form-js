@@ -9,7 +9,7 @@ jobs:
     if: github.event.pull_request.state != 'closed' && (github.event.label.name == 'update-snapshots' || contains( github.event.pull_request.labels.*.name, 'update-snapshots'))
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.51.1
+      image: mcr.microsoft.com/playwright:v1.58.1
       options: --user 1001:1000
 
     steps:
@@ -18,8 +18,8 @@ jobs:
       - name: Setup NPM cache
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
       - name: Install node dependencies
         run: npm ci
       - name: Build frontend
@@ -33,4 +33,4 @@ jobs:
       - name: Commit screenshots
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_message: 'chore: updated snapshots'
+          commit_message: "chore: updated snapshots"

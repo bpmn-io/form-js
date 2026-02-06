@@ -36,7 +36,7 @@
     "test:visual": "playwright test visual",
     "build:e2e": "vite build",
     "start:visual-preview": "vite preview --port 8080 --logLevel silent &",
-    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.51.1 /bin/bash"
+    "start:container": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.58.1 /bin/bash"
   },
   "repository": {
     "type": "git",
@@ -59,7 +59,7 @@
   ],
   "devDependencies": {
     "@apidevtools/json-schema-ref-parser": "^15.0.0",
-    "@axe-core/playwright": "^4.10.1",
+    "@axe-core/playwright": "^4.11.1",
     "@babel/core": "^7.29.0",
     "@babel/plugin-transform-react-jsx": "^7.28.6",
     "@babel/plugin-transform-react-jsx-source": "^7.27.1",
@@ -67,7 +67,7 @@
     "@carbon/react": "^1.100.0",
     "@carbon/styles": "^1.99.0",
     "@ibm/plex": "^6.4.1",
-    "@playwright/test": "1.51.1",
+    "@playwright/test": "1.58.1",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -75,7 +75,7 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@svgr/rollup": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
-    "@testing-library/preact": "^3.2.3",
+    "@testing-library/preact": "^3.2.4",
     "@testing-library/user-event": "^14.6.1",
     "@types/chai": "^5.2.3",
     "@types/mocha": "^10.0.10",
@@ -84,7 +84,7 @@
     "@types/sinon-chai": "^4.0.0",
     "ajv": "^8.17.1",
     "ajv-errors": "^3.0.0",
-    "axe-core": "^4.10.3",
+    "axe-core": "^4.11.1",
     "babel-loader": "^10.0.0",
     "babel-plugin-istanbul": "^7.0.1",
     "chai": "^4.4.1",
