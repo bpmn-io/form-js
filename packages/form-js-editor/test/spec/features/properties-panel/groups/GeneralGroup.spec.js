@@ -890,7 +890,7 @@ describe('GeneralGroup', function () {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      const readonlyInput = findInput('readonly', container);
+      const readonlyInput = findInput('readonly-undefined', container);
 
       expect(readonlyInput).to.not.exist;
     });
@@ -904,7 +904,7 @@ describe('GeneralGroup', function () {
         const { container } = renderGeneralGroup({ field });
 
         // then
-        const readonlyInput = findInput('readonly', container);
+        const readonlyInput = findInput('readonly-undefined', container);
 
         expect(readonlyInput).to.exist;
       }
@@ -920,7 +920,7 @@ describe('GeneralGroup', function () {
       // when
       const { container } = renderGeneralGroup({ field });
 
-      const readonlyInput = findInput('readonly', container);
+      const readonlyInput = findInput('readonly-undefined', container);
 
       // then
       expect(readonlyInput).to.exist;
@@ -938,7 +938,7 @@ describe('GeneralGroup', function () {
 
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const readonlyInput = findInput('readonly', container);
+      const readonlyInput = findInput('readonly-undefined', container);
 
       // when
       fireEvent.click(readonlyInput);
@@ -959,7 +959,7 @@ describe('GeneralGroup', function () {
 
       const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
 
-      const readonlyInput = findTextbox('readonly', container);
+      const readonlyInput = findTextbox('readonly-undefined', container);
       expect(readonlyInput.textContent).to.equal('foo');
 
       // when

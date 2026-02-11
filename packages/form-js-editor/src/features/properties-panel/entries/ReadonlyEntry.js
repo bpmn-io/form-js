@@ -15,7 +15,7 @@ export function ReadonlyEntry(props) {
 
   if (!disabled) {
     entries.push({
-      id: 'readonly',
+      id: `readonly-${field.id}`,
       component: Readonly,
       editField: editField,
       field: field,
