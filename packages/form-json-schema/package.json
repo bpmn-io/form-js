@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-json-schema",
-  "version": "1.18.0",
+  "version": "1.15.3",
   "description": "JSON Schema for form-js",
   "files": [
     "resources"
