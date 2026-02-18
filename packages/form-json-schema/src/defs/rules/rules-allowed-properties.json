@@ -468,43 +468,6 @@
           "maxHeight": false
         }
       }
-    },
-    {
-      "if": {
-        "not": {
-          "properties": {
-            "type": {
-              "const": "textfield"
-            }
-          },
-          "required": ["type"]
-        }
-      },
-      "then": {
-        "properties": {
-          "validate": {
-            "properties": {
-              "patternErrorMessage": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "validate": {
-            "required": ["patternErrorMessage"]
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "validate": {
-            "required": ["pattern"]
-          }
-        }
-      }
     }
   ]
 }

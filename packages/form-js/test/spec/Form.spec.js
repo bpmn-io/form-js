@@ -111,7 +111,7 @@ describe('viewer exports', function () {
   it('should expose schemaVersion', function () {
     expect(typeof schemaVersion).to.eql('number');
 
-    expect(schemaVersion).to.eql(19);
+    expect(schemaVersion).to.eql(18);
   });
 
   it('should generate unique ID for every instance', async function () {

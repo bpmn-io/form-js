@@ -39,11 +39,6 @@
       "$id": "/#component/validate/max",
       "type": ["number", "string"],
       "description": "Form field value must be at most the provided number."
-    },
-    "patternErrorMessage": {
-      "$id": "/#component/validate/patternErrorMessage",
-      "type": "string",
-      "description": "The error message to display when the input does not match the regular expression."
     }
   }
 }
