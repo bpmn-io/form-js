@@ -6,7 +6,9 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
-## 1.18.0
+## 1.15.4 backports
+
+### from 1.18.0
 
 - `FIX`: use field id as an identifier for custom properties ([#1443](https://github.com/bpmn-io/form-js/pull/1443))
 - `FIX`: fix radio group default value after edit ([#1439](https://github.com/bpmn-io/form-js/pull/1439))
@@ -14,15 +16,13 @@ _**Note:** Yet to be released changes appear here._
 - `CHORE`: update old documentation ref docs preview ([#1446](https://github.com/bpmn-io/form-js/pull/1446))
 - `CHORE`: update GitHub Actions ([#1444](https://github.com/bpmn-io/form-js/pull/1439), [#1443](https://github.com/bpmn-io/form-js/pull/1433))
 
-## 1.17.0
+### from 1.17.0
 
 - `FIX`: fix lodash bundling ([#1427](https://github.com/bpmn-io/form-js/pull/1427))
 - `DEPS`: bump deps [3797d8e](https://github.com/bpmn-io/form-js/commit/3797d8eb42b6df23b5e1213b1c557e6b4662ac56), [7836da3](https://github.com/bpmn-io/form-js/commit/7836da37a03ad4d4e21dd388b733e5bdc27b794c), [40583fc](https://github.com/bpmn-io/form-js/commit/40583fce5e0c3f0283af0bf9b4597481a125ec9f), [75e1b96](https://github.com/bpmn-io/form-js/commit/75e1b96353bc82b5dea1cef4e49d53157d3e36b9), [3620764](https://github.com/bpmn-io/form-js/commit/3620764b9e45e26b9f3767ecca0c78915f4c96b7), [0810170](https://github.com/bpmn-io/form-js/commit/08101701a063c8d1597771381cc6b80348dba95f), [07a7d2a](https://github.com/bpmn-io/form-js/commit/07a7d2aab9162117be54fb5b8e13b3d13c89c27e), [e151b86](https://github.com/bpmn-io/form-js/commit/e151b8617f534f6b0d954f3f289c2c4b8d7a85b4), [cc7aef8](https://github.com/bpmn-io/form-js/commit/cc7aef8871731a9e9dc35a7158a6aec8eea83853), [f2b44be](https://github.com/bpmn-io/form-js/commit/f2b44beeabed5549208764833f5097f87177af3a), [bfdb36e](https://github.com/bpmn-io/form-js/commit/bfdb36e59033fdf3a12113c0170a44a6a79d6bed)
 
-## 1.16.0
+### from 1.16.0
 
-- `FEAT`: support pattern validation custom message ([#1360](https://github.com/bpmn-io/form-js/issues/1360))
-- `FIX`: support patternErrorMessage in json schema ([9a810fd](https://github.com/bpmn-io/form-js/commit/9a810fd362a89dd658345305b1760de6e30947ae))
 - `FIX`: flush debounced fields on enter ([#35032](https://github.com/camunda/camunda/issues/35032))
 - `DEPS`: bump deps ([e573f01](https://github.com/bpmn-io/form-js/commit/e573f011450439a4f2972ab51d1ca920379b7116), [b23eeab](https://github.com/bpmn-io/form-js/commit/b23eeab8c0351b1e6ab5f5f2e3ac95515ba63d48), [5df5bf5](https://github.com/bpmn-io/form-js/commit/5df5bf58ea43045bb8693f6eb5411f5fcbfcf8b2), [2ecde86](https://github.com/bpmn-io/form-js/commit/2ecde868f6286682bd530a81deabd61144cb4906), [eda98d7](https://github.com/bpmn-io/form-js/commit/eda98d7ce47250d835a9616d78b32d6a73a843c8))
 - `CHORE`: refresh lockfile ([#1412](https://github.com/bpmn-io/form-js/pull/1412))
