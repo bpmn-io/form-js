@@ -1,4 +1,9 @@
 {
   "version": "1.15.4",
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "command": {
+    "version": {
+      "exact": true
+    }
+  }
 }
