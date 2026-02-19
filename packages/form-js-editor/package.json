@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@bpmn-io/draggle": "^4.1.2",
-    "@bpmn-io/form-js-viewer": "^1.19.0",
+    "@bpmn-io/form-js-viewer": "1.19.0",
     "@bpmn-io/properties-panel": "^3.38.0",
     "array-move": "^4.0.0",
     "big.js": "^7.0.1",
