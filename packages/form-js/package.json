@@ -61,10 +61,10 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js-carbon-styles": "^1.19.0",
-    "@bpmn-io/form-js-editor": "^1.19.0",
-    "@bpmn-io/form-js-playground": "^1.19.0",
-    "@bpmn-io/form-js-viewer": "^1.19.0"
+    "@bpmn-io/form-js-carbon-styles": "1.19.0",
+    "@bpmn-io/form-js-editor": "1.19.0",
+    "@bpmn-io/form-js-playground": "1.19.0",
+    "@bpmn-io/form-js-viewer": "1.19.0"
   },
   "sideEffects": [
     "*.css"
