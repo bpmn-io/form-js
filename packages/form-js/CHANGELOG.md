@@ -6,6 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.15.5
+
+- `FIX`: enforce fjs-editor preact version ([e70d7738](https://github.com/bpmn-io/form-js/commit/e70d77381f493e119109af22488bc65f44d01dec))
+- `FIX`: pin internal package dependencies to exact versions ([4a76e3c5](https://github.com/bpmn-io/form-js/commit/4a76e3c5324f56757e5055a209ede5c55f1a31e4))
+- `FIX`: properties panel values no longer bleed into other formfields on selections ([#1461](https://github.com/bpmn-io/form-js/issues/1461))
+  - Via bump `@bpmn-io/properties-panel@3.40.3` ([85e38aa0](https://github.com/bpmn-io/form-js/commit/85e38aa0e21c54066d42ff7d395bc0eb2930558d))
+
+### Versioning Changes
+
+Internal monorepo dependencies are now pinned to exact versions instead of using caret ranges. When you install `@bpmn-io/form-js@1.15.5`, all internal packages (`form-js-viewer`, `form-js-editor`, etc.) will be locked to version `1.15.5` exactly. This ensures all packages in the release were tested together, improves version predictability and allows for backporting.
+
 ## 1.15.4 backports
 
 ### from 1.18.0
