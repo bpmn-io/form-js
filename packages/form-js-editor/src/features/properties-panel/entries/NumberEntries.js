@@ -5,8 +5,9 @@ import {
   isTextFieldEntryEdited,
 } from '@bpmn-io/properties-panel';
 import { get } from 'min-dash';
-import { useService } from '../hooks';
+import { useContext } from 'preact/hooks';
 import { countDecimals, isValidNumber } from '../Util';
+import { FormPropertiesPanelContext } from '../context';
 
 import Big from 'big.js';
 import { useCallback } from 'preact/hooks';
@@ -39,8 +40,8 @@ export function NumberEntries(props) {
 
 function NumberDecimalDigits(props) {
   const { editField, field, id } = props;
-
-  const debounce = useService('debounce');
+  const { getService } = useContext(FormPropertiesPanelContext);
+  const debounce = getService('debounce');
 
   const getValue = (e) => get(field, ['decimalDigits']);
 
@@ -66,10 +67,10 @@ function NumberDecimalDigits(props) {
 
 function NumberArrowStep(props) {
   const { editField, field, id } = props;
+  const { getService } = useContext(FormPropertiesPanelContext);
+  const debounce = getService('debounce');
 
   const { decimalDigits } = field;
-
-  const debounce = useService('debounce');
 
   const getValue = (e) => {
     let value = get(field, ['increment']);
