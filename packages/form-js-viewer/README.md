@@ -77,7 +77,7 @@ const form = new Form({
 });
 ```
 
-`buildRequestInit` is optional. If omitted, document requests use the default `fetch(url)` behavior.
+`buildRequestInit` is optional, used to [configure the fetch request](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit). If omitted, document requests use the default `fetch(url)` behavior.
 
 Check out [a full example](https://github.com/bpmn-io/form-js-examples).
 
