@@ -1,4 +1,4 @@
-import { evaluate } from '@bpmn-io/feelin';
+import { evaluate, unaryTest } from '@bpmn-io/feelin';
 import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
@@ -50,16 +50,35 @@ export class FeelExpressionLanguage {
    * @returns {any}
    */
   evaluate(expression, data = {}) {
-    if (!expression) {
-      return null;
-    }
-
-    if (!isString(expression) || !expression.startsWith('=')) {
+    if (!this.isExpression(expression)) {
       return null;
     }
 
     try {
       const { value: result } = evaluate(expression.slice(1), data);
+
+      return result;
+    } catch (error) {
+      this._eventBus.fire('error', { error });
+      return null;
+    }
+  }
+
+  /**
+   * Evaluate a unary test expression. Returns null for invalid/missing expressions.
+   *
+   * @param {string} expression
+   * @param {import('../../types').Data} [data]
+   *
+   * @returns {boolean|null}
+   */
+  evaluateUnaryTest(expression, data = {}) {
+    if (!this.isExpression(expression)) {
+      return null;
+    }
+
+    try {
+      const { value: result } = unaryTest(expression.slice(1), data);
 
       return result;
     } catch (error) {

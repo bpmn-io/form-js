@@ -1,7 +1,5 @@
-import { buildExpressionContext } from '../../util/expressions.js';
-import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
 import { useService } from './useService.js';
-import { useContext } from 'preact/hooks';
+import { useUnaryTestEvaluation } from './useUnaryTestEvaluation.js';
 
 /**
  * Retrieve readonly value of a form field, given it can be an
@@ -16,17 +14,19 @@ import { useContext } from 'preact/hooks';
  */
 export function useReadonly(formField, properties = {}) {
   const expressionLanguage = useService('expressionLanguage');
-  const conditionChecker = useService('conditionChecker', false);
-  const expressionContextInfo = useContext(LocalExpressionContext);
 
   const { readonly } = formField;
+
+  const isExpression = expressionLanguage && expressionLanguage.isExpression(readonly);
+
+  const evaluatedReadonly = useUnaryTestEvaluation(isExpression ? readonly : undefined);
 
   if (properties.readOnly) {
     return true;
   }
 
-  if (expressionLanguage && expressionLanguage.isExpression(readonly)) {
-    return conditionChecker ? conditionChecker.check(readonly, buildExpressionContext(expressionContextInfo)) : false;
+  if (isExpression) {
+    return evaluatedReadonly === true;
   }
 
   return readonly || false;

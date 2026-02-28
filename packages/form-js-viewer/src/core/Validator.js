@@ -3,6 +3,10 @@ import { countDecimals } from '../render/components/util/numberFieldUtil';
 import { runExpressionEvaluation } from '../util/expressions';
 import Big from 'big.js';
 
+/**
+ * @typedef { import('../types').ExpressionLanguage } ExpressionLanguage
+ */
+
 const EMAIL_PATTERN =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 const PHONE_PATTERN =
@@ -168,6 +172,11 @@ function runPresetValidation(field, validation, value) {
   return errors;
 }
 
+/**
+ * @param {Object} validate
+ * @param {ExpressionLanguage} expressionLanguage
+ * @param {Object} expressionContextInfo
+ */
 function evaluateFEELValues(validate, expressionLanguage, expressionContextInfo) {
   const evaluatedValidate = { ...validate };
 
@@ -181,6 +190,12 @@ function evaluateFEELValues(validate, expressionLanguage, expressionContextInfo)
   return evaluatedValidate;
 }
 
+/**
+ * @param {Object} validate
+ * @param {ExpressionLanguage} expressionLanguage
+ * @param {Object} conditionChecker
+ * @param {Object} form
+ */
 function oldEvaluateFEELValues(validate, expressionLanguage, conditionChecker, form) {
   const evaluatedValidate = { ...validate };
 
