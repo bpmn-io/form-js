@@ -11,6 +11,23 @@ export interface Errors {
   [x: string]: string[];
 }
 
+export interface ExpressionLanguage {
+  isExpression(value: any): boolean;
+  getVariableNames(expression: string, options?: { type?: string }): string[];
+  evaluate(expression: string, data?: Data): any;
+  evaluateUnaryTest(expression: string, data?: Data): boolean | null;
+}
+
+export interface Templating {
+  isTemplate(value: any): boolean;
+  getVariableNames(template: string): string[];
+  evaluate(
+    template: string,
+    context: Data,
+    options?: { debug?: boolean; strict?: boolean; buildDebugString?: Function; sanitizer?: Function },
+  ): any;
+}
+
 export type FormProperty = 'readOnly' | 'disabled' | string;
 export type FormEvent = 'submit' | 'changed' | string;
 

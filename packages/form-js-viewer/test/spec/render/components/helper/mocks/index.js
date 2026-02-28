@@ -169,6 +169,7 @@ export class ConditionCheckerMock {
 export class ExpressionLanguageMock {
   isExpression() {}
   evaluate() {}
+  evaluateUnaryTest() {}
 }
 
 export class ViewerCommandsMock {

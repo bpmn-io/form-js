@@ -1,6 +1,9 @@
-import { unaryTest } from '@bpmn-io/feelin';
-import { get, isString, set, values, isObject } from 'min-dash';
+import { get, set, values, isObject } from 'min-dash';
 import { buildExpressionContext, clone } from '../../util';
+
+/**
+ * @typedef { import('../../types').ExpressionLanguage } ExpressionLanguage
+ */
 
 /**
  * @typedef {object} Condition
@@ -8,9 +11,16 @@ import { buildExpressionContext, clone } from '../../util';
  */
 
 export class ConditionChecker {
-  constructor(formFieldRegistry, pathRegistry, eventBus) {
+  /**
+   * @param {Object} formFieldRegistry
+   * @param {Object} pathRegistry
+   * @param {ExpressionLanguage} expressionLanguage
+   * @param {Object} eventBus
+   */
+  constructor(formFieldRegistry, pathRegistry, expressionLanguage, eventBus) {
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;
+    this._expressionLanguage = expressionLanguage;
     this._eventBus = eventBus;
   }
 
@@ -123,23 +133,7 @@ export class ConditionChecker {
    * @returns {boolean|null}
    */
   check(condition, data = {}) {
-    if (!condition) {
-      return null;
-    }
-
-    if (!isString(condition) || !condition.startsWith('=')) {
-      return null;
-    }
-
-    try {
-      // cut off initial '='
-      const { value: result } = unaryTest(condition.slice(1), data);
-
-      return result;
-    } catch (error) {
-      this._eventBus.fire('error', { error });
-      return null;
-    }
+    return this._expressionLanguage.evaluateUnaryTest(condition, data);
   }
 
   /**
@@ -180,4 +174,4 @@ export class ConditionChecker {
   }
 }
 
-ConditionChecker.$inject = ['formFieldRegistry', 'pathRegistry', 'eventBus'];
+ConditionChecker.$inject = ['formFieldRegistry', 'pathRegistry', 'expressionLanguage', 'eventBus'];

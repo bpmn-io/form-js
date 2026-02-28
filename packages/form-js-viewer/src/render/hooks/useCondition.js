@@ -1,20 +1,12 @@
-import { useService } from './useService.js';
-import { useContext, useMemo } from 'preact/hooks';
-import { LocalExpressionContext } from '../context/LocalExpressionContext.js';
-import { buildExpressionContext } from '../../util/expressions.js';
+import { useUnaryTestEvaluation } from './useUnaryTestEvaluation';
 
 /**
- * Evaluate if condition is met reactively based on the conditionChecker and form data.
+ * Evaluate if condition is met reactively based on the expression language and form data.
  *
  * @param {string | undefined} condition
  *
- * @returns {boolean} true if condition is met or no condition or condition checker exists
+ * @returns {boolean | null} true if condition is met, false if not, null if no condition or expression language
  */
 export function useCondition(condition) {
-  const conditionChecker = useService('conditionChecker', false);
-  const expressionContextInfo = useContext(LocalExpressionContext);
-
-  return useMemo(() => {
-    return conditionChecker ? conditionChecker.check(condition, buildExpressionContext(expressionContextInfo)) : null;
-  }, [conditionChecker, condition, expressionContextInfo]);
+  return useUnaryTestEvaluation(condition);
 }

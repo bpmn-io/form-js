@@ -1,4 +1,5 @@
 import { ConditionChecker } from '../../../../src/features/expressionLanguage/ConditionChecker';
+import { FeelExpressionLanguage } from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
 import { PathRegistry } from '../../../../src/core/PathRegistry';
 import { FormFields } from '../../../../src/render/FormFields';
 
@@ -9,10 +10,13 @@ describe('ConditionChecker', function () {
 
   beforeEach(function () {
     fireSpy = sinon.spy();
+    const eventBus = { fire: fireSpy };
+    const expressionLanguage = new FeelExpressionLanguage(eventBus);
     conditionChecker = new ConditionChecker(
       { getForm: () => form },
       new PathRegistry({}, new FormFields(), { get: () => {} }),
-      { fire: fireSpy },
+      expressionLanguage,
+      eventBus,
     );
   });
 

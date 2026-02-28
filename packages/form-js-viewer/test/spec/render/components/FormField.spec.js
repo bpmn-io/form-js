@@ -2,6 +2,7 @@ import { render } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { classes } from 'min-dom';
+import { isFunction } from 'min-dash';
 
 import { FormField } from 'src/render/components/FormField';
 
@@ -543,6 +544,9 @@ function createFormField(options = {}) {
       ? {
           isExpression(...args) {
             return isExpression(...args);
+          },
+          evaluateUnaryTest(...args) {
+            return isFunction(checkCondition) ? checkCondition(...args) : null;
           },
         }
       : undefined;

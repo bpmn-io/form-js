@@ -20,14 +20,27 @@ export function buildExpressionContext(context) {
 /**
  * If the value is a valid expression, it is evaluated and returned. Otherwise, it is returned as-is.
  *
- * @param {any} expressionLanguage - The expression language to use.
+ * @param {import('../types').ExpressionLanguage} expressionLanguage - The expression language to use.
  * @param {any} value - The static value or expression to evaluate.
  * @param {Object} expressionContextInfo - The context information to use.
  * @returns {any} - Evaluated value or the original value if not an expression.
  */
 export function runExpressionEvaluation(expressionLanguage, value, expressionContextInfo) {
-  if (expressionLanguage && expressionLanguage.isExpression(value)) {
+  if (expressionLanguage.isExpression(value)) {
     return expressionLanguage.evaluate(value, buildExpressionContext(expressionContextInfo));
   }
   return value;
+}
+
+/**
+ * Evaluate a value as a unary test expression. Returns null for invalid/missing expressions or
+ * if the expression language is not available.
+ *
+ * @param {import('../types').ExpressionLanguage} expressionLanguage - The expression language to use.
+ * @param {string} value - The unary test expression to evaluate.
+ * @param {Object} expressionContextInfo - The context information to use.
+ * @returns {boolean | null} - Evaluated result, or null if expression is invalid/missing.
+ */
+export function runUnaryTestEvaluation(expressionLanguage, value, expressionContextInfo) {
+  return expressionLanguage.evaluateUnaryTest(value, buildExpressionContext(expressionContextInfo));
 }
