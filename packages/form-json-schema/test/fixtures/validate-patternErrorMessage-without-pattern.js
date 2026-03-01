@@ -14,7 +14,7 @@ export const form = {
 export const errors = [
   {
     instancePath: '/components/0/validate',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/25/then/properties/validate/required',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/26/then/properties/validate/required',
     keyword: 'required',
     params: {
       missingProperty: 'pattern',
@@ -23,7 +23,7 @@ export const errors = [
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/25/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/26/if',
     keyword: 'if',
     params: {
       failingKeyword: 'then',

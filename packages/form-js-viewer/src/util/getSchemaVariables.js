@@ -136,7 +136,10 @@ export function getSchemaVariables(schema, options = {}) {
     const formField = formFields.get(node.type);
 
     if (formField && formField.config.keyed && node.key) {
-      return [node.key.split('.')[0]];
+      if (inputs || !node.omitFromSubmit) {
+        return [node.key.split('.')[0]];
+      }
+      return [];
     } else if (formField && formField.config.pathed && node.path) {
       return [node.path.split('.')[0]];
     } else if (node.components) {

@@ -235,4 +235,69 @@ describe('util/getSchemaVariables', function () {
 
     expect(variables).to.eql(['my_documents', 'case_id']);
   });
+
+  describe('omitFromSubmit', function () {
+    it('should NOT include omitFromSubmit fields when requesting output vars', function () {
+      const omitSchema = {
+        type: 'default',
+        components: [
+          {
+            key: 'submitted',
+            type: 'textfield',
+          },
+          {
+            key: 'omitted',
+            type: 'textfield',
+            omitFromSubmit: true,
+          },
+        ],
+      };
+
+      const variables = getSchemaVariables(omitSchema, { inputs: false });
+
+      expect(variables).to.eql(['submitted']);
+    });
+
+    it('should include omitFromSubmit fields when requesting input vars', function () {
+      const omitSchema = {
+        type: 'default',
+        components: [
+          {
+            key: 'submitted',
+            type: 'textfield',
+          },
+          {
+            key: 'omitted',
+            type: 'textfield',
+            omitFromSubmit: true,
+          },
+        ],
+      };
+
+      const variables = getSchemaVariables(omitSchema, { outputs: false });
+
+      expect(variables).to.eql(['submitted', 'omitted']);
+    });
+
+    it('should include omitFromSubmit fields when requesting all vars', function () {
+      const omitSchema = {
+        type: 'default',
+        components: [
+          {
+            key: 'submitted',
+            type: 'textfield',
+          },
+          {
+            key: 'omitted',
+            type: 'textfield',
+            omitFromSubmit: true,
+          },
+        ],
+      };
+
+      const variables = getSchemaVariables(omitSchema);
+
+      expect(variables).to.eql(['submitted', 'omitted']);
+    });
+  });
 });

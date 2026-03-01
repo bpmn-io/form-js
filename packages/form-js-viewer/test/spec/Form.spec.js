@@ -1589,6 +1589,68 @@ describe('Form', function () {
       expect(errors).to.not.have.property('Field_17uk1c9');
       expect(stateErrors).to.not.have.property('Field_17uk1c9');
     });
+
+    it('should NOT submit fields with omitFromSubmit', async function () {
+      // given
+      const schema = {
+        ...conditionSchema,
+        components: [
+          conditionSchema.components[0],
+          {
+            ...conditionSchema.components[1],
+            omitFromSubmit: true,
+          },
+        ],
+      };
+      const initialData = {
+        amount: 456,
+        text: 'value',
+      };
+
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema,
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).to.have.property('amount', 456);
+      expect(data).not.to.have.property('text');
+    });
+
+    it('should submit fields without omitFromSubmit', async function () {
+      // given
+      const schema = {
+        ...conditionSchema,
+        components: [
+          conditionSchema.components[0],
+          {
+            ...conditionSchema.components[1],
+            omitFromSubmit: false,
+          },
+        ],
+      };
+      const initialData = {
+        amount: 456,
+        text: 'value',
+      };
+
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema,
+      });
+
+      // when
+      const { data } = form.submit();
+
+      // then
+      expect(data).to.have.property('amount', 456);
+      expect(data).to.have.property('text', 'value');
+    });
   });
 
   describe('integration - radio fields', function () {
