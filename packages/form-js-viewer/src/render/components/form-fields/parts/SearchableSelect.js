@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
 import { useService, useCleanupSingleSelectValue } from '../../../hooks';
+import { findIndex } from 'min-dash';
 
 import classNames from 'classnames';
 
@@ -11,19 +12,24 @@ import AngelUpIcon from '../icons/AngelUp.svg';
 import { DropdownList } from './DropdownList';
 
 export function SearchableSelect(props) {
-  const { domId, disabled, errors, onBlur, onFocus, field, readonly, value } = props;
-
-  const [filter, setFilter] = useState('');
-  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
-  const [isFilterActive, setIsFilterActive] = useState(true);
-  const [isEscapeClosed, setIsEscapeClose] = useState(false);
+  const {
+    domId,
+    disabled,
+    errors,
+    onBlur,
+    onFocus,
+    field,
+    readonly,
+    value,
+    'aria-describedby': ariaDescribedBy,
+    'aria-labelledby': ariaLabelledBy,
+  } = props;
 
   /** @type {import("preact").RefObject<HTMLInputElement>} */
-  const searchbarRef = useRef();
+  const inputRef = useRef();
   const eventBus = useService('eventBus');
 
   const { loadState, options } = useOptionsAsync(field);
-
   useCleanupSingleSelectValue({
     field,
     loadState,
@@ -33,13 +39,18 @@ export function SearchableSelect(props) {
   });
 
   const getLabelCorrelation = useGetLabelCorrelation(options);
+  const selectedLabel = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
 
-  const label = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
+  // ─── Filter state ───
 
-  // whenever we change the underlying value, set the label to it
+  const [filter, setFilter] = useState('');
+  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
+  const [isFilterActive, setIsFilterActive] = useState(true);
+
+  // Sync the input text when the underlying value changes externally
   useEffect(() => {
-    setFilter(label || '');
-  }, [label]);
+    setFilter(selectedLabel || '');
+  }, [selectedLabel]);
 
   const filteredOptions = useMemo(() => {
     if (loadState !== LOAD_STATES.LOADED) {
@@ -55,6 +66,25 @@ export function SearchableSelect(props) {
     );
   }, [filter, loadState, options, isFilterActive]);
 
+  // ─── Active / selected index tracking (within filteredOptions) ───
+
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const selectedIndexInFiltered = useMemo(() => {
+    if (!value || !filteredOptions.length) return -1;
+    const idx = findIndex(filteredOptions, (o) => o.value === value);
+    return idx != null ? /** @type {number} */ (idx) : -1;
+  }, [filteredOptions, value]);
+
+  const listboxId = `${domId}-listbox`;
+  const optionDomId = useCallback((i) => `${domId}-option-${i}`, [domId]);
+
+  const componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
+  const displayCross = componentReady && value !== null && value !== undefined;
+  const displayDropdown = componentReady && isDropdownExpanded;
+
+  // ─── Actions ───
+
   const pickOption = useCallback(
     (option) => {
       setFilter((option && option.label) || '');
@@ -63,126 +93,185 @@ export function SearchableSelect(props) {
     [props],
   );
 
-  const displayState = useMemo(() => {
-    const ds = {};
-    ds.componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
-    ds.displayCross = ds.componentReady && value !== null && value !== undefined;
-    ds.displayDropdown = !disabled && !readonly && isDropdownExpanded && !isEscapeClosed;
-    return ds;
-  }, [disabled, isDropdownExpanded, isEscapeClosed, loadState, readonly, value]);
-
-  const onAngelMouseDown = useCallback(
-    (e) => {
-      setIsEscapeClose(false);
-      setIsDropdownExpanded(!isDropdownExpanded);
-
-      const searchbar = searchbarRef.current;
-      isDropdownExpanded ? searchbar.blur() : searchbar.focus();
-
-      e.preventDefault();
+  const onOptionClick = useCallback(
+    (index, option) => {
+      pickOption(option);
+      setActiveIndex(index);
+      setIsDropdownExpanded(false);
     },
-    [isDropdownExpanded],
+    [pickOption],
   );
 
-  const onInputChange = ({ target }) => {
-    setIsEscapeClose(false);
-    setIsDropdownExpanded(true);
-    setIsFilterActive(true);
-    setFilter(target.value || '');
-    eventBus.fire('formField.search', { formField: field, value: target.value || '' });
-  };
-
-  const onInputKeyDown = useCallback(
-    (keyDownEvent) => {
-      switch (keyDownEvent.key) {
-        case 'ArrowUp':
-          keyDownEvent.preventDefault();
-          break;
-        case 'ArrowDown': {
-          if (!isDropdownExpanded) {
-            setIsDropdownExpanded(true);
-            setIsFilterActive(false);
-          }
-
-          keyDownEvent.preventDefault();
-          break;
-        }
-        case 'Escape':
-          setIsEscapeClose(true);
-          break;
-        case 'Enter':
-          if (isEscapeClosed) {
-            setIsEscapeClose(false);
-          }
-          break;
-      }
-    },
-    [isDropdownExpanded, isEscapeClosed],
-  );
-
-  const onInputMouseDown = useCallback(() => {
-    setIsEscapeClose(false);
-    setIsDropdownExpanded(true);
-    setIsFilterActive(false);
+  const onOptionMouseEnter = useCallback((index) => {
+    setActiveIndex(index);
   }, []);
 
+  const onClear = useCallback(
+    (e) => {
+      pickOption(null);
+      setActiveIndex(-1);
+      setFilter('');
+      setIsFilterActive(false);
+      e.preventDefault();
+    },
+    [pickOption],
+  );
+
+  // ─── Input events ───
+
+  const onInputChange = useCallback(
+    ({ target }) => {
+      setIsDropdownExpanded(true);
+      setIsFilterActive(true);
+      setActiveIndex(0);
+      setFilter(target.value || '');
+      eventBus.fire('formField.search', { formField: field, value: target.value || '' });
+    },
+    [eventBus, field],
+  );
+
   const onInputFocus = useCallback(() => {
-    setIsEscapeClose(false);
     setIsDropdownExpanded(true);
+    setIsFilterActive(false);
     onFocus && onFocus();
   }, [onFocus]);
 
   const onInputBlur = useCallback(() => {
     setIsDropdownExpanded(false);
-    setFilter(label || '');
+    setFilter(selectedLabel || '');
     onBlur && onBlur();
-  }, [onBlur, label]);
+  }, [onBlur, selectedLabel]);
+
+  const onInputMouseDown = useCallback(() => {
+    setIsDropdownExpanded(true);
+    setIsFilterActive(false);
+  }, []);
+
+  // ─── Keyboard (virtual focus — stays on input) ───
+
+  const onInputKeyDown = useCallback(
+    (e) => {
+      if (disabled || readonly) return;
+
+      const { key } = e;
+
+      if (isDropdownExpanded) {
+        switch (key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            setActiveIndex((i) => Math.min(i + 1, filteredOptions.length - 1));
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            setActiveIndex((i) => Math.max(i - 1, 0));
+            break;
+          case 'Enter':
+            e.preventDefault();
+            if (activeIndex >= 0 && activeIndex < filteredOptions.length) {
+              onOptionClick(activeIndex, filteredOptions[activeIndex]);
+            }
+            break;
+          case 'Escape':
+            e.preventDefault();
+            setIsDropdownExpanded(false);
+            setFilter(selectedLabel || '');
+            break;
+          case 'Tab':
+            // Allow natural tab, select current if highlighted
+            if (activeIndex >= 0 && activeIndex < filteredOptions.length) {
+              pickOption(filteredOptions[activeIndex]);
+            }
+            setIsDropdownExpanded(false);
+            break;
+        }
+      } else {
+        switch (key) {
+          case 'ArrowDown':
+          case 'ArrowUp':
+            e.preventDefault();
+            setIsDropdownExpanded(true);
+            setIsFilterActive(false);
+            if (selectedIndexInFiltered >= 0) {
+              setActiveIndex(selectedIndexInFiltered);
+            } else {
+              setActiveIndex(0);
+            }
+            break;
+        }
+      }
+    },
+    [activeIndex, disabled, filteredOptions, isDropdownExpanded, onOptionClick, pickOption, readonly, selectedIndexInFiltered, selectedLabel],
+  );
+
+  // ─── Arrow toggle ───
+
+  const onAngelMouseDown = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (disabled || readonly) return;
+
+      setIsDropdownExpanded((open) => {
+        if (!open) {
+          inputRef.current && inputRef.current.focus();
+        }
+        return !open;
+      });
+      setIsFilterActive(false);
+    },
+    [disabled, readonly],
+  );
+
+  // ─── Render ───
 
   return (
     <>
       <div
-        class={classNames('fjs-input-group', { disabled: disabled, readonly: readonly }, { hasErrors: errors.length })}>
+        role="combobox"
+        aria-expanded={isDropdownExpanded}
+        aria-haspopup="listbox"
+        aria-owns={listboxId}
+        class={classNames('fjs-input-group', { disabled, readonly }, { hasErrors: errors.length })}>
         <input
+          ref={inputRef}
+          id={domId}
           disabled={disabled}
           readOnly={readonly}
           class="fjs-input"
-          ref={searchbarRef}
-          id={domId}
-          onChange={onInputChange}
           type="text"
           value={filter}
-          placeholder={'Search'}
+          placeholder="Search"
           autoComplete="off"
+          aria-autocomplete="list"
+          aria-controls={listboxId}
+          aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
+          aria-activedescendant={isDropdownExpanded && activeIndex >= 0 ? optionDomId(activeIndex) : undefined}
+          onChange={onInputChange}
           onKeyDown={onInputKeyDown}
           onMouseDown={onInputMouseDown}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
-          aria-describedby={props['aria-describedby']}
         />
-        {displayState.displayCross && (
-          <span
-            class="fjs-select-cross"
-            onMouseDown={(e) => {
-              pickOption(null);
-              e.preventDefault();
-            }}>
-            <XMarkIcon />{' '}
+        {displayCross && (
+          <span class="fjs-select-cross" onMouseDown={onClear}>
+            <XMarkIcon />
           </span>
         )}
-        <span class="fjs-select-arrow" onMouseDown={(e) => onAngelMouseDown(e)}>
-          {displayState.displayDropdown ? <AngelUpIcon /> : <AngelDownIcon />}
+        <span class="fjs-select-arrow" onMouseDown={onAngelMouseDown}>
+          {displayDropdown ? <AngelUpIcon /> : <AngelDownIcon />}
         </span>
       </div>
       <div class="fjs-select-anchor">
-        {displayState.displayDropdown && (
+        {displayDropdown && (
           <DropdownList
+            id={listboxId}
+            optionDomId={optionDomId}
             values={filteredOptions}
             getLabel={(option) => option.label}
-            onValueSelected={(option) => {
-              pickOption(option);
-              setIsDropdownExpanded(false);
-            }}
-            listenerElement={searchbarRef.current}
+            activeIndex={activeIndex}
+            selectedIndex={selectedIndexInFiltered}
+            onOptionClick={onOptionClick}
+            onOptionMouseEnter={onOptionMouseEnter}
           />
         )}
       </div>
