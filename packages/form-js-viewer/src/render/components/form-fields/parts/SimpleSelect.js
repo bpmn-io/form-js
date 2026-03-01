@@ -4,6 +4,7 @@ import { findIndex } from 'min-dash';
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useCleanupSingleSelectValue } from '../../../hooks/useCleanupSingleSelectValue';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
+import { useDropdownKeyboardNavigation } from '../../../hooks/useDropdownKeyboardNavigation';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
@@ -39,11 +40,6 @@ export function SimpleSelect(props) {
   /** @type {import("preact").RefObject<HTMLDivElement>} */
   const triggerRef = useRef();
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(() => {
-    if (!options || !value) return -1;
-    const idx = findIndex(options, (o) => o.value === value);
-    return idx != null ? /** @type {number} */ (idx) : -1;
-  });
 
   const selectedIndex = useMemo(() => {
     if (!value || !options) return -1;
@@ -67,10 +63,9 @@ export function SimpleSelect(props) {
     [props],
   );
 
-  const onOptionClick = useCallback(
+  const onSelect = useCallback(
     (index, option) => {
       pickOption(option);
-      setActiveIndex(index);
       setIsDropdownExpanded(false);
       triggerRef.current && triggerRef.current.focus();
     },
@@ -88,6 +83,25 @@ export function SimpleSelect(props) {
       e.stopPropagation();
     },
     [pickOption],
+  );
+
+  // ─── Keyboard (via shared hook) ───
+
+  const { activeIndex, setActiveIndex, onKeyDown: onDropdownKeyDown } = useDropdownKeyboardNavigation({
+    options,
+    isDropdownExpanded,
+    setIsDropdownExpanded,
+    selectedIndex,
+    onSelect,
+    spaceSelects: true,
+  });
+
+  const onKeyDown = useCallback(
+    (e) => {
+      if (disabled || readonly) return;
+      onDropdownKeyDown(e);
+    },
+    [disabled, readonly, onDropdownKeyDown],
   );
 
   // ─── Focus ───
@@ -116,63 +130,6 @@ export function SimpleSelect(props) {
       triggerRef.current && triggerRef.current.focus();
     },
     [disabled, readonly],
-  );
-
-  // ─── Keyboard (virtual focus — stays on trigger) ───
-
-  const onKeyDown = useCallback(
-    (e) => {
-      if (disabled || readonly) return;
-
-      const { key } = e;
-
-      if (isDropdownExpanded) {
-        switch (key) {
-          case 'ArrowDown':
-            e.preventDefault();
-            setActiveIndex((i) => Math.min(i + 1, options.length - 1));
-            break;
-          case 'ArrowUp':
-            e.preventDefault();
-            setActiveIndex((i) => Math.max(i - 1, 0));
-            break;
-          case 'Enter':
-          case ' ':
-            e.preventDefault();
-            if (activeIndex >= 0 && activeIndex < options.length) {
-              onOptionClick(activeIndex, options[activeIndex]);
-            }
-            break;
-          case 'Escape':
-            e.preventDefault();
-            setIsDropdownExpanded(false);
-            break;
-          case 'Tab':
-            // Allow natural tab but close dropdown and select
-            if (activeIndex >= 0 && activeIndex < options.length) {
-              pickOption(options[activeIndex]);
-            }
-            setIsDropdownExpanded(false);
-            break;
-        }
-      } else {
-        switch (key) {
-          case 'ArrowDown':
-          case 'ArrowUp':
-          case 'Enter':
-          case ' ':
-            e.preventDefault();
-            setIsDropdownExpanded(true);
-            if (selectedIndex >= 0) {
-              setActiveIndex(selectedIndex);
-            } else {
-              setActiveIndex(0);
-            }
-            break;
-        }
-      }
-    },
-    [activeIndex, disabled, isDropdownExpanded, onOptionClick, options, pickOption, readonly, selectedIndex],
   );
 
   // ─── Render ───
@@ -214,7 +171,7 @@ export function SimpleSelect(props) {
             getLabel={(option) => option.label}
             activeIndex={activeIndex}
             selectedIndex={selectedIndex}
-            onOptionClick={onOptionClick}
+            onOptionClick={onSelect}
             onOptionMouseEnter={onOptionMouseEnter}
           />
         )}

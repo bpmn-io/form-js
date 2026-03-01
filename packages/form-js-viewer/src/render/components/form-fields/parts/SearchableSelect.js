@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
-import { useService, useCleanupSingleSelectValue } from '../../../hooks';
+import { useService, useCleanupSingleSelectValue, useDropdownKeyboardNavigation } from '../../../hooks';
 import { findIndex } from 'min-dash';
 
 import classNames from 'classnames';
@@ -66,9 +66,7 @@ export function SearchableSelect(props) {
     );
   }, [filter, loadState, options, isFilterActive]);
 
-  // ─── Active / selected index tracking (within filteredOptions) ───
-
-  const [activeIndex, setActiveIndex] = useState(-1);
+  // ─── Selected index tracking (within filteredOptions) ───
 
   const selectedIndexInFiltered = useMemo(() => {
     if (!value || !filteredOptions.length) return -1;
@@ -81,7 +79,6 @@ export function SearchableSelect(props) {
 
   const componentReady = !disabled && !readonly && loadState === LOAD_STATES.LOADED;
   const displayCross = componentReady && value !== null && value !== undefined;
-  const displayDropdown = componentReady && isDropdownExpanded;
 
   // ─── Actions ───
 
@@ -93,18 +90,50 @@ export function SearchableSelect(props) {
     [props],
   );
 
+  const onSelect = useCallback(
+    (index, option) => {
+      pickOption(option);
+      setIsDropdownExpanded(false);
+    },
+    [pickOption],
+  );
+
+  // ─── Shared keyboard hook ───
+
+  const { activeIndex, setActiveIndex, onKeyDown: hookKeyDown } = useDropdownKeyboardNavigation({
+    options: filteredOptions,
+    isDropdownExpanded,
+    setIsDropdownExpanded,
+    selectedIndex: selectedIndexInFiltered,
+    onSelect,
+    onClose: useCallback(() => {
+      setFilter(selectedLabel || '');
+    }, [selectedLabel]),
+    onOpen: useCallback(() => {
+      setIsFilterActive(false);
+    }, []),
+    spaceSelects: false,
+  });
+
+  const displayDropdown = componentReady && isDropdownExpanded;
+
+  // ─── Event handlers ───
+
   const onOptionClick = useCallback(
     (index, option) => {
       pickOption(option);
       setActiveIndex(index);
       setIsDropdownExpanded(false);
     },
-    [pickOption],
+    [pickOption, setActiveIndex],
   );
 
-  const onOptionMouseEnter = useCallback((index) => {
-    setActiveIndex(index);
-  }, []);
+  const onOptionMouseEnter = useCallback(
+    (index) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex],
+  );
 
   const onClear = useCallback(
     (e) => {
@@ -114,7 +143,7 @@ export function SearchableSelect(props) {
       setIsFilterActive(false);
       e.preventDefault();
     },
-    [pickOption],
+    [pickOption, setActiveIndex],
   );
 
   // ─── Input events ───
@@ -127,7 +156,7 @@ export function SearchableSelect(props) {
       setFilter(target.value || '');
       eventBus.fire('formField.search', { formField: field, value: target.value || '' });
     },
-    [eventBus, field],
+    [eventBus, field, setActiveIndex],
   );
 
   const onInputFocus = useCallback(() => {
@@ -147,60 +176,12 @@ export function SearchableSelect(props) {
     setIsFilterActive(false);
   }, []);
 
-  // ─── Keyboard (virtual focus — stays on input) ───
-
   const onInputKeyDown = useCallback(
     (e) => {
       if (disabled || readonly) return;
-
-      const { key } = e;
-
-      if (isDropdownExpanded) {
-        switch (key) {
-          case 'ArrowDown':
-            e.preventDefault();
-            setActiveIndex((i) => Math.min(i + 1, filteredOptions.length - 1));
-            break;
-          case 'ArrowUp':
-            e.preventDefault();
-            setActiveIndex((i) => Math.max(i - 1, 0));
-            break;
-          case 'Enter':
-            e.preventDefault();
-            if (activeIndex >= 0 && activeIndex < filteredOptions.length) {
-              onOptionClick(activeIndex, filteredOptions[activeIndex]);
-            }
-            break;
-          case 'Escape':
-            e.preventDefault();
-            setIsDropdownExpanded(false);
-            setFilter(selectedLabel || '');
-            break;
-          case 'Tab':
-            // Allow natural tab, select current if highlighted
-            if (activeIndex >= 0 && activeIndex < filteredOptions.length) {
-              pickOption(filteredOptions[activeIndex]);
-            }
-            setIsDropdownExpanded(false);
-            break;
-        }
-      } else {
-        switch (key) {
-          case 'ArrowDown':
-          case 'ArrowUp':
-            e.preventDefault();
-            setIsDropdownExpanded(true);
-            setIsFilterActive(false);
-            if (selectedIndexInFiltered >= 0) {
-              setActiveIndex(selectedIndexInFiltered);
-            } else {
-              setActiveIndex(0);
-            }
-            break;
-        }
-      }
+      hookKeyDown(e);
     },
-    [activeIndex, disabled, filteredOptions, isDropdownExpanded, onOptionClick, pickOption, readonly, selectedIndexInFiltered, selectedLabel],
+    [disabled, readonly, hookKeyDown],
   );
 
   // ─── Arrow toggle ───

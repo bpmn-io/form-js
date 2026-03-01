@@ -8,6 +8,7 @@ export { useExpressionEvaluation } from './useExpressionEvaluation';
 export { useBooleanExpressionEvaluation } from './useBooleanExpressionEvaluation';
 export { useFilteredFormData } from './useFilteredFormData';
 export { useKeyDownAction } from './useKeyDownAction';
+export { useDropdownKeyboardNavigation } from './useDropdownKeyboardNavigation';
 export { useReadonly } from './useReadonly';
 export { useService } from './useService';
 export { usePrevious } from './usePrevious';
