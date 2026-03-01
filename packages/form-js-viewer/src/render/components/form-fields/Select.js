@@ -19,6 +19,7 @@ export function Select(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const labelId = `${domId}-label`;
 
   const selectProps = {
     domId,
@@ -33,6 +34,7 @@ export function Select(props) {
     required,
     'aria-invalid': errors.length > 0,
     'aria-describedby': [descriptionId, errorMessageId].join(' '),
+    'aria-labelledby': labelId,
   };
 
   return (
@@ -44,7 +46,7 @@ export function Select(props) {
           event.stopPropagation();
         }
       }}>
-      <Label htmlFor={domId} label={label} required={required} />
+      <Label id={labelId} htmlFor={domId} label={label} required={required} />
       {searchable ? <SearchableSelect {...selectProps} /> : <SimpleSelect {...selectProps} />}
       <Description id={descriptionId} description={description} />
       <Errors id={errorMessageId} errors={errors} />
