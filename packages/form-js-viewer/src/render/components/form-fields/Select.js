@@ -1,12 +1,22 @@
 import { Description } from '../Description';
 import { Errors } from '../Errors';
 import { Label } from '../Label';
+import { NativeSelect } from './parts/NativeSelect';
 import { SearchableSelect } from './parts/SearchableSelect';
 import { SimpleSelect } from './parts/SimpleSelect';
 
 import { sanitizeSingleSelectValue } from '../util/sanitizerUtil';
 import { createEmptyOptions } from '../util/optionsUtil';
 import { formFieldClasses } from '../Util';
+
+/**
+ * True when the primary pointer is fine (mouse / trackpad).
+ * Falls back to true when matchMedia is unavailable (e.g. SSR or jsdom).
+ */
+const HAS_FINE_POINTER =
+  typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    ? window.matchMedia('(pointer:fine)').matches
+    : true;
 
 const type = 'select';
 
@@ -47,7 +57,13 @@ export function Select(props) {
         }
       }}>
       <Label id={labelId} htmlFor={domId} label={label} required={required} />
-      {searchable ? <SearchableSelect {...selectProps} /> : <SimpleSelect {...selectProps} />}
+      {!HAS_FINE_POINTER ? (
+        <NativeSelect {...selectProps} />
+      ) : searchable ? (
+        <SearchableSelect {...selectProps} />
+      ) : (
+        <SimpleSelect {...selectProps} />
+      )}
       <Description id={descriptionId} description={description} />
       <Errors id={errorMessageId} errors={errors} />
     </div>
