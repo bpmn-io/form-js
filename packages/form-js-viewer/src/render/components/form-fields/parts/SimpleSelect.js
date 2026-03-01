@@ -36,18 +36,19 @@ export function SimpleSelect(props) {
   const getLabelCorrelation = useGetLabelCorrelation(options);
   const valueLabel = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
 
+  /** @type {import("preact").RefObject<HTMLDivElement>} */
   const triggerRef = useRef();
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(() => {
     if (!options || !value) return -1;
     const idx = findIndex(options, (o) => o.value === value);
-    return idx != null ? idx : -1;
+    return idx != null ? /** @type {number} */ (idx) : -1;
   });
 
   const selectedIndex = useMemo(() => {
     if (!value || !options) return -1;
     const idx = findIndex(options, (o) => o.value === value);
-    return idx != null ? idx : -1;
+    return idx != null ? /** @type {number} */ (idx) : -1;
   }, [options, value]);
 
   const listboxId = `${domId}-listbox`;
