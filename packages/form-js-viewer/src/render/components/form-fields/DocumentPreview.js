@@ -209,6 +209,52 @@ function PdfRenderer(props) {
 }
 
 /**
+ * @param {Object} props
+ * @param {string} props.url
+ * @param {string} props.alt
+ * @param {Function} props.onError
+ * @param {RequestInit|undefined} props.requestInit
+ * @returns {import("preact").JSX.Element}
+ */
+function ImageRenderer(props) {
+  const { url, alt, onError, requestInit } = props;
+  /** @type {ReturnType<typeof import("preact/hooks").useState<null | string>>} */
+  const [imageObjectUrl, setImageObjectUrl] = useState(null);
+
+  useEffect(() => {
+    /** @type {null | string} */
+    let objectUrl = null;
+
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(url, requestInit);
+
+        if (!response.ok) {
+          onError();
+          return;
+        }
+
+        const blob = await response.blob();
+        objectUrl = URL.createObjectURL(blob);
+        setImageObjectUrl(objectUrl);
+      } catch {
+        onError();
+      }
+    };
+
+    fetchImage();
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [url, onError, requestInit]);
+
+  return imageObjectUrl !== null ? <img src={imageObjectUrl} alt={alt} class={`fjs-${type}-image`} /> : null;
+}
+
+/**
  *
  * @param {Object} props
  * @param {DocumentMetadata} props.documentMetadata
@@ -236,7 +282,12 @@ function DocumentRenderer(props) {
         class={singleDocumentContainerClassName}
         style={{ maxHeight }}
         aria-describedby={hasError ? errorMessageId : undefined}>
-        <img src={endpoint} alt={metadata.fileName} class={`fjs-${type}-image`} />
+        <ImageRenderer
+          url={endpoint}
+          alt={metadata.fileName}
+          requestInit={requestInit}
+          onError={() => setHasError(true)}
+        />
         <DownloadButton
           endpoint={endpoint}
           fileName={metadata.fileName}
