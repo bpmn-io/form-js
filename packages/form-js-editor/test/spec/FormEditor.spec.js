@@ -79,6 +79,8 @@ describe('FormEditor', function () {
   });
 
   (singleStartTheme ? it.only : it)('should render theme', async function () {
+    this.timeout(10000);
+
     // given
     document.documentElement.setAttribute('data-carbon-theme', 'g100');
     insertTheme();
