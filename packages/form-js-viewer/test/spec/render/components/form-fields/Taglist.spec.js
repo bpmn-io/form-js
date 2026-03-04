@@ -571,20 +571,29 @@ describe('Taglist', function () {
         await userEvent.click(filterInput);
 
         // then
-        const tag4Item = screen.getByText('Tag4');
-        expect(tag4Item.classList.contains('focused')).to.be.true;
+        await waitFor(() => {
+          const dropdownList = container.querySelector('.fjs-dropdownlist');
+          expect(dropdownList).to.exist;
+          const tag4Item = dropdownList.querySelector('.fjs-dropdownlist-item');
+          expect(tag4Item.textContent).to.equal('Tag4');
+          expect(tag4Item.classList.contains('focused')).to.be.true;
+        });
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
 
         await waitFor(() => {
-          const tag6Item = screen.getByText('Tag6');
+          const dropdownItems = container.querySelectorAll('.fjs-dropdownlist-item');
+          const tag6Item = dropdownItems[2];
+          expect(tag6Item.textContent).to.equal('Tag6');
           expect(tag6Item.classList.contains('focused')).to.be.true;
         });
 
         await userEvent.keyboard('{arrowup}');
 
         await waitFor(() => {
-          const tag5Item = screen.getByText('Tag5');
+          const dropdownItems = container.querySelectorAll('.fjs-dropdownlist-item');
+          const tag5Item = dropdownItems[1];
+          expect(tag5Item.textContent).to.equal('Tag5');
           expect(tag5Item.classList.contains('focused')).to.be.true;
         });
       });
