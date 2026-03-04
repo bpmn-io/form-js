@@ -46,7 +46,7 @@ export function CustomPropertiesGroup(field, editField) {
       return editField(field, ['properties'], removeKey(properties, key));
     };
 
-    const id = `property-${field.id}-${index}`;
+    const id = `property-${index}`;
 
     return {
       autoFocusEntry: id + '-key',
