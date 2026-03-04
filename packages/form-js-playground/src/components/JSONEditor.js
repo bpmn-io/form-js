@@ -101,6 +101,10 @@ export function JSONEditor(options = {}) {
 
   function createPlaceholderLinterExtension() {
     return linter((view) => {
+      if (!container) {
+        return [];
+      }
+
       const placeholders = view.dom.querySelectorAll('.cm-placeholder');
       if (placeholders.length > 0) {
         domClasses(container, document.body).add(NO_LINT_CLS);
