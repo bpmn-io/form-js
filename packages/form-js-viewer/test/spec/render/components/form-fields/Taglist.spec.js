@@ -572,28 +572,21 @@ describe('Taglist', function () {
 
         // then
         await waitFor(() => {
-          const dropdownList = container.querySelector('.fjs-dropdownlist');
-          expect(dropdownList).to.exist;
-          const tag4Item = dropdownList.querySelector('.fjs-dropdownlist-item');
-          expect(tag4Item.textContent).to.equal('Tag4');
+          const tag4Item = screen.getByText('Tag4');
           expect(tag4Item.classList.contains('focused')).to.be.true;
         });
 
         await userEvent.keyboard('{arrowdown}{arrowdown}');
 
         await waitFor(() => {
-          const dropdownItems = container.querySelectorAll('.fjs-dropdownlist-item');
-          const tag6Item = dropdownItems[2];
-          expect(tag6Item.textContent).to.equal('Tag6');
+          const tag6Item = screen.getByText('Tag6');
           expect(tag6Item.classList.contains('focused')).to.be.true;
         });
 
         await userEvent.keyboard('{arrowup}');
 
         await waitFor(() => {
-          const dropdownItems = container.querySelectorAll('.fjs-dropdownlist-item');
-          const tag5Item = dropdownItems[1];
-          expect(tag5Item.textContent).to.equal('Tag5');
+          const tag5Item = screen.getByText('Tag5');
           expect(tag5Item.classList.contains('focused')).to.be.true;
         });
       });
@@ -624,22 +617,17 @@ describe('Taglist', function () {
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.false;
 
-        // first focus detection in `keyboard` mode is captured by mouseMove, so mouseEnter will not work to change the state
-        fireEvent.mouseEnter(tag6);
+        // first mouseMove in keyboard mode only calibrates cursor position, does not change focus
+        fireEvent.mouseMove(tag6, { screenX: 10, screenY: 10 });
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.false;
 
-        // mouseMove should work
-        fireEvent.mouseMove(tag6);
+        // second mouseMove with different coordinates switches to mouse control
+        fireEvent.mouseMove(tag6, { screenX: 10, screenY: 20 });
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.true;
 
-        // second detection is captured via mouseEnter, hence mouseMove will not work to change the state
-        fireEvent.mouseMove(tag5);
-        expect(isFocused(tag5)).to.be.false;
-        expect(isFocused(tag6)).to.be.true;
-
-        // mouseEnter should work
+        // mouseEnter works once in mouse control mode
         fireEvent.mouseEnter(tag5);
         expect(isFocused(tag5)).to.be.true;
         expect(isFocused(tag6)).to.be.false;

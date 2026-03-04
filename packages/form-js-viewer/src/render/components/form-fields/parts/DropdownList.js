@@ -90,9 +90,13 @@ export function DropdownList(props) {
   }, []);
 
   const onMouseMovedInKeyboardMode = (event, valueIndex) => {
+    if (!mouseScreenPos.current) {
+      mouseScreenPos.current = { x: event.screenX, y: event.screenY };
+      return;
+    }
+
     const userMovedCursor =
-      !mouseScreenPos.current ||
-      (mouseScreenPos.current.x !== event.screenX && mouseScreenPos.current.y !== event.screenY);
+      mouseScreenPos.current.x !== event.screenX || mouseScreenPos.current.y !== event.screenY;
 
     if (userMovedCursor) {
       mouseScreenPos.current = { x: event.screenX, y: event.screenY };
