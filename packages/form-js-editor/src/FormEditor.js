@@ -3,6 +3,7 @@ import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn
 import { isString, set } from 'min-dash';
 
 import { CoreModule } from './core';
+import { ContextPadModule } from './features/context-pad';
 import { EditorActionsModule } from './features/editor-actions';
 import { EditorExpressionLanguageModule } from './features/expression-language';
 import { FormEditorKeyboardModule } from './features/keyboard';
@@ -279,6 +280,7 @@ export class FormEditor {
    */
   _getModules() {
     return [
+      ContextPadModule,
       ModelingModule,
       EditorActionsModule,
       FormEditorKeyboardModule,
