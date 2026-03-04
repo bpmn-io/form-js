@@ -26,6 +26,12 @@ export function DropdownList(props) {
   /** @type {import("preact").RefObject<{ x: number, y: number }>} */
   const mouseScreenPos = useRef();
 
+  /** @type {import("preact").RefObject<boolean>} */
+  const isAutoScrolling = useRef(false);
+
+  /** @type {import("preact").RefObject<boolean>} */
+  const isInitialRender = useRef(true);
+
   const focusedItem = useMemo(() => (values.length ? values[focusedValueIndex] : null), [focusedValueIndex, values]);
 
   const changeFocusedValueIndex = useCallback(
@@ -81,8 +87,17 @@ export function DropdownList(props) {
     const individualEntries = dropdownContainer.current.children;
     if (individualEntries.length && !mouseControl) {
       const focusedEntry = individualEntries[focusedValueIndex];
-      focusedEntry && focusedEntry.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      if (focusedEntry) {
+        if (!isInitialRender.current) {
+          isAutoScrolling.current = true;
+        }
+        focusedEntry.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        requestAnimationFrame(() => {
+          isAutoScrolling.current = false;
+        });
+      }
     }
+    isInitialRender.current = false;
   }, [focusedValueIndex, mouseControl]);
 
   useEffect(() => {
@@ -90,13 +105,13 @@ export function DropdownList(props) {
   }, []);
 
   const onMouseMovedInKeyboardMode = (event, valueIndex) => {
-    if (!mouseScreenPos.current) {
-      mouseScreenPos.current = { x: event.screenX, y: event.screenY };
+    if (isAutoScrolling.current) {
       return;
     }
 
     const userMovedCursor =
-      mouseScreenPos.current.x !== event.screenX || mouseScreenPos.current.y !== event.screenY;
+      !mouseScreenPos.current ||
+      (mouseScreenPos.current.x !== event.screenX && mouseScreenPos.current.y !== event.screenY);
 
     if (userMovedCursor) {
       mouseScreenPos.current = { x: event.screenX, y: event.screenY };

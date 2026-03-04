@@ -617,17 +617,22 @@ describe('Taglist', function () {
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.false;
 
-        // first mouseMove in keyboard mode only calibrates cursor position, does not change focus
-        fireEvent.mouseMove(tag6, { screenX: 10, screenY: 10 });
+        // first focus detection in `keyboard` mode is captured by mouseMove, so mouseEnter will not work to change the state
+        fireEvent.mouseEnter(tag6);
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.false;
 
-        // second mouseMove with different coordinates switches to mouse control
-        fireEvent.mouseMove(tag6, { screenX: 10, screenY: 20 });
+        // mouseMove should work
+        fireEvent.mouseMove(tag6);
         expect(isFocused(tag5)).to.be.false;
         expect(isFocused(tag6)).to.be.true;
 
-        // mouseEnter works once in mouse control mode
+        // second detection is captured via mouseEnter, hence mouseMove will not work to change the state
+        fireEvent.mouseMove(tag5);
+        expect(isFocused(tag5)).to.be.false;
+        expect(isFocused(tag6)).to.be.true;
+
+        // mouseEnter should work
         fireEvent.mouseEnter(tag5);
         expect(isFocused(tag5)).to.be.true;
         expect(isFocused(tag6)).to.be.false;
