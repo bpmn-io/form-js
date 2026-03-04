@@ -51,7 +51,6 @@ export function PlaygroundRoot(config) {
   const load = useCallback((schema, data) => {
     formEditorRef.current.importSchema(schema, data);
     inputDataRef.current.setValue(toString(data));
-    setSchema(schema);
     setData(data);
   }, []);
 
@@ -212,7 +211,9 @@ export function PlaygroundRoot(config) {
       getResultView: () => outputDataRef.current,
       getSchema: () => formEditorRef.current.getSchema(),
       saveSchema: () => formEditorRef.current.saveSchema(),
-      setSchema: setSchema,
+      setSchema: (newSchema) => {
+        return formEditorRef.current.importSchema(newSchema);
+      },
       setData: setData,
     };
 
