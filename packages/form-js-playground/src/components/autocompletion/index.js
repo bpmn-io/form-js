@@ -118,12 +118,20 @@ function completions(context) {
     finalOptions = objectOptions;
   }
 
+  if (nodeBefore.type.name === ',' && nodeBefore.parent?.type.name === 'Object') {
+    finalOptions = objectOptions;
+  }
+
   if (nodeBefore.type.name === 'PropertyName') {
     context.explicit = true;
     finalOptions = propertyNameOptions;
   }
 
   if (['Property', '[', 'Array'].includes(nodeBefore.type.name)) {
+    finalOptions = propertyValueOptions;
+  }
+
+  if (nodeBefore.type.name === ':' && nodeBefore.parent?.type.name === 'Property') {
     finalOptions = propertyValueOptions;
   }
 

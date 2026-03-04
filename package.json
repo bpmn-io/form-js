@@ -63,7 +63,7 @@
     "@babel/core": "^7.29.0",
     "@babel/plugin-transform-react-jsx": "^7.28.6",
     "@babel/plugin-transform-react-jsx-source": "^7.27.1",
-    "@bpmn-io/properties-panel": "^3.38.0",
+    "@bpmn-io/properties-panel": "^3.40.3",
     "@carbon/react": "^1.100.0",
     "@carbon/styles": "^1.99.0",
     "@ibm/plex": "^6.4.1",

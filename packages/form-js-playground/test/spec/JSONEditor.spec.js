@@ -125,7 +125,7 @@ describe('JSONEditor', function () {
       });
     });
 
-    it.skip('should add comma after property name completion', async function () {
+    it('should add comma after property name completion', async function () {
       // given
       const initialValue = '{"foo": "bar",}';
       const variables = ['amount', 'baz'];
@@ -217,7 +217,7 @@ describe('JSONEditor', function () {
       });
     });
 
-    it.skip('should suggest property value completions', async function () {
+    it('should suggest property value completions', async function () {
       // given
       const initialValue = '{ "prop": }';
       const editor = new JSONEditor();
@@ -249,8 +249,7 @@ describe('JSONEditor', function () {
       });
     });
 
-    // Find out why it's flaky on the CI: https://github.com/bpmn-io/form-js/issues/1373
-    it.skip('should suggest array value completions', async function () {
+    it('should suggest array value completions', async function () {
       // given
       const initialValue = '[ ]';
       const editor = new JSONEditor();
@@ -282,8 +281,7 @@ describe('JSONEditor', function () {
       });
     });
 
-    // Find out why it's flaky on the CI: https://github.com/bpmn-io/form-js/issues/1373
-    it.skip('should suggest property completion after opening brace', async function () {
+    it('should suggest property completion after opening brace', async function () {
       // given
       const initialValue = '{';
       const variables = ['foobar', 'baz'];
