@@ -453,6 +453,9 @@
   position: absolute;
   top: 0;
   right: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
 }
 
 .fjs-editor-container .fjs-context-pad-item {
@@ -465,6 +468,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .fjs-editor-container .fjs-context-pad-item:hover {
