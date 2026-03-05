@@ -15,7 +15,7 @@ module.exports = function (karma) {
   const config = {
     basePath: '../../',
 
-    frameworks: ['webpack', 'mocha', 'sinon-chai'],
+    frameworks: ['webpack', 'mocha'],
 
     files: [suite],
 

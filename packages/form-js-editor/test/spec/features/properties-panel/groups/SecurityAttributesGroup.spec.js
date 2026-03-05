@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { cleanup, fireEvent, render } from '@testing-library/preact/pure';
 
 import { SECURITY_ATTRIBUTES_DEFINITIONS } from '@bpmn-io/form-js-viewer';

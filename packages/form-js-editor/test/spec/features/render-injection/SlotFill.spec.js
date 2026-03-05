@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/preact/pure';
 
 import { useState } from 'preact/hooks';

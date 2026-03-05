@@ -113,7 +113,6 @@ export default [
   {
     languageOptions: {
       globals: {
-        sinon: true,
         require: true,
         ...globals.browser,
         ...globals.mocha,

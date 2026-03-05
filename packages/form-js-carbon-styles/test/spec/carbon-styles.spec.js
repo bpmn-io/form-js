@@ -1,5 +1,7 @@
 import 'preact/debug';
 
+import { expect } from 'chai';
+
 import { ThemeProvider } from 'styled-components';
 
 import { Form } from '@bpmn-io/form-js-viewer';

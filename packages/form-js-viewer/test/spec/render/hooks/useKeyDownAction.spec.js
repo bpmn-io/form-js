@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { fireEvent, render, cleanup } from '@testing-library/preact/pure';
 
 import { useKeyDownAction } from '../../../../src/render/hooks/useKeyDownAction';

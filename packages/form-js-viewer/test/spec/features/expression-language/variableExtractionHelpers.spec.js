@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { getFlavouredFeelVariableNames } from '../../../../src/features/expressionLanguage/variableExtractionHelpers';
 
 describe('getFlavouredFeelVariableNames', function () {

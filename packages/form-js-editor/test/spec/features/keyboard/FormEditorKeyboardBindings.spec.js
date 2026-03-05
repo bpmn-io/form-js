@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { bootstrapFormEditor, getFormEditor, inject } from 'test/TestHelper';
 
 import { EditorActionsModule } from 'src/features/editor-actions';

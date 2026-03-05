@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 describe('form-playground', function () {
   let container;
 
