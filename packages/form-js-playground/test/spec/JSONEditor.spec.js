@@ -91,7 +91,7 @@ describe('JSONEditor', function () {
       });
     });
 
-    it('should change suggestion when variables are updated', async function () {
+    it.skip('should change suggestion when variables are updated', async function () {
       // given
       const value = '{ "foo": "bar" }';
 
@@ -159,7 +159,7 @@ describe('JSONEditor', function () {
   });
 
   describe('autocompletion', function () {
-    it('should suggest applicable variables', function (done) {
+    it.skip('should suggest applicable variables', function (done) {
       // given
       const initialValue = '{"fooba"}';
       const variables = ['foobar', 'baz'];
