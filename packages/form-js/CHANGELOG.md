@@ -6,6 +6,13 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.20.1
+
+- `FIX`: ensure lerna doesn't overwrite version pin ([2f1e5f27](https://github.com/bpmn-io/form-js/commit/2f1e5f2718f321692c6f7e31edf32ced12398225))
+- `FIX`: restrict `form-js-editor`'s preact version to `<=1.15.1` ([be0af1cf](https://github.com/bpmn-io/form-js/commit/be0af1cf42d7df6dd3c8cccfd214799175d1fe86))
+
+> There is a known bug ([#1216](https://github.com/bpmn-io/form-js/issues/1216), [#760](https://github.com/bpmn-io/form-js/issues/760)) that our drag and drop framework does not work with newer versions of preact. This version restriction was missing from the package definition and will be removed when the drag and drop issue is resolved.
+
 ## 1.20.0
 
 - `FIX`: properly import schemas in the editor in the exposed playground API ([d549adaf](https://github.com/bpmn-io/form-js/commit/d549adaf20e543f631767a6b609feb9da7a460f7)) ([#1478](https://github.com/bpmn-io/form-js/pull/1478))
