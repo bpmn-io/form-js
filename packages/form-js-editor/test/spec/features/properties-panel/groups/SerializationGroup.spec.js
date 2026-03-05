@@ -161,6 +161,83 @@ describe('SerializationGroup', function () {
       expect(field.serializeToString).to.equal(false);
     });
   });
+
+  describe('omit from submission', function () {
+    it('should render for keyed fields', function () {
+      // given
+      const field = { type: 'textfield', key: 'myField' };
+
+      // when
+      const { container } = renderSerializationGroup({ field });
+      const omitFromSubmitInput = findInput('omit-from-submit', container);
+
+      // then
+      expect(omitFromSubmitInput).to.exist;
+    });
+
+    it('should NOT render for fields without key', function () {
+      // given
+      const field = { type: 'text' };
+
+      // when
+      const { container } = renderSerializationGroup({ field });
+      const omitFromSubmitInput = findInput('omit-from-submit', container);
+
+      // then
+      expect(omitFromSubmitInput).to.not.exist;
+    });
+
+    it('should NOT render for filepicker fields', function () {
+      // given
+      const field = { type: 'filepicker', key: 'myFiles' };
+
+      // when
+      const { container } = renderSerializationGroup({ field });
+      const omitFromSubmitInput = findInput('omit-from-submit', container);
+
+      // then
+      expect(omitFromSubmitInput).to.not.exist;
+    });
+
+    it('should read', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        key: 'myField',
+        omitFromSubmit: true,
+      };
+
+      // when
+      const { container } = renderSerializationGroup({ field });
+      const omitFromSubmitInput = findInput('omit-from-submit', container);
+
+      // then
+      expect(omitFromSubmitInput).to.exist;
+      expect(omitFromSubmitInput.checked).to.equal(true);
+    });
+
+    it('should write', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        key: 'myField',
+        omitFromSubmit: false,
+      };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderSerializationGroup({ field, editField: editFieldSpy });
+
+      const omitFromSubmitInput = findInput('omit-from-submit', container);
+
+      // when
+      fireEvent.click(omitFromSubmitInput);
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.omitFromSubmit).to.equal(true);
+    });
+  });
 });
 
 // helper ///////////////
