@@ -4,6 +4,9 @@
   "command": {
     "version": {
       "exact": true
+    },
+    "publish": {
+      "dist-tag": "backports"
     }
   }
 }
