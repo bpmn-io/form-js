@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 describe('form-editor', function () {
   let container;
 

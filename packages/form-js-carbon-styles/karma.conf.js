@@ -13,7 +13,7 @@ const suite = 'test/testBundle.js';
 
 module.exports = function (karma) {
   const config = {
-    frameworks: ['webpack', 'mocha', 'sinon-chai'],
+    frameworks: ['webpack', 'mocha'],
 
     files: [suite],
 

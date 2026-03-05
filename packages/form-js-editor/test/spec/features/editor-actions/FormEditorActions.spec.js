@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { bootstrapFormEditor, getFormEditor, inject } from 'test/TestHelper';
 
 import { EditorActionsModule } from 'src/features/editor-actions';

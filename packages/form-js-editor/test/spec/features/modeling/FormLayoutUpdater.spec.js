@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { bootstrapFormEditor, inject } from '../../../TestHelper';
 
 import { ModelingModule } from 'src/features/modeling';

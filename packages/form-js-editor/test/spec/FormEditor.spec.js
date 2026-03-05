@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { createFormEditor, FormEditor, schemaVersion } from '../../src';
 
 import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';

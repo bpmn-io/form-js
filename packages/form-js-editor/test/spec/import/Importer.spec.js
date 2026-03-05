@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { bootstrapFormEditor, getFormEditor, countComponents, inject } from 'test/TestHelper';
 
 import { clone } from '@bpmn-io/form-js-viewer';

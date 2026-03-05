@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { SlotFillManager } from '../../../../src/features/render-injection/SlotFillManager';
 
 describe('features/render-injection - SlotFillManager', function () {

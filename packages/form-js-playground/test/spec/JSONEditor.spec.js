@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { JSONEditor } from '../../src/components/JSONEditor';
 import { currentCompletions, startCompletion } from '@codemirror/autocomplete';
 

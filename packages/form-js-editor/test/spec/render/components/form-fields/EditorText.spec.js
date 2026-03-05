@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { render } from '@testing-library/preact/pure';
 
 import { EditorText } from '../../../../../src/render/components/editor-form-fields/EditorText';

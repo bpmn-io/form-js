@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import 'preact/debug';
 
 import { forEach } from 'min-dash';

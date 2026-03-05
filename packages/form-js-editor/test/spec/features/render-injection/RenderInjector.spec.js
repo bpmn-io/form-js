@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import TestContainer from 'mocha-test-container-support';
 
 import { useEffect } from 'preact/hooks';

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { render } from '@testing-library/preact/pure';
 import { DynamicList } from '../../../../../src/render/components/form-fields/DynamicList';
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
