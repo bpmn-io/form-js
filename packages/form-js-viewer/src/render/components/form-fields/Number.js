@@ -5,6 +5,7 @@ import { useFlushDebounce, usePrevious } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
+import { Warning } from '../Warning';
 import { Label } from '../Label';
 import { TemplatedInputAdorner } from './parts/TemplatedInputAdorner';
 
@@ -13,14 +14,27 @@ import AngelUpIcon from './icons/AngelUp.svg';
 
 import { formFieldClasses } from '../Util';
 
-import { isNullEquivalentValue, isValidNumber, willKeyProduceValidNumber } from '../util/numberFieldUtil';
+import {
+  isNullEquivalentValue,
+  isValidNumber,
+  willKeyProduceValidNumber,
+  isNumberInputSafe,
+} from '../util/numberFieldUtil';
 
 const type = 'number';
 
 export function Numberfield(props) {
   const { disabled, errors = [], domId, onBlur, onFocus, field, value, readonly } = props;
 
-  const { description, label, appearance = {}, validate = {}, decimalDigits, increment: incrementValue } = field;
+  const {
+    description,
+    label,
+    appearance = {},
+    validate = {},
+    decimalDigits,
+    increment: incrementValue,
+    serializeToString,
+  } = field;
 
   const { prefixAdorner, suffixAdorner } = appearance;
 
@@ -97,34 +111,58 @@ export function Numberfield(props) {
     return Big('1');
   }, [decimalDigits, incrementValue]);
 
+  // determine whether stepping would produce a value that loses precision as a Number
+  const arrowsDisabled = useMemo(() => {
+    if (serializeToString) return false;
+
+    const base = isValidNumber(cachedValue) ? Big(cachedValue) : Big(0);
+
+    const stepFlooredValue = base.minus(base.mod(incrementAmount));
+    const incrementedValue = stepFlooredValue.plus(incrementAmount).toFixed();
+
+    const offset = base.mod(incrementAmount);
+    let decrementedValue;
+    if (offset.cmp(0) === 0) {
+      decrementedValue = base.minus(incrementAmount).toFixed();
+    } else {
+      decrementedValue = base.minus(offset).toFixed();
+    }
+
+    return !isNumberInputSafe(incrementedValue) && !isNumberInputSafe(decrementedValue);
+  }, [cachedValue, incrementAmount, serializeToString]);
+
   const increment = () => {
-    if (readonly) {
+    if (readonly || arrowsDisabled) {
       return;
     }
 
     const base = isValidNumber(cachedValue) ? Big(cachedValue) : Big(0);
     const stepFlooredValue = base.minus(base.mod(incrementAmount));
+    const newValue = stepFlooredValue.plus(incrementAmount).toFixed();
 
     // note: toFixed() behaves differently in big.js
-    setValue(stepFlooredValue.plus(incrementAmount).toFixed());
+    setValue(newValue);
   };
 
   const decrement = () => {
-    if (readonly) {
+    if (readonly || arrowsDisabled) {
       return;
     }
 
     const base = isValidNumber(cachedValue) ? Big(cachedValue) : Big(0);
     const offset = base.mod(incrementAmount);
 
+    let newValue;
     if (offset.cmp(0) === 0) {
       // if we're already on a valid step, decrement
-      setValue(base.minus(incrementAmount).toFixed());
+      newValue = base.minus(incrementAmount).toFixed();
     } else {
       // otherwise floor to the step
       const stepFlooredValue = base.minus(base.mod(incrementAmount));
-      setValue(stepFlooredValue.toFixed());
+      newValue = stepFlooredValue.toFixed();
     }
+
+    setValue(newValue);
   };
 
   const onKeyDown = (e) => {
@@ -165,6 +203,14 @@ export function Numberfield(props) {
 
   const descriptionId = `${domId}-description`;
   const errorMessageId = `${domId}-error-message`;
+  const warningMessageId = `${domId}-warning-message`;
+
+  const precisionWarnings = useMemo(() => {
+    if (serializeToString || !isValidNumber(displayValue) || isNumberInputSafe(displayValue.toString())) {
+      return [];
+    }
+    return ['This value exceeds the precision supported by this field. It will be rounded.'];
+  }, [serializeToString, displayValue]);
 
   return (
     <div class={formFieldClasses(type, { errors, disabled, readonly })}>
@@ -193,16 +239,17 @@ export function Numberfield(props) {
             autoComplete="off"
             step={incrementAmount}
             value={displayValue}
-            aria-describedby={[descriptionId, errorMessageId].join(' ')}
+            aria-describedby={[descriptionId, errorMessageId, warningMessageId].join(' ')}
             required={required}
             aria-invalid={errors.length > 0}
           />
-          <div class={classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
+          <div class={classNames('fjs-number-arrow-container', { 'fjs-disabled': disabled || arrowsDisabled, 'fjs-readonly': readonly })}>
             {/* we're disabling tab navigation on both buttons to imitate the native browser behavior of input[type='number'] increment arrows */}
             <button
               type="button"
               class="fjs-number-arrow-up"
               aria-label="Increment"
+              disabled={disabled || arrowsDisabled}
               onClick={() => increment()}
               tabIndex={-1}>
               <AngelUpIcon />
@@ -212,6 +259,7 @@ export function Numberfield(props) {
               type="button"
               class="fjs-number-arrow-down"
               aria-label="Decrement"
+              disabled={disabled || arrowsDisabled}
               onClick={() => decrement()}
               tabIndex={-1}>
               <AngelDownIcon />
@@ -221,6 +269,7 @@ export function Numberfield(props) {
       </TemplatedInputAdorner>
       <Description id={descriptionId} description={description} />
       <Errors id={errorMessageId} errors={errors} />
+      <Warning id={warningMessageId} warnings={precisionWarnings} />
     </div>
   );
 }
