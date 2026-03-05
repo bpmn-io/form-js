@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-carbon-styles",
-  "version": "1.15.4",
+  "version": "1.15.5",
   "description": "Custom carbon styles for form-js",
   "scripts": {
     "all": "run-s test",
