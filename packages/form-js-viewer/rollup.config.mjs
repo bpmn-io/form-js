@@ -3,7 +3,8 @@ import babel from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import reactSvg from '@svgr/rollup';
 import resolve from '@rollup/plugin-node-resolve';
-import pkg from './package.json';
+
+import pkg from './package.json' with { type: 'json' };
 
 function pgl(plugins = []) {
   return [
