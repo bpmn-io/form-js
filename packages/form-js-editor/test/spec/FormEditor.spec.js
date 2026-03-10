@@ -4,6 +4,9 @@ import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';
 
+import { Fill } from '../../src/features/render-injection/slot-fill';
+import { RenderInjectionModule } from '../../src/features/render-injection';
+
 import { insertStyles, insertTheme, isSingleStart, countComponents, expectNoViolations } from '../TestHelper';
 
 import schema from './form.json';
@@ -149,6 +152,47 @@ describe('FormEditor', function () {
 
       const emptyEditorContainer = container.querySelector('.fjs-empty-editor');
       expect(emptyEditorContainer).to.exist;
+    });
+  });
+
+  it('should render empty state slot fill', async function () {
+    // given
+    function EmptyStateExtension(props) {
+      return (
+        <Fill slot="editor-empty-state__footer">
+          <div class="custom-empty-state-fill">Custom Content</div>
+        </Fill>
+      );
+    }
+
+    class EmptyStateExtensionRenderer {
+      constructor(renderInjector) {
+        renderInjector.attachRenderer('empty-state-extension', EmptyStateExtension);
+      }
+    }
+
+    EmptyStateExtensionRenderer.$inject = ['renderInjector'];
+
+    const EmptyStateExtensionModule = {
+      __init__: ['emptyStateExtensionRenderer'],
+      emptyStateExtensionRenderer: ['type', EmptyStateExtensionRenderer],
+    };
+
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+      },
+      additionalModules: [RenderInjectionModule, EmptyStateExtensionModule],
+      debounce: true,
+    });
+
+    // then
+    await waitFor(() => {
+      const fillContent = container.querySelector('.fjs-empty-editor .custom-empty-state-fill');
+      expect(fillContent).to.exist;
+      expect(fillContent.textContent).to.equal('Custom Content');
     });
   });
 

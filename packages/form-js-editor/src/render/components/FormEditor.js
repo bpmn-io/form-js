@@ -17,7 +17,7 @@ import { ModularSection } from './ModularSection';
 import { Palette, collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
 import { InjectedRendersRoot } from '../../features/render-injection/components/InjectedRendersRoot';
 
-import { SlotFillRoot } from '../../features/render-injection/slot-fill';
+import { Slot, SlotFillRoot } from '../../features/render-injection/slot-fill';
 
 import {
   DRAG_CONTAINER_CLS,
@@ -57,6 +57,7 @@ function EmptyForm() {
         <h2>Build your form</h2>
         <span>Drag and drop components here to start designing.</span>
         <span>Use the preview window to test your form.</span>
+        <Slot name="editor-empty-state__footer" />
       </div>
     </div>
   );
