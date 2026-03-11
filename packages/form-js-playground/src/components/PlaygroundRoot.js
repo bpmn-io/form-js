@@ -25,6 +25,7 @@ export function PlaygroundRoot(config) {
     editorProperties,
     viewerAdditionalModules,
     editorAdditionalModules,
+    editorSlots,
     propertiesPanel: propertiesPanelConfig,
     apiLinkTarget,
     onInit,
@@ -93,6 +94,7 @@ export function PlaygroundRoot(config) {
         ariaLabel: 'Form Definition',
       },
       additionalModules: [...(additionalModules || []), ...(editorAdditionalModules || [])],
+      ...(editorSlots ? { slots: editorSlots } : {}),
     }));
 
     formEditor.on('formField.add', ({ formField }) => {
@@ -164,6 +166,7 @@ export function PlaygroundRoot(config) {
     additionalModules,
     editorAdditionalModules,
     editorProperties,
+    editorSlots,
     emit,
     exporterConfig,
     propertiesPanelConfig,

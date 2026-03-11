@@ -196,6 +196,33 @@ describe('FormEditor', function () {
     });
   });
 
+  it('should render empty state slot fill via slots config', async function () {
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+      },
+      slots: {
+        'editor-empty-state__footer': (containerEl) => {
+          containerEl.innerHTML = '<div class="custom-slots-config-fill">Slots Config Content</div>';
+
+          return () => {
+            containerEl.innerHTML = '';
+          };
+        },
+      },
+      debounce: true,
+    });
+
+    // then
+    await waitFor(() => {
+      const fillContent = container.querySelector('.fjs-empty-editor .custom-slots-config-fill');
+      expect(fillContent).to.exist;
+      expect(fillContent.textContent).to.equal('Slots Config Content');
+    });
+  });
+
   it('should NOT render empty placeholder', async function () {
     // when
     await bootstrapFormEditor({
