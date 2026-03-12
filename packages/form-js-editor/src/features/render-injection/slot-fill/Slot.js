@@ -34,21 +34,21 @@ export const Slot = (props) => {
   const slotFillManager = editorContext ? editorContext.getService('slotFillManager', false) : null;
   const eventBus = editorContext ? editorContext.getService('eventBus', false) : null;
 
-  const [, setRevision] = useState(0);
+  const [managerFills, setManagerFills] = useState([]);
 
   useEffect(() => {
-    if (!eventBus) {
+    if (!eventBus || !slotFillManager) {
       return;
     }
 
-    const onChange = () => setRevision((r) => r + 1);
+    setManagerFills(slotFillManager.getFills(name));
+
+    const onChange = () => setManagerFills(slotFillManager.getFills(name));
 
     eventBus.on('slotFillManager.changed', onChange);
 
     return () => eventBus.off('slotFillManager.changed', onChange);
-  }, [eventBus]);
-
-  const managerFills = slotFillManager ? slotFillManager.getFills(name) : [];
+  }, [eventBus, slotFillManager, name]);
 
   return (
     <Fragment>
