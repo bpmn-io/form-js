@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.21.0
+
+- `FEAT`: add `editor-empty-state__footer` slot to the form editor empty state ([#1485](https://github.com/bpmn-io/form-js/issues/1485))
+- `FEAT`: add framework-agnostic `SlotFillManager` service to register slot fills via config or runtime API ([c41369c](https://github.com/bpmn-io/form-js/commit/c41369cf), [33d8942](https://github.com/bpmn-io/form-js/commit/33d8942f))
+- `FEAT`: support custom `RequestInit` in document preview via `documentEndpointBuilder.buildRequestInit` ([d40d953](https://github.com/bpmn-io/form-js/commit/d40d9530))
+- `FEAT`: fetch document preview images via `fetch()` to support authenticated endpoints ([8406774](https://github.com/bpmn-io/form-js/commit/84067742))
+- `REFACTOR`: run unary test evaluation from `ConditionChecker` through `expressionLanguage` module ([be0c1df](https://github.com/bpmn-io/form-js/commit/be0c1df5), [#819](https://github.com/bpmn-io/form-js/issues/819))
+
 ## 1.20.1
 
 - `FIX`: ensure lerna doesn't overwrite version pin ([2f1e5f27](https://github.com/bpmn-io/form-js/commit/2f1e5f2718f321692c6f7e31edf32ced12398225))
