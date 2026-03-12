@@ -15,6 +15,16 @@
  *   }
  * });
  *
+ * // Via config (multiple fills per slot):
+ * new FormEditor({
+ *   slots: {
+ *     'editor-empty-state__footer': [
+ *       (container) => { container.textContent = 'First'; },
+ *       { render: (container) => { container.textContent = 'Second'; }, priority: 10 }
+ *     ]
+ *   }
+ * });
+ *
  * // Via service (runtime):
  * const slotFillManager = editor.get('slotFillManager');
  * slotFillManager.addFill('editor-empty-state__footer', 'my-fill', {
@@ -85,7 +95,13 @@ export class SlotFillManager {
    */
   _populateFromConfig(slotsConfig) {
     Object.entries(slotsConfig || {}).forEach(([slotName, value]) => {
-      this.addFill(slotName, `config__${slotName}`, value);
+      if (Array.isArray(value)) {
+        value.forEach((entry, index) => {
+          this.addFill(slotName, `config__${slotName}_${index}`, entry);
+        });
+      } else {
+        this.addFill(slotName, `config__${slotName}`, value);
+      }
     });
   }
 }

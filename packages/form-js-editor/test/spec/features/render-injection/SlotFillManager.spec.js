@@ -34,6 +34,26 @@ describe('features/render-injection - SlotFillManager', function () {
       expect(fills[0].render).to.equal(render);
     });
 
+    it('should populate multiple fills from array config', function () {
+      // given
+      const render1 = sinon.spy();
+      const render2 = sinon.spy();
+
+      // when
+      const manager = new SlotFillManager(
+        {
+          'my-slot': [render1, render2],
+        },
+        eventBus,
+      );
+
+      // then
+      const fills = manager.getFills('my-slot');
+      expect(fills).to.have.length(2);
+      expect(fills[0].render).to.equal(render1);
+      expect(fills[1].render).to.equal(render2);
+    });
+
     it('should support object config with priority and group', function () {
       // given
       const render = sinon.spy();
