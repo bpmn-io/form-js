@@ -78,7 +78,7 @@ describe('util/getSchemaVariables', function () {
   it('should include variables in valuesExpression', function () {
     const variables = getSchemaVariables(valuesExpressionSchema);
 
-    expect(variables).to.eql(['myList', 'concatenate', 'myList2', 'myList3', 'myList4', 'product', 'mailto', 'foo']);
+    expect(variables).to.eql(['myList', 'myList2', 'myList3', 'myList4', 'product', 'mailto', 'foo']);
   });
 
   it('should include variables in conditions', function () {
