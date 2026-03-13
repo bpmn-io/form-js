@@ -1,6 +1,7 @@
 import {
   willKeyProduceValidNumber,
   countDecimals,
+  isNumberInputSafe,
 } from '../../../../../../src/render/components/util/numberFieldUtil.js';
 
 describe('numberFieldUtil', function () {
@@ -66,5 +67,27 @@ describe('numberFieldUtil', function () {
         expectedValue,
       );
     }
+  });
+
+  describe('#isNumberInputSafe', function () {
+    it('should return true for values that survive Number() round-trip', function () {
+      const safeCases = ['2', '123.456', '1.000000000000001', '0.0000000000000001', '999999999999999', '1e-100'];
+
+      for (const value of safeCases) {
+        expect(isNumberInputSafe(value)).to.equal(true, `expected '${value}' to be safe`);
+      }
+    });
+
+    it('should return false for values that lose precision through Number()', function () {
+      const unsafeCases = [
+        '1.0000000000000001', // 1 + tiny delta collapses to 1
+        '9999999999999999', // 16-digit integer exceeds safe range
+        '1.' + '0'.repeat(99) + '1', // 1 + 1e-100 collapses to 1
+      ];
+
+      for (const value of unsafeCases) {
+        expect(isNumberInputSafe(value)).to.equal(false, `expected '${value}' to be unsafe`);
+      }
+    });
   });
 });

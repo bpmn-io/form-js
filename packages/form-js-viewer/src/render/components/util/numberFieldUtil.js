@@ -1,5 +1,24 @@
 import Big from 'big.js';
 
+/**
+ * Checks whether a numeric string value would survive a Number() round-trip
+ * without losing precision. This is relevant when serializeToString is not enabled,
+ * since the value will be stored as a JavaScript Number (IEEE 754 double-precision),
+ * which only supports ~15-17 significant digits.
+ *
+ * @param {string} value - The numeric string to check
+ * @returns {boolean} true if Number(value).toString() represents the same numeric value
+ */
+export function isNumberInputSafe(value) {
+  try {
+    const bigOriginal = Big(value);
+    const afterRoundTrip = Big(Number(value));
+    return bigOriginal.eq(afterRoundTrip);
+  } catch (e) {
+    return false;
+  }
+}
+
 export function countDecimals(number) {
   const num = Big(number);
   if (num.toString() === num.toFixed(0)) return 0;
