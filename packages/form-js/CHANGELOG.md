@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.21.1
+
+- `FIX`: fix visibility conditions hiding fields in the editor canvas ([#1489](https://github.com/bpmn-io/form-js/issues/1489))
+
 ## 1.21.0
 
 - `FEAT`: add `editor-empty-state__footer` slot to the form editor empty state ([#1485](https://github.com/bpmn-io/form-js/issues/1485))
