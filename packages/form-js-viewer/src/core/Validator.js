@@ -145,12 +145,24 @@ function runPresetValidation(field, validation, value) {
     }
   }
 
-  if ('min' in validation && (value || value === 0) && value < validation.min) {
-    errors.push(`Field must have minimum value of ${validation.min}.`);
+  if ('min' in validation && (value || value === 0)) {
+    try {
+      if (Big(value).lt(Big(validation.min))) {
+        errors.push(`Field must have minimum value of ${validation.min}.`);
+      }
+    } catch {
+      errors.push('Min validation value is not a valid number.');
+    }
   }
 
-  if ('max' in validation && (value || value === 0) && value > validation.max) {
-    errors.push(`Field must have maximum value of ${validation.max}.`);
+  if ('max' in validation && (value || value === 0)) {
+    try {
+      if (Big(value).gt(Big(validation.max))) {
+        errors.push(`Field must have maximum value of ${validation.max}.`);
+      }
+    } catch {
+      errors.push('Max validation value is not a valid number.');
+    }
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
