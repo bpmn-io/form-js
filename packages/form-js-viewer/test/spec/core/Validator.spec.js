@@ -272,6 +272,53 @@ describe('Validator', function () {
         expect(errors).to.have.length(0);
       });
 
+      it('should be valid (string value, string min)', function () {
+        // given
+        const field = {
+          validate: {
+            min: '2',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '10');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid (string value, string min)', function () {
+        // given
+        const field = {
+          validate: {
+            min: '200',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '100');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 200.');
+      });
+
+      it('should be invalid (high precision)', function () {
+        // given - these collapse to the same float with Number(), but Big.js distinguishes them
+        const field = {
+          validate: {
+            min: '10000000000000000001',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '10000000000000000000');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 10000000000000000001.');
+      });
+
       it('should be invalid', function () {
         // given
         const field = {
@@ -400,6 +447,53 @@ describe('Validator', function () {
 
         // then
         expect(errors).to.have.length(0);
+      });
+
+      it('should be valid (string value, string max)', function () {
+        // given
+        const field = {
+          validate: {
+            max: '20',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '9');
+
+        // then
+        expect(errors).to.have.length(0);
+      });
+
+      it('should be invalid (string value, string max)', function () {
+        // given
+        const field = {
+          validate: {
+            max: '100',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '200');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of 100.');
+      });
+
+      it('should be invalid (high precision)', function () {
+        // given - these collapse to the same float with Number(), but Big.js distinguishes them
+        const field = {
+          validate: {
+            max: '10000000000000000000',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, '10000000000000000001');
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of 10000000000000000000.');
       });
 
       it('should be invalid', function () {
