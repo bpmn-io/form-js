@@ -223,6 +223,32 @@ describe('FormEditor', function () {
     });
   });
 
+  it('should render fields with visibility conditions', async function () {
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+        id: 'Form_1',
+        components: [
+          {
+            id: 'Field_1',
+            type: 'textfield',
+            key: 'field1',
+            label: 'Field 1',
+            conditional: { hide: '=true' },
+          },
+        ],
+      },
+    });
+
+    // then
+    await waitFor(() => {
+      const fieldContent = container.querySelector('[data-id="Field_1"] .fjs-form-field');
+      expect(fieldContent).to.exist;
+    });
+  });
+
   it('should NOT render empty placeholder', async function () {
     // when
     await bootstrapFormEditor({
