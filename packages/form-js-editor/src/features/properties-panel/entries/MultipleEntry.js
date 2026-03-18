@@ -23,15 +23,13 @@ export function MultipleEntry(props) {
 
 function Multiple(props) {
   const { editField, field, id } = props;
-
   const debounce = useService('debounce');
-
   const variables = useVariables().map((name) => ({ name }));
-
   const path = ['multiple'];
+  const fieldValue = get(field, path, false);
 
   const getValue = () => {
-    return get(field, path, '');
+    return fieldValue;
   };
 
   const setValue = (value) => {
@@ -48,5 +46,15 @@ function Multiple(props) {
     inline: true,
     setValue,
     variables,
+    description: fieldValue ? (
+      <>
+        The picker variable will return an <strong class="bio-properties-panel-strong">array</strong> with multiple
+        files
+      </>
+    ) : (
+      <>
+        The picker variable will return an <strong class="bio-properties-panel-strong">array</strong> with single
+      </>
+    ),
   });
 }
