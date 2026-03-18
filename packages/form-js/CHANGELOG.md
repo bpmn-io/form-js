@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.21.2
+
+- `FIX`: use `big.js` for min/max validation to support arbitrary precision numbers ([`0c463fc`](https://github.com/bpmn-io/form-js/commit/0c463fc5))
+
 ## 1.21.1
 
 - `FIX`: fix visibility conditions hiding fields in the editor canvas ([#1489](https://github.com/bpmn-io/form-js/issues/1489))
