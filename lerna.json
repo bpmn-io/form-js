@@ -1,5 +1,5 @@
 {
-  "version": "1.21.1",
+  "version": "1.21.2",
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "command": {
     "version": {
