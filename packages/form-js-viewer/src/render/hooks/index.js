@@ -1,4 +1,3 @@
-export { useCondition } from './useCondition';
 export { useOptionsAsync, LOAD_STATES } from './useOptionsAsync';
 export { useDangerousHTMLWrapper } from './useDangerousHTMLWrapper';
 export { useSecurityAttributesMap } from './useSecurityAttributesMap';

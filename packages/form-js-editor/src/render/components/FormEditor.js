@@ -428,6 +428,7 @@ export function FormEditor() {
       Empty,
       Row,
       hoverInfo: {},
+      applyVisibilityConditions: false,
     }),
     [],
   );

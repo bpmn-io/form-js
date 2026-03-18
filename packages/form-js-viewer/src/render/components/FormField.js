@@ -7,7 +7,7 @@ import { get } from 'min-dash';
 
 import { FormContext, FormRenderContext, LocalExpressionContext } from '../context';
 
-import { useCondition, useReadonly, useService } from '../hooks';
+import { useReadonly, useService, useUnaryTestEvaluation } from '../hooks';
 
 import { gridColumnClasses, prefixId } from './Util';
 
@@ -28,7 +28,7 @@ export function FormField(props) {
 
   const { initialData, data, errors, properties } = form._getState();
 
-  const { Element, Hidden, Column } = useContext(FormRenderContext);
+  const { Element, Hidden, Column, applyVisibilityConditions } = useContext(FormRenderContext);
 
   const { formId } = useContext(FormContext);
 
@@ -56,7 +56,8 @@ export function FormField(props) {
   // add precedence: global readonly > form field disabled
   const disabled = !properties.readOnly && (properties.disabled || field.disabled || false);
 
-  const hidden = useCondition((field.conditional && field.conditional.hide) || null);
+  const conditionResult = useUnaryTestEvaluation((field.conditional && field.conditional.hide) || null);
+  const hidden = applyVisibilityConditions ? conditionResult : null;
 
   const instanceId = useMemo(() => {
     if (!formFieldInstanceRegistry) {
