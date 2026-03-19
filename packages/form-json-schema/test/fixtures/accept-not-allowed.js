@@ -15,11 +15,11 @@ export const errors = [
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath: '#/properties/components/items/allOf/1/allOf/21/then/properties/accept/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/22/then/properties/accept/false schema',
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/21/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/22/if',
     keyword: 'if',
     params: { failingKeyword: 'then' },
     message: 'must match "then" schema',
