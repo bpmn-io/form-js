@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "components": [
+    {
+      "label": "Outer List",
+      "type": "dynamiclist",
+      "path": "outer",
+      "id": "Outer_list",
+      "isRepeating": true,
+      "components": [
+        {
+          "label": "Inner List",
+          "type": "dynamiclist",
+          "path": "inner",
+          "id": "Inner_list",
+          "isRepeating": true,
+          "components": [
+            {
+              "label": "Value",
+              "type": "number",
+              "key": "value",
+              "id": "Nested_field",
+              "validate": {
+                "required": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "type": "default",
+  "id": "Form_nested_required",
+  "schemaVersion": 15
+}

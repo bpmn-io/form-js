@@ -12,6 +12,7 @@ import range from 'lodash/range';
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
+import nestedDynamicListRequiredSchema from './nested-dynamic-list-required.json';
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
 import complexExpressionsSchema from './complex-expressions.json';
@@ -1232,6 +1233,154 @@ describe('Form', function () {
 
     expect(state.data).to.deep.include(data);
     expect(state.errors).to.be.empty;
+  });
+
+  it('should not leave ghost error entries when clearing errors for a dynamic list field', async function () {
+    // given
+    const data = {
+      list: [{ element: 42, hideElement: false }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Element_x');
+
+    const changedErrors = [];
+    form.on('changed', ({ errors }) => changedErrors.push(errors));
+
+    // when
+    form._update({ fieldInstance, value: 99 });
+
+    // then
+    const state = form._getState();
+
+    expect(state.errors).to.be.empty;
+    expect(changedErrors[0]).to.be.empty;
+  });
+
+  it('should preserve errors for other dynamic list items when clearing one item', async function () {
+    // given
+    const data = {
+      list: [
+        { element: null, hideElement: false },
+        { element: null, hideElement: false },
+      ],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const instances = instanceRegistry.getAll().filter(({ id }) => id === 'Element_x');
+    const [instance0, instance1] = instances.sort((a, b) => Object.values(a.indexes)[0] - Object.values(b.indexes)[0]);
+
+    form._update({ fieldInstance: instance0, value: null });
+    form._update({ fieldInstance: instance1, value: null });
+
+    // when
+    form._update({ fieldInstance: instance1, value: 42 });
+
+    // then
+    const errors = form._getState().errors;
+
+    expect(errors['Element_x'][0]).to.not.be.empty;
+    expect(errors['Element_x'][1]).to.not.exist;
+  });
+
+  it('should not leave ghost error entries via viewerCommands.updateFieldInstanceValidation', async function () {
+    // given
+    const data = {
+      list: [{ element: 42, hideElement: false }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Element_x');
+    const viewerCommands = form.get('viewerCommands');
+
+    const changedErrors = [];
+    form.on('changed', ({ errors }) => changedErrors.push(errors));
+
+    // when
+    viewerCommands.updateFieldInstanceValidation(fieldInstance, 99);
+
+    // then
+    expect(form._getState().errors).to.be.empty;
+    expect(changedErrors[0]).to.be.empty;
+  });
+
+  it('should clear ghost error entries when all dynamic list items are fixed in sequence', async function () {
+    // given
+    const data = {
+      list: [
+        { element: null, hideElement: false },
+        { element: null, hideElement: false },
+      ],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const instances = instanceRegistry.getAll().filter(({ id }) => id === 'Element_x');
+    const [instance0, instance1] = instances.sort((a, b) => Object.values(a.indexes)[0] - Object.values(b.indexes)[0]);
+
+    form._update({ fieldInstance: instance0, value: null });
+    form._update({ fieldInstance: instance1, value: null });
+
+    // when
+    form._update({ fieldInstance: instance1, value: 42 });
+    form._update({ fieldInstance: instance0, value: 42 });
+
+    // then
+    expect(form._getState().errors).to.be.empty;
+  });
+
+  it('should store and clear errors at nested paths for fields inside nested dynamic lists', async function () {
+    // given
+    const data = {
+      outer: [{ inner: [{ value: null }] }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: nestedDynamicListRequiredSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Nested_field');
+    const indexValues = Object.values(fieldInstance.indexes || {});
+    const [outerIdx, innerIdx] = indexValues;
+
+    // when
+    form._update({ fieldInstance, value: null });
+
+    // then
+    expect(indexValues).to.have.length(2);
+    expect(form._getState().errors['Nested_field'][outerIdx][innerIdx]).to.not.be.empty;
+
+    // when
+    form._update({ fieldInstance, value: 99 });
+
+    // then
+    expect(form._getState().errors).to.be.empty;
   });
 
   it('should reset (no data)', async function () {
