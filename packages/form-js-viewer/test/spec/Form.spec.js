@@ -12,6 +12,7 @@ import range from 'lodash/range';
 import conditionSchema from './condition.json';
 import conditionErrorsSchema from './condition-errors.json';
 import conditionErrorsDynamicListSchema from './condition-errors-dynamic-list.json';
+import nestedDynamicListRequiredSchema from './nested-dynamic-list-required.json';
 import dynamicListVariablesSchema from './dynamic-list-variables.json';
 import dynamicListTableFilterInteractionSchema from './dynamic-list-table-filter-interaction.json';
 import complexExpressionsSchema from './complex-expressions.json';
@@ -1232,6 +1233,159 @@ describe('Form', function () {
 
     expect(state.data).to.deep.include(data);
     expect(state.errors).to.be.empty;
+  });
+
+  it('should not leave ghost error entries when clearing errors for a dynamic list field', async function () {
+    // given
+    const data = {
+      list: [{ element: 42, hideElement: false }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Element_x');
+
+    const changedErrors = [];
+    form.on('changed', ({ errors }) => changedErrors.push(errors));
+
+    // when - update a field inside the dynamic list with a valid value
+    form._update({ fieldInstance, value: 99 });
+
+    // then - errors must be empty; no ghost entry for Element_x
+    const state = form._getState();
+
+    expect(state.errors).to.be.empty;
+    expect(changedErrors[0]).to.be.empty;
+  });
+
+  it('should preserve errors for other dynamic list items when clearing one item', async function () {
+    // given
+    const data = {
+      list: [
+        { element: null, hideElement: false },
+        { element: null, hideElement: false },
+      ],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const instances = instanceRegistry.getAll().filter(({ id }) => id === 'Element_x');
+    const [instance0, instance1] = instances.sort((a, b) => Object.values(a.indexes)[0] - Object.values(b.indexes)[0]);
+
+    // Trigger a required-field error for both items
+    form._update({ fieldInstance: instance0, value: null });
+    form._update({ fieldInstance: instance1, value: null });
+
+    // when - fix item 1 but leave item 0 with an error
+    form._update({ fieldInstance: instance1, value: 42 });
+
+    // then - item 0 error must still be present, item 1 error must be cleared
+    const errors = form._getState().errors;
+
+    expect(errors['Element_x'][0]).to.not.be.empty;
+    expect(errors['Element_x'][1]).to.not.exist;
+  });
+
+  it('should not leave ghost error entries via viewerCommands.updateFieldInstanceValidation', async function () {
+    // given
+    const data = {
+      list: [{ element: 42, hideElement: false }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Element_x');
+    const viewerCommands = form.get('viewerCommands');
+
+    const changedErrors = [];
+    form.on('changed', ({ errors }) => changedErrors.push(errors));
+
+    // when - validate via the viewerCommands path (triggered on blur / initial validation)
+    viewerCommands.updateFieldInstanceValidation(fieldInstance, 99);
+
+    // then - errors must be empty; no ghost entry for Element_x
+    expect(form._getState().errors).to.be.empty;
+    expect(changedErrors[0]).to.be.empty;
+  });
+
+  it('should clear ghost error entries when all dynamic list items are fixed in sequence', async function () {
+    // given - two invalid items fixed one by one
+    const data = {
+      list: [
+        { element: null, hideElement: false },
+        { element: null, hideElement: false },
+      ],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: conditionErrorsDynamicListSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const instances = instanceRegistry.getAll().filter(({ id }) => id === 'Element_x');
+    const [instance0, instance1] = instances.sort((a, b) => Object.values(a.indexes)[0] - Object.values(b.indexes)[0]);
+
+    // Trigger errors for both items
+    form._update({ fieldInstance: instance0, value: null });
+    form._update({ fieldInstance: instance1, value: null });
+
+    // when - fix item 1 first, then item 0
+    form._update({ fieldInstance: instance1, value: 42 });
+    form._update({ fieldInstance: instance0, value: 42 });
+
+    // then - all errors cleared; no ghost entry survives the JSON round-trip clone
+    expect(form._getState().errors).to.be.empty;
+  });
+
+  it('should store and clear errors at nested paths for fields inside nested dynamic lists', async function () {
+    // given - nested dynamic list: outer[0].inner[0].value is required
+    const data = {
+      outer: [{ inner: [{ value: null }] }],
+    };
+
+    await bootstrapForm({
+      container,
+      data,
+      schema: nestedDynamicListRequiredSchema,
+    });
+
+    const instanceRegistry = form.get('formFieldInstanceRegistry');
+    const fieldInstance = instanceRegistry.getAll().find(({ id }) => id === 'Nested_field');
+
+    // Confirm the instance carries both outer and inner indexes
+    const indexValues = Object.values(fieldInstance.indexes || {});
+    expect(indexValues).to.have.length(2);
+
+    // when - trigger an error (null value)
+    form._update({ fieldInstance, value: null });
+
+    // then - error is nested at errors['Nested_field'][outerIdx][innerIdx]
+    const errorsAfterInvalid = form._getState().errors;
+    const [outerIdx, innerIdx] = indexValues;
+    expect(errorsAfterInvalid['Nested_field'][outerIdx][innerIdx]).to.not.be.empty;
+
+    // when - fix the value
+    form._update({ fieldInstance, value: 99 });
+
+    // then - ghost entry is cleaned up; errors object is empty
+    expect(form._getState().errors).to.be.empty;
   });
 
   it('should reset (no data)', async function () {
