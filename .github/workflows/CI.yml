@@ -34,5 +34,5 @@ jobs:
           TEST_BROWSERS: ChromeHeadless
         run: npm run all
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         if: runner.os == 'Linux'
