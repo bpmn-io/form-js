@@ -11,7 +11,7 @@ import {
 
 import { CoreModule } from './core';
 
-import { clone, createFormContainer, createInjector } from './util';
+import { clone, createFormContainer, createInjector, deleteAt } from './util';
 
 /**
  * @typedef { import('./types').Injector } Injector
@@ -343,7 +343,13 @@ export class Form {
 
     set(data, valuePath, value);
 
-    set(errors, [id, ...Object.values(indexes || {})], fieldErrors.length ? fieldErrors : undefined);
+    const errorPath = [id, ...Object.values(indexes || {})];
+
+    if (fieldErrors.length) {
+      set(errors, errorPath, fieldErrors);
+    } else {
+      deleteAt(errors, errorPath);
+    }
 
     this._emit('field.updated', update);
 
@@ -504,3 +510,4 @@ export class Form {
     return get(workingData, path, {});
   }
 }
+

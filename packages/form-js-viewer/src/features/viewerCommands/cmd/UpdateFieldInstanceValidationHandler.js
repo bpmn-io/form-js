@@ -1,5 +1,5 @@
 import { set } from 'min-dash';
-import { clone } from '../../../util';
+import { clone, deleteAt } from '../../../util';
 
 export class UpdateFieldInstanceValidationHandler {
   constructor(form, validator) {
@@ -15,12 +15,15 @@ export class UpdateFieldInstanceValidationHandler {
     context.oldErrors = clone(errors);
 
     const fieldErrors = this._validator.validateFieldInstance(fieldInstance, value);
-    const updatedErrors = set(
-      errors,
-      [id, ...Object.values(indexes || {})],
-      fieldErrors.length ? fieldErrors : undefined,
-    );
-    this._form._setState({ errors: updatedErrors });
+    const errorPath = [id, ...Object.values(indexes || {})];
+
+    if (fieldErrors.length) {
+      set(errors, errorPath, fieldErrors);
+    } else {
+      deleteAt(errors, errorPath);
+    }
+
+    this._form._setState({ errors });
   }
 
   revert(context) {
