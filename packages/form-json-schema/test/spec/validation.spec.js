@@ -125,6 +125,10 @@ describe('validation', function () {
 
     testForm('serializeToString-not-allowed');
 
+    testForm('omitFromSubmit-not-allowed');
+
+    testForm('omitFromSubmit-filepicker-not-allowed');
+
     testForm('searchable-not-allowed');
 
     testForm('validate-not-allowed');

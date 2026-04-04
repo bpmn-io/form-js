@@ -18,6 +18,7 @@ export { HeightEntry } from './HeightEntry';
 export { NumberEntries } from './NumberEntries';
 export { ExpressionFieldEntries } from './ExpressionFieldEntries';
 export { NumberSerializationEntry } from './NumberSerializationEntry';
+export { OmitFromSubmitEntry } from './OmitFromSubmitEntry';
 export { DateTimeEntry } from './DateTimeEntry';
 export { DateTimeConstraintsEntry } from './DateTimeConstraintsEntry';
 export { DateTimeFormatEntry } from './DateTimeFormatEntry';
