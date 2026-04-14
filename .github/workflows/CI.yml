@@ -36,3 +36,6 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v6
         if: runner.os == 'Linux'
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
