@@ -127,7 +127,7 @@
     "sinon-chai": "^3.7.0",
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.0",
     "vite": "^8.0.0",
     "webpack": "^5.105.0"
   }
