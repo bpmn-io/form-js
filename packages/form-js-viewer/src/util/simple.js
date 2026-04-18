@@ -52,6 +52,53 @@ export function runRecursively(formField, fn) {
   fn(formField);
 }
 
+/**
+ * Returns a copy of `target` with the value at `path` removed, pruning any
+ * ancestor that becomes empty. Pure: the input is not mutated and untouched
+ * sibling branches keep their original references (path-cloning).
+ *
+ * Pruning rules:
+ *  - An object ancestor is removed when it has no own keys left.
+ *  - An array ancestor is removed when every entry is nullish. Arrays are
+ *    never compacted; `delete` leaves a sparse hole so sibling indexes stay
+ *    stable.
+ *
+ * @template T
+ * @param {T} target
+ * @param {Array<string|number>} path
+ * @returns {T}
+ */
+export function pruneAt(target, path) {
+  if (!path.length) {
+    return target;
+  }
+
+  const cloneContainer = (c) => (Array.isArray(c) ? c.slice() : { ...c });
+
+  const clones = [cloneContainer(target)];
+  for (let i = 0; i < path.length - 1; i++) {
+    const next = clones[i][path[i]];
+    if (next == null || typeof next !== 'object') {
+      return target;
+    }
+    const cloned = cloneContainer(next);
+    clones[i][path[i]] = cloned;
+    clones.push(cloned);
+  }
+
+  delete clones[clones.length - 1][path[path.length - 1]];
+
+  for (let i = clones.length - 1; i > 0; i--) {
+    if (Object.values(clones[i]).every((v) => v == null)) {
+      delete clones[i - 1][path[i - 1]];
+    } else {
+      break;
+    }
+  }
+
+  return clones[0];
+}
+
 export function wrapObjectKeysWithUnderscores(obj) {
   const newObj = {};
   for (const [key, value] of Object.entries(obj)) {
