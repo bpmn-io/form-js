@@ -476,6 +476,129 @@ describe('Number', function () {
         });
       });
     });
+
+    describe('high decimal digits without string serialization', function () {
+      it('should disable arrow buttons when stepping would lose precision', async function () {
+        // given
+        const { container } = createNumberField({
+          field: highDecimalField,
+          value: 1,
+        });
+
+        // then
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        const decrementButton = container.querySelector('.fjs-number-arrow-down');
+        expect(incrementButton.disabled).to.be.true;
+        expect(decrementButton.disabled).to.be.true;
+      });
+
+      it('should apply fjs-disabled class to arrow container when stepping would lose precision', function () {
+        // given
+        const { container } = createNumberField({
+          field: highDecimalField,
+          value: 1,
+        });
+
+        // then
+        const arrowContainer = container.querySelector('.fjs-number-arrow-container');
+        expect(arrowContainer.classList.contains('fjs-disabled')).to.be.true;
+      });
+
+      it('should not disable arrow buttons when stepping is safe', function () {
+        // given
+        const { container } = createNumberField({
+          field: highDecimalField,
+          value: 0,
+        });
+
+        // then
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        const decrementButton = container.querySelector('.fjs-number-arrow-down');
+        expect(incrementButton.disabled).to.be.false;
+        expect(decrementButton.disabled).to.be.false;
+      });
+
+      it('should not apply increment when buttons are disabled', async function () {
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: highDecimalField,
+          onChange: onChangeSpy,
+          value: 1,
+        });
+
+        // reset spy to ignore any calls during initial render
+        onChangeSpy.resetHistory();
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        await userEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.not.have.been.called;
+      });
+
+      it('should increment when result is safe for Number precision', async function () {
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createNumberField({
+          field: highDecimalField,
+          onChange: onChangeSpy,
+          value: 0,
+        });
+
+        // when
+        const incrementButton = container.querySelector('.fjs-number-arrow-up');
+        await userEvent.click(incrementButton);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 1e-100,
+        });
+      });
+
+      it('should show precision warning when typed value exceeds Number precision', async function () {
+        // given
+        const { container } = createNumberField({
+          field: highDecimalField,
+          value: 0,
+        });
+
+        // when
+        const input = container.querySelector('input[type="text"]');
+        await userEvent.clear(input);
+        await userEvent.type(input, '1.0000000000000001');
+
+        // then
+        const warning = container.querySelector('.fjs-form-field-warning');
+        expect(warning).to.exist;
+        expect(warning.textContent).to.contain('exceeds the precision');
+
+        const formField = container.querySelector('.fjs-form-field');
+        expect(formField.classList.contains('fjs-has-errors')).to.be.false;
+      });
+
+      it('should not show precision warning when serializeToString is enabled', async function () {
+        // given
+        const stringHighDecimalField = { ...highDecimalField, serializeToString: true };
+
+        const { container } = createNumberField({
+          field: stringHighDecimalField,
+          value: 0,
+        });
+
+        // when
+        const input = container.querySelector('input[type="text"]');
+        await userEvent.clear(input);
+        await userEvent.type(input, '1.0000000000000001');
+
+        // then
+        const warning = container.querySelector('.fjs-form-field-warning');
+        expect(warning).to.not.exist;
+      });
+    });
   });
 
   describe('formatting', function () {
@@ -959,6 +1082,11 @@ const stepField = {
   ...defaultField,
   decimalDigits: 3,
   increment: 0.25,
+};
+
+const highDecimalField = {
+  ...defaultField,
+  decimalDigits: 100,
 };
 
 function createNumberField({ services, ...restOptions } = {}) {
