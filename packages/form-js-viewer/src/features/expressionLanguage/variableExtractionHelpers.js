@@ -29,7 +29,25 @@ export const getFlavouredFeelVariableNames = (feelString, feelFlavour = 'express
       return Array.from(_smartExtractVariableNames(node, depth, specialDepthAccessors));
     }
 
-    if (depth === 0 && node.name === 'VariableName') return [node.variableName];
+    if (depth === 0 && node.name === 'VariableName') return [_cleanupVariableName(node.variableName)];
+
+    // skip function names - the first child of a FunctionInvocation is the function name, not a variable
+    if (node.name === 'FunctionInvocation') {
+      const args = node.children.filter((child) => child.name !== 'VariableName');
+      return args.reduce((acc, child) => acc.concat(_unfoldVariables(child)), []);
+    }
+
+    // skip type names in instance of expressions
+    if (node.name === 'Type') {
+      return [];
+    }
+
+    // handle quantified (some...satisfies) and for expressions - exclude bound iteration variables
+    if (node.name === 'QuantifiedExpression' || node.name === 'ForExpression') {
+      const boundNames = _collectBoundVariableNames(node);
+      const variables = node.children.reduce((acc, child) => acc.concat(_unfoldVariables(child)), []);
+      return variables.filter((name) => !boundNames.includes(name));
+    }
 
     // for any other kind of node, traverse its children and flatten the result
     if (node.children) {
@@ -160,6 +178,10 @@ const _buildSimpleFeelStructureTree = (parseTree, feelString) => {
         nodeRepresentation.variableName = feelString.slice(node.from, node.to);
       }
 
+      if (node.type.name === 'Name') {
+        nodeRepresentation.variableName = feelString.slice(node.from, node.to);
+      }
+
       stack.push(nodeRepresentation);
     },
     leave: () => {
@@ -212,4 +234,54 @@ const _extractFilterExpressions = (tree) => {
   iterate(tree);
 
   return flattenedExpressionTree;
+};
+
+/**
+ * FEEL keywords that may be incorrectly absorbed into variable names by the parser.
+ * For example, `variable1 not in (...)` parses as VariableName "variable1 not".
+ */
+const FEEL_TRAILING_KEYWORDS = ['not'];
+
+/**
+ * Cleans up a variable name by stripping trailing FEEL keywords that the parser
+ * may have incorrectly included as part of the variable name.
+ *
+ * @param {string} variableName - The raw variable name from the parse tree.
+ * @returns {string} The cleaned variable name.
+ */
+const _cleanupVariableName = (variableName) => {
+  for (const keyword of FEEL_TRAILING_KEYWORDS) {
+    if (variableName.endsWith(' ' + keyword)) {
+      return variableName.slice(0, -(keyword.length + 1));
+    }
+  }
+  return variableName;
+};
+
+/**
+ * Collects the names of variables bound by iteration constructs (e.g. `for x in ...`, `some x in ...`).
+ * These are locally scoped and should be excluded from the extracted variable set.
+ *
+ * @param {Object} node - A QuantifiedExpression or ForExpression node.
+ * @returns {string[]} The bound variable names.
+ */
+const _collectBoundVariableNames = (node) => {
+  const boundNames = [];
+
+  const collect = (n) => {
+    if (n.name === 'InExpression') {
+      // The Name node inside an InExpression is the bound iteration variable
+      const nameNode = n.children.find((child) => child.name === 'Name');
+      if (nameNode && nameNode.variableName) {
+        boundNames.push(nameNode.variableName);
+      }
+    }
+
+    if (n.children) {
+      n.children.forEach(collect);
+    }
+  };
+
+  collect(node);
+  return boundNames;
 };

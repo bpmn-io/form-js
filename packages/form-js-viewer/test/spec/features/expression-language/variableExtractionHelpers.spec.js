@@ -61,69 +61,64 @@ describe('getFlavouredFeelVariableNames', function () {
 
   expectVariables('ComplexArrayFilter', 'variable1[item.a > 3 and item.b < 5]', ['variable1']);
 
-  // TODO(@skaiir) these tests should ideally pass, but right now our variable extraction logic doesn't ignore certain keywords
-  // https://github.com/bpmn-io/form-js/issues/710
+  expectVariables('FunctionWithConstants', 'sum(1, 2, 3)', []);
 
-  describe.skip('Oversensitive', function () {
-    expectVariables('FunctionWithConstants', 'sum(1, 2, 3)', []);
+  expectVariables('FunctionWithVariable', 'sum(variable1, 2, 3)', ['variable1']);
 
-    expectVariables('FunctionWithVariable', 'sum(variable1, 2, 3)', ['variable1']);
+  expectVariables('FunctionWithMultipleVariables', 'sum(variable1, variable2, variable3)', [
+    'variable1',
+    'variable2',
+    'variable3',
+  ]);
 
-    expectVariables('FunctionWithMultipleVariables', 'sum(variable1, variable2, variable3)', [
-      'variable1',
-      'variable2',
-      'variable3',
-    ]);
+  expectVariables('FunctionNestedInFunction', 'sum(product(variable1, variable2), sum(variable3, variable4))', [
+    'variable1',
+    'variable2',
+    'variable3',
+    'variable4',
+  ]);
 
-    expectVariables('FunctionNestedInFunction', 'sum(product(variable1, variable2), sum(variable3, variable4))', [
-      'variable1',
-      'variable2',
-      'variable3',
-      'variable4',
-    ]);
+  expectVariables('FunctionInList', '[sum(variable1, variable2), product(variable3, variable4)]', [
+    'variable1',
+    'variable2',
+    'variable3',
+    'variable4',
+  ]);
 
-    expectVariables('FunctionInList', '[sum(variable1, variable2), product(variable3, variable4)]', [
-      'variable1',
-      'variable2',
-      'variable3',
-      'variable4',
-    ]);
+  expectVariables('VariableInFunction', 'sum(variable1, variable2)', ['variable1', 'variable2']);
 
-    expectVariables('VariableInFunction', 'sum(variable1, variable2)', ['variable1', 'variable2']);
+  expectVariables('NestedFunctions', 'sum(product(variable1, variable2), variable3)', [
+    'variable1',
+    'variable2',
+    'variable3',
+  ]);
 
-    expectVariables('NestedFunctions', 'sum(product(variable1, variable2), variable3)', [
-      'variable1',
-      'variable2',
-      'variable3',
-    ]);
+  expectVariables('ContextEntryWithFunction', '{entry1: sum(variable1, variable2)}', ['variable1', 'variable2']);
 
-    expectVariables('ContextEntryWithFunction', '{entry1: sum(variable1, variable2)}', ['variable1', 'variable2']);
+  expectVariables(
+    'FunctionInContextEntry',
+    '{entry1: sum(variable1, variable2), entry2: product(variable3, variable4)}',
+    ['variable1', 'variable2', 'variable3', 'variable4'],
+  );
 
-    expectVariables(
-      'FunctionInContextEntry',
-      '{entry1: sum(variable1, variable2), entry2: product(variable3, variable4)}',
-      ['variable1', 'variable2', 'variable3', 'variable4'],
-    );
+  expectVariables('VariableInUnaryNotTest', 'variable1 not in (variable2..variable3)', [
+    'variable1',
+    'variable2',
+    'variable3',
+  ]);
 
-    expectVariables('VariableInUnaryNotTest', 'variable1 not in (variable2..variable3)', [
-      'variable1',
-      'variable2',
-      'variable3',
-    ]);
+  expectVariables('VariableInQuantifiedExpression', 'some x in variable1 satisfies x > variable2', [
+    'variable1',
+    'variable2',
+  ]);
 
-    expectVariables('VariableInQuantifiedExpression', 'some x in variable1 satisfies x > variable2', [
-      'variable1',
-      'variable2',
-    ]);
+  expectVariables('VariableInInstanceOfTest', 'variable1 instance of tNumber', ['variable1']);
 
-    expectVariables('VariableInInstanceOfTest', 'variable1 instance of tNumber', ['variable1']);
+  expectVariables('VariableInForExpression', 'for x in variable1 return x > variable2', ['variable1', 'variable2']);
 
-    expectVariables('VariableInForExpression', 'for x in variable1 return x > variable2', ['variable1', 'variable2']);
+  expectVariables('ArrayAccessorInFunction', 'sum(variable1[1], variable2[2])', ['variable1', 'variable2']);
 
-    expectVariables('ArrayAccessorInFunction', 'sum(variable1[1], variable2[2])', ['variable1', 'variable2']);
-
-    expectVariables('ArrayFilterInFunction', 'sum(variable1[item > 3])', ['variable1']);
-  });
+  expectVariables('ArrayFilterInFunction', 'sum(variable1[item > 3])', ['variable1']);
 });
 
 // helpers ///////////////
