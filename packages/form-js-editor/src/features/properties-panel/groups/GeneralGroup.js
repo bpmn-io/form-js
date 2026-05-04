@@ -61,10 +61,11 @@ export function GeneralGroup(field, editField, getService) {
     ...DocumentsDataSourceEntry({ field, editField }),
   ];
 
-  const translate = getService('translate')
   if (entries.length === 0) {
     return null;
   }
+
+  const translate = getService('translate')
 
   return {
     id: 'general',

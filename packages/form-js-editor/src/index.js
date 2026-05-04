@@ -23,7 +23,7 @@ export function createFormEditor(options) {
   const { schema, ...rest } = options;
 
   const formEditor = new FormEditor(rest);
-
+  formEditor.setLanguage('ge');
   return formEditor.importSchema(schema).then(() => {
     return formEditor;
   });

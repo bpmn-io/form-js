@@ -140,5 +140,5 @@ function getSelectedFilesLabel(files, translate) {
     return files[0].name;
   }
 
-  return files.length > 1 ? translate('Number files selected plural' , {value : files.length}) : translate('Number files selected singular', {value : files.length});
+  return translate('Number files selected', { value: files.length });
 }
