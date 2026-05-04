@@ -1,4 +1,3 @@
-export { useCondition } from './useCondition';
 export { useOptionsAsync, LOAD_STATES } from './useOptionsAsync';
 export { useDangerousHTMLWrapper } from './useDangerousHTMLWrapper';
 export { useSecurityAttributesMap } from './useSecurityAttributesMap';
@@ -6,6 +5,7 @@ export { useGetLabelCorrelation } from './useGetLabelCorrelation';
 export { useScrollIntoView } from './useScrollIntoView';
 export { useExpressionEvaluation } from './useExpressionEvaluation';
 export { useBooleanExpressionEvaluation } from './useBooleanExpressionEvaluation';
+export { useUnaryTestEvaluation } from './useUnaryTestEvaluation';
 export { useFilteredFormData } from './useFilteredFormData';
 export { useKeyDownAction } from './useKeyDownAction';
 export { useReadonly } from './useReadonly';

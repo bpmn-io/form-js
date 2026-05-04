@@ -75,6 +75,84 @@ describe('FeelExpressionLanguage', function () {
     });
   });
 
+  describe('#evaluateUnaryTest', function () {
+    it('should return null if there is no expression', function () {
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(null);
+
+      // then
+      expect(result).to.be.null;
+    });
+
+    it('should return null for non-string expression', function () {
+      // given
+      const expression = 1;
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression);
+
+      // then
+      expect(result).to.be.null;
+    });
+
+    it('should return null if expression does not start with =', function () {
+      // given
+      const expression = 'foo';
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression);
+
+      // then
+      expect(result).to.be.null;
+    });
+
+    it('should return null and report error if expression has syntax error', function () {
+      // given
+      const expression = '=foo-';
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression);
+
+      // then
+      expect(result).to.be.null;
+      expect(fireSpy).to.have.been.calledWith('error');
+      expect(fireSpy.args[0][1].error).to.be.instanceof(Error);
+    });
+
+    it('should return false if condition is not met', function () {
+      // given
+      const expression = '=2 + 2 = 5';
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression);
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true if condition is met', function () {
+      // given
+      const expression = '=2 + 2 = 4';
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression);
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true if condition is met (with data)', function () {
+      // given
+      const expression = '=2 + 2 = four';
+
+      // when
+      const result = feelExpressionLanguage.evaluateUnaryTest(expression, { four: 4 });
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
+
   describe('#isExpression', function () {
     it('should return false if there is no expression', function () {
       // when

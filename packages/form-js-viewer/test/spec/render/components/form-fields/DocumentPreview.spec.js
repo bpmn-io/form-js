@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/preact/pure';
+import userEvent from '@testing-library/user-event';
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 import { MockFormContext } from '../helper';
 import { DocumentPreview } from '../../../../../src/render/components/form-fields/DocumentPreview';
@@ -136,6 +137,87 @@ describe('DocumentPreview', function () {
     const formField = container.querySelector('.fjs-form-field');
     expect(formField).to.exist;
     expect(mockDocumentEndpointBuilder.buildUrl).to.have.been.calledWith(mockDocument);
+  });
+
+  it('should pass custom request config to document fetch', async function () {
+    // given
+    const requestInit = {
+      headers: {
+        authorization: 'Bearer token',
+      },
+      credentials: 'include',
+    };
+    const mockDocument = {
+      documentId: 'document0',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
+      metadata: {
+        fileName: 'My document.png',
+        contentType: 'image/png',
+      },
+    };
+    const mockDocumentEndpointBuilder = {
+      buildRequestInit: sinon.stub().returns(requestInit),
+    };
+    const fetchStub = sinon.stub(window, 'fetch').resolves({ ok: false });
+
+    try {
+      createDocumentPreview({
+        initialData: {
+          documents: [mockDocument],
+        },
+        services: {
+          expressionLanguage: mockExpressionLanguageService,
+          documentEndpointBuilder: mockDocumentEndpointBuilder,
+        },
+      });
+
+      // when
+      await userEvent.click(screen.getByRole('button', { name: 'Download My document.png' }));
+
+      // then
+      expect(fetchStub).to.have.been.calledWith(mockDocument.endpoint, requestInit);
+      expect(mockDocumentEndpointBuilder.buildRequestInit).to.have.been.calledWith(mockDocument);
+    } finally {
+      fetchStub.restore();
+    }
+  });
+
+  it('should fallback to default fetch config if request config builder throws', async function () {
+    // given
+    const mockDocument = {
+      documentId: 'document0',
+      endpoint: 'https://pub-280be5f41fe1419e8d236b586696129e.r2.dev/document0',
+      metadata: {
+        fileName: 'My document.png',
+        contentType: 'image/png',
+      },
+    };
+    const mockDocumentEndpointBuilder = {
+      buildRequestInit: sinon.stub().throws(new Error('request init build failed')),
+    };
+    const fetchStub = sinon.stub(window, 'fetch').resolves({ ok: false });
+    const errorStub = sinon.stub(console, 'error');
+
+    try {
+      createDocumentPreview({
+        initialData: {
+          documents: [mockDocument],
+        },
+        services: {
+          expressionLanguage: mockExpressionLanguageService,
+          documentEndpointBuilder: mockDocumentEndpointBuilder,
+        },
+      });
+
+      // when
+      await userEvent.click(screen.getByRole('button', { name: 'Download My document.png' }));
+
+      // then
+      expect(fetchStub).to.have.been.calledWith(mockDocument.endpoint, undefined);
+    } finally {
+      fetchStub.restore();
+      errorStub.restore();
+    }
   });
 
   it('#create', function () {

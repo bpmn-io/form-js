@@ -65,7 +65,7 @@ function DocumentsDataSource(props) {
       <p>
         {translate('Document reference tooltip5')}{' '}
         <a
-          href="https://docs.camunda.io/docs/8.7/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
+          href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
           target="_blank"
           rel="noopener noreferrer">
           {translate('Document reference tooltip6')}

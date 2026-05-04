@@ -629,12 +629,12 @@ describe('playground', function () {
       const form = playground.getForm();
       const resultView = playground.getResultView();
 
-      const formField = getFormField(form, 'creditor');
+      const fieldInstance = getFieldInstance(form, 'creditor');
 
       // when
       await act(() => {
         form._update({
-          field: formField,
+          fieldInstance,
           value: 'bar',
         });
       });
@@ -912,9 +912,18 @@ describe('playground', function () {
 
 // helper //////////////
 
-function getFormField(form, key) {
-  return form
+function getFieldInstance(form, key) {
+  const formField = form
     .get('formFieldRegistry')
     .getAll()
     .find((formField) => formField.key === key);
+
+  if (!formField) {
+    throw new Error(`No form field found for key '${key}'`);
+  }
+
+  return form
+    .get('formFieldInstanceRegistry')
+    .getAll()
+    .find((instance) => instance.id === formField.id);
 }

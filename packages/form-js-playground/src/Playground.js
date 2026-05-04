@@ -18,6 +18,7 @@ import { PlaygroundRoot } from './components/PlaygroundRoot';
  *  editor?: { inlinePropertiesPanel: Boolean }
  *  editorAdditionalModules?: Array<any>
  *  editorProperties?: FormEditorProperties
+ *  editorSlots?: Object
  *  exporter?: { name: String, version: String }
  *  propertiesPanel?: { parent: Element, feelPopupContainer: Element }
  *  schema: any

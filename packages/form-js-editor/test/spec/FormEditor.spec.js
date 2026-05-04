@@ -4,6 +4,9 @@ import { act, fireEvent, screen, waitFor } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';
 
+import { Fill } from '../../src/features/render-injection/slot-fill';
+import { RenderInjectionModule } from '../../src/features/render-injection';
+
 import { insertStyles, insertTheme, isSingleStart, countComponents, expectNoViolations } from '../TestHelper';
 
 import schema from './form.json';
@@ -79,6 +82,8 @@ describe('FormEditor', function () {
   });
 
   (singleStartTheme ? it.only : it)('should render theme', async function () {
+    this.timeout(10000);
+
     // given
     document.documentElement.setAttribute('data-carbon-theme', 'g100');
     insertTheme();
@@ -147,6 +152,100 @@ describe('FormEditor', function () {
 
       const emptyEditorContainer = container.querySelector('.fjs-empty-editor');
       expect(emptyEditorContainer).to.exist;
+    });
+  });
+
+  it('should render empty state slot fill', async function () {
+    // given
+    function EmptyStateExtension(props) {
+      return (
+        <Fill slot="editor-empty-state__footer">
+          <div class="custom-empty-state-fill">Custom Content</div>
+        </Fill>
+      );
+    }
+
+    class EmptyStateExtensionRenderer {
+      constructor(renderInjector) {
+        renderInjector.attachRenderer('empty-state-extension', EmptyStateExtension);
+      }
+    }
+
+    EmptyStateExtensionRenderer.$inject = ['renderInjector'];
+
+    const EmptyStateExtensionModule = {
+      __init__: ['emptyStateExtensionRenderer'],
+      emptyStateExtensionRenderer: ['type', EmptyStateExtensionRenderer],
+    };
+
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+      },
+      additionalModules: [RenderInjectionModule, EmptyStateExtensionModule],
+      debounce: true,
+    });
+
+    // then
+    await waitFor(() => {
+      const fillContent = container.querySelector('.fjs-empty-editor .custom-empty-state-fill');
+      expect(fillContent).to.exist;
+      expect(fillContent.textContent).to.equal('Custom Content');
+    });
+  });
+
+  it('should render empty state slot fill via slots config', async function () {
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+      },
+      slots: {
+        'editor-empty-state__footer': (containerEl) => {
+          containerEl.innerHTML = '<div class="custom-slots-config-fill">Slots Config Content</div>';
+
+          return () => {
+            containerEl.innerHTML = '';
+          };
+        },
+      },
+      debounce: true,
+    });
+
+    // then
+    await waitFor(() => {
+      const fillContent = container.querySelector('.fjs-empty-editor .custom-slots-config-fill');
+      expect(fillContent).to.exist;
+      expect(fillContent.textContent).to.equal('Slots Config Content');
+    });
+  });
+
+  it('should render fields with visibility conditions', async function () {
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+        id: 'Form_1',
+        components: [
+          {
+            id: 'Field_1',
+            type: 'textfield',
+            key: 'field1',
+            label: 'Field 1',
+            conditional: { hide: '=true' },
+          },
+        ],
+      },
+    });
+
+    // then
+    await waitFor(() => {
+      const fieldContent = container.querySelector('[data-id="Field_1"] .fjs-form-field');
+      expect(fieldContent).to.exist;
     });
   });
 

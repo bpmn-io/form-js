@@ -135,7 +135,6 @@ export function Palette(props) {
         {groups.length == 0 && <div class="fjs-palette-no-entries">{translate('No components found.')}</div>}
       </div>
       <div class="fjs-palette-footer">
-        {/* @ts-ignore */}
         <Slot name="editor-palette__footer" fillRoot={FillRoot} />
       </div>
     </div>

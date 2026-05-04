@@ -11,7 +11,8 @@ const type = 'documentPreview';
 
 /**
  * @typedef DocumentEndpointBuilder
- * @property {(document: DocumentMetadata) => string} buildUrl
+ * @property {(document: DocumentMetadata) => string} [buildUrl]
+ * @property {(document: DocumentMetadata) => RequestInit|undefined} [buildRequestInit]
  */
 
 /**
@@ -52,17 +53,24 @@ export function DocumentPreview(props) {
       <Label htmlFor={domId} label={evaluatedLabel} />
       <div class={`fjs-${type}-document-container`} id={domId}>
         {data.map((document, index) => {
-          const finalEndpoint = tryCatch(() => documentEndpointBuilder?.buildUrl(document)) ?? document.endpoint;
+          const finalEndpoint = tryCatch(() => documentEndpointBuilder?.buildUrl?.(document)) ?? document.endpoint;
 
-          return isValidDocumentEndpoint(finalEndpoint) ? (
+          if (!isValidDocumentEndpoint(finalEndpoint)) {
+            return null;
+          }
+
+          const requestInit = getDocumentRequestInit(documentEndpointBuilder, document);
+
+          return (
             <DocumentRenderer
               key={document.documentId}
               documentMetadata={document}
               endpoint={finalEndpoint}
+              requestInit={requestInit}
               maxHeight={maxHeight}
               domId={`${domId}-${index}`}
             />
-          ) : null;
+          );
         })}
       </div>
 
@@ -152,10 +160,11 @@ function useValidDocumentData(dataSource) {
  * @param {string} props.fileName
  * @param {Function} props.onError
  * @param {string} props.errorMessageId
+ * @param {RequestInit|undefined} props.requestInit
  * @returns {import("preact").JSX.Element}
  */
 function PdfRenderer(props) {
-  const { url, onError, errorMessageId } = props;
+  const { url, onError, errorMessageId, requestInit } = props;
   /** @type {ReturnType<typeof import("preact/hooks").useState<null | string>>} */
   const [pdfObjectUrl, setPdfObjectUrl] = useState(null);
   const [hasError, setHasError] = useState(false);
@@ -168,7 +177,7 @@ function PdfRenderer(props) {
 
     const fetchPdf = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, requestInit);
 
         if (!response.ok) {
           setHasError(true);
@@ -192,7 +201,7 @@ function PdfRenderer(props) {
         URL.revokeObjectURL(objectUrl);
       }
     };
-  }, [url, onError]);
+  }, [url, onError, requestInit]);
 
   return (
     <>
@@ -205,17 +214,64 @@ function PdfRenderer(props) {
 }
 
 /**
+ * @param {Object} props
+ * @param {string} props.url
+ * @param {string} props.alt
+ * @param {Function} props.onError
+ * @param {RequestInit|undefined} props.requestInit
+ * @returns {import("preact").JSX.Element}
+ */
+function ImageRenderer(props) {
+  const { url, alt, onError, requestInit } = props;
+  /** @type {ReturnType<typeof import("preact/hooks").useState<null | string>>} */
+  const [imageObjectUrl, setImageObjectUrl] = useState(null);
+
+  useEffect(() => {
+    /** @type {null | string} */
+    let objectUrl = null;
+
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(url, requestInit);
+
+        if (!response.ok) {
+          onError();
+          return;
+        }
+
+        const blob = await response.blob();
+        objectUrl = URL.createObjectURL(blob);
+        setImageObjectUrl(objectUrl);
+      } catch {
+        onError();
+      }
+    };
+
+    fetchImage();
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [url, onError, requestInit]);
+
+  return imageObjectUrl !== null ? <img src={imageObjectUrl} alt={alt} class={`fjs-${type}-image`} /> : null;
+}
+
+/**
  *
  * @param {Object} props
  * @param {DocumentMetadata} props.documentMetadata
  * @param {string} props.endpoint
  * @param {string} props.domId
+ * @param {RequestInit|undefined} props.requestInit
  * @param {number|undefined} props.maxHeight
  *
  * @returns {import("preact").JSX.Element}
  */
 function DocumentRenderer(props) {
-  const { documentMetadata, endpoint, maxHeight, domId } = props;
+  const { documentMetadata, endpoint, maxHeight, domId, requestInit } = props;
   const { metadata } = documentMetadata;
   const [hasError, setHasError] = useState(false);
   const ref = useRef(null);
@@ -234,10 +290,16 @@ function DocumentRenderer(props) {
         class={singleDocumentContainerClassName}
         style={{ maxHeight }}
         aria-describedby={hasError ? errorMessageId : undefined}>
-        <img src={endpoint} alt={metadata.fileName} class={`fjs-${type}-image`} />
+        <ImageRenderer
+          url={endpoint}
+          alt={metadata.fileName}
+          requestInit={requestInit}
+          onError={() => setHasError(true)}
+        />
         <DownloadButton
           endpoint={endpoint}
           fileName={metadata.fileName}
+          requestInit={requestInit}
           onDownloadError={() => {
             setHasError(true);
           }}
@@ -256,6 +318,7 @@ function DocumentRenderer(props) {
         <PdfRenderer
           url={endpoint}
           fileName={metadata.fileName}
+          requestInit={requestInit}
           onError={() => setHasError(true)}
           errorMessageId={errorMessageId}
         />
@@ -275,6 +338,7 @@ function DocumentRenderer(props) {
       <DownloadButton
         endpoint={endpoint}
         fileName={metadata.fileName}
+        requestInit={requestInit}
         onDownloadError={() => {
           setHasError(true);
         }}
@@ -288,17 +352,18 @@ function DocumentRenderer(props) {
  * @param {string} props.endpoint
  * @param {string} props.fileName
  * @param {Function} props.onDownloadError
+ * @param {RequestInit|undefined} props.requestInit
  *
  * @returns {import("preact").JSX.Element}
  */
 function DownloadButton(props) {
-  const { endpoint, fileName, onDownloadError } = props;
+  const { endpoint, fileName, onDownloadError, requestInit } = props;
 
   const translate = useService('translate');
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(endpoint);
+      const response = await fetch(endpoint, requestInit);
 
       if (!response.ok) {
         onDownloadError();
@@ -364,6 +429,17 @@ function useInViewport(ref) {
   }, [ref]);
 
   return isInViewport;
+}
+
+/**
+ * @param {DocumentEndpointBuilder | null} documentEndpointBuilder
+ * @param {DocumentMetadata} document
+ * @returns {RequestInit|undefined}
+ */
+function getDocumentRequestInit(documentEndpointBuilder, document) {
+  const requestInit = tryCatch(() => documentEndpointBuilder?.buildRequestInit?.(document));
+
+  return requestInit !== null && typeof requestInit === 'object' ? requestInit : undefined;
 }
 
 /**

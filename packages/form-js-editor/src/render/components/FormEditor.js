@@ -17,7 +17,7 @@ import { ModularSection } from './ModularSection';
 import { Palette, collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
 import { InjectedRendersRoot } from '../../features/render-injection/components/InjectedRendersRoot';
 
-import { SlotFillRoot } from '../../features/render-injection/slot-fill';
+import { Slot, SlotFillRoot } from '../../features/render-injection/slot-fill';
 
 import {
   DRAG_CONTAINER_CLS,
@@ -41,6 +41,31 @@ function ContextPad(props) {
   return <div class="fjs-context-pad">{props.children}</div>;
 }
 
+function ContextPadContent(props) {
+  const { field } = props;
+
+  const formFieldContextActions = useService('formFieldContextActions');
+  const selection = useService('selection');
+
+  if (!selection.isSelected(field) || field.type === 'default') {
+    return null;
+  }
+
+  const entries = formFieldContextActions.getEntries(field);
+
+  const actionEntries = Object.entries(entries).filter(([, entry]) => entry.group !== 'morph');
+
+  return (
+    <ContextPad>
+      {actionEntries.map(([entryId, entry]) => (
+        <button key={entryId} type="button" title={entry.title} class="fjs-context-pad-item" onClick={entry.action}>
+          <DeleteIcon />
+        </button>
+      ))}
+    </ContextPad>
+  );
+}
+
 function EmptyGroup({translate}) {
   return (
     <div class="fjs-empty-component">
@@ -58,6 +83,7 @@ function EmptyForm() {
         <h2>{translate('Build your form')}</h2>
         <span>{translate('Drag and drop')}</span>
         <span>{translate('Use preview window')}</span>
+        <Slot name="editor-empty-state__footer" />
       </div>
     </div>
   );
@@ -79,9 +105,6 @@ function Empty(props) {
 
 function Element(props) {
   const eventBus = useService('eventBus'),
-    formFieldRegistry = useService('formFieldRegistry'),
-    formFields = useService('formFields'),
-    modeling = useService('modeling'),
     selection = useService('selection'),
     translate = useService('translate');
 
@@ -169,16 +192,6 @@ function Element(props) {
     return classes.join(' ');
   }, [hovered, isSelected, props.class, showOutline, type]);
 
-  const onRemove = (event) => {
-    event.stopPropagation();
-
-    const parentField = formFieldRegistry.get(field._parent);
-
-    const index = getFormFieldIndex(parentField, field);
-
-    modeling.removeFormField(field, parentField, index);
-  };
-
   const onKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.stopPropagation();
@@ -205,17 +218,7 @@ function Element(props) {
       }}
       ref={ref}>
       <DebugColumns field={field} />
-      <ContextPad>
-        {selection.isSelected(field) && field.type !== 'default' ? (
-          <button
-            type="button"
-            title={getRemoveButtonTitle(field, formFields, translate)}
-            class="fjs-context-pad-item"
-            onClick={onRemove}>
-            <DeleteIcon />
-          </button>
-        ) : null}
-      </ContextPad>
+      <ContextPadContent field={field} />
       {props.children}
       <FieldResizer position="left" field={field}></FieldResizer>
       <FieldResizer position="right" field={field}></FieldResizer>
@@ -434,6 +437,7 @@ export function FormEditor() {
       Empty,
       Row,
       hoverInfo: {},
+      applyVisibilityConditions: false,
     }),
     [],
   );
@@ -505,18 +509,6 @@ export function FormEditor() {
   );
 }
 
-function getFormFieldIndex(parent, formField) {
-  let fieldFormIndex = parent.components.length;
-
-  parent.components.forEach(({ id }, index) => {
-    if (id === formField.id) {
-      fieldFormIndex = index;
-    }
-  });
-
-  return fieldFormIndex;
-}
-
 function CreatePreview(props) {
   const { drake } = useContext(DragAndDropContext);
 
@@ -586,14 +578,4 @@ function findPaletteEntry(type, formFields) {
 
 function defaultPropertiesPanel(propertiesPanelConfig) {
   return !(propertiesPanelConfig && propertiesPanelConfig.parent);
-}
-
-function getRemoveButtonTitle(formField, formFields, translate) {
-  const entry = findPaletteEntry(formField.type, formFields);
-
-  if (!entry) {
-    return translate('Remove form field');
-  }
-
-  return translate('Remove') + ' ' + translate(entry.label);
 }

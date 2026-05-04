@@ -1,6 +1,6 @@
 import copy from 'rollup-plugin-copy';
 
-import pkg from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';

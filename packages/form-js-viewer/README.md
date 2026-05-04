@@ -48,6 +48,37 @@ form.on('changed', 500, (event) => {
 });
 ```
 
+### Customize document preview requests
+
+If you use the `documentPreview` field and need custom authentication for file downloads/previews,
+you can provide a `documentEndpointBuilder` service via dependency injection.
+
+```javascript
+import { Form } from '@bpmn-io/form-js-viewer';
+
+const DocumentPreviewRequestModule = {
+  documentEndpointBuilder: [
+    'value',
+    {
+      buildUrl: (document) => document.endpoint,
+      buildRequestInit: (document) => ({
+        headers: {
+          'x-document-id': document.documentId,
+        },
+        credentials: 'include',
+      }),
+    },
+  ],
+};
+
+const form = new Form({
+  container: document.querySelector('#form'),
+  additionalModules: [DocumentPreviewRequestModule],
+});
+```
+
+`buildRequestInit` is optional, used to [configure the fetch request](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit). If omitted, document requests use the default `fetch(url)` behavior.
+
 Check out [a full example](https://github.com/bpmn-io/form-js-examples).
 
 ## Styling

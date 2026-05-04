@@ -42,4 +42,5 @@ export const FormRenderContext = createContext({
   hoverInfo: {
     cleanup: () => {},
   },
+  applyVisibilityConditions: true,
 });
