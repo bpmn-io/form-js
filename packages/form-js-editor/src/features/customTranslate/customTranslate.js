@@ -1,24 +1,36 @@
-import translations from './translation_ger';
+import en from './en/translations';
+import ge from './ge/translations';
 
-// TODO custom package ???
+const translations = {
+  en,
+  ge,
+};
 
-export function customTranslate(template, replacements) {
-  // TODO Think of better handling if null or undefined???
-  if (!template) {
+let currentLang = 'en';
+const fallbackLang = 'en';
+
+export function setLanguage(lang) {
+  if (lang && translations[lang]) {
+    currentLang = lang;
+  } else {
+    console.warn(`Language "${lang}" not found. Falling back to "${fallbackLang}".`);
+    currentLang = fallbackLang;
+  }
+}
+
+export function customTranslate(template, replacements = {}) {
+  if (typeof template !== 'string') {
+    console.warn('Invalid template: ', template);
     return '';
   }
-  replacements = replacements || {};
 
-  // Translate
-  template = translations[template] || template;
+  const translated = translations[currentLang]?.[template] ?? translations[fallbackLang]?.[template] ?? template;
 
-  // Replace
-  return template.replace(/{([^}]+)}/g, function (_, key) {
-    return replacements[key] || '{' + key + '}';
+  return translated.replace(/{([^}]+)}/g, (_, key) => {
+    return key in replacements ? replacements[key] : `{${key}}`;
   });
 }
 
 export const CustomTranslateModule = {
   translate: ['value', customTranslate],
 };
-

@@ -100,7 +100,7 @@ export function Palette(props) {
 
   return (
     <div class="fjs-palette">
-      <div class="fjs-palette-header" title="Components">
+      <div class="fjs-palette-header" title={translate('Components')}>
         {translate('Components')}
       </div>
       <div class="fjs-palette-search-container">

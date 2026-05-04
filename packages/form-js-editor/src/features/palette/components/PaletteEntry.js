@@ -25,7 +25,7 @@ export function PaletteEntry(props) {
       type="button"
       class="fjs-palette-field fjs-drag-copy fjs-no-drop"
       data-field-type={type}
-      title={`${translate("Create (Palette)")} ${getIndefiniteArticle(type, translate)} ${translate(label + "-hover")}${translate("element")}`}
+      title={translate(`Create ${getIndefiniteArticle(type)} ${label} element`)}
       onKeyDown={onKeyDown}>
       {Icon ? <Icon class="fjs-palette-field-icon" width="36" height="36" viewBox="0 0 54 54" /> : null}
       <span class="fjs-palette-field-text">{translate(label)}</span>
@@ -35,10 +35,10 @@ export function PaletteEntry(props) {
 
 // helpers ///////////
 
-function getIndefiniteArticle(type, translate) {
+function getIndefiniteArticle(type) {
   if (['image'].includes(type)) {
-    return translate('an');
+    return 'an';
   }
 
-  return translate('a');
+  return 'a';
 }
