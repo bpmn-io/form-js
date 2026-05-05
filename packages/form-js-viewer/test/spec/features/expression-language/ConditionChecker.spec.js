@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { ConditionChecker } from '../../../../src/features/expressionLanguage/ConditionChecker';
 import { FeelExpressionLanguage } from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
 import { PathRegistry } from '../../../../src/core/PathRegistry';

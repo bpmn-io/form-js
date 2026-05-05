@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/preact/pure';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';

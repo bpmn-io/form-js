@@ -15,7 +15,7 @@ module.exports = function (karma) {
   const config = {
     basePath: '../../',
 
-    frameworks: ['webpack', 'mocha', 'sinon-chai'],
+    frameworks: ['webpack', 'mocha'],
 
     files: [suite],
 
@@ -50,6 +50,10 @@ module.exports = function (karma) {
       mode: 'development',
       module: {
         rules: [
+          {
+            test: require.resolve('../globals.js'),
+            sideEffects: true
+          },
           {
             test: /\.js$/,
             enforce: 'pre',

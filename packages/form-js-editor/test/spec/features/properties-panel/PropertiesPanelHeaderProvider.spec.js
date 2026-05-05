@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { cleanup, render } from '@testing-library/preact/pure';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';

@@ -1,8 +1,8 @@
+import { spy } from 'sinon';
+import { expect } from 'chai';
 import { bootstrapFormEditor, inject } from '../../../TestHelper';
 
 import { SelectionModule } from 'src/features/selection';
-
-const { spy } = sinon;
 
 describe('features/selection', function () {
   const schema = {

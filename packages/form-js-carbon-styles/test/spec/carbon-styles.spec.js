@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import 'preact/debug';
 
 import { ThemeProvider } from 'styled-components';

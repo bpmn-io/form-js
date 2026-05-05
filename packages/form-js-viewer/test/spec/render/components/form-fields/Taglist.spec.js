@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { render, screen, fireEvent, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 

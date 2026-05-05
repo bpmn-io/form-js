@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { getSchemaVariables } from '../../../src';
 
 import schema from '../form.json';

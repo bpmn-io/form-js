@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { pruneAt } from '../../../src/util';
 
 describe('util/simple', function () {

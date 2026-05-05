@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { formFieldClasses, textToLabel } from '../../../../src/render/components/Util';
 
 describe('Util', function () {
