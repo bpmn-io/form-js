@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';

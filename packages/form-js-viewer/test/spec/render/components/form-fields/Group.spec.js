@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { render } from '@testing-library/preact/pure';
 
 import { Group } from '../../../../../src/render/components/form-fields/Group';

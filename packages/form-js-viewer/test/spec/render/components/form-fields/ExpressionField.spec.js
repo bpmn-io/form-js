@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { render, act } from '@testing-library/preact/pure';
 
 import { ExpressionField } from '../../../../../src/render/components/form-fields/ExpressionField';

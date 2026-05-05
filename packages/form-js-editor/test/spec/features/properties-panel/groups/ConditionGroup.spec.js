@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { act, cleanup, render } from '@testing-library/preact/pure';
 
 import { ConditionGroup } from '../../../../../src/features/properties-panel/groups';

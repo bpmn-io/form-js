@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { bootstrapForm, getForm, inject } from 'test/TestHelper';
 
 describe('PathRegistry', function () {

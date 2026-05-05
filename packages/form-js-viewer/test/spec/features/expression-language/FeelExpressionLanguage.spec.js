@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { FeelExpressionLanguage } from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
 
 describe('FeelExpressionLanguage', function () {

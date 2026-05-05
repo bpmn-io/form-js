@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { render } from '@testing-library/preact/pure';
 
 import { useCleanupSingleSelectValue } from '../../../../src/render/hooks/useCleanupSingleSelectValue';

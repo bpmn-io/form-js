@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import { render, screen } from '@testing-library/preact/pure';
 
 import { FilePicker } from '../../../../../src/render/components/form-fields/FilePicker';

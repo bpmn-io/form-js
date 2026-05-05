@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { bootstrapForm, getForm, inject } from 'test/TestHelper';
 
 import { clone } from 'src/util';
