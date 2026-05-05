@@ -28,14 +28,16 @@ const VALIDATION_TYPE_OPTIONS = (translate) => {
       value: 'phone',
       label: translate('Phone'),
     },
-  }
+  };
 };
 
 export function ValidationGroup(field, editField, getService) {
   const { type } = field;
   const validate = get(field, ['validate'], {});
   const translate = getService('translate');
-  const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS(translate).custom.value].includes(validate.validationType);
+  const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS(translate).custom.value].includes(
+    validate.validationType,
+  );
   const hasPattern = !!get(field, ['validate', 'pattern']);
 
   const onChange = (key) => {
