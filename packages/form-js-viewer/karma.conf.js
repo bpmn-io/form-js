@@ -57,7 +57,7 @@ module.exports = function (karma) {
       module: {
         rules: [
           {
-            test: /test\/globals\.js$/,
+            test: require.resolve('./test/globals.js'),
             sideEffects: true,
           },
           {
