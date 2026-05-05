@@ -288,8 +288,8 @@ export class FormEditor {
    */
   _getModules() {
     return [
-      ContextPadModule,
       CustomTranslateModule,
+      ContextPadModule,
       ModelingModule,
       EditorActionsModule,
       FormEditorKeyboardModule,
