@@ -1,5 +1,5 @@
 // configures browsers to run test against
-// any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
+// any of [ 'ChromeHeadless', 'Chrome', 'Firefox' ]
 const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
 // use puppeteer provided Chrome for testing
