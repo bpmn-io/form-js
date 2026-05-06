@@ -94,7 +94,7 @@
     "del-cli": "^7.0.0",
     "diagram-js": "^15.9.0",
     "didi": "^11.0.0",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-bpmn-io": "^2.2.0",
     "eslint-plugin-import": "^2.32.0",
