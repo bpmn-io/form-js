@@ -50,7 +50,7 @@
     "big.js": "^7.0.1",
     "classnames": "^2.5.1",
     "didi": "^11.0.0",
-    "dompurify": "^3.3.1",
+    "dompurify": "^3.4.2",
     "feelers": "^1.5.1",
     "flatpickr": "^4.6.13",
     "ids": "^3.0.2",
