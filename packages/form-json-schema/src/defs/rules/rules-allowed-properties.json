@@ -335,7 +335,23 @@
       },
       "then": {
         "properties": {
-          "key": false
+          "key": false,
+          "omitFromSubmit": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "filepicker"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "omitFromSubmit": false
         }
       }
     },
