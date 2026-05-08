@@ -25,6 +25,7 @@ export function createFormEditor(options) {
   const { schema, ...rest } = options;
 
   const formEditor = new FormEditor(rest);
+
   return formEditor.importSchema(schema).then(() => {
     return formEditor;
   });

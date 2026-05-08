@@ -9,7 +9,7 @@ export function DisabledEntry(props) {
 
   const entries = [];
 
-  let translate = getService('translate');
+  const translate = getService('translate');
 
   entries.push({
     id: 'disabled',
