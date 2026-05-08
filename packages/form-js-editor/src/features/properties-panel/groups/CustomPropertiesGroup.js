@@ -71,7 +71,7 @@ export function CustomPropertiesGroup(field, editField, getService) {
     id: 'custom-values',
     items,
     label: translate('Custom properties'),
-    tooltip: translate('Custom properties description')
+    tooltip: translate('Custom properties description'),
   };
 }
 

@@ -104,9 +104,7 @@ function Path(props) {
     [field, isRepeating, pathRegistry, translate],
   );
 
-  const tooltip = isRepeating
-    ? translate('PathEntry tooltip repeating')
-    : translate('PathEntry tooltip not repeating');
+  const tooltip = isRepeating ? translate('PathEntry tooltip repeating') : translate('PathEntry tooltip not repeating');
 
   return TextFieldEntry({
     debounce,

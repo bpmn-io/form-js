@@ -52,8 +52,7 @@ function Readonly(props) {
     getValue,
     id,
     label: translate('Read only'),
-    tooltip:
-      translate('Read only tooltip'),
+    tooltip: translate('Read only tooltip'),
     setValue,
     variables,
   });

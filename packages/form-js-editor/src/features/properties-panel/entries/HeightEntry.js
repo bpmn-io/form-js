@@ -53,7 +53,7 @@ function Height(props) {
     id,
     getValue,
     setValue,
-    validate : useCallback((value) => validate(value, translate), [translate]),
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 

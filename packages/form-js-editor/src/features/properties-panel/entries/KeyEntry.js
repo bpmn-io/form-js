@@ -96,8 +96,7 @@ function Key(props) {
     getValue,
     id,
     label: translate('Key'),
-    tooltip:
-      translate('Key tooltip'),
+    tooltip: translate('Key tooltip'),
     setValue,
     validate,
   });

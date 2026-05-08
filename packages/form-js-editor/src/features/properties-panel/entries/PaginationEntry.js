@@ -4,7 +4,7 @@ import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/propertie
 
 export function PaginationEntry(props) {
   const { editField, field, getService } = props;
-  const translate = getService('translate')
+  const translate = getService('translate');
 
   const entries = [];
 

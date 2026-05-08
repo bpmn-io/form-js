@@ -18,7 +18,7 @@ export function DisabledEntry(props) {
     field: field,
     isEdited: isToggleSwitchEntryEdited,
     isDefaultVisible: (field) => INPUTS.includes(field.type),
-    translate : translate,
+    translate: translate,
   });
 
   return entries;
@@ -42,8 +42,7 @@ function Disabled(props) {
     getValue,
     id,
     label: translate('Disabled'),
-    tooltip:
-      translate('Disabled tooltip'),
+    tooltip: translate('Disabled tooltip'),
     inline: true,
     setValue,
   });

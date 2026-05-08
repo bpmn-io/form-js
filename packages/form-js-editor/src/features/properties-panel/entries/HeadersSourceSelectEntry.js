@@ -4,7 +4,7 @@ import { get, isString, isArray } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
 
 const OPTIONS = (translate) => {
-  return{
+  return {
     static: {
       label: translate('List of items'),
       value: 'static',
@@ -13,17 +13,15 @@ const OPTIONS = (translate) => {
       label: translate('Expression'),
       value: 'expression',
     },
-  }
+  };
 };
-
 
 const COLUMNS_PATH = ['columns'];
 
 const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
 
-
 export function HeadersSourceSelectEntry(props) {
-  const { editField, field, id, translate} = props;
+  const { editField, field, id, translate } = props;
   const isHeadersSourceEdited = isEditedFromDefaultFactory(OPTIONS(translate).static.value);
 
   return [

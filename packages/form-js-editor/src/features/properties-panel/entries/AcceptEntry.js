@@ -49,7 +49,7 @@ function Accept(props) {
     singleLine: true,
     setValue,
     variables,
-    description : description(translate),
+    description: description(translate),
   });
 }
 
@@ -69,6 +69,5 @@ const description = (translate) => {
         {translate('file type specifiers')}
       </a>
     </>
-  )
-}
-
+  );
+};

@@ -179,7 +179,7 @@ export function Taglist(props) {
       }}>
       <Label label={label} required={required} htmlFor={domId} />
       {!disabled && !readonly && !!values.length && (
-        <SkipLink className="fjs-taglist-skip-link" label={translate("Skip to search")} onSkip={onSkipToSearch} />
+        <SkipLink className="fjs-taglist-skip-link" label={translate('Skip to search')} onSkip={onSkipToSearch} />
       )}
       <div class={classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
         {loadState === LOAD_STATES.LOADED && (
@@ -194,7 +194,7 @@ export function Taglist(props) {
                   {!disabled && !readonly && (
                     <button
                       type="button"
-                      title={ translate('Remove tag') }
+                      title={translate('Remove tag')}
                       class="fjs-taglist-tag-remove"
                       onFocus={onElementFocus}
                       onBlur={onElementBlur}

@@ -56,7 +56,7 @@ function InputValuesKey(props) {
     id,
     label: translate('Input values key'),
     setValue,
-    validate : useCallback((value) => validate(value, translate), [translate]),
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 

@@ -76,9 +76,12 @@ export function DocumentPreview(props) {
 
       <Errors
         id={errorMessageId}
-        errors={getErrors({
-          dataSource,
-        }, translate)}
+        errors={getErrors(
+          {
+            dataSource,
+          },
+          translate,
+        )}
       />
     </div>
   );

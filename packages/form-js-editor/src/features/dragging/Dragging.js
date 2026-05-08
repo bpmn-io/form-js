@@ -367,7 +367,15 @@ export class Dragging {
   }
 }
 
-Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry', 'translate'];
+Dragging.$inject = [
+  'formFieldRegistry',
+  'formLayouter',
+  'formLayoutValidator',
+  'eventBus',
+  'modeling',
+  'pathRegistry',
+  'translate',
+];
 
 // helper //////////
 

@@ -330,14 +330,14 @@ function sortByColumn(array, key, direction) {
  */
 function getHeaderAriaLabel(sortBy, key, label, translate) {
   if (sortBy === null || sortBy.key !== key) {
-    return translate('Sort descending', {value : label});
+    return translate('Sort descending', { value: label });
   }
 
   if (sortBy.direction === 'asc') {
     return translate('Click to remove sorting');
   }
 
-  return translate('Sort ascending', {value : label});
+  return translate('Sort ascending', { value: label });
 }
 
 /**

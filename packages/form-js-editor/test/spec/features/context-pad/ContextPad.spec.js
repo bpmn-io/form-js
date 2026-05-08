@@ -130,10 +130,7 @@ describe('features/context-pad', function () {
       expect(entries.delete).not.to.exist;
     }));
 
-    it('should remove field on action', inject(function (
-      formFieldContextActions,
-      formFieldRegistry,
-    ) {
+    it('should remove field on action', inject(function (formFieldContextActions, formFieldRegistry) {
       // given
       const textfield = formFieldRegistry.get('Textfield_1');
       const entries = formFieldContextActions.getEntries(textfield);

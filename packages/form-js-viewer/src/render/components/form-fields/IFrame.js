@@ -35,7 +35,7 @@ export function IFrame(props) {
   return (
     <div class={formFieldClasses(type, { disabled, readonly })}>
       <Label htmlFor={domId} label={evaluatedLabel} />
-      {!evaluatedUrl && <IFramePlaceholder text={translate("No content to show.")} />}
+      {!evaluatedUrl && <IFramePlaceholder text={translate('No content to show.')} />}
       {evaluatedUrl && safeUrl && (
         <iframe
           src={safeUrl}

@@ -185,7 +185,7 @@ export class RepeatRenderManager {
           <button type="button" class="fjs-repeat-render-collapse" onClick={toggle}>
             {isCollapsed ? (
               <>
-                <ExpandSvg /> {translate(`Expand all`, {value : values.length - 1})}
+                <ExpandSvg /> {translate(`Expand all`, { value: values.length - 1 })}
               </>
             ) : (
               <>

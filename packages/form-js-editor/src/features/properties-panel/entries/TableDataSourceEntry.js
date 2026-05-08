@@ -54,8 +54,7 @@ function Source(props) {
     getValue,
     id,
     label: translate('Data source'),
-    tooltip:
-      translate('Data source tooltip'),
+    tooltip: translate('Data source tooltip'),
     setValue,
     singleLine: true,
     variables,
