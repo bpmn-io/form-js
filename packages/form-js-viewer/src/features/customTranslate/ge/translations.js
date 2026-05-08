@@ -1,7 +1,7 @@
 export default {
   // ** Viewer
-  'Field must match pattern.': 'Feld muss mit Muster {value} übereinstimmen.',
-  'Field is required.': 'Feld ist erforderlich.',
+  'Field must match pattern.': 'Das Feld muss mit dem Muster {value} übereinstimmen.',
+  'Field is required.': 'Das Feld ist erforderlich.',
   'Minimum value validation': 'Das Feld darf den Mindestwert von {value} nicht unterschreiten.',
   'Min validation value error': 'Der minimale Validierungswert ist keine gültige Zahl.',
   'Maximum value validation': 'Das Feld darf den Maximalwert von {value} nicht überschreiten.',
