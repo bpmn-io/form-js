@@ -24,7 +24,7 @@ export function customTranslate(template, replacements = {}) {
     return '';
   }
 
-  const translated = translations[currentLang]?.[template] ?? translations[fallbackLang]?.[template] ?? template;
+  const translated = translations[currentLang]?.[template] ?? template;
 
   return translated.replace(/{([^}]+)}/g, (_, key) => {
     return key in replacements ? replacements[key] : `{${key}}`;

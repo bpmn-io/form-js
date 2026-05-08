@@ -93,6 +93,11 @@ export class FormEditor {
     if (container) {
       this.attachTo(container);
     }
+
+    const language = properties.language;
+    if (language) {
+      this.setLanguage(language);
+    }
   }
 
   clear() {
