@@ -8,7 +8,7 @@ export function getPropertiesPanelHeaderProvider(options = {}) {
     getElementLabel: (field) => {
       const { type } = field;
       const fieldDefinition = formFields.get(type).config;
-      return (fieldDefinition.getSubheading ? fieldDefinition.getSubheading(field) : field.label);
+      return fieldDefinition.getSubheading ? fieldDefinition.getSubheading(field) : field.label;
     },
 
     getElementIcon: (field) => {

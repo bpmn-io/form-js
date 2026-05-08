@@ -27,7 +27,7 @@ function Description(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
-  const translate = useService('translate')
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 

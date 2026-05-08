@@ -93,7 +93,7 @@ export function PropertiesPanel(props) {
       getPropertiesPanelHeaderProvider({
         getDocumentationRef: propertiesPanelConfig.getDocumentationRef,
         formFields,
-        translate
+        translate,
       }),
     [formFields, propertiesPanelConfig, translate],
   );

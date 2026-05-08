@@ -62,9 +62,7 @@ function Url(props) {
 function getTooltip(translate) {
   return (
     <>
-      <p>
-        {translate('IFrame tooltip1')}
-      </p>
+      <p>{translate('IFrame tooltip1')}</p>
       <p>{translate('IFrame tooltip2')}</p>
       <p>
         {translate('IFrame tooltip3')}

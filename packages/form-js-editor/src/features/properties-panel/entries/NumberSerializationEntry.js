@@ -4,7 +4,7 @@ import { get } from 'min-dash';
 
 import Big from 'big.js';
 
-import { useService} from '../hooks';
+import { useService } from '../hooks';
 
 export function NumberSerializationEntry(props) {
   const { editField, field } = props;

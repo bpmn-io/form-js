@@ -49,7 +49,7 @@ export class FieldFactory {
         knownAncestorIds,
       })
     ) {
-      throw new Error(this._translate(`binding path claimed`, {value : [...parentPath, key].join('.')}));
+      throw new Error(this._translate(`binding path claimed`, { value: [...parentPath, key].join('.') }));
     }
 
     if (
@@ -60,7 +60,9 @@ export class FieldFactory {
         knownAncestorIds,
       })
     ) {
-      throw new Error(this._translate(`binding path claimed`, {value : ([...parentPath, ...path.split('.')].join('.'))}));
+      throw new Error(
+        this._translate(`binding path claimed`, { value: [...parentPath, ...path.split('.')].join('.') }),
+      );
     }
 
     const field = config.create(

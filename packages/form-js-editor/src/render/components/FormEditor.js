@@ -66,7 +66,7 @@ function ContextPadContent(props) {
   );
 }
 
-function EmptyGroup({translate}) {
+function EmptyGroup({ translate }) {
   return (
     <div class="fjs-empty-component">
       <span class="fjs-empty-component-text">{translate('Drag and drop components here.')}</span>
@@ -93,7 +93,7 @@ function Empty(props) {
   const translate = useService('translate');
 
   if (['group', 'dynamiclist'].includes(props.field.type)) {
-    return <EmptyGroup translate = {translate}/>;
+    return <EmptyGroup translate={translate} />;
   }
 
   if (props.field.type === 'default') {
@@ -105,8 +105,7 @@ function Empty(props) {
 
 function Element(props) {
   const eventBus = useService('eventBus'),
-    selection = useService('selection'),
-    translate = useService('translate');
+    selection = useService('selection');
 
   const { hoverInfo } = useContext(FormRenderContext);
 
@@ -364,7 +363,7 @@ export function FormEditor() {
     let dragulaInstance = dragging.createDragulaInstance({
       container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
       mirrorContainer: formContainerRef.current,
-      translate : translate,
+      translate: translate,
     });
 
     setDrake(dragulaInstance);
@@ -382,7 +381,7 @@ export function FormEditor() {
       dragulaInstance = dragging.createDragulaInstance({
         container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
         mirrorContainer: formContainerRef.current,
-        translate : translate,
+        translate: translate,
       });
       setDrake(dragulaInstance);
     };

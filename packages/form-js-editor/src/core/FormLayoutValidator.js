@@ -20,12 +20,12 @@ export class FormLayoutValidator {
     if (Number.isInteger(columns)) {
       // allow minimum cols
       if (columns < MIN_COLUMNS) {
-        return translate(`Minimum allowed columns`, {value : MIN_COLUMNS});
+        return translate(`Minimum allowed columns`, { value: MIN_COLUMNS });
       }
 
       // allow maximum cols
       if (columns > MAX_COLUMNS) {
-        return translate(`Maximum allowed columns`, {value : MAX_COLUMNS});
+        return translate(`Maximum allowed columns`, { value: MAX_COLUMNS });
       }
     }
 
@@ -61,11 +61,11 @@ export class FormLayoutValidator {
       (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
       (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)
     ) {
-      return translate('New value exceeds', {value : MAX_COLUMNS_PER_ROW});
+      return translate('New value exceeds', { value: MAX_COLUMNS_PER_ROW });
     }
 
     if (sumFields > MAX_FIELDS_PER_ROW) {
-      return translate('Maximum fields allowed', {value : MAX_FIELDS_PER_ROW});
+      return translate('Maximum fields allowed', { value: MAX_FIELDS_PER_ROW });
     }
 
     return null;

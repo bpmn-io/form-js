@@ -98,7 +98,7 @@ function Key(props) {
     id,
     label: translate('Key'),
     setValue,
-    validate : useCallback((value) => validate(value, translate), [translate]),
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 

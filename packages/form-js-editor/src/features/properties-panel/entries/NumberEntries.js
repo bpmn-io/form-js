@@ -115,11 +115,11 @@ function NumberArrowStep(props) {
         const minimumValue = Big(`1e-${decimalDigits}`);
 
         if (Big(value).cmp(minimumValue) < 0) {
-          return translate(`'validate number minlength`, {value :  minimumValue.toString()});
+          return translate(`'validate number minlength`, { value: minimumValue.toString() });
         }
 
         if (countDecimals(value) > decimalDigits) {
-          return translate('validate number decimal digits', {value : decimalDigits});
+          return translate('validate number decimal digits', { value: decimalDigits });
         }
       }
     },
@@ -150,7 +150,7 @@ const validateNumberEntries = (value, translate) => {
   }
 
   if (!Number.isInteger(value)) {
-    return translate('validate number integer', );
+    return translate('validate number integer');
   }
 
   if (value < 0) {

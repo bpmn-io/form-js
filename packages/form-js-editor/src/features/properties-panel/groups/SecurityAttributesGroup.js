@@ -47,11 +47,11 @@ function createEntries(props) {
     });
   });
 
-  return [{ component: () => (Advisory({translate})) }, ...securityEntries];
+  return [{ component: () => Advisory({ translate }) }, ...securityEntries];
 }
 
 const Advisory = (props) => {
-  const {translate} = props;
+  const { translate } = props;
   return (
     <div class="bio-properties-panel-description fjs-properties-panel-detached-description">
       {translate('Security attributes advisory')}

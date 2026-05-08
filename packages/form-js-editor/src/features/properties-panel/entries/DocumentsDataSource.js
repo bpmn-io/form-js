@@ -59,9 +59,7 @@ function DocumentsDataSource(props) {
       <pre>
         <code>{schema}</code>
       </pre>
-      <p>
-        {translate('Document reference tooltip4')}
-      </p>
+      <p>{translate('Document reference tooltip4')}</p>
       <p>
         {translate('Document reference tooltip5')}{' '}
         <a
@@ -86,7 +84,7 @@ function DocumentsDataSource(props) {
     setValue,
     variables,
     tooltip,
-    validate : useCallback((value) => validate(value, translate), [translate]),
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 

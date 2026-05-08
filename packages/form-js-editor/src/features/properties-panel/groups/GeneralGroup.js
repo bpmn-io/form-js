@@ -65,7 +65,7 @@ export function GeneralGroup(field, editField, getService) {
     return null;
   }
 
-  const translate = getService('translate')
+  const translate = getService('translate');
 
   return {
     id: 'general',

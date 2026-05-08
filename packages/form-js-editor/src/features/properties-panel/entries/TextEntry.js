@@ -61,7 +61,7 @@ function Text(props) {
  * @returns An Element with the description
  */
 const description = (translate) => {
-  return(
+  return (
     <>
       {translate('Supports markdown and templating.')}{' '}
       <a
@@ -71,5 +71,5 @@ const description = (translate) => {
         {translate('Learn more')}
       </a>
     </>
-  )
+  );
 };

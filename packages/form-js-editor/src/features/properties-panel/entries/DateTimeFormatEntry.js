@@ -6,7 +6,7 @@ import {
   TIME_SERIALISINGFORMAT_LABELS,
   TIME_SERIALISING_FORMAT_PATH,
 } from '@bpmn-io/form-js-viewer';
-import { useService} from '../hooks';
+import { useService } from '../hooks';
 import { get } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
 

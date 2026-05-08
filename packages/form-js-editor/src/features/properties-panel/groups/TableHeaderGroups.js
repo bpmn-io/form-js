@@ -24,7 +24,10 @@ export function TableHeaderGroups(field, editField, getService) {
       label: translate('Headers source'),
       tooltip: translate('Headers source tooltip'),
       component: Group,
-      entries: [...HeadersSourceSelectEntry({ field, editField, translate }), ...ColumnsExpressionEntry({ field, editField })],
+      entries: [
+        ...HeadersSourceSelectEntry({ field, editField, translate }),
+        ...ColumnsExpressionEntry({ field, editField }),
+      ],
     },
   ];
 
@@ -43,4 +46,3 @@ export function TableHeaderGroups(field, editField, getService) {
 }
 
 // helpers //////////
-
