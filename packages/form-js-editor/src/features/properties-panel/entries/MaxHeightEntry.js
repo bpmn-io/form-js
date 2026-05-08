@@ -76,6 +76,8 @@ const validate = (value, translate) => {
   }
 };
 
-const description = (translate) => {
-  return <>{translate('MaxHeightEntry description')}</>;
-};
+/**
+ * @param {function} translate
+ * @returns Description Element
+ */
+const description = (translate) => <>{translate('MaxHeightEntry description')}</>;
