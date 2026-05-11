@@ -33,4 +33,5 @@ export default {
   'Click to remove sorting': 'Klicken Sie hier, um die Sortierung aufzuheben',
   'Sort ascending': `Klicken Sie hier, um nach {value} aufsteigend zu sortieren`,
   'binding path claimed': '{value} ist bereits beansprucht',
+  'Number files selected': `{value} Dateien ausgewählt`,
 };

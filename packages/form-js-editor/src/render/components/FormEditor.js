@@ -413,7 +413,7 @@ export function FormEditor() {
       eventBus.off('drag.start', onDragStart);
       eventBus.off('drag.end', onDragEnd);
     };
-  }, [dragging, eventBus]);
+  }, [dragging, eventBus, translate]);
 
   // fire event after render to notify interested parties
   useEffect(() => {

@@ -33,4 +33,5 @@ export default {
   'Click to remove sorting': 'Click to remove sorting',
   'Sort ascending': `Click to sort by {value} ascending`,
   'binding path claimed': "binding path '{value}' is already claimed",
+  'Number files selected': `{value} files selected`,
 };
