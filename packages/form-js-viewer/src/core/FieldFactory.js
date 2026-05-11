@@ -4,10 +4,10 @@ export class FieldFactory {
   /**
    * @constructor
    *
-   * @param  formFieldRegistry
+   * @param formFieldRegistry
    * @param pathRegistry
-   * @param  formFields
-   * @param {function}  translate
+   * @param formFields
+   * @param {function} translate
    */
   constructor(formFieldRegistry, pathRegistry, formFields, translate) {
     this._formFieldRegistry = formFieldRegistry;
@@ -49,7 +49,7 @@ export class FieldFactory {
         knownAncestorIds,
       })
     ) {
-      throw new Error(this._translate(`binding path claimed`, { value: [...parentPath, key].join('.') }));
+      throw new Error(this._translate('binding path claimed', { value: [...parentPath, key].join('.') }));
     }
 
     if (
@@ -61,7 +61,7 @@ export class FieldFactory {
       })
     ) {
       throw new Error(
-        this._translate(`binding path claimed`, { value: [...parentPath, ...path.split('.')].join('.') }),
+        this._translate('binding path claimed', { value: [...parentPath, ...path.split('.')].join('.') }),
       );
     }
 

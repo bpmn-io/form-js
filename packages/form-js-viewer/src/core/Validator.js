@@ -103,7 +103,7 @@ function runNumberValidation(field, value, translate) {
   } else if (value) {
     if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
       errors.push(
-        translate('Value is expected to ') +
+        translate('Value is expected to') +
           (decimalDigits === 0
             ? translate('be an integer')
             : decimalDigits > 1
