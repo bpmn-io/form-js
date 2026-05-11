@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   willKeyProduceValidNumber,
   countDecimals,
+  serializeToInputString,
 } from '../../../../../../src/render/components/util/numberFieldUtil.js';
 
 describe('numberFieldUtil', function () {
@@ -21,6 +22,25 @@ describe('numberFieldUtil', function () {
     // then
     for (const [value, result] of valuesMatrix) {
       expect(countDecimals(value)).to.equal(result);
+    }
+  });
+
+  it('#serializeToInputString', function () {
+    // given
+    const valuesMatrix = [
+      [undefined, ''],
+      [null, ''],
+      ['', ''],
+      [0, '0'],
+      [-0, '0'],
+      [1, '1'],
+      [-1.5, '-1.5'],
+      ['0', '0'],
+    ];
+
+    // then
+    for (const [value, result] of valuesMatrix) {
+      expect(serializeToInputString(value)).to.equal(result);
     }
   });
 
