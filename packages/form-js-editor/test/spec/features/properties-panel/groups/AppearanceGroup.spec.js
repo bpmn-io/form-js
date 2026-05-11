@@ -5,6 +5,7 @@ import { AppearanceGroup } from '../../../../../src/features/properties-panel/gr
 import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('AppearanceGroup', function () {
   afterEach(function () {
@@ -192,7 +193,9 @@ describe('AppearanceGroup', function () {
 function renderAppearanceGroup(options) {
   const { editField, field } = options;
 
-  const groups = [AppearanceGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [AppearanceGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext options={options}>

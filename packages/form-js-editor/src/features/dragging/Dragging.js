@@ -91,7 +91,7 @@ export class Dragging {
       // (1) check for row constraints
       if (isRow(target)) {
         targetParentId = getFormParent(target).dataset.id;
-        const rowError = this._formLayoutValidator.validateField(formField, columns, targetRow, this._translate);
+        const rowError = this._formLayoutValidator.validateField(formField, columns, targetRow);
         if (rowError) {
           return rowError;
         }
