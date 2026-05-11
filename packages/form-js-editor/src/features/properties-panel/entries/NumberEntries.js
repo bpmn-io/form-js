@@ -104,7 +104,7 @@ function NumberArrowStep(props) {
       }
 
       if (!isValidNumber(value)) {
-        return translate('validate number valid');
+        return translate('validate number valid.');
       }
 
       if (Big(value).cmp(0) <= 0) {
@@ -115,7 +115,7 @@ function NumberArrowStep(props) {
         const minimumValue = Big(`1e-${decimalDigits}`);
 
         if (Big(value).cmp(minimumValue) < 0) {
-          return translate(`'validate number minlength`, { value: minimumValue.toString() });
+          return translate('validate number minlength', { value: minimumValue.toString() });
         }
 
         if (countDecimals(value) > decimalDigits) {

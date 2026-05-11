@@ -5,10 +5,9 @@ import { clone } from '../../../util';
  * @deprecated
  */
 export class UpdateFieldValidationHandler {
-  constructor(form, validator, translate) {
+  constructor(form, validator) {
     this._form = form;
     this._validator = validator;
-    this._translate = translate;
   }
 
   execute(context) {
@@ -17,7 +16,7 @@ export class UpdateFieldValidationHandler {
 
     context.oldErrors = clone(errors);
 
-    const fieldErrors = this._validator.validateField(field, value, this._translate);
+    const fieldErrors = this._validator.validateField(field, value);
     const updatedErrors = set(
       errors,
       [field.id, ...Object.values(indexes || {})],
@@ -31,4 +30,4 @@ export class UpdateFieldValidationHandler {
   }
 }
 
-UpdateFieldValidationHandler.$inject = ['form', 'validator', 'translate'];
+UpdateFieldValidationHandler.$inject = ['form', 'validator'];

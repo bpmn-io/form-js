@@ -111,7 +111,7 @@ export default {
   General: 'General',
   ID: 'ID',
   'Must not contain prefix.': 'Must not contain prefix',
-  'Must be a valid QName.': 'Must be a valid QName',
+  'Must be a valid QName.': 'Must be a valid QName.',
   'Version tag': 'Version tag',
   'Version tag description': 'Version tag by which this form can be referenced.',
   'Field label': 'Field label',
@@ -136,11 +136,12 @@ export default {
   // Number
   'Decimal digits': 'Decimal digits',
   Increment: 'Increment',
-  'validate number valid': 'Should be a valid number.',
+  'validate number valid': "Should be a valid number",
+  'validate number valid.': 'Should be a valid number.',
   'validate number positive': 'Should be greater than zero.',
-  'validate number minlength': `Should be at least {minimumValue}.`,
-  'validate number maxlength': `Should be at most {maximumValue}.`,
-  'validate number decimal digits': `Should not contain more than {decimalDigits} decimal digits.`,
+  'validate number minlength': `Should be at least {value}.`,
+  'validate number maxlength': `Should be at most {value}.`,
+  'validate number decimal digits': `Should not contain more than {value} decimal digits`,
   'validate number integer': 'Should be an integer.',
   'validate number >= 0': 'Should be greater than or equal to zero.',
 
@@ -237,10 +238,10 @@ export default {
   Layout: 'Layout',
   Columns: 'Columns',
   Auto: 'Auto',
-  'Minimum allowed columns': `Minimum {minColumns} columns are allowed`,
-  'Maximum allowed columns': `Maximum {maxColumns} columns are allowed`,
-  'New value exceeds': `New value exceeds the maximum of {maxColumnsPerRow} columns per row`,
-  'Maximum fields allowed': `Maximum {maxFieldsPerRow} fields per row are allowed`,
+  'Minimum allowed columns': `Minimum {value} columns are allowed`,
+  'Maximum allowed columns': `Maximum {value} columns are allowed`,
+  'New value exceeds': `New value exceeds the maximum of {value} columns per row`,
+  'Maximum fields allowed': `Maximum {value} fields per row are allowed`,
 
   Appearance: 'Appearance',
   Prefix: 'Prefix',
@@ -300,7 +301,7 @@ export default {
   'Input values key description': 'Define which input property to populate the values from',
   'Input values key tooltip':
     'The input property may be an array of simple values or alternatively follow this schema:',
-  'Must not contain spaces.': 'Darf keine Leerzeichen enthalten.',
+  'Must not contain spaces.': 'Must not contain spaces.',
 
   'Options expression': 'Options expression',
   'Columns/OptionsExpression tooltip':

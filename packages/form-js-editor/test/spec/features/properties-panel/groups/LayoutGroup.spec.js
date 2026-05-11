@@ -5,6 +5,7 @@ import { LayoutGroup } from '../../../../../src/features/properties-panel/groups
 import { AUTO_OPTION_VALUE } from '../../../../../src/features/properties-panel/entries/ColumnsEntry';
 
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('LayoutGroup', function () {
   afterEach(function () {
@@ -15,7 +16,8 @@ describe('LayoutGroup', function () {
     // given
     const field = { type: 'default' };
 
-    const group = LayoutGroup(field);
+    const injector = createMockInjector();
+    const group = LayoutGroup(field, null, (type, strict) => injector.get(type, strict));
 
     // then
     expect(group).to.not.exist;
@@ -163,7 +165,9 @@ describe('LayoutGroup', function () {
 function renderLayoutGroup(options) {
   const { editField, field, services } = options;
 
-  const groups = [LayoutGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [LayoutGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext services={services}>

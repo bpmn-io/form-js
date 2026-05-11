@@ -34,9 +34,9 @@ function Columns(props) {
 
   const validate = useCallback(
     (value) => {
-      return formLayoutValidator.validateField(field, value ? parseInt(value) : null, null, translate);
+      return formLayoutValidator.validateField(field, value ? parseInt(value) : null);
     },
-    [field, formLayoutValidator, translate],
+    [field, formLayoutValidator],
   );
 
   const setValue = (value, error) => {

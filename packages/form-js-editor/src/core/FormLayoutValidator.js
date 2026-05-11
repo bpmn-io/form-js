@@ -9,23 +9,25 @@ export class FormLayoutValidator {
    *
    * @param { import('./FormLayouter').FormLayouter } formLayouter
    * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
+   * @param { Function } translate
    */
-  constructor(formLayouter, formFieldRegistry) {
+  constructor(formLayouter, formFieldRegistry, translate) {
     this._formLayouter = formLayouter;
     this._formFieldRegistry = formFieldRegistry;
+    this._translate = translate;
   }
 
-  validateField(field = {}, columns, row, translate) {
+  validateField(field = {}, columns, row) {
     // allow empty (auto columns)
     if (Number.isInteger(columns)) {
       // allow minimum cols
       if (columns < MIN_COLUMNS) {
-        return translate(`Minimum allowed columns`, { value: MIN_COLUMNS });
+        return this._translate('Minimum allowed columns', { value: MIN_COLUMNS });
       }
 
       // allow maximum cols
       if (columns > MAX_COLUMNS) {
-        return translate(`Maximum allowed columns`, { value: MAX_COLUMNS });
+        return this._translate('Maximum allowed columns', { value: MAX_COLUMNS });
       }
     }
 
@@ -61,18 +63,18 @@ export class FormLayoutValidator {
       (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
       (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)
     ) {
-      return translate('New value exceeds', { value: MAX_COLUMNS_PER_ROW });
+      return this._translate('New value exceeds', { value: MAX_COLUMNS_PER_ROW });
     }
 
     if (sumFields > MAX_FIELDS_PER_ROW) {
-      return translate('Maximum fields allowed', { value: MAX_FIELDS_PER_ROW });
+      return this._translate('Maximum fields allowed', { value: MAX_FIELDS_PER_ROW });
     }
 
     return null;
   }
 }
 
-FormLayoutValidator.$inject = ['formLayouter', 'formFieldRegistry'];
+FormLayoutValidator.$inject = ['formLayouter', 'formFieldRegistry', 'translate'];
 
 // helper //////////////////////
 

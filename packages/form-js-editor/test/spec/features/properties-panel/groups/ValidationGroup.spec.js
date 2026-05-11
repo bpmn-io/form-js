@@ -5,6 +5,7 @@ import { ValidationGroup } from '../../../../../src/features/properties-panel/gr
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('ValidationGroup', function () {
   afterEach(function () {
@@ -630,7 +631,9 @@ describe('ValidationGroup', function () {
 function renderValidationGroup(options) {
   const { editField, field } = options;
 
-  const groups = [ValidationGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [ValidationGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext>

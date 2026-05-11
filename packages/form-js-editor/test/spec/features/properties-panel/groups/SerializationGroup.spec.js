@@ -5,6 +5,7 @@ import { SerializationGroup } from '../../../../../src/features/properties-panel
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { set } from 'min-dash';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('SerializationGroup', function () {
   afterEach(function () {
@@ -168,7 +169,9 @@ describe('SerializationGroup', function () {
 function renderSerializationGroup(options) {
   const { editField, field } = options;
 
-  const groups = [SerializationGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [SerializationGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext>

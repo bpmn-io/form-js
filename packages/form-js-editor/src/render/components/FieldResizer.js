@@ -23,7 +23,6 @@ export function FieldResizer(props) {
 
   const formLayoutValidator = useService('formLayoutValidator');
   const modeling = useService('modeling');
-  const translate = useService('translate');
 
   // we can't use state as we need to
   // manipulate this inside dragging events
@@ -39,7 +38,7 @@ export function FieldResizer(props) {
 
     const newColumns = calculateNewColumns(ref.current, layout.columns || context.current.startColumns, dx, position);
 
-    const errorMessage = formLayoutValidator.validateField(field, newColumns, null, translate);
+    const errorMessage = formLayoutValidator.validateField(field, newColumns);
 
     if (!errorMessage) {
       context.current.newColumns = newColumns;
