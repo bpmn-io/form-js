@@ -345,7 +345,7 @@ export default {
   'Must not be a prohibited path.': 'Must not be a prohibited path.',
   'paths collide': 'Must not cause two binding paths to collide',
   'conflict key/path assignments': 'Must not conflict with other key/path assignments.',
-  'binding path claimed': '{path} is already claimed',
+  'binding path claimed': "binding path '{value}' is already claimed",
   'The document data source is required.': 'the document data source is required',
   'No components found.': 'No components found.',
 

@@ -11,7 +11,7 @@ export default {
   'Phone number validation': 'Das Feld muss eine gültige internationale Telefonnummer sein. (z. B. +4930664040900)',
   'Field must be a valid email.': 'Das Feld muss eine gültige E-Mail-Adresse sein.',
   'Value is not a number.': 'Der Wert ist keine Zahl.',
-  'Value is expected to ': 'Wert sollte',
+  'Value is expected to': 'Wert sollte',
   'be an integer': ' eine ganze Zahl sein',
   'Max decimal Digits plural': 'höchstens {value} Dezimalstellen haben',
   'Max decimal Digits singular': 'höchstens {value} Dezimalstelle haben',
@@ -32,4 +32,5 @@ export default {
   'Sort descending': 'Klicken, um absteigend nach {value} zu sortieren',
   'Click to remove sorting': 'Klicken Sie hier, um die Sortierung aufzuheben',
   'Sort ascending': `Klicken Sie hier, um nach {value} aufsteigend zu sortieren`,
+  'binding path claimed': '{value} ist bereits beansprucht',
 };

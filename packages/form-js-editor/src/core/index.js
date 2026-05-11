@@ -7,9 +7,10 @@ import { FormLayouter } from './FormLayouter';
 import { FormLayoutValidator } from './FormLayoutValidator';
 
 import { RenderModule } from '../render';
+import { CustomTranslateModule } from '../features/customTranslate/customTranslate';
 
 export const CoreModule = {
-  __depends__: [RenderModule],
+  __depends__: [RenderModule, CustomTranslateModule],
   debounce: ['factory', DebounceFactory],
   eventBus: ['type', EventBus],
   importer: ['type', Importer],

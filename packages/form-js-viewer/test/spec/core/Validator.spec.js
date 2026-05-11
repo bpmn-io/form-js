@@ -1,6 +1,7 @@
 import EventBus from 'diagram-js/lib/core/EventBus';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
+import { customTranslate } from '../../../src/features/customTranslate/customTranslate';
 
 describe('Validator', function () {
   const validator = createValidator();
@@ -832,5 +833,5 @@ function createValidator() {
     },
   };
 
-  return new Validator(expressionLanguage, conditionChecker, form);
+  return new Validator(expressionLanguage, conditionChecker, form, null, customTranslate);
 }
