@@ -40,3 +40,8 @@ export function willKeyProduceValidNumber(key, previousValue, caretIndex, select
 export function isNullEquivalentValue(value) {
   return value === undefined || value === null || value === '';
 }
+
+export function serializeToInputString(value) {
+  if (value === undefined || value === null) return '';
+  return value.toString();
+}

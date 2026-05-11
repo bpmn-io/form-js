@@ -149,6 +149,53 @@ describe('Number', function () {
     expect(input.value).to.equal('');
   });
 
+  it('should render <0> value', function () {
+    // when
+    const { container } = createNumberField({
+      value: 0,
+    });
+
+    // then
+    const input = container.querySelector('input[type="text"]');
+
+    expect(input).to.exist;
+    expect(input.value).to.equal('0');
+  });
+
+  it('should render <0> value when set after initial render', function () {
+    // given
+    const props = {
+      disabled: false,
+      errors: [],
+      domId: 'test-number',
+      field: defaultField,
+      onChange: () => {},
+    };
+
+    const options = { container: container.querySelector('.fjs-form') };
+
+    const { rerender } = render(
+      <MockFormContext options={options}>
+        <Numberfield {...props} value={undefined} />
+      </MockFormContext>,
+      options,
+    );
+
+    // when
+    rerender(
+      <MockFormContext options={options}>
+        <Numberfield {...props} value={0} />
+      </MockFormContext>,
+      options,
+    );
+
+    // then
+    const input = container.querySelector('input[type="text"]');
+
+    expect(input).to.exist;
+    expect(input.value).to.equal('0');
+  });
+
   it('should render default value on value removed', async function () {
     // given
     const props = {
