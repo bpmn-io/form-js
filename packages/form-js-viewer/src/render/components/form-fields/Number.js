@@ -13,7 +13,12 @@ import AngelUpIcon from './icons/AngelUp.svg';
 
 import { formFieldClasses } from '../Util';
 
-import { isNullEquivalentValue, isValidNumber, willKeyProduceValidNumber } from '../util/numberFieldUtil';
+import {
+  isNullEquivalentValue,
+  isValidNumber,
+  serializeToInputString,
+  willKeyProduceValidNumber,
+} from '../util/numberFieldUtil';
 
 const type = 'number';
 
@@ -87,7 +92,7 @@ export function Numberfield(props) {
   const outerValueEqualsCache = sanitize(value) === sanitize(cachedValue);
 
   if (outerValueChanged && !outerValueEqualsCache) {
-    setValue((value && value.toString()) || '');
+    setValue(serializeToInputString(value));
   }
 
   // caches the value an increment/decrement operation will be based on
