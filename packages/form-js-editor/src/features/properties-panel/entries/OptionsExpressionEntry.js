@@ -21,6 +21,7 @@ function OptionsExpression(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -30,7 +31,7 @@ function OptionsExpression(props) {
 
   const tooltip = (
     <div>
-      The expression may result in an array of simple values or alternatively follow this schema:
+      {translate('Columns/OptionsExpression tooltip')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -43,13 +44,13 @@ function OptionsExpression(props) {
 
   return FeelEntry({
     debounce,
-    description: 'Define an expression to populate the options from.',
+    description: translate('Options expression description'),
     tooltip,
     element: field,
     feel: 'required',
     getValue,
     id,
-    label: 'Options expression',
+    label: translate('Options expression'),
     setValue,
     variables,
   });

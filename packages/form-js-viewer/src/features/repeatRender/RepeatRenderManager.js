@@ -3,6 +3,7 @@
 
 import { get } from 'min-dash';
 import { useContext, useMemo, useRef } from 'preact/hooks';
+import { useService } from '../../render/hooks';
 import { LocalExpressionContext } from '../../render/context/LocalExpressionContext';
 
 import ExpandSvg from '../../render/components/form-fields/icons/Expand.svg';
@@ -113,6 +114,8 @@ export class RepeatRenderManager {
 
     const { data } = this._form._getState();
 
+    const translate = useService('translate');
+
     const dataPath = this._pathRegistry.getValuePath(repeaterField, { indexes });
     const values = get(data, dataPath) || [];
 
@@ -174,7 +177,7 @@ export class RepeatRenderManager {
             ref={addButtonRef}
             onClick={onAddItem}>
             <>
-              <AddSvg /> {'Add new'}
+              <AddSvg /> {translate('Add new')}
             </>
           </button>
         ) : null}
@@ -182,11 +185,11 @@ export class RepeatRenderManager {
           <button type="button" class="fjs-repeat-render-collapse" onClick={toggle}>
             {isCollapsed ? (
               <>
-                <ExpandSvg /> {`Expand all (${values.length - 1})`}
+                <ExpandSvg /> {translate(`Expand all`, { value: values.length - 1 })}
               </>
             ) : (
               <>
-                <CollapseSvg /> {'Collapse'}
+                <CollapseSvg /> {translate('Collapse')}
               </>
             )}
           </button>

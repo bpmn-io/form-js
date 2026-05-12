@@ -1,5 +1,6 @@
 import { Ids } from 'ids';
 import { get, isObject, isString, isUndefined, set } from 'min-dash';
+import { setLanguage } from './features/customTranslate/customTranslate';
 
 import {
   ExpressionLanguageModule,
@@ -87,6 +88,11 @@ export class Form {
 
     if (container) {
       this.attachTo(container);
+    }
+
+    const language = properties.language;
+    if (language) {
+      this.setLanguage(language);
     }
   }
 
@@ -289,6 +295,13 @@ export class Form {
    */
   off(type, handler) {
     this.get('eventBus').off(type, handler);
+  }
+
+  /**
+   * @param {string} language
+   */
+  setLanguage(language) {
+    setLanguage(language);
   }
 
   /**
@@ -512,4 +525,3 @@ export class Form {
     return get(workingData, path, {});
   }
 }
-

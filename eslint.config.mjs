@@ -49,8 +49,8 @@ export default [
   {
     files: files.node,
     languageOptions: {
-      ecmaVersion: 'latest'
-    }
+      ecmaVersion: 'latest',
+    },
   },
 
   // React Hooks configuration

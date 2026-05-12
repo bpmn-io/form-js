@@ -41,6 +41,7 @@ export function Taglist(props) {
   /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
   const eventBus = useService('eventBus');
+  const translate = useService('translate');
 
   const { loadState, options } = useOptionsAsync(field);
 
@@ -178,7 +179,7 @@ export function Taglist(props) {
       }}>
       <Label label={label} required={required} htmlFor={domId} />
       {!disabled && !readonly && !!values.length && (
-        <SkipLink className="fjs-taglist-skip-link" label="Skip to search" onSkip={onSkipToSearch} />
+        <SkipLink className="fjs-taglist-skip-link" label={translate('Skip to search')} onSkip={onSkipToSearch} />
       )}
       <div class={classNames('fjs-taglist', { 'fjs-disabled': disabled, 'fjs-readonly': readonly })}>
         {loadState === LOAD_STATES.LOADED && (
@@ -193,7 +194,7 @@ export function Taglist(props) {
                   {!disabled && !readonly && (
                     <button
                       type="button"
-                      title="Remove tag"
+                      title={translate('Remove tag')}
                       class="fjs-taglist-tag-remove"
                       onFocus={onElementFocus}
                       onBlur={onElementBlur}
@@ -215,7 +216,7 @@ export function Taglist(props) {
           onChange={onInputChange}
           type="text"
           value={filter}
-          placeholder={disabled || readonly ? undefined : 'Search'}
+          placeholder={translate(disabled || readonly ? undefined : 'Search')}
           autoComplete="off"
           onKeyDown={onInputKeyDown}
           onMouseDown={() => setIsEscapeClose(false)}
@@ -232,7 +233,7 @@ export function Taglist(props) {
             values={filteredOptions}
             getLabel={(option) => option.label}
             onValueSelected={(option) => selectValue(option.value)}
-            emptyListMessage={hasOptionsLeft ? 'No results' : 'All values selected'}
+            emptyListMessage={hasOptionsLeft ? translate('No results') : translate('All values selected')}
             listenerElement={inputRef.current}
           />
         )}

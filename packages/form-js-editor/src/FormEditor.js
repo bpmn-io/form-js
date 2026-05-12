@@ -14,6 +14,7 @@ import { PaletteModule } from './features/palette';
 import { PropertiesPanelModule } from './features/properties-panel';
 import { RenderInjectionModule } from './features/render-injection';
 import { RepeatRenderModule } from './features/repeat-render';
+import { setLanguage } from './features/customTranslate/customTranslate';
 
 import { MarkdownRendererModule } from '@bpmn-io/form-js-viewer';
 
@@ -91,6 +92,11 @@ export class FormEditor {
 
     if (container) {
       this.attachTo(container);
+    }
+
+    const language = properties.language;
+    if (language) {
+      this.setLanguage(language);
     }
   }
 
@@ -219,6 +225,13 @@ export class FormEditor {
    */
   off(type, handler) {
     this.get('eventBus').off(type, handler);
+  }
+
+  /**
+   * @param {string} language
+   */
+  setLanguage(language) {
+    setLanguage(language);
   }
 
   /**

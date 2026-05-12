@@ -4,6 +4,8 @@ import { get } from 'min-dash';
 
 import Big from 'big.js';
 
+import { useService } from '../hooks';
+
 export function NumberSerializationEntry(props) {
   const { editField, field } = props;
 
@@ -26,6 +28,8 @@ function SerializeToString(props) {
 
   const { defaultValue } = field;
 
+  const translate = useService('translate');
+
   const path = ['serializeToString'];
 
   const getValue = () => {
@@ -45,8 +49,8 @@ function SerializeToString(props) {
     element: field,
     getValue,
     id,
-    label: 'Output as string',
-    description: 'Allows arbitrary precision values',
+    label: translate('Output as string'),
+    description: translate('CheckboxEntry description'),
     setValue,
   });
 }

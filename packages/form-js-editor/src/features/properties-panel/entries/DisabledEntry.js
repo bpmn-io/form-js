@@ -5,9 +5,11 @@ import { INPUTS } from '../Util';
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 export function DisabledEntry(props) {
-  const { editField, field } = props;
+  const { editField, field, getService } = props;
 
   const entries = [];
+
+  const translate = getService('translate');
 
   entries.push({
     id: 'disabled',
@@ -16,13 +18,14 @@ export function DisabledEntry(props) {
     field: field,
     isEdited: isToggleSwitchEntryEdited,
     isDefaultVisible: (field) => INPUTS.includes(field.type),
+    translate: translate,
   });
 
   return entries;
 }
 
 function Disabled(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   const path = ['disabled'];
 
@@ -38,9 +41,8 @@ function Disabled(props) {
     element: field,
     getValue,
     id,
-    label: 'Disabled',
-    tooltip:
-      'Disable this field when it should not be interactive for end-users. Its data will not be submitted. This setting takes precedence over read-only.',
+    label: translate('Disabled'),
+    tooltip: translate('Disabled tooltip'),
     inline: true,
     setValue,
   });

@@ -3,6 +3,7 @@ import { get } from 'min-dash';
 import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { useCallback } from 'preact/hooks';
 
 export function DocumentsDataSourceEntry(props) {
   const { editField, field } = props;
@@ -25,6 +26,7 @@ function DocumentsDataSource(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -51,23 +53,20 @@ function DocumentsDataSource(props) {
 
   const tooltip = (
     <div>
-      <p>A source is a JSON object containing metadata for a document or an array of documents.</p>
-      <p>Each entry must include a document ID, name, and MIME type.</p>
-      <p>Additional details are optional. The expected format is as follows:</p>
+      <p>{translate('Document reference tooltip1')}</p>
+      <p>{translate('Document reference tooltip2')}</p>
+      <p>{translate('Document reference tooltip3')}</p>
       <pre>
         <code>{schema}</code>
       </pre>
+      <p>{translate('Document reference tooltip4')}</p>
       <p>
-        When using Camunda Tasklist UI, additional document reference attributes are automatically handled. Modifying
-        the document reference may affect the document preview functionality.
-      </p>
-      <p>
-        Learn more in our{' '}
+        {translate('Document reference tooltip5')}{' '}
         <a
           href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
           target="_blank"
           rel="noopener noreferrer">
-          documentation
+          {translate('Document reference tooltip6')}
         </a>
         .
       </p>
@@ -79,13 +78,13 @@ function DocumentsDataSource(props) {
     element: field,
     getValue,
     id,
-    label: 'Document reference',
+    label: translate('Document reference'),
     feel: 'required',
     singleLine: true,
     setValue,
     variables,
     tooltip,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -93,10 +92,11 @@ function DocumentsDataSource(props) {
 
 /**
  * @param {string|undefined} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (typeof value !== 'string' || value.length === 0) {
-    return 'The document data source is required.';
+    return translate('The document data source is required.');
   }
 };

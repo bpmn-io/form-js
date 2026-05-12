@@ -41,6 +41,7 @@ function NumberDecimalDigits(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const getValue = (e) => get(field, ['decimalDigits']);
 
@@ -54,13 +55,13 @@ function NumberDecimalDigits(props) {
 
   return NumberFieldEntry({
     debounce,
-    label: 'Decimal digits',
+    label: translate('Decimal digits'),
     element: field,
     step: 'any',
     getValue,
     id,
     setValue,
-    validate: validateNumberEntries,
+    validate: useCallback((value) => validateNumberEntries(value, translate), [translate]),
   });
 }
 
@@ -70,6 +71,7 @@ function NumberArrowStep(props) {
   const { decimalDigits } = field;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const getValue = (e) => {
     let value = get(field, ['increment']);
@@ -102,31 +104,31 @@ function NumberArrowStep(props) {
       }
 
       if (!isValidNumber(value)) {
-        return 'Should be a valid number.';
+        return translate('validate number valid.');
       }
 
       if (Big(value).cmp(0) <= 0) {
-        return 'Should be greater than zero.';
+        return translate('validate number positive');
       }
 
       if (decimalDigitsSet) {
         const minimumValue = Big(`1e-${decimalDigits}`);
 
         if (Big(value).cmp(minimumValue) < 0) {
-          return `Should be at least ${minimumValue.toString()}.`;
+          return translate('validate number minlength', { value: minimumValue.toString() });
         }
 
         if (countDecimals(value) > decimalDigits) {
-          return `Should not contain more than ${decimalDigits} decimal digits.`;
+          return translate('validate number decimal digits', { value: decimalDigits });
         }
       }
     },
-    [decimalDigitsSet, decimalDigits],
+    [decimalDigitsSet, decimalDigits, translate],
   );
 
   return TextFieldEntry({
     debounce,
-    label: 'Increment',
+    label: translate('Increment'),
     element: field,
     getValue,
     id,
@@ -139,18 +141,19 @@ function NumberArrowStep(props) {
 
 /**
  * @param {number|void} value
+ * @param {function} translate
  * @returns {string|void}
  */
-const validateNumberEntries = (value) => {
+const validateNumberEntries = (value, translate) => {
   if (typeof value !== 'number') {
     return;
   }
 
   if (!Number.isInteger(value)) {
-    return 'Should be an integer.';
+    return translate('validate number integer');
   }
 
   if (value < 0) {
-    return 'Should be greater than or equal to zero.';
+    return translate('validate number >= 0');
   }
 };

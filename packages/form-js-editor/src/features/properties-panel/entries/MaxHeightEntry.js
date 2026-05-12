@@ -4,6 +4,8 @@ import { useService } from '../hooks';
 
 import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from 'preact/hooks';
+
 export function MaxHeightEntry(props) {
   const { editField, field } = props;
 
@@ -25,6 +27,7 @@ function MaxHeight(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['maxHeight'];
 
@@ -38,13 +41,13 @@ function MaxHeight(props) {
 
   return NumberFieldEntry({
     debounce,
-    label: 'Max height of preview container',
+    label: translate('Max height of preview container'),
     element: field,
     id,
     getValue,
     setValue,
-    validate,
-    description,
+    validate: useCallback((value) => validate(value, translate), [translate]),
+    description: description(translate),
   });
 }
 
@@ -52,24 +55,29 @@ function MaxHeight(props) {
 
 /**
  * @param {string|number|undefined} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (value === undefined || value === '') {
     return null;
   }
 
   if (typeof value === 'string') {
-    return 'Value must be a number.';
+    return translate('Value must be a number.');
   }
 
   if (!Number.isInteger(value)) {
-    return 'Should be an integer.';
+    return translate('Should be an integer.');
   }
 
   if (value < 1) {
-    return 'Should be greater than zero.';
+    return translate('Should be greater than zero.');
   }
 };
 
-const description = <>Documents with height that exceeds the defined value will be vertically scrollable</>;
+/**
+ * @param {function} translate
+ * @returns Description Element
+ */
+const description = (translate) => <>{translate('MaxHeightEntry description')}</>;

@@ -6,6 +6,7 @@ export function RepeatableEntry(props) {
   const { type } = field;
 
   const formFieldDefinition = getService('formFields').get(type);
+  const translate = getService('translate');
 
   if (!formFieldDefinition || !formFieldDefinition.config.repeatable) {
     return [];
@@ -15,7 +16,7 @@ export function RepeatableEntry(props) {
     simpleRangeIntegerEntryFactory({
       id: 'defaultRepetitions',
       path: ['defaultRepetitions'],
-      label: 'Default number of items',
+      label: translate('Default number of items'),
       min: 1,
       max: 100,
       props,
@@ -23,13 +24,13 @@ export function RepeatableEntry(props) {
     simpleBoolEntryFactory({
       id: 'allowAddRemove',
       path: ['allowAddRemove'],
-      label: 'Allow add/delete items',
+      label: translate('Allow add/delete items'),
       props,
     }),
     simpleBoolEntryFactory({
       id: 'disableCollapse',
       path: ['disableCollapse'],
-      label: 'Disable collapse',
+      label: translate('Disable collapse'),
       props,
     }),
   ];
@@ -38,7 +39,7 @@ export function RepeatableEntry(props) {
     const nonCollapseItemsEntry = simpleRangeIntegerEntryFactory({
       id: 'nonCollapsedItems',
       path: ['nonCollapsedItems'],
-      label: 'Number of non-collapsing items',
+      label: translate('Number non-collapsing'),
       min: 1,
       defaultValue: 5,
       props,

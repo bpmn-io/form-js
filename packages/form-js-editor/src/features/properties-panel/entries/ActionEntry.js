@@ -1,4 +1,5 @@
 import { get } from 'min-dash';
+import { useService } from '../hooks';
 
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
@@ -24,6 +25,8 @@ function Action(props) {
 
   const path = ['action'];
 
+  const translate = useService('translate');
+
   const getValue = () => {
     return get(field, path, '');
   };
@@ -34,11 +37,11 @@ function Action(props) {
 
   const getOptions = () => [
     {
-      label: 'Submit',
+      label: translate('Submit'),
       value: 'submit',
     },
     {
-      label: 'Reset',
+      label: translate('Reset'),
       value: 'reset',
     },
   ];
@@ -48,7 +51,7 @@ function Action(props) {
     getOptions,
     getValue,
     id,
-    label: 'Action',
+    label: translate('Action'),
     setValue,
   });
 }

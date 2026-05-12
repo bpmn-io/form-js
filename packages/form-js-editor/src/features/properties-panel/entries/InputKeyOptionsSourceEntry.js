@@ -2,6 +2,7 @@ import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-pane
 import { get } from 'min-dash';
 import { useService } from '../hooks';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
+import { useCallback } from 'preact/hooks';
 
 export function InputKeyOptionsSourceEntry(props) {
   const { editField, field, id } = props;
@@ -21,6 +22,7 @@ function InputValuesKey(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = OPTIONS_SOURCES_PATHS[OPTIONS_SOURCES.INPUT];
 
@@ -28,7 +30,7 @@ function InputValuesKey(props) {
 
   const tooltip = (
     <div>
-      The input property may be an array of simple values or alternatively follow this schema:
+      {translate('Input values key tooltip')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -47,14 +49,14 @@ function InputValuesKey(props) {
 
   return TextFieldEntry({
     debounce,
-    description: 'Define which input property to populate the values from',
+    description: translate('Input values key description'),
     tooltip,
     element: field,
     getValue,
     id,
-    label: 'Input values key',
+    label: translate('Input values key'),
     setValue,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -62,15 +64,16 @@ function InputValuesKey(props) {
 
 /**
  * @param {string|void} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (typeof value !== 'string' || value.length === 0) {
-    return 'Must not be empty.';
+    return translate('Must not be empty.');
   }
 
   if (/\s/.test(value)) {
-    return 'Must not contain spaces.';
+    return translate('Must not contain spaces.');
   }
 
   return null;

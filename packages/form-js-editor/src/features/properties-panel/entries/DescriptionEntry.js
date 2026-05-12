@@ -27,6 +27,7 @@ function Description(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -45,7 +46,7 @@ function Description(props) {
     element: field,
     getValue,
     id,
-    label: 'Field description',
+    label: translate('Field description'),
     singleLine: true,
     setValue,
     variables,

@@ -1,5 +1,5 @@
 import { isDefined, isNil, isNumber, isObject, isString } from 'min-dash';
-import { useExpressionEvaluation } from '../../hooks';
+import { useExpressionEvaluation, useService } from '../../hooks';
 import { useEffect, useState } from 'preact/hooks';
 import { formFieldClasses, prefixId } from '../Util';
 import classNames from 'classnames';
@@ -54,6 +54,8 @@ export function Table(props) {
   const chunkedData = isNumber(rowCount) ? chunk(sortedData, rowCount) : [sortedData];
   const [currentPage, setCurrentPage] = useState(0);
   const currentChunk = chunkedData[currentPage] || [];
+
+  const translate = useService('translate');
 
   useEffect(() => {
     setCurrentPage(0);
@@ -110,7 +112,7 @@ export function Table(props) {
                             toggleSortBy(key);
                           }
                         }}
-                        aria-label={getHeaderAriaLabel(sortBy, key, displayLabel)}>
+                        aria-label={getHeaderAriaLabel(sortBy, key, displayLabel, translate)}>
                         <span class="fjs-table-th-label">
                           {displayLabel}
                           {sortBy !== null && sortBy.key === key ? (
@@ -324,17 +326,18 @@ function sortByColumn(array, key, direction) {
  * @param {null|Sorting} sortBy
  * @param {string} key
  * @param {string} label
+ * @param {function} translate
  */
-function getHeaderAriaLabel(sortBy, key, label) {
+function getHeaderAriaLabel(sortBy, key, label, translate) {
   if (sortBy === null || sortBy.key !== key) {
-    return `Click to sort by ${label} descending`;
+    return translate('Sort descending', { value: label });
   }
 
   if (sortBy.direction === 'asc') {
-    return 'Click to remove sorting';
+    return translate('Click to remove sorting');
   }
 
-  return `Click to sort by ${label} ascending`;
+  return translate('Sort ascending', { value: label });
 }
 
 /**

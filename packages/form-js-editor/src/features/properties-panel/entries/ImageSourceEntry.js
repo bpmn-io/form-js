@@ -24,6 +24,7 @@ function Source(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -39,13 +40,13 @@ function Source(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: 'Expression or static value (link/data URI)',
+    description: translate('Image source description'),
     element: field,
     feel: 'optional',
     getValue,
     id,
-    label: 'Image source',
-    tooltip: 'Link referring to a hosted image, or use a data URI directly to embed image data into the form.',
+    label: translate('Image source'),
+    tooltip: translate('Image source tooltip'),
     setValue,
     singleLine: true,
     variables,
