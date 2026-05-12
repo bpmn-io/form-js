@@ -3,6 +3,10 @@ import { countDecimals } from '../render/components/util/numberFieldUtil';
 import { runExpressionEvaluation } from '../util/expressions';
 import Big from 'big.js';
 
+/**
+ * @typedef { import('../types').ExpressionLanguage } ExpressionLanguage
+ */
+
 const EMAIL_PATTERN =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 const PHONE_PATTERN =
@@ -141,12 +145,24 @@ function runPresetValidation(field, validation, value, translate) {
     }
   }
 
-  if ('min' in validation && (value || value === 0) && value < validation.min) {
-    errors.push(translate('Minimum value validation', {value : validation.min.toString()}));
+  if ('min' in validation && (value || value === 0)) {
+    try {
+      if (Big(value).lt(Big(validation.min))) {
+        errors.push(translate('Minimum value validation', {value : validation.min.toString()}));
+      }
+    } catch {
+      errors.push('Min validation value is not a valid number.');
+    }
   }
 
-  if ('max' in validation && (value || value === 0) && value > validation.max) {
-    errors.push(translate(`Maximum value validation`, {value : validation.max}));
+  if ('max' in validation && (value || value === 0)) {
+    try {
+      if (Big(value).gt(Big(validation.max))) {
+        errors.push(translate(`Maximum value validation`, {value : validation.max}));
+      }
+    } catch {
+      errors.push('Max validation value is not a valid number.');
+    }
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
@@ -168,6 +184,11 @@ function runPresetValidation(field, validation, value, translate) {
   return errors;
 }
 
+/**
+ * @param {Object} validate
+ * @param {ExpressionLanguage} expressionLanguage
+ * @param {Object} expressionContextInfo
+ */
 function evaluateFEELValues(validate, expressionLanguage, expressionContextInfo) {
   const evaluatedValidate = { ...validate };
 
@@ -181,6 +202,12 @@ function evaluateFEELValues(validate, expressionLanguage, expressionContextInfo)
   return evaluatedValidate;
 }
 
+/**
+ * @param {Object} validate
+ * @param {ExpressionLanguage} expressionLanguage
+ * @param {Object} conditionChecker
+ * @param {Object} form
+ */
 function oldEvaluateFEELValues(validate, expressionLanguage, conditionChecker, form) {
   const evaluatedValidate = { ...validate };
 

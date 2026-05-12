@@ -6,6 +6,62 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.21.3
+
+- `FIX`: clear ghost error entries when validating fields inside (nested) dynamic lists ([#1494](https://github.com/bpmn-io/form-js/issues/1494))
+
+## 1.21.2
+
+- `FIX`: use `big.js` for min/max validation to support arbitrary precision numbers ([`0c463fc`](https://github.com/bpmn-io/form-js/commit/0c463fc5))
+
+## 1.21.1
+
+- `FIX`: fix visibility conditions hiding fields in the editor canvas ([#1489](https://github.com/bpmn-io/form-js/issues/1489))
+
+## 1.21.0
+
+- `FEAT`: add `editor-empty-state__footer` slot to the form editor empty state ([#1485](https://github.com/bpmn-io/form-js/issues/1485))
+- `FEAT`: add framework-agnostic `SlotFillManager` service to register slot fills via config or runtime API ([c41369c](https://github.com/bpmn-io/form-js/commit/c41369cf), [33d8942](https://github.com/bpmn-io/form-js/commit/33d8942f))
+- `FEAT`: support custom `RequestInit` in document preview via `documentEndpointBuilder.buildRequestInit` ([d40d953](https://github.com/bpmn-io/form-js/commit/d40d9530))
+- `FEAT`: fetch document preview images via `fetch()` to support authenticated endpoints ([8406774](https://github.com/bpmn-io/form-js/commit/84067742))
+- `REFACTOR`: run unary test evaluation from `ConditionChecker` through `expressionLanguage` module ([be0c1df](https://github.com/bpmn-io/form-js/commit/be0c1df5), [#819](https://github.com/bpmn-io/form-js/issues/819))
+
+## 1.20.1
+
+- `FIX`: ensure lerna doesn't overwrite version pin ([2f1e5f27](https://github.com/bpmn-io/form-js/commit/2f1e5f2718f321692c6f7e31edf32ced12398225))
+- `FIX`: restrict `form-js-editor`'s preact version to `<=1.15.1` ([be0af1cf](https://github.com/bpmn-io/form-js/commit/be0af1cf42d7df6dd3c8cccfd214799175d1fe86))
+
+> There is a known bug ([#1216](https://github.com/bpmn-io/form-js/issues/1216), [#760](https://github.com/bpmn-io/form-js/issues/760)) that our drag and drop framework does not work with newer versions of preact. This version restriction was missing from the package definition and will be removed when the drag and drop issue is resolved.
+
+## 1.20.0
+
+- `FIX`: properly import schemas in the editor in the exposed playground API ([d549adaf](https://github.com/bpmn-io/form-js/commit/d549adaf20e543f631767a6b609feb9da7a460f7)) ([#1478](https://github.com/bpmn-io/form-js/pull/1478))
+- `FIX`: guard JSONEditor linter when editor isn't attached ([6db3c7cc](https://github.com/bpmn-io/form-js/commit/6db3c7cc8988ff32bdd70708555992783b51f80d)) ([#1478](https://github.com/bpmn-io/form-js/pull/1478))
+- `FIX`: ensure datepicker event listeners are cleaned up on datetime formField unmount ([#1403](https://github.com/bpmn-io/form-js/issues/1403))
+- `FIX`: pin interdependencies to ensure version consistency across form-js-\* packages ([2c240805](https://github.com/bpmn-io/form-js/commit/2c240805c85457dc3ca471305ec55cf1d44d6185))
+- `FIX`: properties panel values no longer bleed into other formfields on selections ([#1461](https://github.com/bpmn-io/form-js/issues/1461))
+  - Via bump `@bpmn-io/properties-panel@3.40.30` ([99f78cc7](https://github.com/bpmn-io/form-js/commit/99f78cc7224d22269d49c12719d4e5f60bae9f85))
+
+## 1.19.0
+
+- `DEPS`: update FEEL stack to `@bpmn-io/feelin@6.1.0` and `feelers@1.5.1` ([5cd6dcc1](https://github.com/bpmn-io/form-js/commit/5cd6dcc1), [5d1f844a](https://github.com/bpmn-io/form-js/commit/5d1f844a))
+- `DEPS`: bump runtime deps (diagram-js, ids, didi, min-dom, min-dash, properties-panel, file-drops, json-schema-ref-parser) ([4a007127](https://github.com/bpmn-io/form-js/commit/4a007127), [7dea0c05](https://github.com/bpmn-io/form-js/commit/7dea0c05), [b0ba9fc6](https://github.com/bpmn-io/form-js/commit/b0ba9fc6), [676b9d6b](https://github.com/bpmn-io/form-js/commit/676b9d6b), [55978322](https://github.com/bpmn-io/form-js/commit/55978322), [ec48bd63](https://github.com/bpmn-io/form-js/commit/ec48bd63), [83ff2a56](https://github.com/bpmn-io/form-js/commit/83ff2a56), [8e5be475](https://github.com/bpmn-io/form-js/commit/8e5be475))
+- `DEPS`: bump tooling/build/test deps (lerna, eslint, prettier, codemirror, carbon, typings, misc) ([7d9411be](https://github.com/bpmn-io/form-js/commit/7d9411be), [f2b2832f](https://github.com/bpmn-io/form-js/commit/f2b2832f), [6685a43a](https://github.com/bpmn-io/form-js/commit/6685a43a), [d072809f](https://github.com/bpmn-io/form-js/commit/d072809f), [997c72cf](https://github.com/bpmn-io/form-js/commit/997c72cf), [5d745b82](https://github.com/bpmn-io/form-js/commit/5d745b82), [4ace678a](https://github.com/bpmn-io/form-js/commit/4ace678a), [b79e25da](https://github.com/bpmn-io/form-js/commit/b79e25da), [bc8e3fb3](https://github.com/bpmn-io/form-js/commit/bc8e3fb3), [32f60b4a](https://github.com/bpmn-io/form-js/commit/32f60b4a))
+- `CHORE`: refresh CI and GitHub Actions, move to Node.js 24, update cache/actions ([7a7f5e2c](https://github.com/bpmn-io/form-js/commit/7a7f5e2c), [c49428ca](https://github.com/bpmn-io/form-js/commit/c49428ca), [6564b696](https://github.com/bpmn-io/form-js/commit/6564b696), [cb924f24](https://github.com/bpmn-io/form-js/commit/cb924f24), [e3dac0da](https://github.com/bpmn-io/form-js/commit/e3dac0da), [b8b832c4](https://github.com/bpmn-io/form-js/commit/b8b832c4), [ed680f87](https://github.com/bpmn-io/form-js/commit/ed680f87), [d30ed11e](https://github.com/bpmn-io/form-js/commit/d30ed11e), [94f0a287](https://github.com/bpmn-io/form-js/commit/94f0a287))
+
+## 1.18.0
+
+- `FIX`: use field id as an identifier for custom properties ([#1443](https://github.com/bpmn-io/form-js/pull/1443))
+- `FIX`: fix radio group default value after edit ([#1439](https://github.com/bpmn-io/form-js/pull/1439))
+- `DEPS`: bump deps ([f1bface](https://github.com/bpmn-io/form-js/commit/f1bfacef7e773f78ac675b5df3a52c265147282d), [11c54d7](https://github.com/bpmn-io/form-js/commit/11c54d7024bbb71190b010643c7f5c208f0a6340), [0979f2d](https://github.com/bpmn-io/form-js/commit/0979f2d99fbd74f91286fb7cd023796adb077df3), [caddbd8](https://github.com/bpmn-io/form-js/commit/caddbd8747c401b8465123b95876086163aa378e))
+- `CHORE`: update old documentation ref docs preview ([#1446](https://github.com/bpmn-io/form-js/pull/1446))
+- `CHORE`: update GitHub Actions ([#1444](https://github.com/bpmn-io/form-js/pull/1439), [#1443](https://github.com/bpmn-io/form-js/pull/1433))
+
+## 1.17.0
+
+- `FIX`: fix lodash bundling ([#1427](https://github.com/bpmn-io/form-js/pull/1427))
+- `DEPS`: bump deps [3797d8e](https://github.com/bpmn-io/form-js/commit/3797d8eb42b6df23b5e1213b1c557e6b4662ac56), [7836da3](https://github.com/bpmn-io/form-js/commit/7836da37a03ad4d4e21dd388b733e5bdc27b794c), [40583fc](https://github.com/bpmn-io/form-js/commit/40583fce5e0c3f0283af0bf9b4597481a125ec9f), [75e1b96](https://github.com/bpmn-io/form-js/commit/75e1b96353bc82b5dea1cef4e49d53157d3e36b9), [3620764](https://github.com/bpmn-io/form-js/commit/3620764b9e45e26b9f3767ecca0c78915f4c96b7), [0810170](https://github.com/bpmn-io/form-js/commit/08101701a063c8d1597771381cc6b80348dba95f), [07a7d2a](https://github.com/bpmn-io/form-js/commit/07a7d2aab9162117be54fb5b8e13b3d13c89c27e), [e151b86](https://github.com/bpmn-io/form-js/commit/e151b8617f534f6b0d954f3f289c2c4b8d7a85b4), [cc7aef8](https://github.com/bpmn-io/form-js/commit/cc7aef8871731a9e9dc35a7158a6aec8eea83853), [f2b44be](https://github.com/bpmn-io/form-js/commit/f2b44beeabed5549208764833f5097f87177af3a), [bfdb36e](https://github.com/bpmn-io/form-js/commit/bfdb36e59033fdf3a12113c0170a44a6a79d6bed)
+
 ## 1.16.0
 
 - `FEAT`: support pattern validation custom message ([#1360](https://github.com/bpmn-io/form-js/issues/1360))

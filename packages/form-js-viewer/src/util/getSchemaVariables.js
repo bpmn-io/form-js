@@ -43,6 +43,8 @@ const TEMPLATE_PROPERTIES = [
 
 /**
  * @typedef { import('../types').Schema } Schema
+ * @typedef { import('../types').ExpressionLanguage } ExpressionLanguage
+ * @typedef { import('../types').Templating } Templating
  */
 
 /**
@@ -65,8 +67,8 @@ const TEMPLATE_PROPERTIES = [
  *
  * @param {Schema} schema
  * @param {object} [options]
- * @param {any} [options.expressionLanguage]
- * @param {any} [options.templating]
+ * @param {ExpressionLanguage} [options.expressionLanguage]
+ * @param {Templating} [options.templating]
  * @param {any} [options.formFields]
  * @param {boolean} [options.inputs=true]
  * @param {boolean} [options.outputs=true]

@@ -8,6 +8,8 @@ export { useDebounce, usePrevious, useService } from './render/hooks';
 
 export { useService as usePropertiesPanelService, useVariables } from './features/properties-panel/hooks';
 
+export { ContextPadModule, FormFieldContextActions } from './features/context-pad';
+
 /**
  * @typedef { import('./types').CreateFormEditorOptions } CreateFormEditorOptions
  */

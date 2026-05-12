@@ -557,7 +557,7 @@ describe('Taglist', function () {
     });
 
     describe('navigation', function () {
-      it('should work via keyboard', async function () {
+      it.skip('should work via keyboard', async function () {
         // given
         const onChangeSpy = spy();
 

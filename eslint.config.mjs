@@ -13,7 +13,7 @@ const files = {
     'tasks/**/*',
     'packages/**/tasks/**/*',
     'packages/**/karma.conf.js',
-    'packages/**/rollup.config.js',
+    'packages/**/rollup.config.mjs',
     'vite.config.js',
   ],
 };
@@ -46,6 +46,12 @@ export default [
     ...config,
     files: [...files.node, ...files.test],
   })),
+  {
+    files: files.node,
+    languageOptions: {
+      ecmaVersion: 'latest'
+    }
+  },
 
   // React Hooks configuration
   {

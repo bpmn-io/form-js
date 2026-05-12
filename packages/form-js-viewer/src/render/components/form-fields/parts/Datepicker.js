@@ -95,6 +95,10 @@ export function Datepicker(props) {
       () => instance.calendarContainer.removeEventListener('focusout', onCalendarFocusOut),
       () => instance.calendarContainer.removeEventListener('mousedown', onCalendarMouseDown),
     ];
+
+    return () => {
+      instance.destroy();
+    };
   }, [disallowPassedDates]);
 
   // onChange is updated dynamically, so not to re-render the flatpicker every time it changes

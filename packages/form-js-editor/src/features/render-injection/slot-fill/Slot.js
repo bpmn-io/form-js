@@ -1,17 +1,18 @@
 import { Fragment } from 'preact';
-import { useContext, useMemo } from 'preact/hooks';
+import { useContext, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { SlotContext } from './SlotContext';
+import { FormEditorContext } from '../../../render/context';
 
 /**
  * Functional component for rendering slot fills.
  *
  * @param {Object} props Component properties
  * @param {string} props.name Slot name
- * @param {Function} props.fillRoot Function for creating a fill root element
- * @param {Function} props.groupFn Function for grouping slot fills
- * @param {Function} props.separatorFn Function for creating separator elements between groups
- * @param {number} props.limit Limit on the number of slot fills to render
- * @returns {Array} Array of rendered slot fills, grouped and separated as specified
+ * @param {Function} [props.fillRoot] Function for creating a fill root element
+ * @param {Function} [props.groupFn] Function for grouping slot fills
+ * @param {Function} [props.separatorFn] Function for creating separator elements between groups
+ * @param {number} [props.limit] Limit on the number of slot fills to render
+ * @returns {import('preact').VNode} Fragment containing rendered slot fills
  */
 export const Slot = (props) => {
   const { name, fillRoot = FillFragment, groupFn = _groupByGroupName, separatorFn = (key) => null, limit } = props;
@@ -28,7 +29,35 @@ export const Slot = (props) => {
     return buildFills(groups, fillRoot, separatorFn);
   }, [groups, fillRoot, separatorFn]);
 
-  return fillsAndSeparators;
+  // Framework-agnostic fills from SlotFillManager
+  const editorContext = useContext(FormEditorContext);
+  const slotFillManager = editorContext ? editorContext.getService('slotFillManager', false) : null;
+  const eventBus = editorContext ? editorContext.getService('eventBus', false) : null;
+
+  const [managerFills, setManagerFills] = useState([]);
+
+  useEffect(() => {
+    if (!eventBus || !slotFillManager) {
+      return;
+    }
+
+    setManagerFills(slotFillManager.getFills(name));
+
+    const onChange = () => setManagerFills(slotFillManager.getFills(name));
+
+    eventBus.on('slotFillManager.changed', onChange);
+
+    return () => eventBus.off('slotFillManager.changed', onChange);
+  }, [eventBus, slotFillManager, name]);
+
+  return (
+    <Fragment>
+      {fillsAndSeparators}
+      {managerFills.map((fill) => (
+        <FillContainer key={fill.fillId} fill={fill} />
+      ))}
+    </Fragment>
+  );
 };
 
 /**
@@ -38,6 +67,35 @@ export const Slot = (props) => {
  * @returns {Object} Preact Fragment containing fill's children
  */
 const FillFragment = (fill) => <Fragment key={fill.id}>{fill.children}</Fragment>;
+
+/**
+ * Mounts a single SlotFillManager fill's render callback into a DOM container.
+ */
+function FillContainer({ fill }) {
+  const containerRef = useRef(null);
+  const cleanupRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    cleanupRef.current = fill.render(container) || null;
+
+    return () => {
+      if (typeof cleanupRef.current === 'function') {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+
+      container.innerHTML = '';
+    };
+  }, [fill]);
+
+  return <div ref={containerRef} data-slot-fill={fill.fillId} />;
+}
 
 /**
  * Creates an array of fills, with separators inserted between groups.

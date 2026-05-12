@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-editor",
-  "version": "1.16.0",
+  "version": "1.21.3",
   "description": "Edit forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -23,10 +23,10 @@
   "scripts": {
     "all": "run-s lint test build",
     "build": "run-p bundle bundle:scss generate-types",
-    "bundle": "rollup -c --failAfterWarnings --bundleConfigAsCjs",
+    "bundle": "rollup -c --failAfterWarnings",
     "bundle:scss": "sass --no-source-map --load-path=\"../../node_modules\" assets/index.scss dist/assets/form-js-editor.css",
     "bundle:watch": "run-p bundle:watch-js bundle:watch-scss",
-    "bundle:watch-js": "rollup -c -w --bundleConfigAsCjs",
+    "bundle:watch-js": "rollup -c -w",
     "bundle:watch-scss": "npm run bundle:scss -- --watch",
     "dev": "npm test -- --auto-watch --no-single-run",
     "example:dev": "cd example && npm start",
@@ -47,15 +47,15 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/draggle": "^4.1.1",
-    "@bpmn-io/form-js-viewer": "^1.16.0",
-    "@bpmn-io/properties-panel": "^3.30.2",
+    "@bpmn-io/draggle": "^4.1.2",
+    "@bpmn-io/form-js-viewer": "1.21.3",
+    "@bpmn-io/properties-panel": "^3.40.3",
     "array-move": "^4.0.0",
-    "big.js": "^6.2.2",
-    "ids": "^1.0.5",
-    "min-dash": "^4.2.3",
-    "min-dom": "^4.1.0",
-    "preact": "^10.5.14"
+    "big.js": "^7.0.1",
+    "ids": "^3.0.1",
+    "min-dash": "^5.0.0",
+    "min-dom": "^5.2.0",
+    "preact": ">=10.5.14 <=10.15.1"
   },
   "sideEffects": [
     "*.css"

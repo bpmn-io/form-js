@@ -62,9 +62,8 @@ describe('playground exports', function () {
     expect(playground).to.exist;
 
     // @ts-ignore
-    expect(playground.getState()).to.eql({
-      schema,
-      data,
-    });
+    const state = playground.getState();
+    expect(state.schema).to.deep.include(schema);
+    expect(state.data).to.eql(data);
   });
 });

@@ -410,6 +410,36 @@ describe('properties panel', function () {
           expect(editFieldSpy).to.have.been.calledOnce;
           expect(editFieldSpy).to.have.been.calledWith(field, ['defaultValue'], undefined);
         });
+
+        it('should update defaultValue when editing a value that matches current defaultValue', function () {
+          // given
+          const editFieldSpy = spy();
+
+          const field = {
+            type: 'select',
+            key: 'test',
+            defaultValue: 'camunda-platform',
+            values: [
+              { label: 'Camunda Platform', value: 'camunda-platform' },
+              { label: 'Camunda Cloud', value: 'camunda-cloud' },
+            ],
+          };
+
+          bootstrapPropertiesPanel({
+            container,
+            editField: editFieldSpy,
+            field,
+          });
+
+          // when
+          const defaultOptionInput = screen.getByDisplayValue('camunda-platform');
+
+          fireEvent.input(defaultOptionInput, { target: { value: 'new-platform' } });
+
+          // then
+          expect(editFieldSpy).to.have.been.calledOnce;
+          expect(field.defaultValue).to.equal('new-platform');
+        });
       });
 
       describe('options', function () {

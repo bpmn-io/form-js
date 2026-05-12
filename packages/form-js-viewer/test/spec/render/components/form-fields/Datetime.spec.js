@@ -1,4 +1,4 @@
-import { render, waitFor, screen } from '@testing-library/preact/pure';
+import { cleanup, render, waitFor, screen } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
 import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
@@ -18,6 +18,31 @@ describe('Datetime', function () {
 
   afterEach(function () {
     container.remove();
+  });
+
+  it('should remove document event listeners on unmount', function () {
+    // given
+    const addSpy = sinon.spy(document, 'addEventListener');
+    const removeSpy = sinon.spy(document, 'removeEventListener');
+
+    createDatetime({ field: dateField, value: '1996-11-13' });
+
+    const eventsBound = addSpy.args.map(([event]) => event);
+
+    expect(eventsBound).to.include('mousedown');
+    expect(eventsBound).to.include('focus');
+
+    // when
+    cleanup();
+
+    // then
+    const eventsRemoved = removeSpy.args.map(([event]) => event);
+
+    expect(eventsRemoved).to.include('mousedown');
+    expect(eventsRemoved).to.include('focus');
+
+    addSpy.restore();
+    removeSpy.restore();
   });
 
   describe('(date)', function () {
@@ -787,7 +812,6 @@ describe('Datetime', function () {
     });
 
     it('should display an error state if only time is set', async function () {
-
       // given
       const { container } = createDatetime({ field: datetimeField });
 
@@ -798,7 +822,7 @@ describe('Datetime', function () {
       // when
       await userEvent.type(timeInput, '10:00');
       await userEvent.tab();
-      
+
       // then
       const error = await screen.findByText('Date and time must both be entered.');
       expect(error).to.exist;
