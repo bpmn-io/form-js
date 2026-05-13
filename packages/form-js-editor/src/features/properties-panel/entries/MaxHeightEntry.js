@@ -44,7 +44,7 @@ function MaxHeight(props) {
     getValue,
     setValue,
     validate,
-    tooltip
+    tooltip,
   });
 }
 
