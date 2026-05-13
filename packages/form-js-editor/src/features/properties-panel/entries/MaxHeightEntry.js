@@ -72,4 +72,4 @@ const validate = (value) => {
   }
 };
 
-const tooltip = 'Documents with height that exceeds the defined value in pixels will be vertically scrollable';
+const tooltip = 'Documents whose height exceeds the defined value in pixels will be vertically scrollable';
