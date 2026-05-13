@@ -261,7 +261,7 @@ function ImageRenderer(props) {
  * @param {string} props.endpoint
  * @param {string} props.domId
  * @param {RequestInit|undefined} props.requestInit
- * @param {number|undefined} props.maxHeight
+ * @param {number|undefined} props.maxHeight - maximum height in pixels
  *
  * @returns {import("preact").JSX.Element}
  */
