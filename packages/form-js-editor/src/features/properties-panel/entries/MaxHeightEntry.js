@@ -44,7 +44,7 @@ function MaxHeight(props) {
     getValue,
     setValue,
     validate,
-    description,
+    tooltip,
   });
 }
 
@@ -72,4 +72,4 @@ const validate = (value) => {
   }
 };
 
-const description = <>Documents with height that exceeds the defined value will be vertically scrollable</>;
+const tooltip = 'Documents whose height exceeds the defined value in pixels will be vertically scrollable';
