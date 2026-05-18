@@ -9,7 +9,6 @@ if (!variant) {
 }
 
 // use puppeteer provided Chrome for testing
-process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 const suite = `test/distro/${variant}.js`;
 
