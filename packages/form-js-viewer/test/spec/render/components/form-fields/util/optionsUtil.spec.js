@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { normalizeOptionsData } from '../../../../../../src/render/components/util/optionsUtil.js';
 
 describe('optionsUtil', function () {

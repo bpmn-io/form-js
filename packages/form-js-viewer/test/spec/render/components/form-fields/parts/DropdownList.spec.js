@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/preact/pure';
 
 import { DropdownList } from '../../../../../../src/render/components/form-fields/parts/DropdownList';

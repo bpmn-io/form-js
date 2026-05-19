@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { wrapCSSStyles } from '../../../../../src/render/components/util/domUtil.js';
 
 describe('#domUtil', function () {

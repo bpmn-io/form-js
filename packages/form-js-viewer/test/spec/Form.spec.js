@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { act, screen, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 

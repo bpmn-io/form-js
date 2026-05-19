@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { Default } from '../../../../../src/render/components/form-fields/Default';
 
 describe('Default', function () {

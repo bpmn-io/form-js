@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { forEach, isFunction, merge } from 'min-dash';
 
 import axe from 'axe-core';

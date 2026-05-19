@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { sanitizeHTML } from '../../../../src/render/components/Sanitizer';
 
 describe('Sanitizer', function () {

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { cleanup, render } from '@testing-library/preact/pure';
 
 import { AppearanceGroup } from '../../../../../src/features/properties-panel/groups';

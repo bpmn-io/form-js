@@ -17,7 +17,7 @@ const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
 module.exports = function (karma) {
   const config = {
-    frameworks: ['webpack', 'mocha', 'sinon-chai'],
+    frameworks: ['webpack', 'mocha'],
 
     files: [suite],
 
@@ -59,6 +59,10 @@ module.exports = function (karma) {
       },
       module: {
         rules: [
+          {
+            test: require.resolve('./test/globals.js'),
+            sideEffects: true,
+          },
           {
             test: /\.css$/i,
             use: ['style-loader', 'css-loader'],
