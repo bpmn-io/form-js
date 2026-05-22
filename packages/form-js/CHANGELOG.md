@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.22.0
+
+- `FEAT`: move max height description to tooltip ([#1516](https://github.com/bpmn-io/form-js/pull/1516))
+
 ## 1.21.3
 
 - `FIX`: clear ghost error entries when validating fields inside (nested) dynamic lists ([#1494](https://github.com/bpmn-io/form-js/issues/1494))
