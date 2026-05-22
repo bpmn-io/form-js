@@ -51,6 +51,10 @@ module.exports = function (karma) {
       module: {
         rules: [
           {
+            test: require.resolve('../globals.js'),
+            sideEffects: true
+          },
+          {
             test: /\.js$/,
             enforce: 'pre',
             use: ['source-map-loader'],
