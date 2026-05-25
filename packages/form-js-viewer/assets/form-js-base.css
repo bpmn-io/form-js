@@ -31,6 +31,8 @@
   --color-red-360-100-95: hsl(360, 100%, 95%);
   --color-red-360-100-97: hsl(360, 100%, 97%);
 
+  --color-orange-33-100-40: hsl(33, 100%, 40%);
+
   --color-white: hsl(0, 0%, 100%);
   --color-black: hsl(0, 0%, 0%);
 
@@ -72,6 +74,7 @@
 
   --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
   --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
+  --color-caution: var(--color-orange-33-100-40);
   --color-accent: var(--cds-link-primary, var(--color-blue-205-100-40));
   --color-accent-readonly: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-55)));
   --color-datepicker-focused-day: var(--cds-button-primary, var(--color-grey-225-10-55));
@@ -303,7 +306,8 @@
 
 .fjs-container .fjs-form-field-label,
 .fjs-container .fjs-form-field-description,
-.fjs-container .fjs-form-field-error {
+.fjs-container .fjs-form-field-error,
+.fjs-container .fjs-form-field-warning {
   font-size: var(--font-size-label);
   line-height: var(--line-height-label);
   letter-spacing: var(--letter-spacing-label);
@@ -773,19 +777,22 @@
   outline-color: var(--color-warning);
 }
 
-.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container:not(.fjs-disabled) {
   border-color: var(--color-red-360-100-92);
 }
 
-.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-separator {
+.fjs-container
+  .fjs-form-field.fjs-has-errors
+  .fjs-number-arrow-container:not(.fjs-disabled)
+  .fjs-number-arrow-separator {
   background-color: var(--color-red-360-100-92);
 }
 
-.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button {
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container:not(.fjs-disabled) button {
   background-color: var(--color-red-360-100-97);
 }
 
-.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button:hover {
+.fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container:not(.fjs-disabled) button:hover {
   background-color: var(--color-red-360-100-95);
 }
 
@@ -804,6 +811,20 @@
 }
 
 .fjs-container .fjs-form-field-error > ul > li {
+  list-style-type: none;
+}
+
+.fjs-container .fjs-form-field-warning {
+  color: var(--color-caution);
+}
+
+.fjs-container .fjs-form-field-warning > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fjs-container .fjs-form-field-warning > ul > li {
   list-style-type: none;
 }
 
