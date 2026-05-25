@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Datetime } from '../../../../../src/render/components/form-fields/Datetime';
 
-import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
+import { createFormContainer, expectNoViolations, pinLocaleForTests } from '../../../../TestHelper';
 
 import { MockFormContext } from '../helper';
 
@@ -14,6 +14,16 @@ let container;
 const spy = sinon.spy;
 
 describe('Datetime', function () {
+  let restoreLocale;
+
+  before(function () {
+    restoreLocale = pinLocaleForTests();
+  });
+
+  after(function () {
+    restoreLocale();
+  });
+
   beforeEach(function () {
     container = createFormContainer();
   });

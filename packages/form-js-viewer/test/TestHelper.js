@@ -52,4 +52,27 @@ export function createFormContainer() {
   return container;
 }
 
+/**
+ * Pin Intl.DateTimeFormat so that 'default' / 'unknown' locales
+ * resolve to 'en-US', making date-related tests deterministic
+ * regardless of the host system locale.
+ *
+ * Usage (inside a describe block):
+ *   before(function () { this._restoreLocale = pinLocaleForTests(); });
+ *   after(function () { this._restoreLocale(); });
+ */
+export function pinLocaleForTests(fallbackLocale = 'en-US') {
+  const Original = Intl.DateTimeFormat;
+  Intl.DateTimeFormat = function (locale, ...rest) {
+    if (!locale || locale === 'default' || locale === 'unknown') {
+      locale = fallbackLocale;
+    }
+    return new Original(locale, ...rest);
+  };
+
+  return function restore() {
+    Intl.DateTimeFormat = Original;
+  };
+}
+
 export * from './helper';
