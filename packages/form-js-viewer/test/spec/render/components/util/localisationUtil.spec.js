@@ -5,7 +5,19 @@ import {
   getLocaleDateFlatpickrConfig,
 } from '../../../../../src/render/components/util/localisationUtil.js';
 
+import { pinLocaleForTests } from '../../../../TestHelper';
+
 describe('localisationUtil', function () {
+  let restoreLocale;
+
+  before(function () {
+    restoreLocale = pinLocaleForTests();
+  });
+
+  after(function () {
+    restoreLocale();
+  });
+
   describe('#getLocaleDateFormat', function () {
     it('should return the correct date format for a given locale', function () {
       // given
