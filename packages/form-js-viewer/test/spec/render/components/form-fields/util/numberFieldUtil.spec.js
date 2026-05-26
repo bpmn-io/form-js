@@ -36,6 +36,10 @@ describe('numberFieldUtil', function () {
       [1, '1'],
       [-1.5, '-1.5'],
       ['0', '0'],
+      [false, ''],
+      [true, ''],
+      [{}, ''],
+      [[], ''],
     ];
 
     // then
