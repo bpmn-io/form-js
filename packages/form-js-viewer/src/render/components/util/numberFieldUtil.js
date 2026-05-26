@@ -43,5 +43,6 @@ export function isNullEquivalentValue(value) {
 
 export function serializeToInputString(value) {
   if (value === undefined || value === null) return '';
+  if (typeof value !== 'string' && typeof value !== 'number') return '';
   return value.toString();
 }
