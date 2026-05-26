@@ -216,7 +216,7 @@ export function Taglist(props) {
           onChange={onInputChange}
           type="text"
           value={filter}
-          placeholder={translate(disabled || readonly ? undefined : 'Search')}
+          placeholder={disabled || readonly ? undefined : translate('Search')}
           autoComplete="off"
           onKeyDown={onInputKeyDown}
           onMouseDown={() => setIsEscapeClose(false)}

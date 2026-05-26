@@ -1,6 +1,7 @@
 import { Ids } from 'ids';
 import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import { isString, set } from 'min-dash';
+import TranslateModule from 'diagram-js/lib/i18n/translate';
 
 import { CoreModule } from './core';
 import { ContextPadModule } from './features/context-pad';
@@ -14,7 +15,6 @@ import { PaletteModule } from './features/palette';
 import { PropertiesPanelModule } from './features/properties-panel';
 import { RenderInjectionModule } from './features/render-injection';
 import { RepeatRenderModule } from './features/repeat-render';
-import { setLanguage } from './features/customTranslate/customTranslate';
 
 import { MarkdownRendererModule } from '@bpmn-io/form-js-viewer';
 
@@ -92,11 +92,6 @@ export class FormEditor {
 
     if (container) {
       this.attachTo(container);
-    }
-
-    const language = properties.language;
-    if (language) {
-      this.setLanguage(language);
     }
   }
 
@@ -228,13 +223,6 @@ export class FormEditor {
   }
 
   /**
-   * @param {string} language
-   */
-  setLanguage(language) {
-    setLanguage(language);
-  }
-
-  /**
    * @internal
    *
    * @param {FormEditorOptions} options
@@ -305,6 +293,7 @@ export class FormEditor {
       PropertiesPanelModule,
       RenderInjectionModule,
       RepeatRenderModule,
+      TranslateModule,
     ];
   }
 

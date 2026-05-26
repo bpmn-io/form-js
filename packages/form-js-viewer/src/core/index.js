@@ -8,12 +8,11 @@ import { FormFieldRegistry } from './FormFieldRegistry';
 import { FormFieldInstanceRegistry } from './FormFieldInstanceRegistry';
 
 import { RenderModule } from '../render';
-import { CustomTranslateModule } from '../features/customTranslate/customTranslate';
 
 export { Importer, FieldFactory, FormFieldRegistry, PathRegistry, FormLayouter };
 
 export const CoreModule = {
-  __depends__: [RenderModule, CustomTranslateModule],
+  __depends__: [RenderModule],
   eventBus: ['type', EventBus],
   importer: ['type', Importer],
   fieldFactory: ['type', FieldFactory],

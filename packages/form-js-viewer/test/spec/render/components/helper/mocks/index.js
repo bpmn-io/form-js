@@ -6,8 +6,7 @@ import {
   RepeatRenderManager,
   ExpressionLoopPreventer,
 } from '../../../../../../src';
-
-import { customTranslate } from '../../../../../../src/features/customTranslate/customTranslate';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 
 export function createMockInjector(services = {}, options = {}) {
   const injector = new Injector([_createMockModule(services, options)]);
@@ -50,7 +49,7 @@ function _createMockModule(services, options) {
     markdownRenderer: services.markdownRenderer ? ['value', services.markdownRenderer] : ['type', MarkdownRenderer],
     fileRegistry: ['value', services.fileRegistry],
     documentEndpointBuilder: ['value', services.documentEndpointBuilder || null],
-    translate: ['value', services.translate || customTranslate],
+    translate: ['value', services.translate || translate],
   };
 }
 

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { cleanup, render } from '@testing-library/preact/pure';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
 import { getPropertiesPanelHeaderProvider } from '../../../../src/features/properties-panel/PropertiesPanelHeaderProvider';
-import { customTranslate } from '../../../../src/features/customTranslate/customTranslate';
 
 import { MockPropertiesPanelContext, TestPropertiesPanel } from './helper';
 
@@ -165,7 +165,7 @@ function renderHeader({ services = {}, getDocumentationRef, ...restOptions }) {
         headerProvider={getPropertiesPanelHeaderProvider({
           formFields: services.formFields || new FormFields(),
           getDocumentationRef,
-          translate: services.translate || customTranslate,
+          translate: services.translate || translate,
         })}
       />
     </MockPropertiesPanelContext>,

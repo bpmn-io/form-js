@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import EventBus from 'diagram-js/lib/core/EventBus';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
-import { customTranslate } from '../../../src/features/customTranslate/customTranslate';
 
 describe('Validator', function () {
   const validator = createValidator();
@@ -834,5 +834,5 @@ function createValidator() {
     },
   };
 
-  return new Validator(expressionLanguage, conditionChecker, form, null, customTranslate);
+  return new Validator(expressionLanguage, conditionChecker, form, null, translate);
 }

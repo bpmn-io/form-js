@@ -1,8 +1,8 @@
 import { Injector } from 'didi';
 import { isUndefined } from 'min-dash';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 
 import { EditorFormFields } from '../../../src/render/EditorFormFields';
-import { customTranslate } from '../../../src/features/customTranslate/customTranslate';
 
 const EDITOR_CONFIG = {
   propertiesPanel: {
@@ -33,7 +33,7 @@ function _createEditorMockModule(services, options) {
 
     // using actual implementations in testing
     formFields: services.formFields ? ['value', services.formFields] : ['type', EditorFormFields],
-    translate: ['value', services.translate || customTranslate],
+    translate: ['value', services.translate || translate],
   };
 }
 
