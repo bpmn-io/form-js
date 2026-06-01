@@ -80,4 +80,6 @@ const validate = (value, translate) => {
  * @param {function} translate
  * @returns Description Element
  */
-const description = (translate) => <>{translate('MaxHeightEntry description')}</>;
+const description = (translate) => (
+  <>{translate('Documents with height that exceeds the defined value will be vertically scrollable')}</>
+);
