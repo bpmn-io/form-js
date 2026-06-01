@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.22.0
+
+- `FEAT`: move max height description to tooltip ([#1516](https://github.com/bpmn-io/form-js/pull/1516))
+- `DEPS`: update to `@bpmn-io/properties-panel@3.44.0`
+
 ## 1.21.3
 
 - `FIX`: clear ghost error entries when validating fields inside (nested) dynamic lists ([#1494](https://github.com/bpmn-io/form-js/issues/1494))
@@ -40,7 +45,7 @@ _**Note:** Yet to be released changes appear here._
 - `FIX`: ensure datepicker event listeners are cleaned up on datetime formField unmount ([#1403](https://github.com/bpmn-io/form-js/issues/1403))
 - `FIX`: pin interdependencies to ensure version consistency across form-js-\* packages ([2c240805](https://github.com/bpmn-io/form-js/commit/2c240805c85457dc3ca471305ec55cf1d44d6185))
 - `FIX`: properties panel values no longer bleed into other formfields on selections ([#1461](https://github.com/bpmn-io/form-js/issues/1461))
-  - Via bump `@bpmn-io/properties-panel@3.40.30` ([99f78cc7](https://github.com/bpmn-io/form-js/commit/99f78cc7224d22269d49c12719d4e5f60bae9f85))
+  - Via bump `@bpmn-io/properties-panel@3.40.3` ([99f78cc7](https://github.com/bpmn-io/form-js/commit/99f78cc7224d22269d49c12719d4e5f60bae9f85))
 
 ## 1.19.0
 

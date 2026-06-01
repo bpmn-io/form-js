@@ -4,8 +4,6 @@ import { bootstrapFormEditor, inject } from '../../../TestHelper';
 
 import { SelectionModule } from 'src/features/selection';
 
-const { spy } = sinon;
-
 describe('features/selection', function () {
   const schema = {
     components: [
@@ -40,7 +38,7 @@ describe('features/selection', function () {
     expect(selection.get()).not.to.exist;
 
     // when
-    const changedSpy = spy();
+    const changedSpy = sinon.spy();
 
     // when
     eventBus.on('selection.changed', function (event) {
@@ -80,7 +78,7 @@ describe('features/selection', function () {
     expect(text2).to.exist;
 
     // when
-    const changedSpy = spy();
+    const changedSpy = sinon.spy();
 
     // when
     eventBus.on('selection.changed', function (event) {

@@ -47,7 +47,7 @@ function MaxHeight(props) {
     getValue,
     setValue,
     validate: useCallback((value) => validate(value, translate), [translate]),
-    description: description(translate),
+    description: translate(tooltip),
   });
 }
 
@@ -76,10 +76,4 @@ const validate = (value, translate) => {
   }
 };
 
-/**
- * @param {function} translate
- * @returns Description Element
- */
-const description = (translate) => (
-  <>{translate('Documents with height that exceeds the defined value will be vertically scrollable')}</>
-);
+const tooltip = 'Documents whose height exceeds the defined value in pixels will be vertically scrollable';

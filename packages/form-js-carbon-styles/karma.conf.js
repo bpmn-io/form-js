@@ -52,6 +52,10 @@ module.exports = function (karma) {
       module: {
         rules: [
           {
+            test: require.resolve('./test/globals.js'),
+            sideEffects: true
+          },
+          {
             test: /\.s[ac]ss$/i,
             use: ['css-loader', 'sass-loader'],
           },
