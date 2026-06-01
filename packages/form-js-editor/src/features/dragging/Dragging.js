@@ -83,7 +83,7 @@ export class Dragging {
       formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
 
       if (!formField) {
-        return this._translate('No form field');
+        return this._translate('No associated form field in the registry');
       }
 
       columns = (formField.layout || {}).columns;
@@ -130,7 +130,7 @@ export class Dragging {
           );
 
           if (!isDropAllowedByPathRegistry) {
-            return this._translate('Drop not allowed');
+            return this._translate('Drop not allowed by path registry');
           }
         }
       }

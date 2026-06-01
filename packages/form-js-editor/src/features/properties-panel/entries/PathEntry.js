@@ -67,14 +67,14 @@ function Path(props) {
       // Validate dot-separated path format
       if (!isValidDotPath(value)) {
         const msg = isRepeating
-          ? translate('Variable or dot separated path2')
-          : translate('Empty variable or dot separated path');
+          ? translate('Must be a variable or a dot-separated path.')
+          : translate('Must be empty, a variable or a dot-separated path.');
         return msg;
       }
 
       // Check for integer segments in the path
       if (hasIntegerPathSegment(value)) {
-        return translate('Contain numerical path segments');
+        return translate('Must not contain numerical path segments.');
       }
 
       // Check for special prohibited paths
@@ -95,7 +95,7 @@ function Path(props) {
       });
 
       if (!canClaim) {
-        return translate('paths collide');
+        return translate('Must not cause two binding paths to collide');
       }
 
       // If all checks pass
@@ -104,11 +104,15 @@ function Path(props) {
     [field, isRepeating, pathRegistry, translate],
   );
 
-  const tooltip = isRepeating ? translate('PathEntry tooltip repeating') : translate('PathEntry tooltip not repeating');
+  const tooltip = isRepeating
+    ? translate(
+        'Routes the children of this component into a form variable, may be left empty to route at the root level.',
+      )
+    : translate('Routes the children of this component into a form variable.');
 
   return TextFieldEntry({
     debounce,
-    description: translate('Path description'),
+    description: translate('Where the child variables of this component are pathed to.'),
     element: field,
     getValue,
     id,

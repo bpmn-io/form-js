@@ -40,13 +40,15 @@ function Source(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: translate('Image source description'),
+    description: translate('Expression or static value (link/data URI)'),
     element: field,
     feel: 'optional',
     getValue,
     id,
     label: translate('Image source'),
-    tooltip: translate('Image source tooltip'),
+    tooltip: translate(
+      'Link referring to a hosted image, or use a data URI directly to embed image data into the form.',
+    ),
     setValue,
     singleLine: true,
     variables,

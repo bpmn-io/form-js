@@ -73,5 +73,13 @@ export function OptionsGroups(field, editField, getService) {
 // helpers //////////
 
 function getValuesTooltip(translate) {
-  return translate('static tooltip') + translate('Input data tooltip') + translate('Expression tooltip');
+  return (
+    translate('"Static" defines a constant, predefined set of form options.') +
+    '\n\n' +
+    translate(
+      '"Input data" defines options that are populated dynamically, adjusting based on variable data for flexible responses to different conditions or inputs.',
+    ) +
+    '\n\n' +
+    translate('"Expression" defines options that are populated from a FEEL expression.')
+  );
 }

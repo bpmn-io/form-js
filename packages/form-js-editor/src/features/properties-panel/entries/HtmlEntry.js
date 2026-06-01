@@ -58,7 +58,7 @@ function Content(props) {
 const description = (translate) => {
   return (
     <>
-      {translate('Html entry description')}{' '}
+      {translate('Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component.')}{' '}
       <a
         href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/"
         target="_blank"

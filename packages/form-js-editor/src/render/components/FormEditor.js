@@ -81,8 +81,8 @@ function EmptyForm() {
       <div class="fjs-empty-editor-card">
         <EmptyFormIcon />
         <h2>{translate('Build your form')}</h2>
-        <span>{translate('Drag and drop')}</span>
-        <span>{translate('Use preview window')}</span>
+        <span>{translate('Drag and drop components here to start designing.')}</span>
+        <span>{translate('Use the preview window to test your form.')}</span>
         <Slot name="editor-empty-state__footer" />
       </div>
     </div>

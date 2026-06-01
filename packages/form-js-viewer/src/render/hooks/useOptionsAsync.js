@@ -53,7 +53,7 @@ export function useOptionsAsync(field) {
 
       // error case
     } else {
-      return buildErrorState(translate('No options source error'));
+      return buildErrorState(translate('No options source defined in the form definition'));
     }
 
     // normalize data to support primitives and partially defined objects

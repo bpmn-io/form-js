@@ -42,7 +42,7 @@ function ExpressionFieldExpression(props) {
 
   return FeelEntry({
     debounce,
-    description: translate('Target value description'),
+    description: translate('Define an expression to calculate the value of this field'),
     element: field,
     feel: 'required',
     getValue,

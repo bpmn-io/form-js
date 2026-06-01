@@ -53,20 +53,24 @@ function DocumentsDataSource(props) {
 
   const tooltip = (
     <div>
-      <p>{translate('Document reference tooltip1')}</p>
-      <p>{translate('Document reference tooltip2')}</p>
-      <p>{translate('Document reference tooltip3')}</p>
+      <p>{translate('A source is a JSON object containing metadata for a document or an array of documents.')}</p>
+      <p>{translate('Each entry must include a document ID, name, and MIME type.')}</p>
+      <p>{translate('Additional details are optional. The expected format is as follows:')}</p>
       <pre>
         <code>{schema}</code>
       </pre>
-      <p>{translate('Document reference tooltip4')}</p>
       <p>
-        {translate('Document reference tooltip5')}{' '}
+        {translate(
+          'When using Camunda Tasklist UI, additional document reference attributes are automatically handled. Modifying the document reference may affect the document preview functionality.',
+        )}
+      </p>
+      <p>
+        {translate('Learn more in our')}{' '}
         <a
           href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-document-preview/"
           target="_blank"
           rel="noopener noreferrer">
-          {translate('Document reference tooltip6')}
+          {translate('documentation')}
         </a>
         .
       </p>

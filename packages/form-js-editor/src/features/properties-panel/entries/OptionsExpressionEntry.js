@@ -31,7 +31,7 @@ function OptionsExpression(props) {
 
   const tooltip = (
     <div>
-      {translate('Columns/OptionsExpression tooltip')}
+      {translate('The expression may result in an array of simple values or alternatively follow this schema:')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -44,7 +44,7 @@ function OptionsExpression(props) {
 
   return FeelEntry({
     debounce,
-    description: translate('Options expression description'),
+    description: translate('Define an expression to populate the options from.'),
     tooltip,
     element: field,
     feel: 'required',

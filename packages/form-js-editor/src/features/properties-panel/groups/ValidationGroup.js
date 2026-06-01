@@ -235,7 +235,7 @@ function PatternErrorMessage(props) {
     getValue: getValue('patternErrorMessage'),
     id,
     label: translate('Custom error message'),
-    tooltip: translate('TextFieldEntry tooltip'),
+    tooltip: translate('The error message to display when the input does not match the regular expression.'),
     setValue: onChange('patternErrorMessage'),
   });
 }
@@ -299,7 +299,9 @@ function ValidationType(props) {
     getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS(translate)),
     tooltip:
       getValue('validationType')() === VALIDATION_TYPE_OPTIONS(translate).phone.value
-        ? translate('SelectEntry tooltip')
+        ? translate(
+            'The built-in phone validation pattern is based on the E.164 standard with no spaces. Ex: +491234567890',
+          )
         : undefined,
   });
 }

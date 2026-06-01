@@ -104,12 +104,11 @@ function runNumberValidation(field, value, translate) {
     if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
       errors.push(
         translate('Value is expected to') +
+          ' ' +
           (decimalDigits === 0
             ? translate('be an integer')
-            : decimalDigits > 1
-              ? translate('Max decimal Digits plural', { value: decimalDigits })
-              : translate('Max decimal Digits singular', { value: decimalDigits })) +
-          '.',
+            : translate('have at most ${value} decimal digit', { value: decimalDigits }) +
+              `${decimalDigits > 1 ? 's' : ''}.`),
       );
     }
 
@@ -123,7 +122,12 @@ function runNumberValidation(field, value, translate) {
         const previousValue = bigValue.minus(offset);
         const nextValue = previousValue.plus(bigIncrement);
 
-        errors.push(translate('select valid value', { previousValue: previousValue, nextValue: nextValue }));
+        errors.push(
+          translate('Please select a valid value, the two nearest valid values are {previousValue} and {nextValue}.', {
+            previousValue: previousValue,
+            nextValue: nextValue,
+          }),
+        );
       }
     }
   }
@@ -135,7 +139,7 @@ function runPresetValidation(field, validation, value, translate) {
   const errors = [];
   if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
     errors.push(
-      validation.patternErrorMessage || translate(`Field must match pattern.`, { value: validation.pattern }),
+      validation.patternErrorMessage || translate(`Field must match pattern {value}.`, { value: validation.pattern }),
     );
   }
 
@@ -152,33 +156,33 @@ function runPresetValidation(field, validation, value, translate) {
   if ('min' in validation && (value || value === 0)) {
     try {
       if (Big(value).lt(Big(validation.min))) {
-        errors.push(translate('Minimum value validation', { value: validation.min.toString() }));
+        errors.push(translate('Field must have minimum value of {value}.', { value: validation.min.toString() }));
       }
     } catch {
-      errors.push(translate('Min validation value error'));
+      errors.push(translate('Min validation value is not a valid number.'));
     }
   }
 
   if ('max' in validation && (value || value === 0)) {
     try {
       if (Big(value).gt(Big(validation.max))) {
-        errors.push(translate(`Maximum value validation`, { value: validation.max }));
+        errors.push(translate('Field must have maximum value of {value}.', { value: validation.max }));
       }
     } catch {
-      errors.push(translate('Max validation value error'));
+      errors.push(translate('Max validation value is not a valid number.'));
     }
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
-    errors.push(translate('Minimum length validation', { value: validation.minLength }));
+    errors.push(translate('Field must have minimum length of {value}.', { value: validation.minLength }));
   }
 
   if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {
-    errors.push(translate('Maximum length validation', { value: validation.maxLength }));
+    errors.push(translate('Field must have maximum length of {value}.', { value: validation.maxLength }));
   }
 
   if ('validationType' in validation && value && validation.validationType === 'phone' && !PHONE_PATTERN.test(value)) {
-    errors.push(translate('Phone number validation'));
+    errors.push(translate('Field must be a valid international phone number. (e.g. +4930664040900)'));
   }
 
   if ('validationType' in validation && value && validation.validationType === 'email' && !EMAIL_PATTERN.test(value)) {

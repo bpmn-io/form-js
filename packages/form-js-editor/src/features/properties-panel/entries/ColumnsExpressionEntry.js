@@ -53,7 +53,7 @@ function ColumnsExpression(props) {
 
   const tooltip = (
     <div>
-      {translate('Columns/OptionsExpression tooltip')}
+      {translate('The expression may result in an array of simple values or alternatively follow this schema:')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -62,7 +62,7 @@ function ColumnsExpression(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: translate('Expression description'),
+    description: translate('Specify an expression to populate column items'),
     element: field,
     feel: 'required',
     getValue,

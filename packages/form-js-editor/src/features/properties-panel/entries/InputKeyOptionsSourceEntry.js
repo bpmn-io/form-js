@@ -30,7 +30,7 @@ function InputValuesKey(props) {
 
   const tooltip = (
     <div>
-      {translate('Input values key tooltip')}
+      {translate('The input property may be an array of simple values or alternatively follow this schema:')}
       <pre>
         <code>{schema}</code>
       </pre>
@@ -49,7 +49,7 @@ function InputValuesKey(props) {
 
   return TextFieldEntry({
     debounce,
-    description: translate('Input values key description'),
+    description: translate('Define which input property to populate the values from'),
     tooltip,
     element: field,
     getValue,

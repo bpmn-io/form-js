@@ -52,7 +52,9 @@ function Readonly(props) {
     getValue,
     id,
     label: translate('Read only'),
-    tooltip: translate('Read only tooltip'),
+    tooltip: translate(
+      'Make this field read-only when it cannot be edited by the end-user, but its content is important for them to see. Its data will still be submitted.',
+    ),
     setValue,
     variables,
   });

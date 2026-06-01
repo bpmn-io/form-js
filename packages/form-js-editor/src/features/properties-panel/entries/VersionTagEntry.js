@@ -41,7 +41,7 @@ function VersionTag(props) {
     return editField(field, path, value);
   };
 
-  const tooltip = <div>{translate('Version tag description')}</div>;
+  const tooltip = <div>{translate('Version tag by which this form can be referenced.')}</div>;
 
   return TextFieldEntry({
     debounce,

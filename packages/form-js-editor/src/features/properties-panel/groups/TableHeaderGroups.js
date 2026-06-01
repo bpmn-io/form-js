@@ -22,7 +22,11 @@ export function TableHeaderGroups(field, editField, getService) {
     {
       id: `${fieldId}-columnsSource`,
       label: translate('Headers source'),
-      tooltip: translate('Headers source tooltip'),
+      tooltip:
+        translate('"List of items" defines a constant, predefined set of form options.') +
+        '\n\n' +
+        translate('"Expression" defines options that are populated from a FEEL expression.') +
+        '\n',
       component: Group,
       entries: [
         ...HeadersSourceSelectEntry({ field, editField, translate }),
@@ -44,5 +48,3 @@ export function TableHeaderGroups(field, editField, getService) {
 
   return groups;
 }
-
-// helpers //////////

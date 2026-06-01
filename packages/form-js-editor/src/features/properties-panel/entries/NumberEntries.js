@@ -104,22 +104,22 @@ function NumberArrowStep(props) {
       }
 
       if (!isValidNumber(value)) {
-        return translate('validate number valid.');
+        return translate('Should be a valid number.');
       }
 
       if (Big(value).cmp(0) <= 0) {
-        return translate('validate number positive');
+        return translate('Should be greater than zero.');
       }
 
       if (decimalDigitsSet) {
         const minimumValue = Big(`1e-${decimalDigits}`);
 
         if (Big(value).cmp(minimumValue) < 0) {
-          return translate('validate number minlength', { value: minimumValue.toString() });
+          return translate('Should be at least {value}.', { value: minimumValue.toString() });
         }
 
         if (countDecimals(value) > decimalDigits) {
-          return translate('validate number decimal digits', { value: decimalDigits });
+          return translate('Should not contain more than {value} decimal digits.', { value: decimalDigits });
         }
       }
     },
@@ -150,10 +150,10 @@ const validateNumberEntries = (value, translate) => {
   }
 
   if (!Number.isInteger(value)) {
-    return translate('validate number integer');
+    return translate('Should be an integer.');
   }
 
   if (value < 0) {
-    return translate('validate number >= 0');
+    return translate('Should be greater than or equal to zero.');
   }
 };

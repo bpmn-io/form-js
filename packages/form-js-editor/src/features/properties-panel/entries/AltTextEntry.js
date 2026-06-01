@@ -46,7 +46,7 @@ function AltText(props) {
     getValue,
     id,
     label: translate('Alternative text'),
-    tooltip: translate('Alternative text tooltip'),
+    tooltip: translate('Descriptive text for screen reader accessibility.'),
     setValue,
     singleLine: true,
     variables,

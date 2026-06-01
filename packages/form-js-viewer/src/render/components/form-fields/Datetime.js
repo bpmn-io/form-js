@@ -152,7 +152,7 @@ export function Datetime(props) {
     const isOnlyOneFieldSet =
       (isValidDate(dateTime.date) && !isValidTime(dateTime.time)) ||
       (!isValidDate(dateTime.date) && isValidTime(dateTime.time));
-    return isOnlyOneFieldSet ? [translate('Date and time validation'), ...errors] : errors;
+    return isOnlyOneFieldSet ? [translate('Date and time must both be entered.'), ...errors] : errors;
   }, [required, subtype, dateTime, errors, translate]);
 
   const setDate = useCallback((date) => {

@@ -42,7 +42,9 @@ function Disabled(props) {
     getValue,
     id,
     label: translate('Disabled'),
-    tooltip: translate('Disabled tooltip'),
+    tooltip: translate(
+      'Disable this field when it should not be interactive for end-users. Its data will not be submitted. This setting takes precedence over read-only.',
+    ),
     inline: true,
     setValue,
   });

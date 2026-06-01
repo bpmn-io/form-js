@@ -62,10 +62,14 @@ function Url(props) {
 function getTooltip(translate) {
   return (
     <>
-      <p>{translate('IFrame tooltip1')}</p>
-      <p>{translate('IFrame tooltip2')}</p>
       <p>
-        {translate('IFrame tooltip3')}
+        {translate(
+          'Enter a HTTPS URL to a source or populate it dynamically via a template or an expression (e.g., to pass a value from the variable).',
+        )}
+      </p>
+      <p>{translate('Please make sure that the URL is safe as it might impose security risks.')}</p>
+      <p>
+        {translate('Not all external sources can be displayed in the iFrame. Read more about it in the')}{' '}
         <a
           target="_blank"
           href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
@@ -89,6 +93,6 @@ const validate = (value, translate) => {
   }
 
   if (!HTTPS_PATTERN.test(value)) {
-    return translate('URL start with https');
+    return translate('For security reasons the URL must start with "https".');
   }
 };

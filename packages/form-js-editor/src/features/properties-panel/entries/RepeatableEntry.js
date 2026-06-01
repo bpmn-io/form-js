@@ -39,7 +39,7 @@ export function RepeatableEntry(props) {
     const nonCollapseItemsEntry = simpleRangeIntegerEntryFactory({
       id: 'nonCollapsedItems',
       path: ['nonCollapsedItems'],
-      label: translate('Number non-collapsing'),
+      label: translate('Number of non-collapsing items'),
       min: 1,
       defaultValue: 5,
       props,

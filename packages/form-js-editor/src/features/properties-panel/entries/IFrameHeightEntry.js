@@ -6,7 +6,7 @@ export function IFrameHeightEntry(props) {
   return [
     ...HeightEntry({
       ...props,
-      description: translate('IFrame height description'),
+      description: translate('Height of the container in pixels.'),
       isDefaultVisible: (field) => field.type === 'iframe',
     }),
   ];

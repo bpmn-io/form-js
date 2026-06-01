@@ -40,12 +40,12 @@ function Condition(props) {
   };
 
   let label = translate('Hide if');
-  let description = translate('Condition hidden field');
+  let description = translate('Condition under which the field is hidden');
 
   // special case for expression fields which do not render
   if (field.type === 'expression') {
     label = translate('Deactivate if');
-    description = translate('Condition deactivated field');
+    description = translate('Condition under which the field is deactivated');
   }
 
   return FeelEntry({

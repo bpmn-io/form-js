@@ -71,7 +71,9 @@ export function CustomPropertiesGroup(field, editField, getService) {
     id: 'custom-values',
     items,
     label: translate('Custom properties'),
-    tooltip: translate('Custom properties description'),
+    tooltip: translate(
+      'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
+    ),
   };
 }
 

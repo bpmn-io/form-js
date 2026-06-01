@@ -54,7 +54,9 @@ const Advisory = (props) => {
   const { translate } = props;
   return (
     <div class="bio-properties-panel-description fjs-properties-panel-detached-description">
-      {translate('Security attributes advisory')}
+      {translate(
+        'These options can incur security risks, especially if used in combination with dynamic links. Ensure that you are aware of them, that you trust the source url and only enable what your use case requires.',
+      )}
     </div>
   );
 };
@@ -65,7 +67,9 @@ function getTooltip(translate) {
   return (
     <>
       <p>
-        {translate('Security attributes tooltip')}{' '}
+        {translate(
+          'Allow the iframe to access more functionality of your browser, details regarding the various options can be found in the',
+        )}{' '}
         <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" rel="noreferrer">
           {translate('MDN iFrame documentation.')}
         </a>

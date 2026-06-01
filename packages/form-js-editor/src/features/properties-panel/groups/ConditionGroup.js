@@ -9,9 +9,11 @@ export function ConditionGroup(field, editField, getService) {
 
   const entries = [...ConditionEntry({ field, editField })];
 
+  const translate = getService('translate');
+
   return {
     id: 'condition',
-    label: getService('translate')('Condition'),
+    label: translate('Condition'),
     entries,
   };
 }

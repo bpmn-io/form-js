@@ -50,7 +50,7 @@ function SerializeToString(props) {
     getValue,
     id,
     label: translate('Output as string'),
-    description: translate('CheckboxEntry description'),
+    description: translate('Allows arbitrary precision values'),
     setValue,
   });
 }

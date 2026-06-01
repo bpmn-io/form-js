@@ -48,13 +48,15 @@ function Source(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: translate('Data source description'),
+    description: translate('Specify the source from which to populate the table'),
     element: field,
     feel: 'required',
     getValue,
     id,
     label: translate('Data source'),
-    tooltip: translate('Data source tooltip'),
+    tooltip: translate(
+      'Enter a form input variable that contains the data for the table or define an expression to populate the data dynamically.',
+    ),
     setValue,
     singleLine: true,
     variables,
@@ -79,11 +81,11 @@ const validate = (value, translate) => {
   }
 
   if (!isValidDotPath(value)) {
-    return translate('Variable or dot separated path.');
+    return translate('Must be a variable or a dot separated path.');
   }
 
   if (hasIntegerPathSegment(value)) {
-    return translate('Contain numerical path segments');
+    return translate('Must not contain numerical path segments.');
   }
 
   return null;

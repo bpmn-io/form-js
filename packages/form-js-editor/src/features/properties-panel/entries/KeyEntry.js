@@ -84,7 +84,7 @@ function Key(props) {
       const canClaim = pathRegistry.canClaimPath(newPath, { isClosed: true, claimerId: field.id });
       pathRegistry.claimPath(oldPath, { isClosed: true, claimerId: field.id });
 
-      return canClaim ? null : translate('conflict key/path assignments');
+      return canClaim ? null : translate('Must not conflict with other key/path assignments.');
     },
     [field, pathRegistry, translate],
   );
@@ -96,7 +96,9 @@ function Key(props) {
     getValue,
     id,
     label: translate('Key'),
-    tooltip: translate('Key tooltip'),
+    tooltip: translate(
+      'Use a unique "key" to link the form element and the related input/output data. When dealing with nested data, break it down in the user task\'s input mapping before using it.',
+    ),
     setValue,
     validate,
   });
