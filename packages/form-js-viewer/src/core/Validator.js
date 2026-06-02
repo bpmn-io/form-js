@@ -107,8 +107,9 @@ function runNumberValidation(field, value, translate) {
           ' ' +
           (decimalDigits === 0
             ? translate('be an integer')
-            : translate('have at most ${value} decimal digit', { value: decimalDigits }) +
-              `${decimalDigits > 1 ? 's' : ''}.`),
+            : translate('have at most {value} decimal digit', { value: decimalDigits }) +
+              `${decimalDigits > 1 ? 's' : ''}`) +
+          '.',
       );
     }
 

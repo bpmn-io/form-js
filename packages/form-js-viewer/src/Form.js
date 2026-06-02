@@ -313,6 +313,7 @@ export class Form {
     return createInjector([
       { config: ['value', enrichedConfig] },
       { form: ['value', this] },
+      TranslateModule,
       CoreModule,
       ...modules,
       ...additionalModules,
@@ -391,7 +392,6 @@ export class Form {
       MarkdownRendererModule,
       ViewerCommandsModule,
       RepeatRenderModule,
-      TranslateModule,
     ];
   }
 

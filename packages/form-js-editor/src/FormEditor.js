@@ -244,6 +244,7 @@ export class FormEditor {
     return createInjector([
       { config: ['value', enrichedConfig] },
       { formEditor: ['value', this] },
+      TranslateModule,
       CoreModule,
       ...modules,
       ...additionalModules,
@@ -293,7 +294,6 @@ export class FormEditor {
       PropertiesPanelModule,
       RenderInjectionModule,
       RepeatRenderModule,
-      TranslateModule,
     ];
   }
 
