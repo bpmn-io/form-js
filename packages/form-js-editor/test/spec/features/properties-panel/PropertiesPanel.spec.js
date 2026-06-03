@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/preact/pure';
 
 import { query as domQuery } from 'min-dom';
+import { set } from 'min-dash';
 
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_DEFAULTS } from '@bpmn-io/form-js-viewer';
 import { removeKey } from '../../../../src/features/properties-panel/groups/CustomPropertiesGroup';
@@ -664,14 +665,29 @@ describe('properties panel', function () {
       describe('static options', function () {
         it('should re-configure static source defaults', function () {
           // given
-          const editFieldSpy = spy();
+          const eventBus = new EventBusMock();
 
-          const field = schema.components.find(({ key }) => key === 'product');
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          const editFieldSpy = spy((field, properties) => {
+            for (const path of [['values'], ['valuesKey'], ['valuesExpression']]) {
+              set(field, path, undefined);
+            }
+
+            for (const key in properties) {
+              set(field, [key], properties[key]);
+            }
+
+            act(() => eventBus.fire('changed', { elements: [field] }));
+
+            return field;
+          });
 
           bootstrapPropertiesPanel({
             container,
             editField: editFieldSpy,
             field,
+            services: { eventBus },
           });
 
           // assume
@@ -680,8 +696,8 @@ describe('properties panel', function () {
           expect(input.value).to.equal(OPTIONS_SOURCES.STATIC);
 
           // when
-          fireEvent.input(input, { target: { value: OPTIONS_SOURCES.INPUT } });
-          fireEvent.input(input, { target: { value: OPTIONS_SOURCES.STATIC } });
+          fireEvent.input(screen.getByLabelText('Type'), { target: { value: OPTIONS_SOURCES.INPUT } });
+          fireEvent.input(screen.getByLabelText('Type'), { target: { value: OPTIONS_SOURCES.STATIC } });
 
           // then
           expect(editFieldSpy).to.have.been.calledTwice;
@@ -1494,7 +1510,7 @@ describe('properties panel', function () {
           // given
           const editFieldSpy = spy();
 
-          const field = schema.components.find(({ key }) => key === 'language');
+          const field = { ...schema.components.find(({ key }) => key === 'language'), defaultValue: 'english' };
 
           bootstrapPropertiesPanel({
             container,
@@ -1505,7 +1521,7 @@ describe('properties panel', function () {
           // assume
           const input = screen.getByLabelText('Default value');
 
-          expect(input.value).to.equal('');
+          expect(input.value).to.equal('english');
 
           // when
           fireEvent.input(input, { target: { value: EMPTY_OPTION } });
