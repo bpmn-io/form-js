@@ -10,9 +10,6 @@ const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
 const singleStart = process.env.SINGLE_START;
 
-// use puppeteer provided Chrome for testing
-process.env.CHROME_BIN = require('puppeteer').executablePath();
-
 const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
 module.exports = function (karma) {
