@@ -18,7 +18,7 @@ module.exports = function (karma) {
       [suite]: ['webpack', 'env'],
     },
 
-    reporters: ['spec'],
+    reporters: ['tldr'],
 
     specReporter: {
       maxLogLines: 10,

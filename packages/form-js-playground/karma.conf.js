@@ -22,7 +22,7 @@ module.exports = function (karma) {
       [suite]: ['webpack', 'env'],
     },
 
-    reporters: ['spec'].concat(coverage ? 'coverage' : []),
+    reporters: ['tldr'].concat(coverage ? 'coverage' : []),
 
     specReporter: {
       maxLogLines: 10,

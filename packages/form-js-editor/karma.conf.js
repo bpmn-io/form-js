@@ -24,7 +24,7 @@ module.exports = function (karma) {
 
     envPreprocessor: ['NODE_ENV'],
 
-    reporters: ['spec'].concat(coverage ? 'coverage' : []),
+    reporters: ['tldr'].concat(coverage ? 'coverage' : []),
 
     specReporter: {
       maxLogLines: 10,
