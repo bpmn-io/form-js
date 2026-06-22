@@ -254,9 +254,14 @@ function DebugColumns(props) {
 function Children(props) {
   const { field } = props;
 
-  const { id } = field;
+  const { id, type } = field;
 
   const classes = ['fjs-children', DROP_CONTAINER_VERTICAL_CLS];
+
+  // mark the top-level (root form) drop container
+  if (type === 'default') {
+    classes.push('fjs-editor-form-root');
+  }
 
   if (props.class) {
     classes.push(...props.class.split(' '));
