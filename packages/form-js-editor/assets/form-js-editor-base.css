@@ -180,6 +180,10 @@
   flex-grow: 1;
 }
 
+.fjs-editor-container .fjs-editor-form-root {
+  padding-bottom: 28px;
+}
+
 .fjs-editor-container .fjs-children .fjs-children {
   margin: 3px 0;
 }
