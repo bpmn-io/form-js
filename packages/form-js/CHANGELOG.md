@@ -7,6 +7,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 _**Note:** Yet to be released changes appear here._
 
 - `DEPS`: update to `feelers@3.1.0`
+- `DEPS`: update to `@bpmn-io/properties-panel@3.45.0`
 
 ## 1.22.0
 
