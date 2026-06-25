@@ -1,4 +1,5 @@
-import { parser as feelersParser, buildSimpleTree, evaluate as evaluateFeelers } from 'feelers';
+import { evaluate as evaluateFeelers, parseToSimpleTree } from 'feelers';
+
 import { isString } from 'min-dash';
 import { getFlavouredFeelVariableNames } from './variableExtractionHelpers';
 
@@ -53,7 +54,7 @@ export class FeelersTemplating {
    * @param {Object} options
    * @param {boolean} [options.debug = false]
    * @param {boolean} [options.strict = false]
-   * @param {Function} [options.buildDebugString]
+   * @param {(error: Error) => string} [options.buildDebugString]
    * @param {Function} [options.sanitizer]
    *
    * @returns
@@ -76,21 +77,20 @@ export class FeelersTemplating {
    */
 
   /**
- * Extracts all feel expressions in the template along with their depth in the syntax tree.
- * The depth is incremented for child expressions of loops to account for context drilling.
+   * Extracts all feel expressions in the template along with their depth in the syntax tree.
+   * The depth is incremented for child expressions of loops to account for context drilling.
 
- * @name extractExpressionsWithDepth
- * @param {string} template - A feelers template string.
- * @returns {Array<ExpressionWithDepth>} An array of objects, each containing the depth and the extracted expression.
- *
- * @example
- * const template = "Hello {{user}}, you have:{{#loop items}}\n- {{amount}} {{name}}{{/loop}}.";
- * const extractedExpressions = _extractExpressionsWithDepth(template);
- */
+   * @name extractExpressionsWithDepth
+   * @param {string} template - A feelers template string.
+   * @returns {Array<ExpressionWithDepth>} An array of objects, each containing the depth and the extracted expression.
+   *
+   * @example
+   * const template = "Hello {{user}}, you have:{{#loop items}}\n- {{amount}} {{name}}{{/loop}}.";
+   * const extractedExpressions = _extractExpressionsWithDepth(template);
+   */
   _extractExpressionsWithDepth(template) {
     // build simplified feelers syntax tree
-    const parseTree = feelersParser.parse(template);
-    const tree = buildSimpleTree(parseTree, template);
+    const tree = parseToSimpleTree(template);
 
     return (function _traverse(n, depth = 0) {
       if (['Feel', 'FeelBlock'].includes(n.name)) {

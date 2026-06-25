@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+- `DEPS`: update to `feelers@3.1.0`
+
 ## 1.22.0
 
 - `FEAT`: move max height description to tooltip ([#1516](https://github.com/bpmn-io/form-js/pull/1516))
