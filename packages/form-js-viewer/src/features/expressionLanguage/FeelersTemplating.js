@@ -80,7 +80,7 @@ export class FeelersTemplating {
    * Extracts all feel expressions in the template along with their depth in the syntax tree.
    * The depth is incremented for child expressions of loops to account for context drilling.
 
-   * @name extractExpressionsWithDepth
+   * @name _extractExpressionsWithDepth
    * @param {string} template - A feelers template string.
    * @returns {Array<ExpressionWithDepth>} An array of objects, each containing the depth and the extracted expression.
    *
