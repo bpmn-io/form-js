@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.23.0
+
+- `FIX`: increase drop area at the bottom of from editor ([#1432](https://github.com/bpmn-io/form-js/issues/1432))
+- `FIX`: fixed `side-line-extension-background-color` default color definition error
 - `DEPS`: update to `feelers@3.1.0`
 - `DEPS`: update to `@bpmn-io/properties-panel@3.45.0`
 
