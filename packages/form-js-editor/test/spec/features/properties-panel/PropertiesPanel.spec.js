@@ -1304,10 +1304,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: OPTIONS_SOURCES.INPUT } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const valuesKeyInput = screen.getByLabelText('Input values key');
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const valuesKeyInput = screen.getByLabelText('Input values key');
             expect(document.activeElement).to.eql(valuesKeyInput);
           });
         });
@@ -1419,10 +1421,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: OPTIONS_SOURCES.EXPRESSION } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const editor = findTextbox('optionsExpression-expression', container);
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const editor = findTextbox('optionsExpression-expression', container);
             expect(document.activeElement).to.eql(editor);
           });
         });
@@ -1639,10 +1643,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: OPTIONS_SOURCES.STATIC } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const optionLabelInput = screen.getByLabelText('Label');
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const optionLabelInput = screen.getByLabelText('Label');
             expect(document.activeElement).to.eql(optionLabelInput);
           });
         });
@@ -1842,10 +1848,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: OPTIONS_SOURCES.EXPRESSION } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const valuesKeyInput = screen.getByLabelText('Input values key');
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const valuesKeyInput = screen.getByLabelText('Input values key');
             expect(document.activeElement).to.eql(valuesKeyInput);
           });
         });
@@ -1956,10 +1964,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: OPTIONS_SOURCES.EXPRESSION } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const editor = findTextbox('optionsExpression-expression', container);
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const editor = findTextbox('optionsExpression-expression', container);
             expect(document.activeElement).to.eql(editor);
           });
         });
@@ -3318,10 +3328,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: 'static' } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const optionLabelInput = screen.getByLabelText('Label');
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const optionLabelInput = screen.getByLabelText('Label');
             expect(document.activeElement).to.eql(optionLabelInput);
           });
         });
@@ -3513,10 +3525,12 @@ describe('properties panel', function () {
           fireEvent.input(input, { target: { value: 'expression' } });
           await act(() => eventBus.fire('changed'));
 
-          // then
-          const editor = findTextbox(`${field.id}-columnsExpression`, container);
+          // focus is applied on a deferred `propertiesPanel.showEntry` event; flush it
+          await nextTick();
 
+          // then
           await waitFor(() => {
+            const editor = findTextbox(`${field.id}-columnsExpression`, container);
             expect(document.activeElement).to.eql(editor);
           });
         });
@@ -3906,6 +3920,14 @@ function findOpenFeelPopup(id, container) {
 
 function findTextbox(id, container) {
   return container.querySelector(`[name=${id}] [role="textbox"]`);
+}
+
+// advances the event loop one tick inside act, flushing deferred (setTimeout)
+// work and the resulting renders before we assert
+function nextTick() {
+  return act(async () => {
+    await new Promise((resolve) => setTimeout(resolve));
+  });
 }
 
 function getListOrdering(list) {

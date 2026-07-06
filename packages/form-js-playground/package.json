@@ -59,7 +59,7 @@
     "downloadjs": "^1.4.7",
     "file-drops": "^0.7.0",
     "mitt": "^3.0.1",
-    "preact": "^10.5.14"
+    "preact": "^10.19.3"
   },
   "sideEffects": [
     "*.css"
