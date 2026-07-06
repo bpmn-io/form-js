@@ -1032,6 +1032,41 @@ describe('FormEditor', function () {
       });
     });
 
+    it('should keep both fields when reordering within a row', async function () {
+      // given
+      let dragulaCreated = false;
+
+      await bootstrapFormEditor({
+        schema: schemaRows,
+        container,
+        bootstrapExecute: (editor) => {
+          editor.on('dragula.created', () => {
+            dragulaCreated = true;
+          });
+        },
+      });
+
+      expect(dragulaCreated).to.be.true;
+
+      const draggedField = container.querySelector('[data-id="Number_1"]').parentNode;
+
+      const leftField = container.querySelector('[data-id="Textfield_1"]');
+      const bounds = leftField.getBoundingClientRect();
+
+      // when
+      startDragging(container, draggedField);
+      moveDragging(container, {
+        clientX: bounds.x + 1,
+        clientY: bounds.y + bounds.height / 2,
+      });
+
+      endDragging(container);
+
+      // then
+      expect(container.querySelector('[data-id="Textfield_1"]')).to.exist;
+      expect(container.querySelector('[data-id="Number_1"]')).to.exist;
+    });
+
     it('should not move form field if it cannot be found in the registry', async function () {
       // given
       let dragulaCreated = false;

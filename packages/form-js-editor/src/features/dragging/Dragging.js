@@ -212,14 +212,15 @@ export class Dragging {
       targetRow = this._formLayouter.getRow(target.dataset.rowId);
     }
 
-    // (2.2) validate whether drop is allowed
+    // (2.2) revert dragula's DOM change; Preact re-renders from the schema instead
+    drake.cancel(true);
+
+    // (2.3) reject invalid drops — no schema change
     const validationError = this.validateDrop(el, target);
 
     if (validationError) {
-      return drake.cancel(true);
+      return;
     }
-
-    drake.remove();
 
     // (3) detect position to drop field in schema order
     const targetIndex = this.getTargetIndex(targetRow, targetFormField, sibling);
