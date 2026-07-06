@@ -168,7 +168,6 @@ export class RepeatRenderManager {
         {showAdd ? (
           <button
             type="button"
-            readOnly={readonly}
             disabled={disabled || readonly}
             class="fjs-repeat-render-add"
             ref={addButtonRef}

@@ -31,7 +31,7 @@ const EMPTY_ARRAY = [];
  * @returns {import("preact").JSX.Element}
  */
 export function FilePicker(props) {
-  /** @type {import("preact/hooks").Ref<HTMLInputElement>} */
+  /** @type {import("preact").RefObject<HTMLInputElement>} */
   const fileInputRef = useRef(null);
   /** @type {import('../../FileRegistry').FileRegistry} */
   const fileRegistry = useService('fileRegistry', false);
@@ -99,7 +99,6 @@ export function FilePicker(props) {
         <button
           type="button"
           disabled={isInputDisabled}
-          readOnly={readonly}
           className="fjs-button fjs-filepicker-button"
           onClick={() => {
             fileInputRef.current.click();
