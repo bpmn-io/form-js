@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { isDefined } from 'min-dash';
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
 import { useService, useCleanupSingleSelectValue } from '../../../hooks';
@@ -34,7 +35,10 @@ export function SearchableSelect(props) {
 
   const getLabelCorrelation = useGetLabelCorrelation(options);
 
-  const label = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
+  const label = useMemo(
+    () => (isDefined(value) ? getLabelCorrelation(value) : undefined),
+    [value, getLabelCorrelation],
+  );
 
   // whenever we change the underlying value, set the label to it
   useEffect(() => {
@@ -58,7 +62,7 @@ export function SearchableSelect(props) {
   const pickOption = useCallback(
     (option) => {
       setFilter((option && option.label) || '');
-      props.onChange({ value: (option && option.value) || null });
+      props.onChange({ value: option?.value ?? null });
     },
     [props],
   );
