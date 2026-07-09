@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
 import classNames from 'classnames';
-import { findIndex } from 'min-dash';
+import { findIndex, isDefined } from 'min-dash';
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useCleanupSingleSelectValue } from '../../../hooks/useCleanupSingleSelectValue';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
@@ -31,11 +31,14 @@ export function SimpleSelect(props) {
 
   const getLabelCorrelation = useGetLabelCorrelation(options);
 
-  const valueLabel = useMemo(() => value && getLabelCorrelation(value), [value, getLabelCorrelation]);
+  const valueLabel = useMemo(
+    () => (isDefined(value) ? getLabelCorrelation(value) : undefined),
+    [value, getLabelCorrelation],
+  );
 
   const pickOption = useCallback(
     (option) => {
-      props.onChange({ value: (option && option.value) || null });
+      props.onChange({ value: option?.value ?? null });
     },
     [props],
   );

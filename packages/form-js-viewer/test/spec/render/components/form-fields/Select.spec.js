@@ -315,6 +315,41 @@ describe('Select', function () {
           value: null,
         });
       });
+
+      it('should set value through dropdown (falsy option value)', async function () {
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createSelect({
+          onChange: onChangeSpy,
+          value: null,
+          field: fieldWithFalsyValue,
+        });
+
+        const select = container.querySelector('.fjs-input-group');
+
+        // when
+        await userEvent.click(select);
+        const zeroSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+        await userEvent.click(zeroSelector);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 0,
+        });
+      });
+
+      it('should render label for a falsy value (0)', function () {
+        // when
+        const { container } = createSelect({
+          value: 0,
+          field: fieldWithFalsyValue,
+        });
+
+        // then
+        const display = container.querySelector('.fjs-select-display');
+        expect(display.innerText).to.equal('Zero');
+      });
     });
 
     describe('interaction (dynamic data, valuesKey)', function () {
@@ -865,6 +900,41 @@ describe('Select', function () {
         expect(filterInput.value).to.equal('');
       });
 
+      it('should set value through dropdown (falsy option value)', async function () {
+        // given
+        const onChangeSpy = spy();
+
+        const { container } = createSelect({
+          field: { ...fieldWithFalsyValue, searchable: true },
+          onChange: onChangeSpy,
+          value: null,
+        });
+
+        const filterInput = container.querySelector('input[type="text"]');
+
+        // when
+        await userEvent.click(filterInput);
+        const zeroSelector = container.querySelector('.fjs-dropdownlist .fjs-dropdownlist-item');
+        await userEvent.click(zeroSelector);
+
+        // then
+        expect(onChangeSpy).to.have.been.calledWithMatch({
+          value: 0,
+        });
+      });
+
+      it('should render label for a falsy value (0)', function () {
+        // when
+        const { container } = createSelect({
+          field: { ...fieldWithFalsyValue, searchable: true },
+          value: 0,
+        });
+
+        // then
+        const filter = container.querySelector('input[type="text"]');
+        expect(filter.value).to.equal('Zero');
+      });
+
       it('should not submit form on enter', async function () {
         // given
         const onSubmitSpy = spy();
@@ -1086,6 +1156,24 @@ const defaultField = {
     {
       label: 'German',
       value: 'german',
+    },
+    {
+      label: 'English',
+      value: 'english',
+    },
+  ],
+};
+
+const fieldWithFalsyValue = {
+  id: 'Select_1',
+  key: 'language',
+  label: 'Language',
+  type: 'select',
+  description: 'select',
+  values: [
+    {
+      label: 'Zero',
+      value: 0,
     },
     {
       label: 'English',
