@@ -25,6 +25,7 @@ function Content(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -40,11 +41,11 @@ function Content(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description,
+    description: description(translate),
     element: field,
     getValue,
     id,
-    label: 'Content',
+    label: translate('Content'),
     hostLanguage: 'html',
     validate,
     setValue,
@@ -54,17 +55,19 @@ function Content(props) {
 
 // helpers //////////
 
-const description = (
-  <>
-    Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component.{' '}
-    <a
-      href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/"
-      target="_blank"
-      rel="noreferrer">
-      Learn more
-    </a>
-  </>
-);
+const description = (translate) => {
+  return (
+    <>
+      {translate('Supports HTML, styling, and templating. Styles are automatically scoped to the HTML component.')}{' '}
+      <a
+        href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-html/"
+        target="_blank"
+        rel="noreferrer">
+        {translate('Learn more')}
+      </a>
+    </>
+  );
+};
 
 /**
  * @param {string|void} value

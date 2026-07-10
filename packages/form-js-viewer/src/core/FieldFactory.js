@@ -4,13 +4,16 @@ export class FieldFactory {
   /**
    * @constructor
    *
-   * @param  formFieldRegistry
-   * @param  formFields
+   * @param formFieldRegistry
+   * @param pathRegistry
+   * @param formFields
+   * @param {function} translate
    */
-  constructor(formFieldRegistry, pathRegistry, formFields) {
+  constructor(formFieldRegistry, pathRegistry, formFields, translate) {
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;
     this._formFields = formFields;
+    this._translate = translate;
   }
 
   create(attrs, isNewField = true) {
@@ -46,7 +49,9 @@ export class FieldFactory {
         knownAncestorIds,
       })
     ) {
-      throw new Error(`binding path '${[...parentPath, key].join('.')}' is already claimed`);
+      throw new Error(
+        this._translate("binding path '{value}' is already claimed", { value: [...parentPath, key].join('.') }),
+      );
     }
 
     if (
@@ -57,7 +62,11 @@ export class FieldFactory {
         knownAncestorIds,
       })
     ) {
-      throw new Error(`binding path '${[...parentPath, ...path.split('.')].join('.')}' is already claimed`);
+      throw new Error(
+        this._translate("binding path '{value}' is already claimed", {
+          value: [...parentPath, ...path.split('.')].join('.'),
+        }),
+      );
     }
 
     const field = config.create(
@@ -135,4 +144,4 @@ export class FieldFactory {
   }
 }
 
-FieldFactory.$inject = ['formFieldRegistry', 'pathRegistry', 'formFields'];
+FieldFactory.$inject = ['formFieldRegistry', 'pathRegistry', 'formFields', 'translate'];

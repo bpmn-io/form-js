@@ -1,6 +1,6 @@
 import { ConditionEntry } from '../entries';
 
-export function ConditionGroup(field, editField) {
+export function ConditionGroup(field, editField, getService) {
   const { type } = field;
 
   if (type === 'default') {
@@ -9,9 +9,11 @@ export function ConditionGroup(field, editField) {
 
   const entries = [...ConditionEntry({ field, editField })];
 
+  const translate = getService('translate');
+
   return {
     id: 'condition',
-    label: 'Condition',
+    label: translate('Condition'),
     entries,
   };
 }

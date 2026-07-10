@@ -1,7 +1,9 @@
 import { DateTimeConstraintsEntry } from '../entries';
 
-export function ConstraintsGroup(field, editField) {
+export function ConstraintsGroup(field, editField, getService) {
   const entries = [...DateTimeConstraintsEntry({ field, editField })];
+
+  const translate = getService('translate');
 
   if (!entries.length) {
     return null;
@@ -9,7 +11,7 @@ export function ConstraintsGroup(field, editField) {
 
   return {
     id: 'constraints',
-    label: 'Constraints',
+    label: translate('Constraints'),
     entries,
   };
 }

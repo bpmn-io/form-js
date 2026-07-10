@@ -25,6 +25,7 @@ function Multiple(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -44,7 +45,7 @@ function Multiple(props) {
     feel: 'optional',
     getValue,
     id,
-    label: 'Upload multiple files',
+    label: translate('Upload multiple files'),
     inline: true,
     setValue,
     variables,

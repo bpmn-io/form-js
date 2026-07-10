@@ -14,25 +14,30 @@ import { useService, useVariables } from '../hooks';
 
 import { INPUTS } from '../Util';
 
-const VALIDATION_TYPE_OPTIONS = {
-  custom: {
-    value: '',
-    label: 'Custom',
-  },
-  email: {
-    value: 'email',
-    label: 'Email',
-  },
-  phone: {
-    value: 'phone',
-    label: 'Phone',
-  },
+const VALIDATION_TYPE_OPTIONS = (translate) => {
+  return {
+    custom: {
+      value: '',
+      label: translate('Custom'),
+    },
+    email: {
+      value: 'email',
+      label: translate('Email'),
+    },
+    phone: {
+      value: 'phone',
+      label: translate('Phone'),
+    },
+  };
 };
 
-export function ValidationGroup(field, editField) {
+export function ValidationGroup(field, editField, getService) {
   const { type } = field;
   const validate = get(field, ['validate'], {});
-  const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS.custom.value].includes(validate.validationType);
+  const translate = getService('translate');
+  const isCustomValidation = [undefined, VALIDATION_TYPE_OPTIONS(translate).custom.value].includes(
+    validate.validationType,
+  );
   const hasPattern = !!get(field, ['validate', 'pattern']);
 
   const onChange = (key) => {
@@ -58,6 +63,7 @@ export function ValidationGroup(field, editField) {
       isEdited: isCheckboxEntryEdited,
       onChange,
       isDefaultVisible: (field) => INPUTS.includes(field.type),
+      translate,
     },
   ];
 
@@ -70,6 +76,7 @@ export function ValidationGroup(field, editField) {
     isEdited: isTextFieldEntryEdited,
     onChange,
     isDefaultVisible: (field) => field.type === 'textfield',
+    translate,
   });
 
   entries.push(
@@ -82,6 +89,7 @@ export function ValidationGroup(field, editField) {
       onChange,
       isDefaultVisible: (field) =>
         INPUTS.includes(field.type) && (type === 'textarea' || (type === 'textfield' && isCustomValidation)),
+      translate,
     },
     {
       id: 'maxLength',
@@ -92,6 +100,7 @@ export function ValidationGroup(field, editField) {
       onChange,
       isDefaultVisible: (field) =>
         INPUTS.includes(field.type) && (type === 'textarea' || (type === 'textfield' && isCustomValidation)),
+      translate,
     },
   );
 
@@ -103,6 +112,7 @@ export function ValidationGroup(field, editField) {
     isEdited: isTextFieldEntryEdited,
     onChange,
     isDefaultVisible: (field) => INPUTS.includes(field.type) && type === 'textfield' && isCustomValidation,
+    translate,
   });
 
   entries.push({
@@ -114,6 +124,7 @@ export function ValidationGroup(field, editField) {
     onChange,
     isDefaultVisible: (field) =>
       INPUTS.includes(field.type) && type === 'textfield' && isCustomValidation && hasPattern,
+    translate,
   });
 
   entries.push(
@@ -125,6 +136,7 @@ export function ValidationGroup(field, editField) {
       isEdited: isFeelEntryEdited,
       onChange,
       isDefaultVisible: (field) => field.type === 'number',
+      translate,
     },
     {
       id: 'max',
@@ -134,30 +146,31 @@ export function ValidationGroup(field, editField) {
       isEdited: isFeelEntryEdited,
       onChange,
       isDefaultVisible: (field) => field.type === 'number',
+      translate,
     },
   );
 
   return {
     id: 'validation',
-    label: 'Validation',
+    label: translate('Validation'),
     entries,
   };
 }
 
 function Required(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   return CheckboxEntry({
     element: field,
     getValue: getValue('required'),
     id,
-    label: 'Required',
+    label: translate('Required'),
     setValue: onChange('required'),
   });
 }
 
 function MinLength(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -169,7 +182,7 @@ function MinLength(props) {
     feel: 'optional',
     getValue: getValue('minLength'),
     id,
-    label: 'Minimum length',
+    label: translate('Minimum length'),
     min: 0,
     setValue: onChange('minLength'),
     variables,
@@ -177,7 +190,7 @@ function MinLength(props) {
 }
 
 function MaxLength(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -189,7 +202,7 @@ function MaxLength(props) {
     feel: 'optional',
     getValue: getValue('maxLength'),
     id,
-    label: 'Maximum length',
+    label: translate('Maximum length'),
     min: 0,
     setValue: onChange('maxLength'),
     variables,
@@ -197,7 +210,7 @@ function MaxLength(props) {
 }
 
 function Pattern(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -206,13 +219,13 @@ function Pattern(props) {
     element: field,
     getValue: getValue('pattern'),
     id,
-    label: 'Custom regular expression',
+    label: translate('Custom regular expression'),
     setValue: onChange('pattern'),
   });
 }
 
 function PatternErrorMessage(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -221,14 +234,14 @@ function PatternErrorMessage(props) {
     element: field,
     getValue: getValue('patternErrorMessage'),
     id,
-    label: 'Custom error message',
-    tooltip: 'The error message to display when the input does not match the regular expression.',
+    label: translate('Custom error message'),
+    tooltip: translate('The error message to display when the input does not match the regular expression.'),
     setValue: onChange('patternErrorMessage'),
   });
 }
 
 function Min(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -239,7 +252,7 @@ function Min(props) {
     element: field,
     feel: 'optional',
     id,
-    label: 'Minimum',
+    label: translate('Minimum'),
     step: 'any',
     getValue: getValue('min'),
     setValue: onChange('min'),
@@ -248,7 +261,7 @@ function Min(props) {
 }
 
 function Max(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -259,7 +272,7 @@ function Max(props) {
     element: field,
     feel: 'optional',
     id,
-    label: 'Maximum',
+    label: translate('Maximum'),
     step: 'any',
     getValue: getValue('max'),
     setValue: onChange('max'),
@@ -268,7 +281,7 @@ function Max(props) {
 }
 
 function ValidationType(props) {
-  const { field, getValue, id, onChange } = props;
+  const { field, getValue, id, onChange, translate } = props;
 
   const debounce = useService('debounce');
 
@@ -281,12 +294,14 @@ function ValidationType(props) {
     element: field,
     getValue: getValue('validationType'),
     id,
-    label: 'Validation pattern',
+    label: translate('Validation pattern'),
     setValue,
-    getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS),
+    getOptions: () => Object.values(VALIDATION_TYPE_OPTIONS(translate)),
     tooltip:
-      getValue('validationType')() === VALIDATION_TYPE_OPTIONS.phone.value
-        ? 'The built-in phone validation pattern is based on the E.164 standard with no spaces. Ex: +491234567890'
+      getValue('validationType')() === VALIDATION_TYPE_OPTIONS(translate).phone.value
+        ? translate(
+            'The built-in phone validation pattern is based on the E.164 standard with no spaces. Ex: +491234567890',
+          )
         : undefined,
   });
 }

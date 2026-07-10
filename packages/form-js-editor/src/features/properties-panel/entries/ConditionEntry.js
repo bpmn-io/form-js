@@ -21,6 +21,7 @@ function Condition(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -38,13 +39,13 @@ function Condition(props) {
     return editField(field, 'conditional', { hide: value });
   };
 
-  let label = 'Hide if';
-  let description = 'Condition under which the field is hidden';
+  let label = translate('Hide if');
+  let description = translate('Condition under which the field is hidden');
 
   // special case for expression fields which do not render
   if (field.type === 'expression') {
-    label = 'Deactivate if';
-    description = 'Condition under which the field is deactivated';
+    label = translate('Deactivate if');
+    description = translate('Condition under which the field is deactivated');
   }
 
   return FeelEntry({

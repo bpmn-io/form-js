@@ -66,22 +66,23 @@ function ContextPadContent(props) {
   );
 }
 
-function EmptyGroup() {
+function EmptyGroup({ translate }) {
   return (
     <div class="fjs-empty-component">
-      <span class="fjs-empty-component-text">Drag and drop components here.</span>
+      <span class="fjs-empty-component-text">{translate('Drag and drop components here.')}</span>
     </div>
   );
 }
 
 function EmptyForm() {
+  const translate = useService('translate');
   return (
     <div class="fjs-empty-editor">
       <div class="fjs-empty-editor-card">
         <EmptyFormIcon />
-        <h2>Build your form</h2>
-        <span>Drag and drop components here to start designing.</span>
-        <span>Use the preview window to test your form.</span>
+        <h2>{translate('Build your form')}</h2>
+        <span>{translate('Drag and drop components here to start designing.')}</span>
+        <span>{translate('Use the preview window to test your form.')}</span>
         <Slot name="editor-empty-state__footer" />
       </div>
     </div>
@@ -89,8 +90,10 @@ function EmptyForm() {
 }
 
 function Empty(props) {
+  const translate = useService('translate');
+
   if (['group', 'dynamiclist'].includes(props.field.type)) {
-    return <EmptyGroup />;
+    return <EmptyGroup translate={translate} />;
   }
 
   if (props.field.type === 'default') {
@@ -324,7 +327,8 @@ export function FormEditor() {
     injector = useService('injector'),
     selection = useService('selection'),
     propertiesPanel = useService('propertiesPanel'),
-    propertiesPanelConfig = useService('config.propertiesPanel');
+    propertiesPanelConfig = useService('config.propertiesPanel'),
+    translate = useService('translate');
 
   const { schema, properties } = formEditor._getState();
 
@@ -364,6 +368,7 @@ export function FormEditor() {
     let dragulaInstance = dragging.createDragulaInstance({
       container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
       mirrorContainer: formContainerRef.current,
+      translate: translate,
     });
 
     setDrake(dragulaInstance);
@@ -381,6 +386,7 @@ export function FormEditor() {
       dragulaInstance = dragging.createDragulaInstance({
         container: [DRAG_CONTAINER_CLS, DROP_CONTAINER_VERTICAL_CLS, DROP_CONTAINER_HORIZONTAL_CLS],
         mirrorContainer: formContainerRef.current,
+        translate: translate,
       });
       setDrake(dragulaInstance);
     };
@@ -412,7 +418,7 @@ export function FormEditor() {
       eventBus.off('drag.start', onDragStart);
       eventBus.off('drag.end', onDragEnd);
     };
-  }, [dragging, eventBus]);
+  }, [dragging, eventBus, translate]);
 
   // fire event after render to notify interested parties
   useEffect(() => {

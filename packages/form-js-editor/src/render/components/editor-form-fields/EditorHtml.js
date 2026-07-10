@@ -11,13 +11,14 @@ export function EditorHtml(props) {
 
   const templating = useService('templating');
   const expressionLanguage = useService('expressionLanguage');
+  const translate = useService('translate');
 
   if (!content || !content.trim()) {
     return (
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Html view is empty
+          {translate('Html view is empty')}
         </div>
       </div>
     );
@@ -28,7 +29,7 @@ export function EditorHtml(props) {
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Html view is populated by an expression
+          {translate('Html view is populated by an expression')}
         </div>
       </div>
     );
@@ -39,7 +40,7 @@ export function EditorHtml(props) {
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Html view is templated
+          {translate('Html view is templated')}
         </div>
       </div>
     );

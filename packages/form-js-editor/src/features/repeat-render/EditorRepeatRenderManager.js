@@ -1,9 +1,10 @@
 import RepeatSvg from '../../render/components/icons/Repeat.svg';
 
 export class EditorRepeatRenderManager {
-  constructor(formFields, formFieldRegistry) {
+  constructor(formFields, formFieldRegistry, translate) {
     this._formFields = formFields;
     this._formFieldRegistry = formFieldRegistry;
+    this._translate = translate;
     this.RepeatFooter = this.RepeatFooter.bind(this);
   }
 
@@ -27,10 +28,10 @@ export class EditorRepeatRenderManager {
     return (
       <div className="fjs-repeat-render-footer">
         <RepeatSvg />
-        <span>Repeatable</span>
+        <span>{this._translate('Repeatable')}</span>
       </div>
     );
   }
 }
 
-EditorRepeatRenderManager.$inject = ['formFields', 'formFieldRegistry'];
+EditorRepeatRenderManager.$inject = ['formFields', 'formFieldRegistry', 'translate'];

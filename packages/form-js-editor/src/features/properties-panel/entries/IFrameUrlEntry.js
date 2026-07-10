@@ -4,6 +4,8 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from 'preact/hooks';
+
 const HTTPS_PATTERN = /^(https):\/\/*/i;
 
 export function IFrameUrlEntry(props) {
@@ -26,6 +28,7 @@ function Url(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -45,32 +48,33 @@ function Url(props) {
     feel: 'optional',
     getValue,
     id,
-    label: 'URL',
+    label: translate('URL'),
     setValue,
     singleLine: true,
-    tooltip: getTooltip(),
-    validate,
+    tooltip: getTooltip(translate),
+    validate: useCallback((value) => validate(value, translate), [translate]),
     variables,
   });
 }
 
 // helper //////////////////////
 
-function getTooltip() {
+function getTooltip(translate) {
   return (
     <>
       <p>
-        Enter a HTTPS URL to a source or populate it dynamically via a template or an expression (e.g., to pass a value
-        from the variable).
+        {translate(
+          'Enter a HTTPS URL to a source or populate it dynamically via a template or an expression (e.g., to pass a value from the variable).',
+        )}
       </p>
-      <p>Please make sure that the URL is safe as it might impose security risks.</p>
+      <p>{translate('Please make sure that the URL is safe as it might impose security risks.')}</p>
       <p>
-        Not all external sources can be displayed in the iFrame. Read more about it in the{' '}
+        {translate('Not all external sources can be displayed in the iFrame. Read more about it in the')}{' '}
         <a
           target="_blank"
           href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
           rel="noreferrer">
-          X-FRAME-OPTIONS documentation
+          {translate('X-FRAME-OPTIONS documentation')}
         </a>
         .
       </p>
@@ -80,14 +84,15 @@ function getTooltip() {
 
 /**
  * @param {string|void} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (!value || value.startsWith('=')) {
     return;
   }
 
   if (!HTTPS_PATTERN.test(value)) {
-    return 'For security reasons the URL must start with "https".';
+    return translate('For security reasons the URL must start with "https".');
   }
 };

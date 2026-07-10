@@ -6,6 +6,8 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from 'preact/hooks';
+
 export function TableDataSourceEntry(props) {
   const { editField, field } = props;
 
@@ -26,6 +28,7 @@ function Source(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -45,18 +48,19 @@ function Source(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description: 'Specify the source from which to populate the table',
+    description: translate('Specify the source from which to populate the table'),
     element: field,
     feel: 'required',
     getValue,
     id,
-    label: 'Data source',
-    tooltip:
+    label: translate('Data source'),
+    tooltip: translate(
       'Enter a form input variable that contains the data for the table or define an expression to populate the data dynamically.',
+    ),
     setValue,
     singleLine: true,
     variables,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -64,11 +68,12 @@ function Source(props) {
 
 /**
  * @param {string|void} value
+ * @param translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (!isString(value) || value.length === 0) {
-    return 'Must not be empty.';
+    return translate('Must not be empty.');
   }
 
   if (value.startsWith('=')) {
@@ -76,11 +81,11 @@ const validate = (value) => {
   }
 
   if (!isValidDotPath(value)) {
-    return 'Must be a variable or a dot separated path.';
+    return translate('Must be a variable or a dot separated path.');
   }
 
   if (hasIntegerPathSegment(value)) {
-    return 'Must not contain numerical path segments.';
+    return translate('Must not contain numerical path segments.');
   }
 
   return null;
