@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.23.1
+
+- `FIX`: handle numerical `0` value in select ([#1532](https://github.com/bpmn-io/form-js/issues/1532))
+
 ## 1.23.0
 
 - `FIX`: increase drop area at the bottom of from editor ([#1432](https://github.com/bpmn-io/form-js/issues/1432))
