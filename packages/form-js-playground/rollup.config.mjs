@@ -50,6 +50,7 @@ export default [
       'file-drops',
       'mitt',
       'downloadjs',
+      '@bpmn-io/cm-theme',
       '@bpmn-io/form-js-editor',
       '@bpmn-io/form-js-viewer',
       'preact/jsx-runtime',
