@@ -5,6 +5,7 @@ import { EditorState, Compartment } from '@codemirror/state';
 import { lintGutter, linter } from '@codemirror/lint';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { indentWithTab } from '@codemirror/commands';
+import { feelLight } from '@bpmn-io/cm-theme';
 import { autocompletionExtension } from './autocompletion/index';
 import { variablesFacet } from './autocompletion/VariablesFacet';
 import { classes as domClasses } from 'min-dom';
@@ -31,6 +32,7 @@ export function JSONEditor(options = {}) {
   function createState(doc, variables = []) {
     const extensions = [
       basicSetup,
+      feelLight,
       languageCompartment,
       tabSizeCompartment,
       lintGutter(),

@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+- `FEAT`: apply shared `cm-theme` syntax highlighting to the playground data (input) and result (output) editors
+
 ## 1.23.1
 
 - `FIX`: handle numerical `0` value in select ([#1532](https://github.com/bpmn-io/form-js/issues/1532))
