@@ -10,6 +10,7 @@ import { removeKey } from '../../../../src/features/properties-panel/groups/Cust
 
 import { PropertiesProvider } from '../../../../src/features/properties-panel/PropertiesProvider';
 import { PropertiesPanel } from '../../../../src/features/properties-panel/PropertiesPanel';
+import { FormEditorContext } from '../../../../src/render/context';
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
 import { EventBusMock, PropertiesPanelMock, createMockInjector } from './helper/mocks';
@@ -3847,12 +3848,18 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
 
   const container = options.container;
 
-  const getProviders = () => {
-    return [new PropertiesProvider(defaultedServices.propertiesPanel, injector), ...options.propertiesProviders];
-  };
+  const providers = [
+    new PropertiesProvider(defaultedServices.propertiesPanel, injector),
+    ...options.propertiesProviders,
+  ];
+
+  // the reactive properties panel retrieves its providers from the propertiesPanel service
+  defaultedServices.propertiesPanel.getProviders = () => providers;
 
   return renderFn(
-    <PropertiesPanel getProviders={getProviders} eventBus={defaultedServices.eventBus} injector={injector} />,
+    <FormEditorContext.Provider value={{ getService: (type, strict) => injector.get(type, strict) }}>
+      <PropertiesPanel />
+    </FormEditorContext.Provider>,
     {
       container,
     },

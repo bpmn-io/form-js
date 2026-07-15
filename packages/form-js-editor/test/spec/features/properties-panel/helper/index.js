@@ -1,5 +1,5 @@
 import { PropertiesPanel } from '@bpmn-io/properties-panel';
-import { FormPropertiesPanelContext } from '../../../../../src/features/properties-panel/context';
+import { FormEditorContext } from '../../../../../src/render/context';
 import { createMockInjector } from '../../../../helper/mocks';
 
 // to delete once we have unified the context of the properties panel and editors
@@ -10,11 +10,7 @@ export const MockPropertiesPanelContext = (props) => {
     getService: (type, strict) => createMockInjector(services, options).get(type, strict),
   };
 
-  return (
-    <FormPropertiesPanelContext.Provider value={propertiesPanelContext}>
-      {props.children}
-    </FormPropertiesPanelContext.Provider>
-  );
+  return <FormEditorContext.Provider value={propertiesPanelContext}>{props.children}</FormEditorContext.Provider>;
 };
 
 const noop = () => {};

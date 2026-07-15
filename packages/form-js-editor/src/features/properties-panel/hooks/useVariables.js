@@ -1,5 +1,5 @@
 import { getSchemaVariables } from '@bpmn-io/form-js-viewer';
-import { useService } from './usePropertiesPanelService';
+import { useService } from './useService';
 
 /**
  * Retrieve list of variables from the form schema.
