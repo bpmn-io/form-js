@@ -6,7 +6,15 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.24.0
+
 - `FEAT`: apply shared `cm-theme` syntax highlighting to the playground data (input) and result (output) editors
+- `FIX`: correct drag and drop not working with recent `preact` versions ([#1529](https://github.com/bpmn-io/form-js/pull/1529), [#760](https://github.com/bpmn-io/form-js/issues/760))
+- `DEPS`: update to `preact@10.29.3`
+- `DEPS`: update to `dompurify@3.4.11`
+- `DEPS`: update to `@bpmn-io/properties-panel@3.47.0`
+- `DEPS`: update to `@bpmn-io/cm-theme@0.2.2`
+- `DEPS`: update to `min-dash@5.1.0`
 
 ## 1.23.1
 
