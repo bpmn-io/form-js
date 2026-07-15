@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+- `FIX`: correct `getVariableSchema` reporting invalid variables ([#710](https://github.com/bpmn-io/form-js/issues/710), [#1475](https://github.com/bpmn-io/form-js/pull/1475))
+
 ## 1.24.0
 
 - `FEAT`: apply shared `cm-theme` syntax highlighting to the playground data (input) and result (output) editors
