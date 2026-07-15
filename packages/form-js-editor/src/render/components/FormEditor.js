@@ -16,6 +16,7 @@ import { DeleteIcon, DraggableIcon } from './icons';
 import { ModularSection } from './ModularSection';
 import { Palette, collectPaletteEntries, getPaletteIcon } from '../../features/palette/components/Palette';
 import { InjectedRendersRoot } from '../../features/render-injection/components/InjectedRendersRoot';
+import { PropertiesPanel } from '../../features/properties-panel/PropertiesPanel';
 
 import { Slot, SlotFillRoot } from '../../features/render-injection/slot-fill';
 
@@ -322,17 +323,13 @@ export function FormEditor() {
     eventBus = useService('eventBus'),
     formEditor = useService('formEditor'),
     injector = useService('injector'),
-    selection = useService('selection'),
-    propertiesPanel = useService('propertiesPanel'),
-    propertiesPanelConfig = useService('config.propertiesPanel');
+    selection = useService('selection');
 
   const { schema, properties } = formEditor._getState();
 
   const { ariaLabel } = properties;
 
   const formContainerRef = useRef(null);
-
-  const propertiesPanelRef = useRef(null);
 
   const [, setSelection] = useState(schema);
 
@@ -471,15 +468,6 @@ export function FormEditor() {
 
   const onReset = useCallback(() => {}, []);
 
-  // attach default properties panel
-  const hasDefaultPropertiesPanel = defaultPropertiesPanel(propertiesPanelConfig);
-
-  useEffect(() => {
-    if (hasDefaultPropertiesPanel) {
-      propertiesPanel.attachTo(propertiesPanelRef.current);
-    }
-  }, [propertiesPanelRef, propertiesPanel, hasDefaultPropertiesPanel]);
-
   return (
     <div class="fjs-form-editor">
       <SlotFillRoot>
@@ -498,7 +486,9 @@ export function FormEditor() {
           </div>
           <CreatePreview />
         </DragAndDropContext.Provider>
-        {hasDefaultPropertiesPanel && <div class="fjs-editor-properties-container" ref={propertiesPanelRef} />}
+        <ModularSection rootClass="fjs-properties-panel-container" section="propertiesPanel">
+          <PropertiesPanel />
+        </ModularSection>
         <ModularSection rootClass="fjs-render-injector-container" section="renderInjector">
           <InjectedRendersRoot />
         </ModularSection>
@@ -572,8 +562,4 @@ function CreatePreview(props) {
 
 function findPaletteEntry(type, formFields) {
   return collectPaletteEntries(formFields).find((entry) => entry.type === type);
-}
-
-function defaultPropertiesPanel(propertiesPanelConfig) {
-  return !(propertiesPanelConfig && propertiesPanelConfig.parent);
 }
