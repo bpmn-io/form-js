@@ -1,1 +1,0 @@
-export { FormPropertiesPanelContext } from './FormPropertiesPanelContext';
