@@ -114,7 +114,7 @@
     "mocha-test-container-support": "^0.2.0",
     "mri": "^1.2.0",
     "npm-run-all2": "^9.0.0",
-    "preact": "^10.19.3",
+    "preact": "^10.29.5",
     "prettier": "^3.8.3",
     "raw-loader": "^4.0.2",
     "rollup": "^4.60.3",
