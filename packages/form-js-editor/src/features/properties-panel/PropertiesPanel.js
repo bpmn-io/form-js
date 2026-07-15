@@ -1,27 +1,28 @@
 import { PropertiesPanel as BasePropertiesPanel } from '@bpmn-io/properties-panel';
 
-import { useCallback, useMemo, useState, useLayoutEffect } from 'preact/hooks';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 
 import { reduce, isArray } from 'min-dash';
-
-import { FormPropertiesPanelContext } from './context';
 
 import { getPropertiesPanelHeaderProvider } from './PropertiesPanelHeaderProvider';
 import { PropertiesPanelPlaceholderProvider } from './PropertiesPanelPlaceholderProvider';
 
+import { useService } from './hooks';
+
 const EMPTY = {};
 
-export function PropertiesPanel(props) {
-  const { eventBus, getProviders, injector } = props;
-
-  const formEditor = injector.get('formEditor');
-  const modeling = injector.get('modeling');
-  const selectionModule = injector.get('selection');
-  const propertiesPanelConfig = injector.get('config.propertiesPanel') || EMPTY;
+export function PropertiesPanel() {
+  const eventBus = useService('eventBus');
+  const modeling = useService('modeling');
+  const selection = useService('selection');
+  const formEditor = useService('formEditor');
+  const formFields = useService('formFields');
+  const propertiesPanel = useService('propertiesPanel');
+  const propertiesPanelConfig = useService('config.propertiesPanel') || EMPTY;
 
   const { feelPopupContainer } = propertiesPanelConfig;
 
-  const [state, setState] = useState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
+  const [state, setState] = useState({ selectedFormField: selection.get() || formEditor._getState().schema });
 
   const selectedFormField = state.selectedFormField;
 
@@ -29,14 +30,14 @@ export function PropertiesPanel(props) {
     (field) => {
       // TODO(skaiir): rework state management, re-rendering the whole properties panel is not the way to go
       // https://github.com/bpmn-io/form-js/issues/686
-      setState({ selectedFormField: selectionModule.get() || formEditor._getState().schema });
+      setState({ selectedFormField: selection.get() || formEditor._getState().schema });
 
       // notify interested parties on property panel updates
       eventBus.fire('propertiesPanel.updated', {
         formField: field,
       });
     },
-    [eventBus, formEditor, selectionModule],
+    [eventBus, formEditor, selection],
   );
 
   useLayoutEffect(() => {
@@ -55,10 +56,6 @@ export function PropertiesPanel(props) {
     };
   }, [eventBus, refresh]);
 
-  const getService = (type, strict = true) => injector.get(type, strict);
-
-  const propertiesPanelContext = { getService };
-
   const onFocus = () => eventBus.fire('propertiesPanel.focusin');
 
   const onBlur = () => eventBus.fire('propertiesPanel.focusout');
@@ -66,7 +63,7 @@ export function PropertiesPanel(props) {
   const editField = useCallback((formField, key, value) => modeling.editFormField(formField, key, value), [modeling]);
 
   // retrieve groups for selected form field
-  const providers = getProviders(selectedFormField);
+  const providers = propertiesPanel.getProviders();
 
   const groups = useMemo(() => {
     return reduce(
@@ -85,8 +82,6 @@ export function PropertiesPanel(props) {
     );
   }, [providers, selectedFormField, editField]);
 
-  const formFields = getService('formFields');
-
   const PropertiesPanelHeaderProvider = useMemo(
     () =>
       getPropertiesPanelHeaderProvider({
@@ -97,12 +92,13 @@ export function PropertiesPanel(props) {
   );
 
   return (
-    <div
-      class="fjs-properties-panel"
-      data-field={selectedFormField && selectedFormField.id}
-      onFocusCapture={onFocus}
-      onBlurCapture={onBlur}>
-      <FormPropertiesPanelContext.Provider value={propertiesPanelContext}>
+    // eslint-disable-next-line react/no-unknown-property
+    <div class="fjs-properties-container" input-handle-modified-keys="y,z">
+      <div
+        class="fjs-properties-panel"
+        data-field={selectedFormField && selectedFormField.id}
+        onFocusCapture={onFocus}
+        onBlurCapture={onBlur}>
         <BasePropertiesPanel
           element={selectedFormField}
           eventBus={eventBus}
@@ -111,7 +107,7 @@ export function PropertiesPanel(props) {
           placeholderProvider={PropertiesPanelPlaceholderProvider}
           feelPopupContainer={feelPopupContainer}
         />
-      </FormPropertiesPanelContext.Provider>
+      </div>
     </div>
   );
 }
