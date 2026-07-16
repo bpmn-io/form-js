@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { render, screen } from '@testing-library/preact/pure';
+import { render, screen, waitFor } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 import { createFormContainer, expectNoViolations } from '../../../../TestHelper';
 import { MockFormContext } from '../helper';
@@ -184,6 +184,77 @@ describe('DocumentPreview', function () {
     }
   });
 
+  it('should only refetch preview for changed document', async function () {
+    // given
+    const requestInit = {
+      credentials: 'include',
+    };
+    const mockDocument = {
+      documentId: 'document0',
+      endpoint: 'https://example.com/document-preview-rerender.png',
+      metadata: {
+        fileName: 'My document.png',
+        contentType: 'image/png',
+      },
+    };
+    const changedDocument = {
+      ...mockDocument,
+      endpoint: 'https://example.com/changed-document-preview-rerender.png',
+    };
+    const mockDocumentEndpointBuilder = {
+      buildRequestInit: sinon.stub().returns(requestInit),
+    };
+    const fetchStub = sinon.stub(window, 'fetch').resolves({
+      ok: true,
+      blob: sinon.stub().resolves(new Blob()),
+    });
+    const intersectionObserverStub = sinon.stub(window, 'IntersectionObserver').callsFake((callback) => ({
+      observe: (element) => callback([{ isIntersecting: true, target: element }]),
+      unobserve: sinon.stub(),
+    }));
+    const previewFetchStub = fetchStub.withArgs(mockDocument.endpoint, requestInit);
+    const changedPreviewFetchStub = fetchStub.withArgs(changedDocument.endpoint, requestInit);
+
+    try {
+      const { rerender } = createDocumentPreview({
+        initialData: {
+          documents: [mockDocument],
+        },
+        services: {
+          expressionLanguage: mockExpressionLanguageService,
+          documentEndpointBuilder: mockDocumentEndpointBuilder,
+        },
+      });
+
+      await waitFor(() => {
+        expect(previewFetchStub).to.have.been.calledOnce;
+      });
+
+      // when
+      rerender();
+
+      // then
+      expect(mockDocumentEndpointBuilder.buildRequestInit).to.have.been.calledOnce;
+      expect(previewFetchStub).to.have.been.calledOnce;
+
+      // when
+      rerender({
+        initialData: {
+          documents: [changedDocument],
+        },
+      });
+
+      // then
+      await waitFor(() => {
+        expect(changedPreviewFetchStub).to.have.been.calledOnce;
+      });
+      expect(mockDocumentEndpointBuilder.buildRequestInit).to.have.been.calledTwice;
+    } finally {
+      intersectionObserverStub.restore();
+      fetchStub.restore();
+    }
+  });
+
   it('should fallback to default fetch config if request config builder throws', async function () {
     // given
     const mockDocument = {
@@ -336,12 +407,19 @@ function createDocumentPreview({ services, ...restOptions } = {}) {
     ...restOptions,
   };
 
-  return render(
-    <MockFormContext services={services} options={options}>
-      <DocumentPreview domId={options.domId} field={options.field} />
-    </MockFormContext>,
-    {
-      container: options.container || container.querySelector('.fjs-form'),
-    },
+  const renderDocumentPreview = (currentOptions = options) => (
+    <MockFormContext services={services} options={currentOptions}>
+      <DocumentPreview domId={currentOptions.domId} field={currentOptions.field} />
+    </MockFormContext>
   );
+
+  const result = render(renderDocumentPreview(), {
+    container: options.container || container.querySelector('.fjs-form'),
+  });
+
+  return {
+    ...result,
+    rerender: (optionsOverrides = {}) =>
+      result.rerender(renderDocumentPreview({ ...options, ...optionsOverrides })),
+  };
 }
