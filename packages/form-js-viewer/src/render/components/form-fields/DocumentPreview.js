@@ -4,7 +4,7 @@ import { Errors } from '../Errors';
 import { formFieldClasses } from '../Util';
 import { isString } from 'min-dash';
 import DownloadIcon from './icons/Download.svg';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { Label } from '../Label';
 
 const type = 'documentPreview';
@@ -57,14 +57,12 @@ export function DocumentPreview(props) {
             return null;
           }
 
-          const requestInit = getDocumentRequestInit(documentEndpointBuilder, document);
-
           return (
             <DocumentRenderer
               key={document.documentId}
               documentMetadata={document}
+              documentEndpointBuilder={documentEndpointBuilder}
               endpoint={finalEndpoint}
-              requestInit={requestInit}
               maxHeight={maxHeight}
               domId={`${domId}-${index}`}
             />
@@ -258,19 +256,24 @@ function ImageRenderer(props) {
  *
  * @param {Object} props
  * @param {DocumentMetadata} props.documentMetadata
+ * @param {DocumentEndpointBuilder | null} props.documentEndpointBuilder
  * @param {string} props.endpoint
  * @param {string} props.domId
- * @param {RequestInit|undefined} props.requestInit
  * @param {number|undefined} props.maxHeight
  *
  * @returns {import("preact").JSX.Element}
  */
 function DocumentRenderer(props) {
-  const { documentMetadata, endpoint, maxHeight, domId, requestInit } = props;
+  const { documentMetadata, documentEndpointBuilder, endpoint, maxHeight, domId } = props;
   const { metadata } = documentMetadata;
   const [hasError, setHasError] = useState(false);
   const ref = useRef(null);
   const isInViewport = useInViewport(ref);
+  const onError = useCallback(() => setHasError(true), []);
+  const requestInit = useMemo(
+    () => getDocumentRequestInit(documentEndpointBuilder, documentMetadata),
+    [documentEndpointBuilder, documentMetadata],
+  );
   const singleDocumentContainerClassName = `fjs-${type}-single-document-container`;
   const errorMessageId = `${domId}-error-message`;
   const errorMessage = 'Unable to download document';
@@ -286,15 +289,13 @@ function DocumentRenderer(props) {
           url={endpoint}
           alt={metadata.fileName}
           requestInit={requestInit}
-          onError={() => setHasError(true)}
+          onError={onError}
         />
         <DownloadButton
           endpoint={endpoint}
           fileName={metadata.fileName}
           requestInit={requestInit}
-          onDownloadError={() => {
-            setHasError(true);
-          }}
+          onDownloadError={onError}
         />
         {hasError ? <Errors id={errorMessageId} errors={[errorMessage]} /> : null}
       </div>
@@ -311,7 +312,7 @@ function DocumentRenderer(props) {
           url={endpoint}
           fileName={metadata.fileName}
           requestInit={requestInit}
-          onError={() => setHasError(true)}
+          onError={onError}
           errorMessageId={errorMessageId}
         />
       </div>
@@ -331,9 +332,7 @@ function DocumentRenderer(props) {
         endpoint={endpoint}
         fileName={metadata.fileName}
         requestInit={requestInit}
-        onDownloadError={() => {
-          setHasError(true);
-        }}
+        onDownloadError={onError}
       />
     </div>
   );
