@@ -61,7 +61,7 @@
     "@apidevtools/json-schema-ref-parser": "^15.0.0",
     "@axe-core/playwright": "^4.11.1",
     "@babel/core": "^7.29.0",
-    "@babel/plugin-transform-react-jsx": "^7.28.6",
+    "@babel/plugin-transform-react-jsx": "^8.0.0",
     "@babel/plugin-transform-react-jsx-source": "^7.27.1",
     "@bpmn-io/properties-panel": "^3.47.0",
     "@carbon/react": "^1.100.0",
