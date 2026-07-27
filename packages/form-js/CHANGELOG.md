@@ -6,6 +6,9 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.24.1
+
+- `FIX`: avoid redundant document preview fetches ([#1520](https://github.com/bpmn-io/form-js/issues/1520), [#1538](https://github.com/bpmn-io/form-js/pull/1538))
 - `FIX`: correct `getVariableSchema` reporting invalid variables ([#710](https://github.com/bpmn-io/form-js/issues/710), [#1475](https://github.com/bpmn-io/form-js/pull/1475))
 
 ## 1.24.0
