@@ -285,7 +285,8 @@
 }
 
 .fjs-container .fjs-inline-label {
-  align-items: center;
+  /* keep the input next to the first line of a wrapping label */
+  align-items: flex-start;
   display: flex;
 }
 
@@ -390,6 +391,11 @@
   line-height: var(--line-height-input);
   letter-spacing: var(--letter-spacing-input);
   color: var(--color-text);
+
+  /* wrap long option labels instead of cutting them off */
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
 }
 
 .fjs-container .fjs-form-field-checklist .fjs-form-field-label:first-child,

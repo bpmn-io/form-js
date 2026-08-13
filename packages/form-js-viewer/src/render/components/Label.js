@@ -26,12 +26,14 @@ export function Label(props) {
       htmlFor={htmlFor}
       class={classNames('fjs-form-field-label', { 'fjs-incollapsible-label': !collapseOnEmpty }, props['class'])}>
       {props.children}
-      {evaluatedLabel}
-      {required && (
-        <span class="fjs-asterix" aria-hidden>
-          *
-        </span>
-      )}
+      <span class="fjs-label-content">
+        {evaluatedLabel}
+        {required && (
+          <span class="fjs-asterix" aria-hidden>
+            *
+          </span>
+        )}
+      </span>
     </label>
   );
 }
