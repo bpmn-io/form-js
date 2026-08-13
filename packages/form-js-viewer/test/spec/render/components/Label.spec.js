@@ -48,6 +48,21 @@ describe('Label', function () {
     expect(label).to.exist;
   });
 
+  it('should render label text and asterisk as single node', function () {
+    // when
+    const { container } = createLabel({
+      id: 'foo',
+      label: 'Foo',
+      required: true,
+    });
+
+    // then
+    const labelContent = container.querySelector('.fjs-label-content');
+
+    expect(labelContent).to.exist;
+    expect(labelContent.textContent).to.eql('Foo*');
+  });
+
   it('should render asterisk if required', function () {
     // when
     const { container } = createLabel({
