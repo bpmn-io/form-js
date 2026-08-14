@@ -7,6 +7,7 @@ import { ConditionGroup } from '../../../../../src/features/properties-panel/gro
 import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 
 import { INPUTS } from '../../../../../src/features/properties-panel/Util';
+import { createMockInjector } from '../../../../helper/mocks';
 
 const HIDE_CONDITION = 'conditional-hide';
 
@@ -114,7 +115,9 @@ describe('ConditionGroup', function () {
 function renderConditionGroup(options) {
   const { editField, field } = options;
 
-  const groups = [ConditionGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [ConditionGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext options={options}>

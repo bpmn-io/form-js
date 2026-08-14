@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { cleanup, render } from '@testing-library/preact/pure';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 
 import { FormFields } from '@bpmn-io/form-js-viewer';
 
@@ -164,6 +165,7 @@ function renderHeader({ services = {}, getDocumentationRef, ...restOptions }) {
         headerProvider={getPropertiesPanelHeaderProvider({
           formFields: services.formFields || new FormFields(),
           getDocumentationRef,
+          translate: services.translate || translate,
         })}
       />
     </MockPropertiesPanelContext>,

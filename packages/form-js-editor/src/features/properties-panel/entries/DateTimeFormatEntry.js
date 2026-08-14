@@ -6,7 +6,7 @@ import {
   TIME_SERIALISINGFORMAT_LABELS,
   TIME_SERIALISING_FORMAT_PATH,
 } from '@bpmn-io/form-js-viewer';
-
+import { useService } from '../hooks';
 import { get } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
 
@@ -34,19 +34,21 @@ export function DateTimeFormatEntry(props) {
 function TimeFormatSelect(props) {
   const { editField, field, id } = props;
 
+  const translate = useService('translate');
+
   const getValue = (e) => get(field, TIME_SERIALISING_FORMAT_PATH);
 
   const setValue = (value) => editField(field, TIME_SERIALISING_FORMAT_PATH, value);
 
   const getTimeSerialisingFormats = () => {
     return Object.values(TIME_SERIALISING_FORMATS).map((format) => ({
-      label: TIME_SERIALISINGFORMAT_LABELS[format],
+      label: translate(TIME_SERIALISINGFORMAT_LABELS[format]),
       value: format,
     }));
   };
 
   return SelectEntry({
-    label: 'Time format',
+    label: translate('Time format'),
     element: field,
     getOptions: getTimeSerialisingFormats,
     getValue,

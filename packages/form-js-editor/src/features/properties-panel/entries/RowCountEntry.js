@@ -3,6 +3,7 @@ import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-
 import { get, isNumber, isNil } from 'min-dash';
 
 import { useService } from '../hooks';
+import { useCallback } from 'preact/hooks';
 
 const path = ['rowCount'];
 
@@ -27,6 +28,7 @@ function RowCount(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const getValue = () => get(field, path);
 
@@ -45,12 +47,12 @@ function RowCount(props) {
 
   return NumberFieldEntry({
     debounce,
-    label: 'Number of rows per page',
+    label: translate('Number of rows per page'),
     element: field,
     id,
     getValue,
     setValue,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -58,23 +60,24 @@ function RowCount(props) {
 
 /**
  * @param {string|void} value
+ * @param {function} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (isNil(value)) {
     return null;
   }
 
   if (!isNumber(value)) {
-    return 'Must be number';
+    return translate('Must be number');
   }
 
   if (!Number.isInteger(value)) {
-    return 'Should be an integer.';
+    return translate('Should be an integer.');
   }
 
   if (value < 1) {
-    return 'Should be greater than zero.';
+    return translate('Should be greater than zero.');
   }
 
   return null;

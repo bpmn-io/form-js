@@ -9,10 +9,11 @@ import { collectPaletteEntries } from '../palette/components/Palette';
  * @param {import('../../render/EditorFormFields').EditorFormFields} formFields
  */
 export class DeleteActionProvider {
-  constructor(formFieldContextActions, modeling, formFieldRegistry, formFields) {
+  constructor(formFieldContextActions, modeling, formFieldRegistry, formFields, translate) {
     this._modeling = modeling;
     this._formFieldRegistry = formFieldRegistry;
     this._formFields = formFields;
+    this._translate = translate;
 
     formFieldContextActions.registerProvider(500, this);
   }
@@ -29,6 +30,7 @@ export class DeleteActionProvider {
     const modeling = this._modeling;
     const formFieldRegistry = this._formFieldRegistry;
     const formFields = this._formFields;
+    const translate = this._translate;
 
     return {
       delete: {
@@ -40,7 +42,7 @@ export class DeleteActionProvider {
 
           modeling.removeFormField(formField, parentField, index);
         },
-        title: getRemoveButtonTitle(formField, formFields),
+        title: getRemoveButtonTitle(formField, formFields, translate),
         icon: 'delete',
         group: 'actions',
       },
@@ -48,7 +50,7 @@ export class DeleteActionProvider {
   }
 }
 
-DeleteActionProvider.$inject = ['formFieldContextActions', 'modeling', 'formFieldRegistry', 'formFields'];
+DeleteActionProvider.$inject = ['formFieldContextActions', 'modeling', 'formFieldRegistry', 'formFields', 'translate'];
 
 // helpers //////////
 
@@ -68,12 +70,12 @@ function findPaletteEntry(type, formFields) {
   return collectPaletteEntries(formFields).find((entry) => entry.type === type);
 }
 
-function getRemoveButtonTitle(formField, formFields) {
+function getRemoveButtonTitle(formField, formFields, translate) {
   const entry = findPaletteEntry(formField.type, formFields);
 
   if (!entry) {
-    return 'Remove form field';
+    return translate('Remove form field');
   }
 
-  return `Remove ${entry.label}`;
+  return translate(`Remove ${entry.label}`);
 }

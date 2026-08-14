@@ -3,6 +3,7 @@ import { get, set, isString } from 'min-dash';
 import { useService } from '../hooks';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import { useCallback } from 'preact/hooks';
 
 const path = 'columns';
 const labelPath = 'label';
@@ -70,6 +71,7 @@ function Key(props) {
   const { editField, field, id, index } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   /**
    * @param {string|void} value
@@ -94,9 +96,9 @@ function Key(props) {
     element: field,
     getValue,
     id,
-    label: 'Key',
+    label: translate('Key'),
     setValue,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -104,11 +106,12 @@ function Key(props) {
 
 /**
  * @param {string|void} value
+ * @param {function} translate
  * @returns {string|null}
  */
-function validate(value) {
+function validate(value, translate) {
   if (!isString(value) || value.length === 0) {
-    return 'Must not be empty.';
+    return translate('Must not be empty.');
   }
 
   return null;

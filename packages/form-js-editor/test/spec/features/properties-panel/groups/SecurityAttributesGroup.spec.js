@@ -7,6 +7,7 @@ import { SECURITY_ATTRIBUTES_DEFINITIONS } from '@bpmn-io/form-js-viewer';
 import { SecurityAttributesGroup } from '../../../../../src/features/properties-panel/groups';
 
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('SecurityAttributesGroup', function () {
   afterEach(function () {
@@ -88,7 +89,11 @@ describe('SecurityAttributesGroup', function () {
 function renderSecurityAttributesGroup(options) {
   const { editField, field, services } = options;
 
-  const groups = [SecurityAttributesGroup(field, editField)].filter((group) => group);
+  const injector = createMockInjector({}, options);
+
+  const groups = [SecurityAttributesGroup(field, editField, (type, strict) => injector.get(type, strict))].filter(
+    (group) => group,
+  );
 
   return render(
     <MockPropertiesPanelContext services={services}>

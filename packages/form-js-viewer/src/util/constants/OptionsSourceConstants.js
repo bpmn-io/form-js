@@ -10,10 +10,12 @@ export const OPTIONS_SOURCES = {
 
 export const OPTIONS_SOURCE_DEFAULT = OPTIONS_SOURCES.STATIC;
 
-export const OPTIONS_SOURCES_LABELS = {
-  [OPTIONS_SOURCES.STATIC]: 'Static',
-  [OPTIONS_SOURCES.INPUT]: 'Input data',
-  [OPTIONS_SOURCES.EXPRESSION]: 'Expression',
+export const OPTIONS_SOURCES_LABELS = (translate) => {
+  return {
+    [OPTIONS_SOURCES.STATIC]: translate('Static'),
+    [OPTIONS_SOURCES.INPUT]: translate('Input data'),
+    [OPTIONS_SOURCES.EXPRESSION]: translate('Expression'),
+  };
 };
 
 export const OPTIONS_SOURCES_PATHS = {

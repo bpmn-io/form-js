@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import EventBus from 'diagram-js/lib/core/EventBus';
+import translate from 'diagram-js/lib/i18n/translate/translate';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
 
@@ -673,7 +674,7 @@ describe('Validator', function () {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[0]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
+        expect(errors[0]).to.equal('Field must be a valid international phone number. (e.g. +4930664040900)');
       });
     });
   });
@@ -833,5 +834,5 @@ function createValidator() {
     },
   };
 
-  return new Validator(expressionLanguage, conditionChecker, form);
+  return new Validator(expressionLanguage, conditionChecker, form, null, translate);
 }

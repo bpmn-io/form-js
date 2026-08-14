@@ -31,6 +31,7 @@ function ExpressionFieldExpression(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
   const variables = useVariables().map((name) => ({ name }));
 
   const getValue = () => field.expression || '';
@@ -41,12 +42,12 @@ function ExpressionFieldExpression(props) {
 
   return FeelEntry({
     debounce,
-    description: 'Define an expression to calculate the value of this field',
+    description: translate('Define an expression to calculate the value of this field'),
     element: field,
     feel: 'required',
     getValue,
     id,
-    label: 'Target value',
+    label: translate('Target value'),
     setValue,
     variables,
   });
@@ -55,6 +56,8 @@ function ExpressionFieldExpression(props) {
 function ExpressionFieldComputeOn(props) {
   const { editField, field, id } = props;
 
+  const translate = useService('translate');
+
   const getValue = () => field.computeOn || '';
 
   const setValue = (value) => {
@@ -62,13 +65,13 @@ function ExpressionFieldComputeOn(props) {
   };
 
   const getOptions = () => [
-    { value: 'change', label: 'Value changes' },
-    { value: 'presubmit', label: 'Form submission' },
+    { value: 'change', label: translate('Value changes') },
+    { value: 'presubmit', label: translate('Form submission') },
   ];
 
   return SelectEntry({
     id,
-    label: 'Compute on',
+    label: translate('Compute on'),
     getValue,
     setValue,
     getOptions,

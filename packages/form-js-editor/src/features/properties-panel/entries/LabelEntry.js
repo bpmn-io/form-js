@@ -57,6 +57,7 @@ function Label(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -70,7 +71,7 @@ function Label(props) {
     return editField(field, path, value || '');
   };
 
-  const label = getLabelText(field.type);
+  const label = translate(getLabelText(field.type));
 
   return FeelTemplatingEntry({
     debounce,
@@ -88,6 +89,7 @@ function DateLabel(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -106,7 +108,7 @@ function DateLabel(props) {
     element: field,
     getValue,
     id,
-    label: 'Date label',
+    label: translate('Date label'),
     singleLine: true,
     setValue,
     variables,
@@ -117,6 +119,7 @@ function TimeLabel(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -135,7 +138,7 @@ function TimeLabel(props) {
     element: field,
     getValue,
     id,
-    label: 'Time label',
+    label: translate('Time label'),
     singleLine: true,
     setValue,
     variables,

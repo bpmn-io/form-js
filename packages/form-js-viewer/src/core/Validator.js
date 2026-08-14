@@ -15,11 +15,12 @@ const PHONE_PATTERN =
 const VALIDATE_FEEL_PROPERTIES = ['min', 'max', 'minLength', 'maxLength'];
 
 export class Validator {
-  constructor(expressionLanguage, conditionChecker, form, formFieldRegistry) {
+  constructor(expressionLanguage, conditionChecker, form, formFieldRegistry, translate) {
     this._expressionLanguage = expressionLanguage;
     this._conditionChecker = conditionChecker;
     this._form = form;
     this._formFieldRegistry = formFieldRegistry;
+    this._translate = translate;
   }
 
   /**
@@ -33,7 +34,7 @@ export class Validator {
     let errors = [];
 
     if (type === 'number') {
-      errors = [...errors, ...runNumberValidation(field, value)];
+      errors = [...errors, ...runNumberValidation(field, value, this._translate)];
     }
 
     if (!validate) {
@@ -47,7 +48,7 @@ export class Validator {
       this._form,
     );
 
-    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value)];
+    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value, this._translate)];
 
     return errors;
   }
@@ -74,7 +75,7 @@ export class Validator {
     let errors = [];
 
     if (type === 'number') {
-      errors = [...errors, ...runNumberValidation(field, value)];
+      errors = [...errors, ...runNumberValidation(field, value, this._translate)];
     }
 
     if (!validate) {
@@ -83,29 +84,31 @@ export class Validator {
 
     const evaluatedValidation = evaluateFEELValues(validate, this._expressionLanguage, expressionContextInfo);
 
-    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value)];
+    errors = [...errors, ...runPresetValidation(field, evaluatedValidation, value, this._translate)];
 
     return errors;
   }
 }
 
-Validator.$inject = ['expressionLanguage', 'conditionChecker', 'form', 'formFieldRegistry'];
+Validator.$inject = ['expressionLanguage', 'conditionChecker', 'form', 'formFieldRegistry', 'translate'];
 
 // helpers //////////
 
-function runNumberValidation(field, value) {
+function runNumberValidation(field, value, translate) {
   const { decimalDigits, increment } = field;
   const errors = [];
 
   if (value === 'NaN') {
-    errors.push('Value is not a number.');
+    errors.push(translate('Value is not a number.'));
   } else if (value) {
     if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
       errors.push(
-        'Value is expected to ' +
+        translate('Value is expected to') +
+          ' ' +
           (decimalDigits === 0
-            ? 'be an integer'
-            : `have at most ${decimalDigits} decimal digit${decimalDigits > 1 ? 's' : ''}`) +
+            ? translate('be an integer')
+            : translate('have at most {value} decimal digit', { value: decimalDigits }) +
+              `${decimalDigits > 1 ? 's' : ''}`) +
           '.',
       );
     }
@@ -120,7 +123,12 @@ function runNumberValidation(field, value) {
         const previousValue = bigValue.minus(offset);
         const nextValue = previousValue.plus(bigIncrement);
 
-        errors.push(`Please select a valid value, the two nearest valid values are ${previousValue} and ${nextValue}.`);
+        errors.push(
+          translate('Please select a valid value, the two nearest valid values are {previousValue} and {nextValue}.', {
+            previousValue: previousValue,
+            nextValue: nextValue,
+          }),
+        );
       }
     }
   }
@@ -128,11 +136,12 @@ function runNumberValidation(field, value) {
   return errors;
 }
 
-function runPresetValidation(field, validation, value) {
+function runPresetValidation(field, validation, value, translate) {
   const errors = [];
-
   if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
-    errors.push(validation.patternErrorMessage || `Field must match pattern ${validation.pattern}.`);
+    errors.push(
+      validation.patternErrorMessage || translate(`Field must match pattern {value}.`, { value: validation.pattern }),
+    );
   }
 
   if (validation.required) {
@@ -141,44 +150,44 @@ function runPresetValidation(field, validation, value) {
     const isEmptyMultiselect = Array.isArray(value) && value.length === 0;
 
     if (isUncheckedCheckbox || isUnsetValue || isEmptyMultiselect) {
-      errors.push('Field is required.');
+      errors.push(translate('Field is required.'));
     }
   }
 
   if ('min' in validation && (value || value === 0)) {
     try {
       if (Big(value).lt(Big(validation.min))) {
-        errors.push(`Field must have minimum value of ${validation.min}.`);
+        errors.push(translate('Field must have minimum value of {value}.', { value: validation.min.toString() }));
       }
     } catch {
-      errors.push('Min validation value is not a valid number.');
+      errors.push(translate('Min validation value is not a valid number.'));
     }
   }
 
   if ('max' in validation && (value || value === 0)) {
     try {
       if (Big(value).gt(Big(validation.max))) {
-        errors.push(`Field must have maximum value of ${validation.max}.`);
+        errors.push(translate('Field must have maximum value of {value}.', { value: validation.max }));
       }
     } catch {
-      errors.push('Max validation value is not a valid number.');
+      errors.push(translate('Max validation value is not a valid number.'));
     }
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
-    errors.push(`Field must have minimum length of ${validation.minLength}.`);
+    errors.push(translate('Field must have minimum length of {value}.', { value: validation.minLength }));
   }
 
   if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {
-    errors.push(`Field must have maximum length of ${validation.maxLength}.`);
+    errors.push(translate('Field must have maximum length of {value}.', { value: validation.maxLength }));
   }
 
   if ('validationType' in validation && value && validation.validationType === 'phone' && !PHONE_PATTERN.test(value)) {
-    errors.push('Field must be a valid  international phone number. (e.g. +4930664040900)');
+    errors.push(translate('Field must be a valid international phone number. (e.g. +4930664040900)'));
   }
 
   if ('validationType' in validation && value && validation.validationType === 'email' && !EMAIL_PATTERN.test(value)) {
-    errors.push('Field must be a valid email.');
+    errors.push(translate('Field must be a valid email.'));
   }
 
   return errors;
