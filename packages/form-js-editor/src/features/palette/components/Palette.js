@@ -70,7 +70,7 @@ export function Palette(props) {
       }
 
       const simplifiedEntryLabel = simplifyString(translate(entry.label));
-      const simplifiedEntryType = simplifyString(translate(entry.type));
+      const simplifiedEntryType = simplifyString(entry.type);
 
       return simplifiedEntryLabel.includes(simplifiedSearchTerm) || simplifiedEntryType.includes(simplifiedSearchTerm);
     },

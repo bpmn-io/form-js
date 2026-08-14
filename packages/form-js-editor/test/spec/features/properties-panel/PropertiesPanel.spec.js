@@ -663,6 +663,42 @@ describe('properties panel', function () {
         });
       });
 
+      describe('options source labels', function () {
+        it('should render English labels by default', function () {
+          // given
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          // when
+          bootstrapPropertiesPanel({ container, field });
+
+          // then
+          const options = [...screen.getByLabelText('Type').options].map((option) => option.textContent);
+
+          expect(options).to.eql(['Static', 'Input data', 'Expression']);
+        });
+
+        it('should translate the labels', function () {
+          // given
+          const dictionary = {
+            Static: 'Statisch',
+            'Input data': 'Eingabedaten',
+            Expression: 'Ausdruck',
+          };
+
+          const translate = (template) => dictionary[template] || template;
+
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          // when
+          bootstrapPropertiesPanel({ container, field, services: { translate } });
+
+          // then
+          const options = [...screen.getByLabelText('Type').options].map((option) => option.textContent);
+
+          expect(options).to.eql(['Statisch', 'Eingabedaten', 'Ausdruck']);
+        });
+      });
+
       describe('static options', function () {
         it('should re-configure static source defaults', function () {
           // given

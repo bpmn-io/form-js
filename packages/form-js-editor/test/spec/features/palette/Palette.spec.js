@@ -94,6 +94,23 @@ describe('palette', function () {
       // then
       expectEntries(result.container, [{ type: 'textfield' }]);
     });
+
+    it('should match the untranslated type', function () {
+      // given
+      // a dictionary that (wrongly) covers the technical type must not break
+      // searching by that type
+      const translate = (template) => (template === 'textfield' ? 'Textfeld' : template);
+
+      const result = createPalette({ container, services: { translate } });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'textfield' } });
+
+      // then
+      expectEntries(result.container, [{ type: 'textfield' }]);
+    });
   });
 
   describe('clear', function () {

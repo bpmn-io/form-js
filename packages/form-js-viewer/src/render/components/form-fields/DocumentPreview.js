@@ -389,7 +389,7 @@ function DownloadButton(props) {
       type="button"
       onClick={handleDownload}
       class={classNames(`fjs-${type}-download-button`)}
-      aria-label={translate(`Download ${fileName}`)}>
+      aria-label={translate('Download {fileName}', { fileName })}>
       <DownloadIcon />
     </button>
   );

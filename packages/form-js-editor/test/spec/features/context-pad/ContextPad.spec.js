@@ -146,5 +146,57 @@ describe('features/context-pad', function () {
       expect(formFieldRegistry.getAll().length).to.be.lessThan(initialCount);
       expect(formFieldRegistry.get('Textfield_1')).not.to.exist;
     }));
+
+    it('should interpolate the field label into the title', inject(function (
+      formFieldContextActions,
+      formFieldRegistry,
+    ) {
+      // given
+      const textfield = formFieldRegistry.get('Textfield_1');
+
+      // when
+      const entries = formFieldContextActions.getEntries(textfield);
+
+      // then
+      expect(entries.delete.title).to.eql('Remove Text field');
+    }));
+  });
+
+});
+
+describe('features/context-pad - custom translate', function () {
+  const dictionary = {
+    'Remove {label}': '{label} entfernen',
+    'Text field': 'Textfeld',
+  };
+
+  const translate = (template, replacements = {}) =>
+    (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+
+  beforeEach(
+    bootstrapFormEditor(schema, {
+      modules: [ContextPadModule, ModelingModule, SelectionModule],
+      additionalModules: [{ translate: ['value', translate] }],
+    }),
+  );
+
+  afterEach(function () {
+    getFormEditor().destroy();
+  });
+
+  describe('DeleteActionProvider', function () {
+    it('should translate the title through a static key', inject(function (
+      formFieldContextActions,
+      formFieldRegistry,
+    ) {
+      // given
+      const textfield = formFieldRegistry.get('Textfield_1');
+
+      // when
+      const entries = formFieldContextActions.getEntries(textfield);
+
+      // then
+      expect(entries.delete.title).to.eql('Textfeld entfernen');
+    }));
   });
 });

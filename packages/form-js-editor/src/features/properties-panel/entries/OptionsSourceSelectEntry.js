@@ -45,7 +45,7 @@ function ValuesSourceSelect(props) {
 
   const getOptionsSourceOptions = () => {
     return Object.values(OPTIONS_SOURCES).map((valueSource) => ({
-      label: OPTIONS_SOURCES_LABELS(translate)[valueSource],
+      label: translate(OPTIONS_SOURCES_LABELS[valueSource]),
       value: valueSource,
     }));
   };

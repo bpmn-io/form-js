@@ -236,18 +236,18 @@ export class Dragging {
   }
 
   /**
-   * @param { { container: Array<string>, direction: string, mirrorContainer: string, translate : function } } options
+   * @param { { container: Array<string>, direction: string, mirrorContainer: string } } options
    */
   createDragulaInstance(options) {
-    const { container, mirrorContainer, translate } = options || {};
+    const { container, mirrorContainer } = options || {};
 
     let dragulaOptions = {
       direction: function (el, target) {
         if (isRow(target)) {
-          return translate('horizontal');
+          return 'horizontal';
         }
 
-        return translate('vertical');
+        return 'vertical';
       },
       mirrorContainer,
       isContainer(el) {

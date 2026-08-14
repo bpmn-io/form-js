@@ -64,6 +64,21 @@ describe('Validator', function () {
         expect(errors[0]).to.equal('Value is expected to be an integer.');
       });
 
+      it('should restrict decimals (1)', function () {
+        // given
+        const field = {
+          type: 'number',
+          decimalDigits: 1,
+        };
+
+        // when
+        const errors = validator.validateField(field, 3.1256);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Value is expected to have at most 1 decimal digit.');
+      });
+
       it('should restrict decimals (string)', function () {
         // given
         const field = {
@@ -368,6 +383,22 @@ describe('Validator', function () {
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have minimum value of -200.');
       });
+
+      it('should interpolate zero', function () {
+        // given
+        const field = {
+          validate: {
+            min: 0,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, -1);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 0.');
+      });
     });
 
     describe('min (expression)', function () {
@@ -544,6 +575,22 @@ describe('Validator', function () {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
+      });
+
+      it('should interpolate zero', function () {
+        // given
+        const field = {
+          validate: {
+            max: 0,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 1);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of 0.');
       });
     });
 
@@ -775,6 +822,22 @@ describe('Validator', function () {
       // then
       expect(errors).to.have.length(1);
       expect(errors[0]).to.equal('Field must have maximum length of 5.');
+    });
+
+    it('should interpolate zero', function () {
+      // given
+      const field = {
+        validate: {
+          maxLength: 0,
+        },
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foo');
+
+      // then
+      expect(errors).to.have.length(1);
+      expect(errors[0]).to.equal('Field must have maximum length of 0.');
     });
   });
 

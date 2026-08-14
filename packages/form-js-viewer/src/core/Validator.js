@@ -102,15 +102,15 @@ function runNumberValidation(field, value, translate) {
     errors.push(translate('Value is not a number.'));
   } else if (value) {
     if (decimalDigits >= 0 && countDecimals(value) > decimalDigits) {
-      errors.push(
-        translate('Value is expected to') +
-          ' ' +
-          (decimalDigits === 0
-            ? translate('be an integer')
-            : translate('have at most {value} decimal digit', { value: decimalDigits }) +
-              `${decimalDigits > 1 ? 's' : ''}`) +
-          '.',
-      );
+      if (decimalDigits === 0) {
+        errors.push(translate('Value is expected to be an integer.'));
+      } else if (decimalDigits === 1) {
+        errors.push(translate('Value is expected to have at most 1 decimal digit.'));
+      } else {
+        errors.push(
+          translate('Value is expected to have at most {value} decimal digits.', { value: decimalDigits }),
+        );
+      }
     }
 
     if (increment) {
@@ -140,7 +140,7 @@ function runPresetValidation(field, validation, value, translate) {
   const errors = [];
   if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
     errors.push(
-      validation.patternErrorMessage || translate(`Field must match pattern {value}.`, { value: validation.pattern }),
+      validation.patternErrorMessage || translate('Field must match pattern {value}.', { value: validation.pattern }),
     );
   }
 
@@ -167,7 +167,7 @@ function runPresetValidation(field, validation, value, translate) {
   if ('max' in validation && (value || value === 0)) {
     try {
       if (Big(value).gt(Big(validation.max))) {
-        errors.push(translate('Field must have maximum value of {value}.', { value: validation.max }));
+        errors.push(translate('Field must have maximum value of {value}.', { value: validation.max.toString() }));
       }
     } catch {
       errors.push(translate('Max validation value is not a valid number.'));
@@ -179,7 +179,7 @@ function runPresetValidation(field, validation, value, translate) {
   }
 
   if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {
-    errors.push(translate('Field must have maximum length of {value}.', { value: validation.maxLength }));
+    errors.push(translate('Field must have maximum length of {value}.', { value: validation.maxLength.toString() }));
   }
 
   if ('validationType' in validation && value && validation.validationType === 'phone' && !PHONE_PATTERN.test(value)) {

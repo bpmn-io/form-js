@@ -77,5 +77,5 @@ function getRemoveButtonTitle(formField, formFields, translate) {
     return translate('Remove form field');
   }
 
-  return translate(`Remove ${entry.label}`);
+  return translate('Remove {label}', { label: translate(entry.label) });
 }
