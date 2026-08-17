@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.25.0
+
+- `FEAT`: render the properties panel as a reactive section ([#1536](https://github.com/bpmn-io/form-js/pull/1536))
+- `FIX`: wrap long checkbox, checkbox group and radio group option label ([#1545](https://github.com/bpmn-io/form-js/issues/1545))
+
 ## 1.24.1
 
 - `FIX`: avoid redundant document preview fetches ([#1520](https://github.com/bpmn-io/form-js/issues/1520), [#1538](https://github.com/bpmn-io/form-js/pull/1538))
