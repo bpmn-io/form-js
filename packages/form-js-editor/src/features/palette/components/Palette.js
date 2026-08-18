@@ -116,7 +116,11 @@ export function Palette(props) {
           onInput={handleInput}
         />
         {searchTerm && (
-          <button type="button" title="Clear content" class="fjs-palette-search-clear" onClick={handleClear}>
+          <button
+            type="button"
+            title={translate('Clear content')}
+            class="fjs-palette-search-clear"
+            onClick={handleClear}>
             <CloseIcon></CloseIcon>
           </button>
         )}

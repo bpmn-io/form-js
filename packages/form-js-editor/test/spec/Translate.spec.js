@@ -67,6 +67,36 @@ describe('translate', function () {
     expect(container.querySelector('.fjs-palette-search').getAttribute('placeholder')).to.eql('Komponenten suchen');
   });
 
+  it('should render an English palette entry title by default', async function () {
+    // when
+    await bootstrapFormEditor({ container, schema });
+
+    // then
+    expect(container.querySelector('[data-field-type="textfield"]').getAttribute('title')).to.eql(
+      'Create a Text field element',
+    );
+  });
+
+  it('should translate a palette entry title through a static key', async function () {
+    // given
+    const translate = createTranslate({
+      'Create a {label} element': '{label}-Element erstellen',
+      'Text field': 'Textfeld',
+    });
+
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema,
+      additionalModules: [{ translate: ['value', translate] }],
+    });
+
+    // then
+    expect(container.querySelector('[data-field-type="textfield"]').getAttribute('title')).to.eql(
+      'Textfeld-Element erstellen',
+    );
+  });
+
   describe('OPTIONS_SOURCES_LABELS', function () {
     it('should stay a plain object', function () {
       // then
