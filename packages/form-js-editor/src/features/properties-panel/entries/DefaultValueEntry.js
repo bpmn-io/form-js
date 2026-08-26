@@ -170,7 +170,7 @@ function DefaultValueNumber(props) {
         return translate('Should be a valid number');
       }
       if (decimalDigitsSet && countDecimals(value) > decimalDigits) {
-        return translate('Should not contain more than {value} decimal digits', { value: decimalDigits });
+        return translate('Should not contain more than {value} decimal digits', { value: decimalDigits.toString() });
       }
     },
     [decimalDigitsSet, decimalDigits, translate],

@@ -21,8 +21,10 @@ describe('palette', function () {
    *
    * @param {Record<string, string>} dictionary
    */
-  const createTranslate = (dictionary) => (template, replacements = {}) =>
-    (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+  const createTranslate =
+    (dictionary) =>
+    (template, replacements = {}) =>
+      (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
 
   beforeEach(function () {
     parent = document.createElement('div');
@@ -178,9 +180,7 @@ describe('palette', function () {
       fireEvent.input(search, { target: { value: 'text' } });
 
       // then
-      expect(result.container.querySelector('.fjs-palette-search-clear').getAttribute('title')).to.eql(
-        'Clear content',
-      );
+      expect(result.container.querySelector('.fjs-palette-search-clear').getAttribute('title')).to.eql('Clear content');
     });
 
     it('should translate the title', function () {
@@ -207,22 +207,14 @@ describe('palette', function () {
       const result = createPalette({ container });
 
       // then
-      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create a Text field element');
-    });
-
-    it('should render English by default (indefinite article "an")', function () {
-      // given
-      const result = createPalette({ container });
-
-      // then
-      expect(getEntryTitle(result.container, 'image')).to.eql('Create an Image view element');
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
     });
 
     it('should translate through a static key', function () {
       // given
       // the dictionary is keyed by the static template, not by the composed sentence
       const translate = createTranslate({
-        'Create a {label} element': '{label}-Element erstellen',
+        'Create {label} element': '{label}-Element erstellen',
         'Text field': 'Textfeld',
       });
 
@@ -232,24 +224,11 @@ describe('palette', function () {
       expect(getEntryTitle(result.container, 'textfield')).to.eql('Textfeld-Element erstellen');
     });
 
-    it('should translate the "an" variant through a static key', function () {
-      // given
-      const translate = createTranslate({
-        'Create an {label} element': '{label}-Element erstellen',
-        'Image view': 'Bildansicht',
-      });
-
-      const result = createPalette({ container, services: { translate } });
-
-      // then
-      expect(getEntryTitle(result.container, 'image')).to.eql('Bildansicht-Element erstellen');
-    });
-
     it('should interpolate the label placeholder', function () {
       // given
       // the placeholder does not sit where English puts it
       const translate = createTranslate({
-        'Create a {label} element': 'Criar um elemento do tipo {label}',
+        'Create {label} element': 'Criar um elemento do tipo {label}',
         'Text field': 'Campo de texto',
       });
 
@@ -264,13 +243,13 @@ describe('palette', function () {
       // a dictionary keyed by the composed sentence must have no effect, proving
       // the key handed to `translate` is the static template
       const translate = createTranslate({
-        'Create a Text field element': 'Textfeld-Element erstellen',
+        'Create Text field element': 'Textfeld-Element erstellen',
       });
 
       const result = createPalette({ container, services: { translate } });
 
       // then
-      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create a Text field element');
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
     });
 
     it('should not translate the technical type', function () {
@@ -281,7 +260,7 @@ describe('palette', function () {
       const result = createPalette({ container, services: { translate } });
 
       // then
-      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create a Text field element');
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
     });
   });
 

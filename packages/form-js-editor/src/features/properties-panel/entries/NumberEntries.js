@@ -119,7 +119,7 @@ function NumberArrowStep(props) {
         }
 
         if (countDecimals(value) > decimalDigits) {
-          return translate('Should not contain more than {value} decimal digits.', { value: decimalDigits });
+          return translate('Should not contain more than {value} decimal digits.', { value: decimalDigits.toString() });
         }
       }
     },

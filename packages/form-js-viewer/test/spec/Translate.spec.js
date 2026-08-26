@@ -22,8 +22,10 @@ describe('translate', function () {
   /**
    * @param {Record<string, string>} dictionary
    */
-  const createTranslate = (dictionary) => (template, replacements = {}) =>
-    (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+  const createTranslate =
+    (dictionary) =>
+    (template, replacements = {}) =>
+      (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
 
   beforeEach(function () {
     container = document.createElement('div');

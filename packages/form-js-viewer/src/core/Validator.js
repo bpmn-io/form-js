@@ -108,7 +108,7 @@ function runNumberValidation(field, value, translate) {
         errors.push(translate('Value is expected to have at most 1 decimal digit.'));
       } else {
         errors.push(
-          translate('Value is expected to have at most {value} decimal digits.', { value: decimalDigits }),
+          translate('Value is expected to have at most {value} decimal digits.', { value: decimalDigits.toString() }),
         );
       }
     }
@@ -154,6 +154,7 @@ function runPresetValidation(field, validation, value, translate) {
     }
   }
 
+  // stringify: `translate` falls back to the raw placeholder for a falsy replacement, so 0 must not be passed as a number
   if ('min' in validation && (value || value === 0)) {
     try {
       if (Big(value).lt(Big(validation.min))) {
@@ -175,7 +176,7 @@ function runPresetValidation(field, validation, value, translate) {
   }
 
   if ('minLength' in validation && value && value.trim().length < validation.minLength) {
-    errors.push(translate('Field must have minimum length of {value}.', { value: validation.minLength }));
+    errors.push(translate('Field must have minimum length of {value}.', { value: validation.minLength.toString() }));
   }
 
   if ('maxLength' in validation && value && value.trim().length > validation.maxLength) {

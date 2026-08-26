@@ -53,10 +53,10 @@ const SimpleRangeIntegerEntry = (props) => {
         return translate('Should be an integer.');
       }
       if (Big(value).cmp(min) < 0) {
-        return translate('Should be at least {value}.', { value: min });
+        return translate('Should be at least {value}.', { value: min.toString() });
       }
       if (Big(value).cmp(max) > 0) {
-        return translate('Should be at most {value}.', { value: max });
+        return translate('Should be at most {value}.', { value: max.toString() });
       }
     },
     [min, max, translate],

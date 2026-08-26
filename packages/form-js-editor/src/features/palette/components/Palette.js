@@ -185,7 +185,6 @@ export function collectPaletteEntries(formFields) {
         group: fieldConfig.group,
         icon: fieldConfig.icon,
         iconUrl: fieldConfig.iconUrl,
-        create: (options) => fieldConfig.create(options),
       };
     })
     .filter(({ type }) => type !== 'default');

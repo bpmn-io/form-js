@@ -38,6 +38,7 @@ function Label(props) {
   const { editField, field, id, index } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   /**
    * @param {string|void} value
@@ -62,7 +63,7 @@ function Label(props) {
     element: field,
     getValue,
     id,
-    label: 'Label',
+    label: translate('Label'),
     setValue,
   });
 }

@@ -3,26 +3,25 @@ import { AutoFocusSelectEntry } from '../components';
 import { get, isString, isArray } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
 
-const OPTIONS = (translate) => {
-  return {
-    static: {
-      label: translate('List of items'),
-      value: 'static',
-    },
-    expression: {
-      label: translate('Expression'),
-      value: 'expression',
-    },
-  };
+const OPTIONS = {
+  static: {
+    label: 'List of items',
+    value: 'static',
+  },
+  expression: {
+    label: 'Expression',
+    value: 'expression',
+  },
 };
 
 const COLUMNS_PATH = ['columns'];
 
 const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
 
+const isHeadersSourceEdited = isEditedFromDefaultFactory(OPTIONS.static.value);
+
 export function HeadersSourceSelectEntry(props) {
   const { editField, field, id, translate } = props;
-  const isHeadersSourceEdited = isEditedFromDefaultFactory(OPTIONS(translate).static.value);
 
   return [
     {
@@ -39,7 +38,7 @@ export function HeadersSourceSelectEntry(props) {
 function HeadersSourceSelect(props) {
   const { editField, field, id, translate } = props;
 
-  const SELECT_OPTIONS = Object.values(OPTIONS(translate));
+  const selectOptions = Object.values(OPTIONS).map(({ label, value }) => ({ label: translate(label), value }));
 
   /**
    * @returns {string|void}
@@ -49,11 +48,11 @@ function HeadersSourceSelect(props) {
     const columnsExpression = get(field, COLUMNS_EXPRESSION_PATH);
 
     if (isString(columnsExpression)) {
-      return OPTIONS(translate).expression.value;
+      return OPTIONS.expression.value;
     }
 
     if (isArray(columns)) {
-      return OPTIONS(translate).static.value;
+      return OPTIONS.static.value;
     }
   };
 
@@ -62,7 +61,7 @@ function HeadersSourceSelect(props) {
    */
   const setValue = (value) => {
     switch (value) {
-      case OPTIONS(translate).static.value:
+      case OPTIONS.static.value:
         editField(field, {
           columns: [
             {
@@ -72,7 +71,7 @@ function HeadersSourceSelect(props) {
           ],
         });
         break;
-      case OPTIONS(translate).expression.value:
+      case OPTIONS.expression.value:
         editField(field, {
           columnsExpression: '=',
         });
@@ -81,7 +80,7 @@ function HeadersSourceSelect(props) {
   };
 
   const getValuesSourceOptions = () => {
-    return SELECT_OPTIONS;
+    return selectOptions;
   };
 
   return AutoFocusSelectEntry({

@@ -60,7 +60,7 @@ export function CustomPropertiesGroup(field, editField, getService) {
         validateFactory,
       }),
       id,
-      label: translate(key || ''),
+      label: key || '',
       remove: removeEntry,
     };
   });

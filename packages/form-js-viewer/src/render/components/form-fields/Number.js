@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import classNames from 'classnames';
 import { useCallback, useMemo, useRef, useState } from 'preact/hooks';
-import { useFlushDebounce, usePrevious } from '../../hooks';
+import { useFlushDebounce, usePrevious, useService } from '../../hooks';
 
 import { Description } from '../Description';
 import { Errors } from '../Errors';
@@ -30,6 +30,8 @@ export function Numberfield(props) {
   const { prefixAdorner, suffixAdorner } = appearance;
 
   const { required } = validate;
+
+  const translate = useService('translate');
 
   /** @type {import("preact").RefObject<HTMLInputElement>} */
   const inputRef = useRef();
@@ -207,7 +209,7 @@ export function Numberfield(props) {
             <button
               type="button"
               class="fjs-number-arrow-up"
-              aria-label="Increment"
+              aria-label={translate('Increment')}
               onClick={() => increment()}
               tabIndex={-1}>
               <AngelUpIcon />
@@ -216,7 +218,7 @@ export function Numberfield(props) {
             <button
               type="button"
               class="fjs-number-arrow-down"
-              aria-label="Decrement"
+              aria-label={translate('Decrement')}
               onClick={() => decrement()}
               tabIndex={-1}>
               <AngelDownIcon />

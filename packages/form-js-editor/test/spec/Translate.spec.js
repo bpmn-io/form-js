@@ -23,8 +23,10 @@ describe('translate', function () {
   /**
    * @param {Record<string, string>} dictionary
    */
-  const createTranslate = (dictionary) => (template, replacements = {}) =>
-    (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+  const createTranslate =
+    (dictionary) =>
+    (template, replacements = {}) =>
+      (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
 
   beforeEach(function () {
     container = document.createElement('div');
@@ -73,14 +75,14 @@ describe('translate', function () {
 
     // then
     expect(container.querySelector('[data-field-type="textfield"]').getAttribute('title')).to.eql(
-      'Create a Text field element',
+      'Create Text field element',
     );
   });
 
   it('should translate a palette entry title through a static key', async function () {
     // given
     const translate = createTranslate({
-      'Create a {label} element': '{label}-Element erstellen',
+      'Create {label} element': '{label}-Element erstellen',
       'Text field': 'Textfeld',
     });
 

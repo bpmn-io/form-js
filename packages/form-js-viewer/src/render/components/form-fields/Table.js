@@ -158,7 +158,11 @@ export function Table(props) {
         {isNumber(rowCount) && chunkedData.length > 1 && evaluatedColumns.length > 0 ? (
           <nav class="fjs-table-nav">
             <span class="fjs-table-nav-label">
-              {currentPage + 1} of {chunkedData.length}
+              {translate('{page} of {total}', {
+                // stringify: see Validator.js
+                page: (currentPage + 1).toString(),
+                total: chunkedData.length.toString(),
+              })}
             </span>
             <button
               type="button"
@@ -167,7 +171,7 @@ export function Table(props) {
                 setCurrentPage((page) => Math.max(page - 1, 0));
               }}
               disabled={currentPage === 0}
-              aria-label="Previous page">
+              aria-label={translate('Previous page')}>
               <CaretLeftIcon />
             </button>
             <button
@@ -177,7 +181,7 @@ export function Table(props) {
                 setCurrentPage((page) => Math.min(page + 1, chunkedData.length - 1));
               }}
               disabled={currentPage >= chunkedData.length - 1}
-              aria-label="Next page">
+              aria-label={translate('Next page')}>
               <CaretRightIcon />
             </button>
           </nav>

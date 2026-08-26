@@ -139,5 +139,5 @@ function getSelectedFilesLabel(files, translate) {
     return files[0].name;
   }
 
-  return translate('{value} files selected', { value: files.length });
+  return translate('{value} files selected', { value: files.length.toString() });
 }
