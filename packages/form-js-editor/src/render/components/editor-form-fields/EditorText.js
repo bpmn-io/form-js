@@ -11,13 +11,14 @@ export function EditorText(props) {
 
   const templating = useService('templating');
   const expressionLanguage = useService('expressionLanguage');
+  const translate = useService('translate');
 
   if (!text || !text.trim()) {
     return (
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Text view is empty
+          {translate('Text view is empty')}
         </div>
       </div>
     );
@@ -28,7 +29,7 @@ export function EditorText(props) {
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Text view is populated by an expression
+          {translate('Text view is populated by an expression')}
         </div>
       </div>
     );
@@ -39,7 +40,7 @@ export function EditorText(props) {
       <div class={editorFormFieldClasses(type)}>
         <div class="fjs-form-field-placeholder">
           <Icon viewBox="0 0 54 54" />
-          Text view is templated
+          {translate('Text view is templated')}
         </div>
       </div>
     );

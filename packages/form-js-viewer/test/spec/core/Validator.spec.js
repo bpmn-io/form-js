@@ -289,6 +289,36 @@ describe('Validator', function () {
         expect(errors).to.have.length(0);
       });
 
+      it('should report a min that is not a number', function () {
+        // given
+        const field = {
+          validate: {
+            min: 'not a number',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 10);
+
+        // then
+        expect(errors).to.eql(['Min validation value is not a valid number.']);
+      });
+
+      it('should report a max that is not a number', function () {
+        // given
+        const field = {
+          validate: {
+            max: 'not a number',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 10);
+
+        // then
+        expect(errors).to.eql(['Max validation value is not a valid number.']);
+      });
+
       it('should be valid (string value, string min)', function () {
         // given
         const field = {

@@ -27,16 +27,14 @@ export class Dragging {
    * @param { import('../../core/EventBus').EventBus } eventBus
    * @param { import('../modeling/Modeling').Modeling } modeling
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
-   * @param {function} translate
    */
-  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry, translate) {
+  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry) {
     this._formFieldRegistry = formFieldRegistry;
     this._formLayouter = formLayouter;
     this._formLayoutValidator = formLayoutValidator;
     this._eventBus = eventBus;
     this._modeling = modeling;
     this._pathRegistry = pathRegistry;
-    this._translate = translate;
   }
 
   /**
@@ -83,7 +81,7 @@ export class Dragging {
       formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
 
       if (!formField) {
-        return this._translate('No associated form field in the registry');
+        return 'No associated form field in the registry';
       }
 
       columns = (formField.layout || {}).columns;
@@ -101,7 +99,7 @@ export class Dragging {
 
       // (2) check target is a valid parent
       if (!targetParentId) {
-        return this._translate('Drop is not a valid target');
+        return 'Drop is not a valid target';
       }
 
       // (3) check  for path collisions
@@ -130,7 +128,7 @@ export class Dragging {
           );
 
           if (!isDropAllowedByPathRegistry) {
-            return this._translate('Drop not allowed by path registry');
+            return 'Drop not allowed by path registry';
           }
         }
       }
@@ -368,15 +366,7 @@ export class Dragging {
   }
 }
 
-Dragging.$inject = [
-  'formFieldRegistry',
-  'formLayouter',
-  'formLayoutValidator',
-  'eventBus',
-  'modeling',
-  'pathRegistry',
-  'translate',
-];
+Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry'];
 
 // helper //////////
 

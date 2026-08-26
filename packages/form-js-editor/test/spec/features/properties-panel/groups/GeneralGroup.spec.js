@@ -1159,6 +1159,231 @@ describe('GeneralGroup', function () {
       expect(field.use24h).to.equal(false);
     });
   });
+
+  describe('validation', function () {
+    it('should reject an id with a prefix', function () {
+      // given
+      const field = { type: 'default', id: 'foo' };
+
+      const { container } = renderGeneralGroup({
+        field,
+        editField: () => {},
+        services: { formFieldRegistry: { _ids: { assigned: () => false } } },
+      });
+
+      // when
+      fireEvent.input(findInput('id', container), { target: { value: 'foo:bar' } });
+
+      // then
+      expect(findError(container)).to.eql('Must not contain prefix.');
+    });
+
+    it('should reject a prohibited key', function () {
+      // given
+      const field = { type: 'textfield', id: 'Textfield_1', key: 'foo' };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('key', container), { target: { value: '__proto__' } });
+
+      // then
+      expect(findError(container)).to.eql('Must not be a prohibited path.');
+    });
+
+    it('should reject an empty path on a repeating field', function () {
+      // given
+      const field = { type: 'dynamiclist', id: 'List_1', path: 'items', isRepeating: true };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('path', container), { target: { value: '' } });
+
+      // then
+      expect(findError(container)).to.eql('Must not be empty');
+    });
+
+    it('should reject an invalid path on a repeating field', function () {
+      // given
+      const field = { type: 'dynamiclist', id: 'List_1', path: 'items', isRepeating: true };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('path', container), { target: { value: 'not a path' } });
+
+      // then
+      expect(findError(container)).to.eql('Must be a variable or a dot-separated path.');
+    });
+
+    it('should reject an invalid path on a non-repeating field', function () {
+      // given
+      const field = { type: 'group', id: 'Group_1', path: 'group' };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('path', container), { target: { value: 'not a path' } });
+
+      // then
+      expect(findError(container)).to.eql('Must be empty, a variable or a dot-separated path.');
+    });
+
+    it('should reject a prohibited path', function () {
+      // given
+      const field = { type: 'group', id: 'Group_1', path: 'group' };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('path', container), { target: { value: '__proto__' } });
+
+      // then
+      expect(findError(container)).to.eql('Must not be a prohibited path.');
+    });
+
+    it('should require a height', function () {
+      // given
+      const field = { type: 'iframe', id: 'IFrame_1', url: 'https://example.com', height: 300 };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInputEndingWith('-height', container), { target: { value: '' } });
+
+      // then
+      expect(findError(container)).to.eql('A number is required.');
+    });
+
+    it('should reject a step with too many decimals', function () {
+      // given
+      const field = { type: 'number', id: 'Number_1', key: 'amount', decimalDigits: 2, increment: '1' };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInputEndingWith('-step', container), { target: { value: '0.125' } });
+
+      // then
+      expect(findError(container)).to.eql('Should not contain more than 2 decimal digits.');
+    });
+
+    it('should reject more repetitions than allowed', function () {
+      // given
+      const field = { type: 'dynamiclist', id: 'List_1', path: 'items', defaultRepetitions: 1 };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      fireEvent.input(findInput('defaultRepetitions', container), { target: { value: '101' } });
+
+      // then
+      expect(findError(container)).to.eql('Should be at most 100.');
+    });
+
+    it('should require a document data source', async function () {
+      // given
+      const field = { type: 'documentPreview', id: 'Preview_1', dataSource: '=documents' };
+
+      const { container } = renderGeneralGroup({ field, editField: () => {} });
+
+      // when
+      await setEditorValue(findTextbox('dataSource', container), '');
+
+      // then
+      expect(findError(container)).to.eql('The document data source is required.');
+    });
+
+    it('should reject a path that collides with another binding', function () {
+      // given
+      const field = { type: 'group', id: 'Group_1', path: 'group' };
+
+      const { container } = renderGeneralGroup({
+        field,
+        editField: () => {},
+        services: {
+          pathRegistry: {
+            getValuePath: (field) => [field.key],
+            claimPath: () => {},
+            unclaimPath: () => {},
+            canClaimPath: () => false,
+            executeRecursivelyOnFields: (field, fn) => fn({ field, isClosed: false, isRepeatable: false }),
+          },
+        },
+      });
+
+      // when
+      fireEvent.input(findInput('path', container), { target: { value: 'taken' } });
+
+      // then
+      expect(findError(container)).to.eql('Must not cause two binding paths to collide');
+    });
+  });
+
+  describe('content', function () {
+    it('should render for html', function () {
+      // given
+      const field = { type: 'html', content: '<p>foo</p>' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findEntry('content', container)).to.exist;
+    });
+
+    it('should NOT render for text', function () {
+      // given
+      const field = { type: 'text', text: 'foo' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findEntry('content', container)).to.not.exist;
+    });
+  });
+
+  describe('text description', function () {
+    it('should describe markdown support', function () {
+      // given
+      const field = { type: 'text', text: 'foo' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      const description = container.querySelector('[data-entry-id="text"] .bio-properties-panel-description');
+
+      expect(description).to.exist;
+      expect(description.textContent).to.contain('Supports markdown and templating.');
+    });
+  });
+
+  describe('document preview', function () {
+    it('should render data source', function () {
+      // given
+      const field = { type: 'documentPreview', dataSource: '=documents' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findEntry('dataSource', container)).to.exist;
+    });
+
+    it('should NOT render for textfield', function () {
+      // given
+      const field = { type: 'textfield' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findEntry('dataSource', container)).to.not.exist;
+    });
+  });
 });
 
 // helper ///////////////
@@ -1191,6 +1416,16 @@ function renderGeneralGroup({ services, ...options }) {
       <TestPropertiesPanel field={field} groups={groups} />
     </MockPropertiesPanelContext>,
   );
+}
+
+function findInputEndingWith(suffix, container) {
+  return container.querySelector(`input[name$="${suffix}"]`);
+}
+
+function findError(container) {
+  const error = container.querySelector('.bio-properties-panel-error');
+
+  return error && error.textContent;
 }
 
 function findEntry(id, container) {

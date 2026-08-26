@@ -106,6 +106,19 @@ describe('palette', function () {
       expectEntries(result.container, [{ type: 'textfield' }]);
     });
 
+    it('should report when nothing matches', function () {
+      // given
+      const result = createPalette({ container });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'nonexistent' } });
+
+      // then
+      expect(result.container.querySelector('.fjs-palette-no-entries')).to.exist;
+    });
+
     it('should match the untranslated type', function () {
       // given
       // a dictionary that (wrongly) covers the technical type must not break

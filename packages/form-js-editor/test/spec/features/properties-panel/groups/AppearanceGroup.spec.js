@@ -188,6 +188,30 @@ describe('AppearanceGroup', function () {
       expect(field.appearance.prefixAdorner).to.eql('=newVal');
     });
   });
+
+  describe('max height', function () {
+    it('should render for document preview', function () {
+      // given
+      const field = { type: 'documentPreview', dataSource: '=documents' };
+
+      // when
+      const { container } = renderAppearanceGroup({ field });
+
+      // then
+      expect(findEntry('maxHeight', container)).to.exist;
+    });
+
+    it('should NOT render for textfield', function () {
+      // given
+      const field = { type: 'textfield' };
+
+      // when
+      const { container } = renderAppearanceGroup({ field });
+
+      // then
+      expect(findEntry('maxHeight', container)).to.not.exist;
+    });
+  });
 });
 
 // helper ///////////////
@@ -216,4 +240,8 @@ function findTextbox(id, container) {
 
 function findGroup(id, container) {
   return container.querySelector(`.bio-properties-panel-group [data-group-id="group-${id}"]`);
+}
+
+function findEntry(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"]`);
 }

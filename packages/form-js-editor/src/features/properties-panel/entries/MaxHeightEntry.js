@@ -1,4 +1,4 @@
-import { get } from 'min-dash';
+import { get, isNil } from 'min-dash';
 
 import { useService } from '../hooks';
 
@@ -32,7 +32,7 @@ function MaxHeight(props) {
   const path = ['maxHeight'];
 
   const getValue = () => {
-    return get(field, path, '');
+    return get(field, path);
   };
 
   const setValue = (value) => {
@@ -54,17 +54,13 @@ function MaxHeight(props) {
 // helpers //////////
 
 /**
- * @param {string|number|undefined} value
+ * @param {number|undefined} value
  * @param {function} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {
-  if (value === undefined || value === '') {
+  if (isNil(value)) {
     return null;
-  }
-
-  if (typeof value === 'string') {
-    return translate('Value must be a number.');
   }
 
   if (!Number.isInteger(value)) {

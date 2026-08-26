@@ -85,6 +85,23 @@ describe('Text', function () {
       expect(placeholder.textContent).to.eql('Text view is empty');
     });
 
+    it('should render template placeholder', function () {
+      // given
+      const { container } = createEditorText({
+        field: {
+          text: '{{foo}}',
+          type: 'text',
+        },
+        isTemplate: () => true,
+      });
+
+      // then
+      const formField = container.querySelector('.fjs-form-field');
+      const placeholder = formField.querySelector('.fjs-form-field-placeholder');
+      expect(placeholder).to.exist;
+      expect(placeholder.textContent).to.eql('Text view is templated');
+    });
+
     it('should render empty placeholder whitespace', function () {
       // given
       const { container } = createEditorText({

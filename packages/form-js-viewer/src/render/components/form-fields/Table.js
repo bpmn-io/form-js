@@ -90,7 +90,7 @@ export function Table(props) {
           'fjs-table-empty': evaluatedColumns.length === 0,
         })}>
         {evaluatedColumns.length === 0 ? (
-          'Nothing to show.'
+          translate('Nothing to show.')
         ) : (
           <div class="fjs-table-inner-container">
             <table class="fjs-table" id={prefixId(id)}>
@@ -134,7 +134,7 @@ export function Table(props) {
                 <tbody class="fjs-table-body">
                   <tr class="fjs-table-tr">
                     <td class="fjs-table-td" colSpan={evaluatedColumns.length}>
-                      Nothing to show.
+                      {translate('Nothing to show.')}
                     </td>
                   </tr>
                 </tbody>

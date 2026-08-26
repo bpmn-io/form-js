@@ -106,6 +106,38 @@ describe('ValidationGroup', function () {
       expect(requiredSelect.value).to.equal('email');
     });
 
+    it('should describe the phone pattern', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'phone',
+        },
+      };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      expect(findValidationTypeTooltip(container)).to.exist;
+    });
+
+    it('should NOT describe other validation types', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'email',
+        },
+      };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      expect(findValidationTypeTooltip(container)).to.not.exist;
+    });
+
     it('should write', function () {
       // given
       const field = {
@@ -646,6 +678,10 @@ function renderValidationGroup(options) {
 
 function findInput(id, container) {
   return container.querySelector(`input[name="${id}"]`);
+}
+
+function findValidationTypeTooltip(container) {
+  return container.querySelector('[data-entry-id="validationType"] .bio-properties-panel-tooltip-wrapper');
 }
 
 function findSelect(id, container) {

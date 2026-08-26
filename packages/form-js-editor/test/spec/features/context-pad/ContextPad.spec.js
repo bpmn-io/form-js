@@ -131,6 +131,18 @@ describe('features/context-pad', function () {
       expect(entries.delete).not.to.exist;
     }));
 
+    it('should fall back to a generic remove title', inject(function (formFieldContextActions) {
+      // given
+      // a type without a palette entry, e.g. a component this editor does not know
+      const formField = { type: 'unknown', id: 'Unknown_1' };
+
+      // when
+      const entries = formFieldContextActions.getEntries(formField);
+
+      // then
+      expect(entries.delete.title).to.eql('Remove form field');
+    }));
+
     it('should remove field on action', inject(function (formFieldContextActions, formFieldRegistry) {
       // given
       const textfield = formFieldRegistry.get('Textfield_1');

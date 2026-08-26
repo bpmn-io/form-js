@@ -157,6 +157,26 @@ describe('FormEditor', function () {
     });
   });
 
+  it('should render empty placeholder for an empty group', async function () {
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema: {
+        type: 'default',
+        components: [{ type: 'group', id: 'Group_1', label: 'Group', components: [] }],
+      },
+      debounce: true,
+    });
+
+    // then
+    await waitFor(() => {
+      const emptyGroup = container.querySelector('.fjs-empty-component');
+
+      expect(emptyGroup).to.exist;
+      expect(emptyGroup.textContent).to.contain('Drag and drop components here.');
+    });
+  });
+
   it('should render empty state slot fill', async function () {
     // given
     function EmptyStateExtension(props) {

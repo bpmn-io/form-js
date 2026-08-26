@@ -45,7 +45,7 @@ function Text(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description,
+    description: description(translate),
     element: field,
     getValue,
     id,

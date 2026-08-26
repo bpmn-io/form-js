@@ -59,17 +59,13 @@ function RowCount(props) {
 // helpers //////////
 
 /**
- * @param {string|void} value
+ * @param {number|undefined} value
  * @param {function} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {
   if (isNil(value)) {
     return null;
-  }
-
-  if (!isNumber(value)) {
-    return translate('Must be number');
   }
 
   if (!Number.isInteger(value)) {

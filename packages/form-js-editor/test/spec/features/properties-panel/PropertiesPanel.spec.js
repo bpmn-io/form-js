@@ -2623,7 +2623,7 @@ describe('properties panel', function () {
             // then
             expect(editFieldSpy).to.not.have.been.called;
 
-            const error = screen.getByText('Should be a valid number');
+            const error = screen.getByText('Should be a valid number.');
             expect(error).to.exist;
           });
 
@@ -2651,7 +2651,7 @@ describe('properties panel', function () {
             // then
             expect(editFieldSpy).to.not.have.been.called;
 
-            const error = screen.getByText('Should not contain more than 4 decimal digits');
+            const error = screen.getByText('Should not contain more than 4 decimal digits.');
             expect(error).to.exist;
           });
 
@@ -2679,7 +2679,7 @@ describe('properties panel', function () {
             // then
             expect(editFieldSpy).to.not.have.been.called;
 
-            const error = screen.getByText('Should not contain more than 0 decimal digits');
+            const error = screen.getByText('Should not contain more than 0 decimal digits.');
             expect(error).to.exist;
           });
         });

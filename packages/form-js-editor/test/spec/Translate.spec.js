@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import { act } from '@testing-library/preact/pure';
 
-import { OPTIONS_SOURCES, OPTIONS_SOURCES_LABELS } from '@bpmn-io/form-js-viewer';
-
 import { createFormEditor } from '../../src';
 
 import { collectTranslations } from '@bpmn-io/form-js-i18n/tasks/TranslationCollector.js';
