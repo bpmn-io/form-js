@@ -62,5 +62,8 @@
   ],
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "@bpmn-io/form-js-i18n": "^1.25.0"
+  }
 }

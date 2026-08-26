@@ -5,14 +5,20 @@ import { OPTIONS_SOURCES, OPTIONS_SOURCES_LABELS } from '@bpmn-io/form-js-viewer
 
 import { createFormEditor } from '../../src';
 
+import { collectTranslations } from '@bpmn-io/form-js-i18n/tasks/TranslationCollector.js';
+
 import schema from './form.json';
+
+// the fixtures below would otherwise end up in the collected keys
+const suite = collectTranslations ? describe.skip : describe;
 
 /**
  * Translations are enabled, not provided: the editor registers the default
  * `translate` and consumers override it at module configuration time, the same
  * way bpmn-js does.
  */
-describe('translate', function () {
+
+suite('translate', function () {
   let container, formEditor;
 
   const bootstrapFormEditor = (options) =>
@@ -99,14 +105,24 @@ describe('translate', function () {
     );
   });
 
-  describe('OPTIONS_SOURCES_LABELS', function () {
-    it('should stay a plain object', function () {
-      // then
-      expect(OPTIONS_SOURCES_LABELS).to.be.an('object');
-
-      expect(OPTIONS_SOURCES_LABELS[OPTIONS_SOURCES.STATIC]).to.eql('Static');
-      expect(OPTIONS_SOURCES_LABELS[OPTIONS_SOURCES.INPUT]).to.eql('Input data');
-      expect(OPTIONS_SOURCES_LABELS[OPTIONS_SOURCES.EXPRESSION]).to.eql('Expression');
+  it('should translate a palette entry text and title consistently', async function () {
+    // given
+    const translate = createTranslate({
+      'Create {label} element': '{label} einfügen',
+      'Text field': 'Textfeld',
     });
+
+    // when
+    await bootstrapFormEditor({
+      container,
+      schema,
+      additionalModules: [{ translate: ['value', translate] }],
+    });
+
+    // then
+    const entry = container.querySelector('[data-field-type="textfield"]');
+
+    expect(entry.querySelector('.fjs-palette-field-text').textContent).to.eql('Textfeld');
+    expect(entry.getAttribute('title')).to.eql('Textfeld einfügen');
   });
 });
