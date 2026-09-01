@@ -33,14 +33,14 @@ export const errors = [
   {
     instancePath: '/components/0/validate/patternErrorMessage',
     schemaPath:
-      '#/properties/components/items/allOf/1/allOf/24/then/properties/validate/properties/patternErrorMessage/false schema',
+      '#/properties/components/items/allOf/1/allOf/25/then/properties/validate/properties/patternErrorMessage/false schema',
     keyword: 'false schema',
     params: {},
     message: 'boolean schema is false',
   },
   {
     instancePath: '/components/0',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/24/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/25/if',
     keyword: 'if',
     params: {
       failingKeyword: 'then',

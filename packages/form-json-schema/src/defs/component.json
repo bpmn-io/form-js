@@ -136,6 +136,11 @@
       "description": "Configures the output format of the value. This enables unlimited precision digits.",
       "type": "boolean"
     },
+    "omitFromSubmit": {
+      "$id": "#/component/omitFromSubmit",
+      "description": "When set to true, the field value will be excluded from the form submission data.",
+      "type": "boolean"
+    },
     "searchable": {
       "$id": "#/component/searchable",
       "description": "Allows the select entries to be searched via keyboard.",

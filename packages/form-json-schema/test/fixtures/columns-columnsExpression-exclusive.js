@@ -35,14 +35,14 @@ export const errors = [
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath: '#/properties/components/items/allOf/1/allOf/18/then/oneOf/0/properties/columnsExpression/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/19/then/oneOf/0/properties/columnsExpression/false schema',
   },
   {
     instancePath: '/components/0/columns',
     keyword: 'false schema',
     message: 'boolean schema is false',
     params: {},
-    schemaPath: '#/properties/components/items/allOf/1/allOf/18/then/oneOf/1/properties/columns/false schema',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/19/then/oneOf/1/properties/columns/false schema',
   },
   {
     instancePath: '/components/0',
@@ -51,7 +51,7 @@ export const errors = [
     params: {
       passingSchemas: null,
     },
-    schemaPath: '#/properties/components/items/allOf/1/allOf/18/then/oneOf',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/19/then/oneOf',
   },
   {
     instancePath: '/components/0',
@@ -60,6 +60,6 @@ export const errors = [
     params: {
       failingKeyword: 'then',
     },
-    schemaPath: '#/properties/components/items/allOf/1/allOf/18/if',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/19/if',
   },
 ];

@@ -412,9 +412,9 @@ export class Form {
 
     formFieldInstanceRegistry.getAllKeyed().forEach((formFieldInstance) => {
       const { id, valuePath } = formFieldInstance;
-      const { disabled } = formFieldRegistry.get(id);
+      const { disabled, omitFromSubmit } = formFieldRegistry.get(id);
 
-      if (disabled) {
+      if (disabled || omitFromSubmit) {
         return;
       }
 
