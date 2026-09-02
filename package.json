@@ -109,7 +109,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-bpmn-io": "^2.2.0",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
     "globals": "^17.3.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher-2": "^3.3.0",
