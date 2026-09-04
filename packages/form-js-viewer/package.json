@@ -49,6 +49,7 @@
     "@carbon/grid": "^11.49.0",
     "big.js": "^7.0.1",
     "classnames": "^2.5.1",
+    "diagram-js": "^15.22.0",
     "didi": "^11.0.0",
     "dompurify": "^3.4.11",
     "feelers": "^3.1.0",
