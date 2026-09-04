@@ -41,6 +41,29 @@ describe('DocumentPreview', function () {
     expect(screen.getByText('My document.zip')).to.exist;
   });
 
+  it('should translate the download label through a static key', function () {
+    // given
+    const translate = (template, replacements = {}) => {
+      const dictionary = {
+        'Download {fileName}': '{fileName} herunterladen',
+      };
+
+      return (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+    };
+
+    // when
+    createDocumentPreview({
+      initialData,
+      services: {
+        expressionLanguage: mockExpressionLanguageService,
+        translate,
+      },
+    });
+
+    // then
+    expect(screen.getByRole('button', { name: 'My document.pdf herunterladen' })).to.exist;
+  });
+
   it('should handle bad endpoint format', function () {
     // when
     const { container } = createDocumentPreview({

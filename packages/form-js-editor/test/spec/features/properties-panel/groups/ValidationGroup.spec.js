@@ -7,6 +7,7 @@ import { ValidationGroup } from '../../../../../src/features/properties-panel/gr
 import { TestPropertiesPanel, MockPropertiesPanelContext } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('ValidationGroup', function () {
   afterEach(function () {
@@ -103,6 +104,38 @@ describe('ValidationGroup', function () {
       // then
       expect(requiredSelect).to.exist;
       expect(requiredSelect.value).to.equal('email');
+    });
+
+    it('should describe the phone pattern', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'phone',
+        },
+      };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      expect(findValidationTypeTooltip(container)).to.exist;
+    });
+
+    it('should NOT describe other validation types', function () {
+      // given
+      const field = {
+        type: 'textfield',
+        validate: {
+          validationType: 'email',
+        },
+      };
+
+      // when
+      const { container } = renderValidationGroup({ field });
+
+      // then
+      expect(findValidationTypeTooltip(container)).to.not.exist;
     });
 
     it('should write', function () {
@@ -632,7 +665,9 @@ describe('ValidationGroup', function () {
 function renderValidationGroup(options) {
   const { editField, field } = options;
 
-  const groups = [ValidationGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [ValidationGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext>
@@ -643,6 +678,10 @@ function renderValidationGroup(options) {
 
 function findInput(id, container) {
   return container.querySelector(`input[name="${id}"]`);
+}
+
+function findValidationTypeTooltip(container) {
+  return container.querySelector('[data-entry-id="validationType"] .bio-properties-panel-tooltip-wrapper');
 }
 
 function findSelect(id, container) {

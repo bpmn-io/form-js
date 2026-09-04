@@ -1,8 +1,14 @@
-import { get } from 'min-dash';
+import { get, isNil } from 'min-dash';
 
 import { useService } from '../hooks';
 
 import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-panel';
+
+import { useCallback } from 'preact/hooks';
+
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
 
 export function MaxHeightEntry(props) {
   const { editField, field } = props;
@@ -25,11 +31,12 @@ function MaxHeight(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['maxHeight'];
 
   const getValue = () => {
-    return get(field, path, '');
+    return get(field, path);
   };
 
   const setValue = (value) => {
@@ -38,37 +45,34 @@ function MaxHeight(props) {
 
   return NumberFieldEntry({
     debounce,
-    label: 'Max height of preview container',
+    label: translate('Max height of preview container'),
     element: field,
     id,
     getValue,
     setValue,
-    validate,
-    tooltip,
+    validate: useCallback((value) => validate(value, translate), [translate]),
+    description: translate(tooltip),
   });
 }
 
 // helpers //////////
 
 /**
- * @param {string|number|undefined} value
+ * @param {number|undefined} value
+ * @param {Translate} translate
  * @returns {string|null}
  */
-const validate = (value) => {
-  if (value === undefined || value === '') {
+const validate = (value, translate) => {
+  if (isNil(value)) {
     return null;
   }
 
-  if (typeof value === 'string') {
-    return 'Value must be a number.';
-  }
-
   if (!Number.isInteger(value)) {
-    return 'Should be an integer.';
+    return translate('Should be an integer.');
   }
 
   if (value < 1) {
-    return 'Should be greater than zero.';
+    return translate('Should be greater than zero.');
   }
 };
 

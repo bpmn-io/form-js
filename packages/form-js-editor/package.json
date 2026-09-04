@@ -52,6 +52,7 @@
     "@bpmn-io/properties-panel": "^3.47.0",
     "array-move": "^4.0.0",
     "big.js": "^7.0.1",
+    "diagram-js": "^15.22.0",
     "ids": "^3.0.2",
     "min-dash": "^5.1.0",
     "min-dom": "^5.3.0",
@@ -62,5 +63,8 @@
   ],
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "@bpmn-io/form-js-i18n": "^1.25.0"
+  }
 }

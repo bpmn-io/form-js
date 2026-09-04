@@ -36,6 +36,7 @@ function Label(props) {
   const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const setValue = (value, error) => {
     if (error) {
@@ -60,7 +61,7 @@ function Label(props) {
     element: field,
     getValue,
     id,
-    label: 'Label',
+    label: translate('Label'),
     setValue,
     validate,
   });
@@ -70,6 +71,7 @@ function Value(props) {
   const { editField, field, id, index, validateFactory } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const setValue = (value, error) => {
     if (error) {
@@ -101,7 +103,7 @@ function Value(props) {
     element: field,
     getValue,
     id,
-    label: 'Value',
+    label: translate('Value'),
     setValue,
     validate,
   });

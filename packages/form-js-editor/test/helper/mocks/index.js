@@ -1,5 +1,8 @@
 import { Injector } from 'didi';
 import { isUndefined } from 'min-dash';
+import translate from 'diagram-js/lib/i18n/translate/translate';
+
+import { collectTranslation, collectTranslations } from '@bpmn-io/form-js-i18n/tasks/TranslationCollector.js';
 
 import { EditorFormFields } from '../../../src/render/EditorFormFields';
 
@@ -32,6 +35,7 @@ function _createEditorMockModule(services, options) {
 
     // using actual implementations in testing
     formFields: services.formFields ? ['value', services.formFields] : ['type', EditorFormFields],
+    translate: ['value', services.translate || (collectTranslations ? collectTranslation : translate)],
   };
 }
 

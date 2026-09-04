@@ -1,3 +1,7 @@
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export const MAX_COLUMNS_PER_ROW = 16;
 export const MAX_COLUMNS = 16;
 export const MIN_COLUMNS = 2;
@@ -9,10 +13,12 @@ export class FormLayoutValidator {
    *
    * @param { import('./FormLayouter').FormLayouter } formLayouter
    * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
+   * @param {Translate} translate
    */
-  constructor(formLayouter, formFieldRegistry) {
+  constructor(formLayouter, formFieldRegistry, translate) {
     this._formLayouter = formLayouter;
     this._formFieldRegistry = formFieldRegistry;
+    this._translate = translate;
   }
 
   validateField(field = {}, columns, row) {
@@ -20,12 +26,12 @@ export class FormLayoutValidator {
     if (Number.isInteger(columns)) {
       // allow minimum cols
       if (columns < MIN_COLUMNS) {
-        return `Minimum ${MIN_COLUMNS} columns are allowed`;
+        return this._translate('Minimum {value} columns are allowed', { value: MIN_COLUMNS.toString() });
       }
 
       // allow maximum cols
       if (columns > MAX_COLUMNS) {
-        return `Maximum ${MAX_COLUMNS} columns are allowed`;
+        return this._translate('Maximum {value} columns are allowed', { value: MAX_COLUMNS.toString() });
       }
     }
 
@@ -61,18 +67,20 @@ export class FormLayoutValidator {
       (sumAutoCols > 0 && sumColumns > calculateMaxColumnsWithAuto(sumAutoCols)) ||
       (columns === MAX_COLUMNS_PER_ROW && sumFields > 1)
     ) {
-      return `New value exceeds the maximum of ${MAX_COLUMNS_PER_ROW} columns per row`;
+      return this._translate('New value exceeds the maximum of {value} columns per row', {
+        value: MAX_COLUMNS_PER_ROW.toString(),
+      });
     }
 
     if (sumFields > MAX_FIELDS_PER_ROW) {
-      return `Maximum ${MAX_FIELDS_PER_ROW} fields per row are allowed`;
+      return this._translate('Maximum {value} fields per row are allowed', { value: MAX_FIELDS_PER_ROW.toString() });
     }
 
     return null;
   }
 }
 
-FormLayoutValidator.$inject = ['formLayouter', 'formFieldRegistry'];
+FormLayoutValidator.$inject = ['formLayouter', 'formFieldRegistry', 'translate'];
 
 // helper //////////////////////
 

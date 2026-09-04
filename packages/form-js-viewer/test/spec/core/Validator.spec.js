@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import EventBus from 'diagram-js/lib/core/EventBus';
+import { testTranslate as translate } from '@bpmn-io/form-js-i18n/tasks/TranslationCollector.js';
 import { Validator } from '../../../src/core/Validator';
 import { FeelExpressionLanguage } from '../../../src/features/expressionLanguage';
 
@@ -61,6 +62,21 @@ describe('Validator', function () {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Value is expected to be an integer.');
+      });
+
+      it('should restrict decimals (1)', function () {
+        // given
+        const field = {
+          type: 'number',
+          decimalDigits: 1,
+        };
+
+        // when
+        const errors = validator.validateField(field, 3.1256);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Value is expected to have at most 1 decimal digit.');
       });
 
       it('should restrict decimals (string)', function () {
@@ -273,6 +289,36 @@ describe('Validator', function () {
         expect(errors).to.have.length(0);
       });
 
+      it('should report a min that is not a number', function () {
+        // given
+        const field = {
+          validate: {
+            min: 'not a number',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 10);
+
+        // then
+        expect(errors).to.eql(['Min validation value is not a valid number.']);
+      });
+
+      it('should report a max that is not a number', function () {
+        // given
+        const field = {
+          validate: {
+            max: 'not a number',
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 10);
+
+        // then
+        expect(errors).to.eql(['Max validation value is not a valid number.']);
+      });
+
       it('should be valid (string value, string min)', function () {
         // given
         const field = {
@@ -366,6 +412,22 @@ describe('Validator', function () {
         // then
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have minimum value of -200.');
+      });
+
+      it('should interpolate zero', function () {
+        // given
+        const field = {
+          validate: {
+            min: 0,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, -1);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have minimum value of 0.');
       });
     });
 
@@ -544,6 +606,22 @@ describe('Validator', function () {
         expect(errors).to.have.length(1);
         expect(errors[0]).to.equal('Field must have maximum value of -200.');
       });
+
+      it('should interpolate zero', function () {
+        // given
+        const field = {
+          validate: {
+            max: 0,
+          },
+        };
+
+        // when
+        const errors = validator.validateField(field, 1);
+
+        // then
+        expect(errors).to.have.length(1);
+        expect(errors[0]).to.equal('Field must have maximum value of 0.');
+      });
     });
 
     describe('max (expression)', function () {
@@ -673,7 +751,7 @@ describe('Validator', function () {
 
         // then
         expect(errors).to.have.length(1);
-        expect(errors[0]).to.equal('Field must be a valid  international phone number. (e.g. +4930664040900)');
+        expect(errors[0]).to.equal('Field must be a valid international phone number. (e.g. +4930664040900)');
       });
     });
   });
@@ -775,6 +853,22 @@ describe('Validator', function () {
       expect(errors).to.have.length(1);
       expect(errors[0]).to.equal('Field must have maximum length of 5.');
     });
+
+    it('should interpolate zero', function () {
+      // given
+      const field = {
+        validate: {
+          maxLength: 0,
+        },
+      };
+
+      // when
+      const errors = validator.validateField(field, 'foo');
+
+      // then
+      expect(errors).to.have.length(1);
+      expect(errors[0]).to.equal('Field must have maximum length of 0.');
+    });
   });
 
   describe('maxLength (expression)', function () {
@@ -833,5 +927,5 @@ function createValidator() {
     },
   };
 
-  return new Validator(expressionLanguage, conditionChecker, form);
+  return new Validator(expressionLanguage, conditionChecker, form, null, translate);
 }

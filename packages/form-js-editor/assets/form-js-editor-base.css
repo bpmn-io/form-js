@@ -617,6 +617,7 @@
 
 .fjs-palette-field {
   height: 72px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -648,6 +649,7 @@
 .fjs-palette-field .fjs-palette-field-text {
   text-align: center;
   width: inherit;
+  overflow-wrap: anywhere;
 }
 
 .fjs-palette-container .fjs-palette-field:hover {

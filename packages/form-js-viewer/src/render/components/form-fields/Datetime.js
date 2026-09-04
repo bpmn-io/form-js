@@ -1,4 +1,5 @@
 import { useCallback, useContext, useMemo, useState, useEffect, useRef } from 'preact/hooks';
+import { useService } from '../../hooks';
 import { DateTime as LuxonDateTime } from 'luxon';
 
 import classNames from 'classnames';
@@ -46,6 +47,8 @@ export function Datetime(props) {
 
   const { required } = validate;
   const { formId } = useContext(FormContext);
+
+  const translate = useService('translate');
 
   /** @type {import("preact").RefObject<HTMLDivElement>} */
   const dateTimeGroupRef = useRef();
@@ -149,8 +152,8 @@ export function Datetime(props) {
     const isOnlyOneFieldSet =
       (isValidDate(dateTime.date) && !isValidTime(dateTime.time)) ||
       (!isValidDate(dateTime.date) && isValidTime(dateTime.time));
-    return isOnlyOneFieldSet ? ['Date and time must both be entered.', ...errors] : errors;
-  }, [required, subtype, dateTime, errors]);
+    return isOnlyOneFieldSet ? [translate('Date and time must both be entered.'), ...errors] : errors;
+  }, [required, subtype, dateTime, errors, translate]);
 
   const setDate = useCallback((date) => {
     setDateTimeUpdateRequest((prev) => (prev ? { ...prev, date } : { date }));

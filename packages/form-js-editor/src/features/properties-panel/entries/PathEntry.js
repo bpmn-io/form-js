@@ -39,6 +39,8 @@ function Path(props) {
 
   const path = ['path'];
 
+  const translate = useService('translate');
+
   const getValue = () => {
     return get(field, path, '');
   };
@@ -54,7 +56,7 @@ function Path(props) {
   const validate = useCallback(
     (value) => {
       if (!value && isRepeating) {
-        return 'Must not be empty';
+        return translate('Must not be empty');
       }
 
       // Early return for empty value in non-repeating cases or if the field path hasn't changed
@@ -65,19 +67,19 @@ function Path(props) {
       // Validate dot-separated path format
       if (!isValidDotPath(value)) {
         const msg = isRepeating
-          ? 'Must be a variable or a dot-separated path'
-          : 'Must be empty, a variable or a dot-separated path';
+          ? translate('Must be a variable or a dot-separated path.')
+          : translate('Must be empty, a variable or a dot-separated path.');
         return msg;
       }
 
       // Check for integer segments in the path
       if (hasIntegerPathSegment(value)) {
-        return 'Must not contain numerical path segments.';
+        return translate('Must not contain numerical path segments.');
       }
 
       // Check for special prohibited paths
       if (isProhibitedPath(value)) {
-        return 'Must not be a prohibited path.';
+        return translate('Must not be a prohibited path.');
       }
 
       // Check for path collisions
@@ -93,26 +95,28 @@ function Path(props) {
       });
 
       if (!canClaim) {
-        return 'Must not cause two binding paths to collide';
+        return translate('Must not cause two binding paths to collide');
       }
 
       // If all checks pass
       return null;
     },
-    [field, isRepeating, pathRegistry],
+    [field, isRepeating, pathRegistry, translate],
   );
 
   const tooltip = isRepeating
-    ? 'Routes the children of this component into a form variable, may be left empty to route at the root level.'
-    : 'Routes the children of this component into a form variable.';
+    ? translate(
+        'Routes the children of this component into a form variable, may be left empty to route at the root level.',
+      )
+    : translate('Routes the children of this component into a form variable.');
 
   return TextFieldEntry({
     debounce,
-    description: 'Where the child variables of this component are pathed to.',
+    description: translate('Where the child variables of this component are pathed to.'),
     element: field,
     getValue,
     id,
-    label: 'Path',
+    label: translate('Path'),
     tooltip,
     setValue,
     validate,

@@ -10,6 +10,10 @@ import { Label } from '../Label';
 const type = 'documentPreview';
 
 /**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
+/**
  * @typedef DocumentEndpointBuilder
  * @property {(document: DocumentMetadata) => string} [buildUrl]
  * @property {(document: DocumentMetadata) => RequestInit|undefined} [buildRequestInit]
@@ -46,6 +50,8 @@ export function DocumentPreview(props) {
   const data = useValidDocumentData(dataSource || '');
   const evaluatedLabel = useSingleLineTemplateEvaluation(label, { debug: true });
 
+  const translate = useService('translate');
+
   return (
     <div class={formFieldClasses(type)}>
       <Label htmlFor={domId} label={evaluatedLabel} />
@@ -72,9 +78,12 @@ export function DocumentPreview(props) {
 
       <Errors
         id={errorMessageId}
-        errors={getErrors({
-          dataSource,
-        })}
+        errors={getErrors(
+          {
+            dataSource,
+          },
+          translate,
+        )}
       />
     </div>
   );
@@ -98,14 +107,15 @@ DocumentPreview.config = {
  * @property {string|undefined} dataSource
  *
  * @param {GetErrorOptions} options
+ * @param {Translate} translate
  * @returns {string[]}
  */
-function getErrors(options) {
+function getErrors(options, translate) {
   const { dataSource } = options;
   let errors = [];
 
   if (!isString(dataSource) || dataSource.length < 1) {
-    errors.push('Document reference is not defined.');
+    errors.push(translate('Document reference is not defined.'));
   }
 
   return errors;
@@ -164,6 +174,8 @@ function PdfRenderer(props) {
   const [pdfObjectUrl, setPdfObjectUrl] = useState(null);
   const [hasError, setHasError] = useState(false);
 
+  const translate = useService('translate');
+
   useEffect(() => {
     /** @type {null | string} */
     let objectUrl = null;
@@ -201,7 +213,7 @@ function PdfRenderer(props) {
       {pdfObjectUrl !== null ? (
         <embed src={pdfObjectUrl} type="application/pdf" class={`fjs-${type}-pdf-viewer`} />
       ) : null}
-      {hasError ? <Errors id={errorMessageId} errors={['Unable to download document']} /> : null}
+      {hasError ? <Errors id={errorMessageId} errors={[translate('Unable to download document')]} /> : null}
     </>
   );
 }
@@ -274,9 +286,12 @@ function DocumentRenderer(props) {
     () => getDocumentRequestInit(documentEndpointBuilder, documentMetadata),
     [documentEndpointBuilder, documentMetadata],
   );
+
+  const translate = useService('translate');
+
   const singleDocumentContainerClassName = `fjs-${type}-single-document-container`;
   const errorMessageId = `${domId}-error-message`;
-  const errorMessage = 'Unable to download document';
+  const errorMessage = translate('Unable to download document');
   const isContentTypePresent = typeof metadata.contentType === 'string';
 
   if (isContentTypePresent && metadata.contentType.toLowerCase().startsWith('image/') && isInViewport) {
@@ -350,6 +365,8 @@ function DocumentRenderer(props) {
 function DownloadButton(props) {
   const { endpoint, fileName, onDownloadError, requestInit } = props;
 
+  const translate = useService('translate');
+
   const handleDownload = async () => {
     try {
       const response = await fetch(endpoint, requestInit);
@@ -376,7 +393,7 @@ function DownloadButton(props) {
       type="button"
       onClick={handleDownload}
       class={classNames(`fjs-${type}-download-button`)}
-      aria-label={`Download ${fileName}`}>
+      aria-label={translate('Download {fileName}', { fileName })}>
       <DownloadIcon />
     </button>
   );

@@ -1,6 +1,7 @@
 import { Ids } from 'ids';
 import { clone, createFormContainer, createInjector, schemaVersion } from '@bpmn-io/form-js-viewer';
 import { isString, set } from 'min-dash';
+import TranslateModule from 'diagram-js/lib/i18n/translate';
 
 import { CoreModule } from './core';
 import { ContextPadModule } from './features/context-pad';
@@ -243,6 +244,7 @@ export class FormEditor {
     return createInjector([
       { config: ['value', enrichedConfig] },
       { formEditor: ['value', this] },
+      TranslateModule,
       CoreModule,
       ...modules,
       ...additionalModules,

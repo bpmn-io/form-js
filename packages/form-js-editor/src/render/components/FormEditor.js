@@ -67,22 +67,23 @@ function ContextPadContent(props) {
   );
 }
 
-function EmptyGroup() {
+function EmptyGroup({ translate }) {
   return (
     <div class="fjs-empty-component">
-      <span class="fjs-empty-component-text">Drag and drop components here.</span>
+      <span class="fjs-empty-component-text">{translate('Drag and drop components here.')}</span>
     </div>
   );
 }
 
 function EmptyForm() {
+  const translate = useService('translate');
   return (
     <div class="fjs-empty-editor">
       <div class="fjs-empty-editor-card">
         <EmptyFormIcon />
-        <h2>Build your form</h2>
-        <span>Drag and drop components here to start designing.</span>
-        <span>Use the preview window to test your form.</span>
+        <h2>{translate('Build your form')}</h2>
+        <span>{translate('Drag and drop components here to start designing.')}</span>
+        <span>{translate('Use the preview window to test your form.')}</span>
         <Slot name="editor-empty-state__footer" />
       </div>
     </div>
@@ -90,8 +91,10 @@ function EmptyForm() {
 }
 
 function Empty(props) {
+  const translate = useService('translate');
+
   if (['group', 'dynamiclist'].includes(props.field.type)) {
-    return <EmptyGroup />;
+    return <EmptyGroup translate={translate} />;
   }
 
   if (props.field.type === 'default') {

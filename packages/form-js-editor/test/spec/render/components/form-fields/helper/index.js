@@ -1,4 +1,5 @@
 import { FormEditorContext } from '../../../../../../src/render/context';
+import { testTranslate } from '@bpmn-io/form-js-i18n/tasks/TranslationCollector.js';
 import { FormContext } from '@bpmn-io/form-js-viewer';
 import { marked } from 'marked';
 
@@ -36,6 +37,8 @@ export function WithEditorFormContext(Component, options = {}, formId = 'foo') {
       return { isExpression };
     } else if (type === 'markdownRenderer') {
       return new MarkdownRenderer();
+    } else if (type === 'translate') {
+      return testTranslate;
     }
   }
 

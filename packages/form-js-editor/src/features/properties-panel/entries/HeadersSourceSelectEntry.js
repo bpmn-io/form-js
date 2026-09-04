@@ -14,8 +14,6 @@ const OPTIONS = {
   },
 };
 
-const SELECT_OPTIONS = Object.values(OPTIONS);
-
 const COLUMNS_PATH = ['columns'];
 
 const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
@@ -23,7 +21,7 @@ const COLUMNS_EXPRESSION_PATH = ['columnsExpression'];
 const isHeadersSourceEdited = isEditedFromDefaultFactory(OPTIONS.static.value);
 
 export function HeadersSourceSelectEntry(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   return [
     {
@@ -32,12 +30,15 @@ export function HeadersSourceSelectEntry(props) {
       isEdited: isHeadersSourceEdited,
       editField,
       field,
+      translate,
     },
   ];
 }
 
 function HeadersSourceSelect(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
+
+  const selectOptions = Object.values(OPTIONS).map(({ label, value }) => ({ label: translate(label), value }));
 
   /**
    * @returns {string|void}
@@ -79,12 +80,12 @@ function HeadersSourceSelect(props) {
   };
 
   const getValuesSourceOptions = () => {
-    return SELECT_OPTIONS;
+    return selectOptions;
   };
 
   return AutoFocusSelectEntry({
     autoFocusEntry: getAutoFocusEntryId(field),
-    label: 'Type',
+    label: translate('Type'),
     element: field,
     getOptions: getValuesSourceOptions,
     getValue,

@@ -663,6 +663,42 @@ describe('properties panel', function () {
         });
       });
 
+      describe('options source labels', function () {
+        it('should render English labels by default', function () {
+          // given
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          // when
+          bootstrapPropertiesPanel({ container, field });
+
+          // then
+          const options = [...screen.getByLabelText('Type').options].map((option) => option.textContent);
+
+          expect(options).to.eql(['Static', 'Input data', 'Expression']);
+        });
+
+        it('should translate the labels', function () {
+          // given
+          const dictionary = {
+            Static: 'Statisch',
+            'Input data': 'Eingabedaten',
+            Expression: 'Ausdruck',
+          };
+
+          const translate = (template) => dictionary[template] || template;
+
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          // when
+          bootstrapPropertiesPanel({ container, field, services: { translate } });
+
+          // then
+          const options = [...screen.getByLabelText('Type').options].map((option) => option.textContent);
+
+          expect(options).to.eql(['Statisch', 'Eingabedaten', 'Ausdruck']);
+        });
+      });
+
       describe('static options', function () {
         it('should re-configure static source defaults', function () {
           // given
@@ -2587,7 +2623,7 @@ describe('properties panel', function () {
             // then
             expect(editFieldSpy).to.not.have.been.called;
 
-            const error = screen.getByText('Should be a valid number');
+            const error = screen.getByText('Should be a valid number.');
             expect(error).to.exist;
           });
 
@@ -2615,7 +2651,35 @@ describe('properties panel', function () {
             // then
             expect(editFieldSpy).to.not.have.been.called;
 
-            const error = screen.getByText('Should not contain more than 4 decimal digits');
+            const error = screen.getByText('Should not contain more than 4 decimal digits.');
+            expect(error).to.exist;
+          });
+
+          it('should refuse decimals when none are allowed', function () {
+            // given
+            const editFieldSpy = spy();
+
+            const field = defaultValuesSchema.components.find(({ key }) => key === 'amount');
+
+            bootstrapPropertiesPanel({
+              container,
+              editField: editFieldSpy,
+              field: {
+                ...field,
+                decimalDigits: 0,
+              },
+            });
+
+            // assume
+            const input = screen.getByLabelText('Default value');
+
+            // when
+            fireEvent.input(input, { target: { value: '1.5' } });
+
+            // then
+            expect(editFieldSpy).to.not.have.been.called;
+
+            const error = screen.getByText('Should not contain more than 0 decimal digits.');
             expect(error).to.exist;
           });
         });

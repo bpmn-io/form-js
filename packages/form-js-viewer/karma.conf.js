@@ -1,5 +1,7 @@
 const coverage = process.env.COVERAGE;
 
+const collectTranslations = process.env.COLLECT_TRANSLATIONS;
+
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox' ]
 const browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
@@ -109,6 +111,15 @@ module.exports = function (karma) {
       devtool: 'eval-source-map',
     },
   };
+
+  if (collectTranslations) {
+    config.plugins = [].concat(
+      config.plugins || ['karma-*'],
+      require('@bpmn-io/form-js-i18n/tasks/translation-reporter.cjs'),
+    );
+    config.reporters = [].concat(config.reporters, 'translation-reporter');
+    config.envPreprocessor = [].concat(config.envPreprocessor || [], 'COLLECT_TRANSLATIONS');
+  }
 
   if (singleStart) {
     config.browsers = [].concat(config.browsers, 'Debug');

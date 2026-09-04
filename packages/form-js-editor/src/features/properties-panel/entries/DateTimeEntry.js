@@ -16,7 +16,9 @@ import {
 import { get } from 'min-dash';
 
 export function DateTimeEntry(props) {
-  const { editField, field } = props;
+  const { editField, field, getService } = props;
+
+  const translate = getService('translate');
 
   const entries = [
     {
@@ -26,6 +28,7 @@ export function DateTimeEntry(props) {
       editField,
       field,
       isDefaultVisible: (field) => field.type === 'datetime',
+      translate,
     },
   ];
 
@@ -38,13 +41,14 @@ export function DateTimeEntry(props) {
     isDefaultVisible: (field) =>
       field.type === 'datetime' &&
       (field.subtype === DATETIME_SUBTYPES.TIME || field.subtype === DATETIME_SUBTYPES.DATETIME),
+    translate,
   });
 
   return entries;
 }
 
 function DateTimeSubtypeSelect(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   const getValue = (e) => get(field, DATETIME_SUBTYPE_PATH);
 
@@ -93,13 +97,13 @@ function DateTimeSubtypeSelect(props) {
 
   const getDatetimeSubtypes = () => {
     return Object.values(DATETIME_SUBTYPES).map((subtype) => ({
-      label: DATETIME_SUBTYPES_LABELS[subtype],
+      label: translate(DATETIME_SUBTYPES_LABELS[subtype]),
       value: subtype,
     }));
   };
 
   return SelectEntry({
-    label: 'Subtype',
+    label: translate('Subtype'),
     element: field,
     getOptions: getDatetimeSubtypes,
     getValue,
@@ -109,7 +113,7 @@ function DateTimeSubtypeSelect(props) {
 }
 
 function Use24h(props) {
-  const { editField, field, id } = props;
+  const { editField, field, id, translate } = props;
 
   const path = TIME_USE24H_PATH;
 
@@ -125,7 +129,7 @@ function Use24h(props) {
     element: field,
     getValue,
     id,
-    label: 'Use 24h',
+    label: translate('Use 24h'),
     setValue,
   });
 }

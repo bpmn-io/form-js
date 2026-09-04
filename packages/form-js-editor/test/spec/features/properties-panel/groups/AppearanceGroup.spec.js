@@ -7,6 +7,7 @@ import { AppearanceGroup } from '../../../../../src/features/properties-panel/gr
 import { MockPropertiesPanelContext, TestPropertiesPanel } from '../helper';
 
 import { setEditorValue } from '../../../../helper';
+import { createMockInjector } from '../../../../helper/mocks';
 
 describe('AppearanceGroup', function () {
   afterEach(function () {
@@ -187,6 +188,30 @@ describe('AppearanceGroup', function () {
       expect(field.appearance.prefixAdorner).to.eql('=newVal');
     });
   });
+
+  describe('max height', function () {
+    it('should render for document preview', function () {
+      // given
+      const field = { type: 'documentPreview', dataSource: '=documents' };
+
+      // when
+      const { container } = renderAppearanceGroup({ field });
+
+      // then
+      expect(findEntry('maxHeight', container)).to.exist;
+    });
+
+    it('should NOT render for textfield', function () {
+      // given
+      const field = { type: 'textfield' };
+
+      // when
+      const { container } = renderAppearanceGroup({ field });
+
+      // then
+      expect(findEntry('maxHeight', container)).to.not.exist;
+    });
+  });
 });
 
 // helper ///////////////
@@ -194,7 +219,9 @@ describe('AppearanceGroup', function () {
 function renderAppearanceGroup(options) {
   const { editField, field } = options;
 
-  const groups = [AppearanceGroup(field, editField)];
+  const injector = createMockInjector({}, options);
+
+  const groups = [AppearanceGroup(field, editField, (type, strict) => injector.get(type, strict))];
 
   return render(
     <MockPropertiesPanelContext options={options}>
@@ -213,4 +240,8 @@ function findTextbox(id, container) {
 
 function findGroup(id, container) {
   return container.querySelector(`.bio-properties-panel-group [data-group-id="group-${id}"]`);
+}
+
+function findEntry(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"]`);
 }

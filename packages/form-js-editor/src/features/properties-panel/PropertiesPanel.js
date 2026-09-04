@@ -19,6 +19,7 @@ export function PropertiesPanel() {
   const formFields = useService('formFields');
   const propertiesPanel = useService('propertiesPanel');
   const propertiesPanelConfig = useService('config.propertiesPanel') || EMPTY;
+  const translate = useService('translate');
 
   const { feelPopupContainer } = propertiesPanelConfig;
 
@@ -87,8 +88,9 @@ export function PropertiesPanel() {
       getPropertiesPanelHeaderProvider({
         getDocumentationRef: propertiesPanelConfig.getDocumentationRef,
         formFields,
+        translate,
       }),
-    [formFields, propertiesPanelConfig],
+    [formFields, propertiesPanelConfig, translate],
   );
 
   return (

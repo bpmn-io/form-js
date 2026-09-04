@@ -51,6 +51,7 @@ function PrefixAdorner(props) {
   const { field, id, onChange, getValue } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -60,7 +61,7 @@ function PrefixAdorner(props) {
     feel: 'optional',
     getValue: getValue('prefixAdorner'),
     id,
-    label: 'Prefix',
+    label: translate('Prefix'),
     setValue: onChange('prefixAdorner'),
     singleLine: true,
     variables,
@@ -71,6 +72,7 @@ function SuffixAdorner(props) {
   const { field, id, onChange, getValue } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -79,7 +81,7 @@ function SuffixAdorner(props) {
     element: field,
     getValue: getValue('suffixAdorner'),
     id,
-    label: 'Suffix',
+    label: translate('Suffix'),
     setValue: onChange('suffixAdorner'),
     singleLine: true,
     variables,

@@ -15,6 +15,17 @@ insertStyles();
 describe('palette', function () {
   let parent, container;
 
+  /**
+   * A dictionary based `translate` behaving like the default one: unknown
+   * templates fall through, replacements are interpolated.
+   *
+   * @param {Record<string, string>} dictionary
+   */
+  const createTranslate =
+    (dictionary) =>
+    (template, replacements = {}) =>
+      (dictionary[template] || template).replace(/{([^}]+)}/g, (_, key) => replacements[key] || '{' + key + '}');
+
   beforeEach(function () {
     parent = document.createElement('div');
 
@@ -94,6 +105,36 @@ describe('palette', function () {
       // then
       expectEntries(result.container, [{ type: 'textfield' }]);
     });
+
+    it('should report when nothing matches', function () {
+      // given
+      const result = createPalette({ container });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'nonexistent' } });
+
+      // then
+      expect(result.container.querySelector('.fjs-palette-no-entries')).to.exist;
+    });
+
+    it('should match the untranslated type', function () {
+      // given
+      // a dictionary that (wrongly) covers the technical type must not break
+      // searching by that type
+      const translate = (template) => (template === 'textfield' ? 'Textfeld' : template);
+
+      const result = createPalette({ container, services: { translate } });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'textfield' } });
+
+      // then
+      expectEntries(result.container, [{ type: 'textfield' }]);
+    });
   });
 
   describe('clear', function () {
@@ -140,6 +181,99 @@ describe('palette', function () {
 
       // then
       expectEntries(result.container, collectPaletteEntries(new FormFields()));
+    });
+
+    it('should render the English title by default', function () {
+      // given
+      const result = createPalette({ container });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'text' } });
+
+      // then
+      expect(result.container.querySelector('.fjs-palette-search-clear').getAttribute('title')).to.eql('Clear content');
+    });
+
+    it('should translate the title', function () {
+      // given
+      const translate = createTranslate({ 'Clear content': 'Inhalt loeschen' });
+
+      const result = createPalette({ container, services: { translate } });
+
+      const search = result.container.querySelector('.fjs-palette-search');
+
+      // when
+      fireEvent.input(search, { target: { value: 'text' } });
+
+      // then
+      expect(result.container.querySelector('.fjs-palette-search-clear').getAttribute('title')).to.eql(
+        'Inhalt loeschen',
+      );
+    });
+  });
+
+  describe('entry title', function () {
+    it('should render English by default', function () {
+      // given
+      const result = createPalette({ container });
+
+      // then
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
+    });
+
+    it('should translate through a static key', function () {
+      // given
+      // the dictionary is keyed by the static template, not by the composed sentence
+      const translate = createTranslate({
+        'Create {label} element': '{label}-Element erstellen',
+        'Text field': 'Textfeld',
+      });
+
+      const result = createPalette({ container, services: { translate } });
+
+      // then
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Textfeld-Element erstellen');
+    });
+
+    it('should interpolate the label placeholder', function () {
+      // given
+      // the placeholder does not sit where English puts it
+      const translate = createTranslate({
+        'Create {label} element': 'Criar um elemento do tipo {label}',
+        'Text field': 'Campo de texto',
+      });
+
+      const result = createPalette({ container, services: { translate } });
+
+      // then
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Criar um elemento do tipo Campo de texto');
+    });
+
+    it('should not look up the composed sentence', function () {
+      // given
+      // a dictionary keyed by the composed sentence must have no effect, proving
+      // the key handed to `translate` is the static template
+      const translate = createTranslate({
+        'Create Text field element': 'Textfeld-Element erstellen',
+      });
+
+      const result = createPalette({ container, services: { translate } });
+
+      // then
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
+    });
+
+    it('should not translate the technical type', function () {
+      // given
+      // a dictionary that (wrongly) covers the technical type must not leak into the title
+      const translate = createTranslate({ textfield: 'Textfeld' });
+
+      const result = createPalette({ container, services: { translate } });
+
+      // then
+      expect(getEntryTitle(result.container, 'textfield')).to.eql('Create Text field element');
     });
   });
 
@@ -319,6 +453,10 @@ function expectEntries(container, fieldTypes) {
   fieldTypes.forEach(({ type }) => {
     expect(container.querySelector(`[data-field-type="${type}"]`)).to.exist;
   });
+}
+
+function getEntryTitle(container, type) {
+  return container.querySelector(`[data-field-type="${type}"]`).getAttribute('title');
 }
 
 function expectGroups(container, groups) {

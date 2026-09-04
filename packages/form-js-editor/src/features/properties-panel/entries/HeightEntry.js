@@ -2,6 +2,11 @@ import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-
 
 import { get, isFunction } from 'min-dash';
 import { useService } from '../hooks';
+import { useCallback } from 'preact/hooks';
+
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
 
 export function HeightEntry(props) {
   const { editField, field, id, description, isDefaultVisible, defaultValue } = props;
@@ -32,6 +37,7 @@ function Height(props) {
   const { description, editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const getValue = (e) => get(field, ['height'], null);
 
@@ -46,12 +52,12 @@ function Height(props) {
   return NumberFieldEntry({
     debounce,
     description,
-    label: 'Height',
+    label: translate('Height'),
     element: field,
     id,
     getValue,
     setValue,
-    validate,
+    validate: useCallback((value) => validate(value, translate), [translate]),
   });
 }
 
@@ -59,18 +65,19 @@ function Height(props) {
 
 /**
  * @param {number|void} value
+ * @param {Translate} translate
  * @returns {string|null}
  */
-const validate = (value) => {
+const validate = (value, translate) => {
   if (typeof value !== 'number') {
-    return 'A number is required.';
+    return translate('A number is required.');
   }
 
   if (!Number.isInteger(value)) {
-    return 'Should be an integer.';
+    return translate('Should be an integer.');
   }
 
   if (value < 1) {
-    return 'Should be greater than zero.';
+    return translate('Should be greater than zero.');
   }
 };

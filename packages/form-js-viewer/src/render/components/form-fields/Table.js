@@ -1,5 +1,5 @@
 import { isDefined, isNil, isNumber, isObject, isString } from 'min-dash';
-import { useExpressionEvaluation } from '../../hooks';
+import { useExpressionEvaluation, useService } from '../../hooks';
 import { useEffect, useState } from 'preact/hooks';
 import { formFieldClasses, prefixId } from '../Util';
 import classNames from 'classnames';
@@ -13,6 +13,8 @@ import CaretRightIcon from './icons/CaretRight.svg';
 const type = 'table';
 
 /**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ *
  * @typedef {('asc'|'desc')} Direction
  *
  * @typedef Sorting
@@ -55,6 +57,8 @@ export function Table(props) {
   const [currentPage, setCurrentPage] = useState(0);
   const currentChunk = chunkedData[currentPage] || [];
 
+  const translate = useService('translate');
+
   useEffect(() => {
     setCurrentPage(0);
   }, [rowCount, sortBy]);
@@ -88,7 +92,7 @@ export function Table(props) {
           'fjs-table-empty': evaluatedColumns.length === 0,
         })}>
         {evaluatedColumns.length === 0 ? (
-          'Nothing to show.'
+          translate('Nothing to show.')
         ) : (
           <div class="fjs-table-inner-container">
             <table class="fjs-table" id={prefixId(id)}>
@@ -110,7 +114,7 @@ export function Table(props) {
                             toggleSortBy(key);
                           }
                         }}
-                        aria-label={getHeaderAriaLabel(sortBy, key, displayLabel)}>
+                        aria-label={getHeaderAriaLabel(sortBy, key, displayLabel, translate)}>
                         <span class="fjs-table-th-label">
                           {displayLabel}
                           {sortBy !== null && sortBy.key === key ? (
@@ -132,7 +136,7 @@ export function Table(props) {
                 <tbody class="fjs-table-body">
                   <tr class="fjs-table-tr">
                     <td class="fjs-table-td" colSpan={evaluatedColumns.length}>
-                      Nothing to show.
+                      {translate('Nothing to show.')}
                     </td>
                   </tr>
                 </tbody>
@@ -156,7 +160,11 @@ export function Table(props) {
         {isNumber(rowCount) && chunkedData.length > 1 && evaluatedColumns.length > 0 ? (
           <nav class="fjs-table-nav">
             <span class="fjs-table-nav-label">
-              {currentPage + 1} of {chunkedData.length}
+              {translate('{page} of {total}', {
+                // stringify: see Validator.js
+                page: (currentPage + 1).toString(),
+                total: chunkedData.length.toString(),
+              })}
             </span>
             <button
               type="button"
@@ -165,7 +173,7 @@ export function Table(props) {
                 setCurrentPage((page) => Math.max(page - 1, 0));
               }}
               disabled={currentPage === 0}
-              aria-label="Previous page">
+              aria-label={translate('Previous page')}>
               <CaretLeftIcon />
             </button>
             <button
@@ -175,7 +183,7 @@ export function Table(props) {
                 setCurrentPage((page) => Math.min(page + 1, chunkedData.length - 1));
               }}
               disabled={currentPage >= chunkedData.length - 1}
-              aria-label="Next page">
+              aria-label={translate('Next page')}>
               <CaretRightIcon />
             </button>
           </nav>
@@ -324,17 +332,18 @@ function sortByColumn(array, key, direction) {
  * @param {null|Sorting} sortBy
  * @param {string} key
  * @param {string} label
+ * @param {Translate} translate
  */
-function getHeaderAriaLabel(sortBy, key, label) {
+function getHeaderAriaLabel(sortBy, key, label, translate) {
   if (sortBy === null || sortBy.key !== key) {
-    return `Click to sort by ${label} descending`;
+    return translate('Click to sort by {value} descending', { value: label });
   }
 
   if (sortBy.direction === 'asc') {
-    return 'Click to remove sorting';
+    return translate('Click to remove sorting');
   }
 
-  return `Click to sort by ${label} ascending`;
+  return translate('Click to sort by {value} ascending', { value: label });
 }
 
 /**

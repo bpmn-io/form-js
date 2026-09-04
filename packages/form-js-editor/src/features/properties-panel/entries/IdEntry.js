@@ -27,6 +27,7 @@ function Id(props) {
 
   const formFieldRegistry = useService('formFieldRegistry');
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['id'];
 
@@ -45,18 +46,18 @@ function Id(props) {
   const validate = useCallback(
     (value) => {
       if (typeof value !== 'string' || value.length === 0) {
-        return 'Must not be empty.';
+        return translate('Must not be empty.');
       }
 
       const assigned = formFieldRegistry._ids.assigned(value);
 
       if (assigned && assigned !== field) {
-        return 'Must be unique.';
+        return translate('Must be unique.');
       }
 
-      return validateId(value) || null;
+      return validateId(value, translate) || null;
     },
-    [formFieldRegistry, field],
+    [formFieldRegistry, field, translate],
   );
 
   return TextFieldEntry({
@@ -64,7 +65,7 @@ function Id(props) {
     element: field,
     getValue,
     id,
-    label: 'ID',
+    label: translate('ID'),
     setValue,
     validate,
   });
@@ -80,17 +81,17 @@ const QNAME_REGEX = /^([a-z][\w-.]*:)?[a-z_][\w-.]*$/i;
 // for ID validation as per BPMN Schema (QName - Namespace)
 const ID_REGEX = /^[a-z_][\w-.]*$/i;
 
-function validateId(idValue) {
+function validateId(idValue, translate) {
   if (containsSpace(idValue)) {
-    return 'Must not contain spaces.';
+    return translate('Must not contain spaces.');
   }
 
   if (!ID_REGEX.test(idValue)) {
     if (QNAME_REGEX.test(idValue)) {
-      return 'Must not contain prefix.';
+      return translate('Must not contain prefix.');
     }
 
-    return 'Must be a valid QName.';
+    return translate('Must be a valid QName.');
   }
 }
 

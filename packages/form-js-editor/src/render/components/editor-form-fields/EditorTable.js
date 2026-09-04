@@ -1,5 +1,6 @@
 import { Label, Table } from '@bpmn-io/form-js-viewer';
 import { editorFormFieldClasses } from '../Util';
+import { useService } from '../../hooks';
 import classNames from 'classnames';
 
 /**
@@ -8,14 +9,15 @@ import classNames from 'classnames';
  */
 export function EditorTable(props) {
   const { columnsExpression, columns, id, label } = props.field;
+  const translate = useService('translate');
   const shouldUseMockColumns =
     (typeof columnsExpression === 'string' && columnsExpression.length > 0) ||
     (Array.isArray(columns) && columns.length === 0);
   const editorColumns = shouldUseMockColumns
     ? [
-        { key: '1', label: 'Column 1' },
-        { key: '2', label: 'Column 2' },
-        { key: '3', label: 'Column 3' },
+        { key: '1', label: translate('Column {index}', { index: '1' }) },
+        { key: '2', label: translate('Column {index}', { index: '2' }) },
+        { key: '3', label: translate('Column {index}', { index: '3' }) },
       ]
     : columns;
   const prefixId = `fjs-form-${id}`;

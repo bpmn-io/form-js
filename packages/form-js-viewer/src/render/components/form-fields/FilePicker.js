@@ -6,6 +6,10 @@ import { useEffect, useRef } from 'preact/hooks';
 import { useService, useSingleLineTemplateEvaluation, useBooleanExpressionEvaluation } from '../../hooks';
 import { FILE_PICKER_FILE_KEY_PREFIX } from '../../../util/constants/FilePickerConstants';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const type = 'filepicker';
 const ids = new Ids();
 const EMPTY_ARRAY = [];
@@ -43,6 +47,8 @@ export function FilePicker(props) {
   const errorMessageId = `${domId}-error-message`;
   /** @type {File[]} */
   const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
+
+  const translate = useService('translate');
 
   useEffect(() => {
     if (filesKey && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
@@ -105,7 +111,7 @@ export function FilePicker(props) {
           }}>
           Browse
         </button>
-        <span className="fjs-form-field-label">{getSelectedFilesLabel(selectedFiles)}</span>
+        <span className="fjs-form-field-label">{getSelectedFilesLabel(selectedFiles, translate)}</span>
       </div>
       <Errors id={errorMessageId} errors={errors} />
     </div>
@@ -125,16 +131,17 @@ FilePicker.config = {
 
 /**
  * @param {File[]} files
+ * @param {Translate} translate
  * @returns {string}
  */
-function getSelectedFilesLabel(files) {
+function getSelectedFilesLabel(files, translate) {
   if (files.length === 0) {
-    return 'No files selected';
+    return translate('No files selected');
   }
 
   if (files.length === 1) {
     return files[0].name;
   }
 
-  return `${files.length} files selected`;
+  return translate('{value} files selected', { value: files.length.toString() });
 }

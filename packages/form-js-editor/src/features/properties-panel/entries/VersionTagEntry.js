@@ -25,6 +25,7 @@ function VersionTag(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const path = ['versionTag'];
 
@@ -40,14 +41,14 @@ function VersionTag(props) {
     return editField(field, path, value);
   };
 
-  const tooltip = <div>Version tag by which this form can be referenced.</div>;
+  const tooltip = <div>{translate('Version tag by which this form can be referenced.')}</div>;
 
   return TextFieldEntry({
     debounce,
     element: field,
     getValue,
     id,
-    label: 'Version tag',
+    label: translate('Version tag'),
     setValue,
     tooltip,
   });

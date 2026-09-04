@@ -1,5 +1,6 @@
 import { Ids } from 'ids';
 import { get, isObject, isString, isUndefined, set } from 'min-dash';
+import TranslateModule from 'diagram-js/lib/i18n/translate';
 
 import {
   ExpressionLanguageModule,
@@ -312,6 +313,7 @@ export class Form {
     return createInjector([
       { config: ['value', enrichedConfig] },
       { form: ['value', this] },
+      TranslateModule,
       CoreModule,
       ...modules,
       ...additionalModules,
@@ -512,4 +514,3 @@ export class Form {
     return get(workingData, path, {});
   }
 }
-

@@ -6,6 +6,10 @@ import { FeelTemplatingEntry } from '@bpmn-io/properties-panel';
 import { TEXT_VIEW_DEFAULT_TEXT } from '@bpmn-io/form-js-viewer';
 import { isEditedFromDefaultFactory } from '../Util';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const isTextEdited = isEditedFromDefaultFactory(TEXT_VIEW_DEFAULT_TEXT, false);
 
 export function TextEntry(props) {
@@ -29,6 +33,7 @@ function Text(props) {
   const { editField, field, id } = props;
 
   const debounce = useService('debounce');
+  const translate = useService('translate');
 
   const variables = useVariables().map((name) => ({ name }));
 
@@ -44,25 +49,31 @@ function Text(props) {
 
   return FeelTemplatingEntry({
     debounce,
-    description,
+    description: description(translate),
     element: field,
     getValue,
     id,
-    label: 'Text',
+    label: translate('Text'),
     hostLanguage: 'markdown',
     setValue,
     variables,
   });
 }
 
-const description = (
-  <>
-    Supports markdown and templating.{' '}
-    <a
-      href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/"
-      target="_blank"
-      rel="noreferrer">
-      Learn more
-    </a>
-  </>
-);
+/**
+ * @param {Translate} translate
+ * @returns An Element with the description
+ */
+const description = (translate) => {
+  return (
+    <>
+      {translate('Supports markdown and templating.')}{' '}
+      <a
+        href="https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library-text/"
+        target="_blank"
+        rel="noreferrer">
+        {translate('Learn more')}
+      </a>
+    </>
+  );
+};

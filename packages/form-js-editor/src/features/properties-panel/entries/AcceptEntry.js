@@ -4,6 +4,10 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function AcceptEntry(props) {
   const { editField, field } = props;
 
@@ -24,6 +28,8 @@ export function AcceptEntry(props) {
 function Accept(props) {
   const { editField, field, id } = props;
 
+  const translate = useService('translate');
+
   const debounce = useService('debounce');
 
   const variables = useVariables().map((name) => ({ name }));
@@ -43,24 +49,29 @@ function Accept(props) {
     element: field,
     getValue,
     id,
-    label: 'Supported file formats',
+    label: translate('Supported file formats'),
     singleLine: true,
     setValue,
     variables,
-    description,
+    description: description(translate),
   });
 }
 
 // helpers //////////
-
-const description = (
-  <>
-    A comma-separated list of{' '}
-    <a
-      href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers"
-      target="_blank"
-      rel="noreferrer">
-      file type specifiers
-    </a>
-  </>
-);
+/**
+ * @param {Translate} translate
+ * @returns Description Element
+ */
+const description = (translate) => {
+  return (
+    <>
+      {translate('A comma-separated list of')}{' '}
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers"
+        target="_blank"
+        rel="noreferrer">
+        {translate('file type specifiers')}
+      </a>
+    </>
+  );
+};

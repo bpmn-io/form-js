@@ -4,6 +4,7 @@ import { DATETIME_SUBTYPES, DATE_DISALLOW_PAST_PATH, TIME_INTERVAL_PATH } from '
 
 import { get } from 'min-dash';
 import { isEditedFromDefaultFactory } from '../Util';
+import { useService } from '../hooks';
 
 const isTimeIntervalEdited = isEditedFromDefaultFactory('15');
 
@@ -47,6 +48,7 @@ function DisallowPassedDates(props) {
   const { editField, field, id } = props;
 
   const path = DATE_DISALLOW_PAST_PATH;
+  const translate = useService('translate');
 
   const getValue = () => {
     return get(field, path, '');
@@ -60,7 +62,7 @@ function DisallowPassedDates(props) {
     element: field,
     getValue,
     id,
-    label: 'Disallow past dates',
+    label: translate('Disallow past dates'),
     setValue,
   });
 }
@@ -69,6 +71,8 @@ function TimeIntervalSelect(props) {
   const { editField, field, id } = props;
 
   const timeIntervals = [1, 5, 10, 15, 30, 60];
+
+  const translate = useService('translate');
 
   const getValue = (e) => get(field, TIME_INTERVAL_PATH);
 
@@ -82,7 +86,7 @@ function TimeIntervalSelect(props) {
   };
 
   return SelectEntry({
-    label: 'Time interval',
+    label: translate('Time interval'),
     element: field,
     getOptions: getTimeIntervals,
     getValue,
