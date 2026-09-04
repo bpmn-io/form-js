@@ -6,6 +6,9 @@
   "files": [
     "translations"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "node test/test.js",
     "all": "npm test",
