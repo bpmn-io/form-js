@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-viewer",
-  "version": "1.25.0",
+  "version": "1.26.0",
   "description": "View forms - powered by bpmn.io",
   "exports": {
     ".": {
@@ -68,6 +68,6 @@
     "dist"
   ],
   "devDependencies": {
-    "@bpmn-io/form-js-i18n": "^1.25.0"
+    "@bpmn-io/form-js-i18n": "^1.26.0"
   }
 }
