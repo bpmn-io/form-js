@@ -4,6 +4,10 @@ import { useService, useVariables } from '../hooks';
 
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function AcceptEntry(props) {
   const { editField, field } = props;
 
@@ -55,7 +59,7 @@ function Accept(props) {
 
 // helpers //////////
 /**
- * @param {function} translate
+ * @param {Translate} translate
  * @returns Description Element
  */
 const description = (translate) => {

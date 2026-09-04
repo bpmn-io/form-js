@@ -10,6 +10,10 @@ import { Label } from '../Label';
 const type = 'documentPreview';
 
 /**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
+/**
  * @typedef DocumentEndpointBuilder
  * @property {(document: DocumentMetadata) => string} [buildUrl]
  * @property {(document: DocumentMetadata) => RequestInit|undefined} [buildRequestInit]
@@ -103,7 +107,7 @@ DocumentPreview.config = {
  * @property {string|undefined} dataSource
  *
  * @param {GetErrorOptions} options
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string[]}
  */
 function getErrors(options, translate) {

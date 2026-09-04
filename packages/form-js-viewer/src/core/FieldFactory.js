@@ -1,5 +1,9 @@
 import { getAncestryList } from '../util';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export class FieldFactory {
   /**
    * @constructor
@@ -7,7 +11,7 @@ export class FieldFactory {
    * @param formFieldRegistry
    * @param pathRegistry
    * @param formFields
-   * @param {function} translate
+   * @param {Translate} translate
    */
   constructor(formFieldRegistry, pathRegistry, formFields, translate) {
     this._formFieldRegistry = formFieldRegistry;

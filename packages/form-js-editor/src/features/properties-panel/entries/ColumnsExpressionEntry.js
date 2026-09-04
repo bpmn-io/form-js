@@ -6,6 +6,10 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const PATH = ['columnsExpression'];
 
 export function ColumnsExpressionEntry(props) {
@@ -80,7 +84,7 @@ function ColumnsExpression(props) {
 
 /**
  * @param {string|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

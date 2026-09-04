@@ -1,3 +1,7 @@
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export const MAX_COLUMNS_PER_ROW = 16;
 export const MAX_COLUMNS = 16;
 export const MIN_COLUMNS = 2;
@@ -9,7 +13,7 @@ export class FormLayoutValidator {
    *
    * @param { import('./FormLayouter').FormLayouter } formLayouter
    * @param { import('./FormFieldRegistry').FormFieldRegistry } formFieldRegistry
-   * @param { Function } translate
+   * @param {Translate} translate
    */
   constructor(formLayouter, formFieldRegistry, translate) {
     this._formLayouter = formLayouter;

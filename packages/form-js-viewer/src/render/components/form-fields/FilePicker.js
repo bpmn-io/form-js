@@ -6,6 +6,10 @@ import { useEffect, useRef } from 'preact/hooks';
 import { useService, useSingleLineTemplateEvaluation, useBooleanExpressionEvaluation } from '../../hooks';
 import { FILE_PICKER_FILE_KEY_PREFIX } from '../../../util/constants/FilePickerConstants';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const type = 'filepicker';
 const ids = new Ids();
 const EMPTY_ARRAY = [];
@@ -127,7 +131,7 @@ FilePicker.config = {
 
 /**
  * @param {File[]} files
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string}
  */
 function getSelectedFilesLabel(files, translate) {

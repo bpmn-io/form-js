@@ -8,6 +8,10 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function TableDataSourceEntry(props) {
   const { editField, field } = props;
 
@@ -68,7 +72,7 @@ function Source(props) {
 
 /**
  * @param {string|void} value
- * @param translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

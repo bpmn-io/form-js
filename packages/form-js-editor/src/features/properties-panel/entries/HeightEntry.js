@@ -4,6 +4,10 @@ import { get, isFunction } from 'min-dash';
 import { useService } from '../hooks';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function HeightEntry(props) {
   const { editField, field, id, description, isDefaultVisible, defaultValue } = props;
 
@@ -61,7 +65,7 @@ function Height(props) {
 
 /**
  * @param {number|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

@@ -13,6 +13,8 @@ import CaretRightIcon from './icons/CaretRight.svg';
 const type = 'table';
 
 /**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ *
  * @typedef {('asc'|'desc')} Direction
  *
  * @typedef Sorting
@@ -330,7 +332,7 @@ function sortByColumn(array, key, direction) {
  * @param {null|Sorting} sortBy
  * @param {string} key
  * @param {string} label
- * @param {function} translate
+ * @param {Translate} translate
  */
 function getHeaderAriaLabel(sortBy, key, label, translate) {
   if (sortBy === null || sortBy.key !== key) {

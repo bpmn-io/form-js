@@ -4,6 +4,10 @@ import { useService } from '../hooks';
 import { OPTIONS_SOURCES, OPTIONS_SOURCES_PATHS } from '@bpmn-io/form-js-viewer';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function InputKeyOptionsSourceEntry(props) {
   const { editField, field, id } = props;
 
@@ -64,7 +68,7 @@ function InputValuesKey(props) {
 
 /**
  * @param {string|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

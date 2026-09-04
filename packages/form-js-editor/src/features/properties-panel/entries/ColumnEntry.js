@@ -5,6 +5,10 @@ import { useService } from '../hooks';
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const path = 'columns';
 const labelPath = 'label';
 const keyPath = 'key';
@@ -107,7 +111,7 @@ function Key(props) {
 
 /**
  * @param {string|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 function validate(value, translate) {

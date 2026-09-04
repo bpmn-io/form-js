@@ -6,6 +6,10 @@ import { NumberFieldEntry, isNumberFieldEntryEdited } from '@bpmn-io/properties-
 
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function MaxHeightEntry(props) {
   const { editField, field } = props;
 
@@ -55,7 +59,7 @@ function MaxHeight(props) {
 
 /**
  * @param {number|undefined} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

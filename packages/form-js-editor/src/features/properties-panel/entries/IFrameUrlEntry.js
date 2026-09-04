@@ -6,6 +6,10 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const HTTPS_PATTERN = /^(https):\/\/*/i;
 
 export function IFrameUrlEntry(props) {
@@ -84,7 +88,7 @@ function getTooltip(translate) {
 
 /**
  * @param {string|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

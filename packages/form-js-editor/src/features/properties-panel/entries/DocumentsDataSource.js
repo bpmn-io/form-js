@@ -5,6 +5,10 @@ import { useService, useVariables } from '../hooks';
 import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function DocumentsDataSourceEntry(props) {
   const { editField, field } = props;
 
@@ -96,7 +100,7 @@ function DocumentsDataSource(props) {
 
 /**
  * @param {string|undefined} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {

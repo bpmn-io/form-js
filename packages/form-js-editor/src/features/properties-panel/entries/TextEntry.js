@@ -6,6 +6,10 @@ import { FeelTemplatingEntry } from '@bpmn-io/properties-panel';
 import { TEXT_VIEW_DEFAULT_TEXT } from '@bpmn-io/form-js-viewer';
 import { isEditedFromDefaultFactory } from '../Util';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const isTextEdited = isEditedFromDefaultFactory(TEXT_VIEW_DEFAULT_TEXT, false);
 
 export function TextEntry(props) {
@@ -57,7 +61,7 @@ function Text(props) {
 }
 
 /**
- * @param {function}translate
+ * @param {Translate} translate
  * @returns An Element with the description
  */
 const description = (translate) => {

@@ -11,6 +11,10 @@ import { countDecimals, isValidNumber } from '../Util';
 import Big from 'big.js';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 export function NumberEntries(props) {
   const { editField, field, id } = props;
 
@@ -141,7 +145,7 @@ function NumberArrowStep(props) {
 
 /**
  * @param {number|void} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|void}
  */
 const validateNumberEntries = (value, translate) => {

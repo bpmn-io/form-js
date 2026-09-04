@@ -5,6 +5,10 @@ import { get, isNumber, isNil } from 'min-dash';
 import { useService } from '../hooks';
 import { useCallback } from 'preact/hooks';
 
+/**
+ * @typedef { import('diagram-js/lib/i18n/translate/translate').default } Translate
+ */
+
 const path = ['rowCount'];
 
 export function RowCountEntry(props) {
@@ -60,7 +64,7 @@ function RowCount(props) {
 
 /**
  * @param {number|undefined} value
- * @param {function} translate
+ * @param {Translate} translate
  * @returns {string|null}
  */
 const validate = (value, translate) => {
