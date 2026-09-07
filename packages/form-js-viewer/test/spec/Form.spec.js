@@ -669,11 +669,21 @@ describe('Form', function () {
       const elements = container.querySelector('.fjs-element').querySelectorAll('.fjs-element');
       const element = elements[index];
       const focusTarget = element.querySelector(selector);
-      const formRoot = container.querySelector('.fjs-form');
 
       // when
-      await userEvent.click(focusTarget);
-      await userEvent.click(formRoot);
+      //
+      // we dispatch focusin/focusout rather than clicking around: a real click
+      // only produces focus events while the browsing context holds system
+      // focus, which Firefox does not reliably have on CI. preact/compat maps
+      // onFocus/onBlur to focusin/focusout, so these are the events the
+      // component actually listens for.
+      await act(async () => {
+        focusTarget.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+      });
+
+      await act(async () => {
+        focusTarget.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+      });
 
       // then
       expect(focusSpy).to.have.been.calledWithMatch({ formField });
