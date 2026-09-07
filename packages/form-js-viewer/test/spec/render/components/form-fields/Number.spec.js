@@ -610,7 +610,7 @@ describe('Number', function () {
       const input = container.querySelector('input[type="text"]');
 
       await userEvent.clear(input);
-      await userEvent.type(input, highPrecisionStringNumber);
+      await userEvent.type(input, highPrecisionStringNumber, { delay: null });
 
       // then
       expect(onChangeSpy).to.have.been.calledWithMatch({
