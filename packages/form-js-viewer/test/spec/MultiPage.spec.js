@@ -368,6 +368,96 @@ describe('MultiPage', function () {
     });
   });
 
+  describe('failed submission', function () {
+    const schema = {
+      type: 'default',
+      id: 'SubmittedMultiPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          showSubmit: true,
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'First',
+              components: [
+                {
+                  type: 'textfield',
+                  id: 'Textfield_name',
+                  key: 'name',
+                  label: 'Name',
+                  validate: { required: true },
+                },
+              ],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Second',
+              components: [
+                {
+                  type: 'textfield',
+                  id: 'Textfield_note',
+                  key: 'note',
+                  label: 'Note',
+                  validate: { required: true },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    it('should reveal the first page that holds an error', async function () {
+      // given
+      await bootstrapForm({ schema, data: { name: 'Igor' } });
+
+      await clickButton('Next');
+
+      // assume
+      expect(activePage().querySelector('label').textContent).to.equal('Second');
+
+      await act(() => form._setState({ data: { name: '' } }));
+
+      // when
+      await clickButton('Submit');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('First');
+      expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
+    });
+
+    it('should stay put when the error is on the page on screen', async function () {
+      // given
+      await bootstrapForm({ schema, data: { name: 'Igor' } });
+
+      await clickButton('Next');
+
+      // when
+      await clickButton('Submit');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
+    });
+
+    it('should stay put when the form is valid', async function () {
+      // given
+      await bootstrapForm({ schema, data: { name: 'Igor', note: 'all good' } });
+
+      await clickButton('Next');
+
+      // when
+      await clickButton('Submit');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('Second');
+    });
+  });
+
   describe('data', function () {
     it('should keep the values of a page that is no longer on screen', async function () {
       // given
