@@ -70,6 +70,8 @@ describe('validation', function () {
 
   testForm('dynamiclists');
 
+  testForm('multipages');
+
   testForm('verticalAlignment');
 
   testForm('verticalAlignment-invalid');
@@ -188,6 +190,10 @@ describe('validation', function () {
     testForm('documentPreview');
 
     testForm('maxHeight-not-allowed');
+
+    testForm('page-labels-not-allowed');
+
+    testForm('multipage-path-not-allowed');
   });
 
   describe('rules - default', function () {
