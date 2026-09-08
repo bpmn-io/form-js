@@ -6,6 +6,67 @@ A form is defined as JSON.
 
 Find a complete component reference in the [Camunda Platform documentation](https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library/).
 
+## Multi page forms
+
+A `multipage` component holds `page` components and shows one of them at a time,
+with next and back controls underneath. Pages are containers: their children
+write into the enclosing scope, so a key on page two reads the same as a key on
+page one.
+
+Branching uses `conditional.hide` on a page, the same property every other
+component has. A hidden page is skipped by the controls and contributes nothing
+to the submitted data. A page the user has moved away from stays mounted, so its
+values survive navigation in either direction.
+
+`nextLabel` and `backLabel` belong to a page, not to the container. The controls
+read the labels of the page currently on screen and fall back to `Next` and
+`Back`.
+
+Navigating forward validates the page being left. Navigating back does not
+validate anything.
+
+```json
+{
+  "type": "multipage",
+  "id": "Multipage_1",
+  "components": [
+    {
+      "type": "page",
+      "id": "Page_1",
+      "label": "Account type",
+      "nextLabel": "Continue",
+      "components": [
+        {
+          "key": "accountType",
+          "label": "Account type",
+          "type": "textfield"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "id": "Page_2",
+      "label": "Company details",
+      "backLabel": "Change account type",
+      "conditional": {
+        "hide": "=accountType != \"business\""
+      },
+      "components": [
+        {
+          "key": "company",
+          "label": "Company",
+          "type": "textfield"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Each page change fires `multipage.pageChanged` on the event bus with the
+container, the page left, the page arrived at, and the repetition indexes the
+container renders under.
+
 ## Example
 
 ```json
