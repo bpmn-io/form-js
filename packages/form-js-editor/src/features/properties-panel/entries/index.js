@@ -9,6 +9,7 @@ export { KeyEntry } from './KeyEntry';
 export { PathEntry } from './PathEntry';
 export { GroupAppearanceEntry } from './GroupAppearanceEntry';
 export { LabelEntry } from './LabelEntry';
+export { PageNavigationEntries } from './PageNavigationEntries';
 export { IFrameHeightEntry } from './IFrameHeightEntry';
 export { IFrameUrlEntry } from './IFrameUrlEntry';
 export { ImageSourceEntry } from './ImageSourceEntry';

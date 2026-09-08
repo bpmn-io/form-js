@@ -93,7 +93,7 @@ function EmptyForm() {
 function Empty(props) {
   const translate = useService('translate');
 
-  if (['group', 'dynamiclist'].includes(props.field.type)) {
+  if (['group', 'dynamiclist', 'multipage', 'page'].includes(props.field.type)) {
     return <EmptyGroup translate={translate} />;
   }
 
@@ -179,7 +179,7 @@ function Element(props) {
       classes.push('fjs-editor-selected');
     }
 
-    const grouplike = ['group', 'dynamiclist'].includes(type);
+    const grouplike = ['group', 'dynamiclist', 'multipage', 'page'].includes(type);
 
     if (grouplike) {
       classes.push(showOutline ? 'fjs-outlined' : 'fjs-dashed-outlined');

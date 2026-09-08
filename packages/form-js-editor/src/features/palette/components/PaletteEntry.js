@@ -1,4 +1,5 @@
 import { useService } from '../../../render/hooks';
+import { validateNesting } from '../../../util/nesting';
 
 export function PaletteEntry(props) {
   const { type, label, icon, iconUrl, getPaletteIcon } = props;
@@ -14,6 +15,10 @@ export function PaletteEntry(props) {
       const { fieldType: type } = event.target.dataset;
 
       const { schema } = formEditor._getState();
+
+      if (validateNesting(type, schema.type)) {
+        return;
+      }
 
       // add new form field to last position
       modeling.addFormField({ type }, schema, schema.components.length);
