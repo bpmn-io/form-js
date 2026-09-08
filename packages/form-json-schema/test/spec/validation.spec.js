@@ -198,6 +198,14 @@ describe('validation', function () {
     testForm('multipage-properties-not-allowed');
   });
 
+  describe('rules - nesting', function () {
+    testForm('multipage-children-not-allowed');
+
+    testForm('page-outside-multipage-not-allowed');
+
+    testForm('page-at-root-not-allowed');
+  });
+
   describe('rules - default', function () {
     testForm('layout-not-allowed');
 

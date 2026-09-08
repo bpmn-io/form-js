@@ -9,9 +9,10 @@ Find a complete component reference in the [Camunda Platform documentation](http
 ## Multi page forms
 
 A `multipage` component holds `page` components and shows one of them at a time,
-with next and back controls underneath. Pages are containers: their children
-write into the enclosing scope, so a key on page two reads the same as a key on
-page one.
+with next and back controls underneath. A page is valid only as a direct child of
+a multipage, and a multipage holds nothing but pages. Pages are containers: their
+children write into the enclosing scope, so a key on page two reads the same as a
+key on page one.
 
 Branching uses `conditional.hide` on a page, the same property every other
 component has. A hidden page is skipped by the controls and contributes nothing

@@ -11,6 +11,9 @@
     },
     {
       "$ref": "rules/rules-defaultValue-type.json"
+    },
+    {
+      "$ref": "rules/rules-nesting.json"
     }
   ],
   "properties": {

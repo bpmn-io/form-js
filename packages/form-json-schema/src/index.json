@@ -58,6 +58,17 @@
       "allOf": [
         {
           "$ref": "src/defs/examples/components.json"
+        },
+        {
+          "items": {
+            "properties": {
+              "type": {
+                "not": {
+                  "const": "page"
+                }
+              }
+            }
+          }
         }
       ]
     }
