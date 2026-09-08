@@ -1341,6 +1341,13 @@
   border-color: var(--color-borders);
 }
 
+.fjs-container .fjs-multipage-navigation .fjs-button[aria-disabled='true'] {
+  color: var(--cds-text-on-color-disabled, var(--color-text-light));
+  background-color: var(--color-background-disabled);
+  border-color: var(--color-borders-disabled);
+  cursor: var(--cursor-disabled, not-allowed);
+}
+
 /**
 * Flatpickr style adjustments
 */

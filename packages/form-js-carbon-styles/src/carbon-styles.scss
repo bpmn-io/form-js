@@ -883,6 +883,12 @@
       color: var(--cds-text-on-color-disabled);
       cursor: var(--cursor-disabled, not-allowed);
     }
+
+    &[aria-disabled='true'] {
+      background: var(--cds-button-disabled);
+      color: var(--cds-text-on-color-disabled);
+      cursor: var(--cursor-disabled, not-allowed);
+    }
   }
 
   .fjs-multipage-navigation .fjs-multipage-back {

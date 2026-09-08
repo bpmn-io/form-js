@@ -1,5 +1,5 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 
 import { FormRenderContext, LocalExpressionContext, MultiPageContext } from '../../context';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
@@ -14,7 +14,7 @@ export function MultiPage(props) {
 
   const { Children, applyVisibilityConditions } = useContext(FormRenderContext);
 
-  const { components, showSubmit } = field;
+  const { components, showSubmit, requireValidPage } = field;
   const pages = useMemo(() => components || [], [components]);
 
   const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
@@ -47,7 +47,8 @@ export function MultiPage(props) {
   const activePage = activeIndex === -1 ? null : visiblePages[activeIndex];
 
   const eventBus = useService('eventBus');
-  const validatePage = usePageValidation(indexes);
+  const { data } = useService('form')._getState();
+  const { isPageValid, reportPageErrors } = usePageValidation(indexes);
 
   const navigate = useCallback(
     (target) => {
@@ -68,12 +69,12 @@ export function MultiPage(props) {
   );
 
   const onNext = useCallback(() => {
-    if (!validatePage(activePage)) {
+    if (!reportPageErrors(activePage)) {
       return;
     }
 
     navigate(visiblePages[activeIndex + 1]);
-  }, [activeIndex, activePage, navigate, validatePage, visiblePages]);
+  }, [activeIndex, activePage, navigate, reportPageErrors, visiblePages]);
 
   const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
 
@@ -92,6 +93,20 @@ export function MultiPage(props) {
 
     return () => eventBus.off('submit', onSubmit);
   }, [eventBus, indexes, navigate, resolvedActivePageId, visiblePages]);
+
+  const [isActivePageValid, setActivePageValid] = useState(true);
+
+  // the pages register their field instances while rendering, so the registry is
+  // only complete once every descendant is done; read it after the fact
+  useLayoutEffect(() => {
+    if (requireValidPage) {
+      setActivePageValid(isPageValid(activePage, data));
+    }
+  }, [activePage, data, isPageValid, requireValidPage]);
+
+  const blocked = Boolean(requireValidPage) && !isActivePageValid;
+
+  const onBlocked = useCallback(() => reportPageErrors(activePage), [activePage, reportPageErrors]);
 
   const multiPageContext = useMemo(
     () => ({ activePageId: resolvedActivePageId, showAllPages: false }),
@@ -121,8 +136,10 @@ export function MultiPage(props) {
         showBack={activeIndex > 0}
         showNext={activeIndex < visiblePages.length - 1}
         showSubmit={showSubmit && activeIndex === visiblePages.length - 1}
+        blocked={blocked}
         onBack={onBack}
         onNext={onNext}
+        onBlocked={onBlocked}
         readonly={readonly}
         disabled={disabled}
       />
@@ -141,11 +158,23 @@ MultiPage.config = {
 };
 
 function Navigation(props) {
-  const { page, showBack, showNext, showSubmit, onBack, onNext, readonly, disabled } = props;
+  const { page, showBack, showNext, showSubmit, blocked, onBack, onNext, onBlocked, readonly, disabled } = props;
 
   const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || 'Back', { debug: true });
   const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || 'Next', { debug: true });
   const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || 'Submit', { debug: true });
+
+  // a blocked control stays focusable and clickable on purpose, so that a user who
+  // cannot move on is told why instead of finding a control that does nothing
+  const onSubmitClick = useCallback(
+    (event) => {
+      if (blocked) {
+        event.preventDefault();
+        onBlocked();
+      }
+    },
+    [blocked, onBlocked],
+  );
 
   if (!showBack && !showNext && !showSubmit) {
     return null;
@@ -159,12 +188,22 @@ function Navigation(props) {
         </button>
       ) : null}
       {showNext ? (
-        <button type="button" class="fjs-button fjs-multipage-next" disabled={disabled || readonly} onClick={onNext}>
+        <button
+          type="button"
+          class="fjs-button fjs-multipage-next"
+          disabled={disabled || readonly}
+          aria-disabled={blocked ? 'true' : null}
+          onClick={onNext}>
           {nextLabel}
         </button>
       ) : null}
       {showSubmit ? (
-        <button type="submit" class="fjs-button fjs-multipage-submit" disabled={disabled || readonly}>
+        <button
+          type="submit"
+          class="fjs-button fjs-multipage-submit"
+          disabled={disabled || readonly}
+          aria-disabled={blocked ? 'true' : null}
+          onClick={onSubmitClick}>
           {submitLabel}
         </button>
       ) : null}
@@ -202,6 +241,10 @@ function useVisiblePages(pages, applyVisibilityConditions) {
 /**
  * Validate only the fields belonging to a single page, so that moving forward
  * does not report errors on pages the user has not reached.
+ *
+ * `isPageValid` has no side effects and is safe to call while rendering.
+ * `reportPageErrors` goes through the command stack and belongs on a click,
+ * where it also reads the freshest data rather than the data of a render.
  */
 function usePageValidation(indexes) {
   const form = useService('form');
@@ -210,47 +253,66 @@ function usePageValidation(indexes) {
   const formFieldInstanceRegistry = useService('formFieldInstanceRegistry', false);
   const viewerCommands = useService('viewerCommands', false);
 
-  return useCallback(
+  const getPageInstances = useCallback(
     (page) => {
-      if (!page || !formFieldInstanceRegistry || !viewerCommands) {
-        return true;
+      if (!page || !formFieldInstanceRegistry) {
+        return [];
       }
 
       const pageFieldIds = collectFieldIds(page);
+
+      return formFieldInstanceRegistry.getAllKeyed().filter(({ id, indexes: instanceIndexes }) => {
+        if (!pageFieldIds.has(id)) {
+          return false;
+        }
+
+        const field = formFieldRegistry.get(id);
+
+        if (field && field.disabled) {
+          return false;
+        }
+
+        // a multipage container may itself sit within a repetition
+        return Object.entries(indexes || {}).every(([key, index]) => (instanceIndexes || {})[key] === index);
+      });
+    },
+    [formFieldInstanceRegistry, formFieldRegistry, indexes],
+  );
+
+  const isPageValid = useCallback(
+    (page, data) =>
+      getPageInstances(page).every(
+        (fieldInstance) => !validator.validateFieldInstance(fieldInstance, get(data, fieldInstance.valuePath)).length,
+      ),
+    [getPageInstances, validator],
+  );
+
+  const reportPageErrors = useCallback(
+    (page) => {
+      if (!viewerCommands) {
+        return true;
+      }
+
       const { data } = form._getState();
 
       let isValid = true;
 
-      formFieldInstanceRegistry
-        .getAllKeyed()
-        .filter(({ id, indexes: instanceIndexes }) => {
-          if (!pageFieldIds.has(id)) {
-            return false;
-          }
+      getPageInstances(page).forEach((fieldInstance) => {
+        const value = get(data, fieldInstance.valuePath);
 
-          // a multipage container may itself sit within a repetition
-          return Object.entries(indexes || {}).every(([key, index]) => (instanceIndexes || {})[key] === index);
-        })
-        .forEach((fieldInstance) => {
-          const field = formFieldRegistry.get(fieldInstance.id);
+        if (validator.validateFieldInstance(fieldInstance, value).length) {
+          isValid = false;
+        }
 
-          if (field && field.disabled) {
-            return;
-          }
-
-          const value = get(data, fieldInstance.valuePath);
-
-          if (validator.validateFieldInstance(fieldInstance, value).length) {
-            isValid = false;
-          }
-
-          viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
-        });
+        viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
+      });
 
       return isValid;
     },
-    [form, formFieldInstanceRegistry, formFieldRegistry, indexes, validator, viewerCommands],
+    [form, getPageInstances, validator, viewerCommands],
   );
+
+  return { isPageValid, reportPageErrors };
 }
 
 function collectFieldIds(field, ids = new Set()) {
