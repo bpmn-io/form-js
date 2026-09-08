@@ -6,22 +6,37 @@ export function PaletteEntry(props) {
 
   const modeling = useService('modeling');
   const formEditor = useService('formEditor');
+  const selection = useService('selection');
   const translate = useService('translate');
 
   const Icon = getPaletteIcon({ icon, iconUrl, label, type });
+
+  // a page belongs inside a multipage container, so keyboard insertion has to be
+  // able to target something other than the root form
+  const getInsertTarget = (type) => {
+    const { schema } = formEditor._getState();
+    const selected = selection.get();
+
+    if (selected && Array.isArray(selected.components) && !validateNesting(type, selected.type)) {
+      return selected;
+    }
+
+    if (!validateNesting(type, schema.type)) {
+      return schema;
+    }
+  };
 
   const onKeyDown = (event) => {
     if (event.code === 'Enter') {
       const { fieldType: type } = event.target.dataset;
 
-      const { schema } = formEditor._getState();
+      const target = getInsertTarget(type);
 
-      if (validateNesting(type, schema.type)) {
+      if (!target) {
         return;
       }
 
-      // add new form field to last position
-      modeling.addFormField({ type }, schema, schema.components.length);
+      modeling.addFormField({ type }, target, target.components.length);
     }
   };
 
