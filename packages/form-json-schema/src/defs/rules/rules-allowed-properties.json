@@ -554,7 +554,24 @@
       "then": {
         "properties": {
           "showSubmit": false,
-          "requireValidPage": false
+          "disableInvalidNavigation": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "multipage"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "label": false,
+          "showOutline": false,
+          "verticalAlignment": false
         }
       }
     }

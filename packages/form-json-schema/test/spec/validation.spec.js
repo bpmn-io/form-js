@@ -196,6 +196,8 @@ describe('validation', function () {
     testForm('multipage-path-not-allowed');
 
     testForm('multipage-properties-not-allowed');
+
+    testForm('multipage-appearance-not-allowed');
   });
 
   describe('rules - nesting', function () {
