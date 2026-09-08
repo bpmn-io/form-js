@@ -10,6 +10,7 @@ export { PathEntry } from './PathEntry';
 export { GroupAppearanceEntry } from './GroupAppearanceEntry';
 export { LabelEntry } from './LabelEntry';
 export { PageNavigationEntries } from './PageNavigationEntries';
+export { MultiPageEntries } from './MultiPageEntries';
 export { IFrameHeightEntry } from './IFrameHeightEntry';
 export { IFrameUrlEntry } from './IFrameUrlEntry';
 export { ImageSourceEntry } from './ImageSourceEntry';

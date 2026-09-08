@@ -26,6 +26,14 @@ export function PageNavigationEntries(props) {
       isEdited: isFeelEntryEdited,
       isDefaultVisible: isPage,
     },
+    {
+      id: 'submitLabel',
+      component: SubmitLabel,
+      editField,
+      field,
+      isEdited: isFeelEntryEdited,
+      isDefaultVisible: isPage,
+    },
   ];
 }
 
@@ -44,6 +52,15 @@ function NextLabel(props) {
     path: ['nextLabel'],
     label: 'Next button label',
     tooltip: 'Shown on the control that continues to the following page. Defaults to "Next".',
+  });
+}
+
+function SubmitLabel(props) {
+  return NavigationLabel({
+    ...props,
+    path: ['submitLabel'],
+    label: 'Submit button label',
+    tooltip: 'Shown on the control that submits the form while this page is the last one. Defaults to "Submit".',
   });
 }
 
