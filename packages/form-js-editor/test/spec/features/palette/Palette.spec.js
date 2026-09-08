@@ -334,6 +334,131 @@ describe('palette', function () {
       // then
       expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
     });
+
+    it('should add entry to the selected container', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const group = {
+        type: 'group',
+        id: 'Group_1',
+        components: [{ type: 'textfield', id: 'foo' }],
+      };
+
+      const schema = {
+        components: [group],
+      };
+
+      const result = createPalette({
+        container,
+        field: group,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="textfield"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, group, 1);
+    });
+
+    it('should add page to the selected multi page container', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const multipage = {
+        type: 'multipage',
+        id: 'Multipage_1',
+        components: [],
+      };
+
+      const schema = {
+        components: [multipage],
+      };
+
+      const result = createPalette({
+        container,
+        field: multipage,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="page"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'page' }, multipage, 0);
+    });
+
+    it('should not add page without a multi page container selected', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const schema = {
+        components: [],
+      };
+
+      const result = createPalette({
+        container,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="page"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.not.have.been.called;
+    });
+
+    it('should not add a non-page entry to the selected multi page container', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const multipage = {
+        type: 'multipage',
+        id: 'Multipage_1',
+        components: [],
+      };
+
+      const schema = {
+        components: [multipage],
+      };
+
+      const result = createPalette({
+        container,
+        field: multipage,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="textfield"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
+    });
   });
 
   describe('a11y', function () {
