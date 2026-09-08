@@ -210,6 +210,16 @@
       "description": "Number of items that will be rendered when a list is collapsed. Defaults to 5.",
       "type": "number"
     },
+    "nextLabel": {
+      "$id": "#/component/nextLabel",
+      "description": "Label of the button that advances to the next page while this page is displayed.",
+      "type": "string"
+    },
+    "backLabel": {
+      "$id": "#/component/backLabel",
+      "description": "Label of the button that returns to the previous page while this page is displayed.",
+      "type": "string"
+    },
     "validate": {
       "$id": "#/component/validate",
       "$ref": "validate.json"

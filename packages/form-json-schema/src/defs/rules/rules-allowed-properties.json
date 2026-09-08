@@ -505,6 +505,39 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "page"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "nextLabel": false,
+          "backLabel": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["multipage", "page"]
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "path": false
+        }
+      }
     }
   ]
 }
