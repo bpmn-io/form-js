@@ -1024,7 +1024,7 @@ describe('GeneralGroup', function () {
     });
   });
 
-  describe('requireValidPage', function () {
+  describe('disableInvalidNavigation', function () {
     it('should NOT render for page', function () {
       // given
       const field = { type: 'page' };
@@ -1033,7 +1033,7 @@ describe('GeneralGroup', function () {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      expect(findInput('requireValidPage', container)).to.not.exist;
+      expect(findInput('disableInvalidNavigation', container)).to.not.exist;
     });
 
     it('should render for multipage', function () {
@@ -1044,18 +1044,18 @@ describe('GeneralGroup', function () {
       const { container } = renderGeneralGroup({ field });
 
       // then
-      expect(findInput('requireValidPage', container)).to.exist;
+      expect(findInput('disableInvalidNavigation', container)).to.exist;
     });
 
     it('should read', function () {
       // given
-      const field = { type: 'multipage', requireValidPage: true };
+      const field = { type: 'multipage', disableInvalidNavigation: true };
 
       // when
       const { container } = renderGeneralGroup({ field });
 
       // then
-      expect(findInput('requireValidPage', container).checked).to.equal(true);
+      expect(findInput('disableInvalidNavigation', container).checked).to.equal(true);
     });
   });
 

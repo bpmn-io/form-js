@@ -30,20 +30,23 @@ the `submitLabel` of that page and falls back to `Submit`. When a field on a pag
 that is not on screen fails validation, the container brings that page forward,
 since the error is otherwise hidden.
 
-Navigating forward validates the page being left. Navigating back does not
-validate anything.
+Navigating forward validates the page being left and refuses while it has
+errors. Navigating back does not validate anything.
 
-Set `requireValidPage` on the container to stop the user moving on from a page
-that does not validate. The next and submit controls of an invalid page carry
-`aria-disabled`. They stay focusable, and clicking one reports the errors of the
-page rather than moving on.
+By default that refusal only shows up on the click. Set
+`disableInvalidNavigation` on the container to show it in advance: the next and
+submit controls of an invalid page carry `aria-disabled`. They stay focusable,
+and clicking one reports the errors of the page rather than moving on.
+
+A page inside a nested multipage is governed by that inner container, so an error
+there never blocks the outer page. Submission still validates everything.
 
 ```json
 {
   "type": "multipage",
   "id": "Multipage_1",
   "showSubmit": true,
-  "requireValidPage": true,
+  "disableInvalidNavigation": true,
   "components": [
     {
       "type": "page",
