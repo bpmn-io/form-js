@@ -22,17 +22,20 @@ export function Page(props) {
   const { label, showOutline } = field;
 
   const { Empty } = useContext(FormRenderContext);
-  const { activePageId, showAllPages } = useContext(MultiPageContext);
+  const { activePageId, showAllPages, focusOnMount } = useContext(MultiPageContext);
 
   const isActive = showAllPages || activePageId === field.id;
   const wasActive = usePrevious(isActive);
 
   const rootRef = useRef(null);
 
-  // move focus onto a page the user navigated to; `wasActive === undefined` on the
-  // first render, so the page shown when the form opens does not steal focus
+  // a page takes focus when the user arrives on it, either by navigating to it or
+  // because a condition put it in place of the page that was in view; `wasActive`
+  // is null on the first render, so the page the form opens with does not steal focus
+  const arrived = isActive && (wasActive === false || (wasActive === null && focusOnMount));
+
   useEffect(() => {
-    if (!isActive || wasActive !== false || !rootRef.current) {
+    if (!arrived || !rootRef.current) {
       return;
     }
 
@@ -43,7 +46,7 @@ export function Page(props) {
     const target = focusables.find((element) => element.offsetParent !== null) || rootRef.current;
 
     target.focus();
-  }, [isActive, wasActive]);
+  }, [arrived]);
 
   const fullProps = { ...props, Empty };
 
