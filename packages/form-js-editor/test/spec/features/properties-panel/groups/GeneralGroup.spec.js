@@ -973,6 +973,127 @@ describe('GeneralGroup', function () {
     });
   });
 
+  describe('showSubmit', function () {
+    it('should NOT render for page', function () {
+      // given
+      const field = { type: 'page' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('showSubmit', container)).to.not.exist;
+    });
+
+    it('should render for multipage', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('showSubmit', container)).to.exist;
+    });
+
+    it('should default to off', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('showSubmit', container).checked).to.equal(false);
+    });
+
+    it('should write', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      const editFieldSpy = sinon.spy((field, path, value) => set(field, path, value));
+
+      const { container } = renderGeneralGroup({ field, editField: editFieldSpy });
+
+      // when
+      fireEvent.click(findInput('showSubmit', container));
+
+      // then
+      expect(editFieldSpy).to.have.been.calledOnce;
+      expect(field.showSubmit).to.equal(true);
+    });
+  });
+
+  describe('requireValidPage', function () {
+    it('should NOT render for page', function () {
+      // given
+      const field = { type: 'page' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('requireValidPage', container)).to.not.exist;
+    });
+
+    it('should render for multipage', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('requireValidPage', container)).to.exist;
+    });
+
+    it('should read', function () {
+      // given
+      const field = { type: 'multipage', requireValidPage: true };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findInput('requireValidPage', container).checked).to.equal(true);
+    });
+  });
+
+  describe('submitLabel', function () {
+    it('should render for page', function () {
+      // given
+      const field = { type: 'page' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('submitLabel', container)).to.exist;
+    });
+
+    it('should NOT render for multipage', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('submitLabel', container)).to.not.exist;
+    });
+
+    it('should read', function () {
+      // given
+      const field = { type: 'page', submitLabel: 'Place order' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('submitLabel', container).textContent).to.equal('Place order');
+    });
+  });
+
   describe('subtype', function () {
     it('should render for datetime', function () {
       // given
