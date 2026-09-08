@@ -5,6 +5,8 @@ export const form = {
       id: 'Multipage_1',
       type: 'multipage',
       label: 'Onboarding',
+      showSubmit: true,
+      requireValidPage: true,
       components: [
         {
           id: 'Page_1',
@@ -47,6 +49,7 @@ export const form = {
           type: 'page',
           label: 'Review',
           backLabel: 'Back',
+          submitLabel: 'Finish',
           components: [],
         },
       ],

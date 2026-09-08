@@ -220,6 +220,21 @@
       "description": "Label of the button that returns to the previous page while this page is displayed.",
       "type": "string"
     },
+    "submitLabel": {
+      "$id": "#/component/submitLabel",
+      "description": "Label of the button that submits the form while this page is the last one displayed.",
+      "type": "string"
+    },
+    "showSubmit": {
+      "$id": "#/component/showSubmit",
+      "description": "Render a submit button on the last page in view.",
+      "type": "boolean"
+    },
+    "requireValidPage": {
+      "$id": "#/component/requireValidPage",
+      "description": "Block the navigation controls until the page in view validates.",
+      "type": "boolean"
+    },
     "validate": {
       "$id": "#/component/validate",
       "$ref": "validate.json"
