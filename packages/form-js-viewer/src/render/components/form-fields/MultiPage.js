@@ -160,9 +160,13 @@ MultiPage.config = {
 function Navigation(props) {
   const { page, showBack, showNext, showSubmit, blocked, onBack, onNext, onBlocked, readonly, disabled } = props;
 
-  const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || 'Back', { debug: true });
-  const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || 'Next', { debug: true });
-  const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || 'Submit', { debug: true });
+  const translate = useService('translate');
+
+  const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || translate('Back'), { debug: true });
+  const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || translate('Next'), { debug: true });
+  const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || translate('Submit'), {
+    debug: true,
+  });
 
   // a blocked control stays focusable and clickable on purpose, so that a user who
   // cannot move on is told why instead of finding a control that does nothing
