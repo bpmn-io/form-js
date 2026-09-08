@@ -164,6 +164,37 @@ export class Dragging {
     return validateNesting(draggedType, targetParent.type);
   }
 
+  /**
+   * @param { HTMLElement } el
+   * @param { HTMLElement } target
+   * @returns { string | undefined }
+   */
+  _validateRowNesting(el, target) {
+    const parentNode = isRow(target) ? getFormParent(target) : target;
+    const targetParent = parentNode && this._formFieldRegistry.get(getDataId(parentNode));
+
+    if (!targetParent) {
+      return;
+    }
+
+    const rowNode = el.querySelector('.fjs-layout-row');
+    const row = rowNode && this._formLayouter.getRow(getRowId(rowNode));
+
+    if (!row) {
+      return;
+    }
+
+    for (const id of row.components) {
+      const formField = this._formFieldRegistry.get(id);
+
+      const nestingError = formField && validateNesting(formField.type, targetParent.type);
+
+      if (nestingError) {
+        return nestingError;
+      }
+    }
+  }
+
   moveField(element, source, targetRow, targetFormField, targetIndex) {
     const formFieldNode = element.querySelector('.fjs-element');
     const formField = this._formFieldRegistry.get(formFieldNode.dataset.id);
@@ -206,9 +237,13 @@ export class Dragging {
   }
 
   handleRowDrop(el, target, source, sibling) {
+    if (this._validateRowNesting(el, target)) {
+      return;
+    }
+
     const targetFormField = this._formFieldRegistry.get(target.dataset.id);
     const rowNode = el.querySelector('.fjs-layout-row');
-    const row = this._formLayouter.getRow(rowNode.dataset.rowId);
+    const row = this._formLayouter.getRow(getRowId(rowNode));
 
     // move each field in the row before first field of sibling row
     row.components.forEach((id, index) => {
@@ -297,7 +332,17 @@ export class Dragging {
 
         // allow dropping rows only between rows
         if (el.classList.contains(DRAG_ROW_MOVE_CLS)) {
-          return !target.classList.contains(DROP_CONTAINER_HORIZONTAL_CLS);
+          if (target.classList.contains(DROP_CONTAINER_HORIZONTAL_CLS)) {
+            return false;
+          }
+
+          if (this._validateRowNesting(el, target)) {
+            setDropNotAllowed(target);
+
+            return false;
+          }
+
+          return true;
         }
 
         // validate field drop
@@ -433,6 +478,14 @@ function getFormParent(node) {
  */
 function getDataId(node) {
   return /** @type { HTMLElement } */ (node).dataset.id;
+}
+
+/**
+ * @param { Element } node
+ * @returns { string }
+ */
+function getRowId(node) {
+  return /** @type { HTMLElement } */ (node).dataset.rowId;
 }
 
 function setDropNotAllowed(node) {
