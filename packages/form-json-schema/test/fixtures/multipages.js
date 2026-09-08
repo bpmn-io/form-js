@@ -4,9 +4,8 @@ export const form = {
     {
       id: 'Multipage_1',
       type: 'multipage',
-      label: 'Onboarding',
       showSubmit: true,
-      requireValidPage: true,
+      disableInvalidNavigation: true,
       components: [
         {
           id: 'Page_1',
