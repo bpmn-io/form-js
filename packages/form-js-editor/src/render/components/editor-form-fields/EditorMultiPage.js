@@ -13,7 +13,7 @@ export function EditorMultiPage(props) {
 
   const { Empty } = useContext(FormRenderContext);
 
-  const multiPageContext = useMemo(() => ({ activePageId: null, showAllPages: true }), []);
+  const multiPageContext = useMemo(() => ({ activePageId: null, showAllPages: true, focusOnMount: false }), []);
 
   return (
     <div class={editorFormFieldClasses(type) + ' fjs-form-field-grouplike'}>

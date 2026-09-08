@@ -236,6 +236,63 @@ describe('MultiPage', function () {
     expect(document.activeElement).to.equal(document.body);
   });
 
+  it('should focus a page a condition mounts on arrival', async function () {
+    // given
+    const schema = {
+      type: 'default',
+      id: 'RevealedPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'First',
+              conditional: { hide: '=step = "two"' },
+              components: [{ type: 'textfield', id: 'Textfield_alpha', key: 'alpha', label: 'Alpha' }],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Second',
+              conditional: { hide: '=step != "two"' },
+              components: [{ type: 'textfield', id: 'Textfield_beta', key: 'beta', label: 'Beta' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    // assume
+    expect(activePage().querySelector('label').textContent).to.equal('First');
+
+    // when
+    // the page in view is hidden and its replacement is mounted in the same render
+    await act(() => form._setState({ data: { step: 'two' } }));
+
+    // then
+    expect(activePage().querySelector('label').textContent).to.equal('Second');
+    expect(document.activeElement).to.equal(container.querySelector('input[id$="beta"]'));
+  });
+
+  it('should not focus a page revealed beside the one in view', async function () {
+    // given
+    await bootstrapForm();
+
+    const input = container.querySelector('input[id$="accountType"]');
+
+    // when
+    // Page_2 is revealed, but the user stays on Page_1
+    await fill('accountType', 'business');
+
+    // then
+    expect(document.activeElement).to.equal(input);
+  });
+
   describe('validation', function () {
     const schema = {
       type: 'default',

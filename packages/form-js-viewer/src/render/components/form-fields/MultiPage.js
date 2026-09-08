@@ -129,9 +129,14 @@ export function MultiPage(props) {
 
   const onBlocked = useCallback(() => reportPageErrors(activePage), [activePage, reportPageErrors]);
 
+  // the resolution runs a render ahead of the state it is committed to, so this
+  // holds only while a condition is moving the user, and is false while the
+  // container settles on the page the form opens with
+  const focusOnMount = activePageId !== null && resolvedActivePageId !== activePageId;
+
   const multiPageContext = useMemo(
-    () => ({ activePageId: resolvedActivePageId, showAllPages: false }),
-    [resolvedActivePageId],
+    () => ({ activePageId: resolvedActivePageId, showAllPages: false, focusOnMount }),
+    [resolvedActivePageId, focusOnMount],
   );
 
   if (!visiblePages.length) {
