@@ -38,29 +38,37 @@ export function PageNavigationEntries(props) {
 }
 
 function BackLabel(props) {
+  const translate = useService('translate');
+
   return NavigationLabel({
     ...props,
     path: ['backLabel'],
-    label: 'Back button label',
-    tooltip: 'Shown on the control that returns to the previous page. Defaults to "Back".',
+    label: translate('Back button label'),
+    tooltip: translate('Shown on the control that returns to the previous page. Defaults to "Back".'),
   });
 }
 
 function NextLabel(props) {
+  const translate = useService('translate');
+
   return NavigationLabel({
     ...props,
     path: ['nextLabel'],
-    label: 'Next button label',
-    tooltip: 'Shown on the control that continues to the following page. Defaults to "Next".',
+    label: translate('Next button label'),
+    tooltip: translate('Shown on the control that continues to the following page. Defaults to "Next".'),
   });
 }
 
 function SubmitLabel(props) {
+  const translate = useService('translate');
+
   return NavigationLabel({
     ...props,
     path: ['submitLabel'],
-    label: 'Submit button label',
-    tooltip: 'Shown on the control that submits the form while this page is the last one. Defaults to "Submit".',
+    label: translate('Submit button label'),
+    tooltip: translate(
+      'Shown on the control that submits the form while this page is the last one. Defaults to "Submit".',
+    ),
   });
 }
 

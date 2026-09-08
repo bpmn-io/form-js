@@ -32,12 +32,14 @@ import {
 } from '../entries';
 
 export function GeneralGroup(field, editField, getService) {
+  const translate = getService('translate');
+
   const entries = [
     ...IdEntry({ field, editField }),
     ...VersionTagEntry({ field, editField }),
     ...LabelEntry({ field, editField }),
     ...PageNavigationEntries({ field, editField }),
-    ...MultiPageEntries({ field, editField }),
+    ...MultiPageEntries({ field, editField, translate }),
     ...DescriptionEntry({ field, editField }),
     ...KeyEntry({ field, editField, getService }),
     ...PathEntry({ field, editField, getService }),
@@ -68,8 +70,6 @@ export function GeneralGroup(field, editField, getService) {
   if (entries.length === 0) {
     return null;
   }
-
-  const translate = getService('translate');
 
   return {
     id: 'general',
