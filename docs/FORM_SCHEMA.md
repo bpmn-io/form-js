@@ -22,13 +22,27 @@ values survive navigation in either direction.
 read the labels of the page currently on screen and fall back to `Next` and
 `Back`.
 
+Set `showSubmit` on the container to finish the form from the navigation row.
+The submit control replaces the next control on the last page in view, so under
+branching it follows whichever page turns out to be last. Its label comes from
+the `submitLabel` of that page and falls back to `Submit`. When a field on a page
+that is not on screen fails validation, the container brings that page forward,
+since the error is otherwise hidden.
+
 Navigating forward validates the page being left. Navigating back does not
 validate anything.
+
+Set `requireValidPage` on the container to stop the user moving on from a page
+that does not validate. The next and submit controls of an invalid page carry
+`aria-disabled`. They stay focusable, and clicking one reports the errors of the
+page rather than moving on.
 
 ```json
 {
   "type": "multipage",
   "id": "Multipage_1",
+  "showSubmit": true,
+  "requireValidPage": true,
   "components": [
     {
       "type": "page",
@@ -48,6 +62,7 @@ validate anything.
       "id": "Page_2",
       "label": "Company details",
       "backLabel": "Change account type",
+      "submitLabel": "Create account",
       "conditional": {
         "hide": "=accountType != \"business\""
       },
