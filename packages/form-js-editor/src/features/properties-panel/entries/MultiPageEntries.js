@@ -16,10 +16,10 @@ export function MultiPageEntries(props) {
       props,
     }),
     simpleBoolEntryFactory({
-      id: 'requireValidPage',
-      path: ['requireValidPage'],
-      label: translate('Require a valid page to continue'),
-      description: translate('Blocks the navigation controls until the page in view validates.'),
+      id: 'disableInvalidNavigation',
+      path: ['disableInvalidNavigation'],
+      label: translate('Disable navigation on an invalid page'),
+      description: translate('Marks the next and submit controls as disabled while the page in view has errors.'),
       props,
     }),
   ];
