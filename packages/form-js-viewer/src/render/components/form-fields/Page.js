@@ -36,7 +36,11 @@ export function Page(props) {
       return;
     }
 
-    const target = rootRef.current.querySelector(FOCUSABLE_SELECTOR) || rootRef.current;
+    const focusables = Array.from(rootRef.current.querySelectorAll(FOCUSABLE_SELECTOR));
+
+    // a nested multipage keeps its other pages mounted but hidden, and focusing
+    // one of those would leave focus off screen
+    const target = focusables.find((element) => element.offsetParent !== null) || rootRef.current;
 
     target.focus();
   }, [isActive, wasActive]);

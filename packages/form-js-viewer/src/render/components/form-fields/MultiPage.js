@@ -14,7 +14,7 @@ export function MultiPage(props) {
 
   const { Children, applyVisibilityConditions } = useContext(FormRenderContext);
 
-  const { components, showSubmit, requireValidPage } = field;
+  const { components, showSubmit, disableInvalidNavigation } = field;
   const pages = useMemo(() => components || [], [components]);
 
   const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
@@ -78,6 +78,27 @@ export function MultiPage(props) {
 
   const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
 
+  // a condition can move the user off the page they were on; commit that move, so
+  // that revealing the old page later does not drag them backwards
+  useEffect(() => {
+    if (resolvedActivePageId === null || resolvedActivePageId === activePageId) {
+      return;
+    }
+
+    const from = pages.find((page) => page.id === activePageId);
+
+    setActivePageId(resolvedActivePageId);
+
+    if (from) {
+      eventBus.fire('multipage.pageChanged', {
+        formField: field,
+        from,
+        to: visiblePages.find((page) => page.id === resolvedActivePageId),
+        indexes,
+      });
+    }
+  }, [activePageId, eventBus, field, indexes, pages, resolvedActivePageId, visiblePages]);
+
   // a failing field on a page that is not on screen is invisible to the user,
   // so bring the first such page forward when submission is rejected
   useEffect(() => {
@@ -99,12 +120,12 @@ export function MultiPage(props) {
   // the pages register their field instances while rendering, so the registry is
   // only complete once every descendant is done; read it after the fact
   useLayoutEffect(() => {
-    if (requireValidPage) {
+    if (disableInvalidNavigation) {
       setActivePageValid(isPageValid(activePage, data));
     }
-  }, [activePage, data, isPageValid, requireValidPage]);
+  }, [activePage, data, isPageValid, disableInvalidNavigation]);
 
-  const blocked = Boolean(requireValidPage) && !isActivePageValid;
+  const blocked = Boolean(disableInvalidNavigation) && !isActivePageValid;
 
   const onBlocked = useCallback(() => reportPageErrors(activePage), [activePage, reportPageErrors]);
 
@@ -263,7 +284,7 @@ function usePageValidation(indexes) {
         return [];
       }
 
-      const pageFieldIds = collectFieldIds(page);
+      const pageFieldIds = collectPageFieldIds(page);
 
       return formFieldInstanceRegistry.getAllKeyed().filter(({ id, indexes: instanceIndexes }) => {
         if (!pageFieldIds.has(id)) {
@@ -323,6 +344,24 @@ function collectFieldIds(field, ids = new Set()) {
   (field.components || []).forEach((component) => {
     ids.add(component.id);
     collectFieldIds(component, ids);
+  });
+
+  return ids;
+}
+
+/**
+ * Collect the fields a page owns, stopping at a nested multipage container.
+ *
+ * A nested container governs its own pages, so holding the outer page back over
+ * an error the user cannot see would leave them with no way forward.
+ */
+function collectPageFieldIds(field, ids = new Set()) {
+  (field.components || []).forEach((component) => {
+    ids.add(component.id);
+
+    if (component.type !== type) {
+      collectPageFieldIds(component, ids);
+    }
   });
 
   return ids;

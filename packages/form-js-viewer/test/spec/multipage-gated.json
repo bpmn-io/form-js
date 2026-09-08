@@ -6,7 +6,7 @@
       "type": "multipage",
       "id": "Multipage_1",
       "showSubmit": true,
-      "requireValidPage": true,
+      "disableInvalidNavigation": true,
       "components": [
         {
           "type": "page",

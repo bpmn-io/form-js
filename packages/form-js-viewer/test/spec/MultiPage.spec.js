@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { act } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
 
-import { createForm } from '../../src';
+import { createForm, Form } from '../../src';
 
 import multiPageSchema from './multipage.json';
 import trailingPageSchema from './multipage-trailing-page.json';
@@ -147,6 +147,24 @@ describe('MultiPage', function () {
     expect(activePage().querySelector('label').textContent).to.equal('Summary');
   });
 
+  it('should stay put when a page hidden underfoot is revealed again', async function () {
+    // given
+    await bootstrapForm({ data: { accountType: 'business' } });
+
+    await clickButton('Continue');
+
+    await act(() => form._setState({ data: { accountType: 'private' } }));
+
+    // assume
+    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+
+    // when
+    await act(() => form._setState({ data: { accountType: 'business' } }));
+
+    // then
+    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+  });
+
   it('should fire <multipage.pageChanged>', async function () {
     // given
     await bootstrapForm();
@@ -163,6 +181,40 @@ describe('MultiPage', function () {
     expect(events[0].formField.id).to.equal('Multipage_1');
     expect(events[0].from.id).to.equal('Page_1');
     expect(events[0].to.id).to.equal('Page_3');
+  });
+
+  it('should fire <multipage.pageChanged> when a condition moves the user', async function () {
+    // given
+    await bootstrapForm({ data: { accountType: 'business' } });
+
+    await clickButton('Continue');
+
+    const events = [];
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form._setState({ data: { accountType: 'private' } }));
+
+    // then
+    expect(events).to.have.length(1);
+    expect(events[0].from.id).to.equal('Page_2');
+    expect(events[0].to.id).to.equal('Page_3');
+  });
+
+  it('should not fire <multipage.pageChanged> for the page shown first', async function () {
+    // given
+    const events = [];
+
+    form = new Form({ container, debounce: false });
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form.importSchema(multiPageSchema));
+
+    // then
+    expect(events).to.be.empty;
   });
 
   it('should focus the first focusable element of the page', async function () {
@@ -459,7 +511,7 @@ describe('MultiPage', function () {
     });
   });
 
-  describe('required valid page', function () {
+  describe('disabled navigation', function () {
     const schema = gatedSchema;
 
     const navigationButton = (label) =>
@@ -475,9 +527,9 @@ describe('MultiPage', function () {
       expect(navigationButton('Next').getAttribute('aria-disabled')).to.equal('true');
     });
 
-    it('should not mark <next> as disabled without <requireValidPage>', async function () {
+    it('should not mark <next> as disabled without <disableInvalidNavigation>', async function () {
       // given
-      const ungated = { ...schema, components: [{ ...schema.components[0], requireValidPage: false }] };
+      const ungated = { ...schema, components: [{ ...schema.components[0], disableInvalidNavigation: false }] };
 
       // when
       await bootstrapForm({ schema: ungated });
@@ -625,6 +677,121 @@ describe('MultiPage', function () {
 
       // then
       expect(form.submit().data.accountType).to.equal('private');
+    });
+  });
+
+  describe('nested containers', function () {
+    const nestedSchema = {
+      type: 'default',
+      id: 'NestedMultiPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Outer',
+          components: [
+            {
+              type: 'page',
+              id: 'Outer_1',
+              label: 'Outer first',
+              nextLabel: 'Outer next',
+              components: [
+                {
+                  type: 'multipage',
+                  id: 'Inner',
+                  components: [
+                    {
+                      type: 'page',
+                      id: 'Inner_1',
+                      label: 'Inner first',
+                      nextLabel: 'Inner next',
+                      components: [
+                        {
+                          type: 'textfield',
+                          id: 'Textfield_first',
+                          key: 'first',
+                          label: 'First',
+                          validate: { required: true },
+                        },
+                      ],
+                    },
+                    {
+                      type: 'page',
+                      id: 'Inner_2',
+                      label: 'Inner second',
+                      backLabel: 'Inner back',
+                      components: [
+                        {
+                          type: 'textfield',
+                          id: 'Textfield_second',
+                          key: 'second',
+                          label: 'Second',
+                          validate: { required: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'page',
+              id: 'Outer_2',
+              label: 'Outer second',
+              backLabel: 'Outer back',
+              components: [{ type: 'textfield', id: 'Textfield_note', key: 'note', label: 'Note' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    const visiblePageLabels = () =>
+      Array.from(container.querySelectorAll('.fjs-form-field-page'))
+        .filter((page) => page.offsetParent !== null)
+        .map((page) => page.querySelector('label').textContent);
+
+    it('should not hold the outer page back over a nested page', async function () {
+      // given
+      await bootstrapForm({ schema: nestedSchema });
+
+      // assume
+      expect(visiblePageLabels()).to.eql(['Outer first', 'Inner first']);
+
+      // when
+      await clickButton('Outer next');
+
+      // then
+      expect(visiblePageLabels()).to.eql(['Outer second']);
+    });
+
+    it('should hold the nested page back over its own fields', async function () {
+      // given
+      await bootstrapForm({ schema: nestedSchema });
+
+      // when
+      await clickButton('Inner next');
+
+      // then
+      expect(visiblePageLabels()).to.eql(['Outer first', 'Inner first']);
+      expect(container.querySelector('.fjs-form-field-error')).to.exist;
+    });
+
+    it('should focus a visible element when arriving on a page', async function () {
+      // given
+      await bootstrapForm({ schema: nestedSchema, data: { first: 'one', second: 'two' } });
+
+      await clickButton('Inner next');
+      await clickButton('Outer next');
+
+      // assume
+      expect(visiblePageLabels()).to.eql(['Outer second']);
+
+      // when
+      await clickButton('Outer back');
+
+      // then
+      // the first focusable of <Outer first> sits on the hidden <Inner first>
+      expect(document.activeElement).to.equal(container.querySelector('input[id$="second"]'));
     });
   });
 });
