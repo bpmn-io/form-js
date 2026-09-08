@@ -29,7 +29,7 @@ export interface Templating {
 }
 
 export type FormProperty = 'readOnly' | 'disabled' | string;
-export type FormEvent = 'submit' | 'changed' | string;
+export type FormEvent = 'submit' | 'changed' | 'multipage.pageChanged' | string;
 
 export interface FormProperties {
   [x: string]: any;

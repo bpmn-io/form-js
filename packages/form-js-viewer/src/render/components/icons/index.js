@@ -11,6 +11,8 @@ import SelectIcon from './Select.svg';
 import SeparatorIcon from './Separator.svg';
 import SpacerIcon from './Spacer.svg';
 import DynamicListIcon from './DynamicList.svg';
+import MultiPageIcon from './MultiPage.svg';
+import PageIcon from './Page.svg';
 import TextIcon from './Text.svg';
 import HTMLIcon from './HTML.svg';
 import ExpressionFieldIcon from './ExpressionField.svg';
@@ -40,6 +42,8 @@ export const iconsByType = (type) => {
     separator: SeparatorIcon,
     spacer: SpacerIcon,
     dynamiclist: DynamicListIcon,
+    multipage: MultiPageIcon,
+    page: PageIcon,
     taglist: TaglistIcon,
     text: TextIcon,
     html: HTMLIcon,
