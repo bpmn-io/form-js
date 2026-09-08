@@ -14,7 +14,7 @@ export function MultiPage(props) {
 
   const { Children, applyVisibilityConditions } = useContext(FormRenderContext);
 
-  const { components } = field;
+  const { components, showSubmit } = field;
   const pages = useMemo(() => components || [], [components]);
 
   const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
@@ -104,6 +104,7 @@ export function MultiPage(props) {
         page={activePage}
         showBack={activeIndex > 0}
         showNext={activeIndex < visiblePages.length - 1}
+        showSubmit={showSubmit && activeIndex === visiblePages.length - 1}
         onBack={onBack}
         onNext={onNext}
         readonly={readonly}
@@ -124,12 +125,13 @@ MultiPage.config = {
 };
 
 function Navigation(props) {
-  const { page, showBack, showNext, onBack, onNext, readonly, disabled } = props;
+  const { page, showBack, showNext, showSubmit, onBack, onNext, readonly, disabled } = props;
 
   const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || 'Back', { debug: true });
   const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || 'Next', { debug: true });
+  const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || 'Submit', { debug: true });
 
-  if (!showBack && !showNext) {
+  if (!showBack && !showNext && !showSubmit) {
     return null;
   }
 
@@ -143,6 +145,11 @@ function Navigation(props) {
       {showNext ? (
         <button type="button" class="fjs-button fjs-multipage-next" disabled={disabled || readonly} onClick={onNext}>
           {nextLabel}
+        </button>
+      ) : null}
+      {showSubmit ? (
+        <button type="submit" class="fjs-button fjs-multipage-submit" disabled={disabled || readonly}>
+          {submitLabel}
         </button>
       ) : null}
     </div>

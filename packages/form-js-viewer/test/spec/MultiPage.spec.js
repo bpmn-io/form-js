@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { createForm } from '../../src';
 
 import multiPageSchema from './multipage.json';
+import trailingPageSchema from './multipage-trailing-page.json';
 
 describe('MultiPage', function () {
   let container, form;
@@ -274,6 +275,96 @@ describe('MultiPage', function () {
 
       // then
       expect(activePage().querySelector('label').textContent).to.equal('First');
+    });
+  });
+
+  describe('submit', function () {
+    const withSubmit = (multipage = {}) => ({
+      ...multiPageSchema,
+      components: [{ ...multiPageSchema.components[0], showSubmit: true, ...multipage }],
+    });
+
+    const navigationLabels = () =>
+      Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).map((button) => button.textContent);
+
+    it('should show the submit control on the last visible page only', async function () {
+      // given
+      await bootstrapForm({ schema: withSubmit() });
+
+      // assume
+      expect(navigationLabels()).to.eql(['Continue']);
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Back', 'Submit']);
+    });
+
+    it('should not show a submit control without <showSubmit>', async function () {
+      // given
+      await bootstrapForm();
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Back']);
+    });
+
+    it('should submit the values of every visible page', async function () {
+      // given
+      await bootstrapForm({ schema: withSubmit() });
+
+      await fill('accountType', 'private');
+
+      await clickButton('Continue');
+      await fill('comment', 'looks good');
+
+      const submissions = [];
+
+      form.on('submit', (event) => submissions.push(event));
+
+      // when
+      await clickButton('Submit');
+
+      // then
+      expect(submissions).to.have.length(1);
+      expect(submissions[0].data).to.eql({
+        accountType: 'private',
+        comment: 'looks good',
+      });
+    });
+
+    it('should evaluate <submitLabel> of the page on screen', async function () {
+      // given
+      const schema = withSubmit({
+        components: multiPageSchema.components[0].components.map((page) =>
+          page.id === 'Page_3' ? { ...page, submitLabel: 'Send as {{accountType}}' } : page,
+        ),
+      });
+
+      await bootstrapForm({ schema, data: { accountType: 'private' } });
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Back', 'Send as private']);
+    });
+
+    it('should give way to <next> when a page is revealed behind the last one', async function () {
+      // given
+      await bootstrapForm({ schema: trailingPageSchema });
+
+      // assume
+      expect(navigationLabels()).to.eql(['Submit']);
+
+      // when
+      await fill('extra', 'yes');
+
+      // then
+      expect(navigationLabels()).to.eql(['Next']);
     });
   });
 
