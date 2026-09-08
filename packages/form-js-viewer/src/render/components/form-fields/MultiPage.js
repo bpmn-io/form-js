@@ -1,5 +1,5 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useMemo, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'preact/hooks';
 
 import { FormRenderContext, LocalExpressionContext, MultiPageContext } from '../../context';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
@@ -76,6 +76,22 @@ export function MultiPage(props) {
   }, [activeIndex, activePage, navigate, validatePage, visiblePages]);
 
   const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
+
+  // a failing field on a page that is not on screen is invisible to the user,
+  // so bring the first such page forward when submission is rejected
+  useEffect(() => {
+    const onSubmit = ({ errors }) => {
+      const failing = visiblePages.find((page) => hasErrors(page, errors, indexes));
+
+      if (failing && failing.id !== resolvedActivePageId) {
+        navigate(failing);
+      }
+    };
+
+    eventBus.on('submit', onSubmit);
+
+    return () => eventBus.off('submit', onSubmit);
+  }, [eventBus, indexes, navigate, resolvedActivePageId, visiblePages]);
 
   const multiPageContext = useMemo(
     () => ({ activePageId: resolvedActivePageId, showAllPages: false }),
@@ -244,4 +260,10 @@ function collectFieldIds(field, ids = new Set()) {
   });
 
   return ids;
+}
+
+function hasErrors(page, errors, indexes) {
+  const scope = Object.values(indexes || {});
+
+  return Array.from(collectFieldIds(page)).some((id) => get(errors, [id, ...scope]));
 }
