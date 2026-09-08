@@ -1,6 +1,7 @@
 import dragula from '@bpmn-io/draggle';
 
 import { set as setCursor } from '../../render/util/Cursor';
+import { validateNesting } from '../../util/nesting';
 import { getAncestryList } from '@bpmn-io/form-js-viewer';
 
 export const DRAG_CONTAINER_CLS = 'fjs-drag-container';
@@ -73,6 +74,12 @@ export class Dragging {
     const formFieldNode = element.querySelector('.fjs-element');
     const targetRow = this._formLayouter.getRow(target.dataset.rowId);
 
+    const nestingError = this._validateNesting(element, target);
+
+    if (nestingError) {
+      return nestingError;
+    }
+
     let columns;
     let formField;
     let targetParentId;
@@ -133,6 +140,28 @@ export class Dragging {
         }
       }
     }
+  }
+
+  /**
+   * @param { HTMLElement } element
+   * @param { HTMLElement } target
+   * @returns { string | undefined }
+   */
+  _validateNesting(element, target) {
+    const parentNode = isRow(target) ? getFormParent(target) : target;
+    const targetParent = parentNode && this._formFieldRegistry.get(getDataId(parentNode));
+
+    if (!targetParent) {
+      return;
+    }
+
+    const formFieldNode = element.querySelector('.fjs-element');
+    const draggedField = formFieldNode && this._formFieldRegistry.get(getDataId(formFieldNode));
+
+    // a field dragged in from the palette is not in the registry yet
+    const draggedType = draggedField ? draggedField.type : element.dataset.fieldType;
+
+    return validateNesting(draggedType, targetParent.type);
   }
 
   moveField(element, source, targetRow, targetFormField, targetIndex) {
@@ -396,6 +425,14 @@ function isPalette(node) {
 
 function getFormParent(node) {
   return node.closest('.fjs-element');
+}
+
+/**
+ * @param { Element } node
+ * @returns { string }
+ */
+function getDataId(node) {
+  return /** @type { HTMLElement } */ (node).dataset.id;
 }
 
 function setDropNotAllowed(node) {

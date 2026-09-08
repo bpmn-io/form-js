@@ -5,7 +5,7 @@ export function GroupAppearanceEntry(props) {
 
   const { type } = field;
 
-  if (!['group', 'dynamiclist'].includes(type)) {
+  if (!['group', 'dynamiclist', 'page'].includes(type)) {
     return [];
   }
 
