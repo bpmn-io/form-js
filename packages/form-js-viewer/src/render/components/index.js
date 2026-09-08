@@ -12,6 +12,8 @@ import { Select } from './form-fields/Select';
 import { Separator } from './form-fields/Separator';
 import { Spacer } from './form-fields/Spacer';
 import { DynamicList } from './form-fields/DynamicList';
+import { MultiPage } from './form-fields/MultiPage';
+import { Page } from './form-fields/Page';
 import { Taglist } from './form-fields/Taglist';
 import { Text } from './form-fields/Text';
 import { Html } from './form-fields/Html';
@@ -27,11 +29,13 @@ import { Description } from './Description';
 import { Errors } from './Errors';
 import { FormComponent } from './FormComponent';
 import { FormField } from './FormField';
+import { ChildrenRenderer } from './form-fields/parts/ChildrenRenderer';
 
 export { Label, Description, Errors };
 
 export {
   Button,
+  ChildrenRenderer,
   Checkbox,
   Checklist,
   Default,
@@ -41,6 +45,8 @@ export {
   Group,
   IFrame,
   DynamicList,
+  MultiPage,
+  Page,
   Image,
   Numberfield,
   ExpressionField,
@@ -86,6 +92,8 @@ export const formFields = [
   /* Containers */
   Group,
   DynamicList,
+  MultiPage,
+  Page,
   IFrame,
 
   /* Other */
