@@ -15,6 +15,7 @@ import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
 import schemaRows from './form-rows.json';
 import schemaGroup from './form-group.json';
+import schemaMultipage from './form-multipage.json';
 
 insertStyles();
 
@@ -1263,6 +1264,113 @@ describe('FormEditor', function () {
 
       // then
       expect(getRowOrder(container)).to.eql(['Row_2', 'Row_1', 'Row_3', 'Row_4', 'Row_5']);
+    });
+
+    describe('row nesting', function () {
+      let dragging, formFieldRegistry, formLayouter, moveFormFieldSpy;
+
+      const bootstrapRowDragging = async (schema) => {
+        await bootstrapFormEditor({ schema, container });
+
+        dragging = formEditor.get('dragging');
+        formFieldRegistry = formEditor.get('formFieldRegistry');
+        formLayouter = formEditor.get('formLayouter');
+        moveFormFieldSpy = spy(formEditor.get('modeling'), 'moveFormField');
+      };
+
+      function getRowElement(fieldId) {
+        const row = formLayouter.getRowForField(formFieldRegistry.get(fieldId));
+
+        return container.querySelector(`[data-row-id="${row.id}"]`).parentNode;
+      }
+
+      function getDropContainer(fieldId) {
+        return container.querySelector(`.fjs-drop-container-vertical[data-id="${fieldId}"]`);
+      }
+
+      function getComponentIds(fieldId) {
+        return formFieldRegistry.get(fieldId).components.map(({ id }) => id);
+      }
+
+      it('should NOT drop row into multi page container', async function () {
+        // given
+        await bootstrapRowDragging(schemaMultipage);
+
+        const el = getRowElement('Textfield_accountType');
+        const target = getDropContainer('Multipage_1');
+        const source = getDropContainer('Page_1');
+
+        // when
+        dragging.handleRowDrop(el, target, source, null);
+
+        // then
+        expect(moveFormFieldSpy).to.not.have.been.called;
+        expect(getComponentIds('Multipage_1')).to.eql(['Page_1', 'Page_2']);
+        expect(getComponentIds('Page_1')).to.eql(['Textfield_accountType']);
+      });
+
+      it('should NOT drop row holding page out of multi page container', async function () {
+        // given
+        await bootstrapRowDragging(schemaMultipage);
+
+        const el = getRowElement('Page_1');
+        const target = container.querySelector('.fjs-editor-form-root');
+        const source = getDropContainer('Multipage_1');
+
+        // when
+        dragging.handleRowDrop(el, target, source, null);
+
+        // then
+        expect(moveFormFieldSpy).to.not.have.been.called;
+        expect(getComponentIds('MultiPageForm')).to.eql(['Multipage_1']);
+        expect(getComponentIds('Multipage_1')).to.eql(['Page_1', 'Page_2']);
+      });
+
+      it('should report why a row may not be dropped', async function () {
+        // given
+        await bootstrapRowDragging(schemaMultipage);
+
+        const el = getRowElement('Textfield_accountType');
+
+        // when
+        const error = dragging._validateRowNesting(el, getDropContainer('Multipage_1'));
+
+        // then
+        expect(error).to.eql('Multi page containers can only hold pages');
+      });
+
+      it('should move row holding page within multi page container', async function () {
+        // given
+        await bootstrapRowDragging(schemaMultipage);
+
+        const el = getRowElement('Page_2');
+        const target = getDropContainer('Multipage_1');
+        const sibling = getRowElement('Page_1');
+
+        // when
+        dragging.handleRowDrop(el, target, target, sibling);
+
+        // then
+        expect(moveFormFieldSpy).to.have.been.calledOnce;
+        expect(getComponentIds('Multipage_1')).to.eql(['Page_2', 'Page_1']);
+      });
+
+      it('should move row into group', async function () {
+        // given
+        await bootstrapRowDragging(schemaGroup);
+
+        const el = getRowElement('Textfield_1');
+        const target = getDropContainer('Group_1');
+        const source = container.querySelector('.fjs-editor-form-root');
+
+        // when
+        dragging.handleRowDrop(el, target, source, null);
+
+        // then
+        expect(moveFormFieldSpy).to.have.been.calledOnce;
+        expect(getComponentIds('Group_1')).to.eql(['Textfield_2', 'Textfield_1']);
+        expect(getComponentIds('Form_1')).to.eql(['Group_1']);
+      });
     });
 
     describe('emit', function () {
