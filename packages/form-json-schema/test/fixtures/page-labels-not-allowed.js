@@ -7,6 +7,7 @@ export const form = {
       label: 'A group',
       nextLabel: 'Continue',
       backLabel: 'Back',
+      submitLabel: 'Finish',
       components: [],
     },
   ],
@@ -23,6 +24,13 @@ export const errors = [
   {
     instancePath: '/components/0/backLabel',
     schemaPath: '#/properties/components/items/allOf/1/allOf/26/then/properties/backLabel/false schema',
+    keyword: 'false schema',
+    params: {},
+    message: 'boolean schema is false',
+  },
+  {
+    instancePath: '/components/0/submitLabel',
+    schemaPath: '#/properties/components/items/allOf/1/allOf/26/then/properties/submitLabel/false schema',
     keyword: 'false schema',
     params: {},
     message: 'boolean schema is false',

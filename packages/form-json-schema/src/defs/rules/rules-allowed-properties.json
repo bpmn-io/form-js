@@ -520,7 +520,8 @@
       "then": {
         "properties": {
           "nextLabel": false,
-          "backLabel": false
+          "backLabel": false,
+          "submitLabel": false
         }
       }
     },
@@ -536,6 +537,24 @@
       "then": {
         "properties": {
           "path": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "multipage"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "showSubmit": false,
+          "requireValidPage": false
         }
       }
     }

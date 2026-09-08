@@ -194,6 +194,8 @@ describe('validation', function () {
     testForm('page-labels-not-allowed');
 
     testForm('multipage-path-not-allowed');
+
+    testForm('multipage-properties-not-allowed');
   });
 
   describe('rules - default', function () {
