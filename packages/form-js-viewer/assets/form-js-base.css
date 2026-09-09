@@ -369,6 +369,10 @@
   outline: solid var(--color-borders-group) 2px;
 }
 
+.fjs-container .fjs-form-field-page:focus-visible {
+  outline: var(--outline-definition);
+}
+
 .fjs-container .fjs-form-field-grouplike label {
   font-size: var(--font-size-label);
 }
@@ -1319,6 +1323,29 @@
 
 .fjs-container .fjs-repeat-render-footer button svg {
   margin-right: 4px;
+}
+
+.fjs-container .fjs-multipage-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.fjs-container .fjs-multipage-navigation .fjs-multipage-back {
+  margin-right: auto;
+  color: var(--color-text);
+  background-color: transparent;
+  border-color: var(--color-borders);
+}
+
+.fjs-container .fjs-multipage-navigation .fjs-button[aria-disabled='true'] {
+  color: var(--cds-text-on-color-disabled, var(--color-text-light));
+  background-color: var(--color-background-disabled);
+  border-color: var(--color-borders-disabled);
+  cursor: var(--cursor-disabled, not-allowed);
 }
 
 /**

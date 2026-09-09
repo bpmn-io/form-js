@@ -70,6 +70,8 @@ describe('validation', function () {
 
   testForm('dynamiclists');
 
+  testForm('multipages');
+
   testForm('verticalAlignment');
 
   testForm('verticalAlignment-invalid');
@@ -188,6 +190,22 @@ describe('validation', function () {
     testForm('documentPreview');
 
     testForm('maxHeight-not-allowed');
+
+    testForm('page-labels-not-allowed');
+
+    testForm('multipage-path-not-allowed');
+
+    testForm('multipage-properties-not-allowed');
+
+    testForm('multipage-appearance-not-allowed');
+  });
+
+  describe('rules - nesting', function () {
+    testForm('multipage-children-not-allowed');
+
+    testForm('page-outside-multipage-not-allowed');
+
+    testForm('page-at-root-not-allowed');
   });
 
   describe('rules - default', function () {

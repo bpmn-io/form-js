@@ -6,6 +6,86 @@ A form is defined as JSON.
 
 Find a complete component reference in the [Camunda Platform documentation](https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library/).
 
+## Multi page forms
+
+A `multipage` component holds `page` components and shows one of them at a time,
+with next and back controls underneath. A page is valid only as a direct child of
+a multipage, and a multipage holds nothing but pages. Pages are containers: their
+children write into the enclosing scope, so a key on page two reads the same as a
+key on page one.
+
+Branching uses `conditional.hide` on a page, the same property every other
+component has. A hidden page is skipped by the controls and contributes nothing
+to the submitted data. A page the user has moved away from stays mounted, so its
+values survive navigation in either direction.
+
+`nextLabel` and `backLabel` belong to a page, not to the container. The controls
+read the labels of the page currently on screen and fall back to `Next` and
+`Back`.
+
+Set `showSubmit` on the container to finish the form from the navigation row.
+The submit control replaces the next control on the last page in view, so under
+branching it follows whichever page turns out to be last. Its label comes from
+the `submitLabel` of that page and falls back to `Submit`. When a field on a page
+that is not on screen fails validation, the container brings that page forward,
+since the error is otherwise hidden.
+
+Navigating forward validates the page being left and refuses while it has
+errors. Navigating back does not validate anything.
+
+By default that refusal only shows up on the click. Set
+`disableInvalidNavigation` on the container to show it in advance: the next and
+submit controls of an invalid page carry `aria-disabled`. They stay focusable,
+and clicking one reports the errors of the page rather than moving on.
+
+A page inside a nested multipage is governed by that inner container, so an error
+there never blocks the outer page. Submission still validates everything.
+
+```json
+{
+  "type": "multipage",
+  "id": "Multipage_1",
+  "showSubmit": true,
+  "disableInvalidNavigation": true,
+  "components": [
+    {
+      "type": "page",
+      "id": "Page_1",
+      "label": "Account type",
+      "nextLabel": "Continue",
+      "components": [
+        {
+          "key": "accountType",
+          "label": "Account type",
+          "type": "textfield"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "id": "Page_2",
+      "label": "Company details",
+      "backLabel": "Change account type",
+      "submitLabel": "Create account",
+      "conditional": {
+        "hide": "=accountType != \"business\""
+      },
+      "components": [
+        {
+          "key": "company",
+          "label": "Company",
+          "type": "textfield"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Each page change fires `multipage.pageChanged` on the event bus with the
+container, the page left, the page arrived at, and the repetition indexes the
+container renders under.
+
 ## Example
 
 ```json
