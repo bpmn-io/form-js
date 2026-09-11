@@ -23,9 +23,8 @@ const spy = sinon.spy;
 const singleStartBasic = isSingleStart('basic');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
-const singleStartNoTheme = isSingleStart('no-theme');
 
-const singleStart = singleStartBasic || singleStartRows || singleStartTheme || singleStartNoTheme;
+const singleStart = singleStartBasic || singleStartRows || singleStartTheme;
 
 describe('FormEditor', function () {
   let container, formEditor;
@@ -95,24 +94,6 @@ describe('FormEditor', function () {
       container,
       schema,
     });
-
-    // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
-  });
-
-  (singleStartNoTheme ? it.only : it)('should render with no theme', async function () {
-    // given
-    document.documentElement.setAttribute('data-carbon-theme', 'g10');
-    container.style.backgroundColor = 'white';
-    insertTheme();
-
-    await bootstrapFormEditor({
-      container,
-      schema,
-    });
-
-    // when
-    container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
@@ -732,6 +713,30 @@ describe('FormEditor', function () {
       await waitFor(() => {
         const paletteContainer = paletteParent.querySelector('.fjs-palette-container');
         expect(paletteContainer).to.exist;
+      });
+
+      // cleanup
+      document.body.removeChild(paletteParent);
+    });
+
+    it('should theme palette rendered on given container', async function () {
+      // given
+      const paletteParent = document.createElement('div');
+      document.body.appendChild(paletteParent);
+
+      // when
+      await bootstrapFormEditor({
+        container,
+        schema,
+        palette: {
+          parent: paletteParent,
+        },
+      });
+
+      // then
+      await waitFor(() => {
+        const paletteContainer = paletteParent.querySelector('.fjs-palette-container');
+        expect(paletteContainer.classList.contains('bio-theme-parent')).to.be.true;
       });
 
       // cleanup
