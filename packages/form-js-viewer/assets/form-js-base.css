@@ -602,6 +602,9 @@
 
 .fjs-container .fjs-select-cross,
 .fjs-container .fjs-select-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px 10px;
 }
 
@@ -622,6 +625,9 @@
 .fjs-container .fjs-number-arrow-container button {
   border: none;
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-text);
   background-color: var(--color-background);
   font-weight: bold;
@@ -942,15 +948,15 @@
   overflow: clip;
   width: 24px;
   height: 24px;
-  text-align: center;
-  line-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--cds-background-inverse, var(--color-grey-225-10-80));
   border: none;
-  padding: 1px 0;
+  padding: 0;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove > svg {
-  margin-bottom: 4px;
   opacity: 0.6;
   color: var(--color-icon-inverted);
 }
