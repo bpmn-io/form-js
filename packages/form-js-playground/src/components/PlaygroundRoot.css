@@ -1,16 +1,16 @@
 .fjs-pgl-root {
-  --color-button-hover: var(--color-grey-225-10-95);
+  --color-button-hover: var(--bio-surface-medium);
 
-  --color-section-border: var(--color-grey-225-10-55);
-  --color-section-header-background: var(--color-grey-225-10-95);
-  --color-section-header-border-bottom: var(--color-grey-225-10-75);
+  --color-section-border: var(--bio-border);
+  --color-section-header-background: var(--bio-surface-medium);
+  --color-section-header-border-bottom: var(--bio-border);
 
-  --color-palette-container-background: var(--color-grey-225-10-97);
-  --color-palette-container-border: var(--color-grey-225-10-80);
+  --color-palette-container-background: var(--bio-surface-subtle);
+  --color-palette-container-border: var(--bio-border);
 
-  --color-properties-container-background: var(--color-white);
+  --color-properties-container-background: var(--bio-surface);
 
-  --color-text: var(--color-grey-225-10-15);
+  --color-text: var(--bio-text);
 
   --font-family: 'IBM Plex Sans', sans-serif;
   --font-family-monospace: 'IBM Plex Mono', monospace;
@@ -139,7 +139,7 @@
 
   padding: 20px;
 
-  background: var(--color-white);
+  background: var(--bio-surface);
 }
 
 .fjs-pgl-modal-content textarea {
@@ -199,7 +199,7 @@
 
 .fjs-pgl-button {
   color: var(--color-text);
-  background-color: var(--color-white);
+  background-color: var(--bio-surface);
 
   border-width: 1px;
   border-style: solid;

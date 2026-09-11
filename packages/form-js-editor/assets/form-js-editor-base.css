@@ -1,144 +1,81 @@
+/**
+ * Semantic tokens, copied from `@bpmn-io/theme` to style the components
+ * according to this theme.
+ *
+ * Names and values of the tokens should stay intact with the `@bpmn-io/theme`
+ * source of truth, to ensure matching styles and allow overrides with an
+ * alternative theme.
+ */
+.bio-theme-parent {
+  --bio-surface: hsl(0, 0%, 100%);
+  --bio-surface-subtle: hsl(225, 10%, 97%);
+  --bio-surface-medium: hsl(225, 10%, 95%);
+  --bio-surface-strong: hsl(225, 10%, 90%);
+  --bio-text: hsl(225, 10%, 15%);
+  --bio-text-subtle: hsl(225, 10%, 35%);
+  --bio-text-subtlest: hsl(225, 10%, 55%);
+  --bio-border: hsl(225, 10%, 75%);
+  --bio-border-input: hsl(225, 10%, 75%);
+  --bio-border-subtle: hsl(225, 10%, 85%);
+  --bio-border-disabled: hsl(225, 10%, 90%);
+  --bio-primary: hsl(205, 100%, 40%);
+  --bio-primary-surface: hsl(205, 100%, 95%);
+  --bio-danger: hsl(360, 100%, 45%);
+  --bio-danger-surface: hsl(360, 100%, 92%);
+  --bio-focus: hsl(205, 100%, 40%);
+  --bio-shadow: hsla(0, 0%, 0%, 30%);
+}
+
 .fjs-editor-container {
-  --color-children-selected-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
+  --color-children-selected-border: var(--bio-primary);
   --color-children-selected-background: transparent;
-  --color-children-hover-border: var(--cds-border-interactive, var(--color-blue-219-100-53-05));
+  --color-children-hover-border: color-mix(in srgb, var(--bio-primary) 50%, transparent);
 
   --color-context-pad-item-background: transparent;
-  --color-context-pad-item-fill: var(--cds-icon-secondary, var(--color-grey-225-10-15));
-  --color-context-pad-item-hover-fill: var(--color-red-360-100-45);
+  --color-context-pad-item-fill: var(--bio-text);
+  --color-context-pad-item-hover-fill: var(--bio-danger);
 
-  --color-resize-handle-background: var(--cds-border-interactive, var(--color-blue-219-100-53));
-  --color-resize-handle-border: var(--cds-border-interactive, var(--color-blue-219-100-53));
+  --color-resize-handle-background: var(--bio-primary);
+  --color-resize-handle-border: var(--bio-primary);
 
-  --color-dragula-background: var(--cds-highlight, var(--color-blue-205-100-95));
-  --color-dragula-border: var(--cds-border-interactive, var(--color-blue-205-100-45));
-  --color-dragula-mirror-background: var(--cds-background, var(--color-white));
-  --color-dragula-mirror-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-90)));
-  --color-dragula-error-background: var(--color-red-360-100-92);
-  --color-dragula-error-border: var(--cds-text-error, var(--color-red-360-100-45));
+  --color-dragula-background: var(--bio-primary-surface);
+  --color-dragula-border: var(--bio-primary);
+  --color-dragula-mirror-background: var(--bio-surface);
+  --color-dragula-mirror-border: var(--bio-border-disabled);
+  --color-dragula-error-background: var(--bio-danger-surface);
+  --color-dragula-error-border: var(--bio-danger);
 }
 
 .fjs-palette-container {
-  --color-palette-text: var(--cds-text-primary, var(--color-grey-225-10-15));
-  --color-palette-container-background: var(--cds-background, var(--color-grey-225-10-95));
-  --color-palette-container-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-80)));
-  --color-palette-header: var(--cds-text-primary, var(--color-text));
-  --color-palette-header-background: var(--cds-background, var(--color-grey-225-10-95));
-  --color-palette-header-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-85)));
+  --color-palette-text: var(--bio-text);
+  --color-palette-container-background: var(--bio-surface-medium);
+  --color-palette-container-border: var(--bio-border);
+  --color-palette-header: var(--color-text);
+  --color-palette-header-background: var(--bio-surface-medium);
+  --color-palette-header-border: var(--bio-border-subtle);
   --color-palette-search: var(--color-palette-text);
-  --color-palette-search-icon: var(--cds-icon-secondary, var(--color-grey-225-10-35));
-  --color-palette-search-icon-hover: var(--cds-icon-primary, var(--color-grey-225-10-15));
-  --color-palette-search-background: var(--cds-field, var(--cds-field-01, var(--color-white)));
-  --color-palette-search-border: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
-  --color-palette-search-focus-background: var(--cds-field, var(--cds-field-01, var(--color-blue-205-100-95)));
-  --color-palette-search-focus-border: var(--cds-focus, var(--color-blue-205-100-50));
-  --color-palette-search-clear-focus-border: var(--cds-focus, var(--color-grey-225-10-50));
+  --color-palette-search-icon: var(--bio-text-subtle);
+  --color-palette-search-icon-hover: var(--bio-text);
+  --color-palette-search-background: var(--bio-surface);
+  --color-palette-search-border: var(--bio-border);
+  --color-palette-search-focus-background: var(--bio-primary-surface);
+  --color-palette-search-focus-border: var(--bio-focus);
+  --color-palette-search-clear-focus-border: var(--bio-border-input);
   --color-palette-group-title: var(--color-palette-text);
   --color-palette-field: var(--color-palette-text);
-  --color-palette-field-background: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
-  --color-palette-field-border: var(--cds-border-subtle, var(--cds-border-subtle-01, var(--color-grey-225-10-93)));
-  --color-palette-field-focus: var(--cds-border-interactive, var(--color-blue-205-100-45));
-  --color-palette-field-hover-background: var(--cds-background-hover, var(--color-grey-225-10-90));
-  --color-palette-field-hover-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-55))
-  );
+  --color-palette-field-background: var(--bio-surface);
+  --color-palette-field-border: var(--bio-border-disabled);
+  --color-palette-field-focus: var(--bio-primary);
+  --color-palette-field-hover-background: var(--bio-surface-strong);
+  --color-palette-field-hover-border: var(--bio-border-input);
   --cursor-palette-field: grab;
   --palette-width: 270px;
 }
 
 .fjs-properties-container {
-  --color-properties-container-background: var(--cds-background, var(--color-white));
-  --color-properties-container-border: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-80))
-  );
+  --color-properties-container-background: var(--bio-surface);
+  --color-properties-container-border: var(--bio-border);
   --properties-panel-width: 300px;
-}
-
-/**
- * Theming overrides
- */
-.fjs-properties-container .bio-properties-panel {
-  --text-base-color: var(--cds-text-primary, var(--color-grey-225-10-15));
-  --text-error-color: var(--cds-text-color, var(--color-red-360-100-45));
-  --link-color: var(--cds-text-primary, var(--color-blue-205-100-50));
-
-  --description-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-  --description-code-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-97)));
-  --description-code-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-85)));
-  --description-list-item-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-
-  --placeholder-color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
-  --placeholder-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
-
-  --header-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
-  --header-icon-fill-color: var(--cds-icon-primary, var(--color-grey-225-10-15));
-  --header-bottom-border-color: var(--color-grey-225-10-75);
-
-  --group-background-color: var(--cds-background, var(--color-white));
-  --group-bottom-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
-
-  --sticky-group-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
-  --sticky-group-bottom-border-color: var(
-    --cds-border-strong,
-    var(--cds-border-strong-01, var(--color-grey-225-10-75))
-  );
-
-  --add-entry-fill-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
-  --add-entry-hover-fill-color: var(--cds-icon-inverse, var(--color-white));
-  --add-entry-hover-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
-  --add-entry-label-color: var(--cds-text-inverse, var(--color-white));
-
-  --remove-entry-fill-color: var(--color-red-360-100-45);
-  --remove-entry-hover-background-color: var(--color-red-360-100-92);
-
-  --arrow-fill-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
-  --arrow-hover-background-color: var(--cds-layer, var(--cds-layer-01, var(--color-grey-225-10-95)));
-
-  --dot-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-
-  --list-badge-color: var(--cds-text-inverse, var(--color-white));
-  --list-badge-background-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
-
-  --input-background-color: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-97)));
-  --input-border-color: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-75)));
-
-  --input-focus-background-color: var(--cds-field, var(--cds-field-01, var(--color-blue-205-100-95)));
-  --input-focus-border-color: var(--cds-focus, var(--color-blue-205-100-50));
-
-  --input-error-background-color: var(--cds-field, var(--cds-field-01, var(--color-red-360-100-97)));
-  --input-error-border-color: var(--cds-text-error, var(--color-red-360-100-45));
-  --input-error-focus-border-color: var(--cds-text-error, var(--color-red-360-100-45));
-
-  --input-disabled-color: var(--cds-text-disabled, var(--color-grey-225-10-55));
-  --input-disabled-background-color: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-97)));
-  --input-disabled-border-color: var(--cds-border-disabled, var(--color-grey-225-10-90));
-
-  --toggle-switch-on-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
-  --toggle-switch-off-background-color: var(--cds-toggle-off, var(--color-grey-225-10-75));
-  --toggle-switch-switcher-background-color: var(--cds-background, var(--color-white));
-
-  --side-line-background-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-  --side-line-extension-background-color: var(--cds-text-secondary, var(--color-grey-225-10-35));
-
-  --list-entry-dot-background-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
-  --list-entry-header-button-fill-color: var(--cds-background-inverse, var(--color-grey-225-10-35));
-  --list-entry-add-entry-empty-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
-  --list-entry-add-entry-empty-hover-background-color: var(--cds-interactive, var(--color-blue-205-100-45));
-  --list-entry-add-entry-label-color: var(--cds-text-inverse, var(--color-white));
-  --list-entry-add-entry-background-color: var(--cds-interactive, var(--color-blue-205-100-50));
-  --list-entry-add-entry-fill-color: var(--cds-icon-inverse, var(--color-white));
-
-  --feel-background-color: transparent;
-  --feel-active-color: var(--cds-interactive, var(--color-blue-205-100-45));
-  --feel-inactive-color: var(--cds-icon-secondary, var(--color-grey-225-10-35));
-  --feel-hover-color: var(--cds-icon-primary, var(--color-grey-225-10-15));
-  --feel-hover-background-color: var(--cds-layer-02, var(--color-grey-225-10-97));
-  --feel-active-background-color: transparent;
-  --feel-required-color: var(--cds-icon-disabled, var(--color-grey-225-10-55));
-
-  --feel-indicator-background-color: var(--cds-background-hover, var(--color-grey-225-10-90));
 }
 
 .fjs-properties-container .bio-properties-panel-input {
@@ -280,7 +217,7 @@
 }
 
 .fjs-editor-container .fjs-empty-component .fjs-empty-component-text {
-  color: var(--cds-text-disabled, var(--color-grey-225-10-55));
+  color: var(--bio-text-subtlest);
 }
 
 @container (width < 100px) {
@@ -365,7 +302,7 @@
   max-height: calc(100% - 2px);
   border: 1px solid var(--color-resize-handle-border);
   border-radius: 50px;
-  background: var(--color-white);
+  background: var(--bio-surface);
   z-index: 3;
 }
 
@@ -403,7 +340,7 @@
 
 .fjs-editor-container .fjs-repeat-render-footer {
   font-size: var(--font-size-label);
-  background: var(--cds-field, var(--color-background-disabled));
+  background: var(--color-background-disabled);
   color: var(--color-text-light);
   padding: 3px;
   display: flex;
@@ -674,7 +611,7 @@
 }
 
 .fjs-json-editor .cm-placeholder {
-  color: var(--cds-text-placeholder, var(--color-grey-225-10-35));
+  color: var(--bio-text-subtle);
 }
 
 .fjs-json-editor .cm-placeholder > :first-child {
@@ -743,7 +680,7 @@
 
 .fjs-editor-container .fjs-form-field-spacer {
   min-height: 30px;
-  background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f5f5f5 10px, #f5f5f5 20px);
+  background: repeating-linear-gradient(45deg, var(--bio-surface), var(--bio-surface) 10px, var(--bio-surface-subtle) 10px, var(--bio-surface-subtle) 20px);
 }
 
 .fjs-editor-container .fjs-form-field-html,
@@ -800,7 +737,7 @@
   background-color: var(--color-dragula-mirror-background) !important;
   border: solid 1px var(--color-dragula-mirror-border) !important;
   border-radius: 5px !important;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0px 0px 20px var(--bio-shadow) !important;
   display: flex !important;
   filter: none !important;
   flex-direction: row !important;
@@ -820,7 +757,7 @@
   font-size: 11px;
   user-select: none;
   color: var(--color-text);
-  background: var(--color-white);
+  background: var(--bio-surface);
 }
 
 .fjs-field-preview .fjs-field-preview-icon {

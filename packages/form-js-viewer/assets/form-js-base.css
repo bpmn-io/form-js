@@ -1,81 +1,76 @@
 /**
  * Theming
  */
+/**
+ * Semantic tokens, copied from `@bpmn-io/theme` to style the components
+ * according to this theme.
+ *
+ * Names and values of the tokens should stay intact with the `@bpmn-io/theme`
+ * source of truth, to ensure matching styles and allow overrides with an
+ * alternative theme.
+ */
+.bio-theme-parent {
+  --bio-surface: hsl(0, 0%, 100%);
+  --bio-surface-medium: hsl(225, 10%, 95%);
+  --bio-surface-strong: hsl(225, 10%, 90%);
+  --bio-text: hsl(225, 10%, 15%);
+  --bio-text-subtle: hsl(225, 10%, 35%);
+  --bio-text-subtlest: hsl(225, 10%, 55%);
+  --bio-text-on-primary: hsl(0, 0%, 100%);
+  --bio-border: hsl(225, 10%, 75%);
+  --bio-border-input: hsl(225, 10%, 75%);
+  --bio-border-subtle: hsl(225, 10%, 85%);
+  --bio-border-disabled: hsl(225, 10%, 90%);
+  --bio-primary: hsl(205, 100%, 40%);
+  --bio-focus: hsl(205, 100%, 40%);
+  --bio-focus-ring: hsla(205, 100%, 40%, 0.35);
+  --bio-focus-ring-danger: hsla(360, 100%, 45%, 0.35);
+  --bio-neutral-subtle: hsl(225, 10%, 80%);
+  --bio-neutral-subtle-hover: hsl(225, 10%, 75%);
+  --bio-danger: hsl(360, 100%, 45%);
+  --bio-danger-surface: hsl(360, 100%, 92%);
+  --bio-danger-surface-subtle: hsl(360, 100%, 97%);
+  --bio-shadow: hsla(0, 0%, 0%, 30%);
+}
+
 .fjs-container {
-  --color-grey-225-10-15: hsl(225, 10%, 15%);
-  --color-grey-225-10-35: hsl(225, 10%, 35%);
-  --color-grey-225-10-45: hsl(225, 10%, 45%);
-  --color-grey-225-10-55: hsl(225, 10%, 55%);
-  --color-grey-225-10-75: hsl(225, 10%, 75%);
-  --color-grey-225-10-80: hsl(225, 10%, 80%);
-  --color-grey-225-10-85: hsl(225, 10%, 85%);
-  --color-grey-225-10-90: hsl(225, 10%, 90%);
-  --color-grey-225-10-93: hsl(225, 10%, 93%);
-  --color-grey-225-10-95: hsl(225, 10%, 95%);
-  --color-grey-225-10-97: hsl(225, 10%, 97%);
-  --color-grey-0-0-88: hsl(0, 0%, 88%);
 
-  --color-blue-219-100-53: hsl(219, 99%, 53%);
-  --color-blue-219-100-53-05: hsla(219, 99%, 53%, 0.5);
-  --color-blue-205-100-40: hsl(205, 100%, 40%);
-  --color-blue-205-100-45: hsl(205, 100%, 45%);
-  --color-blue-205-100-50: hsl(205, 100%, 50%);
-  --color-blue-205-100-80: hsl(205, 100%, 80%);
-  --color-blue-205-100-95: hsl(205, 100%, 95%);
+  --color-background: var(--bio-surface);
+  --color-background-disabled: var(--bio-surface-medium);
+  --color-background-readonly: var(--bio-surface-medium);
+  --color-background-adornment: var(--bio-surface-medium);
+  --color-background-inverted: var(--bio-surface-strong);
+  --color-background-inverted-hover: var(--bio-surface-medium);
+  /* despite the name, form-js applies this on `:hover` and `:focus-visible` */
+  --color-background-active: var(--bio-neutral-subtle-hover);
+  --color-layer: var(--bio-surface);
+  --color-layer-accent: var(--bio-surface-strong);
+  --color-background-pre: var(--bio-surface);
 
-  --color-green-150-86-44: hsl(150, 86%, 44%);
+  --color-icon-base: var(--bio-text);
+  --color-icon-inverted: var(--bio-text);
+  --color-text: var(--bio-text);
+  --color-text-light: var(--bio-text-subtle);
+  --color-text-lighter: var(--bio-text-subtlest);
+  --color-text-inverted: var(--color-text);
+  --color-text-disabled: var(--color-text-lighter);
 
-  --color-red-360-100-40: hsl(360, 100%, 40%);
-  --color-red-360-100-45: hsl(360, 100%, 45%);
-  --color-red-360-100-92: hsl(360, 100%, 92%);
-  --color-red-360-100-95: hsl(360, 100%, 95%);
-  --color-red-360-100-97: hsl(360, 100%, 97%);
-
-  --color-white: hsl(0, 0%, 100%);
-  --color-black: hsl(0, 0%, 0%);
-
-  /**
-   * Specify color variables in the following schema:
-   * 1 - use specified layer
-   * 2 - use layer one
-   * 3 - use fallback 
-   */
-  --color-background: var(--cds-field, var(--cds-field-01, var(--color-white)));
-  --color-background-disabled: var(--cds-background, var(--color-grey-225-10-95));
-  --color-background-readonly: var(--cds-background, var(--color-grey-225-10-95));
-  --color-background-adornment: var(--cds-field, var(--cds-field-01, var(--color-grey-225-10-95)));
-  --color-background-inverted: var(--cds-background-inverse, var(--color-grey-225-10-90));
-  --color-background-inverted-hover: var(--cds-background-inverse-hover, var(--color-grey-225-10-93));
-  --color-background-active: var(--cds-background-active, var(--color-grey-225-10-75));
-  --color-layer: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
-  --color-layer-accent: var(--cds-layer-accent, var(--color-grey-0-0-88));
-  --color-background-pre: var(--cds-layer, var(--cds-layer-01, var(--color-white)));
-
-  --color-icon-base: var(--cds-icon-primary, var(--color-black));
-  --color-icon-inverted: var(--cds-icon-inverse, var(--color-black));
-  --color-text: var(--cds-text-primary, var(--color-grey-225-10-15));
-  --color-text-light: var(--cds-text-secondary, var(--color-grey-225-10-35));
-  --color-text-lighter: var(--cds-text-secondary, var(--color-grey-225-10-45));
-  --color-text-lightest: var(--cds-text-placeholder, var(--color-grey-225-10-55));
-  --color-text-inverted: var(--cds-text-inverse, var(--color-text));
-  --color-text-disabled: var(--cds-text-disabled, var(--color-text-light));
-
-  --color-borders: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-55)));
-  --color-borders-group: var(--cds-border-subtle, var(--color-grey-225-10-85));
+  --color-borders: var(--bio-border-input);
+  --color-borders-group: var(--bio-border-subtle);
   --color-borders-table: var(--color-borders-group);
-  --color-borders-documentPreview: var(--cds-border-subtle, var(--color-grey-225-10-85));
-  --color-borders-disabled: var(--cds-border-disabled, var(--color-grey-225-10-75));
-  --color-borders-adornment: var(--cds-border-subtle, var(--cds-border-subtle-01, var(--color-grey-225-10-85)));
-  --color-borders-readonly: var(--cds-border-subtle, var(--color-grey-225-10-75));
-  --color-borders-inverted: var(--cds-border-inverse, var(--color-grey-225-10-90));
-  --color-borders-pre: var(--cds-border-subtle, var(--color-grey-225-10-85));
+  --color-borders-documentPreview: var(--bio-border-subtle);
+  --color-borders-disabled: var(--bio-border);
+  --color-borders-adornment: var(--bio-border-subtle);
+  --color-borders-readonly: var(--bio-border);
+  --color-borders-inverted: var(--bio-border-disabled);
+  --color-borders-pre: var(--bio-border-subtle);
 
-  --color-warning: var(--cds-text-error, var(--color-red-360-100-45));
-  --color-warning-light: var(--cds-text-error, var(--color-red-360-100-92));
-  --color-accent: var(--cds-link-primary, var(--color-blue-205-100-40));
-  --color-accent-readonly: var(--cds-border-strong, var(--cds-border-strong-01, var(--color-grey-225-10-55)));
-  --color-datepicker-focused-day: var(--cds-button-primary, var(--color-grey-225-10-55));
-  --color-shadow: var(--cds-shadow, var(--color-grey-225-10-85));
+  --color-warning: var(--bio-danger);
+  --color-warning-light: var(--bio-danger-surface);
+  --color-accent: var(--bio-primary);
+  --color-accent-readonly: var(--bio-text-subtlest);
+  --color-datepicker-focused-day: var(--bio-text-subtlest);
+  --color-shadow: var(--bio-shadow);
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -96,7 +91,7 @@
 
   --border-definition: 1px solid var(--color-borders);
   --border-definition-adornment: 1px solid var(--color-borders-adornment);
-  --outline-definition: 1px solid var(--cds-focus, var(--color-borders));
+  --outline-definition: 2px solid var(--bio-focus-ring);
   --button-warning-outline-definition: 2px solid var(--color-warning);
   --border-definition-disabled: 1px solid var(--color-borders-disabled);
   --border-definition-readonly: 1px solid var(--color-borders-readonly);
@@ -104,42 +99,6 @@
   height: 100%;
 }
 
-.fjs-no-theme {
-  --cds-field: initial;
-  --cds-field-01: initial;
-  --cds-background: initial;
-  --cds-background-inverse: initial;
-  --cds-background-inverse-hover: initial;
-  --cds-background-active: initial;
-  --cds-layer: initial;
-  --cds-layer-01: initial;
-  --cds-layer-02: initial;
-  --cds-icon-primary: initial;
-  --cds-icon-secondary: initial;
-  --cds-icon-inverse: initial;
-  --cds-text-primary: initial;
-  --cds-text-secondary: initial;
-  --cds-text-placeholder: initial;
-  --cds-text-inverse: initial;
-  --cds-text-disabled: initial;
-  --cds-border-strong: initial;
-  --cds-border-strong-01: initial;
-  --cds-border-disabled: initial;
-  --cds-border-subtle: initial;
-  --cds-border-subtle-01: initial;
-  --cds-border-inverse: initial;
-  --cds-text-error: initial;
-  --cds-link-primary: initial;
-  --cds-button-primary: initial;
-  --cds-shadow: initial;
-  --cds-focus: initial;
-  --cds-interactive: initial;
-  --cds-border-interactive: initial;
-  --cds-highlight: initial;
-  --cds-field-02: initial;
-  --cds-field-hover-02: initial;
-  --cds-toggle-off: initial;
-}
 
 /**
  * Layout styles
@@ -277,7 +236,7 @@
 .fjs-container .fjs-select [disabled],
 .fjs-container .fjs-select > option:read-only,
 .fjs-container .fjs-select [read-only] {
-  color: var(--color-text-lightest);
+  color: var(--color-text-light);
   font-size: var(--font-size-input);
   line-height: var(--line-height-input);
   letter-spacing: var(--letter-spacing-input);
@@ -295,7 +254,7 @@
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
-  color: var(--color-text-light);
+  color: var(--color-text);
 }
 
 .fjs-container .fjs-incollapsible-label {
@@ -311,7 +270,7 @@
 }
 
 .fjs-container .fjs-form-field-description {
-  color: var(--color-text-lighter);
+  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-form-field-grouplike {
@@ -427,7 +386,7 @@
   border-color: var(--color-borders-adornment);
   background-color: var(--color-background-adornment);
   line-height: var(--line-height-input);
-  color: var(--color-text-lighter);
+  color: var(--color-text-light);
   padding: 8px;
   width: auto !important;
   min-width: min(34px, 20%);
@@ -555,7 +514,7 @@
 .fjs-container .fjs-input-group .fjs-select-display.fjs-select-placeholder,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-select-display,
 .fjs-container .fjs-readonly .fjs-input-group .fjs-select-display {
-  color: var(--color-text-lighter);
+  color: var(--color-text-light);
   line-height: var(--line-height-input);
 }
 
@@ -627,7 +586,7 @@
 
 .fjs-container .fjs-number-arrow-container button:hover {
   background-color: var(--color-background-inverted-hover);
-  color: var(--cds-text-inverse, var(--color-text));
+  color: var(--color-text-inverted);
 }
 
 .fjs-container .fjs-form-field-number.fjs-readonly .fjs-number-arrow-container {
@@ -646,7 +605,7 @@
 
 .fjs-container .fjs-button[type='submit'],
 .fjs-container .fjs-button[type='button'] {
-  color: var(--cds-text-inverse, var(--color-white));
+  color: var(--bio-text-on-primary);
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
@@ -681,6 +640,7 @@
 .fjs-container .fjs-textarea:focus,
 .fjs-container .fjs-select:focus {
   outline: var(--outline-definition);
+  border-color: var(--bio-focus);
 }
 
 .fjs-container .fjs-input-group .fjs-input,
@@ -705,12 +665,12 @@
 .fjs-container .fjs-taglist.fjs-disabled,
 .fjs-container .fjs-disabled .fjs-input-group {
   color: var(--color-text-disabled);
-  background-color: var(--cds-field, var(--color-background-disabled));
+  background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
 
 .fjs-container .fjs-number-arrow-container.fjs-disabled button {
-  background-color: var(--cds-toggle-off, var(--color-background-disabled));
+  background-color: var(--color-background-disabled);
 }
 
 .fjs-container .fjs-readonly .fjs-input:read-only:not(:disabled),
@@ -739,7 +699,7 @@
 .fjs-container .fjs-button[type='submit']:disabled,
 .fjs-container .fjs-button[type='button']:disabled,
 .fjs-container .fjs-button[type='reset']:disabled {
-  color: var(--cds-text-on-color-disabled, var(--color-text-light));
+  color: var(--color-text-disabled);
   background-color: var(--color-background-disabled);
   border-color: var(--color-borders-disabled);
 }
@@ -776,23 +736,23 @@
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group,
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-group .fjs-input {
   border-color: var(--color-warning);
-  outline-color: var(--color-warning);
+  outline-color: var(--bio-focus-ring-danger);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container {
-  border-color: var(--color-red-360-100-92);
+  border-color: var(--bio-danger-surface);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-separator {
-  background-color: var(--color-red-360-100-92);
+  background-color: var(--bio-danger-surface);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button {
-  background-color: var(--color-red-360-100-97);
+  background-color: var(--bio-danger-surface-subtle);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-number-arrow-container button:hover {
-  background-color: var(--color-red-360-100-95);
+  background-color: var(--bio-danger-surface);
 }
 
 .fjs-container .fjs-form-field.fjs-has-errors .fjs-input-adornment {
@@ -946,15 +906,16 @@
   overflow: clip;
   width: 24px;
   height: 24px;
-  text-align: center;
-  line-height: 28px;
-  background-color: var(--cds-background-inverse, var(--color-grey-225-10-80));
+  /* centered through flex, as a reset that blocks the icon defeats inline centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bio-neutral-subtle);
   border: none;
-  padding: 1px 0;
+  padding: 0;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove > svg {
-  margin-bottom: 4px;
   opacity: 0.6;
   color: var(--color-icon-inverted);
 }
@@ -1011,7 +972,7 @@
 
 .fjs-container .fjs-dropdownlist .fjs-dropdownlist-empty {
   padding: 6px 8px;
-  color: var(--color-text-lightest);
+  color: var(--color-text-light);
 }
 
 .fjs-container .fjs-image-container {

@@ -35,6 +35,87 @@
   background-position: right $arrowRightPosition bottom 50%;
 }
 
+// Carbon adapter /////////////
+//
+// Binds the form-js component variables to Carbon tokens. form-js itself does
+// not know Carbon exists; loading this stylesheet is the opt-in. Only the
+// deviations Carbon needs beyond these bindings are written as rules below.
+
+.fjs-container {
+  --color-background: var(--cds-field, var(--cds-field-01));
+  --color-background-disabled: var(--cds-background);
+  --color-background-readonly: var(--cds-background);
+  --color-background-adornment: var(--cds-field, var(--cds-field-01));
+  --color-background-inverted: var(--cds-background-inverse);
+  --color-background-inverted-hover: var(--cds-background-inverse-hover);
+  --color-background-active: var(--cds-background-active);
+  --color-background-pre: var(--cds-layer, var(--cds-layer-01));
+  --color-layer: var(--cds-layer, var(--cds-layer-01));
+  --color-layer-accent: var(--cds-layer-accent);
+
+  --color-icon-base: var(--cds-icon-primary);
+  --color-icon-inverted: var(--cds-icon-inverse);
+
+  --color-text: var(--cds-text-primary);
+  --color-text-light: var(--cds-text-secondary);
+  --color-text-lighter: var(--cds-text-placeholder);
+  --color-text-inverted: var(--cds-text-inverse);
+  --color-text-disabled: var(--cds-text-disabled);
+
+  --color-borders: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-borders-group: var(--cds-border-subtle);
+  --color-borders-documentPreview: var(--cds-border-subtle);
+  --color-borders-disabled: var(--cds-border-disabled);
+  --color-borders-adornment: var(--cds-border-subtle, var(--cds-border-subtle-01));
+  --color-borders-readonly: var(--cds-border-subtle);
+  --color-borders-inverted: var(--cds-border-inverse);
+  --color-borders-pre: var(--cds-border-subtle);
+
+  // form-js calls its error state "warning"
+  --color-warning: var(--cds-text-error);
+  --color-accent: var(--cds-link-primary);
+  --color-accent-readonly: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-datepicker-focused-day: var(--cds-button-primary);
+  --color-shadow: var(--cds-shadow);
+}
+
+.fjs-editor-container {
+  --color-children-selected-border: var(--cds-border-interactive);
+  --color-children-hover-border: var(--cds-border-interactive);
+  --color-context-pad-item-fill: var(--cds-icon-secondary);
+  --color-resize-handle-background: var(--cds-border-interactive);
+  --color-resize-handle-border: var(--cds-border-interactive);
+  --color-dragula-background: var(--cds-highlight);
+  --color-dragula-border: var(--cds-border-interactive);
+  --color-dragula-mirror-background: var(--cds-background);
+  --color-dragula-mirror-border: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-dragula-error-border: var(--cds-text-error);
+}
+
+.fjs-palette-container {
+  --color-palette-text: var(--cds-text-primary);
+  --color-palette-container-background: var(--cds-background);
+  --color-palette-container-border: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-palette-header: var(--cds-text-primary);
+  --color-palette-header-background: var(--cds-background);
+  --color-palette-header-border: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-palette-search-icon: var(--cds-icon-secondary);
+  --color-palette-search-icon-hover: var(--cds-icon-primary);
+  --color-palette-search-background: var(--cds-field, var(--cds-field-01));
+  --color-palette-search-border: var(--cds-border-strong, var(--cds-border-strong-01));
+  --color-palette-search-focus-background: var(--cds-field, var(--cds-field-01));
+  --color-palette-search-focus-border: var(--cds-focus);
+  --color-palette-search-clear-focus-border: var(--cds-focus);
+  --color-palette-field-background: var(--cds-layer, var(--cds-layer-01));
+  --color-palette-field-border: var(--cds-border-subtle, var(--cds-border-subtle-01));
+  --color-palette-field-focus: var(--cds-border-interactive);
+  --color-palette-field-hover-background: var(--cds-background-hover);
+}
+
+.fjs-properties-container {
+  --color-properties-container-background: var(--cds-background);
+}
+
 // Global styles /////////////
 
 .fjs-container {

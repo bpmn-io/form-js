@@ -20,7 +20,7 @@
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "all": "run-s test build",
+    "all": "run-s lint:theme test build",
     "build": "run-p bundle bundle:scss generate-types",
     "start": "SINGLE_START=basic npm run dev",
     "start:groups": "SINGLE_START=groups npm run dev",
@@ -32,7 +32,8 @@
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "tsc --allowJs --skipLibCheck --declaration --emitDeclarationOnly --outDir dist/types src/index.js && copyfiles --flat src/*.d.ts dist/types",
     "test": "karma start",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint:theme": "bpmn-io-theme-validate assets/form-js-base.css"
   },
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
@@ -68,6 +69,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@bpmn-io/form-js-i18n": "^1.26.0"
+    "@bpmn-io/form-js-i18n": "^1.26.0",
+    "@bpmn-io/theme": "^0.1.0"
   }
 }
