@@ -744,14 +744,6 @@
   border-color: var(--color-borders-disabled);
 }
 
-.fjs-container .fjs-button[type='submit']:read-only,
-.fjs-container .fjs-button[type='button']:read-only,
-.fjs-container .fjs-button[type='reset']:read-only {
-  color: var(--text-light);
-  background-color: var(--color-background-readonly);
-  border-color: var(--color-borders-readonly);
-}
-
 .fjs-container .fjs-disabled .fjs-input-group .fjs-input-adornment,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-container,
 .fjs-container .fjs-disabled .fjs-input-group .fjs-number-arrow-separator {
