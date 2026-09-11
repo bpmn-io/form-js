@@ -246,7 +246,7 @@ export function PlaygroundRoot(config) {
   }, []);
 
   return (
-    <div class={classNames('fjs-container', 'fjs-pgl-root')}>
+    <div class={classNames('fjs-container', 'fjs-pgl-root', 'bio-theme-parent')}>
       <div class="fjs-pgl-modals">
         {showEmbed ? <EmbedModal schema={schema} data={data} onClose={hideEmbedModal} /> : null}
       </div>

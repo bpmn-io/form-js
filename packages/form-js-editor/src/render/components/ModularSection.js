@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
+import classNames from 'classnames';
 import { useService } from '../hooks';
 
 export const ModularSection = (props) => {
@@ -74,7 +75,11 @@ export const ModularSection = (props) => {
 
   const Root = useCallback(
     ({ children }) =>
-      RootElement ? <RootElement>{children}</RootElement> : <div className={rootClass}>{children}</div>,
+      RootElement ? (
+        <RootElement>{children}</RootElement>
+      ) : (
+        <div className={classNames(rootClass, 'bio-theme-parent')}>{children}</div>
+      ),
     [rootClass, RootElement],
   );
 
