@@ -946,15 +946,16 @@
   overflow: clip;
   width: 24px;
   height: 24px;
-  text-align: center;
-  line-height: 28px;
+  /* centered through flex, as a reset that blocks the icon defeats inline centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--cds-background-inverse, var(--color-grey-225-10-80));
   border: none;
-  padding: 1px 0;
+  padding: 0;
 }
 
 .fjs-container .fjs-taglist .fjs-taglist-tag .fjs-taglist-tag-remove > svg {
-  margin-bottom: 4px;
   opacity: 0.6;
   color: var(--color-icon-inverted);
 }
