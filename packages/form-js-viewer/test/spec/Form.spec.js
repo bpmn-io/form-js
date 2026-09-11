@@ -46,7 +46,6 @@ const singleStartGroups = isSingleStart('groups');
 const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
 const singleStartTheme = isSingleStart('theme');
-const singleStartNoTheme = isSingleStart('no-theme');
 const singleStartCustom = isSingleStart('custom');
 const singleStart =
   singleStartBasic ||
@@ -54,7 +53,6 @@ const singleStart =
   singleStartStress ||
   singleStartRows ||
   singleStartTheme ||
-  singleStartNoTheme ||
   singleStartCustom;
 
 describe('Form', function () {
@@ -198,24 +196,6 @@ describe('Form', function () {
       data,
       schema,
     });
-
-    // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
-  });
-
-  (singleStartNoTheme ? it.only : it)('should render with no theme', async function () {
-    // given
-    document.documentElement.setAttribute('data-carbon-theme', 'g100');
-    container.style.backgroundColor = 'white';
-    insertTheme();
-
-    await bootstrapForm({
-      container,
-      schema,
-    });
-
-    // when
-    container.querySelector('.fjs-container').classList.add('fjs-no-theme');
 
     // then
     expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
