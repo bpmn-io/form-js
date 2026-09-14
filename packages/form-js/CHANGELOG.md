@@ -6,6 +6,9 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: Prevent styling every button as read-only, which resulted in submit buttons looking like primary instead of gray ([#1559](https://github.com/bpmn-io/form-js/pull/1559))
+
+
 ## 1.25.0
 
 - `FEAT`: render the properties panel as a reactive section ([#1536](https://github.com/bpmn-io/form-js/pull/1536))
