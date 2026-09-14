@@ -2,7 +2,7 @@
 
 ## Visual regression
 
-The reference screenshots (`e2e/visual/**/*-snapshots/*.png`) are **platform specific**, e.g. `theming---viewer-1-chromium-linux.png`. They are generated on Linux inside the [official Playwright container](https://mcr.microsoft.com/en-us/artifact/mar/playwright) used in CI. Always (re)build them inside that same container—snapshots generated directly on your host (macOS / Windows) will not match CI and will fail the checks.
+The reference screenshots (`e2e/visual/**/*-snapshots/*.png`) are **platform specific**, e.g. `carbon-styles---viewer-dark-1-chromium-linux.png`. They are generated on Linux inside the [official Playwright container](https://mcr.microsoft.com/en-us/artifact/mar/playwright) used in CI. Always (re)build them inside that same container—snapshots generated directly on your host (macOS / Windows) will not match CI and will fail the checks.
 
 ### Running the tests locally
 
