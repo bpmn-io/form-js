@@ -544,6 +544,13 @@
     min-height: #{rem(27)};
   }
 
+  // Carbon sizes the control itself, so the base offset for the native one does not apply
+  .fjs-form-field-checkbox .fjs-inline-label > .fjs-form-field-label,
+  .fjs-form-field-checklist .fjs-inline-label > .fjs-form-field-label,
+  .fjs-form-field-radio .fjs-inline-label > .fjs-form-field-label {
+    margin-top: 0;
+  }
+
   .fjs-form-field-description {
     margin: 0;
     margin-top: var(--cds-spacing-02);
