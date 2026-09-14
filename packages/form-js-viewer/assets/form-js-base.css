@@ -290,6 +290,12 @@
   display: flex;
 }
 
+.fjs-container .fjs-form-field-checkbox .fjs-inline-label > .fjs-form-field-label,
+.fjs-container .fjs-form-field-checklist .fjs-inline-label > .fjs-form-field-label,
+.fjs-container .fjs-form-field-radio .fjs-inline-label > .fjs-form-field-label {
+  margin-top: 3px;
+}
+
 .fjs-container .fjs-form-field-label {
   display: flex;
   align-items: center;
