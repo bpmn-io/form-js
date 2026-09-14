@@ -6,6 +6,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: align option labels with their checkbox or radio ([#1561](https://github.com/bpmn-io/form-js/pull/1561))
 * `FIX`: Prevent styling every button as read-only, which resulted in submit buttons looking like primary instead of gray ([#1559](https://github.com/bpmn-io/form-js/pull/1559))
 
 ## 1.26.1
