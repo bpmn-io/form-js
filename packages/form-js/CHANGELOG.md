@@ -6,8 +6,17 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: source color variables from `@bpmn-io/theme` ([#1560](https://github.com/bpmn-io/form-js/pull/1560))
 * `FIX`: align option labels with their checkbox or radio ([#1561](https://github.com/bpmn-io/form-js/pull/1561))
 * `FIX`: Prevent styling every button as read-only, which resulted in submit buttons looking like primary instead of gray ([#1559](https://github.com/bpmn-io/form-js/pull/1559))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.55.0`
+
+### Breaking Changes
+
+- The base stylesheets no longer resolve Carbon colors from `--cds-*`. Loading them in a Carbon application no longer themes the form to match Carbon. Override the bpmn.io semantic tokens(`--bio-`) to use Carbon colors instead — see [how to theme a bpmn.io library](https://github.com/bpmn-io/themes/tree/main/packages/theme).
+- `@bpmn-io/form-js-carbon-styles` is deprecated and receives no further releases. `@bpmn-io/form-js` no longer depends on it and no longer re-exports `./dist/assets/carbon-styles.scss`. Bind the form-js CSS variables to your design system to theme the form accordingly.
+- The bundled flatpickr styles are scoped to `.fjs-container`. Scope your own flatpickr overrides the same way, e.g. `.fjs-container .flatpickr-day`, and load them after `form-js.css`.
+- The `--color-text-lightest` variable is removed, as it duplicated `--color-text-lighter`.
 
 ## 1.26.1
 
