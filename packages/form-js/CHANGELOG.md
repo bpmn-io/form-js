@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+- `FIX`: align option labels with their checkbox or radio ([#1561](https://github.com/bpmn-io/form-js/pull/1561))
+
 ## 1.25.0
 
 - `FEAT`: render the properties panel as a reactive section ([#1536](https://github.com/bpmn-io/form-js/pull/1536))
