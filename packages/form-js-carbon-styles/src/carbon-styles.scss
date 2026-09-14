@@ -566,6 +566,24 @@
     cursor: var(--cursor-disabled, not-allowed);
   }
 
+  // the editor disables preview fields to block interaction; their text is
+  // still the content being edited, so it keeps the readable colours
+  &.fjs-editor-container .fjs-disabled {
+    &.fjs-form-field .fjs-form-field-label,
+    &.fjs-form-field.fjs-form-field-radio .fjs-form-field-label,
+    &.fjs-form-field.fjs-form-field-checklist .fjs-form-field-label {
+      color: var(--cds-text-primary);
+    }
+
+    & .fjs-form-field-description {
+      color: var(--cds-text-secondary);
+    }
+
+    &.fjs-form-field:not(.fjs-form-field-datetime) .fjs-input-group .fjs-input-adornment {
+      color: var(--cds-text-secondary);
+    }
+  }
+
   .fjs-disabled.fjs-form-field-number .fjs-input-group .fjs-input {
     cursor: var(--cursor-disabled, not-allowed);
   }
