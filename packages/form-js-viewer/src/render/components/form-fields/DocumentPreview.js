@@ -127,7 +127,39 @@ function getErrors(options, translate) {
  * @returns boolean
  */
 function isValidDocumentEndpoint(endpoint) {
-  return typeof endpoint === 'string' && URL.canParse(endpoint);
+  if (typeof endpoint !== 'string' || !URL.canParse(endpoint)) {
+    return false;
+  }
+
+  const url = new URL(endpoint);
+
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+    return false;
+  }
+
+  return !isPrivateOrInternalHost(url.hostname);
+}
+
+/**
+ * @param {string} hostname
+ * @returns boolean
+ */
+function isPrivateOrInternalHost(hostname) {
+  const host = hostname.toLowerCase();
+
+  if (host === 'localhost' || host === '169.254.169.254' || host === '::1') {
+    return true;
+  }
+
+  const ipv4Match = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+
+  if (!ipv4Match) {
+    return false;
+  }
+
+  const [a, b] = ipv4Match.slice(1).map(Number);
+
+  return a === 10 || a === 127 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 169 && b === 254);
 }
 
 /**
