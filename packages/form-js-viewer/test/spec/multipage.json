@@ -1,0 +1,56 @@
+{
+  "type": "default",
+  "id": "MultiPageForm",
+  "components": [
+    {
+      "type": "multipage",
+      "id": "Multipage_1",
+      "components": [
+        {
+          "type": "page",
+          "id": "Page_1",
+          "label": "Account type",
+          "nextLabel": "Continue",
+          "components": [
+            {
+              "type": "textfield",
+              "id": "Textfield_accountType",
+              "key": "accountType",
+              "label": "Account type"
+            }
+          ]
+        },
+        {
+          "type": "page",
+          "id": "Page_2",
+          "label": "Company details",
+          "backLabel": "Change account type",
+          "conditional": {
+            "hide": "=accountType != \"business\""
+          },
+          "components": [
+            {
+              "type": "textfield",
+              "id": "Textfield_company",
+              "key": "company",
+              "label": "Company"
+            }
+          ]
+        },
+        {
+          "type": "page",
+          "id": "Page_3",
+          "label": "Summary",
+          "components": [
+            {
+              "type": "textfield",
+              "id": "Textfield_comment",
+              "key": "comment",
+              "label": "Comment"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
