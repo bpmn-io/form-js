@@ -1,9 +1,8 @@
 import { get } from 'min-dash';
 import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 
-import { FormRenderContext, LocalExpressionContext, MultiPageContext } from '../../context';
+import { FormRenderContext, MultiPageContext } from '../../context';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
-import { runUnaryTestEvaluation } from '../../../util/expressions';
 import { formFieldClasses } from '../Util';
 import { FormField } from '../FormField';
 
@@ -17,7 +16,7 @@ export function MultiPage(props) {
   const { components, showSubmit, disableInvalidNavigation } = field;
   const pages = useMemo(() => components || [], [components]);
 
-  const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
+  const visiblePages = useVisiblePages(pages, applyVisibilityConditions, indexes);
 
   const [activePageId, setActivePageId] = useState(null);
 
@@ -244,28 +243,22 @@ function Navigation(props) {
 /**
  * Resolve the pages of a multipage container that are not hidden by condition.
  *
- * Evaluated here rather than read back from the condition checker so that the
- * container knows what "next" means before its pages render.
+ * The verdict comes from the condition checker, so that a page is on screen
+ * exactly when its fields take part in the data.
  */
-function useVisiblePages(pages, applyVisibilityConditions) {
-  const expressionLanguage = useService('expressionLanguage');
-  const expressionContextInfo = useContext(LocalExpressionContext);
+function useVisiblePages(pages, applyVisibilityConditions, indexes) {
+  const conditionChecker = useService('conditionChecker', false);
+  const { data } = useService('form')._getState();
 
   return useMemo(() => {
-    if (!applyVisibilityConditions) {
+    if (!applyVisibilityConditions || !conditionChecker) {
       return pages;
     }
 
-    return pages.filter((page) => {
-      const hideExpression = page.conditional && page.conditional.hide;
+    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data, indexes);
 
-      if (!hideExpression) {
-        return true;
-      }
-
-      return !runUnaryTestEvaluation(expressionLanguage, hideExpression, expressionContextInfo);
-    });
-  }, [pages, applyVisibilityConditions, expressionLanguage, expressionContextInfo]);
+    return pages.filter((page) => !hiddenFieldIds.has(page.id));
+  }, [pages, applyVisibilityConditions, conditionChecker, data, indexes]);
 }
 
 /**

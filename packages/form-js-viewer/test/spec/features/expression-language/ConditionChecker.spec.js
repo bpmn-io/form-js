@@ -14,11 +14,13 @@ describe('ConditionChecker', function () {
     fireSpy = sinon.spy();
     const eventBus = { fire: fireSpy };
     const expressionLanguage = new FeelExpressionLanguage(eventBus);
+    const formFields = new FormFields();
     conditionChecker = new ConditionChecker(
       { getForm: () => form },
-      new PathRegistry({}, new FormFields(), { get: () => {} }),
+      new PathRegistry({}, formFields, { get: () => {} }),
       expressionLanguage,
       eventBus,
+      formFields,
     );
   });
 

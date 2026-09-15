@@ -15,9 +15,10 @@ children write into the enclosing scope, so a key on page two reads the same as 
 key on page one.
 
 Branching uses `conditional.hide` on a page, the same property every other
-component has. A hidden page is skipped by the controls and contributes nothing
-to the submitted data. A page the user has moved away from stays mounted, so its
-values survive navigation in either direction.
+component has. A hidden page is skipped by the controls, and its fields are
+cleared like those of any other hidden component, so it contributes neither
+values nor uploads to the submission. A page the user has moved away from stays
+mounted, so its values survive navigation in either direction.
 
 `nextLabel` and `backLabel` belong to a page, not to the container. The controls
 read the labels of the page currently on screen and fall back to `Next` and

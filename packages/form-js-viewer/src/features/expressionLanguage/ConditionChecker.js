@@ -16,12 +16,14 @@ export class ConditionChecker {
    * @param {Object} pathRegistry
    * @param {ExpressionLanguage} expressionLanguage
    * @param {Object} eventBus
+   * @param {Object} formFields
    */
-  constructor(formFieldRegistry, pathRegistry, expressionLanguage, eventBus) {
+  constructor(formFieldRegistry, pathRegistry, expressionLanguage, eventBus, formFields) {
     this._formFieldRegistry = formFieldRegistry;
     this._pathRegistry = pathRegistry;
     this._expressionLanguage = expressionLanguage;
     this._eventBus = eventBus;
+    this._formFields = formFields;
   }
 
   /**
@@ -38,11 +40,71 @@ export class ConditionChecker {
 
     const { getFilterPath = (field, indexes) => this._pathRegistry.getValuePath(field, { indexes }) } = options;
 
-    const _applyConditionsWithinScope = (rootField, scopeContext, startHidden = false) => {
+    this._walkConditions(contextData, ({ field, indexes, isHidden, isClosed, isRepeatable }) => {
+      // a repeater is cleared at its root, a leaf field at its own path; a
+      // container holds no data of its own and is cleared through its children
+      if (!isHidden || !(isClosed || isRepeatable)) {
+        return;
+      }
+
+      this._eventBus.fire('conditionChecker.remove', {
+        item: { [field.key]: get(workingData, getFilterPath(field, indexes)) },
+      });
+
+      this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
+    });
+
+    return workingData;
+  }
+
+  /**
+   * Report the ids of the fields hidden by condition within a given repetition.
+   *
+   * Pass the unfiltered data. A field that hides itself through a field it
+   * contains would otherwise reappear once its own value is cleared.
+   *
+   * @param {Object<string, any>} contextData
+   * @param {Object<string, number>} [indexes] - repetition indexes to report for, keyed by repeater id
+   * @returns {Set<string>}
+   */
+  getHiddenFieldIds(contextData = {}, indexes = {}) {
+    const hiddenFieldIds = new Set();
+
+    this._walkConditions(contextData, ({ field, indexes: fieldIndexes, isHidden }) => {
+      if (!isHidden) {
+        return;
+      }
+
+      const isSameRepetition = Object.entries(indexes).every(([id, index]) => fieldIndexes[id] === index);
+
+      if (isSameRepetition) {
+        hiddenFieldIds.add(field.id);
+      }
+    });
+
+    return hiddenFieldIds;
+  }
+
+  /**
+   * Walk every field of the form, resolving its hide condition and passing the
+   * verdict on to the caller.
+   *
+   * Containers take part in the walk even when they hold no data of their own,
+   * so that a condition on a container reaches the fields underneath it.
+   *
+   * @param {Object<string, any>} contextData
+   * @param {(result: { field: Object, indexes: Object<string, number>, isHidden: boolean, isClosed: boolean, isRepeatable: boolean }) => void} visit
+   */
+  _walkConditions(contextData, visit) {
+    const walkScope = (rootField, scopeContext, startHidden = false) => {
       const { indexes = {}, expressionIndexes = [], scopeData = contextData, parentScopeData = null } = scopeContext;
 
-      this._pathRegistry.executeRecursivelyOnFields(rootField, ({ field, isClosed, isRepeatable, context }) => {
+      const walkField = (field, hiddenByAncestor) => {
         const { conditional, components, id } = field;
+        const { config } = this._formFields.get(field.type);
+
+        const isClosed = Boolean(config.keyed);
+        const isRepeatable = Boolean(config.repeatable);
 
         // build the expression context in the right format
         const localExpressionContext = buildExpressionContext({
@@ -52,76 +114,62 @@ export class ConditionChecker {
           parent: parentScopeData,
         });
 
-        context.isHidden =
-          startHidden ||
-          context.isHidden ||
-          (conditional && this._checkHideCondition(conditional, localExpressionContext));
+        const isHidden = Boolean(
+          hiddenByAncestor || (conditional && this._checkHideCondition(conditional, localExpressionContext)),
+        );
 
-        // if a field is repeatable and visible, we need to implement custom recursion on its children
-        if (isRepeatable && !context.isHidden) {
-          // prevent the regular recursion behavior of executeRecursivelyOnFields
-          context.preventRecursion = true;
+        visit({ field, indexes, isHidden, isClosed, isRepeatable });
 
-          const repeaterValuePath = this._pathRegistry.getValuePath(field, { indexes });
-          const repeaterValue = get(contextData, repeaterValuePath);
-
-          // quit early if there are no children or data associated with the repeater
-          if (
-            !Array.isArray(repeaterValue) ||
-            !repeaterValue.length ||
-            !Array.isArray(components) ||
-            !components.length
-          ) {
-            return;
-          }
-
-          for (let i = 0; i < repeaterValue.length; i++) {
-            // create a new scope context for each index
-            const newScopeContext = {
-              indexes: { ...indexes, [id]: i },
-              expressionIndexes: [...expressionIndexes, i + 1],
-              scopeData: repeaterValue[i],
-              parentScopeData: scopeData,
-            };
-
-            // for each child component, apply conditions within the new repetition scope
-            components.forEach((component) => {
-              _applyConditionsWithinScope(component, newScopeContext, context.isHidden);
-            });
-          }
+        // a hidden repeater is handled at its root, a leaf field has nothing below it
+        if (isClosed || (isRepeatable && isHidden)) {
+          return;
         }
 
-        // if we have a hidden repeatable field, and the data structure allows, we clear it directly at the root and stop recursion
-        if (context.isHidden && isRepeatable) {
-          context.preventRecursion = true;
-          this._eventBus.fire('conditionChecker.remove', {
-            item: { [field.key]: get(workingData, getFilterPath(field, indexes)) },
-          });
-          this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
+        if (!Array.isArray(components) || !components.length) {
+          return;
         }
 
-        // for simple leaf fields, we always clear
-        if (context.isHidden && isClosed) {
-          this._eventBus.fire('conditionChecker.remove', {
-            item: { [field.key]: get(workingData, getFilterPath(field, indexes)) },
-          });
-          this._cleanlyClearDataAtPath(getFilterPath(field, indexes), workingData);
+        if (!isRepeatable) {
+          components.forEach((component) => walkField(component, isHidden));
+          return;
         }
-      });
+
+        // a visible repeater scopes its children to each repetition
+        const repeaterValue = get(contextData, this._pathRegistry.getValuePath(field, { indexes }));
+
+        if (!Array.isArray(repeaterValue)) {
+          return;
+        }
+
+        repeaterValue.forEach((itemValue, index) => {
+          components.forEach((component) =>
+            walkScope(
+              component,
+              {
+                indexes: { ...indexes, [id]: index },
+                expressionIndexes: [...expressionIndexes, index + 1],
+                scopeData: itemValue,
+                parentScopeData: scopeData,
+              },
+              isHidden,
+            ),
+          );
+        });
+      };
+
+      walkField(rootField, startHidden);
     };
 
-    // apply conditions starting with the root of the form
+    // resolve conditions starting with the root of the form
     const form = this._formFieldRegistry.getForm();
 
     if (!form) {
       throw new Error('form field registry has no form');
     }
 
-    _applyConditionsWithinScope(form, {
+    walkScope(form, {
       scopeData: contextData,
     });
-
-    return workingData;
   }
 
   /**
@@ -174,4 +222,4 @@ export class ConditionChecker {
   }
 }
 
-ConditionChecker.$inject = ['formFieldRegistry', 'pathRegistry', 'expressionLanguage', 'eventBus'];
+ConditionChecker.$inject = ['formFieldRegistry', 'pathRegistry', 'expressionLanguage', 'eventBus', 'formFields'];

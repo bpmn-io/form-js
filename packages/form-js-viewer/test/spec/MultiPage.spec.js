@@ -147,6 +147,46 @@ describe('MultiPage', function () {
     expect(activePage().querySelector('label').textContent).to.equal('Summary');
   });
 
+  it('should move to the next visible page when the active page hides itself by its own field', async function () {
+    // given
+    const schema = {
+      type: 'default',
+      id: 'SelfHidingPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'Account type',
+              conditional: { hide: '=accountType = "private"' },
+              components: [{ type: 'textfield', id: 'Textfield_accountType', key: 'accountType' }],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Summary',
+              components: [{ type: 'textfield', id: 'Textfield_comment', key: 'comment' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    // assume
+    expect(activePage().querySelector('label').textContent).to.equal('Account type');
+
+    // when
+    await fill('accountType', 'private');
+
+    // then
+    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+  });
+
   it('should stay put when a page hidden underfoot is revealed again', async function () {
     // given
     await bootstrapForm({ data: { accountType: 'business' } });
@@ -734,6 +774,62 @@ describe('MultiPage', function () {
 
       // then
       expect(form.submit().data.accountType).to.equal('private');
+    });
+
+    it('should announce the values of a page hidden by condition as removed', async function () {
+      // given
+      await bootstrapForm({ data: { accountType: 'business' } });
+
+      const removed = [];
+
+      form.on('conditionChecker.remove', ({ item }) => removed.push(item));
+
+      // when
+      await act(() => form._setState({ data: { accountType: 'private', company: 'ACME', comment: '' } }));
+
+      // then
+      expect(removed).to.deep.include({ company: 'ACME' });
+    });
+
+    it('should drop the files of a page hidden by condition', async function () {
+      // given
+      const schema = {
+        type: 'default',
+        id: 'MultiPageFileForm',
+        components: [
+          {
+            type: 'multipage',
+            id: 'Multipage_1',
+            components: [
+              {
+                type: 'page',
+                id: 'Page_1',
+                label: 'Account type',
+                components: [{ type: 'textfield', id: 'Textfield_accountType', key: 'accountType' }],
+              },
+              {
+                type: 'page',
+                id: 'Page_2',
+                label: 'Company details',
+                conditional: { hide: '=accountType != "business"' },
+                components: [{ type: 'filepicker', id: 'Filepicker_contract', key: 'contract' }],
+              },
+            ],
+          },
+        ],
+      };
+
+      await bootstrapForm({ schema, data: { accountType: 'business' } });
+
+      const fileRegistry = form.get('fileRegistry');
+
+      fileRegistry.setFiles('files::Filepicker_contract', [new File([''], 'contract.pdf')]);
+
+      // when
+      await act(() => form._setState({ data: { accountType: 'private', contract: 'files::Filepicker_contract' } }));
+
+      // then
+      expect(fileRegistry.hasKey('files::Filepicker_contract')).to.be.false;
     });
   });
 
