@@ -15,6 +15,8 @@ describe('DocumentPreview', function () {
 
   afterEach(function () {
     container.remove();
+
+    sinon.restore();
   });
 
   it('should render', async function () {
@@ -314,6 +316,53 @@ describe('DocumentPreview', function () {
       fetchStub.restore();
       errorStub.restore();
     }
+  });
+
+  it('should type PDF preview as application/pdf, ignoring the response content type', async function () {
+    // given
+    const mockDocument = {
+      documentId: 'document0',
+      endpoint: 'https://example.com/document0',
+      metadata: {
+        fileName: 'My document.pdf',
+        contentType: 'application/pdf',
+      },
+    };
+    const htmlResponse = new TextEncoder().encode('<script>window.__xss = true;</script>');
+
+    sinon.stub(window, 'fetch').resolves({
+      ok: true,
+      arrayBuffer: sinon.stub().resolves(htmlResponse.buffer),
+    });
+
+    sinon.stub(window, 'IntersectionObserver').callsFake((callback) => ({
+      observe: (element) => callback([{ isIntersecting: true, target: element }]),
+      unobserve: sinon.stub(),
+    }));
+
+    const createObjectURLSpy = sinon.spy(URL, 'createObjectURL');
+
+    // when
+    const { container } = createDocumentPreview({
+      initialData: {
+        documents: [mockDocument],
+      },
+      services: {
+        expressionLanguage: mockExpressionLanguageService,
+      },
+    });
+
+    // then
+    await waitFor(() => {
+      expect(container.querySelector('.fjs-documentPreview-pdf-viewer')).to.exist;
+    });
+
+    expect(createObjectURLSpy).to.have.been.calledOnce;
+
+    const previewBlob = createObjectURLSpy.firstCall.args[0];
+
+    expect(previewBlob.type).to.equal('application/pdf');
+    expect(previewBlob.size).to.equal(htmlResponse.byteLength);
   });
 
   it('#create', function () {

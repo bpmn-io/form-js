@@ -190,7 +190,11 @@ function PdfRenderer(props) {
           return;
         }
 
-        const blob = await response.blob();
+        // Re-type the response instead of trusting its content type. An object URL
+        // inherits the form's origin and <embed> renders it by the blob's own type,
+        // so a response served as HTML would execute script in that origin.
+        const blob = new Blob([await response.arrayBuffer()], { type: 'application/pdf' });
+
         objectUrl = URL.createObjectURL(blob);
         setPdfObjectUrl(objectUrl);
       } catch {
