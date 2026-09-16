@@ -1113,7 +1113,7 @@
 
 .fjs-container .fjs-table-th:focus {
   outline: var(--outline-definition);
-  outline-offset: -1px;
+  outline-offset: -2px;
 }
 
 .fjs-container .fjs-table-th,
@@ -1154,7 +1154,7 @@
 
 .fjs-container .fjs-table-nav-button:focus {
   outline: var(--outline-definition);
-  outline-offset: -1px;
+  outline-offset: -2px;
 }
 
 .fjs-container .fjs-table-nav-button svg {
