@@ -6,6 +6,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 1.26.1
+
+- `FIX`: do not trust document response content type when creating the document preview object URL ([GHSA-763f-qrmm-5w8g](https://github.com/bpmn-io/form-js/security/advisories/GHSA-763f-qrmm-5w8g))
+
+## 1.26.0
+
+- `FEAT`: add translations support for viewer and editor ([#1055](https://github.com/bpmn-io/form-js/issues/1055), [#1169](https://github.com/bpmn-io/form-js/issues/1169))
+
 ## 1.25.0
 
 - `FEAT`: render the properties panel as a reactive section ([#1536](https://github.com/bpmn-io/form-js/pull/1536))
