@@ -4,7 +4,7 @@ export function LayouterAppearanceEntry(props) {
   const { field } = props;
 
   const translate = props.translate;
-  if (!['group', 'dynamiclist'].includes(field.type)) {
+  if (!['group', 'dynamiclist', 'page'].includes(field.type)) {
     return [];
   }
 

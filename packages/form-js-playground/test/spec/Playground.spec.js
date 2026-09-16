@@ -4,7 +4,7 @@ import 'preact/debug';
 
 import { forEach } from 'min-dash';
 
-import { act } from '@testing-library/preact/pure';
+import { act, waitFor } from '@testing-library/preact/pure';
 
 import { domify, query as domQuery, queryAll as domQueryAll } from 'min-dom';
 
@@ -440,6 +440,46 @@ describe('playground', function () {
 
     // then
     expect(playground.getState().schema).to.deep.include(otherSchema);
+  });
+
+  describe('file drop', function () {
+    it('should import dropped schema', async function () {
+      // given
+      await act(() => {
+        playground = new Playground({
+          container,
+          schema,
+        });
+      });
+
+      // when
+      dropFile(domQuery('.fjs-pgl-parent', container), JSON.stringify(otherSchema));
+
+      // then
+      await waitFor(() => {
+        expect(playground.getSchema()).to.deep.include(otherSchema);
+      });
+    });
+
+    it('should ignore malformed schema', async function () {
+      // given
+      await act(() => {
+        playground = new Playground({
+          container,
+          schema,
+        });
+      });
+
+      const schemaBefore = JSON.stringify(playground.getSchema());
+
+      // when
+      dropFile(domQuery('.fjs-pgl-parent', container), '{ not json');
+
+      // then
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(JSON.stringify(playground.getSchema())).to.eql(schemaBefore);
+    });
   });
 
   it('should not blow up on empty schema', async function () {
@@ -913,6 +953,17 @@ describe('playground', function () {
 });
 
 // helper //////////////
+
+function dropFile(node, contents) {
+  const dataTransfer = new DataTransfer();
+
+  dataTransfer.items.add(new File([contents], 'form.json', { type: 'application/json' }));
+
+  node.dispatchEvent(new DragEvent('dragover', { bubbles: true, dataTransfer }));
+
+  // file-drops listens for the drop on the document
+  document.dispatchEvent(new DragEvent('drop', { bubbles: true, dataTransfer }));
+}
 
 function getFieldInstance(form, key) {
   const formField = form

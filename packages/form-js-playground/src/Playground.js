@@ -43,16 +43,23 @@ function Playground(options) {
     parent.appendChild(container);
   }
 
-  const handleDrop = fileDrop('Drop a form file', function (files) {
+  const handleDrop = fileDrop('Drop a form file', (files) => {
     const file = files[0];
 
-    if (file) {
-      try {
-        this.api.setSchema(JSON.parse(file.contents));
-      } catch (err) {
-        // TODO(nikku): indicate JSON parse error
-      }
+    if (!file) {
+      return;
     }
+
+    let schema;
+
+    try {
+      schema = JSON.parse(file.contents);
+    } catch (err) {
+      // TODO(nikku): indicate JSON parse error
+      return;
+    }
+
+    this.setSchema(schema);
   });
 
   const safe = function (fn) {
