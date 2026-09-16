@@ -8,6 +8,13 @@ _**Note:** Yet to be released changes appear here._
 
 * `FIX`: Prevent styling every button as read-only, which resulted in submit buttons looking like primary instead of gray ([#1559](https://github.com/bpmn-io/form-js/pull/1559))
 
+## 1.26.1
+
+- `FIX`: do not trust document response content type when creating the document preview object URL ([GHSA-763f-qrmm-5w8g](https://github.com/bpmn-io/form-js/security/advisories/GHSA-763f-qrmm-5w8g))
+
+## 1.26.0
+
+- `FEAT`: add translations support for viewer and editor ([#1055](https://github.com/bpmn-io/form-js/issues/1055), [#1169](https://github.com/bpmn-io/form-js/issues/1169))
 
 ## 1.25.0
 
