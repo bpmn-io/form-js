@@ -8,9 +8,6 @@ import formCSS from '../dist/assets/form-js.css';
 // @ts-ignore-next-line
 import testCSS from './test.css';
 
-// @ts-ignore-next-line
-import themeCSS from './theme.scss';
-
 export function isSingleStart(topic) {
   // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;
@@ -19,10 +16,6 @@ export function isSingleStart(topic) {
 function insertStyles() {
   insertCSS('form-js.css', formCSS);
   insertCSS('test.css', testCSS);
-}
-
-export function insertTheme() {
-  insertCSS('theme.css', themeCSS);
 }
 
 insertStyles();
