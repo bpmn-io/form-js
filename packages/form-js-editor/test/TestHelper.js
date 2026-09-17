@@ -13,8 +13,6 @@ import testCSS from './test.css';
 
 export { expectNoViolations } from '../../form-js-viewer/test/helper';
 
-export { insertTheme } from '../../form-js-viewer/test/TestHelper';
-
 export function isSingleStart(topic) {
   // @ts-ignore-next-line
   return window.__env__ && window.__env__.SINGLE_START === topic;

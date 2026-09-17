@@ -7,15 +7,14 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 _**Note:** Yet to be released changes appear here._
 
 * `FEAT`: source color variables from `@bpmn-io/theme` ([#1560](https://github.com/bpmn-io/form-js/pull/1560))
-* `FEAT`: move the Carbon color mapping into `@bpmn-io/form-js-carbon-styles` ([#1560](https://github.com/bpmn-io/form-js/pull/1560))
 * `FIX`: align option labels with their checkbox or radio ([#1561](https://github.com/bpmn-io/form-js/pull/1561))
 * `FIX`: Prevent styling every button as read-only, which resulted in submit buttons looking like primary instead of gray ([#1559](https://github.com/bpmn-io/form-js/pull/1559))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.55.0`
 
 ### Breaking Changes
 
-- The base stylesheets no longer resolve Carbon colors from `--cds-*`. Loading `form-js-base.css` in a Carbon application no longer themes the form on its own — import `@bpmn-io/form-js-carbon-styles`, which now carries the color mapping next to the component styles it already provided. The color mapping lives in `src/carbon-styles.scss`; the deprecated `src/carbon-styles.js` styled-components export does not carry it and no longer themes a form on its own.
-- The `fjs-no-theme` selector is removed. It reset the `--cds-*` variables the base stylesheets no longer reference; not loading `@bpmn-io/form-js-carbon-styles` is now the way to opt out of Carbon, and it is the default.
+- The base stylesheets no longer resolve Carbon colors from `--cds-*`. Loading them in a Carbon application no longer themes the form to match Carbon.
+- `@bpmn-io/form-js-carbon-styles` is deprecated and receives no further releases. `@bpmn-io/form-js` no longer depends on it and no longer re-exports `./dist/assets/carbon-styles.scss`. Bind the form-js CSS variables to your design system to theme the form accordingly.
 - The `--color-text-lightest` variable is removed, as it duplicated `--color-text-lighter`.
 
 ## 1.26.1
