@@ -35,7 +35,7 @@ import rowsSchema from './rows.json';
 import focusables from './focusables.json';
 import customFieldSchema from './customField.json';
 
-import { insertCSS, insertTheme, isSingleStart, countComponents } from '../TestHelper';
+import { insertCSS, isSingleStart, countComponents } from '../TestHelper';
 
 import customCSS from './custom/custom.css';
 
@@ -45,14 +45,12 @@ const singleStartBasic = isSingleStart('basic');
 const singleStartGroups = isSingleStart('groups');
 const singleStartStress = isSingleStart('stress');
 const singleStartRows = isSingleStart('rows');
-const singleStartTheme = isSingleStart('theme');
 const singleStartCustom = isSingleStart('custom');
 const singleStart =
   singleStartBasic ||
   singleStartGroups ||
   singleStartStress ||
   singleStartRows ||
-  singleStartTheme ||
   singleStartCustom;
 
 describe('Form', function () {
@@ -160,45 +158,6 @@ describe('Form', function () {
     expect(form.reset).to.exist;
     expect(form.submit).to.exist;
     expect(form._update).to.exist;
-  });
-
-  (singleStartTheme ? it.only : it)('should render theme', async function () {
-    this.timeout(10000);
-
-    // given
-    document.documentElement.setAttribute('data-carbon-theme', 'g100');
-    insertTheme();
-
-    const data = {
-      creditor: 'John Doe Company',
-      amount: 456,
-      invoiceNumber: 'C-123',
-      approved: true,
-      approvedBy: 'John Doe',
-      mailto: ['regional-manager', 'approver'],
-      product: 'camunda-cloud',
-      tags: ['tag1', 'tag2', 'tag3'],
-      language: 'english',
-      documents: [
-        {
-          title: 'invoice.pdf',
-          author: 'John Doe',
-        },
-        {
-          title: 'products.pdf',
-        },
-      ],
-    };
-
-    // when
-    await bootstrapForm({
-      container,
-      data,
-      schema,
-    });
-
-    // then
-    expect(form.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
   describe('#importSchema', function () {

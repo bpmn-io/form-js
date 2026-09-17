@@ -25,7 +25,6 @@
     "./dist/assets/form-js-editor.css": "./dist/assets/form-js-editor.css",
     "./dist/assets/form-js-editor-base.css": "./dist/assets/form-js-editor-base.css",
     "./dist/assets/form-js-playground.css": "./dist/assets/form-js-playground.css",
-    "./dist/assets/carbon-styles.scss": "./dist/assets/carbon-styles.scss",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -61,7 +60,6 @@
     "url": "https://github.com/bpmn-io"
   },
   "dependencies": {
-    "@bpmn-io/form-js-carbon-styles": "^1.26.1",
     "@bpmn-io/form-js-editor": "^1.26.1",
     "@bpmn-io/form-js-playground": "^1.26.1",
     "@bpmn-io/form-js-viewer": "^1.26.1"

@@ -9,7 +9,7 @@ import { query as domQuery } from 'min-dom';
 import { Fill } from '../../src/features/render-injection/slot-fill';
 import { RenderInjectionModule } from '../../src/features/render-injection';
 
-import { insertStyles, insertTheme, isSingleStart, countComponents, expectNoViolations } from '../TestHelper';
+import { insertStyles, isSingleStart, countComponents, expectNoViolations } from '../TestHelper';
 
 import schema from './form.json';
 import schemaNoIds from './form-no-ids.json';
@@ -22,9 +22,8 @@ const spy = sinon.spy;
 
 const singleStartBasic = isSingleStart('basic');
 const singleStartRows = isSingleStart('rows');
-const singleStartTheme = isSingleStart('theme');
 
-const singleStart = singleStartBasic || singleStartRows || singleStartTheme;
+const singleStart = singleStartBasic || singleStartRows;
 
 describe('FormEditor', function () {
   let container, formEditor;
@@ -80,23 +79,6 @@ describe('FormEditor', function () {
 
     // then
     expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(8);
-  });
-
-  (singleStartTheme ? it.only : it)('should render theme', async function () {
-    this.timeout(10000);
-
-    // given
-    document.documentElement.setAttribute('data-carbon-theme', 'g100');
-    insertTheme();
-
-    // when
-    await bootstrapFormEditor({
-      container,
-      schema,
-    });
-
-    // then
-    expect(formEditor.get('formFieldRegistry').getAll()).to.have.length(countComponents(schema));
   });
 
   it('should render compact', async function () {
