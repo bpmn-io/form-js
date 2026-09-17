@@ -15,6 +15,7 @@ _**Note:** Yet to be released changes appear here._
 
 - The base stylesheets no longer resolve Carbon colors from `--cds-*`. Loading them in a Carbon application no longer themes the form to match Carbon.
 - `@bpmn-io/form-js-carbon-styles` is deprecated and receives no further releases. `@bpmn-io/form-js` no longer depends on it and no longer re-exports `./dist/assets/carbon-styles.scss`. Bind the form-js CSS variables to your design system to theme the form accordingly.
+- The bundled flatpickr styles are scoped to `.fjs-container`. Scope your own flatpickr overrides the same way, e.g. `.fjs-container .flatpickr-day`, and load them after `form-js.css`.
 - The `--color-text-lightest` variable is removed, as it duplicated `--color-text-lighter`.
 
 ## 1.26.1
