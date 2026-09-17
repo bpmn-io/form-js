@@ -44,7 +44,7 @@ function Lightbox(props) {
           href="https://bpmn.io"
           target="_blank"
           rel="noopener noreferrer"
-          style="margin: 15px 20px 15px 10px; align-self: center; color: var(--cds-icon-primary, #404040)">
+          style="margin: 15px 20px 15px 10px; align-self: center; color: #404040">
           <Logo />
         </a>
         <span>
@@ -68,7 +68,7 @@ function Link(props) {
         rel="noopener noreferrer"
         class="fjs-powered-by-link"
         title="Powered by bpmn.io"
-        style="color: var(--cds-text-primary, #404040)"
+        style="color: #404040"
         onClick={props.onClick}>
         <Logo />
       </a>
