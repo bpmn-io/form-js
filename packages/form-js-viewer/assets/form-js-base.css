@@ -845,6 +845,10 @@
   border: 1px solid var(--color-borders-pre);
   background: var(--color-background-pre);
   padding: 4px;
+
+  /* `pre` does not wrap, so a long line escapes the form instead of reflowing */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .fjs-container .fjs-taglist-anchor,
