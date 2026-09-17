@@ -78,8 +78,17 @@
   --color-warning-light: var(--bio-danger-surface);
   --color-accent: var(--bio-primary);
   --color-accent-readonly: var(--bio-text-subtlest);
-  --color-datepicker-focused-day: var(--bio-text-subtlest);
   --color-shadow: var(--bio-shadow);
+
+  --color-datepicker-background: var(--bio-surface);
+  --color-datepicker-border: var(--bio-border);
+  --color-datepicker-header-background: var(--bio-surface-medium);
+  --color-datepicker-header-color: var(--bio-text-subtle);
+  --color-datepicker-day-color: var(--bio-text);
+  --color-datepicker-day-hover-background: var(--bio-surface-strong);
+  --color-datepicker-day-disabled-color: var(--bio-text-subtlest);
+  --color-datepicker-range-background: var(--bio-surface-medium);
+  --color-datepicker-focused-day: var(--bio-text-subtlest);
 
   --font-family: 'IBM Plex Sans', sans-serif;
 
@@ -1348,9 +1357,22 @@
 }
 
 .fjs-container .flatpickr-days,
-.flatpickr-weekdays {
+.fjs-container .flatpickr-weekdays {
   padding: 10px;
   width: 100%;
+}
+
+.fjs-container .dayContainer {
+  height: auto;
+}
+
+/* a host stylesheet can reach the calendar through its .open state, which outranks the rules above */
+.fjs-container .flatpickr-calendar.open {
+  width: 326px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: var(--color-datepicker-background);
 }
 
 .fjs-container .flatpickr-calendar.hasTime.noCalendar {
@@ -1360,6 +1382,124 @@
 
 .fjs-container .flatpickr-calendar {
   width: 326px;
+}
+
+/* the vendored flatpickr theme hard-codes its palette, so the picker is themed here instead */
+.fjs-container .flatpickr-calendar,
+.fjs-container .flatpickr-innerContainer,
+.fjs-container .flatpickr-time {
+  background: var(--color-datepicker-background);
+}
+
+.fjs-container .flatpickr-calendar {
+  box-shadow: 0 3px 13px var(--color-shadow);
+}
+
+.fjs-container .flatpickr-days,
+.fjs-container .flatpickr-weekwrapper .flatpickr-weeks,
+.fjs-container .flatpickr-innerContainer,
+.fjs-container .flatpickr-calendar.hasTime .flatpickr-time,
+.fjs-container .numInputWrapper span {
+  border-color: var(--color-datepicker-border);
+}
+
+.fjs-container .flatpickr-calendar:not(.hasTime) .flatpickr-innerContainer {
+  border-bottom: 0;
+}
+
+.fjs-container .flatpickr-days {
+  border-left: 0;
+  border-right: 0;
+}
+
+.fjs-container .flatpickr-calendar.arrowTop::before,
+.fjs-container .flatpickr-calendar.arrowTop::after {
+  border-bottom-color: var(--color-datepicker-header-background);
+}
+
+.fjs-container .flatpickr-calendar.arrowBottom::before,
+.fjs-container .flatpickr-calendar.arrowBottom::after {
+  border-top-color: var(--color-datepicker-header-background);
+}
+
+.fjs-container .flatpickr-months .flatpickr-month,
+.fjs-container .flatpickr-weekdays,
+.fjs-container span.flatpickr-weekday,
+.fjs-container .flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: var(--color-datepicker-header-background);
+  color: var(--color-datepicker-header-color);
+  fill: var(--color-datepicker-header-color);
+}
+
+.fjs-container .flatpickr-months .flatpickr-prev-month,
+.fjs-container .flatpickr-months .flatpickr-next-month {
+  color: var(--color-datepicker-header-color);
+  fill: var(--color-datepicker-header-color);
+}
+
+.fjs-container .flatpickr-months .flatpickr-prev-month:hover svg,
+.fjs-container .flatpickr-months .flatpickr-next-month:hover svg {
+  fill: var(--color-datepicker-day-color);
+}
+
+.fjs-container .flatpickr-day {
+  color: var(--color-datepicker-day-color);
+}
+
+.fjs-container .flatpickr-day:hover,
+.fjs-container .flatpickr-day:focus {
+  background: var(--color-datepicker-day-hover-background);
+  border-color: var(--color-datepicker-day-hover-background);
+}
+
+.fjs-container .flatpickr-day.prevMonthDay,
+.fjs-container .flatpickr-day.nextMonthDay,
+.fjs-container .flatpickr-day.flatpickr-disabled {
+  color: var(--color-datepicker-day-disabled-color);
+}
+
+.fjs-container .flatpickr-day.inRange {
+  background: var(--color-datepicker-range-background);
+  border-color: var(--color-datepicker-range-background);
+  box-shadow:
+    -5px 0 0 var(--color-datepicker-range-background),
+    5px 0 0 var(--color-datepicker-range-background);
+}
+
+.fjs-container .flatpickr-time input,
+.fjs-container .flatpickr-time .flatpickr-time-separator,
+.fjs-container .flatpickr-time .flatpickr-am-pm {
+  color: var(--color-datepicker-day-color);
+}
+
+.fjs-container .flatpickr-time input:hover,
+.fjs-container .flatpickr-time .flatpickr-am-pm:hover {
+  background: var(--color-datepicker-day-hover-background);
+}
+
+.fjs-container .numInputWrapper:hover,
+.fjs-container .numInputWrapper span:hover {
+  background: var(--color-datepicker-day-hover-background);
+}
+
+.fjs-container .numInputWrapper span svg path {
+  fill: var(--color-datepicker-header-color);
+}
+
+.fjs-container .flatpickr-current-month .numInputWrapper span.arrowUp::after {
+  border-bottom-color: var(--color-datepicker-header-color);
+}
+
+.fjs-container .flatpickr-current-month .numInputWrapper span.arrowDown::after {
+  border-top-color: var(--color-datepicker-header-color);
+}
+
+.fjs-container .flatpickr-time .numInputWrapper span.arrowUp::after {
+  border-bottom-color: var(--color-datepicker-day-color);
+}
+
+.fjs-container .flatpickr-time .numInputWrapper span.arrowDown::after {
+  border-top-color: var(--color-datepicker-day-color);
 }
 
 .fjs-hidden {
