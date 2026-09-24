@@ -54,7 +54,8 @@ export function OptionsGroups(field, editField, getService) {
     groups.push({
       id,
       label: translate('Static options'),
-      component: (props) => ListGroup({ ...props, translate }),
+      component: ListGroup,
+      translate,
       ...StaticOptionsSourceEntry({ ...context, id, translate }),
     });
   } else if (valuesSource === OPTIONS_SOURCES.EXPRESSION) {

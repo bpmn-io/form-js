@@ -67,10 +67,11 @@ export function CustomPropertiesGroup(field, editField, getService) {
 
   return {
     add: addEntry,
-    component: (props) => ListGroup({ ...props, translate }),
+    component: ListGroup,
     id: 'custom-values',
     items,
     label: translate('Custom properties'),
+    translate,
     tooltip: translate(
       'Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.',
     ),
