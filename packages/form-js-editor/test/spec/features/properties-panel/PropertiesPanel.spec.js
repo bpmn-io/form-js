@@ -556,6 +556,30 @@ describe('properties panel', function () {
           expect(editFieldSpy).to.have.been.calledWith(field, ['values'], [field.values[1]]);
         });
 
+        it('should keep option open after edit', function () {
+          // given
+          const eventBus = new EventBusMock();
+
+          const field = structuredClone(schema.components.find(({ key }) => key === 'product'));
+
+          bootstrapPropertiesPanel({
+            container,
+            editField: createRerenderingEditField(eventBus),
+            field,
+            services: { eventBus },
+          });
+
+          openListItem(container, 'staticOptions-0');
+
+          // when
+          const input = screen.getByLabelText('Label', { selector: '#bio-properties-panel-staticOptions-0-label' });
+
+          fireEvent.input(input, { target: { value: 'Camunda 7' } });
+
+          // then
+          expect(isListItemOpen(container, 'staticOptions-0')).to.be.true;
+        });
+
         describe('validation', function () {
           describe('value', function () {
             it('should not be empty', function () {
@@ -3472,6 +3496,32 @@ describe('properties panel', function () {
           );
         });
 
+        it('should keep value open after edit', function () {
+          // given
+          const eventBus = new EventBusMock();
+
+          const field = structuredClone(tableSchema.components.find(({ label }) => label === 'static-headers-table'));
+
+          const itemId = `${field.id}-columns-0`;
+
+          bootstrapPropertiesPanel({
+            container,
+            editField: createRerenderingEditField(eventBus),
+            field,
+            services: { eventBus },
+          });
+
+          openListItem(container, itemId);
+
+          // when
+          const input = screen.getByLabelText('Label', { selector: `#bio-properties-panel-${itemId}-label` });
+
+          fireEvent.input(input, { target: { value: 'Identifier' } });
+
+          // then
+          expect(isListItemOpen(container, itemId)).to.be.true;
+        });
+
         describe('validation', function () {
           describe('key', function () {
             it('should not be empty', function () {
@@ -3700,6 +3750,30 @@ describe('properties panel', function () {
       });
     });
 
+    it('should keep property open after edit', function () {
+      // given
+      const eventBus = new EventBusMock();
+
+      const field = structuredClone(schema.components.find(({ key }) => key === 'creditor'));
+
+      bootstrapPropertiesPanel({
+        container,
+        editField: createRerenderingEditField(eventBus),
+        field,
+        services: { eventBus },
+      });
+
+      openListItem(container, 'property-0');
+
+      // when
+      const input = screen.getByLabelText('Value', { selector: '#bio-properties-panel-property-0-value' });
+
+      fireEvent.input(input, { target: { value: 'Jane' } });
+
+      // then
+      expect(isListItemOpen(container, 'property-0')).to.be.true;
+    });
+
     describe('validation', function () {
       describe('custom property key', function () {
         it('should not be empty', function () {
@@ -3917,8 +3991,9 @@ function createPropertiesPanel({ services, ...restOptions } = {}, renderFn = ren
     ...options.propertiesProviders,
   ];
 
-  // the reactive properties panel retrieves its providers from the propertiesPanel service
-  defaultedServices.propertiesPanel.getProviders = () => providers;
+  // the reactive properties panel retrieves its providers from the propertiesPanel service,
+  // which collects them into a new array on every call
+  defaultedServices.propertiesPanel.getProviders = () => [...providers];
 
   return renderFn(
     <FormEditorContext.Provider value={{ getService: (type, strict) => injector.get(type, strict) }}>
@@ -3955,6 +4030,24 @@ function expectGroupEntries(container, groupLabel, entryLabels) {
       expect(findEntries(container, groupLabel, entryLabel)).to.have.length(1);
     }
   });
+}
+
+function createRerenderingEditField(eventBus) {
+  return (field, path, value) => {
+    set(field, [].concat(path), value);
+
+    act(() => eventBus.fire('changed', { elements: [field] }));
+
+    return field;
+  };
+}
+
+function openListItem(container, id) {
+  fireEvent.click(domQuery(`[data-entry-id="${id}"] .bio-properties-panel-collapsible-entry-header`, container));
+}
+
+function isListItemOpen(container, id) {
+  return domQuery(`[data-entry-id="${id}"]`, container).classList.contains('open');
 }
 
 function findGroup(container, groupLabel) {

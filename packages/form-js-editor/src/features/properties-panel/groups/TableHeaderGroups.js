@@ -41,7 +41,8 @@ export function TableHeaderGroups(field, editField, getService) {
     groups.push({
       id,
       label: translate('Header items'),
-      component: (props) => ListGroup({ ...props, translate }),
+      component: ListGroup,
+      translate,
       ...StaticColumnsSourceEntry({ field, editField, id }),
     });
   }
