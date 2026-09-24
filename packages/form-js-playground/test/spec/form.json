@@ -5,19 +5,25 @@
       "type": "filepicker",
       "key": "filepicker",
       "accept": ".png,.jpg",
-      "multiple": true
+      "multiple": true,
+      "layout": {
+        "row": "Row_1"
+      }
     },
     {
       "type": "expression",
       "key": "expressionResult",
       "expression": "= 3 + 4",
-      "computeOn": "change"
+      "computeOn": "change",
+      "layout": {
+        "row": "Row_2"
+      }
     },
     {
       "type": "text",
       "text": "# Invoice\nLorem _ipsum_ __dolor__ `sit`.\n  \n  \nA list of BPMN symbols:\n* Start Event\n* Task\nLearn more about [forms](https://bpmn.io).\n  \n  \nThis [malicious link](javascript:throw onerror=alert,'some string',123,'haha') __should not work__.",
       "layout": {
-        "row": "Row_1",
+        "row": "Row_3",
         "columns": 8
       }
     },
@@ -25,14 +31,17 @@
       "type": "html",
       "content": "<h1>My HTML</h1><p style='color: green'>My styled HTML content</p>",
       "layout": {
-        "row": "Row_1",
+        "row": "Row_3",
         "columns": 8
       }
     },
     {
       "type": "iframe",
       "label": "An example page rendered in an iframe",
-      "url": "https://example.com/"
+      "url": "https://example.com/",
+      "layout": {
+        "row": "Row_4"
+      }
     },
     {
       "type": "group",
@@ -44,15 +53,24 @@
           "id": "GroupTextfield_1",
           "type": "textfield",
           "key": "supplementaryInfo1",
-          "label": "Field 1"
+          "label": "Field 1",
+          "layout": {
+            "row": "Row_6"
+          }
         },
         {
           "id": "GroupTextfield_2",
           "type": "textfield",
           "key": "supplementaryInfo2",
-          "label": "Field 2"
+          "label": "Field 2",
+          "layout": {
+            "row": "Row_7"
+          }
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_5"
+      }
     },
     {
       "type": "dynamiclist",
@@ -67,15 +85,24 @@
           "id": "DynamicListTextField_1",
           "type": "textfield",
           "key": "clientSurname",
-          "label": "Surname"
+          "label": "Surname",
+          "layout": {
+            "row": "Row_9"
+          }
         },
         {
           "id": "DynamicListTextField_2",
           "type": "textfield",
           "key": "clientName",
-          "label": "Name"
+          "label": "Name",
+          "layout": {
+            "row": "Row_10"
+          }
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_8"
+      }
     },
     {
       "key": "creditor",
@@ -83,6 +110,9 @@
       "type": "textfield",
       "validate": {
         "required": true
+      },
+      "layout": {
+        "row": "Row_11"
       }
     },
     {
@@ -92,6 +122,9 @@
       "type": "textfield",
       "validate": {
         "pattern": "^C-[0-9]+$"
+      },
+      "layout": {
+        "row": "Row_12"
       }
     },
     {
@@ -101,42 +134,66 @@
       "validate": {
         "min": 0,
         "max": 1000
+      },
+      "layout": {
+        "row": "Row_13"
       }
     },
     {
       "key": "approved",
       "label": "Approved",
-      "type": "checkbox"
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_14"
+      }
     },
     {
       "key": "approvedBy",
       "label": "Approved By",
-      "type": "textfield"
+      "type": "textfield",
+      "layout": {
+        "row": "Row_15"
+      }
     },
     {
       "key": "approverComments",
       "label": "Approver comments",
-      "type": "textarea"
+      "type": "textarea",
+      "layout": {
+        "row": "Row_16"
+      }
     },
     {
       "type": "checkbox",
       "label": "Checkbox",
-      "key": "isGood"
+      "key": "isGood",
+      "layout": {
+        "row": "Row_17"
+      }
     },
     {
-      "type": "separator"
+      "type": "separator",
+      "layout": {
+        "row": "Row_18"
+      }
     },
     {
       "type": "select",
       "key": "selectMe",
       "label": "Select me",
-      "valuesExpression": "=if isGood then [ \"good\" ] else [\"bad\"]"
+      "valuesExpression": "=if isGood then [ \"good\" ] else [\"bad\"]",
+      "layout": {
+        "row": "Row_19"
+      }
     },
     {
       "key": "hobbies",
       "label": "Hobbies",
       "type": "taglist",
-      "valuesExpression": "=hobbies"
+      "valuesExpression": "=hobbies",
+      "layout": {
+        "row": "Row_20"
+      }
     },
     {
       "key": "mailto",
@@ -155,7 +212,10 @@
           "label": "Regional Manager",
           "value": "regional-manager"
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_21"
+      }
     },
     {
       "key": "product",
@@ -170,13 +230,19 @@
           "label": "Camunda Cloud",
           "value": "camunda-cloud"
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_22"
+      }
     },
     {
       "key": "dri",
       "label": "Assign DRI",
       "type": "radio",
-      "valuesKey": "queriedDRIs"
+      "valuesKey": "queriedDRIs",
+      "layout": {
+        "row": "Row_23"
+      }
     },
     {
       "key": "tags",
@@ -227,7 +293,10 @@
           "label": "Tag11",
           "value": "tag11"
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_24"
+      }
     },
     {
       "key": "language",
@@ -242,7 +311,10 @@
           "label": "English",
           "value": "english"
         }
-      ]
+      ],
+      "layout": {
+        "row": "Row_25"
+      }
     },
     {
       "key": "conversation",
@@ -252,27 +324,42 @@
       "timeLabel": "Time of conversation",
       "timeSerializingFormat": "utc_normalized",
       "timeInterval": 15,
-      "use24h": false
+      "use24h": false,
+      "layout": {
+        "row": "Row_26"
+      }
     },
     {
       "source": "=logo",
       "alt": "The bpmn.io logo",
-      "type": "image"
+      "type": "image",
+      "layout": {
+        "row": "Row_27"
+      }
     },
     {
       "label": "Document preview",
       "type": "documentPreview",
       "dataSource": "=documents",
-      "id": "Field_1w82te0"
+      "id": "Field_1w82te0",
+      "layout": {
+        "row": "Row_28"
+      }
     },
     {
       "label": "Submit",
-      "type": "button"
+      "type": "button",
+      "layout": {
+        "row": "Row_29"
+      }
     },
     {
       "action": "reset",
       "label": "Reset",
-      "type": "button"
+      "type": "button",
+      "layout": {
+        "row": "Row_30"
+      }
     }
   ],
   "type": "default"
