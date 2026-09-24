@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: keep list items in the properties panel open after editing them ([#1565](https://github.com/bpmn-io/form-js/pull/1565))
+
 ## 2.0.0
 
 * `FEAT`: source color variables from `@bpmn-io/theme` ([#1560](https://github.com/bpmn-io/form-js/pull/1560))
