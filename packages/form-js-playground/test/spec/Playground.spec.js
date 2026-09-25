@@ -4,7 +4,7 @@ import 'preact/debug';
 
 import { forEach } from 'min-dash';
 
-import { act } from '@testing-library/preact/pure';
+import { act, waitFor } from '@testing-library/preact/pure';
 
 import { domify, query as domQuery, queryAll as domQueryAll } from 'min-dom';
 
@@ -424,6 +424,31 @@ describe('playground', function () {
 
     // then
     expect(editor.exporter).to.eql(exporter);
+  });
+
+  it('should open a form file dropped onto the container', async function () {
+    // given
+    await act(() => {
+      playground = new Playground({
+        container,
+        schema,
+      });
+    });
+
+    const file = new File([JSON.stringify(otherSchema)], 'other.form', { type: 'application/json' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+
+    const pglContainer = domQuery('.fjs-pgl-parent', container);
+
+    // when
+    pglContainer.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
+    document.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+
+    // then
+    await waitFor(() => {
+      expect(playground.getSchema()).to.deep.include(otherSchema);
+    });
   });
 
   it('#setSchema', async function () {
