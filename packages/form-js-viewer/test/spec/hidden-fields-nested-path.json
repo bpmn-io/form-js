@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../form-json-schema/resources/schema.json",
+  "components": [
+    {
+      "content": "<span>{{request.profileDetails.name}}</span>",
+      "type": "html",
+      "id": "Field_html"
+    },
+    {
+      "label": "Group",
+      "type": "group",
+      "path": "request.profileDetails",
+      "id": "Field_group",
+      "conditional": {
+        "hide": "=hideGroup"
+      },
+      "components": [
+        {
+          "label": "Name",
+          "type": "textfield",
+          "key": "name",
+          "id": "Field_name"
+        }
+      ]
+    },
+    {
+      "label": "Other Group",
+      "type": "group",
+      "path": "request.otherDetails",
+      "id": "Field_otherGroup",
+      "components": [
+        {
+          "label": "Other",
+          "type": "textfield",
+          "key": "other",
+          "id": "Field_other"
+        }
+      ]
+    },
+    {
+      "label": "Hide group",
+      "type": "checkbox",
+      "key": "hideGroup",
+      "id": "Field_hideGroup"
+    }
+  ],
+  "type": "default",
+  "id": "Form_hidden_nested_path",
+  "exporter": {},
+  "schemaVersion": 6
+}
