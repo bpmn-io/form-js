@@ -67,6 +67,6 @@
   ],
   "devDependencies": {
     "@bpmn-io/form-js-i18n": "^1.26.0",
-    "@bpmn-io/theme": "^0.2.0"
+    "@bpmn-io/theme": "^0.3.0"
   }
 }
