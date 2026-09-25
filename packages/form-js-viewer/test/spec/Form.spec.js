@@ -22,6 +22,7 @@ import cyclicalExpressionsSchema from './cyclical-expressions.json';
 import chainExpressionsSchema from './chain-expressions.json';
 import hiddenFieldsConditionalSchema from './hidden-fields-conditional.json';
 import hiddenFieldsExpressionSchema from './hidden-fields-expression.json';
+import hiddenFieldsNestedPathSchema from './hidden-fields-nested-path.json';
 import disabledSchema from './disabled.json';
 import radioTabbingSchema from './radio-tabbing.json';
 import requiredSchema from './required.json';
@@ -1825,6 +1826,65 @@ describe('Form', function () {
       // then
       // text is still not visible because of initial data
       expect(getText(container)).to.not.exist;
+    });
+
+    it('should keep sibling nested data available to other fields when a group is hidden', async function () {
+      // given
+      const initialData = {
+        request: {
+          profileDetails: {
+            name: 'John',
+          },
+          otherDetails: {
+            other: 'value',
+          },
+        },
+        hideGroup: true,
+      };
+
+      // when
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema: hiddenFieldsNestedPathSchema,
+      });
+
+      // then
+      expect(screen.queryByLabelText('Name')).to.be.null;
+      expect(container.querySelector('.fjs-form-field-html').innerHTML).to.eql('<span>John</span>');
+    });
+
+    it('should fall back to the initial value, not an in-progress edit, once the group is hidden', async function () {
+      // given
+      const initialData = {
+        request: {
+          profileDetails: {
+            name: 'John',
+          },
+          otherDetails: {
+            other: 'value',
+          },
+        },
+        hideGroup: false,
+      };
+
+      await bootstrapForm({
+        container,
+        data: initialData,
+        schema: hiddenFieldsNestedPathSchema,
+      });
+
+      const nameInput = screen.getByLabelText('Name');
+      await userEvent.clear(nameInput);
+      await userEvent.type(nameInput, 'Jane');
+
+      // when
+      const hideGroupCheckbox = screen.getByLabelText('Hide group');
+      await userEvent.click(hideGroupCheckbox);
+
+      // then
+      expect(screen.queryByLabelText('Name')).to.be.null;
+      expect(container.querySelector('.fjs-form-field-html').innerHTML).to.eql('<span>John</span>');
     });
 
     it('should not affect other fields (expression)', async function () {

@@ -43,7 +43,7 @@ function Playground(options) {
     parent.appendChild(container);
   }
 
-  const handleDrop = fileDrop('Drop a form file', function (files) {
+  const handleDrop = fileDrop('Drop a form file', (files) => {
     const file = files[0];
 
     if (file) {
