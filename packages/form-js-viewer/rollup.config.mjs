@@ -72,9 +72,8 @@ export default [
     ]),
 
     onwarn(warning, warn) {
-      // TODO(@barmac): remove once https://github.com/moment/luxon/issues/193 is resolved
       if (warning.code === 'CIRCULAR_DEPENDENCY') {
-        if (warning.message.includes('luxon')) {
+        if (warning.message.includes('temporal-polyfill')) {
           return;
         }
       }
