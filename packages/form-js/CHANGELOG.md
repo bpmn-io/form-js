@@ -6,6 +6,11 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 2.1.0
+
+* `DEPS`: update to `@bpmn-io/feelin@7`
+* `DEPS`: update to `feelers@3.2.0`
+
 ## 2.0.2
 
 * `FIX`: keep nested data available to other components while a sibling group is hidden ([#1566](https://github.com/bpmn-io/form-js/pull/1566))
