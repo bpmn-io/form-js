@@ -147,7 +147,7 @@ const _linearizePathExpression = (root) => {
 
   // Traverse the tree and collect path components
   while (node.name === 'PathExpression') {
-    parts.push(node.children[1]);
+    parts.push(node.children[node.children.length - 1]);
     node = node.children[0];
   }
 
@@ -179,7 +179,7 @@ const _buildSimpleFeelStructureTree = (parseTree, feelString) => {
         nodeRepresentation.variableName = feelString.slice(node.from, node.to);
       }
 
-      if (node.type.name === 'Name') {
+      if (['Name', 'PathName'].includes(node.type.name)) {
         nodeRepresentation.variableName = feelString.slice(node.from, node.to);
       }
 
