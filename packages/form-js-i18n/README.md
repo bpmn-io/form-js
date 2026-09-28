@@ -5,6 +5,7 @@ Community maintained translations for the [form-js](https://github.com/bpmn-io/f
 ## Available translations
 
 - [English](./translations/en.js)
+- [Persian](./translations/fa.js)
 
 See also the [translation coverage](https://github.com/bpmn-io/form-js/blob/develop/packages/form-js-i18n/docs/COVERAGE.md).
 
