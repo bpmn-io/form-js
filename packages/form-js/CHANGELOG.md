@@ -6,6 +6,8 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 2.0.2
+
 * `FIX`: keep nested data available to other components while a sibling group is hidden ([#1566](https://github.com/bpmn-io/form-js/pull/1566))
 * `FIX`: fix broken form file drag'n'drop in the playground ([#1566](https://github.com/bpmn-io/form-js/pull/1566))
 
