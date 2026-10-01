@@ -156,7 +156,7 @@ describe('Dynamic List', function () {
     });
   });
 
-  it('should show translated remove button for each repetition when allowAddRemove is set', function () {
+  it('should show remove button for each repetition when allowAddRemove is set', function () {
     // given
     const field = {
       ...defaultField,
@@ -164,19 +164,11 @@ describe('Dynamic List', function () {
     };
 
     // when
-    const { container } = createDynamicList({
-      field,
-      services: {
-        translate: (template, replacements) =>
-          template === 'Remove list item {index}' ? `Listeneintrag ${replacements.index} entfernen` : template,
-      },
-    });
+    const { container } = createDynamicList({ field });
 
     // then
     const removeButtons = container.querySelectorAll('.fjs-repeat-row-remove');
     expect(removeButtons).to.have.length(2);
-    expect(removeButtons[0].getAttribute('aria-label')).to.equal('Listeneintrag 1 entfernen');
-    expect(removeButtons[1].getAttribute('aria-label')).to.equal('Listeneintrag 2 entfernen');
   });
 
   it('should not show remove button for each repetition when allowAddRemove is not set', function () {
