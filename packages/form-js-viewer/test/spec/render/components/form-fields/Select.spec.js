@@ -88,7 +88,7 @@ describe('Select', function () {
       const select = container.querySelector('.fjs-input-group');
 
       const display = select.querySelector('.fjs-select-display');
-      expect(display.innerText).to.equal('Select');
+      expect(display.innerText).to.equal('Select an option');
 
       const cross = select.querySelector('.fjs-select-cross');
       expect(cross).to.not.exist;
@@ -105,7 +105,7 @@ describe('Select', function () {
       const select = container.querySelector('.fjs-input-group');
 
       const display = select.querySelector('.fjs-select-display');
-      expect(display.innerText).to.equal('Select');
+      expect(display.innerText).to.equal('Select an option');
 
       const cross = select.querySelector('.fjs-select-cross');
       expect(cross).to.not.exist;
@@ -118,14 +118,30 @@ describe('Select', function () {
       // when
       const { container } = createSelect({
         services: {
-          translate: (template) => ({ Select: 'Auswählen' })[template] || template,
+          translate: (template) => ({ 'Select an option': 'Bitte wählen' })[template] || template,
         },
       });
 
       // then
       const display = container.querySelector('.fjs-select-display');
 
-      expect(display.innerText).to.equal('Auswählen');
+      expect(display.innerText).to.equal('Bitte wählen');
+    });
+
+    it('should not use the field type name for empty state', function () {
+      // given
+      // field type name and placeholder may need different words, e.g. in German
+      const translate = (template) => ({ Select: 'Klappliste' })[template] || template;
+
+      // when
+      const { container } = createSelect({
+        services: { translate },
+      });
+
+      // then
+      const display = container.querySelector('.fjs-select-display');
+
+      expect(display.innerText).to.equal('Select an option');
     });
 
     it('should render disabled', function () {
