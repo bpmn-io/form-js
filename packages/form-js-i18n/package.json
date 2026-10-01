@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/form-js-i18n",
-  "version": "1.26.0",
+  "version": "2.1.1",
   "description": "Community contributed form-js translations, and the tooling that collects the translatable keys",
   "type": "module",
   "files": [
