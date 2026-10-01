@@ -114,6 +114,20 @@ describe('Select', function () {
       expect(arrow).to.exist;
     });
 
+    it('should translate empty state', function () {
+      // when
+      const { container } = createSelect({
+        services: {
+          translate: (template) => ({ Select: 'Auswählen' })[template] || template,
+        },
+      });
+
+      // then
+      const display = container.querySelector('.fjs-select-display');
+
+      expect(display.innerText).to.equal('Auswählen');
+    });
+
     it('should render disabled', function () {
       // when
       const { container } = createSelect({ value: 'german', disabled: true });
@@ -700,6 +714,21 @@ describe('Select', function () {
 
       const arrow = container.querySelector('.fjs-select-arrow');
       expect(arrow).to.exist;
+    });
+
+    it('should translate empty state', function () {
+      // when
+      const { container } = createSelect({
+        field: { ...defaultField, searchable: true },
+        services: {
+          translate: (template) => ({ Search: 'Suchen' })[template] || template,
+        },
+      });
+
+      // then
+      const filter = container.querySelector('input[type="text"]');
+
+      expect(filter.placeholder).to.equal('Suchen');
     });
 
     it('should render disabled', function () {

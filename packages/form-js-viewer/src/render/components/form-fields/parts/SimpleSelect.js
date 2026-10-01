@@ -4,6 +4,7 @@ import { findIndex, isDefined } from 'min-dash';
 import { useOptionsAsync, LOAD_STATES } from '../../../hooks/useOptionsAsync';
 import { useCleanupSingleSelectValue } from '../../../hooks/useCleanupSingleSelectValue';
 import { useGetLabelCorrelation } from '../../../hooks/useGetLabelCorrelation';
+import { useService } from '../../../hooks';
 
 import XMarkIcon from '../icons/XMark.svg';
 import AngelDownIcon from '../icons/AngelDown.svg';
@@ -12,6 +13,8 @@ import { DropdownList } from './DropdownList';
 
 export function SimpleSelect(props) {
   const { domId, disabled, errors, onBlur, onFocus, field, readonly, value } = props;
+
+  const translate = useService('translate');
 
   const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const selectRef = useRef();
@@ -100,7 +103,7 @@ export function SimpleSelect(props) {
         onBlur={onInputBlur}
         onMouseDown={onMouseDown}>
         <div class={classNames('fjs-select-display', { 'fjs-select-placeholder': !value })} id={`${domId}-display`}>
-          {valueLabel || 'Select'}
+          {valueLabel || translate('Select')}
         </div>
         {!disabled && (
           <input

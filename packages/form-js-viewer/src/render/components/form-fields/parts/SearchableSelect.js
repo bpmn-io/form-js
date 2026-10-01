@@ -22,6 +22,7 @@ export function SearchableSelect(props) {
   /** @type {import("preact").RefObject<HTMLInputElement>} */
   const searchbarRef = useRef();
   const eventBus = useService('eventBus');
+  const translate = useService('translate');
 
   const { loadState, options } = useOptionsAsync(field);
 
@@ -155,7 +156,7 @@ export function SearchableSelect(props) {
           onChange={onInputChange}
           type="text"
           value={filter}
-          placeholder={'Search'}
+          placeholder={translate('Search')}
           autoComplete="off"
           onKeyDown={onInputKeyDown}
           onMouseDown={onInputMouseDown}
