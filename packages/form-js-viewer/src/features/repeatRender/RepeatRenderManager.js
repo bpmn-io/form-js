@@ -233,6 +233,8 @@ const RepetitionScaffold = (props) => {
     ...restProps
   } = props;
 
+  const translate = useService('translate');
+
   const elementProps = useMemo(
     () => ({
       ...restProps,
@@ -265,7 +267,7 @@ const RepetitionScaffold = (props) => {
       <button
         type="button"
         class="fjs-repeat-row-remove"
-        aria-label={`Remove list item ${itemIndex + 1}`}
+        aria-label={translate('Remove list item {index}', { index: itemIndex + 1 })}
         onClick={() => onDeleteItem(itemIndex)}>
         <div class="fjs-repeat-row-remove-icon-container">
           <DeleteSvg />

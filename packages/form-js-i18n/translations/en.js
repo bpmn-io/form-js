@@ -189,6 +189,7 @@ export default {
   "Radio group": "Radio group",
   "Read only": "Read only",
   "Remove form field": "Remove form field",
+  "Remove list item {index}": "Remove list item {index}",
   "Remove tag": "Remove tag",
   "Remove {label}": "Remove {label}",
   "Repeatable": "Repeatable",

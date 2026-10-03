@@ -6,6 +6,10 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+## 2.1.1
+
+* `FIX`: add missing translation labels ([#1569](https://github.com/bpmn-io/form-js/issues/1569))
+
 ## 2.1.0
 
 * `DEPS`: update to `@bpmn-io/feelin@7`
