@@ -10,8 +10,11 @@ import { wrapObjectKeysWithUnderscores } from './simple';
 export function buildExpressionContext(context) {
   const { data, ...specialContextKeys } = context;
 
+  const currentItem = specialContextKeys.this && typeof specialContextKeys.this === 'object' ? specialContextKeys.this : {};
+
   return {
     ...specialContextKeys,
+    ...currentItem,
     ...data,
     ...wrapObjectKeysWithUnderscores(specialContextKeys),
   };
