@@ -76,7 +76,7 @@
     "@bpmn-io/properties-panel": "^3.47.0",
     "@bpmn-io/release": "^0.5.0",
     "@ibm/plex": "^6.4.1",
-    "@playwright/test": "1.58.1",
+    "@playwright/test": "1.63.0",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-babel": "^7.0.0",
     "@rollup/plugin-commonjs": "^29.0.2",
