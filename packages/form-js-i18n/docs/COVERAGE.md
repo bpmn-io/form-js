@@ -5,5 +5,6 @@ A coverage report for existing translations, verified against the keys collected
 | Language | Status | Missing keys | Unknown keys |
 | :--- | :---: | ---: | ---: |
 |[en](../translations/en.js)|🟢|0|0|
+|[fa](../translations/fa.js)|🟢|0|0|
 
 _Missing keys_ indicate entries without translation, _unknown keys_ refer to entries that are no longer valid.
