@@ -71,6 +71,13 @@ export function MultiPage(props) {
   // commit the page the container opens on, and any move a condition forced, so
   // that revealing an earlier page later does not drag the user backwards
   useEffect(() => {
+    // a navigation between this render and its effects wins over what the render
+    // resolved, and its event fired before the subscription above was in place
+    if (multiPageNavigation._getPosition(field.id, indexes) !== activePageId) {
+      rerender();
+      return;
+    }
+
     if (resolvedActivePageId === null || resolvedActivePageId === activePageId) {
       return;
     }
