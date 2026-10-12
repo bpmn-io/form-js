@@ -85,7 +85,12 @@ there never blocks the outer page. Submission still validates everything.
 
 Each page change fires `multipage.pageChanged` on the event bus with the
 container, the page left, the page arrived at, and the repetition indexes the
-container renders under.
+container renders under. When a container opens on its first page, the page left
+is `null`.
+
+A container keeps its page while a condition hides it, and starts over on its
+first page when the form is reset or a schema is imported. The viewer README
+describes how to read and set the page from outside the form.
 
 ## Example
 

@@ -41,6 +41,53 @@ describe('MultiPage', function () {
     await act(() => userEvent.type(input, value));
   };
 
+  // the container of multipage.json, hidden while <state> is set
+  const hideableSchema = {
+    ...multiPageSchema,
+    components: [{ ...multiPageSchema.components[0], conditional: { hide: '=state != null' } }],
+  };
+
+  const validatedSchema = {
+    type: 'default',
+    id: 'ValidatedMultiPageForm',
+    components: [
+      {
+        type: 'multipage',
+        id: 'Multipage_1',
+        components: [
+          {
+            type: 'page',
+            id: 'Page_1',
+            label: 'First',
+            components: [
+              {
+                type: 'textfield',
+                id: 'Textfield_name',
+                key: 'name',
+                label: 'Name',
+                validate: { required: true },
+              },
+            ],
+          },
+          {
+            type: 'page',
+            id: 'Page_2',
+            label: 'Second',
+            components: [
+              {
+                type: 'textfield',
+                id: 'Textfield_nickname',
+                key: 'nickname',
+                label: 'Nickname',
+                validate: { required: true },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
   beforeEach(function () {
     container = document.createElement('div');
 
@@ -242,7 +289,7 @@ describe('MultiPage', function () {
     expect(events[0].to.id).to.equal('Page_3');
   });
 
-  it('should not fire <multipage.pageChanged> for the page shown first', async function () {
+  it('should fire <multipage.pageChanged> for the page shown first', async function () {
     // given
     const events = [];
 
@@ -252,6 +299,28 @@ describe('MultiPage', function () {
 
     // when
     await act(() => form.importSchema(multiPageSchema));
+
+    // then
+    expect(events).to.have.length(1);
+    expect(events[0].formField.id).to.equal('Multipage_1');
+    expect(events[0].from).to.be.null;
+    expect(events[0].to.id).to.equal('Page_1');
+  });
+
+  it('should not fire <multipage.pageChanged> when a hidden container is revealed again', async function () {
+    // given
+    await bootstrapForm({ schema: hideableSchema });
+
+    await clickButton('Continue');
+
+    await act(() => form._setState({ data: { ...form._getState().data, state: 'away' } }));
+
+    const events = [];
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form._setState({ data: { ...form._getState().data, state: null } }));
 
     // then
     expect(events).to.be.empty;
@@ -333,47 +402,285 @@ describe('MultiPage', function () {
     expect(document.activeElement).to.equal(input);
   });
 
+  describe('navigation service', function () {
+    const navigation = () => form.get('multiPageNavigation');
+
+    const activeLabel = () => activePage().querySelector('label').textContent;
+
+    it('should report the page shown first', async function () {
+      // when
+      await bootstrapForm();
+
+      // then
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+    });
+
+    it('should report the page the user navigated to', async function () {
+      // given
+      await bootstrapForm();
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+    });
+
+    it('should report null for an unknown container', async function () {
+      // given
+      await bootstrapForm();
+
+      // then
+      expect(navigation().getActivePage('Unknown')).to.be.null;
+      expect(navigation().getActivePage('Page_1')).to.be.null;
+    });
+
+    it('should navigate to a page', async function () {
+      // given
+      await bootstrapForm();
+
+      // when
+      let result;
+
+      await act(() => {
+        result = navigation().navigate('Multipage_1', 'Page_3');
+      });
+
+      // then
+      expect(result).to.be.true;
+      expect(activeLabel()).to.equal('Summary');
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+    });
+
+    it('should fire <multipage.pageChanged> on navigation', async function () {
+      // given
+      await bootstrapForm();
+
+      const events = [];
+
+      form.on('multipage.pageChanged', (event) => events.push(event));
+
+      // when
+      await act(() => navigation().navigate('Multipage_1', 'Page_3'));
+
+      // then
+      expect(events).to.have.length(1);
+      expect(events[0].formField.id).to.equal('Multipage_1');
+      expect(events[0].from.id).to.equal('Page_1');
+      expect(events[0].to.id).to.equal('Page_3');
+    });
+
+    it('should not fire <multipage.pageChanged> when staying on the page shown', async function () {
+      // given
+      await bootstrapForm();
+
+      const events = [];
+
+      form.on('multipage.pageChanged', (event) => events.push(event));
+
+      // when
+      const result = navigation().navigate('Multipage_1', 'Page_1');
+
+      // then
+      expect(result).to.be.true;
+      expect(events).to.be.empty;
+    });
+
+    it('should not navigate to a page hidden by condition', async function () {
+      // given
+      await bootstrapForm();
+
+      // when
+      const result = navigation().navigate('Multipage_1', 'Page_2');
+
+      // then
+      expect(result).to.be.false;
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+    });
+
+    it('should not navigate to a page of another container', async function () {
+      // given
+      await bootstrapForm();
+
+      // then
+      expect(navigation().navigate('Multipage_1', 'Textfield_comment')).to.be.false;
+      expect(navigation().navigate('Unknown', 'Page_3')).to.be.false;
+    });
+
+    it('should navigate away from a page with errors by default', async function () {
+      // given
+      await bootstrapForm({ schema: validatedSchema });
+
+      // when
+      let result;
+
+      await act(() => {
+        result = navigation().navigate('Multipage_1', 'Page_2');
+      });
+
+      // then
+      expect(result).to.be.true;
+      expect(activeLabel()).to.equal('Second');
+    });
+
+    it('should not navigate away from a page with errors with <validate>', async function () {
+      // given
+      await bootstrapForm({ schema: validatedSchema });
+
+      // when
+      let result;
+
+      await act(() => {
+        result = navigation().navigate('Multipage_1', 'Page_2', { validate: true });
+      });
+
+      // then
+      expect(result).to.be.false;
+      expect(activeLabel()).to.equal('First');
+      expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
+    });
+
+    it('should navigate away from a valid page with <validate>', async function () {
+      // given
+      await bootstrapForm({ schema: validatedSchema, data: { name: 'Igor' } });
+
+      // when
+      let result;
+
+      await act(() => {
+        result = navigation().navigate('Multipage_1', 'Page_2', { validate: true });
+      });
+
+      // then
+      expect(result).to.be.true;
+      expect(activeLabel()).to.equal('Second');
+    });
+
+    it('should keep the page of a container while it is hidden', async function () {
+      // given
+      await bootstrapForm({ schema: hideableSchema });
+
+      await clickButton('Continue');
+
+      // when
+      await act(() => form._setState({ data: { ...form._getState().data, state: 'away' } }));
+      await act(() => form._setState({ data: { ...form._getState().data, state: null } }));
+
+      // then
+      expect(activeLabel()).to.equal('Summary');
+    });
+
+    it('should navigate a hidden container', async function () {
+      // given
+      await bootstrapForm({ schema: hideableSchema, data: { state: 'away' } });
+
+      // assume
+      expect(container.querySelector('.fjs-form-field-multipage')).to.not.exist;
+
+      // when
+      const result = navigation().navigate('Multipage_1', 'Page_3');
+
+      await act(() => form._setState({ data: { ...form._getState().data, state: null } }));
+
+      // then
+      expect(result).to.be.true;
+      expect(activeLabel()).to.equal('Summary');
+    });
+
+    it('should start over on reset', async function () {
+      // given
+      await bootstrapForm();
+
+      await clickButton('Continue');
+
+      // when
+      await act(() => form.reset());
+
+      // then
+      expect(activeLabel()).to.equal('Account type');
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+    });
+
+    it('should start over on import', async function () {
+      // given
+      await bootstrapForm();
+
+      await clickButton('Continue');
+
+      // when
+      await act(() => form.importSchema(multiPageSchema));
+
+      // then
+      expect(activeLabel()).to.equal('Account type');
+    });
+
+    it('should restore a page after import', async function () {
+      // given
+      await bootstrapForm();
+
+      await clickButton('Continue');
+
+      const pageId = navigation().getActivePage('Multipage_1');
+
+      // when
+      await act(async () => {
+        await form.importSchema(multiPageSchema);
+
+        navigation().navigate('Multipage_1', pageId);
+      });
+
+      // then
+      expect(activeLabel()).to.equal('Summary');
+    });
+
+    it('should keep the position of each repetition apart', async function () {
+      // given
+      const schema = {
+        type: 'default',
+        id: 'RepeatedMultiPageForm',
+        components: [
+          {
+            type: 'dynamiclist',
+            id: 'List_1',
+            path: 'items',
+            isRepeating: true,
+            components: [
+              {
+                type: 'multipage',
+                id: 'Multipage_1',
+                components: [
+                  {
+                    type: 'page',
+                    id: 'Page_1',
+                    label: 'First',
+                    components: [{ type: 'textfield', id: 'Textfield_a', key: 'a', label: 'A' }],
+                  },
+                  {
+                    type: 'page',
+                    id: 'Page_2',
+                    label: 'Second',
+                    components: [{ type: 'textfield', id: 'Textfield_b', key: 'b', label: 'B' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      await bootstrapForm({ schema, data: { items: [{}, {}] } });
+
+      // when
+      await act(() => navigation().navigate('Multipage_1', 'Page_2', { indexes: { List_1: 1 } }));
+
+      // then
+      expect(navigation().getActivePage('Multipage_1', { indexes: { List_1: 0 } })).to.equal('Page_1');
+      expect(navigation().getActivePage('Multipage_1', { indexes: { List_1: 1 } })).to.equal('Page_2');
+    });
+  });
+
   describe('validation', function () {
-    const schema = {
-      type: 'default',
-      id: 'ValidatedMultiPageForm',
-      components: [
-        {
-          type: 'multipage',
-          id: 'Multipage_1',
-          components: [
-            {
-              type: 'page',
-              id: 'Page_1',
-              label: 'First',
-              components: [
-                {
-                  type: 'textfield',
-                  id: 'Textfield_name',
-                  key: 'name',
-                  label: 'Name',
-                  validate: { required: true },
-                },
-              ],
-            },
-            {
-              type: 'page',
-              id: 'Page_2',
-              label: 'Second',
-              components: [
-                {
-                  type: 'textfield',
-                  id: 'Textfield_nickname',
-                  key: 'nickname',
-                  label: 'Nickname',
-                  validate: { required: true },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
+    const schema = validatedSchema;
 
     it('should not leave a page with errors', async function () {
       // given

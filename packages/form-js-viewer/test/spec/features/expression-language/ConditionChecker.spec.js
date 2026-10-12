@@ -113,6 +113,41 @@ describe('ConditionChecker', function () {
     });
   });
 
+  describe('#getHiddenFieldIds', function () {
+    beforeEach(function () {
+      form = {
+        type: 'default',
+        components: [
+          {
+            id: 'Group_1',
+            type: 'group',
+            conditional: { hide: '=hideGroup' },
+            components: [
+              { id: 'Textfield_shown', key: 'shown', type: 'textfield' },
+              { id: 'Textfield_hidden', key: 'hidden', type: 'textfield', conditional: { hide: '=true' } },
+            ],
+          },
+        ],
+      };
+    });
+
+    it('should report the fields hidden by an ancestor', function () {
+      // when
+      const result = conditionChecker.getHiddenFieldIds({ hideGroup: true });
+
+      // then
+      expect(Array.from(result)).to.have.members(['Group_1', 'Textfield_shown', 'Textfield_hidden']);
+    });
+
+    it('should report only the fields hidden by their own condition with <ownConditionOnly>', function () {
+      // when
+      const result = conditionChecker.getHiddenFieldIds({ hideGroup: true }, {}, { ownConditionOnly: true });
+
+      // then
+      expect(Array.from(result)).to.have.members(['Group_1', 'Textfield_hidden']);
+    });
+  });
+
   describe('#applyConditions', function () {
     it('should filter out properties for which condition is not met', function () {
       // given
