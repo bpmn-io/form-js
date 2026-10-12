@@ -1040,6 +1040,83 @@ describe('MultiPage', function () {
     });
   });
 
+  describe('read-only form', function () {
+    const navigationButton = (label) =>
+      Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).find(
+        (candidate) => candidate.textContent === label,
+      );
+
+    it('should navigate forwards and backwards', async function () {
+      // given
+      await bootstrapForm({ properties: { readOnly: true } });
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('Summary');
+
+      // when
+      await clickButton('Back');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('Account type');
+    });
+
+    it('should leave an invalid page without reporting its errors', async function () {
+      // given
+      await bootstrapForm({ schema: gatedSchema, properties: { readOnly: true } });
+
+      // assume
+      expect(navigationButton('Next').getAttribute('aria-disabled')).to.not.exist;
+
+      // when
+      await clickButton('Next');
+
+      // then
+      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(container.querySelector('.fjs-form-field-error')).to.not.exist;
+    });
+
+    it('should disable the submit control', async function () {
+      // given
+      await bootstrapForm({ schema: gatedSchema, data: { name: 'Igor' }, properties: { readOnly: true } });
+
+      // when
+      await clickButton('Next');
+
+      // then
+      expect(navigationButton('Back').disabled).to.be.false;
+      expect(navigationButton('Submit').disabled).to.be.true;
+    });
+  });
+
+  describe('disabled form', function () {
+    const navigationButton = (label) =>
+      Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).find(
+        (candidate) => candidate.textContent === label,
+      );
+
+    it('should disable <back> and <next>', async function () {
+      // given
+      await bootstrapForm({ schema: validatedSchema, properties: { disabled: true } });
+
+      const multiPageNavigation = form.get('multiPageNavigation');
+
+      // when
+      await act(() => multiPageNavigation.navigate('Multipage_1', 'Page_2'));
+
+      // then
+      expect(navigationButton('Back').disabled).to.be.true;
+
+      // when
+      await act(() => multiPageNavigation.navigate('Multipage_1', 'Page_1'));
+
+      // then
+      expect(navigationButton('Next').disabled).to.be.true;
+    });
+  });
+
   describe('data', function () {
     it('should keep the values of a page that is no longer on screen', async function () {
       // given
