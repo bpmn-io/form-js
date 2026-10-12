@@ -1,6 +1,7 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'preact/hooks';
 
+import { resolveActivePageId } from '../../../features/multiPageNavigation/MultiPageNavigation';
 import { FormRenderContext, MultiPageContext } from '../../context';
 import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
 import { formFieldClasses } from '../Util';
@@ -18,34 +19,31 @@ export function MultiPage(props) {
 
   const visiblePages = useVisiblePages(pages, applyVisibilityConditions, indexes);
 
-  const [activePageId, setActivePageId] = useState(null);
+  const eventBus = useService('eventBus');
+  const multiPageNavigation = useService('multiPageNavigation');
 
-  // a condition may hide the page the user is on; carry on from where it stood
-  // rather than dropping back to the beginning
-  const resolvedActivePageId = useMemo(() => {
-    if (!visiblePages.length) {
-      return null;
-    }
+  // the position lives in the navigation service, which may be moved from outside
+  const [, rerender] = useReducer((count) => count + 1, 0);
 
-    if (visiblePages.some((page) => page.id === activePageId)) {
-      return activePageId;
-    }
+  useEffect(() => {
+    const onPageChanged = ({ formField }) => {
+      if (formField.id === field.id) {
+        rerender();
+      }
+    };
 
-    const position = pages.findIndex((page) => page.id === activePageId);
+    eventBus.on('multipage.pageChanged', onPageChanged);
 
-    if (position === -1) {
-      return visiblePages[0].id;
-    }
+    return () => eventBus.off('multipage.pageChanged', onPageChanged);
+  }, [eventBus, field.id]);
 
-    const forward = visiblePages.find((page) => pages.indexOf(page) > position);
+  const activePageId = multiPageNavigation._getPosition(field.id, indexes);
 
-    return (forward || visiblePages[visiblePages.length - 1]).id;
-  }, [pages, visiblePages, activePageId]);
+  const resolvedActivePageId = resolveActivePageId(pages, visiblePages, activePageId);
 
   const activeIndex = visiblePages.findIndex((page) => page.id === resolvedActivePageId);
   const activePage = activeIndex === -1 ? null : visiblePages[activeIndex];
 
-  const eventBus = useService('eventBus');
   const { data } = useService('form')._getState();
   const { isPageValid, reportPageErrors } = usePageValidation(indexes);
 
@@ -55,16 +53,9 @@ export function MultiPage(props) {
         return;
       }
 
-      setActivePageId(target.id);
-
-      eventBus.fire('multipage.pageChanged', {
-        formField: field,
-        from: activePage,
-        to: target,
-        indexes,
-      });
+      multiPageNavigation._setPosition(field, activePage, target, indexes);
     },
-    [activePage, eventBus, field, indexes],
+    [activePage, field, indexes, multiPageNavigation],
   );
 
   const onNext = useCallback(() => {
@@ -77,26 +68,18 @@ export function MultiPage(props) {
 
   const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
 
-  // a condition can move the user off the page they were on; commit that move, so
-  // that revealing the old page later does not drag them backwards
+  // commit the page the container opens on, and any move a condition forced, so
+  // that revealing an earlier page later does not drag the user backwards
   useEffect(() => {
     if (resolvedActivePageId === null || resolvedActivePageId === activePageId) {
       return;
     }
 
-    const from = pages.find((page) => page.id === activePageId);
+    const from = pages.find((page) => page.id === activePageId) || null;
+    const to = visiblePages.find((page) => page.id === resolvedActivePageId);
 
-    setActivePageId(resolvedActivePageId);
-
-    if (from) {
-      eventBus.fire('multipage.pageChanged', {
-        formField: field,
-        from,
-        to: visiblePages.find((page) => page.id === resolvedActivePageId),
-        indexes,
-      });
-    }
-  }, [activePageId, eventBus, field, indexes, pages, resolvedActivePageId, visiblePages]);
+    multiPageNavigation._setPosition(field, from, to, indexes);
+  }, [activePageId, field, indexes, multiPageNavigation, pages, resolvedActivePageId, visiblePages]);
 
   // a failing field on a page that is not on screen is invisible to the user,
   // so bring the first such page forward when submission is rejected
@@ -270,69 +253,16 @@ function useVisiblePages(pages, applyVisibilityConditions, indexes) {
  * where it also reads the freshest data rather than the data of a render.
  */
 function usePageValidation(indexes) {
-  const form = useService('form');
-  const validator = useService('validator');
-  const formFieldRegistry = useService('formFieldRegistry');
-  const formFieldInstanceRegistry = useService('formFieldInstanceRegistry', false);
-  const viewerCommands = useService('viewerCommands', false);
-
-  const getPageInstances = useCallback(
-    (page) => {
-      if (!page || !formFieldInstanceRegistry) {
-        return [];
-      }
-
-      const pageFieldIds = collectPageFieldIds(page);
-
-      return formFieldInstanceRegistry.getAllKeyed().filter(({ id, indexes: instanceIndexes }) => {
-        if (!pageFieldIds.has(id)) {
-          return false;
-        }
-
-        const field = formFieldRegistry.get(id);
-
-        if (field && field.disabled) {
-          return false;
-        }
-
-        // a multipage container may itself sit within a repetition
-        return Object.entries(indexes || {}).every(([key, index]) => (instanceIndexes || {})[key] === index);
-      });
-    },
-    [formFieldInstanceRegistry, formFieldRegistry, indexes],
-  );
+  const multiPageNavigation = useService('multiPageNavigation');
 
   const isPageValid = useCallback(
-    (page, data) =>
-      getPageInstances(page).every(
-        (fieldInstance) => !validator.validateFieldInstance(fieldInstance, get(data, fieldInstance.valuePath)).length,
-      ),
-    [getPageInstances, validator],
+    (page, data) => multiPageNavigation._isPageValid(page, data, indexes),
+    [multiPageNavigation, indexes],
   );
 
   const reportPageErrors = useCallback(
-    (page) => {
-      if (!viewerCommands) {
-        return true;
-      }
-
-      const { data } = form._getState();
-
-      let isValid = true;
-
-      getPageInstances(page).forEach((fieldInstance) => {
-        const value = get(data, fieldInstance.valuePath);
-
-        if (validator.validateFieldInstance(fieldInstance, value).length) {
-          isValid = false;
-        }
-
-        viewerCommands.updateFieldInstanceValidation(fieldInstance, value);
-      });
-
-      return isValid;
-    },
-    [form, getPageInstances, validator, viewerCommands],
+    (page) => multiPageNavigation._reportPageErrors(page, indexes),
+    [multiPageNavigation, indexes],
   );
 
   return { isPageValid, reportPageErrors };
@@ -342,24 +272,6 @@ function collectFieldIds(field, ids = new Set()) {
   (field.components || []).forEach((component) => {
     ids.add(component.id);
     collectFieldIds(component, ids);
-  });
-
-  return ids;
-}
-
-/**
- * Collect the fields a page owns, stopping at a nested multipage container.
- *
- * A nested container governs its own pages, so holding the outer page back over
- * an error the user cannot see would leave them with no way forward.
- */
-function collectPageFieldIds(field, ids = new Set()) {
-  (field.components || []).forEach((component) => {
-    ids.add(component.id);
-
-    if (component.type !== type) {
-      collectPageFieldIds(component, ids);
-    }
   });
 
   return ids;

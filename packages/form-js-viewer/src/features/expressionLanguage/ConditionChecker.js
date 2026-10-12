@@ -65,13 +65,17 @@ export class ConditionChecker {
    *
    * @param {Object<string, any>} contextData
    * @param {Object<string, number>} [indexes] - repetition indexes to report for, keyed by repeater id
+   * @param {Object} [options]
+   * @param {boolean} [options.ownConditionOnly=false] - report only the fields hidden by their own condition, not by an ancestor
    * @returns {Set<string>}
    */
-  getHiddenFieldIds(contextData = {}, indexes = {}) {
+  getHiddenFieldIds(contextData = {}, indexes = {}, options = {}) {
+    const { ownConditionOnly = false } = options;
+
     const hiddenFieldIds = new Set();
 
-    this._walkConditions(contextData, ({ field, indexes: fieldIndexes, isHidden }) => {
-      if (!isHidden) {
+    this._walkConditions(contextData, ({ field, indexes: fieldIndexes, isHidden, isHiddenByOwnCondition }) => {
+      if (ownConditionOnly ? !isHiddenByOwnCondition : !isHidden) {
         return;
       }
 
@@ -93,7 +97,7 @@ export class ConditionChecker {
    * so that a condition on a container reaches the fields underneath it.
    *
    * @param {Object<string, any>} contextData
-   * @param {(result: { field: Object, indexes: Object<string, number>, isHidden: boolean, isClosed: boolean, isRepeatable: boolean }) => void} visit
+   * @param {(result: { field: Object, indexes: Object<string, number>, isHidden: boolean, isHiddenByOwnCondition: boolean, isClosed: boolean, isRepeatable: boolean }) => void} visit
    */
   _walkConditions(contextData, visit) {
     const walkScope = (rootField, scopeContext, startHidden = false) => {
@@ -114,11 +118,13 @@ export class ConditionChecker {
           parent: parentScopeData,
         });
 
-        const isHidden = Boolean(
-          hiddenByAncestor || (conditional && this._checkHideCondition(conditional, localExpressionContext)),
+        const isHiddenByOwnCondition = Boolean(
+          conditional && this._checkHideCondition(conditional, localExpressionContext),
         );
 
-        visit({ field, indexes, isHidden, isClosed, isRepeatable });
+        const isHidden = Boolean(hiddenByAncestor || isHiddenByOwnCondition);
+
+        visit({ field, indexes, isHidden, isHiddenByOwnCondition, isClosed, isRepeatable });
 
         // a hidden repeater is handled at its root, a leaf field has nothing below it
         if (isClosed || (isRepeatable && isHidden)) {
