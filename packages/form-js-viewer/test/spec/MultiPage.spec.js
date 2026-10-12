@@ -633,6 +633,28 @@ describe('MultiPage', function () {
       expect(activeLabel()).to.equal('Summary');
     });
 
+    it('should navigate between a render and its effects', async function () {
+      // given
+      await bootstrapForm({ schema: hideableSchema, data: { state: 'away' } });
+
+      // when
+      // reveal the container and let it render, but not yet run its effects
+      form._setState({ data: { ...form._getState().data, state: null } });
+
+      await new Promise((resolve) => setTimeout(resolve));
+
+      // assume
+      expect(container.querySelector('.fjs-form-field-multipage')).to.exist;
+
+      navigation().navigate('Multipage_1', 'Page_3');
+
+      await act(() => new Promise((resolve) => setTimeout(resolve, 200)));
+
+      // then
+      expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+      expect(activeLabel()).to.equal('Summary');
+    });
+
     it('should keep the position of each repetition apart', async function () {
       // given
       const schema = {
