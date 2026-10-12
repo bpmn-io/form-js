@@ -39,6 +39,9 @@ By default that refusal only shows up on the click. Set
 submit controls of an invalid page carry `aria-disabled`. They stay focusable,
 and clicking one reports the errors of the page rather than moving on.
 
+In a read-only form, back and next skip validation, so every page can be read.
+The submit control is disabled. A disabled form disables every control.
+
 A page inside a nested multipage is governed by that inner container, so an error
 there never blocks the outer page. Submission still validates everything.
 

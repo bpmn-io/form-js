@@ -58,13 +58,15 @@ export function MultiPage(props) {
     [activePage, field, indexes, multiPageNavigation],
   );
 
+  // a read-only form can be paged through, but its fields cannot be corrected,
+  // so moving on neither reports errors nor waits for them to be fixed
   const onNext = useCallback(() => {
-    if (!reportPageErrors(activePage)) {
+    if (!readonly && !reportPageErrors(activePage)) {
       return;
     }
 
     navigate(visiblePages[activeIndex + 1]);
-  }, [activeIndex, activePage, navigate, reportPageErrors, visiblePages]);
+  }, [activeIndex, activePage, navigate, readonly, reportPageErrors, visiblePages]);
 
   const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
 
@@ -114,7 +116,7 @@ export function MultiPage(props) {
     }
   }, [activePage, data, isPageValid, disableInvalidNavigation]);
 
-  const blocked = Boolean(disableInvalidNavigation) && !isActivePageValid;
+  const blocked = Boolean(disableInvalidNavigation) && !readonly && !isActivePageValid;
 
   const onBlocked = useCallback(() => reportPageErrors(activePage), [activePage, reportPageErrors]);
 
@@ -202,7 +204,7 @@ function Navigation(props) {
   return (
     <div class="fjs-multipage-navigation">
       {showBack ? (
-        <button type="button" class="fjs-button fjs-multipage-back" disabled={disabled || readonly} onClick={onBack}>
+        <button type="button" class="fjs-button fjs-multipage-back" disabled={disabled} onClick={onBack}>
           {backLabel}
         </button>
       ) : null}
@@ -210,7 +212,7 @@ function Navigation(props) {
         <button
           type="button"
           class="fjs-button fjs-multipage-next"
-          disabled={disabled || readonly}
+          disabled={disabled}
           aria-disabled={blocked ? 'true' : null}
           onClick={onNext}>
           {nextLabel}
