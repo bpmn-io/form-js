@@ -100,7 +100,7 @@
     "copyfiles": "^2.4.1",
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.4",
-    "del-cli": "^7.0.0",
+    "del-cli": "^8.0.0",
     "diagram-js": "^15.22.0",
     "didi": "^11.0.0",
     "eslint": "^9.39.4",
