@@ -203,6 +203,7 @@ export default {
   "Searchable": "Searchable",
   "Security attributes": "Security attributes",
   "Select": "Select",
+  "Select an option": "Select an option",
   "Selection": "Selection",
   "Separator": "Separator",
   "Serialization": "Serialization",
