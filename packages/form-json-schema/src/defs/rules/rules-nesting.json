@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "#/rules/nesting",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "multipage"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "items": {
+              "properties": {
+                "type": {
+                  "const": "page"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "multipage"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "items": {
+              "properties": {
+                "type": {
+                  "not": {
+                    "const": "page"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

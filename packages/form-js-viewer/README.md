@@ -167,6 +167,40 @@ Subscribe to an [event](#events).
 
 Remove form from the document.
 
+### Navigate multipage containers
+
+The `multiPageNavigation` service reads and sets the page a multipage container shows. Containers and pages are identified by their `id`.
+
+```javascript
+const navigation = form.get('multiPageNavigation');
+
+// the id of the page the container shows, or null
+navigation.getActivePage('Multipage_1');
+
+// move the container to a page, returns whether it shows the page
+navigation.navigate('Multipage_1', 'Page_3');
+```
+
+`navigate` returns `false` if the container or the page is unknown, or if a condition hides the page. It does not validate the page the container leaves. Pass `{ validate: true }` to refuse the move while that page has errors, and show them on the fields.
+
+A container inside a dynamic list has a page per list item. Pass the repetition `indexes` to both methods, e.g. `{ indexes: { List_1: 2 } }`.
+
+A container hidden by a condition keeps its page and can be navigated. It shows the page once it is revealed. Resetting the form or importing a schema sends every container back to its first page. To keep the page across an import, store it from `multipage.pageChanged` and navigate to it once `importSchema` resolves:
+
+```javascript
+let position;
+
+form.on('multipage.pageChanged', ({ formField, to }) => {
+  position = { container: formField.id, page: to.id };
+});
+
+await form.importSchema(schema, data);
+
+if (position) {
+  form.get('multiPageNavigation').navigate(position.container, position.page);
+}
+```
+
 ## Events
 
 ### `changed :: { data, errors }`
@@ -180,6 +214,10 @@ Fired off on form submission.
 ### `import.done :: { error, warnings }`
 
 Fired whenever a schema has finished importing, whether it succeeds or fails.
+
+### `multipage.pageChanged :: { formField, from, to, indexes }`
+
+Fired when a multipage container moves to another page, and when it opens on its first page. In that case `from` is `null`.
 
 ### Layouting events
 

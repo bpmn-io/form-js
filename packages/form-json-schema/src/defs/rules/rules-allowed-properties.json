@@ -505,6 +505,75 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "page"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "nextLabel": false,
+          "backLabel": false,
+          "submitLabel": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["multipage", "page"]
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "path": false
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "type": {
+              "const": "multipage"
+            }
+          },
+          "required": ["type"]
+        }
+      },
+      "then": {
+        "properties": {
+          "showSubmit": false,
+          "disableInvalidNavigation": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "multipage"
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "label": false,
+          "showOutline": false,
+          "verticalAlignment": false
+        }
+      }
     }
   ]
 }

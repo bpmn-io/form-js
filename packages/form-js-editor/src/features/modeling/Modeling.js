@@ -8,6 +8,8 @@ import { UpdatePathClaimHandler } from './cmd/UpdatePathClaimHandler';
 
 import { isObject } from 'min-dash';
 
+import { validateNesting } from '../../util/nesting';
+
 export class Modeling {
   constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
     this._commandStack = commandStack;
@@ -39,6 +41,8 @@ export class Modeling {
   }
 
   addFormField(attrs, targetFormField, targetIndex) {
+    ensureValidNesting(attrs.type, targetFormField);
+
     const formField = this._fieldFactory.create(attrs);
 
     const context = {
@@ -68,6 +72,8 @@ export class Modeling {
   }
 
   moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex, sourceRow, targetRow) {
+    ensureValidNesting(formField.type, targetFormField);
+
     const context = {
       formField,
       sourceFormField,
@@ -153,3 +159,11 @@ export class Modeling {
 }
 
 Modeling.$inject = ['commandStack', 'eventBus', 'formEditor', 'formFieldRegistry', 'fieldFactory'];
+
+function ensureValidNesting(type, targetFormField) {
+  const problem = targetFormField && validateNesting(type, targetFormField.type);
+
+  if (problem) {
+    throw new Error(problem);
+  }
+}

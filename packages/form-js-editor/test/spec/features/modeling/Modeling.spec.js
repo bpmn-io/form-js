@@ -78,6 +78,62 @@ describe('features/modeling', function () {
     }));
   });
 
+  describe('nesting', function () {
+    it('should reject a page outside a multi page container', inject(function (modeling, formFieldRegistry) {
+      // given
+      const parent = formFieldRegistry.get('Form_1');
+
+      // when
+      const add = () => modeling.addFormField({ type: 'page' }, parent, 0);
+
+      // then
+      expect(add).to.throw(/only be placed inside a multi page container/);
+    }));
+
+    it('should reject anything but a page inside a multi page container', inject(function (
+      modeling,
+      formFieldRegistry,
+    ) {
+      // given
+      const parent = formFieldRegistry.get('Form_1');
+      const multiPage = modeling.addFormField({ type: 'multipage' }, parent, 0);
+
+      // when
+      const add = () => modeling.addFormField({ type: 'button' }, multiPage, 0);
+
+      // then
+      expect(add).to.throw(/can only hold pages/);
+    }));
+
+    it('should accept a page inside a multi page container', inject(function (modeling, formFieldRegistry) {
+      // given
+      const parent = formFieldRegistry.get('Form_1');
+      const multiPage = modeling.addFormField({ type: 'multipage' }, parent, 0);
+
+      // when
+      const page = modeling.addFormField({ type: 'page' }, multiPage, 0);
+
+      // then
+      expect(multiPage.components).to.eql([page]);
+    }));
+
+    it('should reject moving a page out of its multi page container', inject(function (
+      modeling,
+      formFieldRegistry,
+    ) {
+      // given
+      const parent = formFieldRegistry.get('Form_1');
+      const multiPage = modeling.addFormField({ type: 'multipage' }, parent, 0);
+      const page = modeling.addFormField({ type: 'page' }, multiPage, 0);
+
+      // when
+      const move = () => modeling.moveFormField(page, multiPage, parent, 0, 0);
+
+      // then
+      expect(move).to.throw(/only be placed inside a multi page container/);
+    }));
+  });
+
   describe('#editFormField', function () {
     describe('single property', function () {
       let oldFormField;
