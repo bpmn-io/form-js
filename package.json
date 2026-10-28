@@ -88,7 +88,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/chai": "^5.2.3",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.12.2",
+    "@types/node": "^26.0.0",
     "@types/sinon": "^22.0.0",
     "@types/sinon-chai": "^4.0.0",
     "ajv": "^8.20.0",
