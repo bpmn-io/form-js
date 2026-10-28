@@ -60,7 +60,7 @@
     "luxon": "^3.7.2",
     "marked": "^18.0.3",
     "min-dash": "^5.1.0",
-    "preact": "^10.29.5"
+    "preact": "^11.0.0"
   },
   "sideEffects": [
     "*.css"
