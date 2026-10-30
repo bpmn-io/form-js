@@ -181,7 +181,7 @@
   outline: none;
 }
 
-.fjs-editor-container .fjs-form-field-grouplike .cds--grid {
+.fjs-editor-container .fjs-form-field-grouplike .fjs-children {
   padding: 0 2rem;
 }
 
@@ -725,7 +725,7 @@
   border-radius: 5px !important;
 }
 
-.fjs-error-drop.cds--row {
+.fjs-error-drop.fjs-layout-row {
   flex-wrap: nowrap !important;
 }
 
@@ -784,6 +784,6 @@
   align-items: start !important;
 }
 
-.gu-mirror.fjs-drag-row-move .cds--row {
+.gu-mirror.fjs-drag-row-move .fjs-layout-row {
   flex-wrap: nowrap !important;
 }
