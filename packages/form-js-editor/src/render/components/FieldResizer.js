@@ -10,7 +10,7 @@ import { DRAG_NO_MOVE_CLS } from '../../features/dragging/Dragging';
 
 import classNames from 'classnames';
 
-const COLUMNS_REGEX = /^cds--col(-lg)?/;
+const COLUMNS_REGEX = /^fjs-layout-column-\d+$/;
 
 const ELEMENT_RESIZING_CLS = 'fjs-element-resizing';
 
@@ -46,7 +46,7 @@ export function FieldResizer(props) {
       // make visual updates to preview change
       const columnNode = ref.current.closest('.fjs-layout-column');
       removeMatching(columnNode, COLUMNS_REGEX);
-      columnNode.classList.add(`cds--col-lg-${newColumns}`);
+      columnNode.classList.add(`fjs-layout-column-${newColumns}`);
     }
   });
 

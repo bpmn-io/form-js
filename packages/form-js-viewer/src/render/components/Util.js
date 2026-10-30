@@ -17,14 +17,7 @@ export function gridColumnClasses(formField) {
 
   const { columns } = layout;
 
-  return classNames(
-    'fjs-layout-column',
-    `cds--col${columns ? '-lg-' + columns : ''}`,
-
-    // always fall back to top-down on smallest screens
-    'cds--col-sm-16',
-    'cds--col-md-16',
-  );
+  return classNames('fjs-layout-column', columns && `fjs-layout-column-${columns}`);
 }
 
 export function textToLabel(text) {

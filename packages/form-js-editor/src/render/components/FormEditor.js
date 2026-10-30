@@ -510,7 +510,7 @@ function CreatePreview(props) {
       return;
     }
 
-    function handleCloned(clone, original, type) {
+    function handleCloned(clone) {
       const fieldType = clone.dataset.fieldType;
 
       // (1) field preview
@@ -530,11 +530,6 @@ function CreatePreview(props) {
         clone.class = 'gu-mirror';
         clone.classList.add('fjs-field-preview-container');
 
-        if (original.classList.contains('fjs-palette-field')) {
-          // default to auto columns when creating from palette
-          clone.classList.add('cds--col');
-        }
-
         // todo(pinussilvestrus): dragula, how to mitigate cursor position
         // https://github.com/bevacqua/dragula/issues/285
         render(<FieldDragPreview label={label} Icon={Icon} />, clone);
@@ -546,10 +541,6 @@ function CreatePreview(props) {
           const cloneNode = clone.querySelectorAll('.' + cls);
           cloneNode.length && cloneNode.forEach((e) => e.remove());
         });
-
-        // mirror grid
-        clone.classList.add('cds--grid');
-        clone.classList.add('cds--grid--condensed');
       }
     }
 

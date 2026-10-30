@@ -485,8 +485,19 @@ describe('FormField', function () {
       // then
       const layout = container.querySelector('.fjs-layout-column');
 
-      expect(classes(layout).has('cds--col-lg-8')).to.be.true;
-      expect(classes(layout).has('cds--col-sm-16')).to.be.true;
+      expect(classes(layout).has('fjs-layout-column-8')).to.be.true;
+    });
+
+    it('should render auto column', function () {
+      // when
+      const { container } = createFormField({
+        field: { ...defaultField, layout: {} },
+      });
+
+      // then
+      const layout = container.querySelector('.fjs-layout-column');
+
+      expect(layout.className).to.equal('fjs-layout-column');
     });
   });
 });
