@@ -58,7 +58,6 @@ export default [
       'preact/compat',
       'flatpickr',
       'marked',
-      '@carbon/grid',
       'feelers',
       'dompurify',
     ],
