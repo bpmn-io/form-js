@@ -126,11 +126,6 @@
   flex-direction: column;
 }
 
-.fjs-container .fjs-columns {
-  display: flex;
-  flex-direction: row;
-}
-
 .fjs-container .fjs-vertical-group {
   display: flex;
   flex: 1;
@@ -145,10 +140,6 @@
 
 .fjs-container .fjs-layout-row:empty {
   display: none;
-}
-
-.fjs-container .fjs-column {
-  flex-grow: 1;
 }
 
 .fjs-container img {
