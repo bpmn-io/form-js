@@ -1522,6 +1522,41 @@ describe('FormEditor', function () {
       expect(formFieldNode.querySelector('.fjs-field-resize-handle-left')).to.exist;
     });
 
+    it('should preview new column width', async function () {
+      // given
+      await bootstrapFormEditor({
+        schema: schemaRows,
+        container,
+      });
+
+      const field = formEditor.get('formFieldRegistry').get('Textfield_1');
+
+      formEditor.get('selection').set(field);
+
+      await expectSelected('Textfield_1');
+
+      const formFieldNode = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      const columnNode = formFieldNode.closest('.fjs-layout-column');
+
+      const resizer = formFieldNode.querySelector('.fjs-field-resize-handle-right');
+      const bounds = resizer.getBoundingClientRect();
+
+      // when
+      startResizing(resizer);
+      moveResizing(resizer, {
+        clientX: bounds.x + asPixels(-2, getRowParent(formFieldNode)),
+        clientY: bounds.y,
+      });
+
+      // then
+      expect(columnNode.classList.contains('fjs-layout-column')).to.be.true;
+      expect(columnNode.classList.contains('fjs-layout-column-6')).to.be.true;
+      expect(columnNode.classList.contains('fjs-layout-column-8')).to.be.false;
+
+      endResizing(resizer);
+    });
+
     expectResized('should resize form field - right, decrease', 'Textfield_1', 'right', 8, -2, 6);
 
     expectResized('should resize form field - right, increase', 'Radio_1', 'right', 8, 2, 10);

@@ -6,7 +6,9 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: replace the Carbon grid with a built-in layout grid. Forms render `fjs-layout-row`, `fjs-layout-column` and `fjs-layout-column-<n>` instead of the `cds--*` grid classes; adjust custom CSS targeting `.cds--grid`, `.cds--row` or `.cds--col*`
 * `DEPS`: update to `didi@12.0.0`
+* `DEPS`: remove `@carbon/grid`
 
 ## 2.1.1
 
