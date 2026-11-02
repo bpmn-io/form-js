@@ -1,5 +1,7 @@
 import dragula from '@bpmn-io/draggle';
 
+import { isKey } from 'diagram-js/lib/features/keyboard/KeyboardUtil';
+
 import { set as setCursor } from '../../render/util/Cursor';
 import { getAncestryList } from '@bpmn-io/form-js-viewer';
 
@@ -354,6 +356,21 @@ export class Dragging {
         // (2) handle form field drop
         this.handleElementDrop(el, target, source, sibling, dragulaInstance);
       }
+    });
+
+    // cancel active drag operation if the user presses ESC
+    const cancelOnEscape = (event) => {
+      if (isKey('Escape', event)) {
+        dragulaInstance.cancel(true);
+      }
+    };
+
+    dragulaInstance.on('drag', () => {
+      document.addEventListener('keyup', cancelOnEscape);
+    });
+
+    dragulaInstance.on('dragend', () => {
+      document.removeEventListener('keyup', cancelOnEscape);
     });
 
     this.emit('dragula.created', dragulaInstance);
