@@ -994,6 +994,59 @@ describe('FormEditor', function () {
       expect(selection.get()).to.include({ type: 'textfield' });
     });
 
+    it('should cancel creating new form field on ESC', async function () {
+      // given
+      await bootstrapFormEditor({
+        schema,
+        container,
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      startDragging(container);
+      moveDragging(container);
+
+      // when
+      fireEvent.keyUp(document, { key: 'Escape' });
+
+      endDragging(container);
+
+      // then
+      expect(formFieldRegistry.getAll()).to.have.length(countComponents(schema));
+    });
+
+    it('should cancel moving form field on ESC', async function () {
+      // given
+      await bootstrapFormEditor({
+        schema: schemaRows,
+        container,
+      });
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      const formField = container.querySelector('[data-id="Textfield_1"]').parentNode;
+
+      const row = container.querySelector('[data-row-id=Row_4]');
+      const bounds = row.getBoundingClientRect();
+
+      startDragging(container, formField);
+      moveDragging(container, {
+        clientX: bounds.x + 10,
+        clientY: bounds.y + 10,
+      });
+
+      // when
+      fireEvent.keyUp(document, { key: 'Escape' });
+
+      endDragging(container);
+
+      // then
+      expectLayout(formFieldRegistry.get('Textfield_1'), {
+        columns: 8,
+        row: 'Row_1',
+      });
+    });
+
     it('should move form field', async function () {
       // given
       let dragulaCreated = false;
