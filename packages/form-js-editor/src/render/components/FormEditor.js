@@ -513,6 +513,9 @@ function CreatePreview(props) {
     function handleCloned(clone) {
       const fieldType = clone.dataset.fieldType;
 
+      // let the stylesheet size the preview, instead of the inline size set by the drag library
+      clone.style.removeProperty('height');
+
       // (1) field preview
       if (fieldType) {
         const paletteEntry = findPaletteEntry(fieldType, formFields);
@@ -529,6 +532,7 @@ function CreatePreview(props) {
 
         clone.class = 'gu-mirror';
         clone.classList.add('fjs-field-preview-container');
+        clone.style.removeProperty('width');
 
         // todo(pinussilvestrus): dragula, how to mitigate cursor position
         // https://github.com/bevacqua/dragula/issues/285
