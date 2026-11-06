@@ -6,6 +6,7 @@ All notable changes to [form-js](https://github.com/bpmn-io/form-js) are documen
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: cancel dragging in form editor on escape ([#580](https://github.com/bpmn-io/form-js/issues/580), [#1581](https://github.com/bpmn-io/form-js/pull/1581))
 * `DEPS`: update to `didi@12.0.0`
 
 ## 2.1.1
