@@ -150,13 +150,13 @@
 }
 
 .fjs-editor-container .fjs-children .fjs-element.fjs-editor-selected {
-  border-color: var(--color-children-selected-border) !important;
+  border-color: var(--color-children-selected-border);
   background-color: var(--color-children-selected-background);
   border-style: solid;
 }
 
-.fjs-editor-container .fjs-children .fjs-element:hover.fjs-editor-hovered,
-.fjs-editor-container .fjs-children .fjs-element:focus {
+.fjs-editor-container .fjs-children .fjs-element:not(.fjs-editor-selected):hover.fjs-editor-hovered,
+.fjs-editor-container .fjs-children .fjs-element:not(.fjs-editor-selected):focus {
   border-color: var(--color-children-hover-border);
   border-style: solid;
 }
@@ -356,7 +356,7 @@
 /* do not show resize handles on small screens */
 @media (max-width: 66rem) {
   .fjs-editor-container .fjs-children .fjs-editor-selected .fjs-field-resize-handle {
-    display: none !important;
+    display: none;
   }
 }
 
@@ -695,58 +695,58 @@
 /**
  * Custom Dragula Styles
  */
-.gu-transit {
-  background: var(--color-dragula-background) !important;
-  border: dashed 2px var(--color-dragula-border) !important;
-  border-radius: 3px !important;
-  filter: none !important;
-  height: 70px !important;
-  opacity: 1 !important;
+.fjs-editor-container .gu-transit {
+  background: var(--color-dragula-background);
+  border: dashed 2px var(--color-dragula-border);
+  border-radius: 3px;
+  filter: none;
+  height: 70px;
+  opacity: 1;
   /* mitigate for additional border in row */
-  flex-grow: 0.98 !important;
-  margin: 0 !important;
+  flex-grow: 0.98;
+  margin: 0;
 }
 
 /* row drop preview */
-.fjs-children > .gu-transit {
-  height: 28px !important;
-  width: 100% !important;
-  flex: unset !important;
+.fjs-editor-container .fjs-children > .gu-transit {
+  height: 28px;
+  width: 100%;
+  flex: unset;
 }
 
 /* error drop preview */
-.fjs-error-drop > .gu-transit {
-  height: 100% !important;
-  background: var(--color-dragula-error-background) !important;
-  border: none !important;
-  width: 6px !important;
-  flex: none !important;
-  padding: 0 !important;
-  border-radius: 5px !important;
+.fjs-editor-container .fjs-error-drop > .gu-transit {
+  height: 100%;
+  background: var(--color-dragula-error-background);
+  border: none;
+  width: 6px;
+  flex: none;
+  padding: 0;
+  border-radius: 5px;
 }
 
-.fjs-error-drop.fjs-layout-row {
-  flex-wrap: nowrap !important;
+.fjs-editor-container .fjs-error-drop.fjs-layout-row {
+  flex-wrap: nowrap;
 }
 
-.gu-transit * {
-  display: none !important;
+.fjs-editor-container .gu-transit > * {
+  display: none;
 }
 
-.gu-mirror {
-  background-color: var(--color-dragula-mirror-background) !important;
-  border: solid 1px var(--color-dragula-mirror-border) !important;
-  border-radius: 5px !important;
-  box-shadow: 0px 0px 20px var(--bio-shadow) !important;
-  display: flex !important;
-  filter: none !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  align-items: center !important;
-  opacity: 0.5 !important;
-  padding: 0 !important;
-  pointer-events: none !important;
-  height: 54px !important;
+.fjs-editor-container .gu-mirror {
+  background-color: var(--color-dragula-mirror-background);
+  border: solid 1px var(--color-dragula-mirror-border);
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px var(--bio-shadow);
+  display: flex;
+  filter: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  padding: 0;
+  pointer-events: none;
+  height: 54px;
 }
 
 .fjs-field-preview {
@@ -768,22 +768,22 @@
   text-align: center;
 }
 
-.gu-mirror.fjs-field-preview-container {
+.fjs-editor-container .gu-mirror.fjs-field-preview-container {
   transform: rotate(-15deg);
   font-family: var(--font-family);
-  width: 68px !important;
-  height: 68px !important;
+  width: 68px;
+  height: 68px;
 }
 
-.gu-mirror.fjs-drag-row-move {
-  padding: 4px 12px !important;
-  height: fit-content !important;
-  opacity: 0.8 !important;
-  max-height: 120px !important;
-  overflow: hidden !important;
-  align-items: start !important;
+.fjs-editor-container .gu-mirror.fjs-drag-row-move {
+  padding: 4px 12px;
+  height: fit-content;
+  opacity: 0.8;
+  max-height: 120px;
+  overflow: hidden;
+  align-items: start;
 }
 
-.gu-mirror.fjs-drag-row-move .fjs-layout-row {
-  flex-wrap: nowrap !important;
+.fjs-editor-container .gu-mirror.fjs-drag-row-move .fjs-layout-row {
+  flex-wrap: nowrap;
 }

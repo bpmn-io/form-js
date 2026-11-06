@@ -1047,6 +1047,66 @@ describe('FormEditor', function () {
       });
     });
 
+    it('should not size field preview inline', async function () {
+      // given
+      let dragulaCreated = false;
+
+      await bootstrapFormEditor({
+        schema,
+        container,
+        bootstrapExecute: (editor) => {
+          editor.on('dragula.created', () => {
+            dragulaCreated = true;
+          });
+        },
+      });
+
+      expect(dragulaCreated).to.be.true;
+
+      // when
+      startDragging(container);
+      moveDragging(container);
+
+      // then
+      const mirror = container.querySelector('.gu-mirror');
+
+      expect(mirror.style.width).to.equal('');
+      expect(mirror.style.height).to.equal('');
+
+      endDragging(container);
+    });
+
+    it('should not size row preview height inline', async function () {
+      // given
+      let dragulaCreated = false;
+
+      await bootstrapFormEditor({
+        schema: schemaRows,
+        container,
+        bootstrapExecute: (editor) => {
+          editor.on('dragula.created', () => {
+            dragulaCreated = true;
+          });
+        },
+      });
+
+      expect(dragulaCreated).to.be.true;
+
+      const row = container.querySelector('.fjs-drag-row-move');
+
+      // when
+      startDragging(container, row);
+      moveDragging(container);
+
+      // then
+      const mirror = container.querySelector('.gu-mirror');
+
+      expect(mirror.style.width).not.to.equal('');
+      expect(mirror.style.height).to.equal('');
+
+      endDragging(container);
+    });
+
     it('should move form field', async function () {
       // given
       let dragulaCreated = false;
