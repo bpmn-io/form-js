@@ -61,7 +61,6 @@ export function Page(props) {
 Page.config = {
   type,
   name: 'Page',
-  group: 'container',
   allowedParents: ['multipage'],
   create: (options = {}) => ({
     label: 'Page',

@@ -187,7 +187,8 @@ export function collectPaletteEntries(formFields) {
         iconUrl: fieldConfig.iconUrl,
       };
     })
-    .filter(({ type }) => type !== 'default');
+    // a field without a group, such as a page, is created through its container
+    .filter(({ type, group }) => type !== 'default' && group);
 }
 
 /**

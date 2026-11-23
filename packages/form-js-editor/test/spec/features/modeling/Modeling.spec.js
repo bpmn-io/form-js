@@ -114,7 +114,9 @@ describe('features/modeling', function () {
       const page = modeling.addFormField({ type: 'page' }, multiPage, 0);
 
       // then
-      expect(multiPage.components).to.eql([page]);
+      // a new container starts with two pages of its own
+      expect(multiPage.components).to.have.length(3);
+      expect(multiPage.components[0]).to.equal(page);
     }));
 
     it('should reject moving a page out of its multi page container', inject(function (

@@ -11,6 +11,7 @@
     "A source is a JSON object containing metadata for a document or an array of documents.",
     "Action",
     "Add new",
+    "Add page",
     "Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.",
     "Additional details are optional. The expected format is as follows:",
     "All values selected",
@@ -315,6 +316,7 @@
         "A source is a JSON object containing metadata for a document or an array of documents.",
         "Action",
         "Add new",
+        "Add page",
         "Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.",
         "Additional details are optional. The expected format is as follows:",
         "All values selected",
@@ -895,6 +897,7 @@
         "{value} files selected"
       ],
       "missing": [
+        "Add page",
         "Back",
         "Back button label",
         "Default for the pages of this container. A page can override it. Defaults to \"Back\".",

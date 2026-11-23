@@ -10,6 +10,7 @@ export default {
   "A source is a JSON object containing metadata for a document or an array of documents.": "A source is a JSON object containing metadata for a document or an array of documents.",
   "Action": "Action",
   "Add new": "Add new",
+  "Add page": "Add page",
   "Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.": "Add properties directly to the form schema, useful to configure functionality in custom-built task applications and form renderers.",
   "Additional details are optional. The expected format is as follows:": "Additional details are optional. The expected format is as follows:",
   "All values selected": "All values selected",

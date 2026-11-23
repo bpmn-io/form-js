@@ -5,6 +5,7 @@ import { ValidateBehavior } from './ValidateBehavior';
 import { OptionsSourceBehavior } from './OptionsSourceBehavior';
 import { ColumnsSourceBehavior } from './ColumnsSourceBehavior';
 import { TableDataSourceBehavior } from './TableDataSourceBehavior';
+import { MultiPageBehavior } from './MultiPageBehavior';
 
 export const BehaviorModule = {
   __init__: [
@@ -15,6 +16,7 @@ export const BehaviorModule = {
     'optionsSourceBehavior',
     'columnsSourceBehavior',
     'tableDataSourceBehavior',
+    'multiPageBehavior',
   ],
   idBehavior: ['type', IdBehavior],
   keyBehavior: ['type', KeyBehavior],
@@ -23,4 +25,5 @@ export const BehaviorModule = {
   optionsSourceBehavior: ['type', OptionsSourceBehavior],
   columnsSourceBehavior: ['type', ColumnsSourceBehavior],
   tableDataSourceBehavior: ['type', TableDataSourceBehavior],
+  multiPageBehavior: ['type', MultiPageBehavior],
 };

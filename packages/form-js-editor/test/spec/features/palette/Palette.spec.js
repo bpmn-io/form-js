@@ -402,65 +402,6 @@ describe('palette', function () {
       expect(spy).to.have.been.calledOnceWith({ type: 'multipage' }, schema, 1);
     });
 
-    it('should add page to the selected multi page container', async function () {
-      // given
-      const spy = sinon.spy();
-
-      const multipage = {
-        type: 'multipage',
-        id: 'Multipage_1',
-        components: [],
-      };
-
-      const schema = {
-        components: [multipage],
-      };
-
-      const result = createPalette({
-        container,
-        field: multipage,
-        services: {
-          modeling: { addFormField: spy },
-          formEditor: { _getState: () => ({ schema }) },
-        },
-      });
-
-      const entry = result.container.querySelector('[data-field-type="page"]');
-
-      // when
-      fireEvent.focus(entry);
-      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
-
-      // then
-      expect(spy).to.have.been.calledOnceWith({ type: 'page' }, multipage, 0);
-    });
-
-    it('should not add page without a multi page container selected', async function () {
-      // given
-      const spy = sinon.spy();
-
-      const schema = {
-        components: [],
-      };
-
-      const result = createPalette({
-        container,
-        services: {
-          modeling: { addFormField: spy },
-          formEditor: { _getState: () => ({ schema }) },
-        },
-      });
-
-      const entry = result.container.querySelector('[data-field-type="page"]');
-
-      // when
-      fireEvent.focus(entry);
-      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
-
-      // then
-      expect(spy).to.not.have.been.called;
-    });
-
     it('should not add a non-page entry to the selected multi page container', async function () {
       // given
       const spy = sinon.spy();
@@ -492,6 +433,29 @@ describe('palette', function () {
 
       // then
       expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
+    });
+  });
+
+  describe('pages', function () {
+    it('should not offer a page entry', function () {
+      // when
+      const result = createPalette({ container });
+
+      // then
+      expect(result.container.querySelector('[data-field-type="page"]')).to.not.exist;
+    });
+
+    it('should not collect fields without a group', function () {
+      // given
+      const formFields = new FormFields();
+
+      formFields.register('custom', { config: { label: 'Custom' } });
+
+      // when
+      const paletteEntries = collectPaletteEntries(formFields);
+
+      // then
+      expect(paletteEntries.map(({ type }) => type)).to.not.include.members(['page', 'custom']);
     });
   });
 

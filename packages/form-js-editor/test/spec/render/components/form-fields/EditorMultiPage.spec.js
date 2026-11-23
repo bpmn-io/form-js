@@ -68,8 +68,62 @@ describe('EditorMultiPage', function () {
     await bootstrapFormEditor();
 
     // then
-    const dropTargets = container.querySelectorAll('[data-id="Page_1"] .fjs-children, [data-id="Page_2"] .fjs-children');
+    const dropTargets = container.querySelectorAll(
+      '[data-id="Page_1"] .fjs-children, [data-id="Page_2"] .fjs-children',
+    );
 
     expect(dropTargets).to.have.length(2);
+  });
+
+  describe('add page', function () {
+    const getAddPageButton = () => container.querySelector('[data-id="Multipage_1"] .fjs-multipage-add-page');
+
+    it('should render', async function () {
+      // when
+      await bootstrapFormEditor();
+
+      // then
+      expect(getAddPageButton()).to.exist;
+      expect(getAddPageButton().textContent).to.equal('Add page');
+    });
+
+    it('should append a page', async function () {
+      // given
+      await bootstrapFormEditor();
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+
+      // when
+      await act(() => getAddPageButton().click());
+
+      // then
+      const multiPage = formFieldRegistry.get('Multipage_1');
+
+      expect(multiPage.components).to.have.length(3);
+      expect(multiPage.components[2].type).to.equal('page');
+      expect(multiPage.components[2].label).to.equal('Page 3');
+    });
+
+    it('should not select the container', async function () {
+      // given
+      await bootstrapFormEditor();
+
+      const formFieldRegistry = formEditor.get('formFieldRegistry');
+      const selection = formEditor.get('selection');
+
+      // when
+      await act(() => getAddPageButton().click());
+
+      // then
+      expect(selection.isSelected(formFieldRegistry.get('Multipage_1'))).to.be.false;
+    });
+
+    it('should not start a drag', async function () {
+      // when
+      await bootstrapFormEditor();
+
+      // then
+      expect(getAddPageButton().classList.contains('fjs-no-move')).to.be.true;
+    });
   });
 });

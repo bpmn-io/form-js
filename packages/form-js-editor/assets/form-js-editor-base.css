@@ -202,6 +202,28 @@
   pointer-events: none;
 }
 
+.fjs-editor-container .fjs-multipage-add-page {
+  display: block;
+  margin: 6px 2rem 12px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: var(--font-size-label);
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px dashed var(--color-borders);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.fjs-editor-container .fjs-multipage-add-page:hover {
+  border-style: solid;
+}
+
+.fjs-editor-container .fjs-multipage-add-page:focus-visible {
+  outline: 2px solid var(--color-children-selected-border);
+  outline-offset: 1px;
+}
+
 .fjs-editor-container .fjs-drag-container,
 .fjs-editor-container .fjs-drop-container-vertical {
   user-select: none;
