@@ -205,6 +205,12 @@ describe('validation', function () {
 
     testForm('page-outside-multipage-not-allowed');
 
+    testForm('multipage-in-group-not-allowed');
+
+    testForm('multipage-in-dynamiclist-not-allowed');
+
+    testForm('multipage-in-page-not-allowed');
+
     testForm('page-at-root-not-allowed');
   });
 
