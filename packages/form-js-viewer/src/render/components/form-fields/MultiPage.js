@@ -1,9 +1,8 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useEffect, useMemo, useReducer } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer } from 'preact/hooks';
 
-import { resolveActivePageId } from '../../../features/multiPageNavigation/MultiPageNavigation';
 import { FormRenderContext, MultiPageContext } from '../../context';
-import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
+import { usePrevious, useService, useSingleLineTemplateEvaluation } from '../../hooks';
 import { formFieldClasses } from '../Util';
 import { FormField } from '../FormField';
 
@@ -12,23 +11,26 @@ const type = 'multipage';
 // input types on which the browser does not submit the form on enter
 const NON_SUBMITTING_INPUT_TYPES = ['button', 'submit', 'reset', 'file'];
 
+const EMPTY_STATE = { activePageId: null, visiblePageIds: [], index: -1 };
+
 export function MultiPage(props) {
   const { field, indexes, readonly, disabled } = props;
 
-  const { Children, applyVisibilityConditions } = useContext(FormRenderContext);
+  const { Children } = useContext(FormRenderContext);
 
   const { components, showSubmit } = field;
   const pages = useMemo(() => components || [], [components]);
 
-  const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
-
   const eventBus = useService('eventBus');
   const multiPageNavigation = useService('multiPageNavigation');
 
-  // the position lives in the navigation service, which may be moved from outside
+  // the navigation service resolves and commits the page in view, including any
+  // move a condition forces; the container only renders what it reports
   const [, rerender] = useReducer((count) => count + 1, 0);
 
-  useEffect(() => {
+  // subscribe as part of the commit, so that a navigation right after a render
+  // cannot slip in before the subscription is in place
+  useLayoutEffect(() => {
     const onPageChanged = ({ formField }) => {
       if (formField.id === field.id) {
         rerender();
@@ -40,12 +42,11 @@ export function MultiPage(props) {
     return () => eventBus.off('multipage.pageChanged', onPageChanged);
   }, [eventBus, field.id]);
 
-  const activePageId = multiPageNavigation._getPosition(field.id);
+  const { activePageId, visiblePageIds, index: activeIndex } = multiPageNavigation.getState(field.id) || EMPTY_STATE;
 
-  const resolvedActivePageId = resolveActivePageId(pages, visiblePages, activePageId);
+  const visiblePages = toPages(pages, visiblePageIds);
 
-  const activeIndex = visiblePages.findIndex((page) => page.id === resolvedActivePageId);
-  const activePage = activeIndex === -1 ? null : visiblePages[activeIndex];
+  const activePage = activeIndex === -1 ? null : visiblePages[activeIndex] || null;
 
   // user actions go through the service, so that a host may veto them;
   // a read-only form can be paged through, but its fields cannot be corrected,
@@ -57,33 +58,19 @@ export function MultiPage(props) {
 
   const onBack = useCallback(() => multiPageNavigation.back(field.id), [field.id, multiPageNavigation]);
 
-  // commit the page the container opens on, and any move a condition forced, so
-  // that revealing an earlier page later does not drag the user backwards
-  useEffect(() => {
-    // a navigation between this render and its effects wins over what the render
-    // resolved, and its event fired before the subscription above was in place
-    if (multiPageNavigation._getPosition(field.id) !== activePageId) {
-      rerender();
-      return;
-    }
-
-    if (resolvedActivePageId === null || resolvedActivePageId === activePageId) {
-      return;
-    }
-
-    const from = pages.find((page) => page.id === activePageId) || null;
-    const to = visiblePages.find((page) => page.id === resolvedActivePageId);
-
-    multiPageNavigation._setPosition(field, from, to);
-  }, [activePageId, field, multiPageNavigation, pages, resolvedActivePageId, visiblePages]);
-
   // a failing field on a page that is not on screen is invisible to the user,
   // so bring the first such page forward when submission is rejected
   useEffect(() => {
     const onSubmit = ({ errors }) => {
-      const failing = visiblePages.find((page) => hasErrors(page, errors));
+      const state = multiPageNavigation.getState(field.id);
 
-      if (failing && failing.id !== resolvedActivePageId) {
+      if (!state) {
+        return;
+      }
+
+      const failing = toPages(pages, state.visiblePageIds).find((page) => hasErrors(page, errors));
+
+      if (failing && failing.id !== state.activePageId) {
         multiPageNavigation.navigate(field.id, failing.id);
       }
     };
@@ -91,16 +78,17 @@ export function MultiPage(props) {
     eventBus.on('submit', onSubmit);
 
     return () => eventBus.off('submit', onSubmit);
-  }, [eventBus, field.id, multiPageNavigation, resolvedActivePageId, visiblePages]);
+  }, [eventBus, field.id, multiPageNavigation, pages]);
 
-  // the resolution runs a render ahead of the state it is committed to, so this
-  // holds only while a condition is moving the user, and is false while the
-  // container settles on the page the form opens with
-  const focusOnMount = activePageId !== null && resolvedActivePageId !== activePageId;
+  // a page that mounts already active arrived because a condition moved the
+  // user to it, unless the container is only opening on it
+  const previousActivePageId = usePrevious(activePageId);
+
+  const focusOnMount = previousActivePageId !== null && previousActivePageId !== activePageId;
 
   const multiPageContext = useMemo(
-    () => ({ activePageId: resolvedActivePageId, showAllPages: false, focusOnMount }),
-    [resolvedActivePageId, focusOnMount],
+    () => ({ activePageId, showAllPages: false, focusOnMount }),
+    [activePageId, focusOnMount],
   );
 
   // enter in a field moves to the next page, as the browser would otherwise
@@ -139,7 +127,7 @@ export function MultiPage(props) {
             <div
               key={page.id}
               class="fjs-layout-row cds--row"
-              style={{ display: page.id === resolvedActivePageId ? null : 'none' }}>
+              style={{ display: page.id === activePageId ? null : 'none' }}>
               <FormField {...props} field={page} indexes={indexes} />
             </div>
           ))}
@@ -214,25 +202,8 @@ function Navigation(props) {
   );
 }
 
-/**
- * Resolve the pages of a multipage container that are not hidden by condition.
- *
- * The verdict comes from the condition checker, so that a page is on screen
- * exactly when its fields take part in the data.
- */
-function useVisiblePages(pages, applyVisibilityConditions) {
-  const conditionChecker = useService('conditionChecker', false);
-  const { data } = useService('form')._getState();
-
-  return useMemo(() => {
-    if (!applyVisibilityConditions || !conditionChecker) {
-      return pages;
-    }
-
-    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data);
-
-    return pages.filter((page) => !hiddenFieldIds.has(page.id));
-  }, [pages, applyVisibilityConditions, conditionChecker, data]);
+function toPages(pages, pageIds) {
+  return pageIds.map((id) => pages.find((page) => page.id === id)).filter(Boolean);
 }
 
 function collectFieldIds(field, ids = new Set()) {

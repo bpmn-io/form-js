@@ -254,7 +254,7 @@ Fired before a container moves to another page on request of the user or the hos
 
 ### `multipage.pageChanged :: { formField, from, to }`
 
-Fired when a multipage container moves to another page, and when it opens on its first page. In that case `from` is `null`.
+Fired when a multipage container moves to another page, and when it opens on its first page. In that case `from` is `null`. A container opens when a schema is imported and again after the form is reset, whether or not a condition hides the container at that time.
 
 ### Layouting events
 

@@ -383,6 +383,72 @@ describe('MultiPage', function () {
     expect(events).to.be.empty;
   });
 
+  it('should fire <multipage.pageChanged> for the page shown first of a hidden container', async function () {
+    // given
+    const events = [];
+
+    form = new Form({ container, debounce: false });
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form.importSchema(hideableSchema, { state: 'away' }));
+
+    // then
+    expect(container.querySelector('.fjs-form-field-multipage')).to.not.exist;
+
+    expect(events).to.have.length(1);
+    expect(events[0].formField.id).to.equal('Multipage_1');
+    expect(events[0].from).to.be.null;
+    expect(events[0].to.id).to.equal('Page_1');
+    expect(form.get('multiPageNavigation').getActivePage('Multipage_1')).to.equal('Page_1');
+  });
+
+  it('should fire <multipage.pageChanged> for the page shown first after reset', async function () {
+    // given
+    await bootstrapForm();
+
+    await clickButton('Continue');
+
+    const events = [];
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form.reset());
+
+    // then
+    expect(events).to.have.length(1);
+    expect(events[0].formField.id).to.equal('Multipage_1');
+    expect(events[0].from).to.be.null;
+    expect(events[0].to.id).to.equal('Page_1');
+  });
+
+  it('should commit a move a condition forces on a hidden container', async function () {
+    // given
+    await bootstrapForm({ schema: hideableSchema, data: { accountType: 'business' } });
+
+    await clickButton('Continue');
+
+    await act(() => form._setState({ data: { ...form._getState().data, state: 'away' } }));
+
+    const events = [];
+
+    form.on('multipage.pageChanged', (event) => events.push(event));
+
+    // when
+    await act(() => form._setState({ data: { ...form._getState().data, accountType: 'private' } }));
+
+    // then
+    expect(container.querySelector('.fjs-form-field-multipage')).to.not.exist;
+
+    expect(form.get('multiPageNavigation').getActivePage('Multipage_1')).to.equal('Page_3');
+
+    expect(events).to.have.length(1);
+    expect(events[0].from.id).to.equal('Page_2');
+    expect(events[0].to.id).to.equal('Page_3');
+  });
+
   it('should focus the title of the page', async function () {
     // given
     await bootstrapForm();

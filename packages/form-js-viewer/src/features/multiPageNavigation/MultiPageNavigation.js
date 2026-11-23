@@ -2,12 +2,18 @@ import { get } from 'min-dash';
 
 const MULTIPAGE_TYPE = 'multipage';
 
+// resolve positions before the renderer picks up a state change
+const SYNC_PRIORITY = 2000;
+
 /**
  * Holds the page each multipage container is on, so that the position outlives
  * the rendering of the container and can be read and set from outside the form.
  *
- * Positions are kept per container. They are dropped when the form is cleared
- * or reset.
+ * Positions are kept per container, whether or not the container is on screen.
+ * Whenever the form state changes, the position of every container is resolved
+ * against the pages its conditions leave visible, and any move that forces is
+ * committed. They are dropped when the form is cleared or reset, after which
+ * every container opens on its first visible page again.
  */
 export class MultiPageNavigation {
   constructor(form, eventBus, formFieldRegistry, formFieldInstanceRegistry, validator, injector) {
@@ -22,6 +28,9 @@ export class MultiPageNavigation {
 
     eventBus.on('form.clear', () => this._positions.clear());
     eventBus.on('reset', () => this._positions.clear());
+
+    eventBus.on('changed', SYNC_PRIORITY, () => this._sync());
+    eventBus.on('import.done', SYNC_PRIORITY, () => this._sync());
   }
 
   /**
@@ -181,6 +190,35 @@ export class MultiPageNavigation {
     }
 
     return this.navigate(containerId, target.id, options);
+  }
+
+  /**
+   * @internal
+   *
+   * Commit the page every container resolves to, so that a container opens on
+   * its first visible page, and a page hidden by condition hands over to the
+   * next visible one rather than dragging the user back once it is revealed.
+   *
+   * Fires `multipage.pageChanged` for every container that moves, never
+   * `multipage.pageChange`, as a move forced by the form cannot be vetoed.
+   */
+  _sync() {
+    this._formFieldRegistry
+      .getAll()
+      .filter((formField) => formField.type === MULTIPAGE_TYPE)
+      .forEach((container) => {
+        const storedPageId = this._getPosition(container.id);
+
+        const to = this._getActivePage(container);
+
+        if (!to || to.id === storedPageId) {
+          return;
+        }
+
+        const from = (container.components || []).find((page) => page.id === storedPageId) || null;
+
+        this._setPosition(container, from, to);
+      });
   }
 
   /**

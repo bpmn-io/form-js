@@ -83,7 +83,8 @@ The submit control is disabled. A disabled form disables every control.
 
 Each page change fires `multipage.pageChanged` on the event bus with the
 container, the page left and the page arrived at. When a container opens on its
-first page, the page left is `null`.
+first page, the page left is `null`. A container opens when the schema is
+imported and again after the form is reset, also while a condition hides it.
 
 A container keeps its page while a condition hides it, and starts over on its
 first page when the form is reset or a schema is imported. The viewer README
