@@ -183,8 +183,6 @@ navigation.navigate('Multipage_1', 'Page_3');
 
 `navigate` returns `false` if the container or the page is unknown, or if a condition hides the page. It does not validate the page the container leaves. Pass `{ validate: true }` to refuse the move while that page has errors, and show them on the fields.
 
-A container inside a dynamic list has a page per list item. Pass the repetition `indexes` to both methods, e.g. `{ indexes: { List_1: 2 } }`.
-
 A container hidden by a condition keeps its page and can be navigated. It shows the page once it is revealed. Resetting the form or importing a schema sends every container back to its first page. To keep the page across an import, store it from `multipage.pageChanged` and navigate to it once `importSchema` resolves:
 
 ```javascript
@@ -215,7 +213,7 @@ Fired off on form submission.
 
 Fired whenever a schema has finished importing, whether it succeeds or fails.
 
-### `multipage.pageChanged :: { formField, from, to, indexes }`
+### `multipage.pageChanged :: { formField, from, to }`
 
 Fired when a multipage container moves to another page, and when it opens on its first page. In that case `from` is `null`.
 

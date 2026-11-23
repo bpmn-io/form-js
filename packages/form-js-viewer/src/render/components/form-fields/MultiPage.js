@@ -17,7 +17,7 @@ export function MultiPage(props) {
   const { components, showSubmit, disableInvalidNavigation } = field;
   const pages = useMemo(() => components || [], [components]);
 
-  const visiblePages = useVisiblePages(pages, applyVisibilityConditions, indexes);
+  const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
 
   const eventBus = useService('eventBus');
   const multiPageNavigation = useService('multiPageNavigation');
@@ -37,7 +37,7 @@ export function MultiPage(props) {
     return () => eventBus.off('multipage.pageChanged', onPageChanged);
   }, [eventBus, field.id]);
 
-  const activePageId = multiPageNavigation._getPosition(field.id, indexes);
+  const activePageId = multiPageNavigation._getPosition(field.id);
 
   const resolvedActivePageId = resolveActivePageId(pages, visiblePages, activePageId);
 
@@ -45,7 +45,7 @@ export function MultiPage(props) {
   const activePage = activeIndex === -1 ? null : visiblePages[activeIndex];
 
   const { data } = useService('form')._getState();
-  const { isPageValid, reportPageErrors } = usePageValidation(indexes);
+  const { isPageValid, reportPageErrors } = usePageValidation();
 
   const navigate = useCallback(
     (target) => {
@@ -53,9 +53,9 @@ export function MultiPage(props) {
         return;
       }
 
-      multiPageNavigation._setPosition(field, activePage, target, indexes);
+      multiPageNavigation._setPosition(field, activePage, target);
     },
-    [activePage, field, indexes, multiPageNavigation],
+    [activePage, field, multiPageNavigation],
   );
 
   // a read-only form can be paged through, but its fields cannot be corrected,
@@ -75,7 +75,7 @@ export function MultiPage(props) {
   useEffect(() => {
     // a navigation between this render and its effects wins over what the render
     // resolved, and its event fired before the subscription above was in place
-    if (multiPageNavigation._getPosition(field.id, indexes) !== activePageId) {
+    if (multiPageNavigation._getPosition(field.id) !== activePageId) {
       rerender();
       return;
     }
@@ -87,14 +87,14 @@ export function MultiPage(props) {
     const from = pages.find((page) => page.id === activePageId) || null;
     const to = visiblePages.find((page) => page.id === resolvedActivePageId);
 
-    multiPageNavigation._setPosition(field, from, to, indexes);
-  }, [activePageId, field, indexes, multiPageNavigation, pages, resolvedActivePageId, visiblePages]);
+    multiPageNavigation._setPosition(field, from, to);
+  }, [activePageId, field, multiPageNavigation, pages, resolvedActivePageId, visiblePages]);
 
   // a failing field on a page that is not on screen is invisible to the user,
   // so bring the first such page forward when submission is rejected
   useEffect(() => {
     const onSubmit = ({ errors }) => {
-      const failing = visiblePages.find((page) => hasErrors(page, errors, indexes));
+      const failing = visiblePages.find((page) => hasErrors(page, errors));
 
       if (failing && failing.id !== resolvedActivePageId) {
         navigate(failing);
@@ -104,7 +104,7 @@ export function MultiPage(props) {
     eventBus.on('submit', onSubmit);
 
     return () => eventBus.off('submit', onSubmit);
-  }, [eventBus, indexes, navigate, resolvedActivePageId, visiblePages]);
+  }, [eventBus, navigate, resolvedActivePageId, visiblePages]);
 
   const [isActivePageValid, setActivePageValid] = useState(true);
 
@@ -238,7 +238,7 @@ function Navigation(props) {
  * The verdict comes from the condition checker, so that a page is on screen
  * exactly when its fields take part in the data.
  */
-function useVisiblePages(pages, applyVisibilityConditions, indexes) {
+function useVisiblePages(pages, applyVisibilityConditions) {
   const conditionChecker = useService('conditionChecker', false);
   const { data } = useService('form')._getState();
 
@@ -247,10 +247,10 @@ function useVisiblePages(pages, applyVisibilityConditions, indexes) {
       return pages;
     }
 
-    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data, indexes);
+    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data);
 
     return pages.filter((page) => !hiddenFieldIds.has(page.id));
-  }, [pages, applyVisibilityConditions, conditionChecker, data, indexes]);
+  }, [pages, applyVisibilityConditions, conditionChecker, data]);
 }
 
 /**
@@ -261,18 +261,12 @@ function useVisiblePages(pages, applyVisibilityConditions, indexes) {
  * `reportPageErrors` goes through the command stack and belongs on a click,
  * where it also reads the freshest data rather than the data of a render.
  */
-function usePageValidation(indexes) {
+function usePageValidation() {
   const multiPageNavigation = useService('multiPageNavigation');
 
-  const isPageValid = useCallback(
-    (page, data) => multiPageNavigation._isPageValid(page, data, indexes),
-    [multiPageNavigation, indexes],
-  );
+  const isPageValid = useCallback((page, data) => multiPageNavigation._isPageValid(page, data), [multiPageNavigation]);
 
-  const reportPageErrors = useCallback(
-    (page) => multiPageNavigation._reportPageErrors(page, indexes),
-    [multiPageNavigation, indexes],
-  );
+  const reportPageErrors = useCallback((page) => multiPageNavigation._reportPageErrors(page), [multiPageNavigation]);
 
   return { isPageValid, reportPageErrors };
 }
@@ -286,8 +280,6 @@ function collectFieldIds(field, ids = new Set()) {
   return ids;
 }
 
-function hasErrors(page, errors, indexes) {
-  const scope = Object.values(indexes || {});
-
-  return Array.from(collectFieldIds(page)).some((id) => get(errors, [id, ...scope]));
+function hasErrors(page, errors) {
+  return Array.from(collectFieldIds(page)).some((id) => get(errors, [id]));
 }

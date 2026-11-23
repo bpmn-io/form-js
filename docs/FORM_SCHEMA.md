@@ -9,10 +9,11 @@ Find a complete component reference in the [Camunda Platform documentation](http
 ## Multi page forms
 
 A `multipage` component holds `page` components and shows one of them at a time,
-with next and back controls underneath. A page is valid only as a direct child of
-a multipage, and a multipage holds nothing but pages. Pages are containers: their
-children write into the enclosing scope, so a key on page two reads the same as a
-key on page one.
+with next and back controls underneath. A multipage is valid only at the top
+level of the form, not inside a group, a dynamic list or a page. A page is valid
+only as a direct child of a multipage, and a multipage holds nothing but pages.
+Pages are containers: their children write into the enclosing scope, so a key on
+page two reads the same as a key on page one.
 
 Branching uses `conditional.hide` on a page, the same property every other
 component has. A hidden page is skipped by the controls, and its fields are
@@ -41,9 +42,6 @@ and clicking one reports the errors of the page rather than moving on.
 
 In a read-only form, back and next skip validation, so every page can be read.
 The submit control is disabled. A disabled form disables every control.
-
-A page inside a nested multipage is governed by that inner container, so an error
-there never blocks the outer page. Submission still validates everything.
 
 ```json
 {
@@ -87,9 +85,8 @@ there never blocks the outer page. Submission still validates everything.
 ```
 
 Each page change fires `multipage.pageChanged` on the event bus with the
-container, the page left, the page arrived at, and the repetition indexes the
-container renders under. When a container opens on its first page, the page left
-is `null`.
+container, the page left and the page arrived at. When a container opens on its
+first page, the page left is `null`.
 
 A container keeps its page while a condition hides it, and starts over on its
 first page when the form is reset or a schema is imported. The viewer README

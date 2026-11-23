@@ -6,8 +6,8 @@ const MULTIPAGE_TYPE = 'multipage';
  * Holds the page each multipage container is on, so that the position outlives
  * the rendering of the container and can be read and set from outside the form.
  *
- * Positions are kept per container and repetition. They are dropped when the
- * form is cleared or reset.
+ * Positions are kept per container. They are dropped when the form is cleared
+ * or reset.
  */
 export class MultiPageNavigation {
   constructor(form, eventBus, formFieldRegistry, formFieldInstanceRegistry, validator, injector) {
@@ -28,21 +28,17 @@ export class MultiPageNavigation {
    * Get the id of the page a container shows.
    *
    * @param {string} containerId
-   * @param {Object} [options]
-   * @param {Object} [options.indexes] repetition indexes of a container within a repeater
    *
    * @returns {string|null}
    */
-  getActivePage(containerId, options = {}) {
-    const { indexes } = options;
-
+  getActivePage(containerId) {
     const container = this._getContainer(containerId);
 
     if (!container) {
       return null;
     }
 
-    const page = this._getActivePage(container, indexes);
+    const page = this._getActivePage(container);
 
     return page ? page.id : null;
   }
@@ -59,13 +55,12 @@ export class MultiPageNavigation {
    * @param {string} containerId
    * @param {string} pageId
    * @param {Object} [options]
-   * @param {Object} [options.indexes] repetition indexes of a container within a repeater
    * @param {boolean} [options.validate=false]
    *
    * @returns {boolean} whether the container shows the page
    */
   navigate(containerId, pageId, options = {}) {
-    const { indexes, validate = false } = options;
+    const { validate = false } = options;
 
     const container = this._getContainer(containerId);
 
@@ -73,23 +68,23 @@ export class MultiPageNavigation {
       return false;
     }
 
-    const page = this._getVisiblePages(container, indexes).find((candidate) => candidate.id === pageId);
+    const page = this._getVisiblePages(container).find((candidate) => candidate.id === pageId);
 
     if (!page) {
       return false;
     }
 
-    const from = this._getActivePage(container, indexes);
+    const from = this._getActivePage(container);
 
     if (from === page) {
       return true;
     }
 
-    if (validate && !this._reportPageErrors(from, indexes)) {
+    if (validate && !this._reportPageErrors(from)) {
       return false;
     }
 
-    this._setPosition(container, from, page, indexes);
+    this._setPosition(container, from, page);
 
     return true;
   }
@@ -99,21 +94,20 @@ export class MultiPageNavigation {
    *
    * The page id stored for a container, before conditions are taken into account.
    */
-  _getPosition(containerId, indexes) {
-    return this._positions.get(positionKey(containerId, indexes)) || null;
+  _getPosition(containerId) {
+    return this._positions.get(containerId) || null;
   }
 
   /**
    * @internal
    */
-  _setPosition(container, from, to, indexes) {
-    this._positions.set(positionKey(container.id, indexes), to.id);
+  _setPosition(container, from, to) {
+    this._positions.set(container.id, to.id);
 
     this._eventBus.fire('multipage.pageChanged', {
       formField: container,
       from,
       to,
-      indexes,
     });
   }
 
@@ -124,7 +118,7 @@ export class MultiPageNavigation {
    * condition on the container or above it does not count, so that a hidden
    * container keeps the position it shows once it is revealed.
    */
-  _getVisiblePages(container, indexes) {
+  _getVisiblePages(container) {
     const pages = container.components || [];
 
     const conditionChecker = this._injector.get('conditionChecker', false);
@@ -135,7 +129,7 @@ export class MultiPageNavigation {
 
     const { data } = this._form._getState();
 
-    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data, indexes, { ownConditionOnly: true });
+    const hiddenFieldIds = conditionChecker.getHiddenFieldIds(data, {}, { ownConditionOnly: true });
 
     return pages.filter((page) => !hiddenFieldIds.has(page.id));
   }
@@ -146,8 +140,8 @@ export class MultiPageNavigation {
    * Whether the fields of a page pass validation against the given data.
    * Has no side effects, so it is safe to call while rendering.
    */
-  _isPageValid(page, data, indexes) {
-    return this._getPageInstances(page, indexes).every(
+  _isPageValid(page, data) {
+    return this._getPageInstances(page).every(
       (fieldInstance) =>
         !this._validator.validateFieldInstance(fieldInstance, get(data, fieldInstance.valuePath)).length,
     );
@@ -158,7 +152,7 @@ export class MultiPageNavigation {
    *
    * Validate the fields of a page against the current data and show their errors.
    */
-  _reportPageErrors(page, indexes) {
+  _reportPageErrors(page) {
     const viewerCommands = this._injector.get('viewerCommands', false);
 
     if (!viewerCommands) {
@@ -169,7 +163,7 @@ export class MultiPageNavigation {
 
     let isValid = true;
 
-    this._getPageInstances(page, indexes).forEach((fieldInstance) => {
+    this._getPageInstances(page).forEach((fieldInstance) => {
       const value = get(data, fieldInstance.valuePath);
 
       if (this._validator.validateFieldInstance(fieldInstance, value).length) {
@@ -188,35 +182,30 @@ export class MultiPageNavigation {
     return container && container.type === MULTIPAGE_TYPE ? container : null;
   }
 
-  _getActivePage(container, indexes) {
+  _getActivePage(container) {
     const pages = container.components || [];
-    const visiblePages = this._getVisiblePages(container, indexes);
+    const visiblePages = this._getVisiblePages(container);
 
-    const pageId = resolveActivePageId(pages, visiblePages, this._getPosition(container.id, indexes));
+    const pageId = resolveActivePageId(pages, visiblePages, this._getPosition(container.id));
 
     return visiblePages.find((page) => page.id === pageId) || null;
   }
 
-  _getPageInstances(page, indexes) {
+  _getPageInstances(page) {
     if (!page) {
       return [];
     }
 
     const pageFieldIds = collectPageFieldIds(page);
 
-    return this._formFieldInstanceRegistry.getAllKeyed().filter(({ id, indexes: instanceIndexes }) => {
+    return this._formFieldInstanceRegistry.getAllKeyed().filter(({ id }) => {
       if (!pageFieldIds.has(id)) {
         return false;
       }
 
       const field = this._formFieldRegistry.get(id);
 
-      if (field && field.disabled) {
-        return false;
-      }
-
-      // a multipage container may itself sit within a repetition
-      return Object.entries(indexes || {}).every(([key, index]) => (instanceIndexes || {})[key] === index);
+      return !(field && field.disabled);
     });
   }
 }
@@ -262,27 +251,13 @@ export function resolveActivePageId(pages, visiblePages, storedPageId) {
   return (forward || visiblePages[visiblePages.length - 1]).id;
 }
 
-function positionKey(containerId, indexes) {
-  const scope = Object.keys(indexes || {})
-    .sort()
-    .map((key) => `${key}:${indexes[key]}`);
-
-  return [containerId, ...scope].join('|');
-}
-
 /**
- * Collect the fields a page owns, stopping at a nested multipage container.
- *
- * A nested container governs its own pages, so holding the outer page back over
- * an error the user cannot see would leave them with no way forward.
+ * Collect the fields a page owns.
  */
 function collectPageFieldIds(field, ids = new Set()) {
   (field.components || []).forEach((component) => {
     ids.add(component.id);
-
-    if (component.type !== MULTIPAGE_TYPE) {
-      collectPageFieldIds(component, ids);
-    }
+    collectPageFieldIds(component, ids);
   });
 
   return ids;
