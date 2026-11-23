@@ -215,17 +215,17 @@
     },
     "nextLabel": {
       "$id": "#/component/nextLabel",
-      "description": "Label of the button that advances to the next page while this page is displayed.",
+      "description": "Label of the button that advances to the next page while this page is displayed, or the default for the pages of this container.",
       "type": "string"
     },
     "backLabel": {
       "$id": "#/component/backLabel",
-      "description": "Label of the button that returns to the previous page while this page is displayed.",
+      "description": "Label of the button that returns to the previous page while this page is displayed, or the default for the pages of this container.",
       "type": "string"
     },
     "submitLabel": {
       "$id": "#/component/submitLabel",
-      "description": "Label of the button that submits the form while this page is the last one displayed.",
+      "description": "Label of the button that submits the form while this page is the last one displayed, or the default for the pages of this container.",
       "type": "string"
     },
     "showSubmit": {

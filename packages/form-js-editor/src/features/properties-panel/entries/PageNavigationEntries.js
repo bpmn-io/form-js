@@ -7,7 +7,8 @@ import { FeelTemplatingEntry, isFeelEntryEdited } from '@bpmn-io/properties-pane
 export function PageNavigationEntries(props) {
   const { editField, field } = props;
 
-  const isPage = (field) => field.type === 'page';
+  // a container sets the labels for all of its pages, which a page may override
+  const isPage = (field) => field.type === 'page' || field.type === 'multipage';
 
   return [
     {
@@ -38,38 +39,52 @@ export function PageNavigationEntries(props) {
 }
 
 function BackLabel(props) {
+  const { field } = props;
+
   const translate = useService('translate');
 
   return NavigationLabel({
     ...props,
     path: ['backLabel'],
     label: translate('Back button label'),
-    tooltip: translate('Shown on the control that returns to the previous page. Defaults to "Back".'),
+    tooltip: isMultiPage(field)
+      ? translate('Default for the pages of this container. A page can override it. Defaults to "Back".')
+      : translate('Shown on the control that returns to the previous page. Defaults to "Back".'),
   });
 }
 
 function NextLabel(props) {
+  const { field } = props;
+
   const translate = useService('translate');
 
   return NavigationLabel({
     ...props,
     path: ['nextLabel'],
     label: translate('Next button label'),
-    tooltip: translate('Shown on the control that continues to the following page. Defaults to "Next".'),
+    tooltip: isMultiPage(field)
+      ? translate('Default for the pages of this container. A page can override it. Defaults to "Next".')
+      : translate('Shown on the control that continues to the following page. Defaults to "Next".'),
   });
 }
 
 function SubmitLabel(props) {
+  const { field } = props;
+
   const translate = useService('translate');
 
   return NavigationLabel({
     ...props,
     path: ['submitLabel'],
     label: translate('Submit button label'),
-    tooltip: translate(
-      'Shown on the control that submits the form while this page is the last one. Defaults to "Submit".',
-    ),
+    tooltip: isMultiPage(field)
+      ? translate('Default for the pages of this container. A page can override it. Defaults to "Submit".')
+      : translate('Shown on the control that submits the form while this page is the last one. Defaults to "Submit".'),
   });
+}
+
+function isMultiPage(field) {
+  return field.type === 'multipage';
 }
 
 function NavigationLabel(props) {

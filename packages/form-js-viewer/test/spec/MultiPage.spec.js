@@ -151,6 +151,62 @@ describe('MultiPage', function () {
     expect(labels).to.eql(['Continue']);
   });
 
+  describe('navigation labels', function () {
+    const withLabels = (multipage = {}) => ({
+      ...multiPageSchema,
+      components: [{ ...multiPageSchema.components[0], showSubmit: true, ...multipage }],
+    });
+
+    const navigationLabels = () =>
+      Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).map((button) => button.textContent);
+
+    it('should use the labels of the container when the page has none', async function () {
+      // given
+      await bootstrapForm({
+        schema: withLabels({ backLabel: 'Previous', nextLabel: 'Onward', submitLabel: 'Send' }),
+      });
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Previous', 'Send']);
+    });
+
+    it('should prefer the labels of the page over those of the container', async function () {
+      // when
+      await bootstrapForm({ schema: withLabels({ nextLabel: 'Onward' }) });
+
+      // then
+      expect(navigationLabels()).to.eql(['Continue']);
+    });
+
+    it('should use the container label on a page without its own', async function () {
+      // given
+      await bootstrapForm({
+        schema: withLabels({ nextLabel: 'Onward' }),
+        data: { accountType: 'business' },
+      });
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Change account type', 'Onward']);
+    });
+
+    it('should fall back to the translated defaults', async function () {
+      // given
+      await bootstrapForm({ schema: withLabels() });
+
+      // when
+      await clickButton('Continue');
+
+      // then
+      expect(navigationLabels()).to.eql(['Back', 'Submit']);
+    });
+  });
+
   it('should navigate forwards and backwards', async function () {
     // given
     await bootstrapForm();

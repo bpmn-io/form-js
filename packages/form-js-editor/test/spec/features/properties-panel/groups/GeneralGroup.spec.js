@@ -1036,9 +1036,20 @@ describe('GeneralGroup', function () {
       expect(findFeelers('submitLabel', container)).to.exist;
     });
 
-    it('should NOT render for multipage', function () {
+    it('should render for multipage', function () {
       // given
       const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('submitLabel', container)).to.exist;
+    });
+
+    it('should NOT render for group', function () {
+      // given
+      const field = { type: 'group' };
 
       // when
       const { container } = renderGeneralGroup({ field });
@@ -1056,6 +1067,34 @@ describe('GeneralGroup', function () {
 
       // then
       expect(findFeelers('submitLabel', container).textContent).to.equal('Place order');
+    });
+  });
+
+  describe('multipage navigation labels', function () {
+    it('should render for multipage', function () {
+      // given
+      const field = { type: 'multipage' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('backLabel', container)).to.exist;
+      expect(findFeelers('nextLabel', container)).to.exist;
+      expect(findFeelers('submitLabel', container)).to.exist;
+    });
+
+    it('should read', function () {
+      // given
+      const field = { type: 'multipage', backLabel: 'Previous', nextLabel: 'Continue', submitLabel: 'Send' };
+
+      // when
+      const { container } = renderGeneralGroup({ field });
+
+      // then
+      expect(findFeelers('backLabel', container).textContent).to.equal('Previous');
+      expect(findFeelers('nextLabel', container).textContent).to.equal('Continue');
+      expect(findFeelers('submitLabel', container).textContent).to.equal('Send');
     });
   });
 

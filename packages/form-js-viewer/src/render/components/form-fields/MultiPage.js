@@ -146,6 +146,7 @@ export function MultiPage(props) {
         </Children>
       </MultiPageContext.Provider>
       <Navigation
+        field={field}
         page={activePage}
         showBack={activeIndex > 0}
         showNext={activeIndex < visiblePages.length - 1}
@@ -170,15 +171,21 @@ MultiPage.config = {
 };
 
 function Navigation(props) {
-  const { page, showBack, showNext, showSubmit, onBack, onNext, readonly, disabled } = props;
+  const { field, page, showBack, showNext, showSubmit, onBack, onNext, readonly, disabled } = props;
 
   const translate = useService('translate');
 
-  const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || translate('Back'), { debug: true });
-  const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || translate('Next'), { debug: true });
-  const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || translate('Submit'), {
+  // a page may override the labels its container sets for all of its pages
+  const backLabel = useSingleLineTemplateEvaluation((page && page.backLabel) || field.backLabel || translate('Back'), {
     debug: true,
   });
+  const nextLabel = useSingleLineTemplateEvaluation((page && page.nextLabel) || field.nextLabel || translate('Next'), {
+    debug: true,
+  });
+  const submitLabel = useSingleLineTemplateEvaluation(
+    (page && page.submitLabel) || field.submitLabel || translate('Submit'),
+    { debug: true },
+  );
 
   if (!showBack && !showNext && !showSubmit) {
     return null;

@@ -5,6 +5,9 @@ export const form = {
       id: 'Multipage_1',
       type: 'multipage',
       showSubmit: true,
+      nextLabel: 'Next step',
+      backLabel: 'Previous step',
+      submitLabel: 'Send',
       components: [
         {
           id: 'Page_1',

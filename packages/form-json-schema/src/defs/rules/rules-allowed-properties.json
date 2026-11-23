@@ -511,7 +511,7 @@
         "not": {
           "properties": {
             "type": {
-              "const": "page"
+              "enum": ["page", "multipage"]
             }
           },
           "required": ["type"]

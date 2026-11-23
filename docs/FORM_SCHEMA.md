@@ -21,14 +21,15 @@ cleared like those of any other hidden component, so it contributes neither
 values nor uploads to the submission. A page the user has moved away from stays
 mounted, so its values survive navigation in either direction.
 
-`nextLabel` and `backLabel` belong to a page, not to the container. The controls
-read the labels of the page currently on screen and fall back to `Next` and
-`Back`.
+`nextLabel`, `backLabel` and `submitLabel` set the labels of the controls. Set
+them on the container to label the controls of all its pages, and on a page to
+override them while that page is on screen. A control reads the label of the
+page on screen, then that of the container, and falls back to `Next`, `Back` and
+`Submit`.
 
 Set `showSubmit` on the container to finish the form from the navigation row.
 The submit control replaces the next control on the last page in view, so under
-branching it follows whichever page turns out to be last. Its label comes from
-the `submitLabel` of that page and falls back to `Submit`. When a field on a page
+branching it follows whichever page turns out to be last. When a field on a page
 that is not on screen fails validation, the container brings that page forward,
 since the error is otherwise hidden.
 
