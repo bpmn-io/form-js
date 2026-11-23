@@ -4,6 +4,7 @@ import { ConditionChecker } from '../../../../src/features/expressionLanguage/Co
 import { FeelExpressionLanguage } from '../../../../src/features/expressionLanguage/FeelExpressionLanguage';
 import { PathRegistry } from '../../../../src/core/PathRegistry';
 import { FormFields } from '../../../../src/render/FormFields';
+import { Form } from '../../../../src/Form';
 
 describe('ConditionChecker', function () {
   let conditionChecker,
@@ -224,6 +225,300 @@ describe('ConditionChecker', function () {
       expect(result).to.eql({
         bar: 'BAR',
       });
+    });
+  });
+
+  describe('#applyConditions (form)', function () {
+    let viewer;
+
+    async function createViewer(schema) {
+      viewer = new Form();
+
+      await viewer.importSchema(schema);
+
+      return viewer.get('conditionChecker');
+    }
+
+    afterEach(function () {
+      viewer && viewer.destroy();
+      viewer = null;
+    });
+
+    it('should clear the children of a hidden group with path', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_address',
+            type: 'group',
+            path: 'address',
+            conditional: { hide: '=hideAddress' },
+            components: [{ id: 'Textfield_street', key: 'street', type: 'textfield' }],
+          },
+          { id: 'Textfield_zip', key: 'address.zip', type: 'textfield' },
+        ],
+      });
+
+      const data = { hideAddress: true, address: { street: 'Main Street', zip: '12345' } };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideAddress: true, address: { zip: '12345' } });
+    });
+
+    it('should prune a parent object left empty', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_address',
+            type: 'group',
+            path: 'address',
+            conditional: { hide: '=hideAddress' },
+            components: [{ id: 'Textfield_street', key: 'street', type: 'textfield' }],
+          },
+        ],
+      });
+
+      const data = { hideAddress: true, address: { street: 'Main Street' } };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideAddress: true });
+    });
+
+    it('should clear a leaf of a nested group hidden by the outer group', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_outer',
+            type: 'group',
+            path: 'outer',
+            conditional: { hide: '=hideOuter' },
+            components: [
+              {
+                id: 'Group_inner',
+                type: 'group',
+                path: 'inner',
+                components: [{ id: 'Textfield_leaf', key: 'leaf', type: 'textfield' }],
+              },
+            ],
+          },
+          { id: 'Textfield_other', key: 'other', type: 'textfield' },
+        ],
+      });
+
+      const data = { hideOuter: true, outer: { inner: { leaf: 'LEAF' } }, other: 'OTHER' };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideOuter: true, other: 'OTHER' });
+    });
+
+    it('should clear a hidden leaf inside a visible group', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_person',
+            type: 'group',
+            path: 'person',
+            components: [
+              { id: 'Textfield_name', key: 'name', type: 'textfield', conditional: { hide: '=hideName' } },
+              { id: 'Number_age', key: 'age', type: 'number' },
+            ],
+          },
+        ],
+      });
+
+      const data = { hideName: true, person: { name: 'Jane', age: 30 } };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideName: true, person: { age: 30 } });
+    });
+
+    it('should clear the children of a hidden group without path', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_unpathed',
+            type: 'group',
+            conditional: { hide: '=hideGroup' },
+            components: [
+              { id: 'Textfield_a', key: 'a', type: 'textfield' },
+              { id: 'Textfield_b', key: 'b', type: 'textfield' },
+            ],
+          },
+          { id: 'Textfield_c', key: 'c', type: 'textfield' },
+        ],
+      });
+
+      const data = { hideGroup: true, a: 'A', b: 'B', c: 'C' };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideGroup: true, c: 'C' });
+    });
+
+    it('should clear a list item child only where its item condition is met', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'List_items',
+            type: 'dynamiclist',
+            path: 'items',
+            isRepeating: true,
+            components: [
+              { id: 'Checkbox_hide', key: 'hide', type: 'checkbox' },
+              { id: 'Textfield_value', key: 'value', type: 'textfield', conditional: { hide: '=this.hide' } },
+            ],
+          },
+        ],
+      });
+
+      const data = {
+        items: [
+          { hide: true, value: 'A' },
+          { hide: false, value: 'B' },
+        ],
+      };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({
+        items: [{ hide: true }, { hide: false, value: 'B' }],
+      });
+    });
+
+    it('should clear a list item child in every item when its parent condition is met', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'List_items',
+            type: 'dynamiclist',
+            path: 'items',
+            isRepeating: true,
+            components: [
+              { id: 'Textfield_label', key: 'label', type: 'textfield' },
+              { id: 'Textfield_value', key: 'value', type: 'textfield', conditional: { hide: '=parent.hideAll' } },
+            ],
+          },
+        ],
+      });
+
+      const data = {
+        hideAll: true,
+        items: [
+          { label: 'one', value: 'A' },
+          { label: 'two', value: 'B' },
+        ],
+      };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({
+        hideAll: true,
+        items: [{ label: 'one' }, { label: 'two' }],
+      });
+    });
+
+    it('should remove the whole array of a hidden list', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'List_items',
+            type: 'dynamiclist',
+            path: 'items',
+            isRepeating: true,
+            conditional: { hide: '=hideList' },
+            components: [{ id: 'Textfield_value', key: 'value', type: 'textfield' }],
+          },
+        ],
+      });
+
+      const data = { hideList: true, items: [{ value: 'A' }, { value: 'B' }] };
+
+      // when
+      const result = checker.applyConditions(data, data);
+
+      // then
+      expect(result).to.eql({ hideList: true });
+    });
+
+    it('should not mutate the given data', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          {
+            id: 'Group_address',
+            type: 'group',
+            path: 'address',
+            conditional: { hide: '=hideAddress' },
+            components: [{ id: 'Textfield_street', key: 'street', type: 'textfield' }],
+          },
+        ],
+      });
+
+      const data = { hideAddress: true, address: { street: 'Main Street' } };
+
+      // when
+      checker.applyConditions(data, data);
+
+      // then
+      expect(data).to.eql({ hideAddress: true, address: { street: 'Main Street' } });
+    });
+
+    it('should fire <conditionChecker.remove> for a hidden leaf', async function () {
+      // given
+      const checker = await createViewer({
+        type: 'default',
+        components: [
+          { id: 'Textfield_name', key: 'name', type: 'textfield', conditional: { hide: '=hideName' } },
+          { id: 'Textfield_other', key: 'other', type: 'textfield' },
+        ],
+      });
+
+      const removeSpy = sinon.spy();
+
+      viewer.on('conditionChecker.remove', removeSpy);
+
+      const data = { hideName: true, name: 'Jane', other: 'OTHER' };
+
+      // when
+      checker.applyConditions(data, data);
+
+      // then
+      expect(removeSpy).to.have.been.calledOnce;
+      expect(removeSpy.args[0][0].item).to.eql({ name: 'Jane' });
     });
   });
 });
