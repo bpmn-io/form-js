@@ -185,7 +185,8 @@
   padding: 0 2rem;
 }
 
-.fjs-editor-container .fjs-form-field-grouplike > label {
+.fjs-editor-container .fjs-form-field-grouplike > label,
+.fjs-editor-container .fjs-form-field-grouplike > .fjs-page-title {
   margin-top: 6px;
 }
 

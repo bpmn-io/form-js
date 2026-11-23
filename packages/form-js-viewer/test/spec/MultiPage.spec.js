@@ -107,7 +107,7 @@ describe('MultiPage', function () {
     // then
     expect(container.querySelectorAll('.fjs-form-field-page')).to.have.length(2);
     expect(activePage().getAttribute('aria-labelledby')).to.exist;
-    expect(activePage().querySelector('label').textContent).to.equal('Account type');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Account type');
   });
 
   it('should hide a page by condition', async function () {
@@ -116,7 +116,7 @@ describe('MultiPage', function () {
 
     // then
     // Page_2 is hidden while the account type is not "business"
-    const labels = Array.from(container.querySelectorAll('.fjs-form-field-page > label')).map(
+    const labels = Array.from(container.querySelectorAll('.fjs-form-field-page > .fjs-page-title')).map(
       (label) => label.textContent,
     );
 
@@ -131,7 +131,7 @@ describe('MultiPage', function () {
     await fill('accountType', 'business');
 
     // then
-    const labels = Array.from(container.querySelectorAll('.fjs-form-field-page > label')).map(
+    const labels = Array.from(container.querySelectorAll('.fjs-form-field-page > .fjs-page-title')).map(
       (label) => label.textContent,
     );
 
@@ -158,13 +158,13 @@ describe('MultiPage', function () {
     await clickButton('Continue');
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
 
     // when
     await clickButton('Back');
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Account type');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Account type');
   });
 
   it('should skip a page hidden by condition when navigating', async function () {
@@ -175,7 +175,7 @@ describe('MultiPage', function () {
     await clickButton('Continue');
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Company details');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Company details');
   });
 
   it('should move to the next visible page when the active page hides itself', async function () {
@@ -185,13 +185,13 @@ describe('MultiPage', function () {
     await clickButton('Continue');
 
     // assume
-    expect(activePage().querySelector('label').textContent).to.equal('Company details');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Company details');
 
     // when
     await act(() => form._setState({ data: { accountType: 'private' } }));
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
   });
 
   it('should move to the next visible page when the active page hides itself by its own field', async function () {
@@ -225,13 +225,13 @@ describe('MultiPage', function () {
     await bootstrapForm({ schema });
 
     // assume
-    expect(activePage().querySelector('label').textContent).to.equal('Account type');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Account type');
 
     // when
     await fill('accountType', 'private');
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
   });
 
   it('should stay put when a page hidden underfoot is revealed again', async function () {
@@ -243,13 +243,13 @@ describe('MultiPage', function () {
     await act(() => form._setState({ data: { accountType: 'private' } }));
 
     // assume
-    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
 
     // when
     await act(() => form._setState({ data: { accountType: 'business' } }));
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Summary');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
   });
 
   it('should fire <multipage.pageChanged>', async function () {
@@ -326,7 +326,7 @@ describe('MultiPage', function () {
     expect(events).to.be.empty;
   });
 
-  it('should focus the first focusable element of the page', async function () {
+  it('should focus the title of the page', async function () {
     // given
     await bootstrapForm();
 
@@ -334,7 +334,134 @@ describe('MultiPage', function () {
     await clickButton('Continue');
 
     // then
-    expect(document.activeElement).to.equal(activePage().querySelector('input'));
+    expect(document.activeElement).to.equal(activePage().querySelector('.fjs-page-title'));
+  });
+
+  it('should focus a page without title', async function () {
+    // given
+    // a page imported without label gets a default one, so clear it explicitly
+    const schema = {
+      ...multiPageSchema,
+      components: [
+        {
+          ...multiPageSchema.components[0],
+          components: multiPageSchema.components[0].components.map((page) =>
+            page.id === 'Page_3' ? { ...page, label: '' } : page,
+          ),
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    // when
+    await clickButton('Continue');
+
+    // then
+    expect(activePage().querySelector('.fjs-page-title')).not.to.exist;
+    expect(activePage().hasAttribute('aria-labelledby')).to.be.false;
+    expect(document.activeElement).to.equal(activePage());
+  });
+
+  it('should not open a select on arrival', async function () {
+    // given
+    const schema = {
+      type: 'default',
+      id: 'SelectPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'First',
+              components: [{ type: 'textfield', id: 'Textfield_alpha', key: 'alpha', label: 'Alpha' }],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Second',
+              components: [
+                {
+                  type: 'select',
+                  id: 'Select_language',
+                  key: 'language',
+                  label: 'Language',
+                  values: [
+                    { label: 'English', value: 'english' },
+                    { label: 'German', value: 'german' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    // when
+    await clickButton('Next');
+
+    // then
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
+    expect(container.querySelector('.fjs-dropdownlist')).not.to.exist;
+  });
+
+  it('should not open a date picker on arrival', async function () {
+    // given
+    const schema = {
+      type: 'default',
+      id: 'DatePageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'First',
+              components: [{ type: 'textfield', id: 'Textfield_alpha', key: 'alpha', label: 'Alpha' }],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Second',
+              components: [
+                {
+                  type: 'datetime',
+                  id: 'Datetime_date',
+                  key: 'date',
+                  subtype: 'date',
+                  dateLabel: 'Date',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    // when
+    await clickButton('Next');
+
+    // then
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
+    expect(document.querySelector('.flatpickr-calendar.open')).not.to.exist;
+
+    // and when
+    // the user focuses the field
+    await act(() => activePage().querySelector('input').focus());
+
+    // then
+    // the calendar this test looks for does open
+    expect(document.querySelector('.flatpickr-calendar.open')).to.exist;
   });
 
   it('should not focus a page on the initial render', async function () {
@@ -377,15 +504,15 @@ describe('MultiPage', function () {
     await bootstrapForm({ schema });
 
     // assume
-    expect(activePage().querySelector('label').textContent).to.equal('First');
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
 
     // when
     // the page in view is hidden and its replacement is mounted in the same render
     await act(() => form._setState({ data: { step: 'two' } }));
 
     // then
-    expect(activePage().querySelector('label').textContent).to.equal('Second');
-    expect(document.activeElement).to.equal(container.querySelector('input[id$="beta"]'));
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
+    expect(document.activeElement).to.equal(activePage().querySelector('.fjs-page-title'));
   });
 
   it('should not focus a page revealed beside the one in view', async function () {
@@ -405,7 +532,7 @@ describe('MultiPage', function () {
   describe('navigation service', function () {
     const navigation = () => form.get('multiPageNavigation');
 
-    const activeLabel = () => activePage().querySelector('label').textContent;
+    const activeLabel = () => activePage().querySelector('.fjs-page-title').textContent;
 
     it('should report the page shown first', async function () {
       // when
@@ -667,7 +794,7 @@ describe('MultiPage', function () {
       await clickButton('Next');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('First');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
       expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
     });
 
@@ -680,7 +807,7 @@ describe('MultiPage', function () {
 
       // then
       const pages = Array.from(container.querySelectorAll('.fjs-form-field-page'));
-      const second = pages.find((page) => page.querySelector('label').textContent === 'Second');
+      const second = pages.find((page) => page.querySelector('.fjs-page-title').textContent === 'Second');
 
       expect(second.querySelector('.fjs-form-field-error')).to.not.exist;
     });
@@ -695,7 +822,7 @@ describe('MultiPage', function () {
       await clickButton('Next');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
     });
 
     it('should not validate on <back>', async function () {
@@ -708,7 +835,7 @@ describe('MultiPage', function () {
       await clickButton('Back');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('First');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
     });
   });
 
@@ -852,7 +979,7 @@ describe('MultiPage', function () {
       await clickButton('Next');
 
       // assume
-      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
 
       await act(() => form._setState({ data: { name: '' } }));
 
@@ -860,7 +987,7 @@ describe('MultiPage', function () {
       await clickButton('Submit');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('First');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
       expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
     });
 
@@ -874,7 +1001,7 @@ describe('MultiPage', function () {
       await clickButton('Submit');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
       expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
     });
 
@@ -888,7 +1015,7 @@ describe('MultiPage', function () {
       await clickButton('Submit');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
     });
   });
 
@@ -952,7 +1079,7 @@ describe('MultiPage', function () {
       await clickButton('Next');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('First');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
       expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
     });
 
@@ -1009,13 +1136,13 @@ describe('MultiPage', function () {
       await clickButton('Continue');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Summary');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Summary');
 
       // when
       await clickButton('Back');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Account type');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Account type');
     });
 
     it('should leave an invalid page without reporting its errors', async function () {
@@ -1029,7 +1156,7 @@ describe('MultiPage', function () {
       await clickButton('Next');
 
       // then
-      expect(activePage().querySelector('label').textContent).to.equal('Second');
+      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
       expect(container.querySelector('.fjs-form-field-error')).to.not.exist;
     });
 
