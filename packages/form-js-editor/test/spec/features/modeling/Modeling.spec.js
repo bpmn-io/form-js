@@ -132,6 +132,30 @@ describe('features/modeling', function () {
       // then
       expect(move).to.throw(/only be placed inside a multi page container/);
     }));
+
+    it('should reject a multi page container inside a group', inject(function (modeling, formFieldRegistry) {
+      // given
+      const group = formFieldRegistry.get('Group_1');
+
+      // when
+      const add = () => modeling.addFormField({ type: 'multipage' }, group, 0);
+
+      // then
+      expect(add).to.throw(/only be placed at the top level of the form/);
+    }));
+
+    it('should reject moving a multi page container into a group', inject(function (modeling, formFieldRegistry) {
+      // given
+      const parent = formFieldRegistry.get('Form_1');
+      const group = formFieldRegistry.get('Group_1');
+      const multiPage = modeling.addFormField({ type: 'multipage' }, parent, 0);
+
+      // when
+      const move = () => modeling.moveFormField(multiPage, parent, group, 0, 0);
+
+      // then
+      expect(move).to.throw(/only be placed at the top level of the form/);
+    }));
   });
 
   describe('#editFormField', function () {

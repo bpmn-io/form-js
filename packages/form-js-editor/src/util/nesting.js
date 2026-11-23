@@ -14,4 +14,8 @@ export function validateNesting(type, parentType) {
   if (type !== 'page' && parentType === 'multipage') {
     return 'Multi page containers can only hold pages';
   }
+
+  if (type === 'multipage' && parentType !== 'default') {
+    return 'Multi page containers can only be placed at the top level of the form';
+  }
 }

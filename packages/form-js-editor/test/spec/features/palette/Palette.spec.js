@@ -368,6 +368,40 @@ describe('palette', function () {
       expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, group, 1);
     });
 
+    it('should add multi page container to the form root with a group selected', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const group = {
+        type: 'group',
+        id: 'Group_1',
+        components: [{ type: 'textfield', id: 'foo' }],
+      };
+
+      const schema = {
+        type: 'default',
+        components: [group],
+      };
+
+      const result = createPalette({
+        container,
+        field: group,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="multipage"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'multipage' }, schema, 1);
+    });
+
     it('should add page to the selected multi page container', async function () {
       // given
       const spy = sinon.spy();

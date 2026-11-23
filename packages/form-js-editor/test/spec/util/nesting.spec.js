@@ -22,10 +22,20 @@ describe('util/nesting', function () {
     expect(validateNesting('multipage', 'multipage')).to.exist;
   });
 
+  it('should allow a multipage container at the top level', function () {
+    // then
+    expect(validateNesting('multipage', 'default')).to.not.exist;
+  });
+
+  it('should reject a multipage container below the top level', function () {
+    // then
+    expect(validateNesting('multipage', 'group')).to.exist;
+    expect(validateNesting('multipage', 'dynamiclist')).to.exist;
+    expect(validateNesting('multipage', 'page')).to.exist;
+  });
+
   it('should not constrain unrelated types', function () {
     // then
     expect(validateNesting('textfield', 'group')).to.not.exist;
-    expect(validateNesting('multipage', 'default')).to.not.exist;
-    expect(validateNesting('multipage', 'group')).to.not.exist;
   });
 });
