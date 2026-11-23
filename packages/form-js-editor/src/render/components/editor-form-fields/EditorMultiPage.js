@@ -25,7 +25,7 @@ export function EditorMultiPage(props) {
     // keep the click from selecting the container
     event.stopPropagation();
 
-    const index = field.components.length;
+    const index = (field.components || []).length;
 
     modeling.addFormField({ type: 'page', label: `Page ${index + 1}` }, field, index);
   };
