@@ -1,8 +1,8 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useRef } from 'preact/hooks';
 
 import { FormRenderContext, MultiPageContext } from '../../context';
-import { usePrevious, useService, useSingleLineTemplateEvaluation } from '../../hooks';
+import { useService, useSingleLineTemplateEvaluation } from '../../hooks';
 import { formFieldClasses } from '../Util';
 import { FormField } from '../FormField';
 
@@ -82,9 +82,17 @@ export function MultiPage(props) {
 
   // a page that mounts already active arrived because a condition moved the
   // user to it, unless the container is only opening on it
-  const previousActivePageId = usePrevious(activePageId);
+  // while a condition hides every page there is none in view, so compare with
+  // the page the user was on last
+  const lastActivePageId = useRef(null);
 
-  const focusOnMount = previousActivePageId !== null && previousActivePageId !== activePageId;
+  const focusOnMount = lastActivePageId.current !== null && lastActivePageId.current !== activePageId;
+
+  useEffect(() => {
+    if (activePageId !== null) {
+      lastActivePageId.current = activePageId;
+    }
+  }, [activePageId]);
 
   const multiPageContext = useMemo(
     () => ({ activePageId, showAllPages: false, focusOnMount }),

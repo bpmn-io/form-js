@@ -638,6 +638,50 @@ describe('MultiPage', function () {
     expect(document.activeElement).to.equal(activePage().querySelector('.fjs-page-title'));
   });
 
+  it('should focus a page revealed after every page was hidden', async function () {
+    // given
+    const schema = {
+      type: 'default',
+      id: 'EmptiedMultiPageForm',
+      components: [
+        {
+          type: 'multipage',
+          id: 'Multipage_1',
+          components: [
+            {
+              type: 'page',
+              id: 'Page_1',
+              label: 'First',
+              conditional: { hide: '=step = "none" or step = "two"' },
+              components: [{ type: 'textfield', id: 'Textfield_alpha', key: 'alpha', label: 'Alpha' }],
+            },
+            {
+              type: 'page',
+              id: 'Page_2',
+              label: 'Second',
+              conditional: { hide: '=step != "two"' },
+              components: [{ type: 'textfield', id: 'Textfield_beta', key: 'beta', label: 'Beta' }],
+            },
+          ],
+        },
+      ],
+    };
+
+    await bootstrapForm({ schema });
+
+    await act(() => form._setState({ data: { step: 'none' } }));
+
+    // assume
+    expect(activePage()).not.to.exist;
+
+    // when
+    await act(() => form._setState({ data: { step: 'two' } }));
+
+    // then
+    expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('Second');
+    expect(document.activeElement).to.equal(activePage().querySelector('.fjs-page-title'));
+  });
+
   it('should not focus a page revealed beside the one in view', async function () {
     // given
     await bootstrapForm();

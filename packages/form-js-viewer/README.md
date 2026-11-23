@@ -218,19 +218,17 @@ nextButton.addEventListener('click', () => navigation.next('Multipage_1'));
 
 To hold a container on its page, for example while the host saves a draft, return `false` from a `multipage.pageChange` listener.
 
-A container hidden by a condition keeps its page and can be navigated. It shows the page once it is revealed. Resetting the form or importing a schema sends every container back to its first page. To keep the page across an import, store it from `multipage.pageChanged` and navigate to it once `importSchema` resolves:
+A container hidden by a condition keeps its page and can be navigated. It shows the page once it is revealed. Resetting the form or importing a schema sends every container back to its first page. To keep the page across an import, read it before importing and navigate to it once `importSchema` resolves:
 
 ```javascript
-let position;
+const navigation = form.get('multiPageNavigation');
 
-form.on('multipage.pageChanged', ({ formField, to }) => {
-  position = { container: formField.id, page: to.id };
-});
+const pageId = navigation.getActivePage('Multipage_1');
 
 await form.importSchema(schema, data);
 
-if (position) {
-  form.get('multiPageNavigation').navigate(position.container, position.page);
+if (pageId) {
+  navigation.navigate('Multipage_1', pageId);
 }
 ```
 
