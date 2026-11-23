@@ -44,6 +44,69 @@ export class MultiPageNavigation {
   }
 
   /**
+   * Get where a container stands among the pages not hidden by condition.
+   *
+   * Returns `null` for an unknown container. If a condition hides every page,
+   * `activePageId` is `null`, `index` is `-1`, and `isFirst` and `isLast` are
+   * `false`.
+   *
+   * @param {string} containerId
+   *
+   * @returns {{ activePageId: string|null, visiblePageIds: Array<string>, index: number, isFirst: boolean, isLast: boolean }|null}
+   */
+  getState(containerId) {
+    const container = this._getContainer(containerId);
+
+    if (!container) {
+      return null;
+    }
+
+    const visiblePages = this._getVisiblePages(container);
+    const activePage = this._getActivePage(container);
+
+    const index = visiblePages.indexOf(activePage);
+
+    return {
+      activePageId: activePage ? activePage.id : null,
+      visiblePageIds: visiblePages.map((page) => page.id),
+      index,
+      isFirst: index === 0,
+      isLast: index !== -1 && index === visiblePages.length - 1,
+    };
+  }
+
+  /**
+   * Move a container to the next page not hidden by condition.
+   *
+   * Validates the page the container leaves, like the next control does, and
+   * reports its errors on the fields. Pass `{ validate: false }` to move on
+   * regardless.
+   *
+   * @param {string} containerId
+   * @param {Object} [options]
+   * @param {boolean} [options.validate=true]
+   *
+   * @returns {boolean} whether the container moved to the next page
+   */
+  next(containerId, options = {}) {
+    const { validate = true } = options;
+
+    return this._navigateBy(containerId, 1, { validate });
+  }
+
+  /**
+   * Move a container to the previous page not hidden by condition. Never
+   * validates, like the back control.
+   *
+   * @param {string} containerId
+   *
+   * @returns {boolean} whether the container moved to the previous page
+   */
+  back(containerId) {
+    return this._navigateBy(containerId, -1, { validate: false });
+  }
+
+  /**
    * Move a container to one of its pages.
    *
    * Fails if the container or the page is unknown, or if a condition hides the
@@ -51,6 +114,9 @@ export class MultiPageNavigation {
    * errors, and reports them on the fields.
    *
    * The container need not be on screen. It shows the page once it is.
+   *
+   * Fires `multipage.pageChange` before the move. A listener that returns
+   * `false` keeps the container where it is.
    *
    * @param {string} containerId
    * @param {string} pageId
@@ -84,9 +150,37 @@ export class MultiPageNavigation {
       return false;
     }
 
+    if (this._eventBus.fire('multipage.pageChange', { formField: container, from, to: page }) === false) {
+      return false;
+    }
+
     this._setPosition(container, from, page);
 
     return true;
+  }
+
+  /**
+   * @internal
+   *
+   * Move a container by a number of pages not hidden by condition.
+   */
+  _navigateBy(containerId, offset, options) {
+    const container = this._getContainer(containerId);
+
+    if (!container) {
+      return false;
+    }
+
+    const visiblePages = this._getVisiblePages(container);
+    const index = visiblePages.indexOf(this._getActivePage(container));
+
+    const target = index === -1 ? null : visiblePages[index + offset];
+
+    if (!target) {
+      return false;
+    }
+
+    return this.navigate(containerId, target.id, options);
   }
 
   /**

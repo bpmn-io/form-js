@@ -781,6 +781,274 @@ describe('MultiPage', function () {
       expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
       expect(activeLabel()).to.equal('Summary');
     });
+
+    describe('#getState', function () {
+      it('should report the page shown first', async function () {
+        // when
+        await bootstrapForm();
+
+        // then
+        expect(navigation().getState('Multipage_1')).to.eql({
+          activePageId: 'Page_1',
+          visiblePageIds: ['Page_1', 'Page_3'],
+          index: 0,
+          isFirst: true,
+          isLast: false,
+        });
+      });
+
+      it('should report the page the user navigated to', async function () {
+        // given
+        await bootstrapForm({ data: { accountType: 'business' } });
+
+        // when
+        await clickButton('Continue');
+
+        // then
+        expect(navigation().getState('Multipage_1')).to.eql({
+          activePageId: 'Page_2',
+          visiblePageIds: ['Page_1', 'Page_2', 'Page_3'],
+          index: 1,
+          isFirst: false,
+          isLast: false,
+        });
+      });
+
+      it('should leave out a page hidden by condition', async function () {
+        // when
+        await bootstrapForm({ data: { accountType: 'private' } });
+
+        // then
+        expect(navigation().getState('Multipage_1').visiblePageIds).to.eql(['Page_1', 'Page_3']);
+      });
+
+      it('should report the last page', async function () {
+        // given
+        await bootstrapForm();
+
+        // when
+        await clickButton('Continue');
+
+        // then
+        expect(navigation().getState('Multipage_1')).to.eql({
+          activePageId: 'Page_3',
+          visiblePageIds: ['Page_1', 'Page_3'],
+          index: 1,
+          isFirst: false,
+          isLast: true,
+        });
+      });
+
+      it('should report null for an unknown container', async function () {
+        // given
+        await bootstrapForm();
+
+        // then
+        expect(navigation().getState('Unknown')).to.be.null;
+        expect(navigation().getState('Page_1')).to.be.null;
+      });
+    });
+
+    describe('#next', function () {
+      it('should move to the next page in view', async function () {
+        // given
+        await bootstrapForm();
+
+        // when
+        let result;
+
+        await act(() => {
+          result = navigation().next('Multipage_1');
+        });
+
+        // then
+        expect(result).to.be.true;
+        expect(activeLabel()).to.equal('Summary');
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+      });
+
+      it('should not move on from the last page', async function () {
+        // given
+        await bootstrapForm();
+
+        await clickButton('Continue');
+
+        // when
+        const result = navigation().next('Multipage_1');
+
+        // then
+        expect(result).to.be.false;
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+      });
+
+      it('should not move on from a page with errors', async function () {
+        // given
+        await bootstrapForm({ schema: validatedSchema });
+
+        // when
+        let result;
+
+        await act(() => {
+          result = navigation().next('Multipage_1');
+        });
+
+        // then
+        expect(result).to.be.false;
+        expect(activeLabel()).to.equal('First');
+        expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
+      });
+
+      it('should move on from a page with errors without <validate>', async function () {
+        // given
+        await bootstrapForm({ schema: validatedSchema });
+
+        // when
+        let result;
+
+        await act(() => {
+          result = navigation().next('Multipage_1', { validate: false });
+        });
+
+        // then
+        expect(result).to.be.true;
+        expect(activeLabel()).to.equal('Second');
+      });
+
+      it('should not move an unknown container', async function () {
+        // given
+        await bootstrapForm();
+
+        // then
+        expect(navigation().next('Unknown')).to.be.false;
+      });
+    });
+
+    describe('#back', function () {
+      it('should move to the previous page in view', async function () {
+        // given
+        await bootstrapForm();
+
+        await clickButton('Continue');
+
+        // when
+        let result;
+
+        await act(() => {
+          result = navigation().back('Multipage_1');
+        });
+
+        // then
+        expect(result).to.be.true;
+        expect(activeLabel()).to.equal('Account type');
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+      });
+
+      it('should not move back from the first page', async function () {
+        // given
+        await bootstrapForm();
+
+        // when
+        const result = navigation().back('Multipage_1');
+
+        // then
+        expect(result).to.be.false;
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+      });
+    });
+
+    describe('<multipage.pageChange>', function () {
+      it('should fire before <multipage.pageChanged>', async function () {
+        // given
+        await bootstrapForm();
+
+        const events = [];
+
+        form.on('multipage.pageChange', (event) => events.push(['pageChange', event]));
+        form.on('multipage.pageChanged', (event) => events.push(['pageChanged', event]));
+
+        // when
+        await act(() => navigation().navigate('Multipage_1', 'Page_3'));
+
+        // then
+        expect(events.map(([type]) => type)).to.eql(['pageChange', 'pageChanged']);
+
+        const [, event] = events[0];
+
+        expect(event.formField.id).to.equal('Multipage_1');
+        expect(event.from.id).to.equal('Page_1');
+        expect(event.to.id).to.equal('Page_3');
+      });
+
+      it('should keep the page when a listener returns false', async function () {
+        // given
+        await bootstrapForm();
+
+        const changed = [];
+
+        form.on('multipage.pageChange', () => false);
+        form.on('multipage.pageChanged', (event) => changed.push(event));
+
+        // when
+        let result;
+
+        await act(() => {
+          result = navigation().navigate('Multipage_1', 'Page_3');
+        });
+
+        // then
+        expect(result).to.be.false;
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+        expect(activeLabel()).to.equal('Account type');
+        expect(changed).to.be.empty;
+      });
+
+      it('should keep the page on a click when a listener returns false', async function () {
+        // given
+        await bootstrapForm();
+
+        form.on('multipage.pageChange', () => false);
+
+        // when
+        await clickButton('Continue');
+
+        // then
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_1');
+        expect(activeLabel()).to.equal('Account type');
+      });
+
+      it('should not fire for the page shown first', async function () {
+        // given
+        const events = [];
+
+        form = new Form({ container, debounce: false });
+
+        form.on('multipage.pageChange', (event) => events.push(event));
+
+        // when
+        await act(() => form.importSchema(multiPageSchema));
+
+        // then
+        expect(events).to.be.empty;
+      });
+
+      it('should not fire when a condition moves the user', async function () {
+        // given
+        await bootstrapForm({ data: { accountType: 'business' } });
+
+        await clickButton('Continue');
+
+        const events = [];
+
+        form.on('multipage.pageChange', (event) => events.push(event));
+
+        // when
+        await act(() => form._setState({ data: { accountType: 'private' } }));
+
+        // then
+        expect(events).to.be.empty;
+        expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
+      });
+    });
   });
 
   describe('validation', function () {

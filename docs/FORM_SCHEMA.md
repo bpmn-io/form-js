@@ -91,7 +91,8 @@ first page, the page left is `null`.
 
 A container keeps its page while a condition hides it, and starts over on its
 first page when the form is reset or a schema is imported. The viewer README
-describes how to read and set the page from outside the form.
+describes how to read and set the page from outside the form, and how a host can
+veto a page change through the cancellable `multipage.pageChange` event.
 
 ## Example
 

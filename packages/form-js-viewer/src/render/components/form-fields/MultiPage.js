@@ -47,28 +47,15 @@ export function MultiPage(props) {
   const { data } = useService('form')._getState();
   const { isPageValid, reportPageErrors } = usePageValidation();
 
-  const navigate = useCallback(
-    (target) => {
-      if (!target) {
-        return;
-      }
-
-      multiPageNavigation._setPosition(field, activePage, target);
-    },
-    [activePage, field, multiPageNavigation],
-  );
-
+  // user actions go through the service, so that a host may veto them;
   // a read-only form can be paged through, but its fields cannot be corrected,
   // so moving on neither reports errors nor waits for them to be fixed
-  const onNext = useCallback(() => {
-    if (!readonly && !reportPageErrors(activePage)) {
-      return;
-    }
+  const onNext = useCallback(
+    () => multiPageNavigation.next(field.id, { validate: !readonly }),
+    [field.id, multiPageNavigation, readonly],
+  );
 
-    navigate(visiblePages[activeIndex + 1]);
-  }, [activeIndex, activePage, navigate, readonly, reportPageErrors, visiblePages]);
-
-  const onBack = useCallback(() => navigate(visiblePages[activeIndex - 1]), [activeIndex, navigate, visiblePages]);
+  const onBack = useCallback(() => multiPageNavigation.back(field.id), [field.id, multiPageNavigation]);
 
   // commit the page the container opens on, and any move a condition forced, so
   // that revealing an earlier page later does not drag the user backwards
@@ -97,14 +84,14 @@ export function MultiPage(props) {
       const failing = visiblePages.find((page) => hasErrors(page, errors));
 
       if (failing && failing.id !== resolvedActivePageId) {
-        navigate(failing);
+        multiPageNavigation.navigate(field.id, failing.id);
       }
     };
 
     eventBus.on('submit', onSubmit);
 
     return () => eventBus.off('submit', onSubmit);
-  }, [eventBus, navigate, resolvedActivePageId, visiblePages]);
+  }, [eventBus, field.id, multiPageNavigation, resolvedActivePageId, visiblePages]);
 
   const [isActivePageValid, setActivePageValid] = useState(true);
 
