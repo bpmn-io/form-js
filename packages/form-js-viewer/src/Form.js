@@ -8,6 +8,7 @@ import {
   MarkdownRendererModule,
   ViewerCommandsModule,
   RepeatRenderModule,
+  MultiPageNavigationModule,
 } from './features';
 
 import { CoreModule } from './core';
@@ -392,6 +393,7 @@ export class Form {
       MarkdownRendererModule,
       ViewerCommandsModule,
       RepeatRenderModule,
+      MultiPageNavigationModule,
     ];
   }
 

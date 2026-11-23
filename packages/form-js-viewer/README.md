@@ -167,6 +167,71 @@ Subscribe to an [event](#events).
 
 Remove form from the document.
 
+### Navigate multipage containers
+
+The `multiPageNavigation` service reads and sets the page a multipage container shows. Containers and pages are identified by their `id`.
+
+```javascript
+const navigation = form.get('multiPageNavigation');
+
+// the id of the page the container shows, or null
+navigation.getActivePage('Multipage_1');
+
+// move the container to a page, returns whether it shows the page
+navigation.navigate('Multipage_1', 'Page_3');
+```
+
+`navigate` returns `false` if the container or the page is unknown, or if a condition hides the page. It does not validate the page the container leaves. Pass `{ validate: true }` to refuse the move while that page has errors, and show them on the fields.
+
+`getState`, `next` and `back` work on the pages a condition does not hide, the way the controls of the container do:
+
+```javascript
+// { activePageId, visiblePageIds, index, isFirst, isLast }, or null for an unknown container
+navigation.getState('Multipage_1');
+
+// move to the next page, validating the page left like the next control does
+navigation.next('Multipage_1');
+
+// move on regardless of errors
+navigation.next('Multipage_1', { validate: false });
+
+// move to the previous page, never validates
+navigation.back('Multipage_1');
+```
+
+`next` and `back` return `false` if there is no page to move to, or the move is refused. If a condition hides every page, `getState` reports an `activePageId` of `null`, an `index` of `-1`, and neither `isFirst` nor `isLast`.
+
+A host that renders its own controls can, for example, offer its submit button only on the last page:
+
+```javascript
+const updateSubmit = () => {
+  const state = navigation.getState('Multipage_1');
+
+  submitButton.hidden = !(state && state.isLast);
+};
+
+form.on('multipage.pageChanged', updateSubmit);
+form.on('changed', updateSubmit);
+
+nextButton.addEventListener('click', () => navigation.next('Multipage_1'));
+```
+
+To hold a container on its page, for example while the host saves a draft, return `false` from a `multipage.pageChange` listener.
+
+A container hidden by a condition keeps its page and can be navigated. It shows the page once it is revealed. Resetting the form or importing a schema sends every container back to its first page. To keep the page across an import, read it before importing and navigate to it once `importSchema` resolves:
+
+```javascript
+const navigation = form.get('multiPageNavigation');
+
+const pageId = navigation.getActivePage('Multipage_1');
+
+await form.importSchema(schema, data);
+
+if (pageId) {
+  navigation.navigate('Multipage_1', pageId);
+}
+```
+
 ## Events
 
 ### `changed :: { data, errors }`
@@ -180,6 +245,14 @@ Fired off on form submission.
 ### `import.done :: { error, warnings }`
 
 Fired whenever a schema has finished importing, whether it succeeds or fails.
+
+### `multipage.pageChange :: { formField, from, to }`
+
+Fired before a container moves to another page on request of the user or the host. Return `false` to keep the container where it is. Not fired for the page a container opens on, nor when a condition hides the page in view.
+
+### `multipage.pageChanged :: { formField, from, to }`
+
+Fired when a multipage container moves to another page, and when it opens on its first page. In that case `from` is `null`. A container opens when a schema is imported and again after the form is reset, whether or not a condition hides the container at that time.
 
 ### Layouting events
 

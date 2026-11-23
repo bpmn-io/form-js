@@ -1,0 +1,35 @@
+{
+  "type": "default",
+  "id": "TrailingPageForm",
+  "components": [
+    {
+      "type": "multipage",
+      "id": "Multipage_1",
+      "showSubmit": true,
+      "components": [
+        {
+          "type": "page",
+          "id": "Page_1",
+          "label": "First",
+          "components": [
+            {
+              "type": "textfield",
+              "id": "Textfield_extra",
+              "key": "extra",
+              "label": "Extra"
+            }
+          ]
+        },
+        {
+          "type": "page",
+          "id": "Page_2",
+          "label": "Second",
+          "conditional": {
+            "hide": "=extra != \"yes\""
+          },
+          "components": []
+        }
+      ]
+    }
+  ]
+}

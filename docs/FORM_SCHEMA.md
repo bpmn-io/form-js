@@ -6,6 +6,91 @@ A form is defined as JSON.
 
 Find a complete component reference in the [Camunda Platform documentation](https://docs.camunda.io/docs/components/modeler/forms/form-element-library/forms-element-library/).
 
+## Multi page forms
+
+A `multipage` component holds `page` components and shows one of them at a time,
+with next and back controls underneath. A multipage is valid only at the top
+level of the form, not inside a group, a dynamic list or a page. A page is valid
+only as a direct child of a multipage, and a multipage holds nothing but pages.
+Pages are containers: their children write into the enclosing scope, so a key on
+page two reads the same as a key on page one.
+
+Branching uses `conditional.hide` on a page, the same property every other
+component has. A hidden page is skipped by the controls, and its fields are
+cleared like those of any other hidden component, so it contributes neither
+values nor uploads to the submission. A page the user has moved away from stays
+mounted, so its values survive navigation in either direction.
+
+`nextLabel`, `backLabel` and `submitLabel` set the labels of the controls. Set
+them on the container to label the controls of all its pages, and on a page to
+override them while that page is on screen. A control reads the label of the
+page on screen, then that of the container, and falls back to `Next`, `Back` and
+`Submit`.
+
+Set `showSubmit` on the container to finish the form from the navigation row.
+The submit control replaces the next control on the last page in view, so under
+branching it follows whichever page turns out to be last. When a field on a page
+that is not on screen fails validation, the container brings that page forward,
+since the error is otherwise hidden.
+
+Navigating forward validates the page being left and refuses while it has
+errors. Navigating back does not validate anything. Pressing Enter in a field
+moves to the next page; on the last page in view it submits the form. Arriving
+on a page moves focus to its title, or to the page itself if it has no title.
+
+In a read-only form, back and next skip validation, so every page can be read.
+The submit control is disabled. A disabled form disables every control.
+
+```json
+{
+  "type": "multipage",
+  "id": "Multipage_1",
+  "showSubmit": true,
+  "components": [
+    {
+      "type": "page",
+      "id": "Page_1",
+      "label": "Account type",
+      "nextLabel": "Continue",
+      "components": [
+        {
+          "key": "accountType",
+          "label": "Account type",
+          "type": "textfield"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "id": "Page_2",
+      "label": "Company details",
+      "backLabel": "Change account type",
+      "submitLabel": "Create account",
+      "conditional": {
+        "hide": "=accountType != \"business\""
+      },
+      "components": [
+        {
+          "key": "company",
+          "label": "Company",
+          "type": "textfield"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Each page change fires `multipage.pageChanged` on the event bus with the
+container, the page left and the page arrived at. When a container opens on its
+first page, the page left is `null`. A container opens when the schema is
+imported and again after the form is reset, also while a condition hides it.
+
+A container keeps its page while a condition hides it, and starts over on its
+first page when the form is reset or a schema is imported. The viewer README
+describes how to read and set the page from outside the form, and how a host can
+veto a page change through the cancellable `multipage.pageChange` event.
+
 ## Example
 
 ```json

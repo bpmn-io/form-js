@@ -1,7 +1,7 @@
 {
   "properties": {
     "type": {
-      "enum": ["group", "dynamiclist"]
+      "enum": ["group", "dynamiclist", "multipage", "page"]
     }
   },
   "required": ["type"]

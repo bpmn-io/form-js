@@ -334,6 +334,135 @@ describe('palette', function () {
       // then
       expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
     });
+
+    it('should add multi page container to the form root with a group selected', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const group = {
+        type: 'group',
+        id: 'Group_1',
+        components: [{ type: 'textfield', id: 'foo' }],
+      };
+
+      const schema = {
+        type: 'default',
+        components: [group],
+      };
+
+      const result = createPalette({
+        container,
+        field: group,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="multipage"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'multipage' }, schema, 1);
+    });
+
+    it('should add entry to the form root with a group selected', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const group = {
+        type: 'group',
+        id: 'Group_1',
+        components: [{ type: 'textfield', id: 'foo' }],
+      };
+
+      const schema = {
+        type: 'default',
+        components: [group],
+      };
+
+      const result = createPalette({
+        container,
+        field: group,
+        services: {
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="textfield"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.have.been.calledOnceWith({ type: 'textfield' }, schema, 1);
+    });
+
+    it('should not add entry the form root may not hold', async function () {
+      // given
+      const spy = sinon.spy();
+
+      const formFields = new FormFields();
+
+      formFields.register('custom', {
+        config: {
+          label: 'Custom',
+          group: 'basic-input',
+          allowedParents: ['group'],
+        },
+      });
+
+      const schema = {
+        type: 'default',
+        components: [],
+      };
+
+      const result = createPalette({
+        container,
+        services: {
+          formFields,
+          modeling: { addFormField: spy },
+          formEditor: { _getState: () => ({ schema }) },
+        },
+      });
+
+      const entry = result.container.querySelector('[data-field-type="custom"]');
+
+      // when
+      fireEvent.focus(entry);
+      fireEvent.keyDown(entry, { key: 'Enter', code: 'Enter' });
+
+      // then
+      expect(spy).to.not.have.been.called;
+    });
+  });
+
+  describe('pages', function () {
+    it('should not offer a page entry', function () {
+      // when
+      const result = createPalette({ container });
+
+      // then
+      expect(result.container.querySelector('[data-field-type="page"]')).to.not.exist;
+    });
+
+    it('should not collect fields without a group', function () {
+      // given
+      const formFields = new FormFields();
+
+      formFields.register('custom', { config: { label: 'Custom' } });
+
+      // when
+      const paletteEntries = collectPaletteEntries(formFields);
+
+      // then
+      expect(paletteEntries.map(({ type }) => type)).to.not.include.members(['page', 'custom']);
+    });
   });
 
   describe('a11y', function () {

@@ -95,7 +95,7 @@ export class FormLayouter {
   calculateLayout(formField) {
     const { type, components } = formField;
 
-    if (!['default', 'group', 'dynamiclist'].includes(type) || !components) {
+    if (!['default', 'group', 'dynamiclist', 'multipage', 'page'].includes(type) || !components) {
       return;
     }
 

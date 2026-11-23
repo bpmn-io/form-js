@@ -123,7 +123,12 @@ export function Timepicker(props) {
         useDropdown && setDropdownIsOpen(false);
         break;
       case 'Enter':
-        !dropdownIsOpen && propagateRawToMinute();
+        if (dropdownIsOpen) {
+          // the key picks an option here, it must not submit the form as well
+          e.preventDefault();
+        } else {
+          propagateRawToMinute();
+        }
         break;
     }
   };

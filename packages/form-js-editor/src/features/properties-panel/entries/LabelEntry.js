@@ -156,6 +156,8 @@ function getLabelText(type) {
     case 'group':
     case 'dynamiclist':
       return 'Group label';
+    case 'page':
+      return 'Page label';
     case 'table':
       return 'Table label';
     case 'iframe':

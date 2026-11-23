@@ -6,6 +6,7 @@ export function PaletteEntry(props) {
   const modeling = useService('modeling');
   const formEditor = useService('formEditor');
   const translate = useService('translate');
+  const formNestingValidator = useService('formNestingValidator');
 
   const Icon = getPaletteIcon({ icon, iconUrl, label, type });
 
@@ -14,6 +15,11 @@ export function PaletteEntry(props) {
       const { fieldType: type } = event.target.dataset;
 
       const { schema } = formEditor._getState();
+
+      // a field that may not be placed at the root has to be dragged into place
+      if (formNestingValidator.validate(type, schema.type)) {
+        return;
+      }
 
       // add new form field to last position
       modeling.addFormField({ type }, schema, schema.components.length);

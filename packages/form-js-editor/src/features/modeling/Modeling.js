@@ -9,11 +9,12 @@ import { UpdatePathClaimHandler } from './cmd/UpdatePathClaimHandler';
 import { isObject } from 'min-dash';
 
 export class Modeling {
-  constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
+  constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory, formNestingValidator) {
     this._commandStack = commandStack;
     this._formEditor = formEditor;
     this._formFieldRegistry = formFieldRegistry;
     this._fieldFactory = fieldFactory;
+    this._formNestingValidator = formNestingValidator;
 
     eventBus.on('form.init', () => {
       this.registerHandlers();
@@ -39,6 +40,8 @@ export class Modeling {
   }
 
   addFormField(attrs, targetFormField, targetIndex) {
+    this._ensureValidNesting(attrs.type, targetFormField);
+
     const formField = this._fieldFactory.create(attrs);
 
     const context = {
@@ -68,6 +71,8 @@ export class Modeling {
   }
 
   moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex, sourceRow, targetRow) {
+    this._ensureValidNesting(formField.type, targetFormField);
+
     const context = {
       formField,
       sourceFormField,
@@ -150,6 +155,21 @@ export class Modeling {
 
     this._commandStack.execute('path.updateClaim', context);
   }
+
+  _ensureValidNesting(type, targetFormField) {
+    const problem = targetFormField && this._formNestingValidator.validate(type, targetFormField.type);
+
+    if (problem) {
+      throw new Error(problem);
+    }
+  }
 }
 
-Modeling.$inject = ['commandStack', 'eventBus', 'formEditor', 'formFieldRegistry', 'fieldFactory'];
+Modeling.$inject = [
+  'commandStack',
+  'eventBus',
+  'formEditor',
+  'formFieldRegistry',
+  'fieldFactory',
+  'formNestingValidator',
+];
