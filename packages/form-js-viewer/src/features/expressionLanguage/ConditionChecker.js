@@ -24,6 +24,8 @@ export class ConditionChecker {
     this._expressionLanguage = expressionLanguage;
     this._eventBus = eventBus;
     this._formFields = formFields;
+
+    this._conditionResults = new WeakMap();
   }
 
   /**
@@ -74,19 +76,53 @@ export class ConditionChecker {
 
     const hiddenFieldIds = new Set();
 
-    this._walkConditions(contextData, ({ field, indexes: fieldIndexes, isHidden, isHiddenByOwnCondition }) => {
-      if (ownConditionOnly ? !isHiddenByOwnCondition : !isHidden) {
-        return;
-      }
+    this._getConditionResults(contextData).forEach(
+      ({ field, indexes: fieldIndexes, isHidden, isHiddenByOwnCondition }) => {
+        if (ownConditionOnly ? !isHiddenByOwnCondition : !isHidden) {
+          return;
+        }
 
-      const isSameRepetition = Object.entries(indexes).every(([id, index]) => fieldIndexes[id] === index);
+        const isSameRepetition = Object.entries(indexes).every(([id, index]) => fieldIndexes[id] === index);
 
-      if (isSameRepetition) {
-        hiddenFieldIds.add(field.id);
-      }
-    });
+        if (isSameRepetition) {
+          hiddenFieldIds.add(field.id);
+        }
+      },
+    );
 
     return hiddenFieldIds;
+  }
+
+  /**
+   * Resolve the hide conditions of every field for the given data, reusing the
+   * results of an earlier walk over the same data object and form.
+   *
+   * @param {Object<string, any>} contextData
+   * @returns {Array<{ field: Object, indexes: Object<string, number>, isHidden: boolean, isHiddenByOwnCondition: boolean, isClosed: boolean, isRepeatable: boolean }>}
+   */
+  _getConditionResults(contextData) {
+    const form = this._formFieldRegistry.getForm();
+
+    // safe to cache by identity: form state data is replaced by a clone on every update
+    const cacheable = isObject(contextData);
+
+    if (cacheable) {
+      const entry = this._conditionResults.get(contextData);
+
+      if (entry && entry.form === form) {
+        return entry.results;
+      }
+    }
+
+    const results = [];
+
+    this._walkConditions(contextData, (result) => results.push(result));
+
+    if (cacheable) {
+      this._conditionResults.set(contextData, { form, results });
+    }
+
+    return results;
   }
 
   /**

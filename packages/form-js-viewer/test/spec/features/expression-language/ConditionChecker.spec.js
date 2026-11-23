@@ -147,6 +147,61 @@ describe('ConditionChecker', function () {
       // then
       expect(Array.from(result)).to.have.members(['Group_1', 'Textfield_hidden']);
     });
+
+    describe('memoization', function () {
+      let walkSpy;
+
+      beforeEach(function () {
+        walkSpy = sinon.spy(conditionChecker, '_walkConditions');
+      });
+
+      it('should resolve the conditions once for the same data', function () {
+        // given
+        const data = { hideGroup: true };
+
+        // when
+        const first = conditionChecker.getHiddenFieldIds(data);
+        const second = conditionChecker.getHiddenFieldIds(data);
+        const ownOnly = conditionChecker.getHiddenFieldIds(data, {}, { ownConditionOnly: true });
+
+        // then
+        expect(walkSpy).to.have.been.calledOnce;
+        expect(Array.from(first)).to.have.members(['Group_1', 'Textfield_shown', 'Textfield_hidden']);
+        expect(Array.from(second)).to.have.members(['Group_1', 'Textfield_shown', 'Textfield_hidden']);
+        expect(Array.from(ownOnly)).to.have.members(['Group_1', 'Textfield_hidden']);
+      });
+
+      it('should resolve the conditions again for new data', function () {
+        // given
+        conditionChecker.getHiddenFieldIds({ hideGroup: true });
+
+        // when
+        const result = conditionChecker.getHiddenFieldIds({ hideGroup: false });
+
+        // then
+        expect(walkSpy).to.have.been.calledTwice;
+        expect(Array.from(result)).to.have.members(['Textfield_hidden']);
+      });
+
+      it('should resolve the conditions again for another form', function () {
+        // given
+        const data = { hideGroup: true };
+
+        conditionChecker.getHiddenFieldIds(data);
+
+        // when
+        form = {
+          type: 'default',
+          components: [{ id: 'Textfield_other', key: 'other', type: 'textfield', conditional: { hide: '=hideGroup' } }],
+        };
+
+        const result = conditionChecker.getHiddenFieldIds(data);
+
+        // then
+        expect(walkSpy).to.have.been.calledTwice;
+        expect(Array.from(result)).to.have.members(['Textfield_other']);
+      });
+    });
   });
 
   describe('#applyConditions', function () {
