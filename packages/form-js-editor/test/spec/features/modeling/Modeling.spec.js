@@ -87,7 +87,7 @@ describe('features/modeling', function () {
       const add = () => modeling.addFormField({ type: 'page' }, parent, 0);
 
       // then
-      expect(add).to.throw(/only be placed inside a multi page container/);
+      expect(add).to.throw(/Page can only be placed in: Multi page/);
     }));
 
     it('should reject anything but a page inside a multi page container', inject(function (
@@ -102,7 +102,7 @@ describe('features/modeling', function () {
       const add = () => modeling.addFormField({ type: 'button' }, multiPage, 0);
 
       // then
-      expect(add).to.throw(/can only hold pages/);
+      expect(add).to.throw(/Multi page can only hold: Page/);
     }));
 
     it('should accept a page inside a multi page container', inject(function (modeling, formFieldRegistry) {
@@ -130,7 +130,7 @@ describe('features/modeling', function () {
       const move = () => modeling.moveFormField(page, multiPage, parent, 0, 0);
 
       // then
-      expect(move).to.throw(/only be placed inside a multi page container/);
+      expect(move).to.throw(/Page can only be placed in: Multi page/);
     }));
 
     it('should reject a multi page container inside a group', inject(function (modeling, formFieldRegistry) {
@@ -141,7 +141,7 @@ describe('features/modeling', function () {
       const add = () => modeling.addFormField({ type: 'multipage' }, group, 0);
 
       // then
-      expect(add).to.throw(/only be placed at the top level of the form/);
+      expect(add).to.throw(/Multi page can only be placed in: the form/);
     }));
 
     it('should reject moving a multi page container into a group', inject(function (modeling, formFieldRegistry) {
@@ -154,7 +154,7 @@ describe('features/modeling', function () {
       const move = () => modeling.moveFormField(multiPage, parent, group, 0, 0);
 
       // then
-      expect(move).to.throw(/only be placed at the top level of the form/);
+      expect(move).to.throw(/Multi page can only be placed in: the form/);
     }));
   });
 

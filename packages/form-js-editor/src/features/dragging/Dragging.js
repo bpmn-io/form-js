@@ -1,7 +1,6 @@
 import dragula from '@bpmn-io/draggle';
 
 import { set as setCursor } from '../../render/util/Cursor';
-import { validateNesting } from '../../util/nesting';
 import { getAncestryList } from '@bpmn-io/form-js-viewer';
 
 export const DRAG_CONTAINER_CLS = 'fjs-drag-container';
@@ -28,14 +27,24 @@ export class Dragging {
    * @param { import('../../core/EventBus').EventBus } eventBus
    * @param { import('../modeling/Modeling').Modeling } modeling
    * @param { import('@bpmn-io/form-js-viewer').PathRegistry } pathRegistry
+   * @param { import('../../core/FormNestingValidator').FormNestingValidator } formNestingValidator
    */
-  constructor(formFieldRegistry, formLayouter, formLayoutValidator, eventBus, modeling, pathRegistry) {
+  constructor(
+    formFieldRegistry,
+    formLayouter,
+    formLayoutValidator,
+    eventBus,
+    modeling,
+    pathRegistry,
+    formNestingValidator,
+  ) {
     this._formFieldRegistry = formFieldRegistry;
     this._formLayouter = formLayouter;
     this._formLayoutValidator = formLayoutValidator;
     this._eventBus = eventBus;
     this._modeling = modeling;
     this._pathRegistry = pathRegistry;
+    this._formNestingValidator = formNestingValidator;
   }
 
   /**
@@ -161,7 +170,7 @@ export class Dragging {
     // a field dragged in from the palette is not in the registry yet
     const draggedType = draggedField ? draggedField.type : element.dataset.fieldType;
 
-    return validateNesting(draggedType, targetParent.type);
+    return this._formNestingValidator.validate(draggedType, targetParent.type);
   }
 
   /**
@@ -187,7 +196,7 @@ export class Dragging {
     for (const id of row.components) {
       const formField = this._formFieldRegistry.get(id);
 
-      const nestingError = formField && validateNesting(formField.type, targetParent.type);
+      const nestingError = formField && this._formNestingValidator.validate(formField.type, targetParent.type);
 
       if (nestingError) {
         return nestingError;
@@ -440,7 +449,15 @@ export class Dragging {
   }
 }
 
-Dragging.$inject = ['formFieldRegistry', 'formLayouter', 'formLayoutValidator', 'eventBus', 'modeling', 'pathRegistry'];
+Dragging.$inject = [
+  'formFieldRegistry',
+  'formLayouter',
+  'formLayoutValidator',
+  'eventBus',
+  'modeling',
+  'pathRegistry',
+  'formNestingValidator',
+];
 
 // helper //////////
 

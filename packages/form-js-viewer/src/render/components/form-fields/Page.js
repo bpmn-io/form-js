@@ -62,6 +62,7 @@ Page.config = {
   type,
   name: 'Page',
   group: 'container',
+  allowedParents: ['multipage'],
   create: (options = {}) => ({
     label: 'Page',
     components: [],

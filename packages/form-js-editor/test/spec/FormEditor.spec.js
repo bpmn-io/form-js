@@ -1323,7 +1323,7 @@ describe('FormEditor', function () {
         const error = dragging._validateRowNesting(el, getDropContainer('Multipage_1'));
 
         // then
-        expect(error).to.eql('Multi page containers can only hold pages');
+        expect(error).to.eql('Multi page can only hold: Page');
       });
 
       it('should move row holding page within multi page container', async function () {

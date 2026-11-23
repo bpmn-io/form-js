@@ -164,6 +164,8 @@ MultiPage.config = {
   type,
   name: 'Multi page',
   group: 'container',
+  allowedParents: ['default'],
+  allowedChildren: ['page'],
   create: (options = {}) => ({
     components: [],
     ...options,

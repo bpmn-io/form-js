@@ -5,6 +5,7 @@ import { DebounceFactory } from './Debounce';
 import { FormFieldRegistry } from './FormFieldRegistry';
 import { FormLayouter } from './FormLayouter';
 import { FormLayoutValidator } from './FormLayoutValidator';
+import { FormNestingValidator } from './FormNestingValidator';
 
 import { RenderModule } from '../render';
 
@@ -17,5 +18,6 @@ export const CoreModule = {
   pathRegistry: ['type', PathRegistry],
   formLayouter: ['type', FormLayouter],
   formLayoutValidator: ['type', FormLayoutValidator],
+  formNestingValidator: ['type', FormNestingValidator],
   fieldFactory: ['type', FieldFactory],
 };

@@ -8,14 +8,13 @@ import { UpdatePathClaimHandler } from './cmd/UpdatePathClaimHandler';
 
 import { isObject } from 'min-dash';
 
-import { validateNesting } from '../../util/nesting';
-
 export class Modeling {
-  constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory) {
+  constructor(commandStack, eventBus, formEditor, formFieldRegistry, fieldFactory, formNestingValidator) {
     this._commandStack = commandStack;
     this._formEditor = formEditor;
     this._formFieldRegistry = formFieldRegistry;
     this._fieldFactory = fieldFactory;
+    this._formNestingValidator = formNestingValidator;
 
     eventBus.on('form.init', () => {
       this.registerHandlers();
@@ -41,7 +40,7 @@ export class Modeling {
   }
 
   addFormField(attrs, targetFormField, targetIndex) {
-    ensureValidNesting(attrs.type, targetFormField);
+    this._ensureValidNesting(attrs.type, targetFormField);
 
     const formField = this._fieldFactory.create(attrs);
 
@@ -72,7 +71,7 @@ export class Modeling {
   }
 
   moveFormField(formField, sourceFormField, targetFormField, sourceIndex, targetIndex, sourceRow, targetRow) {
-    ensureValidNesting(formField.type, targetFormField);
+    this._ensureValidNesting(formField.type, targetFormField);
 
     const context = {
       formField,
@@ -156,14 +155,21 @@ export class Modeling {
 
     this._commandStack.execute('path.updateClaim', context);
   }
-}
 
-Modeling.$inject = ['commandStack', 'eventBus', 'formEditor', 'formFieldRegistry', 'fieldFactory'];
+  _ensureValidNesting(type, targetFormField) {
+    const problem = targetFormField && this._formNestingValidator.validate(type, targetFormField.type);
 
-function ensureValidNesting(type, targetFormField) {
-  const problem = targetFormField && validateNesting(type, targetFormField.type);
-
-  if (problem) {
-    throw new Error(problem);
+    if (problem) {
+      throw new Error(problem);
+    }
   }
 }
+
+Modeling.$inject = [
+  'commandStack',
+  'eventBus',
+  'formEditor',
+  'formFieldRegistry',
+  'fieldFactory',
+  'formNestingValidator',
+];

@@ -1,5 +1,4 @@
 import { useService } from '../../../render/hooks';
-import { validateNesting } from '../../../util/nesting';
 
 export function PaletteEntry(props) {
   const { type, label, icon, iconUrl, getPaletteIcon } = props;
@@ -8,6 +7,7 @@ export function PaletteEntry(props) {
   const formEditor = useService('formEditor');
   const selection = useService('selection');
   const translate = useService('translate');
+  const formNestingValidator = useService('formNestingValidator');
 
   const Icon = getPaletteIcon({ icon, iconUrl, label, type });
 
@@ -17,11 +17,11 @@ export function PaletteEntry(props) {
     const { schema } = formEditor._getState();
     const selected = selection.get();
 
-    if (selected && Array.isArray(selected.components) && !validateNesting(type, selected.type)) {
+    if (selected && Array.isArray(selected.components) && !formNestingValidator.validate(type, selected.type)) {
       return selected;
     }
 
-    if (!validateNesting(type, schema.type)) {
+    if (!formNestingValidator.validate(type, schema.type)) {
       return schema;
     }
   };
