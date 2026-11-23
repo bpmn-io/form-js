@@ -233,11 +233,6 @@
       "description": "Render a submit button on the last page in view.",
       "type": "boolean"
     },
-    "disableInvalidNavigation": {
-      "$id": "#/component/disableInvalidNavigation",
-      "description": "Mark the next and submit controls as disabled while the page in view has errors.",
-      "type": "boolean"
-    },
     "validate": {
       "$id": "#/component/validate",
       "$ref": "validate.json"

@@ -37,11 +37,6 @@ errors. Navigating back does not validate anything. Pressing Enter in a field
 moves to the next page; on the last page in view it submits the form. Arriving
 on a page moves focus to its title, or to the page itself if it has no title.
 
-By default that refusal only shows up on the click. Set
-`disableInvalidNavigation` on the container to show it in advance: the next and
-submit controls of an invalid page carry `aria-disabled`. They stay focusable,
-and clicking one reports the errors of the page rather than moving on.
-
 In a read-only form, back and next skip validation, so every page can be read.
 The submit control is disabled. A disabled form disables every control.
 
@@ -50,7 +45,6 @@ The submit control is disabled. A disabled form disables every control.
   "type": "multipage",
   "id": "Multipage_1",
   "showSubmit": true,
-  "disableInvalidNavigation": true,
   "components": [
     {
       "type": "page",

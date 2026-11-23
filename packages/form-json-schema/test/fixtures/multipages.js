@@ -5,7 +5,6 @@ export const form = {
       id: 'Multipage_1',
       type: 'multipage',
       showSubmit: true,
-      disableInvalidNavigation: true,
       components: [
         {
           id: 'Page_1',

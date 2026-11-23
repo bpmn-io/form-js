@@ -1024,41 +1024,6 @@ describe('GeneralGroup', function () {
     });
   });
 
-  describe('disableInvalidNavigation', function () {
-    it('should NOT render for page', function () {
-      // given
-      const field = { type: 'page' };
-
-      // when
-      const { container } = renderGeneralGroup({ field });
-
-      // then
-      expect(findInput('disableInvalidNavigation', container)).to.not.exist;
-    });
-
-    it('should render for multipage', function () {
-      // given
-      const field = { type: 'multipage' };
-
-      // when
-      const { container } = renderGeneralGroup({ field });
-
-      // then
-      expect(findInput('disableInvalidNavigation', container)).to.exist;
-    });
-
-    it('should read', function () {
-      // given
-      const field = { type: 'multipage', disableInvalidNavigation: true };
-
-      // when
-      const { container } = renderGeneralGroup({ field });
-
-      // then
-      expect(findInput('disableInvalidNavigation', container).checked).to.equal(true);
-    });
-  });
-
   describe('submitLabel', function () {
     it('should render for page', function () {
       // given

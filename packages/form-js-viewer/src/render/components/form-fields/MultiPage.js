@@ -1,5 +1,5 @@
 import { get } from 'min-dash';
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useMemo, useReducer } from 'preact/hooks';
 
 import { resolveActivePageId } from '../../../features/multiPageNavigation/MultiPageNavigation';
 import { FormRenderContext, MultiPageContext } from '../../context';
@@ -17,7 +17,7 @@ export function MultiPage(props) {
 
   const { Children, applyVisibilityConditions } = useContext(FormRenderContext);
 
-  const { components, showSubmit, disableInvalidNavigation } = field;
+  const { components, showSubmit } = field;
   const pages = useMemo(() => components || [], [components]);
 
   const visiblePages = useVisiblePages(pages, applyVisibilityConditions);
@@ -46,9 +46,6 @@ export function MultiPage(props) {
 
   const activeIndex = visiblePages.findIndex((page) => page.id === resolvedActivePageId);
   const activePage = activeIndex === -1 ? null : visiblePages[activeIndex];
-
-  const { data } = useService('form')._getState();
-  const { isPageValid, reportPageErrors } = usePageValidation();
 
   // user actions go through the service, so that a host may veto them;
   // a read-only form can be paged through, but its fields cannot be corrected,
@@ -95,20 +92,6 @@ export function MultiPage(props) {
 
     return () => eventBus.off('submit', onSubmit);
   }, [eventBus, field.id, multiPageNavigation, resolvedActivePageId, visiblePages]);
-
-  const [isActivePageValid, setActivePageValid] = useState(true);
-
-  // the pages register their field instances while rendering, so the registry is
-  // only complete once every descendant is done; read it after the fact
-  useLayoutEffect(() => {
-    if (disableInvalidNavigation) {
-      setActivePageValid(isPageValid(activePage, data));
-    }
-  }, [activePage, data, isPageValid, disableInvalidNavigation]);
-
-  const blocked = Boolean(disableInvalidNavigation) && !readonly && !isActivePageValid;
-
-  const onBlocked = useCallback(() => reportPageErrors(activePage), [activePage, reportPageErrors]);
 
   // the resolution runs a render ahead of the state it is committed to, so this
   // holds only while a condition is moving the user, and is false while the
@@ -167,10 +150,8 @@ export function MultiPage(props) {
         showBack={activeIndex > 0}
         showNext={activeIndex < visiblePages.length - 1}
         showSubmit={showSubmit && activeIndex === visiblePages.length - 1}
-        blocked={blocked}
         onBack={onBack}
         onNext={onNext}
-        onBlocked={onBlocked}
         readonly={readonly}
         disabled={disabled}
       />
@@ -189,7 +170,7 @@ MultiPage.config = {
 };
 
 function Navigation(props) {
-  const { page, showBack, showNext, showSubmit, blocked, onBack, onNext, onBlocked, readonly, disabled } = props;
+  const { page, showBack, showNext, showSubmit, onBack, onNext, readonly, disabled } = props;
 
   const translate = useService('translate');
 
@@ -198,18 +179,6 @@ function Navigation(props) {
   const submitLabel = useSingleLineTemplateEvaluation((page && page.submitLabel) || translate('Submit'), {
     debug: true,
   });
-
-  // a blocked control stays focusable and clickable on purpose, so that a user who
-  // cannot move on is told why instead of finding a control that does nothing
-  const onSubmitClick = useCallback(
-    (event) => {
-      if (blocked) {
-        event.preventDefault();
-        onBlocked();
-      }
-    },
-    [blocked, onBlocked],
-  );
 
   if (!showBack && !showNext && !showSubmit) {
     return null;
@@ -223,22 +192,12 @@ function Navigation(props) {
         </button>
       ) : null}
       {showNext ? (
-        <button
-          type="button"
-          class="fjs-button fjs-multipage-next"
-          disabled={disabled}
-          aria-disabled={blocked ? 'true' : null}
-          onClick={onNext}>
+        <button type="button" class="fjs-button fjs-multipage-next" disabled={disabled} onClick={onNext}>
           {nextLabel}
         </button>
       ) : null}
       {showSubmit ? (
-        <button
-          type="submit"
-          class="fjs-button fjs-multipage-submit"
-          disabled={disabled || readonly}
-          aria-disabled={blocked ? 'true' : null}
-          onClick={onSubmitClick}>
+        <button type="submit" class="fjs-button fjs-multipage-submit" disabled={disabled || readonly}>
           {submitLabel}
         </button>
       ) : null}
@@ -265,27 +224,6 @@ function useVisiblePages(pages, applyVisibilityConditions) {
 
     return pages.filter((page) => !hiddenFieldIds.has(page.id));
   }, [pages, applyVisibilityConditions, conditionChecker, data]);
-}
-
-/**
- * Validate only the fields belonging to a single page, so that moving forward
- * does not report errors on pages the user has not reached.
- *
- * `isPageValid` has no side effects and is safe to call while rendering.
- * `reportPageErrors` goes through the command stack and belongs on a click,
- * where it also reads the freshest data rather than the data of a render.
- */
-function usePageValidation() {
-  const multiPageNavigation = useService('multiPageNavigation');
-
-  const isPageValid = useCallback(
-    (page, data) => multiPageNavigation._isPageValid(page, data),
-    [multiPageNavigation],
-  );
-
-  const reportPageErrors = useCallback((page) => multiPageNavigation._reportPageErrors(page), [multiPageNavigation]);
-
-  return { isPageValid, reportPageErrors };
 }
 
 function collectFieldIds(field, ids = new Set()) {

@@ -553,8 +553,7 @@
       },
       "then": {
         "properties": {
-          "showSubmit": false,
-          "disableInvalidNavigation": false
+          "showSubmit": false
         }
       }
     },

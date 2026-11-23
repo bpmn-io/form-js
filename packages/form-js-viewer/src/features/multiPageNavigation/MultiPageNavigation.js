@@ -231,19 +231,6 @@ export class MultiPageNavigation {
   /**
    * @internal
    *
-   * Whether the fields of a page pass validation against the given data.
-   * Has no side effects, so it is safe to call while rendering.
-   */
-  _isPageValid(page, data) {
-    return this._getPageInstances(page).every(
-      (fieldInstance) =>
-        !this._validator.validateFieldInstance(fieldInstance, get(data, fieldInstance.valuePath)).length,
-    );
-  }
-
-  /**
-   * @internal
-   *
    * Validate the fields of a page against the current data and show their errors.
    */
   _reportPageErrors(page) {

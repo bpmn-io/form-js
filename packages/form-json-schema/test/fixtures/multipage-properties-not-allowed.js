@@ -6,7 +6,6 @@ export const form = {
       type: 'group',
       label: 'A group',
       showSubmit: true,
-      disableInvalidNavigation: true,
       components: [],
     },
   ],
@@ -16,13 +15,6 @@ export const errors = [
   {
     instancePath: '/components/0/showSubmit',
     schemaPath: '#/properties/components/items/allOf/1/allOf/28/then/properties/showSubmit/false schema',
-    keyword: 'false schema',
-    params: {},
-    message: 'boolean schema is false',
-  },
-  {
-    instancePath: '/components/0/disableInvalidNavigation',
-    schemaPath: '#/properties/components/items/allOf/1/allOf/28/then/properties/disableInvalidNavigation/false schema',
     keyword: 'false schema',
     params: {},
     message: 'boolean schema is false',

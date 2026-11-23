@@ -1410,109 +1410,6 @@ describe('MultiPage', function () {
     });
   });
 
-  describe('disabled navigation', function () {
-    const schema = gatedSchema;
-
-    const navigationButton = (label) =>
-      Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).find(
-        (candidate) => candidate.textContent === label,
-      );
-
-    it('should mark <next> as disabled while the page is invalid', async function () {
-      // when
-      await bootstrapForm({ schema });
-
-      // then
-      expect(navigationButton('Next').getAttribute('aria-disabled')).to.equal('true');
-    });
-
-    it('should not mark <next> as disabled without <disableInvalidNavigation>', async function () {
-      // given
-      const ungated = { ...schema, components: [{ ...schema.components[0], disableInvalidNavigation: false }] };
-
-      // when
-      await bootstrapForm({ schema: ungated });
-
-      // then
-      expect(navigationButton('Next').getAttribute('aria-disabled')).to.not.exist;
-    });
-
-    it('should release <next> as soon as the page becomes valid', async function () {
-      // given
-      await bootstrapForm({ schema });
-
-      // when
-      await fill('name', 'Igor');
-
-      // then
-      expect(navigationButton('Next').getAttribute('aria-disabled')).to.not.exist;
-    });
-
-    it('should keep a blocked control focusable', async function () {
-      // given
-      await bootstrapForm({ schema });
-
-      const button = navigationButton('Next');
-
-      // when
-      button.focus();
-
-      // then
-      expect(button.disabled).to.be.false;
-      expect(document.activeElement).to.equal(button);
-    });
-
-    it('should report the errors of the page when a blocked control is clicked', async function () {
-      // given
-      await bootstrapForm({ schema });
-
-      // when
-      await clickButton('Next');
-
-      // then
-      expect(activePage().querySelector('.fjs-page-title').textContent).to.equal('First');
-      expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
-    });
-
-    it('should block the submit control the same way', async function () {
-      // given
-      await bootstrapForm({ schema, data: { name: 'Igor' } });
-
-      await clickButton('Next');
-
-      const submissions = [];
-
-      form.on('submit', (event) => submissions.push(event));
-
-      // assume
-      expect(navigationButton('Submit').getAttribute('aria-disabled')).to.equal('true');
-
-      // when
-      await clickButton('Submit');
-
-      // then
-      expect(submissions).to.be.empty;
-      expect(activePage().querySelector('.fjs-form-field-error')).to.exist;
-    });
-
-    it('should submit once the last page is valid', async function () {
-      // given
-      await bootstrapForm({ schema, data: { name: 'Igor', note: 'all good' } });
-
-      await clickButton('Next');
-
-      const submissions = [];
-
-      form.on('submit', (event) => submissions.push(event));
-
-      // when
-      await clickButton('Submit');
-
-      // then
-      expect(submissions).to.have.length(1);
-    });
-  });
-
   describe('read-only form', function () {
     const navigationButton = (label) =>
       Array.from(container.querySelectorAll('.fjs-multipage-navigation button')).find(
@@ -1539,9 +1436,6 @@ describe('MultiPage', function () {
     it('should leave an invalid page without reporting its errors', async function () {
       // given
       await bootstrapForm({ schema: gatedSchema, properties: { readOnly: true } });
-
-      // assume
-      expect(navigationButton('Next').getAttribute('aria-disabled')).to.not.exist;
 
       // when
       await clickButton('Next');
