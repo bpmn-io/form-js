@@ -46,12 +46,12 @@ export function FilePicker(props) {
   const evaluatedMultiple = useBooleanExpressionEvaluation(multiple);
   const errorMessageId = `${domId}-error-message`;
   /** @type {File[]} */
-  const selectedFiles = fileRegistry === null ? EMPTY_ARRAY : fileRegistry.getFiles(filesKey);
+  const selectedFiles = fileRegistry ? fileRegistry.getFiles(filesKey) : EMPTY_ARRAY;
 
   const translate = useService('translate');
 
   useEffect(() => {
-    if (filesKey && fileRegistry !== null && !fileRegistry.hasKey(filesKey)) {
+    if (filesKey && fileRegistry && !fileRegistry.hasKey(filesKey)) {
       onChange({ value: null });
     }
   }, [fileRegistry, filesKey, onChange, selectedFiles.length]);
@@ -84,7 +84,7 @@ export function FilePicker(props) {
     onChange({ value: updatedFilesKey });
   };
 
-  const isInputDisabled = disabled || readonly || fileRegistry === null;
+  const isInputDisabled = disabled || readonly || !fileRegistry;
 
   return (
     <div className={formFieldClasses(type, { errors, disabled, readonly })}>

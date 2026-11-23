@@ -510,8 +510,11 @@ function CreatePreview(props) {
       return;
     }
 
-    function handleCloned(clone, original, type) {
+    function handleCloned(clone) {
       const fieldType = clone.dataset.fieldType;
+
+      // let the stylesheet size the preview, instead of the inline size set by the drag library
+      clone.style.removeProperty('height');
 
       // (1) field preview
       if (fieldType) {
@@ -529,11 +532,7 @@ function CreatePreview(props) {
 
         clone.class = 'gu-mirror';
         clone.classList.add('fjs-field-preview-container');
-
-        if (original.classList.contains('fjs-palette-field')) {
-          // default to auto columns when creating from palette
-          clone.classList.add('cds--col');
-        }
+        clone.style.removeProperty('width');
 
         // todo(pinussilvestrus): dragula, how to mitigate cursor position
         // https://github.com/bevacqua/dragula/issues/285
@@ -546,10 +545,6 @@ function CreatePreview(props) {
           const cloneNode = clone.querySelectorAll('.' + cls);
           cloneNode.length && cloneNode.forEach((e) => e.remove());
         });
-
-        // mirror grid
-        clone.classList.add('cds--grid');
-        clone.classList.add('cds--grid--condensed');
       }
     }
 

@@ -38,7 +38,7 @@ function SimpleChildrenRenderer(props) {
   const isEmpty = !components.length;
 
   return (
-    <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={field}>
+    <ChildrenRoot class="fjs-vertical-layout fjs-children" field={field}>
       <RowsRenderer {...props} />
       {isEmpty ? <Empty field={field} /> : null}
     </ChildrenRoot>
@@ -57,7 +57,7 @@ function RepeatChildrenRenderer(props) {
 
   return (
     <>
-      <ChildrenRoot class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={field}>
+      <ChildrenRoot class="fjs-vertical-layout fjs-children" field={field}>
         {Repeater ? (
           <Repeater {...{ ...restProps, useSharedState, field, RowsRenderer }} />
         ) : (
@@ -91,7 +91,7 @@ function RowsRenderer(props) {
         }
 
         return (
-          <Row key={row.id} row={row} class="fjs-layout-row cds--row" style={{ alignItems: verticalAlignment }}>
+          <Row key={row.id} row={row} class="fjs-layout-row" style={{ alignItems: verticalAlignment }}>
             {components.map((childId) => {
               const childField = formFieldRegistry.get(childId);
 

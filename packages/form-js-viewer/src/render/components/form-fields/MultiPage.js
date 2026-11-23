@@ -130,12 +130,9 @@ export function MultiPage(props) {
   return (
     <div className={formFieldClasses(type)} onKeyDown={onKeyDown}>
       <MultiPageContext.Provider value={multiPageContext}>
-        <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={field}>
+        <Children class="fjs-vertical-layout fjs-children" field={field}>
           {visiblePages.map((page) => (
-            <div
-              key={page.id}
-              class="fjs-layout-row cds--row"
-              style={{ display: page.id === activePageId ? null : 'none' }}>
+            <div key={page.id} class="fjs-layout-row" style={{ display: page.id === activePageId ? null : 'none' }}>
               <FormField {...props} field={page} indexes={indexes} />
             </div>
           ))}
