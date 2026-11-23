@@ -9,6 +9,9 @@ import { FormField } from '../FormField';
 
 const type = 'multipage';
 
+// input types on which the browser does not submit the form on enter
+const NON_SUBMITTING_INPUT_TYPES = ['button', 'submit', 'reset', 'file'];
+
 export function MultiPage(props) {
   const { field, indexes, readonly, disabled } = props;
 
@@ -117,12 +120,36 @@ export function MultiPage(props) {
     [resolvedActivePageId, focusOnMount],
   );
 
+  // enter in a field moves to the next page, as the browser would otherwise
+  // submit the whole form from a page the user has not finished
+  const onKeyDown = (event) => {
+    if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing) {
+      return;
+    }
+
+    const { target } = event;
+
+    if (target.tagName !== 'INPUT' || NON_SUBMITTING_INPUT_TYPES.includes(target.type)) {
+      return;
+    }
+
+    // on the last page in view the form submits as usual
+    if (activeIndex === -1 || activeIndex >= visiblePages.length - 1) {
+      return;
+    }
+
+    // stops the browser's implicit form submission
+    event.preventDefault();
+
+    onNext();
+  };
+
   if (!visiblePages.length) {
     return null;
   }
 
   return (
-    <div className={formFieldClasses(type)}>
+    <div className={formFieldClasses(type)} onKeyDown={onKeyDown}>
       <MultiPageContext.Provider value={multiPageContext}>
         <Children class="fjs-vertical-layout fjs-children cds--grid cds--grid--condensed" field={field}>
           {visiblePages.map((page) => (
@@ -251,7 +278,10 @@ function useVisiblePages(pages, applyVisibilityConditions) {
 function usePageValidation() {
   const multiPageNavigation = useService('multiPageNavigation');
 
-  const isPageValid = useCallback((page, data) => multiPageNavigation._isPageValid(page, data), [multiPageNavigation]);
+  const isPageValid = useCallback(
+    (page, data) => multiPageNavigation._isPageValid(page, data),
+    [multiPageNavigation],
+  );
 
   const reportPageErrors = useCallback((page) => multiPageNavigation._reportPageErrors(page), [multiPageNavigation]);
 

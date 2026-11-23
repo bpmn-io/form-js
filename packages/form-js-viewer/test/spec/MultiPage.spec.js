@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { act } from '@testing-library/preact/pure';
 import userEvent from '@testing-library/user-event';
+import * as sinon from 'sinon';
 
 import { createForm, Form } from '../../src';
 
@@ -1048,6 +1049,128 @@ describe('MultiPage', function () {
         expect(events).to.be.empty;
         expect(navigation().getActivePage('Multipage_1')).to.equal('Page_3');
       });
+    });
+  });
+
+  describe('enter key', function () {
+    const schema = {
+      ...validatedSchema,
+      components: [
+        ...validatedSchema.components,
+        { type: 'button', id: 'Button_submit', action: 'submit', label: 'Send' },
+      ],
+    };
+
+    const activeTitle = () => activePage().querySelector('.fjs-page-title').textContent;
+
+    it('should move to the next page', async function () {
+      // given
+      await bootstrapForm({ schema });
+
+      const submitSpy = sinon.spy();
+
+      form.on('submit', submitSpy);
+
+      // when
+      await fill('name', 'x{enter}');
+
+      // then
+      expect(activeTitle()).to.equal('Second');
+      expect(submitSpy).not.to.have.been.called;
+      expect(container.querySelector('.fjs-form-field-error')).not.to.exist;
+    });
+
+    it('should not move on from a page with errors', async function () {
+      // given
+      await bootstrapForm({ schema });
+
+      const submitSpy = sinon.spy();
+
+      form.on('submit', submitSpy);
+
+      // when
+      await fill('name', '{enter}');
+
+      // then
+      expect(activeTitle()).to.equal('First');
+      expect(activePage().querySelector('.fjs-form-field-textfield .fjs-form-field-error')).to.exist;
+      expect(submitSpy).not.to.have.been.called;
+    });
+
+    it('should submit on the last page', async function () {
+      // given
+      await bootstrapForm({ schema, data: { name: 'Igor' } });
+
+      await clickButton('Next');
+
+      const submitSpy = sinon.spy();
+
+      form.on('submit', submitSpy);
+
+      // assume
+      expect(activeTitle()).to.equal('Second');
+
+      // when
+      await fill('nickname', 'y{enter}');
+
+      // then
+      expect(submitSpy).to.have.been.calledOnce;
+      expect(submitSpy.args[0][0].errors).to.eql({});
+    });
+
+    it('should stay on the page when the key picks a time', async function () {
+      // given
+      const timeSchema = {
+        type: 'default',
+        id: 'TimePageForm',
+        components: [
+          {
+            type: 'multipage',
+            id: 'Multipage_1',
+            components: [
+              {
+                type: 'page',
+                id: 'Page_1',
+                label: 'First',
+                components: [
+                  {
+                    type: 'datetime',
+                    id: 'Datetime_time',
+                    key: 'time',
+                    subtype: 'time',
+                    timeLabel: 'Time',
+                    timeInterval: 15,
+                  },
+                ],
+              },
+              {
+                type: 'page',
+                id: 'Page_2',
+                label: 'Second',
+                components: [{ type: 'textfield', id: 'Textfield_beta', key: 'beta', label: 'Beta' }],
+              },
+            ],
+          },
+        ],
+      };
+
+      await bootstrapForm({ schema: timeSchema });
+
+      const input = activePage().querySelector('input');
+
+      // the dropdown opens on focus
+      await act(() => userEvent.click(input));
+
+      // assume
+      expect(container.querySelector('.fjs-dropdownlist')).to.exist;
+
+      // when
+      // enter picks the option the dropdown offers
+      await act(() => userEvent.keyboard('{enter}'));
+
+      // then
+      expect(activeTitle()).to.equal('First');
+      expect(form._getState().data.time).to.exist;
     });
   });
 

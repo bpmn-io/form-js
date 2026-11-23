@@ -33,8 +33,9 @@ that is not on screen fails validation, the container brings that page forward,
 since the error is otherwise hidden.
 
 Navigating forward validates the page being left and refuses while it has
-errors. Navigating back does not validate anything. Arriving on a page moves
-focus to its title, or to the page itself if it has no title.
+errors. Navigating back does not validate anything. Pressing Enter in a field
+moves to the next page; on the last page in view it submits the form. Arriving
+on a page moves focus to its title, or to the page itself if it has no title.
 
 By default that refusal only shows up on the click. Set
 `disableInvalidNavigation` on the container to show it in advance: the next and
